@@ -34,6 +34,7 @@ export function TagChip({
           icon="close"
           size={12}
           onClick={onRemove}
+          aria-label={`Remove ${name}`}
           style={{ width: 18, height: 18, color: t.colorActionPrimary }}
         />
       )}

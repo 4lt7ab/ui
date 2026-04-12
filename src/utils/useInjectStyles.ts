@@ -1,16 +1,22 @@
 import { useEffect } from 'react';
 
 /**
- * Injects a <style> tag into <head> once, identified by id.
- * Subsequent calls with the same id are no-ops.
+ * Injects a <style> tag into <head>, identified by id.
+ * Updates the tag's content if the CSS has changed.
  * Styles persist after unmount — they're inert when no matching elements exist.
  */
 export function useInjectStyles(id: string, css: string): void {
   useEffect(() => {
-    if (document.getElementById(id)) return;
-    const style = document.createElement('style');
-    style.id = id;
-    style.textContent = css;
-    document.head.appendChild(style);
+    let el = document.getElementById(id) as HTMLStyleElement | null;
+    if (el) {
+      if (el.textContent !== css) {
+        el.textContent = css;
+      }
+      return;
+    }
+    el = document.createElement('style');
+    el.id = id;
+    el.textContent = css;
+    document.head.appendChild(el);
   }, [id, css]);
 }

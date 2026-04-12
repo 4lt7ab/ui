@@ -1,6 +1,6 @@
 // Tokens
-export { colors, spacing, radii, shadows, typography, semantic } from './tokens';
-export type { Colors, Spacing, Radii, Shadows, Typography, SemanticTokens } from './tokens';
+export { typography, semantic } from './tokens';
+export type { Typography, SemanticTokens } from './tokens';
 
 // Theme
 export { ThemeProvider, useTheme } from './themes/ThemeProvider';
@@ -72,10 +72,10 @@ export { EmptyState } from './components/EmptyState';
 export type { EmptyStateProps } from './components/EmptyState';
 
 export { Pagination } from './components/Pagination';
-export type { PaginationProps } from './components/Pagination';
+export type { PaginationProps, PaginationLabels } from './components/Pagination';
 
 export { PageHeader } from './components/PageHeader';
-export type { PageHeaderProps } from './components/PageHeader';
+export type { PageHeaderProps, HeadingLevel } from './components/PageHeader';
 
 export { TagChip } from './components/TagChip';
 export type { TagChipProps } from './components/TagChip';
@@ -87,7 +87,7 @@ export { ModalShell } from './components/ModalShell';
 export type { ModalShellProps } from './components/ModalShell';
 
 export { ConfirmDialog } from './components/ConfirmDialog';
-export type { ConfirmDialogProps } from './components/ConfirmDialog';
+export type { ConfirmDialogProps, ConfirmDialogVariant } from './components/ConfirmDialog';
 
 export { StatusDot } from './components/StatusDot';
 export type { StatusDotProps, StatusDotVariant } from './components/StatusDot';

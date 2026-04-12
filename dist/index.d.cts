@@ -397,7 +397,7 @@ interface IconProps extends Omit<HTMLAttributes5<HTMLSpanElement>, "children"> {
 	name: IconName;
 	size?: number;
 }
-declare function Icon({ name, size, style, "aria-label": ariaLabel,...props }: IconProps): React.JSX.Element;
+declare const Icon: unknown;
 import { ButtonHTMLAttributes as ButtonHTMLAttributes2 } from "react";
 interface IconButtonProps extends ButtonHTMLAttributes2<HTMLButtonElement> {
 	icon: IconName;
@@ -481,7 +481,7 @@ interface PageHeaderProps {
 	/** Heading level (1-6). Defaults to 2. */
 	level?: HeadingLevel;
 }
-declare function PageHeader({ title, subtitle, trailing, style, className, level }: PageHeaderProps): React.JSX.Element;
+declare const PageHeader: unknown;
 import { CSSProperties as CSSProperties10 } from "react";
 interface TagChipProps {
 	name: string;
@@ -597,4 +597,4 @@ interface TableEmptyRowProps extends HTMLAttributes6<HTMLTableRowElement> {
 	children: ReactNode13;
 }
 declare function TableEmptyRow({ colSpan, children, style,...props }: TableEmptyRowProps): React.JSX.Element;
-export { warmSandTheme, useTheme, typography, tokenToCssProperty, synthwaveTheme, slateTheme, semantic, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, iconRegistry, coralTheme, Typography, ThemeTokens, ThemeProviderProps, ThemeProvider, ThemePickerProps, ThemePicker, ThemeDefinition, ThemeContextValue, Theme, TextareaProps, Textarea, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, SemanticTokens, SelectProps, SelectOption, Select, RowSkeleton, ResolvedTheme, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, ModalShellProps, ModalShell, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, FieldProps, Field, ExpandableCardProps, ExpandableCard, EmptyStateProps, EmptyState, ConfirmDialogProps, ConfirmDialog, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge };
+export { warmSandTheme, useTheme, typography, tokenToCssProperty, synthwaveTheme, slateTheme, semantic, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, iconRegistry, coralTheme, Typography, ThemeTokens, ThemeProviderProps, ThemeProvider, ThemePickerProps, ThemePicker, ThemeDefinition, ThemeContextValue, Theme, TextareaProps, Textarea, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, SemanticTokens, SelectProps, SelectOption, Select, RowSkeleton, ResolvedTheme, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, ModalShellProps, ModalShell, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FieldProps, Field, ExpandableCardProps, ExpandableCard, EmptyStateProps, EmptyState, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge };
