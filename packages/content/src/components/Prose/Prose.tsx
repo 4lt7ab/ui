@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import type { HTMLAttributes, ReactNode } from 'react';
-import { useInjectStyles } from '@4lt7ab/ui';
+import { useInjectStyles } from '@4lt7ab/core';
 
 export interface ProseProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;

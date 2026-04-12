@@ -1,7 +1,7 @@
 {
   "name": "@4lt7ab/monorepo",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "workspaces": [
     "packages/*"
@@ -18,7 +18,7 @@
   },
   "scripts": {
     "dev": "vite --config demo/vite.config.ts",
-    "build": "bun run --filter '@4lt7ab/ui' build && bun run --filter '@4lt7ab/content' --filter '@4lt7ab/animations' build",
+    "build": "bun run --filter '@4lt7ab/core' build && bun run --filter '@4lt7ab/ui' --filter '@4lt7ab/content' --filter '@4lt7ab/animations' build",
     "typecheck": "bun run --filter '*' typecheck",
     "prepublish": "bun run build"
   }

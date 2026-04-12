@@ -7,8 +7,8 @@ Layout and prose components for blogs, docs, and reading-oriented pages.
 ```json
 {
   "dependencies": {
-    "@4lt7ab/core": "github:4lt7ab/ui#v0.1.0",
-    "@4lt7ab/content": "github:4lt7ab/ui#v0.1.0"
+    "@4lt7ab/core": "github:4lt7ab/ui#v0.2.0",
+    "@4lt7ab/content": "github:4lt7ab/ui#v0.2.0"
   }
 }
 ```

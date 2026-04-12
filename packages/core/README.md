@@ -7,7 +7,7 @@ Theme platform for React. Provides the token layer, theme system, and utilities 
 ```json
 {
   "dependencies": {
-    "@4lt7ab/core": "github:4lt7ab/ui#v0.1.0"
+    "@4lt7ab/core": "github:4lt7ab/ui#v0.2.0"
   }
 }
 ```
@@ -113,6 +113,7 @@ Create a theme by implementing the `ThemeDefinition` type:
 import type { ThemeDefinition } from '@4lt7ab/core';
 
 const myTheme: ThemeDefinition = {
+  name: 'my-theme',
   label: 'My Theme',
   tokens: {
     colorBackground: '#0a0a0f',
@@ -124,16 +125,18 @@ const myTheme: ThemeDefinition = {
 };
 ```
 
-Register custom themes through the `ThemeProvider`:
+Register custom themes by passing an array to `ThemeProvider`:
 
 ```tsx
 <ThemeProvider
   defaultTheme="my-theme"
-  themes={{ 'my-theme': myTheme }}
+  themes={[myTheme]}
 >
   {/* Your app */}
 </ThemeProvider>
 ```
+
+See the built-in theme definitions in `src/themes/definitions/` for complete examples of the `ThemeTokens` interface.
 
 ---
 

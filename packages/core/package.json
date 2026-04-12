@@ -1,5 +1,5 @@
 {
-  "name": "@4lt7ab/animations",
+  "name": "@4lt7ab/core",
   "version": "0.2.0",
   "type": "module",
   "main": "dist/index.cjs",
@@ -15,12 +15,11 @@
   "sideEffects": false,
   "files": ["dist"],
   "peerDependencies": {
-    "@4lt7ab/core": "0.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "scripts": {
-    "build": "bunup src/index.ts --format esm,cjs --dts --external @4lt7ab/core --external react --external react-dom",
+    "build": "bunup src/index.ts --format esm,cjs --dts --external react --external react-dom",
     "typecheck": "tsc --noEmit"
   }
 }

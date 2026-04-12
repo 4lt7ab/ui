@@ -8,6 +8,7 @@ export default defineConfig({
   server: { port: 4900, open: true },
   resolve: {
     alias: {
+      '@4lt7ab/core': path.resolve(__dirname, '../packages/core/src'),
       '@4lt7ab/ui': path.resolve(__dirname, '../packages/ui/src'),
       '@4lt7ab/content': path.resolve(__dirname, '../packages/content/src'),
       '@4lt7ab/animations': path.resolve(__dirname, '../packages/animations/src'),

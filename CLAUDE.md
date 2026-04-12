@@ -11,12 +11,12 @@ Four React packages built on a shared theme platform, distributed via GitHub git
 
 ```bash
 bun install          # install all workspace deps
-bun run build        # build all packages (core first, then ui, then content + animations in parallel)
+bun run build        # build all packages (core first, then ui + content + animations in parallel)
 bun run typecheck    # tsc --noEmit across all packages
 bun run dev          # start the demo app (Vite)
 ```
 
-Build order matters: all packages depend on `@4lt7ab/core`, so the root build script runs core first, then ui, then content + animations in parallel.
+Build order matters: all packages depend on `@4lt7ab/core`, so the root build script runs core first, then ui, content, and animations in parallel.
 
 ## Architecture
 
@@ -184,10 +184,10 @@ When adding a theme: add it to the built-in themes list in both the root README 
 Git dependency via tags. The monorepo is a single repo with four packages. Consumers add:
 
 ```json
-"@4lt7ab/core": "github:4lt7ab/ui#v0.1.0",
-"@4lt7ab/ui": "github:4lt7ab/ui#v0.1.0",
-"@4lt7ab/content": "github:4lt7ab/ui#v0.1.0",
-"@4lt7ab/animations": "github:4lt7ab/ui#v0.1.0"
+"@4lt7ab/core": "github:4lt7ab/ui#v0.2.0",
+"@4lt7ab/ui": "github:4lt7ab/ui#v0.2.0",
+"@4lt7ab/content": "github:4lt7ab/ui#v0.2.0",
+"@4lt7ab/animations": "github:4lt7ab/ui#v0.2.0"
 ```
 
 `dist/` directories are committed to git. Tag after building.

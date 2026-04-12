@@ -20,10 +20,10 @@ Packages are distributed as git dependencies. Add the ones you need to your `pac
 ```json
 {
   "dependencies": {
-    "@4lt7ab/core": "github:4lt7ab/ui#v0.1.0",
-    "@4lt7ab/ui": "github:4lt7ab/ui#v0.1.0",
-    "@4lt7ab/content": "github:4lt7ab/ui#v0.1.0",
-    "@4lt7ab/animations": "github:4lt7ab/ui#v0.1.0"
+    "@4lt7ab/core": "github:4lt7ab/ui#v0.2.0",
+    "@4lt7ab/ui": "github:4lt7ab/ui#v0.2.0",
+    "@4lt7ab/content": "github:4lt7ab/ui#v0.2.0",
+    "@4lt7ab/animations": "github:4lt7ab/ui#v0.2.0"
   }
 }
 ```
@@ -165,7 +165,7 @@ git push origin main --tags
 
 ```bash
 bun install          # install all workspace dependencies
-bun run build        # build all packages (core first, then ui, then content + animations)
+bun run build        # build all packages (core first, then ui + content + animations in parallel)
 bun run typecheck    # type-check all packages
 bun run dev          # start the Vite demo app
 ```

@@ -5,406 +5,8 @@ import { RefObject } from "react";
 * Re-queries focusable elements on each Tab press to handle dynamic content.
 */
 declare function useFocusTrap(ref: RefObject<HTMLElement | null>): void;
-/**
-* Injects a <style> tag into <head>, identified by id.
-* Updates the tag's content if the CSS has changed.
-* Styles persist after unmount — they're inert when no matching elements exist.
-*/
-declare function useInjectStyles(id: string, css: string): void;
-/**
-* Typography tokens — font families, sizes, weights, line-heights.
-*/
-declare const typography: {
-	readonly fontFamily: {
-		readonly sans: readonly ["Inter", "system-ui", "-apple-system", "sans-serif"];
-		readonly serif: readonly ["Lora", "Georgia", "Times New Roman", "serif"];
-		readonly mono: readonly ["Fira Code", "ui-monospace", "monospace"];
-	};
-	readonly fontSize: {
-		readonly xs: "0.75rem";
-		readonly sm: "0.875rem";
-		readonly base: "1rem";
-		readonly lg: "1.125rem";
-		readonly xl: "1.25rem";
-		readonly "2xl": "1.5rem";
-		readonly "3xl": "1.875rem";
-		readonly "4xl": "2.25rem";
-	};
-	readonly fontWeight: {
-		readonly normal: 400;
-		readonly medium: 500;
-		readonly semibold: 600;
-		readonly bold: 700;
-	};
-	readonly lineHeight: {
-		readonly none: 1;
-		readonly tight: 1.25;
-		readonly snug: 1.375;
-		readonly normal: 1.5;
-		readonly relaxed: 1.625;
-		readonly loose: 2;
-	};
-	readonly letterSpacing: {
-		readonly tighter: "-0.05em";
-		readonly tight: "-0.025em";
-		readonly normal: "0em";
-		readonly wide: "0.025em";
-		readonly wider: "0.05em";
-	};
-};
-type Typography = typeof typography;
-/**
-* Semantic tokens — purpose-mapped CSS custom property references.
-* These are the only tokens components should use.
-*
-* Each value is a `var(--...)` reference resolved by theme CSS files.
-* This means components are theme-agnostic by construction.
-*/
-declare const semantic: {
-	/** Primary text color for body copy and headings. */
-	readonly colorText: "var(--color-text)";
-	/** Secondary text color for less prominent content. */
-	readonly colorTextSecondary: "var(--color-text-secondary)";
-	/** Muted text color for captions, help text, and de-emphasized content. */
-	readonly colorTextMuted: "var(--color-text-muted)";
-	/** Text color on filled backgrounds (e.g. primary buttons). */
-	readonly colorTextInverse: "var(--color-text-inverse)";
-	/** Hyperlink and interactive text color. */
-	readonly colorTextLink: "var(--color-text-link)";
-	/** Input placeholder text color. */
-	readonly colorTextPlaceholder: "var(--color-text-placeholder)";
-	/** Disabled control text color. */
-	readonly colorTextDisabled: "var(--color-text-disabled)";
-	/** Default component background (cards, inputs, modals). */
-	readonly colorSurface: "var(--color-surface)";
-	/** Side panel and navigation background. */
-	readonly colorSurfacePanel: "var(--color-surface-panel)";
-	/** Slightly elevated surface for hover states and nested containers. */
-	readonly colorSurfaceRaised: "var(--color-surface-raised)";
-	/** Semi-transparent backdrop behind modals and drawers. */
-	readonly colorSurfaceOverlay: "var(--color-surface-overlay)";
-	/** Background for text inputs, selects, and textareas. */
-	readonly colorSurfaceInput: "var(--color-surface-input)";
-	/** Background for disabled input controls. */
-	readonly colorSurfaceDisabled: "var(--color-surface-disabled)";
-	/** Full-page background color. */
-	readonly colorSurfacePage: "var(--color-surface-page)";
-	/** Default border for cards, inputs, and dividers. */
-	readonly colorBorder: "var(--color-border)";
-	/** Border for focused inputs. */
-	readonly colorBorderFocused: "var(--color-border-focused)";
-	/** Border for inputs in error state. */
-	readonly colorBorderError: "var(--color-border-error)";
-	/** Primary action color (button fills, active indicators). */
-	readonly colorActionPrimary: "var(--color-action-primary)";
-	/** Hover state for primary actions. */
-	readonly colorActionPrimaryHover: "var(--color-action-primary-hover)";
-	/** Secondary action background. */
-	readonly colorActionSecondary: "var(--color-action-secondary)";
-	/** Hover state for secondary actions. */
-	readonly colorActionSecondaryHover: "var(--color-action-secondary-hover)";
-	/** Destructive action color (delete, danger). */
-	readonly colorActionDestructive: "var(--color-action-destructive)";
-	/** Hover state for destructive actions. */
-	readonly colorActionDestructiveHover: "var(--color-action-destructive-hover)";
-	/** Success foreground color. */
-	readonly colorSuccess: "var(--color-success)";
-	/** Success tinted background. */
-	readonly colorSuccessBg: "var(--color-success-bg)";
-	/** Warning foreground color. */
-	readonly colorWarning: "var(--color-warning)";
-	/** Warning tinted background. */
-	readonly colorWarningBg: "var(--color-warning-bg)";
-	/** Error foreground color. */
-	readonly colorError: "var(--color-error)";
-	/** Error tinted background. */
-	readonly colorErrorBg: "var(--color-error-bg)";
-	/** Informational foreground color. */
-	readonly colorInfo: "var(--color-info)";
-	/** Informational tinted background. */
-	readonly colorInfoBg: "var(--color-info-bg)";
-	/** Extra-small spacing (typically 4px). */
-	readonly spaceXs: "var(--space-xs)";
-	/** Small spacing (typically 8px). */
-	readonly spaceSm: "var(--space-sm)";
-	/** Medium spacing (typically 16px). */
-	readonly spaceMd: "var(--space-md)";
-	/** Large spacing (typically 24px). */
-	readonly spaceLg: "var(--space-lg)";
-	/** Extra-large spacing (typically 32px). */
-	readonly spaceXl: "var(--space-xl)";
-	/** 2x extra-large spacing (typically 48px). */
-	readonly space2xl: "var(--space-2xl)";
-	/** Small border radius for subtle rounding. */
-	readonly radiusSm: "var(--radius-sm)";
-	/** Medium border radius for inputs and buttons. */
-	readonly radiusMd: "var(--radius-md)";
-	/** Large border radius for cards and modals. */
-	readonly radiusLg: "var(--radius-lg)";
-	/** Full border radius for pills and circles. */
-	readonly radiusFull: "var(--radius-full)";
-	/** Small shadow for cards and subtle elevation. */
-	readonly shadowSm: "var(--shadow-sm)";
-	/** Medium shadow for dropdowns and popovers. */
-	readonly shadowMd: "var(--shadow-md)";
-	/** Large shadow for modals and dialogs. */
-	readonly shadowLg: "var(--shadow-lg)";
-	/** Sans-serif font family for UI text. */
-	readonly fontSans: "var(--font-sans)";
-	/** Serif font family for headings and prose. */
-	readonly fontSerif: "var(--font-serif)";
-	/** Monospace font family for code. */
-	readonly fontMono: "var(--font-mono)";
-	/** Extra-small font size. */
-	readonly fontSizeXs: "var(--font-size-xs)";
-	/** Small font size. */
-	readonly fontSizeSm: "var(--font-size-sm)";
-	/** Base font size. */
-	readonly fontSizeBase: "var(--font-size-base)";
-	/** Large font size. */
-	readonly fontSizeLg: "var(--font-size-lg)";
-	/** Extra-large font size. */
-	readonly fontSizeXl: "var(--font-size-xl)";
-	/** 2x extra-large font size. */
-	readonly fontSize2xl: "var(--font-size-2xl)";
-	/** 3x extra-large font size. */
-	readonly fontSize3xl: "var(--font-size-3xl)";
-	/** Tight line height for compact UI text. */
-	readonly lineHeightTight: "var(--line-height-tight)";
-	/** Base line height for body text. */
-	readonly lineHeightBase: "var(--line-height-base)";
-	/** Relaxed line height for long-form reading. */
-	readonly lineHeightRelaxed: "var(--line-height-relaxed)";
-	/** Normal weight (400). */
-	readonly fontWeightNormal: "var(--font-weight-normal)";
-	/** Medium weight (500). */
-	readonly fontWeightMedium: "var(--font-weight-medium)";
-	/** Semibold weight (600). */
-	readonly fontWeightSemibold: "var(--font-weight-semibold)";
-	/** Bold weight (700). */
-	readonly fontWeightBold: "var(--font-weight-bold)";
-	/** Tight letter spacing for large headings. */
-	readonly letterSpacingTight: "var(--letter-spacing-tight)";
-	/** Normal letter spacing for body text. */
-	readonly letterSpacingNormal: "var(--letter-spacing-normal)";
-	/** Wide letter spacing for uppercase labels. */
-	readonly letterSpacingWide: "var(--letter-spacing-wide)";
-	/** Focus ring outline color. */
-	readonly focusRingColor: "var(--focus-ring-color)";
-	/** Focus ring outline width. */
-	readonly focusRingWidth: "var(--focus-ring-width)";
-	/** Offset between element and focus ring. */
-	readonly focusRingOffset: "var(--focus-ring-offset)";
-};
-type SemanticTokens = typeof semantic;
-import { ReactNode } from "react";
-/**
-* Theme type definitions.
-*
-* A theme is a complete mapping of every semantic token to a concrete value.
-* TypeScript enforces completeness — a partial theme is a type error.
-*/
-/** Every token a theme must define. Keys match semantic.ts naming (camelCase). */
-interface ThemeTokens {
-	/** Primary text color used for body copy and headings. */
-	colorText: string;
-	/** Secondary text color for less prominent content. */
-	colorTextSecondary: string;
-	/** Muted text color for captions, help text, and de-emphasized content. */
-	colorTextMuted: string;
-	/** Text color used on filled backgrounds (e.g. primary buttons). */
-	colorTextInverse: string;
-	/** Color for hyperlinks and interactive text. */
-	colorTextLink: string;
-	/** Color for input placeholder text. */
-	colorTextPlaceholder: string;
-	/** Text color for disabled controls. */
-	colorTextDisabled: string;
-	/** Default component background (cards, inputs, modals). */
-	colorSurface: string;
-	/** Background for side panels and navigation. */
-	colorSurfacePanel: string;
-	/** Slightly elevated surface for hover states and nested containers. */
-	colorSurfaceRaised: string;
-	/** Semi-transparent backdrop behind modals and drawers. */
-	colorSurfaceOverlay: string;
-	/** Background for text inputs, selects, and textareas. */
-	colorSurfaceInput: string;
-	/** Background for disabled input controls. */
-	colorSurfaceDisabled: string;
-	/** Full-page background color applied to `<body>`. */
-	colorSurfacePage: string;
-	/** Default border color for cards, inputs, and dividers. */
-	colorBorder: string;
-	/** Border color for focused inputs. */
-	colorBorderFocused: string;
-	/** Border color for inputs in an error state. */
-	colorBorderError: string;
-	/** Primary action color (button backgrounds, active indicators). */
-	colorActionPrimary: string;
-	/** Hover state for primary actions. */
-	colorActionPrimaryHover: string;
-	/** Secondary action color (ghost/outline button backgrounds). */
-	colorActionSecondary: string;
-	/** Hover state for secondary actions. */
-	colorActionSecondaryHover: string;
-	/** Destructive action color (delete buttons, danger zones). */
-	colorActionDestructive: string;
-	/** Hover state for destructive actions. */
-	colorActionDestructiveHover: string;
-	/** Success foreground color (text, icons). */
-	colorSuccess: string;
-	/** Success tinted background for badges and alerts. */
-	colorSuccessBg: string;
-	/** Warning foreground color (text, icons). */
-	colorWarning: string;
-	/** Warning tinted background for badges and alerts. */
-	colorWarningBg: string;
-	/** Error foreground color (text, icons, validation messages). */
-	colorError: string;
-	/** Error tinted background for badges and alerts. */
-	colorErrorBg: string;
-	/** Informational foreground color (text, icons). */
-	colorInfo: string;
-	/** Informational tinted background for badges and alerts. */
-	colorInfoBg: string;
-	/** Extra-small spacing (typically 4px). */
-	spaceXs: string;
-	/** Small spacing (typically 8px). */
-	spaceSm: string;
-	/** Medium spacing (typically 16px). */
-	spaceMd: string;
-	/** Large spacing (typically 24px). */
-	spaceLg: string;
-	/** Extra-large spacing (typically 32px). */
-	spaceXl: string;
-	/** 2x extra-large spacing (typically 48px). */
-	space2xl: string;
-	/** Small border radius for subtle rounding. */
-	radiusSm: string;
-	/** Medium border radius for inputs and buttons. */
-	radiusMd: string;
-	/** Large border radius for cards and modals. */
-	radiusLg: string;
-	/** Full border radius for pills and circular elements. */
-	radiusFull: string;
-	/** Small shadow for cards and subtle elevation. */
-	shadowSm: string;
-	/** Medium shadow for dropdowns and popovers. */
-	shadowMd: string;
-	/** Large shadow for modals and dialogs. */
-	shadowLg: string;
-	/** Sans-serif font family for UI text. */
-	fontSans: string;
-	/** Serif font family for headings and prose lead paragraphs. */
-	fontSerif: string;
-	/** Monospace font family for code and technical content. */
-	fontMono: string;
-	/** Extra-small font size (typically 0.75rem). */
-	fontSizeXs: string;
-	/** Small font size (typically 0.875rem). */
-	fontSizeSm: string;
-	/** Base font size (typically 1rem). */
-	fontSizeBase: string;
-	/** Large font size (typically 1.125rem). */
-	fontSizeLg: string;
-	/** Extra-large font size (typically 1.25rem). */
-	fontSizeXl: string;
-	/** 2x extra-large font size (typically 1.5rem). */
-	fontSize2xl: string;
-	/** 3x extra-large font size (typically 1.875rem). */
-	fontSize3xl: string;
-	/** Tight line height for compact UI text (buttons, badges). */
-	lineHeightTight: string;
-	/** Base line height for body text. */
-	lineHeightBase: string;
-	/** Relaxed line height for long-form reading. */
-	lineHeightRelaxed: string;
-	/** Normal weight (400). */
-	fontWeightNormal: string;
-	/** Medium weight (500). */
-	fontWeightMedium: string;
-	/** Semibold weight (600). */
-	fontWeightSemibold: string;
-	/** Bold weight (700). */
-	fontWeightBold: string;
-	/** Tight letter spacing for large headings. */
-	letterSpacingTight: string;
-	/** Normal letter spacing for body text. */
-	letterSpacingNormal: string;
-	/** Wide letter spacing for uppercase labels and badges. */
-	letterSpacingWide: string;
-	/** Color of the focus ring outline. */
-	focusRingColor: string;
-	/** Width of the focus ring outline. */
-	focusRingWidth: string;
-	/** Offset between the element and the focus ring. */
-	focusRingOffset: string;
-}
-/** A named theme definition. */
-interface ThemeDefinition {
-	/** Unique identifier used in `setTheme()` and `data-theme` attribute. */
-	name: string;
-	/** Human-readable label for UI display. */
-	label: string;
-	/** Complete token values for this theme. */
-	tokens: ThemeTokens;
-	/**
-	* Optional raw CSS injected when this theme is active, removed when it isn't.
-	* Use for @keyframes, animations, pseudo-element effects — anything tokens can't express.
-	* The selector `[data-theme="<name>"]` is available for scoping.
-	*/
-	css?: string;
-}
-/** Converts a camelCase token key to its CSS custom property name. */
-declare function tokenToCssProperty(key: string): string;
-/** A theme name. */
-type Theme = string;
-/** The resolved theme name that's actually applied. */
-type ResolvedTheme = string;
-interface ThemeContextValue {
-	/** The active theme name. */
-	theme: Theme;
-	/** The actual resolved theme name applied to the DOM. */
-	resolved: ResolvedTheme;
-	/** All registered theme definitions, keyed by name. */
-	themes: ReadonlyMap<string, ThemeDefinition>;
-	/** Update the active theme. Persists to localStorage. */
-	setTheme: (theme: Theme) => void;
-}
-/** Provides theme context to all descendant components. Applies CSS custom properties to the document root and persists the user's theme preference to localStorage. */
-interface ThemeProviderProps {
-	/** Application content. All children can access the active theme via `useTheme()`. */
-	children: ReactNode;
-	/** Additional theme definitions beyond the built-in set. */
-	themes?: ThemeDefinition[];
-	/** Theme to use when no stored preference exists in localStorage.
-	* @default 'synthwave'
-	*/
-	defaultTheme?: Theme;
-	/** localStorage key for persisting the user's theme preference.
-	* @default 'ui-theme'
-	*/
-	storageKey?: string;
-	/**
-	* When true, applies body background-color from theme CSS.
-	* When false, only token CSS variables are applied.
-	* Defaults to true for backward compatibility.
-	*
-	* @default true
-	*/
-	applyPageStyles?: boolean;
-}
-declare function ThemeProvider({ children, themes: extraThemes, defaultTheme, storageKey, applyPageStyles }: ThemeProviderProps): React.JSX.Element;
-declare function useTheme(): ThemeContextValue;
-declare const synthwaveTheme: ThemeDefinition;
-declare const slateTheme: ThemeDefinition;
-declare const warmSandTheme: ThemeDefinition;
-declare const mossTheme: ThemeDefinition;
-declare const coralTheme: ThemeDefinition;
-declare const pipboyTheme: ThemeDefinition;
-declare const neuralTheme: ThemeDefinition;
-declare const pacmanTheme: ThemeDefinition;
+import { useInjectStyles, typography, semantic, colors, spacing, radii, shadows, ThemeProvider, useTheme, tokenToCssProperty, synthwaveTheme, slateTheme, warmSandTheme, mossTheme, coralTheme, pipboyTheme, neuralTheme, pacmanTheme } from "@4lt7ab/core";
+import { Typography, SemanticTokens, Colors, Spacing, Radii, Shadows, Theme, ResolvedTheme, ThemeContextValue, ThemeProviderProps, ThemeDefinition, ThemeTokens } from "@4lt7ab/core";
 interface ThemePickerProps {
 	/** Optional descriptions for each theme, keyed by theme name. */
 	descriptions?: Record<string, string>;
@@ -450,7 +52,7 @@ declare const iconRegistry: Record<IconName, (props: {
 	size?: number;
 	style?: CSSProperties3;
 }) => React.JSX.Element>;
-import { ButtonHTMLAttributes, ReactNode as ReactNode2 } from "react";
+import { ButtonHTMLAttributes, ReactNode } from "react";
 /** Visual style variant for buttons. */
 type ButtonVariant = "primary" | "secondary" | "destructive" | "ghost";
 /** Controls padding and font size. */
@@ -473,10 +75,10 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	*/
 	size?: ButtonSize;
 	/** Button content. */
-	children: ReactNode2;
+	children: ReactNode;
 }
 declare const Button: React.ForwardRefExoticComponent<Omit<ButtonProps, "ref"> & React.RefAttributes<HTMLButtonElement>>;
-import { CSSProperties as CSSProperties4, HTMLAttributes as HTMLAttributes2, ReactNode as ReactNode3 } from "react";
+import { CSSProperties as CSSProperties4, HTMLAttributes as HTMLAttributes2, ReactNode as ReactNode2 } from "react";
 type SpacingToken = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 /** Flexbox layout component for vertical or horizontal stacking with consistent spacing. */
 interface StackProps extends HTMLAttributes2<HTMLDivElement> {
@@ -499,10 +101,10 @@ interface StackProps extends HTMLAttributes2<HTMLDivElement> {
 	*/
 	wrap?: boolean;
 	/** Stack content. */
-	children: ReactNode3;
+	children: ReactNode2;
 }
 declare const Stack: React.ForwardRefExoticComponent<Omit<StackProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { HTMLAttributes as HTMLAttributes3, ReactNode as ReactNode4 } from "react";
+import { HTMLAttributes as HTMLAttributes3, ReactNode as ReactNode3 } from "react";
 type SpacingToken2 = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 /** Visual treatment for the Card surface. */
 type CardVariant = "default" | "flat" | "elevated";
@@ -520,10 +122,10 @@ interface CardProps extends HTMLAttributes3<HTMLDivElement> {
 	*/
 	padding?: SpacingToken2;
 	/** Card content. */
-	children: ReactNode4;
+	children: ReactNode3;
 }
 declare const Card: React.ForwardRefExoticComponent<Omit<CardProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { HTMLAttributes as HTMLAttributes4, ReactNode as ReactNode5 } from "react";
+import { HTMLAttributes as HTMLAttributes4, ReactNode as ReactNode4 } from "react";
 /** Wraps an input with a label, help text, and error message. Handles `aria-describedby` wiring automatically. */
 interface FieldProps extends Omit<HTMLAttributes4<HTMLDivElement>, "children"> {
 	/** Field label text displayed above the input. */
@@ -543,7 +145,7 @@ interface FieldProps extends Omit<HTMLAttributes4<HTMLDivElement>, "children"> {
 	*/
 	disabled?: boolean;
 	/** The form control to wrap (Input, Select, Textarea, etc.). */
-	children: ReactNode5;
+	children: ReactNode4;
 }
 declare const Field: React.ForwardRefExoticComponent<Omit<FieldProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 import { InputHTMLAttributes } from "react";
@@ -564,7 +166,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 	hasError?: boolean;
 }
 declare const Textarea: React.ForwardRefExoticComponent<Omit<TextareaProps, "ref"> & React.RefAttributes<HTMLTextAreaElement>>;
-import { ReactNode as ReactNode6, SelectHTMLAttributes } from "react";
+import { ReactNode as ReactNode5, SelectHTMLAttributes } from "react";
 /** A single option in the Select dropdown. */
 interface SelectOption {
 	/** The value submitted with the form. */
@@ -579,7 +181,7 @@ interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "chi
 	/** Options to render. Ignored when `children` is provided. */
 	options?: SelectOption[];
 	/** Custom option/optgroup elements. When provided, `options` is ignored. */
-	children?: ReactNode6;
+	children?: ReactNode5;
 	/** Optional placeholder shown as a first disabled option. */
 	placeholder?: string;
 	/** Renders error border styling. Typically driven by a parent Field.
@@ -588,13 +190,13 @@ interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "chi
 	hasError?: boolean;
 }
 declare const Select: React.ForwardRefExoticComponent<Omit<SelectProps, "ref"> & React.RefAttributes<HTMLSelectElement>>;
-import { ReactNode as ReactNode7 } from "react";
+import { ReactNode as ReactNode6 } from "react";
 /** Semantic color variant for badges. */
 type BadgeVariant = "default" | "success" | "warning" | "error" | "info";
 /** A small label for status, category, or metadata. Rendered as uppercase pill text. */
 interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 	/** Badge content (typically short text). */
-	children: ReactNode7;
+	children: ReactNode6;
 	/** Color variant mapping to feedback tokens.
 	* - `default` — neutral with border
 	* - `success` — green tinted background
@@ -696,7 +298,7 @@ interface ProgressBarProps {
 	style?: CSSProperties7;
 }
 declare const ProgressBar: React.ForwardRefExoticComponent<Omit<ProgressBarProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { CSSProperties as CSSProperties8, ReactNode as ReactNode8 } from "react";
+import { CSSProperties as CSSProperties8, ReactNode as ReactNode7 } from "react";
 /** A placeholder shown when a section has no content. Displays an icon, message, and optional action. */
 interface EmptyStateProps {
 	/** Icon displayed above the message. */
@@ -712,9 +314,9 @@ interface EmptyStateProps {
 	/** Additional inline styles. */
 	style?: CSSProperties8;
 	/** Additional content rendered below the message. */
-	children?: ReactNode8;
+	children?: ReactNode7;
 	/** Action slot (e.g. a CTA button) rendered below the message and children. */
-	action?: ReactNode8;
+	action?: ReactNode7;
 }
 declare const EmptyState: React.ForwardRefExoticComponent<Omit<EmptyStateProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 import { CSSProperties as CSSProperties9 } from "react";
@@ -749,7 +351,7 @@ interface PaginationProps {
 	style?: CSSProperties9;
 }
 declare const Pagination: React.ForwardRefExoticComponent<Omit<PaginationProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { CSSProperties as CSSProperties10, ReactNode as ReactNode9 } from "react";
+import { CSSProperties as CSSProperties10, ReactNode as ReactNode8 } from "react";
 /** HTML heading level (h1-h6). */
 type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 /** A page-level heading with optional subtitle and trailing action slot. */
@@ -759,7 +361,7 @@ interface PageHeaderProps {
 	/** Secondary text rendered below the title in muted style. */
 	subtitle?: string;
 	/** Content aligned to the right of the header (e.g. action buttons). */
-	trailing?: ReactNode9;
+	trailing?: ReactNode8;
 	/** Additional inline styles for the wrapper. */
 	style?: CSSProperties10;
 	/** CSS class name for the wrapper. */
@@ -781,13 +383,13 @@ interface TagChipProps {
 	style?: CSSProperties11;
 }
 declare const TagChip: React.ForwardRefExoticComponent<Omit<TagChipProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
-import { CSSProperties as CSSProperties12, ReactNode as ReactNode10 } from "react";
+import { CSSProperties as CSSProperties12, ReactNode as ReactNode9 } from "react";
 /** A Card with a collapsible body. Supports both controlled and uncontrolled open state. */
 interface ExpandableCardProps {
 	/** Header text shown alongside the chevron toggle. */
 	title: string;
 	/** Collapsible body content. */
-	children: ReactNode10;
+	children: ReactNode9;
 	/** Initial open state when uncontrolled.
 	* @default false
 	*/
@@ -803,16 +405,16 @@ interface ExpandableCardProps {
 	/** Additional inline styles for the Card wrapper. */
 	style?: CSSProperties12;
 	/** Content rendered in the header row to the right of the title (e.g. action buttons). */
-	headerAction?: ReactNode10;
+	headerAction?: ReactNode9;
 }
 declare const ExpandableCard: React.ForwardRefExoticComponent<Omit<ExpandableCardProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { CSSProperties as CSSProperties13, ReactNode as ReactNode11 } from "react";
+import { CSSProperties as CSSProperties13, ReactNode as ReactNode10 } from "react";
 /** A centered modal panel with backdrop overlay. Closes on Escape and overlay click. */
 interface ModalShellProps {
 	/** Called when the modal should close (Escape key or overlay click). */
 	onClose: () => void;
 	/** Modal body content. */
-	children: ReactNode11;
+	children: ReactNode10;
 	/** Maximum width of the modal panel in pixels.
 	* @default 480
 	*/
@@ -831,7 +433,7 @@ interface ModalShellProps {
 	role?: "dialog" | "alertdialog";
 }
 declare const ModalShell: React.ForwardRefExoticComponent<Omit<ModalShellProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode12 } from "react";
+import { ReactNode as ReactNode11 } from "react";
 /** Semantic variant controlling the confirm button style. */
 type ConfirmDialogVariant = "destructive" | "info" | "warning";
 /** A modal confirmation dialog with title, message, and Cancel/Confirm buttons. Supports async confirm handlers with loading state. */
@@ -849,7 +451,7 @@ interface ConfirmDialogProps {
 	/** Called when the user cancels (Cancel button, Escape key, or overlay click). */
 	onCancel: () => void;
 	/** Custom body content rendered between the message and the action buttons. */
-	children?: ReactNode12;
+	children?: ReactNode11;
 	/** Controls the confirm button color variant.
 	* - `destructive` — red destructive button
 	* - `info` — primary accent button
@@ -875,9 +477,9 @@ interface StatusDotProps {
 	style?: CSSProperties14;
 }
 declare const StatusDot: React.ForwardRefExoticComponent<Omit<StatusDotProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
-import { ReactNode as ReactNode13 } from "react";
+import { ReactNode as ReactNode12 } from "react";
 interface ThemeSurfaceProps {
-	children: ReactNode13;
+	children: ReactNode12;
 	/**
 	* When true, applies the page background to document.body.
 	* When false (default), renders a div with the page background color.
@@ -895,7 +497,7 @@ interface ThemeSurfaceProps {
 * Without `global`, renders a styled div with the page background.
 */
 declare const ThemeSurface: React.ForwardRefExoticComponent<Omit<ThemeSurfaceProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { HTMLAttributes as HTMLAttributes6, TdHTMLAttributes, ThHTMLAttributes, ReactNode as ReactNode14 } from "react";
+import { HTMLAttributes as HTMLAttributes6, TdHTMLAttributes, ThHTMLAttributes, ReactNode as ReactNode13 } from "react";
 type SpacingToken3 = "xs" | "sm" | "md" | "lg";
 /** Visual treatment for the table wrapper. */
 type TableVariant = "default" | "flat";
@@ -912,13 +514,13 @@ interface TableProps extends HTMLAttributes6<HTMLDivElement> {
 	*/
 	density?: SpacingToken3;
 	/** Table content (TableHeader, TableBody, etc.). */
-	children: ReactNode14;
+	children: ReactNode13;
 }
 declare const Table: React.ForwardRefExoticComponent<Omit<TableProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /** Table header section. Renders a `<thead>` with a single `<tr>` wrapping the children. */
 interface TableHeaderProps extends HTMLAttributes6<HTMLTableSectionElement> {
 	/** TableHeaderCell elements. */
-	children: ReactNode14;
+	children: ReactNode13;
 }
 declare const TableHeader: React.ForwardRefExoticComponent<Omit<TableHeaderProps, "ref"> & React.RefAttributes<HTMLTableSectionElement>>;
 /** A single column header cell (`<th>`). Renders uppercase, muted, semibold text. */
@@ -930,13 +532,13 @@ interface TableHeaderCellProps extends ThHTMLAttributes<HTMLTableCellElement> {
 	/** Fixed column width. Numbers are treated as pixels; strings are used as-is. */
 	width?: number | string;
 	/** Header label. */
-	children?: ReactNode14;
+	children?: ReactNode13;
 }
 declare const TableHeaderCell: React.ForwardRefExoticComponent<Omit<TableHeaderCellProps, "ref"> & React.RefAttributes<HTMLTableCellElement>>;
 /** Table body section (`<tbody>`). Wraps TableRow elements. */
 interface TableBodyProps extends HTMLAttributes6<HTMLTableSectionElement> {
 	/** TableRow elements. */
-	children: ReactNode14;
+	children: ReactNode13;
 }
 declare const TableBody: React.ForwardRefExoticComponent<Omit<TableBodyProps, "ref"> & React.RefAttributes<HTMLTableSectionElement>>;
 /** A table row (`<tr>`). Supports selection highlighting and hover effects. When `onClick` is provided, the row becomes focusable and responds to Enter/Space. */
@@ -950,7 +552,7 @@ interface TableRowProps extends HTMLAttributes6<HTMLTableRowElement> {
 	*/
 	hoverable?: boolean;
 	/** TableCell elements. */
-	children: ReactNode14;
+	children: ReactNode13;
 }
 declare const TableRow: React.ForwardRefExoticComponent<Omit<TableRowProps, "ref"> & React.RefAttributes<HTMLTableRowElement>>;
 /** A table data cell (`<td>`). */
@@ -970,7 +572,7 @@ interface TableCellProps extends TdHTMLAttributes<HTMLTableCellElement> {
 	/** Fixed column width. Numbers are treated as pixels; strings are used as-is. */
 	width?: number | string;
 	/** Cell content. */
-	children?: ReactNode14;
+	children?: ReactNode13;
 }
 declare const TableCell: React.ForwardRefExoticComponent<Omit<TableCellProps, "ref"> & React.RefAttributes<HTMLTableCellElement>>;
 /** A full-width subheading row for grouping table rows under a shared label. */
@@ -978,7 +580,7 @@ interface TableGroupHeaderProps extends HTMLAttributes6<HTMLTableRowElement> {
 	/** Number of columns the header should span. */
 	colSpan: number;
 	/** Group label text. */
-	children: ReactNode14;
+	children: ReactNode13;
 }
 declare const TableGroupHeader: React.ForwardRefExoticComponent<Omit<TableGroupHeaderProps, "ref"> & React.RefAttributes<HTMLTableRowElement>>;
 /** A centered message row displayed when the table has no data. */
@@ -986,7 +588,7 @@ interface TableEmptyRowProps extends HTMLAttributes6<HTMLTableRowElement> {
 	/** Number of columns the message should span. */
 	colSpan: number;
 	/** Empty state message content. */
-	children: ReactNode14;
+	children: ReactNode13;
 }
 declare const TableEmptyRow: React.ForwardRefExoticComponent<Omit<TableEmptyRowProps, "ref"> & React.RefAttributes<HTMLTableRowElement>>;
-export { warmSandTheme, useTheme, useInjectStyles, useFocusTrap, typography, tokenToCssProperty, synthwaveTheme, slateTheme, semantic, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, iconRegistry, coralTheme, Typography, ThemeTokens, ThemeSurfaceProps, ThemeSurface, ThemeProviderProps, ThemeProvider, ThemePickerProps, ThemePicker, ThemeDefinition, ThemeContextValue, Theme, TextareaProps, Textarea, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, SemanticTokens, SelectProps, SelectOption, Select, RowSkeleton, ResolvedTheme, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, ModalShellProps, ModalShell, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FieldProps, Field, ExpandableCardProps, ExpandableCard, EmptyStateProps, EmptyState, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge };
+export { warmSandTheme, useTheme, useInjectStyles, useFocusTrap, typography, tokenToCssProperty, synthwaveTheme, spacing, slateTheme, shadows, semantic, radii, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, iconRegistry, coralTheme, colors, Typography, ThemeTokens, ThemeSurfaceProps, ThemeSurface, ThemeProviderProps, ThemeProvider, ThemePickerProps, ThemePicker, ThemeDefinition, ThemeContextValue, Theme, TextareaProps, Textarea, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDot, StackProps, Stack, Spacing, SkeletonProps, Skeleton, Shadows, SemanticTokens, SelectProps, SelectOption, Select, RowSkeleton, ResolvedTheme, Radii, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, ModalShellProps, ModalShell, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FieldProps, Field, ExpandableCardProps, ExpandableCard, EmptyStateProps, EmptyState, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, Colors, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge };

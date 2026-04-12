@@ -7,8 +7,8 @@ Canvas background animations that respond to the active theme.
 ```json
 {
   "dependencies": {
-    "@4lt7ab/core": "github:4lt7ab/ui#v0.1.0",
-    "@4lt7ab/animations": "github:4lt7ab/ui#v0.1.0"
+    "@4lt7ab/core": "github:4lt7ab/ui#v0.2.0",
+    "@4lt7ab/animations": "github:4lt7ab/ui#v0.2.0"
   }
 }
 ```

@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useRef, useCallback, useImperativeHandle } from 'react';
-import { useInjectStyles } from '@4lt7ab/ui';
+import { useInjectStyles } from '@4lt7ab/core';
 
 export interface ThinkingCycleProps {
   /** Words to cycle through. Needs at least 2. */

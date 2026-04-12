@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import type { AnchorHTMLAttributes, ReactNode } from 'react';
-import { useInjectStyles } from '@4lt7ab/ui';
+import { useInjectStyles } from '@4lt7ab/core';
 
 export interface LinkCardProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'title'> {
   /** Card title — rendered in serif. */
