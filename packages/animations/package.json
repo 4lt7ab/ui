@@ -1,0 +1,26 @@
+{
+  "name": "@4lt7ab/animations",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "sideEffects": false,
+  "files": ["dist"],
+  "peerDependencies": {
+    "@4lt7ab/ui": "workspace:*",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "scripts": {
+    "build": "bunup src/index.ts --format esm,cjs --dts --external @4lt7ab/ui --external react --external react-dom",
+    "typecheck": "tsc --noEmit"
+  }
+}

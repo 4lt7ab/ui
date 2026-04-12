@@ -1,5 +1,5 @@
-import { Icon, IconButton, Stack } from '../../src';
-import type { IconName } from '../../src';
+import { Icon, IconButton, Stack } from '@4lt7ab/ui';
+import type { IconName } from '@4lt7ab/ui';
 
 const allIcons: IconName[] = [
   'close', 'chevron-right', 'chevron-down', 'chevron-left', 'chevron-up',

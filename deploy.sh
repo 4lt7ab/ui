@@ -38,11 +38,13 @@ echo "Building..."
 bun run typecheck
 bun run build
 
-# ── Update package.json version ──────────────────────────────────
-sed -i '' "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" package.json
+# ── Update package.json versions ─────────────────────────────────
+for pkg in packages/ui/package.json packages/content/package.json packages/animations/package.json; do
+  sed -i '' "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" "$pkg"
+done
 
 # ── Commit & tag ─────────────────────────────────────────────────
-git add dist/ package.json
+git add packages/*/dist/ packages/*/package.json
 git commit -m "release: v$VERSION"
 git tag "$TAG"
 
@@ -51,4 +53,8 @@ git push origin main --tags
 
 echo ""
 echo "Deployed $TAG"
-echo "Consumers: \"@4lt7ab/ui\": \"github:username/component-library#$TAG\""
+echo ""
+echo "Consumers:"
+echo "  \"@4lt7ab/ui\": \"github:username/component-library#$TAG\""
+echo "  \"@4lt7ab/content\": \"github:username/component-library#$TAG\""
+echo "  \"@4lt7ab/animations\": \"github:username/component-library#$TAG\""

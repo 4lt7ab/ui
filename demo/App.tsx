@@ -1,25 +1,34 @@
 import { useState } from 'react';
-import { ThemeProvider, useTheme, Icon } from '../src';
+import { ThemeProvider, useTheme, Icon } from '@4lt7ab/ui';
+import { ThemeBackground } from '@4lt7ab/animations';
 import { CommandCenter } from './examples/CommandCenter';
 import { OnboardingFlow } from './examples/OnboardingFlow';
 import { BlogPost } from './examples/BlogPost';
 import { ProjectHub } from './examples/ProjectHub';
+import { ComponentCatalogue } from './examples/ComponentCatalogue';
 
 // ---------------------------------------------------------------------------
 // App registry
 // ---------------------------------------------------------------------------
 
-type AppId = 'command-center' | 'onboarding' | 'blog' | 'project-hub';
+type AppId = 'components' | 'command-center' | 'onboarding' | 'blog' | 'project-hub';
 
 interface MockApp {
   id: AppId;
   label: string;
   description: string;
-  icon: 'settings' | 'plus' | 'edit' | 'menu';
+  icon: 'settings' | 'plus' | 'edit' | 'menu' | 'search';
   component: () => React.JSX.Element;
 }
 
 const APPS: MockApp[] = [
+  {
+    id: 'components',
+    label: 'Components',
+    description: 'Browse all components with prop variants',
+    icon: 'search',
+    component: ComponentCatalogue,
+  },
   {
     id: 'command-center',
     label: 'Command Center',
@@ -146,7 +155,7 @@ function ThemeDropdown(): React.JSX.Element {
 // ---------------------------------------------------------------------------
 
 function Shell(): React.JSX.Element {
-  const [activeApp, setActiveApp] = useState<AppId>('command-center');
+  const [activeApp, setActiveApp] = useState<AppId>('components');
 
   const current = APPS.find((a) => a.id === activeApp) ?? APPS[0];
   const ActiveComponent = current.component;
@@ -159,6 +168,8 @@ function Shell(): React.JSX.Element {
       background: 'var(--color-surface)',
       fontFamily: 'var(--font-sans)',
       color: 'var(--color-text)',
+      position: 'relative',
+      zIndex: 1,
     }}>
       {/* Top nav bar */}
       <header style={{
@@ -235,6 +246,7 @@ function Shell(): React.JSX.Element {
 export function App(): React.JSX.Element {
   return (
     <ThemeProvider>
+      <ThemeBackground />
       <Shell />
     </ThemeProvider>
   );

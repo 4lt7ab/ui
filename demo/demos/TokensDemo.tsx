@@ -1,4 +1,4 @@
-import { Stack, Card } from '../../src';
+import { Stack, Card } from '@4lt7ab/ui';
 
 const colorTokens = [
   { group: 'Text', tokens: [

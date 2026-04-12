@@ -1,4 +1,4 @@
-import { ThemePicker } from '../../src';
+import { ThemePicker } from '@4lt7ab/ui';
 
 const descriptions: Record<string, string> = {
   synthwave: 'Neon gradients and glow effects. The bold choice.',

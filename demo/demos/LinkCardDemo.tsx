@@ -1,5 +1,5 @@
-import { LinkCard } from '../../src/content';
-import { Stack } from '../../src';
+import { LinkCard } from '@4lt7ab/content';
+import { Stack } from '@4lt7ab/ui';
 
 export function LinkCardDemo(): React.JSX.Element {
   return (

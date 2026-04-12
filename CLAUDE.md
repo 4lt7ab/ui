@@ -1,125 +1,177 @@
-# @4lt7ab/ui
+# @4lt7ab monorepo
 
-Shared React component library. Tokens + themes + components, distributed via GitHub git dependencies.
+Three React packages sharing a token layer and theme system, distributed via GitHub git dependencies.
+
+- **`@4lt7ab/ui`** -- Tokens, themes, icons, utilities, and interactive UI components.
+- **`@4lt7ab/content`** -- Layout and prose components for blogs and docs.
+- **`@4lt7ab/animations`** -- Canvas background animations tied to themes.
 
 ## Commands
 
 ```bash
-bun install          # install deps
-bun run build        # bunup → dist/ (ESM + CJS + .d.ts)
-bun run typecheck    # tsc --noEmit
+bun install          # install all workspace deps
+bun run build        # build all packages (UI first, then content + animations in parallel)
+bun run typecheck    # tsc --noEmit across all packages
+bun run dev          # start the demo app (Vite)
 ```
 
-## Two Entry Points
-
-The library ships two separate bundles so consumers only pull what they need:
-
-```ts
-import { Button, Card, ThemeProvider } from '@4lt7ab/ui'           // app UI
-import { Prose, Container } from '@4lt7ab/ui/content'              // content/layout
-```
-
-- **`@4lt7ab/ui`** — Tokens, themes, icons, and interactive UI components (Button, Card, Input, Modal, etc.). For dashboards, apps, and tools.
-- **`@4lt7ab/ui/content`** — Layout and prose components (Container, Prose, PullQuote, MarginNote, SideNote, Epigraph, LinkCard, ThinkingCycle). For blogs, docs, and reading-oriented pages.
-
-Both share the same token layer and themes. A component in either entry point uses `semantic` tokens and responds to the active theme.
+Build order matters: `@4lt7ab/content` and `@4lt7ab/animations` depend on `@4lt7ab/ui`, so the root build script runs UI first.
 
 ## Architecture
 
 Three layers. Each layer only depends on the one below it.
 
 ```
-Components  →  consume semantic tokens only, never raw values
-Semantic    →  var(--...) references resolved by theme CSS
-Primitives  →  raw palette values (colors, spacing, radii, shadows, typography)
+Components  ->  consume semantic tokens only, never raw values
+Semantic    ->  var(--...) references resolved by theme CSS
+Primitives  ->  raw palette values (colors, spacing, radii, shadows, typography)
 ```
+
+The token layer and themes live in `@4lt7ab/ui`. The other two packages are peer dependencies of it -- they import tokens and `useTheme` from `@4lt7ab/ui` at runtime.
 
 ## Source Layout
 
 ```
-src/
-├── tokens/
-│   ��── primitives.ts    # raw values — never used directly by components
-│   ├── semantic.ts      # var(--...) tokens — the component API contract
-│   ├��─ typography.ts    # font families (sans, serif, mono), sizes, weights, line-heights
-│   └── index.ts
-├── themes/
-│   ├── ThemeProvider.tsx # React context + useTheme()
-│   ├── types.ts         # ThemeTokens, ThemeDefinition interfaces
-│   └── definitions/     # synthwave, slate, warm-sand, moss, coral, pipboy, neural, pacman
-├── utils/
-│   └── useInjectStyles.ts  # singleton style injection hook
-├── components/
-│   ├── Button/          # app UI components
-│   ├── Card/
-│   ├── StatusDot/       # colored status indicator dot
-│   ├── Table/           # compound table (Table, Header, Row, Cell, etc.)
-│   ├── ...
-│   ├── Container/       # content components
-│   ├── Prose/
-│   ├── PullQuote/
-│   ├── MarginNote/
-│   ├── SideNote/
-│   ├── Epigraph/
-│   ├── LinkCard/
-│   └── ThinkingCycle/
+packages/
+├── ui/
+│   └── src/
+│       ├── tokens/
+│       │   ├── primitives.ts    # raw values -- never used directly by components
+│       │   ├── semantic.ts      # var(--...) tokens -- the component API contract
+│       │   ├── typography.ts    # font families, sizes, weights, line-heights
+│       │   └── index.ts
+│       ├── themes/
+│       │   ├── ThemeProvider.tsx # React context + useTheme()
+│       │   ├── types.ts         # ThemeTokens, ThemeDefinition interfaces
+│       │   └── definitions/     # synthwave, slate, warm-sand, moss, coral, pipboy, neural, pacman
+│       ├── icons/               # built-in icon components + registry
+│       ├── utils/
+│       │   ├── useInjectStyles.ts  # singleton style injection hook
+│       │   └── useFocusTrap.ts     # focus trap for modals
+│       ├── components/
+│       │   ├── Button/
+│       │   ├── Card/
+│       │   ├── Stack/
+│       │   ├── Input/
+│       │   ├── Textarea/
+│       │   ├── Select/
+│       │   ├── Field/
+│       │   ├── Badge/
+│       │   ├── Icon/
+│       │   ├── IconButton/
+│       │   ├── Overlay/
+│       │   ├── ModalShell/
+│       │   ├── ConfirmDialog/
+│       │   ├── Skeleton/
+│       │   ├── ProgressBar/
+│       │   ├── EmptyState/
+│       │   ├── Pagination/
+│       │   ├── PageHeader/
+│       │   ├── TagChip/
+│       │   ├── ExpandableCard/
+│       │   ├── Table/
+│       │   ├── StatusDot/
+│       │   ├── ThemePicker/
+│       │   └── ThemeSurface/
+│       └── index.ts
 ├── content/
-│   └── index.ts         # content entry point barrel
-└── index.ts             # main entry point barrel (app UI)
+│   └── src/
+│       ├── components/
+│       │   ├── Container/
+│       │   ├── Prose/
+│       │   ├── PullQuote/
+│       │   ├── MarginNote/
+│       │   ├── SideNote/
+│       │   ├── Epigraph/
+│       │   ├── LinkCard/
+│       │   └── ThinkingCycle/
+│       └── index.ts
+├── animations/
+│   └── src/
+│       ├── ThemeBackground.tsx
+│       ├── backgrounds/
+│       │   ├── synthwave.ts
+│       │   ├── pipboy.ts
+│       │   ├── neural.ts
+│       │   └── pacman.ts
+│       └── index.ts
+demo/                            # Vite demo app
 ```
 
 ## Conventions
 
-- **Components use semantic tokens only.** Import `semantic` from `../../tokens/semantic`, reference `var(--...)` values. No hex colors, no pixel literals.
+- **Components use semantic tokens only.** Import `semantic` from the tokens barrel, reference `var(--...)` values. No hex colors, no pixel literals.
 - **One folder per component.** `ComponentName/ComponentName.tsx` + `index.ts` barrel.
 - **Exported functions need explicit return types.** bunup DTS generation requires `): React.JSX.Element {` on component functions.
 - **React is a peer dependency.** Never bundle it. Consumers provide their own.
-- **Content components use `useInjectStyles`** for CSS that requires pseudo-elements or hover states. Scoped via unique IDs.
+- **Content components use `useInjectStyles`** (from `@4lt7ab/ui`) for CSS that requires pseudo-elements or hover states. Scoped via unique IDs.
+- **Animations import `useTheme` from `@4lt7ab/ui`.** Background functions are pure (canvas in, cleanup out). Only `ThemeBackground` uses React.
 
 ## Adding a Component
 
-1. Create `src/components/MyComponent/MyComponent.tsx`
-2. Create `src/components/MyComponent/index.ts` barrel
-3. Export from the appropriate barrel:
-   - App UI → `src/index.ts`
-   - Content/layout → `src/content/index.ts`
+### To `@4lt7ab/ui`
+
+1. Create `packages/ui/src/components/MyComponent/MyComponent.tsx`
+2. Create `packages/ui/src/components/MyComponent/index.ts` barrel
+3. Export from `packages/ui/src/index.ts`
 4. Use only `semantic` tokens for all visual values
-5. Update the demo app (`demo/`) to display the new component with realistic usage scenarios
+5. Update the demo app (`demo/`) to display the new component
 6. `bun run typecheck && bun run build`
+
+### To `@4lt7ab/content`
+
+1. Create `packages/content/src/components/MyComponent/MyComponent.tsx`
+2. Create `packages/content/src/components/MyComponent/index.ts` barrel
+3. Export from `packages/content/src/index.ts`
+4. Import tokens and utilities from `@4lt7ab/ui` (peer dep)
+5. Update the demo app
+6. `bun run typecheck && bun run build`
+
+### To `@4lt7ab/animations`
+
+1. Create a background function in `packages/animations/src/backgrounds/my-bg.ts`
+2. Export from `packages/animations/src/backgrounds/index.ts`
+3. Register in `ThemeBackground.tsx` (add to the `backgroundRegistry` map)
+4. Export from `packages/animations/src/index.ts`
 
 ## Adding a Theme
 
-1. Create `src/themes/definitions/my-theme.ts` implementing `ThemeDefinition`
-2. Export from `src/themes/definitions/index.ts`
+1. Create `packages/ui/src/themes/definitions/my-theme.ts` implementing `ThemeDefinition`
+2. Export from `packages/ui/src/themes/definitions/index.ts`
 3. Register in `ThemeProvider.tsx` (add to the built-in registry map)
-4. Export from `src/index.ts`
+4. Export from `packages/ui/src/index.ts`
+5. If the theme has a background animation, add it to `@4lt7ab/animations`
 
 Built-in themes: synthwave, slate, warm-sand, moss, coral, pipboy, neural, pacman.
 
 ## Adding a Token
 
-1. Add to `ThemeTokens` interface in `src/themes/types.ts`
-2. Add the `var(--...)` reference to `semantic.ts`
-3. Add the value to every theme definition in `src/themes/definitions/`
-4. If it maps to a new primitive, add to `primitives.ts`
+1. Add to `ThemeTokens` interface in `packages/ui/src/themes/types.ts`
+2. Add the `var(--...)` reference to `packages/ui/src/tokens/semantic.ts`
+3. Add the value to every theme definition in `packages/ui/src/themes/definitions/`
+4. If it maps to a new primitive, add to `packages/ui/src/tokens/primitives.ts`
 
 ## Documentation
 
-Two docs files, each with a different audience:
+Each package has its own `README.md` for user-facing API docs. The root `README.md` is a monorepo overview.
 
-- **`README.md`** — User-facing manual. Update when adding/removing components, themes, or entry points. Covers install, usage, component tables, and token API.
-- **`CLAUDE.md`** — LLM-facing codebase instructions. Update when conventions, architecture, source layout, or workflows change.
+- **`README.md`** (root) -- Monorepo overview, package table, quick start, dev commands.
+- **`packages/ui/README.md`** -- Component table, token API, themes, icons.
+- **`packages/content/README.md`** -- Content component table, usage examples.
+- **`packages/animations/README.md`** -- ThemeBackground usage, standalone API, behavior notes.
+- **`CLAUDE.md`** (root) -- LLM-facing codebase instructions. Update when conventions, architecture, or workflows change.
 
-When adding a component: add it to the README component table and update the source layout tree here if it introduces a new directory.
-When adding a theme: add it to the built-in themes list in both files.
-When changing tokens or architecture: update the relevant sections in both files.
+When adding a component: add it to the relevant package README and update the source layout tree here.
+When adding a theme: add it to the built-in themes list in both the root README and this file.
 
 ## Distribution
 
-Git dependency via tags. Consumers add:
+Git dependency via tags. The monorepo is a single repo with three packages. Consumers add:
 
 ```json
-"@4lt7ab/ui": "github:username/component-library#v0.1.0"
+"@4lt7ab/ui": "github:username/component-library#v0.1.0",
+"@4lt7ab/content": "github:username/component-library#v0.1.0",
+"@4lt7ab/animations": "github:username/component-library#v0.1.0"
 ```
 
-`dist/` is committed to git. Tag after building.
+`dist/` directories are committed to git. Tag after building.

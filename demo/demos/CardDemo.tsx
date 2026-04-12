@@ -1,4 +1,4 @@
-import { Card, Stack, Button } from '../../src';
+import { Card, Stack, Button } from '@4lt7ab/ui';
 
 export function CardDemo(): React.JSX.Element {
   return (

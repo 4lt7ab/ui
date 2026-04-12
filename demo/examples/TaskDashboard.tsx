@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {
   PageHeader, Card, ExpandableCard, Badge, ProgressBar,
   Stack, Button, EmptyState, Skeleton,
-} from '../../src';
+} from '@4lt7ab/ui';
 
 const tasks = [
   { id: 1, title: 'Design token audit', status: 'success' as const, label: 'Done' },

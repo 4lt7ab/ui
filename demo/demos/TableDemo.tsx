@@ -3,7 +3,7 @@ import {
   Stack, Badge,
   Table, TableHeader, TableHeaderCell, TableBody,
   TableRow, TableCell, TableGroupHeader, TableEmptyRow,
-} from '../../src';
+} from '@4lt7ab/ui';
 
 // ---------------------------------------------------------------------------
 // Sample data

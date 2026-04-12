@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Card, Stack, Button, IconButton, ConfirmDialog, Badge, Icon } from '../../src';
+import { Card, Stack, Button, IconButton, ConfirmDialog, Badge, Icon } from '@4lt7ab/ui';
 
 const items = [
   { id: 1, name: 'production-db', status: 'success' as const },

@@ -1,4 +1,4 @@
-import { Select, Stack } from '../../src';
+import { Select, Stack } from '@4lt7ab/ui';
 
 const roleOptions = [
   { value: 'admin', label: 'Admin' },

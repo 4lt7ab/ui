@@ -4,8 +4,8 @@ import {
   ModalShell, ConfirmDialog, EmptyState, Stack, PageHeader,
   ProgressBar, TagChip, Pagination, ThemePicker,
   Table, TableHeader, TableHeaderCell, TableBody, TableRow, TableCell,
-} from '../../src';
-import type { IconName } from '../../src';
+} from '@4lt7ab/ui';
+import type { IconName } from '@4lt7ab/ui';
 
 // ---------------------------------------------------------------------------
 // Data

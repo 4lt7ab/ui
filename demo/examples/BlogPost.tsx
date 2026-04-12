@@ -2,8 +2,8 @@ import {
   Container, Prose,
   PullQuote, MarginNote, SideNote, Epigraph, LinkCard,
   ThinkingCycle,
-} from '../../src/content';
-import { Stack } from '../../src';
+} from '@4lt7ab/content';
+import { Stack } from '@4lt7ab/ui';
 
 export function BlogPost(): React.JSX.Element {
   return (

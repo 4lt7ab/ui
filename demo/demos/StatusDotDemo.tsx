@@ -1,5 +1,5 @@
-import { StatusDot, Stack, Badge } from '../../src';
-import type { StatusDotVariant } from '../../src';
+import { StatusDot, Stack, Badge } from '@4lt7ab/ui';
+import type { StatusDotVariant } from '@4lt7ab/ui';
 
 const variants: StatusDotVariant[] = ['default', 'success', 'warning', 'error', 'info'];
 

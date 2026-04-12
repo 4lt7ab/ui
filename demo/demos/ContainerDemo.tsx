@@ -1,5 +1,5 @@
-import { Container } from '../../src/content';
-import { Stack } from '../../src';
+import { Container } from '@4lt7ab/content';
+import { Stack } from '@4lt7ab/ui';
 
 export function ContainerDemo(): React.JSX.Element {
   const box = (label: string): React.CSSProperties => ({

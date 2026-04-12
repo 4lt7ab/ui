@@ -1,4 +1,4 @@
-import { ProgressBar, Stack } from '../../src';
+import { ProgressBar, Stack } from '@4lt7ab/ui';
 
 export function ProgressBarDemo(): React.JSX.Element {
   return (

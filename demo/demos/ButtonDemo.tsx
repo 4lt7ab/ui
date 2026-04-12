@@ -1,5 +1,5 @@
-import { Button, Stack } from '../../src';
-import type { ButtonVariant, ButtonSize } from '../../src';
+import { Button, Stack } from '@4lt7ab/ui';
+import type { ButtonVariant, ButtonSize } from '@4lt7ab/ui';
 
 const variants: ButtonVariant[] = ['primary', 'secondary', 'destructive', 'ghost'];
 const sizes: ButtonSize[] = ['sm', 'md', 'lg'];
@@ -30,6 +30,21 @@ export function ButtonDemo(): React.JSX.Element {
         <Stack direction="horizontal" gap="sm" wrap align="center">
           {variants.map((v) => (
             <Button key={v} variant={v} disabled>{v}</Button>
+          ))}
+        </Stack>
+      </Stack>
+
+      <Stack gap="sm">
+        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>All variants x sizes</h3>
+        <Stack gap="md">
+          {variants.map((v) => (
+            <Stack key={v} direction="horizontal" gap="sm" wrap align="flex-end">
+              {sizes.map((s) => (
+                <Button key={`${v}-${s}`} variant={v} size={s}>
+                  {v} {s}
+                </Button>
+              ))}
+            </Stack>
           ))}
         </Stack>
       </Stack>

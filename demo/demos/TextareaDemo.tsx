@@ -1,4 +1,4 @@
-import { Textarea, Stack } from '../../src';
+import { Textarea, Stack } from '@4lt7ab/ui';
 
 export function TextareaDemo(): React.JSX.Element {
   return (

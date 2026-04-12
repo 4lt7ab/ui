@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Field, Input, Textarea, Select, Stack, Button, Card } from '../../src';
+import { Field, Input, Textarea, Select, Stack, Button, Card } from '@4lt7ab/ui';
 
 export function FieldDemo(): React.JSX.Element {
   const [submitted, setSubmitted] = useState(false);

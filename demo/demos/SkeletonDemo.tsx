@@ -1,4 +1,4 @@
-import { Skeleton, CardSkeleton, RowSkeleton, Stack } from '../../src';
+import { Skeleton, CardSkeleton, RowSkeleton, Stack } from '@4lt7ab/ui';
 
 export function SkeletonDemo(): React.JSX.Element {
   return (

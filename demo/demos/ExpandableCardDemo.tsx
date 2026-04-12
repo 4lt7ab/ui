@@ -1,6 +1,9 @@
-import { ExpandableCard, Badge, Stack } from '../../src';
+import { useState } from 'react';
+import { ExpandableCard, Badge, Button, Stack } from '@4lt7ab/ui';
 
 export function ExpandableCardDemo(): React.JSX.Element {
+  const [controlled, setControlled] = useState(false);
+
   return (
     <Stack gap="xl">
       <Stack gap="sm">
@@ -40,6 +43,35 @@ export function ExpandableCardDemo(): React.JSX.Element {
             <span style={{ fontSize: '0.875rem' }}>Fix CI pipeline</span>
           </Stack>
         </ExpandableCard>
+      </Stack>
+
+      <Stack gap="sm">
+        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Controlled mode</h3>
+        <Button size="sm" onClick={() => setControlled((o) => !o)}>
+          {controlled ? 'Close' : 'Open'} externally
+        </Button>
+        <ExpandableCard
+          title="Controlled Card"
+          open={controlled}
+          onToggle={setControlled}
+        >
+          <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
+            This card is controlled via the open prop and toggled by an external button.
+          </p>
+        </ExpandableCard>
+      </Stack>
+
+      <Stack gap="sm">
+        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Variants</h3>
+        <Stack gap="md">
+          {(['default', 'flat', 'elevated'] as const).map((v) => (
+            <ExpandableCard key={v} title={`variant="${v}"`} variant={v} defaultOpen>
+              <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
+                Card with {v} variant styling.
+              </p>
+            </ExpandableCard>
+          ))}
+        </Stack>
       </Stack>
     </Stack>
   );

@@ -1,4 +1,4 @@
-import { PageHeader, Button, Stack } from '../../src';
+import { PageHeader, Button, Stack } from '@4lt7ab/ui';
 
 export function PageHeaderDemo(): React.JSX.Element {
   return (

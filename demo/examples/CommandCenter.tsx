@@ -3,7 +3,7 @@ import {
   PageHeader, Card, Stack, Button, Badge, StatusDot, Icon, IconButton,
   ProgressBar, Pagination, TagChip, ExpandableCard, Skeleton, RowSkeleton,
   Table, TableHeader, TableHeaderCell, TableBody, TableRow, TableCell,
-} from '../../src';
+} from '@4lt7ab/ui';
 
 // ---------------------------------------------------------------------------
 // Data

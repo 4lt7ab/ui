@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { PageHeader, Card, Stack, Input, Select, Textarea, Button, Field } from '../../src';
+import { PageHeader, Card, Stack, Input, Select, Textarea, Button, Field } from '@4lt7ab/ui';
 
 export function SettingsPage(): React.JSX.Element {
   const [name, setName] = useState('Acme Corp');

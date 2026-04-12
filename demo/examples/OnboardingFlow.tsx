@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {
   ModalShell, Stack, Button, Field, Input, Select, Textarea,
   ProgressBar, Card, Badge, Icon, TagChip, IconButton,
-} from '../../src';
+} from '@4lt7ab/ui';
 
 // ---------------------------------------------------------------------------
 // Options

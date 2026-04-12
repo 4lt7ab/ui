@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TagChip, Stack } from '../../src';
+import { TagChip, Stack } from '@4lt7ab/ui';
 
 export function TagChipDemo(): React.JSX.Element {
   const [tags, setTags] = useState(['React', 'TypeScript', 'Design Systems', 'UI']);

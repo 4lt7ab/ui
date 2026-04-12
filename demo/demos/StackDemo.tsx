@@ -1,4 +1,4 @@
-import { Stack, Button, Card } from '../../src';
+import { Stack, Button, Card } from '@4lt7ab/ui';
 
 const placeholder = (label: string): React.CSSProperties => ({
   padding: '1rem',

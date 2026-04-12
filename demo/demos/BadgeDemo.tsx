@@ -1,5 +1,5 @@
-import { Badge, Stack } from '../../src';
-import type { BadgeVariant } from '../../src';
+import { Badge, Stack } from '@4lt7ab/ui';
+import type { BadgeVariant } from '@4lt7ab/ui';
 
 const variants: BadgeVariant[] = ['default', 'success', 'warning', 'error', 'info'];
 

@@ -1,4 +1,4 @@
-import { Input, Stack } from '../../src';
+import { Input, Stack } from '@4lt7ab/ui';
 
 export function InputDemo(): React.JSX.Element {
   return (

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pagination, Stack } from '../../src';
+import { Pagination, Stack } from '@4lt7ab/ui';
 
 export function PaginationDemo(): React.JSX.Element {
   const [page, setPage] = useState(3);

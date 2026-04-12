@@ -1,4 +1,4 @@
-import { Prose, PullQuote, MarginNote, SideNote, Epigraph, Container } from '../../src/content';
+import { Prose, PullQuote, MarginNote, SideNote, Epigraph, Container } from '@4lt7ab/content';
 
 export function ProseDemo(): React.JSX.Element {
   return (
