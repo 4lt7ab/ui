@@ -82,30 +82,8 @@ var Container = import_react.forwardRef(function Container2({
   });
 });
 // src/components/Prose/Prose.tsx
-var import_react4 = require("react");
-
-// ../core/dist/index.js
 var import_react2 = require("react");
-var import_react3 = require("react");
-var import_jsx_runtime = require("react/jsx-runtime");
-function useInjectStyles(id, css) {
-  import_react2.useEffect(() => {
-    let el = document.getElementById(id);
-    if (el) {
-      if (el.textContent !== css) {
-        el.textContent = css;
-      }
-      return;
-    }
-    el = document.createElement("style");
-    el.id = id;
-    el.textContent = css;
-    document.head.appendChild(el);
-  }, [id, css]);
-}
-var ThemeContext = import_react3.createContext(null);
-
-// src/components/Prose/Prose.tsx
+var import_core = require("../../core/dist/index.cjs");
 var jsx_runtime2 = require("react/jsx-runtime");
 var PROSE_STYLES_ID = "alttab-prose-styles";
 var proseCSS = `
@@ -356,12 +334,12 @@ var proseCSS = `
     font-weight: 600;
   }
 `;
-var Prose = import_react4.forwardRef(function Prose2({
+var Prose = import_react2.forwardRef(function Prose2({
   children,
   style,
   ...props
 }, ref) {
-  useInjectStyles(PROSE_STYLES_ID, proseCSS);
+  import_core.useInjectStyles(PROSE_STYLES_ID, proseCSS);
   return /* @__PURE__ */ jsx_runtime2.jsx("div", {
     ref,
     className: "alttab-prose",
@@ -371,9 +349,9 @@ var Prose = import_react4.forwardRef(function Prose2({
   });
 });
 // src/components/PullQuote/PullQuote.tsx
-var import_react5 = require("react");
+var import_react3 = require("react");
 var jsx_runtime3 = require("react/jsx-runtime");
-var PullQuote = import_react5.forwardRef(function PullQuote2({ children }, ref) {
+var PullQuote = import_react3.forwardRef(function PullQuote2({ children }, ref) {
   return /* @__PURE__ */ jsx_runtime3.jsx("blockquote", {
     ref,
     "data-pull-quote": "",
@@ -383,9 +361,9 @@ var PullQuote = import_react5.forwardRef(function PullQuote2({ children }, ref) 
   });
 });
 // src/components/MarginNote/MarginNote.tsx
-var import_react6 = require("react");
+var import_react4 = require("react");
 var jsx_runtime4 = require("react/jsx-runtime");
-var MarginNote = import_react6.forwardRef(function MarginNote2({ children }, ref) {
+var MarginNote = import_react4.forwardRef(function MarginNote2({ children }, ref) {
   return /* @__PURE__ */ jsx_runtime4.jsx("small", {
     ref,
     "data-margin-note": "",
@@ -393,9 +371,9 @@ var MarginNote = import_react6.forwardRef(function MarginNote2({ children }, ref
   });
 });
 // src/components/SideNote/SideNote.tsx
-var import_react7 = require("react");
+var import_react5 = require("react");
 var jsx_runtime5 = require("react/jsx-runtime");
-var SideNote = import_react7.forwardRef(function SideNote2({ children }, ref) {
+var SideNote = import_react5.forwardRef(function SideNote2({ children }, ref) {
   return /* @__PURE__ */ jsx_runtime5.jsx("small", {
     ref,
     "data-side-note": "",
@@ -403,7 +381,8 @@ var SideNote = import_react7.forwardRef(function SideNote2({ children }, ref) {
   });
 });
 // src/components/Epigraph/Epigraph.tsx
-var import_react8 = require("react");
+var import_react6 = require("react");
+var import_core2 = require("../../core/dist/index.cjs");
 var jsx_runtime6 = require("react/jsx-runtime");
 var STYLES_ID = "alttab-epigraph";
 var epigraphCSS = `
@@ -435,8 +414,8 @@ var epigraphCSS = `
     color: var(--color-text-muted);
   }
 `;
-var Epigraph = import_react8.forwardRef(function Epigraph2({ children, cite }, ref) {
-  useInjectStyles(STYLES_ID, epigraphCSS);
+var Epigraph = import_react6.forwardRef(function Epigraph2({ children, cite }, ref) {
+  import_core2.useInjectStyles(STYLES_ID, epigraphCSS);
   return /* @__PURE__ */ jsx_runtime6.jsxs("blockquote", {
     ref,
     className: "alttab-epigraph",
@@ -451,7 +430,8 @@ var Epigraph = import_react8.forwardRef(function Epigraph2({ children, cite }, r
   });
 });
 // src/components/LinkCard/LinkCard.tsx
-var import_react9 = require("react");
+var import_react7 = require("react");
+var import_core3 = require("../../core/dist/index.cjs");
 var jsx_runtime7 = require("react/jsx-runtime");
 var STYLES_ID2 = "alttab-link-card";
 var linkCardCSS = `
@@ -486,14 +466,14 @@ var linkCardCSS = `
     color: var(--color-text-muted);
   }
 `;
-var LinkCard = import_react9.forwardRef(function LinkCard2({
+var LinkCard = import_react7.forwardRef(function LinkCard2({
   title,
   description,
   external,
   children,
   ...props
 }, ref) {
-  useInjectStyles(STYLES_ID2, linkCardCSS);
+  import_core3.useInjectStyles(STYLES_ID2, linkCardCSS);
   return /* @__PURE__ */ jsx_runtime7.jsxs("a", {
     ref,
     className: "alttab-link-card",
@@ -513,7 +493,8 @@ var LinkCard = import_react9.forwardRef(function LinkCard2({
   });
 });
 // src/components/ThinkingCycle/ThinkingCycle.tsx
-var import_react10 = require("react");
+var import_react8 = require("react");
+var import_core4 = require("../../core/dist/index.cjs");
 var jsx_runtime8 = require("react/jsx-runtime");
 var SCRAMBLE_CHARS = "abcdefghijklmnopqrstuvwxyz!?*~+#";
 var STYLES_ID3 = "alttab-thinking-cycle";
@@ -550,21 +531,21 @@ var thinkingCSS = `
 function randomChar() {
   return SCRAMBLE_CHARS[Math.random() * SCRAMBLE_CHARS.length | 0];
 }
-var ThinkingCycle = import_react10.forwardRef(function ThinkingCycle2({
+var ThinkingCycle = import_react8.forwardRef(function ThinkingCycle2({
   words,
   holdMs = 2000,
   scrambleTicks = 4,
   tickMs = 50,
   staggerMs = 30
 }, ref) {
-  useInjectStyles(STYLES_ID3, thinkingCSS);
-  const elRef = import_react10.useRef(null);
-  import_react10.useImperativeHandle(ref, () => elRef.current);
-  const indexRef = import_react10.useRef(0);
-  const widthsRef = import_react10.useRef([]);
-  const timerRef = import_react10.useRef(null);
-  const intervalRef = import_react10.useRef(null);
-  const measure = import_react10.useCallback(() => {
+  import_core4.useInjectStyles(STYLES_ID3, thinkingCSS);
+  const elRef = import_react8.useRef(null);
+  import_react8.useImperativeHandle(ref, () => elRef.current);
+  const indexRef = import_react8.useRef(0);
+  const widthsRef = import_react8.useRef([]);
+  const timerRef = import_react8.useRef(null);
+  const intervalRef = import_react8.useRef(null);
+  const measure = import_react8.useCallback(() => {
     const el = elRef.current;
     if (!el)
       return;
@@ -579,7 +560,7 @@ var ThinkingCycle = import_react10.forwardRef(function ThinkingCycle2({
     widthsRef.current = measured;
     el.style.width = measured[indexRef.current] + "px";
   }, [words]);
-  const setWord = import_react10.useCallback((word) => {
+  const setWord = import_react8.useCallback((word) => {
     const el = elRef.current;
     if (!el)
       return;
@@ -592,7 +573,7 @@ var ThinkingCycle = import_react10.forwardRef(function ThinkingCycle2({
       el.appendChild(span);
     }
   }, [staggerMs]);
-  const scrambleTo = import_react10.useCallback((target, done) => {
+  const scrambleTo = import_react8.useCallback((target, done) => {
     const el = elRef.current;
     if (!el)
       return;
@@ -630,7 +611,7 @@ var ThinkingCycle = import_react10.forwardRef(function ThinkingCycle2({
       }
     }, tickMs);
   }, [scrambleTicks, tickMs, staggerMs]);
-  import_react10.useEffect(() => {
+  import_react8.useEffect(() => {
     if (words.length < 2)
       return;
     measure();

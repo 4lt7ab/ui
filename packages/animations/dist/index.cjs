@@ -49,19 +49,8 @@ __export(exports_src, {
 module.exports = __toCommonJS(exports_src);
 
 // src/ThemeBackground.tsx
-var import_react3 = require("react");
-
-// ../core/dist/index.js
 var import_react = require("react");
-var import_react2 = require("react");
-var import_jsx_runtime = require("react/jsx-runtime");
-var ThemeContext = import_react2.createContext(null);
-function useTheme() {
-  const ctx = import_react2.useContext(ThemeContext);
-  if (!ctx)
-    throw new Error("useTheme must be used within <ThemeProvider>");
-  return ctx;
-}
+var import_core = require("../../core/dist/index.cjs");
 
 // src/backgrounds/synthwave.ts
 function synthwaveBackground(canvas) {
@@ -670,10 +659,10 @@ var backgroundRegistry = {
   pacman: pacmanBackground
 };
 function ThemeBackground(_props) {
-  const { resolved } = useTheme();
-  const bgContainerRef = import_react3.useRef(null);
-  const bgCleanupRef = import_react3.useRef(null);
-  import_react3.useEffect(() => {
+  const { resolved } = import_core.useTheme();
+  const bgContainerRef = import_react.useRef(null);
+  const bgCleanupRef = import_react.useRef(null);
+  import_react.useEffect(() => {
     if (bgCleanupRef.current) {
       bgCleanupRef.current();
       bgCleanupRef.current = null;

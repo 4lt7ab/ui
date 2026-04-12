@@ -30,38 +30,8 @@ var Container = forwardRef(function Container2({
 });
 // src/components/Prose/Prose.tsx
 import { forwardRef as forwardRef2 } from "react";
-
-// ../core/dist/index.js
-import { useEffect } from "react";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect as useEffect2,
-  useMemo,
-  useRef,
-  useState
-} from "react";
+import { useInjectStyles } from "../../core/dist/index.js";
 import { jsx as jsx2 } from "react/jsx-runtime";
-function useInjectStyles(id, css) {
-  useEffect(() => {
-    let el = document.getElementById(id);
-    if (el) {
-      if (el.textContent !== css) {
-        el.textContent = css;
-      }
-      return;
-    }
-    el = document.createElement("style");
-    el.id = id;
-    el.textContent = css;
-    document.head.appendChild(el);
-  }, [id, css]);
-}
-var ThemeContext = createContext(null);
-
-// src/components/Prose/Prose.tsx
-import { jsx as jsx3 } from "react/jsx-runtime";
 var PROSE_STYLES_ID = "alttab-prose-styles";
 var proseCSS = `
   /* ── Typography ── */
@@ -317,7 +287,7 @@ var Prose = forwardRef2(function Prose2({
   ...props
 }, ref) {
   useInjectStyles(PROSE_STYLES_ID, proseCSS);
-  return /* @__PURE__ */ jsx3("div", {
+  return /* @__PURE__ */ jsx2("div", {
     ref,
     className: "alttab-prose",
     style,
@@ -327,21 +297,21 @@ var Prose = forwardRef2(function Prose2({
 });
 // src/components/PullQuote/PullQuote.tsx
 import { forwardRef as forwardRef3 } from "react";
-import { jsx as jsx4 } from "react/jsx-runtime";
+import { jsx as jsx3 } from "react/jsx-runtime";
 var PullQuote = forwardRef3(function PullQuote2({ children }, ref) {
-  return /* @__PURE__ */ jsx4("blockquote", {
+  return /* @__PURE__ */ jsx3("blockquote", {
     ref,
     "data-pull-quote": "",
-    children: /* @__PURE__ */ jsx4("p", {
+    children: /* @__PURE__ */ jsx3("p", {
       children
     })
   });
 });
 // src/components/MarginNote/MarginNote.tsx
 import { forwardRef as forwardRef4 } from "react";
-import { jsx as jsx5 } from "react/jsx-runtime";
+import { jsx as jsx4 } from "react/jsx-runtime";
 var MarginNote = forwardRef4(function MarginNote2({ children }, ref) {
-  return /* @__PURE__ */ jsx5("small", {
+  return /* @__PURE__ */ jsx4("small", {
     ref,
     "data-margin-note": "",
     children
@@ -349,9 +319,9 @@ var MarginNote = forwardRef4(function MarginNote2({ children }, ref) {
 });
 // src/components/SideNote/SideNote.tsx
 import { forwardRef as forwardRef5 } from "react";
-import { jsx as jsx6 } from "react/jsx-runtime";
+import { jsx as jsx5 } from "react/jsx-runtime";
 var SideNote = forwardRef5(function SideNote2({ children }, ref) {
-  return /* @__PURE__ */ jsx6("small", {
+  return /* @__PURE__ */ jsx5("small", {
     ref,
     "data-side-note": "",
     children
@@ -359,7 +329,8 @@ var SideNote = forwardRef5(function SideNote2({ children }, ref) {
 });
 // src/components/Epigraph/Epigraph.tsx
 import { forwardRef as forwardRef6 } from "react";
-import { jsx as jsx7, jsxs } from "react/jsx-runtime";
+import { useInjectStyles as useInjectStyles2 } from "../../core/dist/index.js";
+import { jsx as jsx6, jsxs } from "react/jsx-runtime";
 var STYLES_ID = "alttab-epigraph";
 var epigraphCSS = `
   .alttab-epigraph {
@@ -391,15 +362,15 @@ var epigraphCSS = `
   }
 `;
 var Epigraph = forwardRef6(function Epigraph2({ children, cite }, ref) {
-  useInjectStyles(STYLES_ID, epigraphCSS);
+  useInjectStyles2(STYLES_ID, epigraphCSS);
   return /* @__PURE__ */ jsxs("blockquote", {
     ref,
     className: "alttab-epigraph",
     children: [
-      /* @__PURE__ */ jsx7("p", {
+      /* @__PURE__ */ jsx6("p", {
         children
       }),
-      cite && /* @__PURE__ */ jsx7("footer", {
+      cite && /* @__PURE__ */ jsx6("footer", {
         children: cite
       })
     ]
@@ -407,7 +378,8 @@ var Epigraph = forwardRef6(function Epigraph2({ children, cite }, ref) {
 });
 // src/components/LinkCard/LinkCard.tsx
 import { forwardRef as forwardRef7 } from "react";
-import { jsx as jsx8, jsxs as jsxs2 } from "react/jsx-runtime";
+import { useInjectStyles as useInjectStyles3 } from "../../core/dist/index.js";
+import { jsx as jsx7, jsxs as jsxs2 } from "react/jsx-runtime";
 var STYLES_ID2 = "alttab-link-card";
 var linkCardCSS = `
   .alttab-link-card {
@@ -448,18 +420,18 @@ var LinkCard = forwardRef7(function LinkCard2({
   children,
   ...props
 }, ref) {
-  useInjectStyles(STYLES_ID2, linkCardCSS);
+  useInjectStyles3(STYLES_ID2, linkCardCSS);
   return /* @__PURE__ */ jsxs2("a", {
     ref,
     className: "alttab-link-card",
     ...external ? { target: "_blank", rel: "noopener noreferrer" } : {},
     ...props,
     children: [
-      /* @__PURE__ */ jsx8("span", {
+      /* @__PURE__ */ jsx7("span", {
         className: "alttab-link-card__title",
         children: title
       }),
-      description && /* @__PURE__ */ jsx8("span", {
+      description && /* @__PURE__ */ jsx7("span", {
         className: "alttab-link-card__desc",
         children: description
       }),
@@ -468,8 +440,9 @@ var LinkCard = forwardRef7(function LinkCard2({
   });
 });
 // src/components/ThinkingCycle/ThinkingCycle.tsx
-import { forwardRef as forwardRef8, useEffect as useEffect3, useRef as useRef2, useCallback as useCallback2, useImperativeHandle } from "react";
-import { jsx as jsx9 } from "react/jsx-runtime";
+import { forwardRef as forwardRef8, useEffect, useRef, useCallback, useImperativeHandle } from "react";
+import { useInjectStyles as useInjectStyles4 } from "../../core/dist/index.js";
+import { jsx as jsx8 } from "react/jsx-runtime";
 var SCRAMBLE_CHARS = "abcdefghijklmnopqrstuvwxyz!?*~+#";
 var STYLES_ID3 = "alttab-thinking-cycle";
 var thinkingCSS = `
@@ -512,14 +485,14 @@ var ThinkingCycle = forwardRef8(function ThinkingCycle2({
   tickMs = 50,
   staggerMs = 30
 }, ref) {
-  useInjectStyles(STYLES_ID3, thinkingCSS);
-  const elRef = useRef2(null);
+  useInjectStyles4(STYLES_ID3, thinkingCSS);
+  const elRef = useRef(null);
   useImperativeHandle(ref, () => elRef.current);
-  const indexRef = useRef2(0);
-  const widthsRef = useRef2([]);
-  const timerRef = useRef2(null);
-  const intervalRef = useRef2(null);
-  const measure = useCallback2(() => {
+  const indexRef = useRef(0);
+  const widthsRef = useRef([]);
+  const timerRef = useRef(null);
+  const intervalRef = useRef(null);
+  const measure = useCallback(() => {
     const el = elRef.current;
     if (!el)
       return;
@@ -534,7 +507,7 @@ var ThinkingCycle = forwardRef8(function ThinkingCycle2({
     widthsRef.current = measured;
     el.style.width = measured[indexRef.current] + "px";
   }, [words]);
-  const setWord = useCallback2((word) => {
+  const setWord = useCallback((word) => {
     const el = elRef.current;
     if (!el)
       return;
@@ -547,7 +520,7 @@ var ThinkingCycle = forwardRef8(function ThinkingCycle2({
       el.appendChild(span);
     }
   }, [staggerMs]);
-  const scrambleTo = useCallback2((target, done) => {
+  const scrambleTo = useCallback((target, done) => {
     const el = elRef.current;
     if (!el)
       return;
@@ -585,7 +558,7 @@ var ThinkingCycle = forwardRef8(function ThinkingCycle2({
       }
     }, tickMs);
   }, [scrambleTicks, tickMs, staggerMs]);
-  useEffect3(() => {
+  useEffect(() => {
     if (words.length < 2)
       return;
     measure();
@@ -615,7 +588,7 @@ var ThinkingCycle = forwardRef8(function ThinkingCycle2({
       observer.disconnect();
     };
   }, [words, holdMs, measure, setWord, scrambleTo]);
-  return /* @__PURE__ */ jsx9("span", {
+  return /* @__PURE__ */ jsx8("span", {
     ref: elRef,
     className: "alttab-thinking"
   });

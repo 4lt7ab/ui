@@ -1,25 +1,6 @@
 // src/ThemeBackground.tsx
-import { useEffect as useEffect3, useRef as useRef2 } from "react";
-
-// ../core/dist/index.js
-import { useEffect } from "react";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect as useEffect2,
-  useMemo,
-  useRef,
-  useState
-} from "react";
-import { jsx } from "react/jsx-runtime";
-var ThemeContext = createContext(null);
-function useTheme() {
-  const ctx = useContext(ThemeContext);
-  if (!ctx)
-    throw new Error("useTheme must be used within <ThemeProvider>");
-  return ctx;
-}
+import { useEffect, useRef } from "react";
+import { useTheme } from "../../core/dist/index.js";
 
 // src/backgrounds/synthwave.ts
 function synthwaveBackground(canvas) {
@@ -629,9 +610,9 @@ var backgroundRegistry = {
 };
 function ThemeBackground(_props) {
   const { resolved } = useTheme();
-  const bgContainerRef = useRef2(null);
-  const bgCleanupRef = useRef2(null);
-  useEffect3(() => {
+  const bgContainerRef = useRef(null);
+  const bgCleanupRef = useRef(null);
+  useEffect(() => {
     if (bgCleanupRef.current) {
       bgCleanupRef.current();
       bgCleanupRef.current = null;

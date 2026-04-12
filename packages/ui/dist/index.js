@@ -42,1097 +42,15 @@ function useFocusTrap(ref) {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [ref]);
 }
-// ../core/dist/index.js
-import { useEffect as useEffect2 } from "react";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect as useEffect22,
-  useMemo,
-  useRef,
-  useState
-} from "react";
-import { jsx } from "react/jsx-runtime";
-function useInjectStyles(id, css) {
-  useEffect2(() => {
-    let el = document.getElementById(id);
-    if (el) {
-      if (el.textContent !== css) {
-        el.textContent = css;
-      }
-      return;
-    }
-    el = document.createElement("style");
-    el.id = id;
-    el.textContent = css;
-    document.head.appendChild(el);
-  }, [id, css]);
-}
-var colors = {
-  gray50: "#f9fafb",
-  gray100: "#f3f4f6",
-  gray200: "#e5e7eb",
-  gray300: "#d1d5db",
-  gray400: "#9ca3af",
-  gray500: "#6b7280",
-  gray600: "#4b5563",
-  gray700: "#374151",
-  gray800: "#1f2937",
-  gray900: "#111827",
-  gray950: "#030712",
-  blue50: "#eff6ff",
-  blue100: "#dbeafe",
-  blue200: "#bfdbfe",
-  blue300: "#93c5fd",
-  blue400: "#60a5fa",
-  blue500: "#3b82f6",
-  blue600: "#2563eb",
-  blue700: "#1d4ed8",
-  blue800: "#1e40af",
-  blue900: "#1e3a8a",
-  red50: "#fef2f2",
-  red100: "#fee2e2",
-  red400: "#f87171",
-  red500: "#ef4444",
-  red600: "#dc2626",
-  red700: "#b91c1c",
-  green50: "#f0fdf4",
-  green100: "#dcfce7",
-  green400: "#4ade80",
-  green500: "#22c55e",
-  green600: "#16a34a",
-  green700: "#15803d",
-  amber50: "#fffbeb",
-  amber100: "#fef3c7",
-  amber400: "#fbbf24",
-  amber500: "#f59e0b",
-  amber600: "#d97706",
-  white: "#ffffff",
-  black: "#000000"
-};
-var spacing = {
-  0: "0",
-  px: "1px",
-  0.5: "0.125rem",
-  1: "0.25rem",
-  1.5: "0.375rem",
-  2: "0.5rem",
-  2.5: "0.625rem",
-  3: "0.75rem",
-  4: "1rem",
-  5: "1.25rem",
-  6: "1.5rem",
-  8: "2rem",
-  10: "2.5rem",
-  12: "3rem",
-  16: "4rem",
-  20: "5rem",
-  24: "6rem"
-};
-var radii = {
-  none: "0",
-  sm: "0.125rem",
-  base: "0.25rem",
-  md: "0.375rem",
-  lg: "0.5rem",
-  xl: "0.75rem",
-  "2xl": "1rem",
-  "3xl": "1.5rem",
-  full: "9999px"
-};
-var shadows = {
-  sm: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-  base: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
-  md: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
-  lg: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
-  xl: "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
-  none: "none"
-};
-var typography = {
-  fontFamily: {
-    sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
-    serif: ["Lora", "Georgia", "Times New Roman", "serif"],
-    mono: ["Fira Code", "ui-monospace", "monospace"]
-  },
-  fontSize: {
-    xs: "0.75rem",
-    sm: "0.875rem",
-    base: "1rem",
-    lg: "1.125rem",
-    xl: "1.25rem",
-    "2xl": "1.5rem",
-    "3xl": "1.875rem",
-    "4xl": "2.25rem"
-  },
-  fontWeight: {
-    normal: 400,
-    medium: 500,
-    semibold: 600,
-    bold: 700
-  },
-  lineHeight: {
-    none: 1,
-    tight: 1.25,
-    snug: 1.375,
-    normal: 1.5,
-    relaxed: 1.625,
-    loose: 2
-  },
-  letterSpacing: {
-    tighter: "-0.05em",
-    tight: "-0.025em",
-    normal: "0em",
-    wide: "0.025em",
-    wider: "0.05em"
-  }
-};
-var semantic = {
-  colorText: "var(--color-text)",
-  colorTextSecondary: "var(--color-text-secondary)",
-  colorTextMuted: "var(--color-text-muted)",
-  colorTextInverse: "var(--color-text-inverse)",
-  colorTextLink: "var(--color-text-link)",
-  colorTextPlaceholder: "var(--color-text-placeholder)",
-  colorTextDisabled: "var(--color-text-disabled)",
-  colorSurface: "var(--color-surface)",
-  colorSurfacePanel: "var(--color-surface-panel)",
-  colorSurfaceRaised: "var(--color-surface-raised)",
-  colorSurfaceOverlay: "var(--color-surface-overlay)",
-  colorSurfaceInput: "var(--color-surface-input)",
-  colorSurfaceDisabled: "var(--color-surface-disabled)",
-  colorSurfacePage: "var(--color-surface-page)",
-  colorBorder: "var(--color-border)",
-  colorBorderFocused: "var(--color-border-focused)",
-  colorBorderError: "var(--color-border-error)",
-  colorActionPrimary: "var(--color-action-primary)",
-  colorActionPrimaryHover: "var(--color-action-primary-hover)",
-  colorActionSecondary: "var(--color-action-secondary)",
-  colorActionSecondaryHover: "var(--color-action-secondary-hover)",
-  colorActionDestructive: "var(--color-action-destructive)",
-  colorActionDestructiveHover: "var(--color-action-destructive-hover)",
-  colorSuccess: "var(--color-success)",
-  colorSuccessBg: "var(--color-success-bg)",
-  colorWarning: "var(--color-warning)",
-  colorWarningBg: "var(--color-warning-bg)",
-  colorError: "var(--color-error)",
-  colorErrorBg: "var(--color-error-bg)",
-  colorInfo: "var(--color-info)",
-  colorInfoBg: "var(--color-info-bg)",
-  spaceXs: "var(--space-xs)",
-  spaceSm: "var(--space-sm)",
-  spaceMd: "var(--space-md)",
-  spaceLg: "var(--space-lg)",
-  spaceXl: "var(--space-xl)",
-  space2xl: "var(--space-2xl)",
-  radiusSm: "var(--radius-sm)",
-  radiusMd: "var(--radius-md)",
-  radiusLg: "var(--radius-lg)",
-  radiusFull: "var(--radius-full)",
-  shadowSm: "var(--shadow-sm)",
-  shadowMd: "var(--shadow-md)",
-  shadowLg: "var(--shadow-lg)",
-  fontSans: "var(--font-sans)",
-  fontSerif: "var(--font-serif)",
-  fontMono: "var(--font-mono)",
-  fontSizeXs: "var(--font-size-xs)",
-  fontSizeSm: "var(--font-size-sm)",
-  fontSizeBase: "var(--font-size-base)",
-  fontSizeLg: "var(--font-size-lg)",
-  fontSizeXl: "var(--font-size-xl)",
-  fontSize2xl: "var(--font-size-2xl)",
-  fontSize3xl: "var(--font-size-3xl)",
-  lineHeightTight: "var(--line-height-tight)",
-  lineHeightBase: "var(--line-height-base)",
-  lineHeightRelaxed: "var(--line-height-relaxed)",
-  fontWeightNormal: "var(--font-weight-normal)",
-  fontWeightMedium: "var(--font-weight-medium)",
-  fontWeightSemibold: "var(--font-weight-semibold)",
-  fontWeightBold: "var(--font-weight-bold)",
-  letterSpacingTight: "var(--letter-spacing-tight)",
-  letterSpacingNormal: "var(--letter-spacing-normal)",
-  letterSpacingWide: "var(--letter-spacing-wide)",
-  focusRingColor: "var(--focus-ring-color)",
-  focusRingWidth: "var(--focus-ring-width)",
-  focusRingOffset: "var(--focus-ring-offset)"
-};
-function tokenToCssProperty(key) {
-  return "--" + key.replace(/([A-Z0-9])/g, "-$1").toLowerCase();
-}
-var synthwaveTheme = {
-  name: "synthwave",
-  label: "Synthwave",
-  tokens: {
-    colorText: "#e0d6f6",
-    colorTextSecondary: "#a0c4e8",
-    colorTextMuted: "#5a7a99",
-    colorTextInverse: "#06020f",
-    colorTextLink: "#00fff5",
-    colorTextPlaceholder: "#4a6a88",
-    colorTextDisabled: "#3a5a78",
-    colorSurface: "transparent",
-    colorSurfacePanel: "#0c081c",
-    colorSurfaceRaised: "rgba(12, 8, 28, 0.75)",
-    colorSurfaceOverlay: "rgba(6, 2, 15, 0.9)",
-    colorSurfaceInput: "rgba(14, 10, 32, 0.85)",
-    colorSurfaceDisabled: "rgba(22, 18, 48, 0.7)",
-    colorSurfacePage: "#06020f",
-    colorBorder: "#00fff540",
-    colorBorderFocused: "#ff2d95",
-    colorBorderError: "#ff4444",
-    colorActionPrimary: "#ff2d95",
-    colorActionPrimaryHover: "#ff5cb0",
-    colorActionSecondary: "#0e0e24",
-    colorActionSecondaryHover: "#1a1a3a",
-    colorActionDestructive: "#ff4444",
-    colorActionDestructiveHover: "#ff6666",
-    colorSuccess: "#39ff14",
-    colorSuccessBg: "rgba(57, 255, 20, 0.08)",
-    colorWarning: "#ffe44d",
-    colorWarningBg: "rgba(255, 228, 77, 0.08)",
-    colorError: "#ff4080",
-    colorErrorBg: "rgba(255, 64, 128, 0.08)",
-    colorInfo: "#00fff5",
-    colorInfoBg: "rgba(0, 255, 245, 0.08)",
-    spaceXs: "0.25rem",
-    spaceSm: "0.5rem",
-    spaceMd: "1rem",
-    spaceLg: "1.5rem",
-    spaceXl: "2rem",
-    space2xl: "3rem",
-    radiusSm: "0.25rem",
-    radiusMd: "0.375rem",
-    radiusLg: "0.5rem",
-    radiusFull: "9999px",
-    shadowSm: "0 0 8px rgba(0, 255, 245, 0.15), 0 0 2px rgba(255, 45, 149, 0.1)",
-    shadowMd: "0 0 16px rgba(0, 255, 245, 0.2), 0 0 4px rgba(255, 45, 149, 0.15)",
-    shadowLg: "0 0 32px rgba(0, 255, 245, 0.25), 0 0 8px rgba(255, 45, 149, 0.2)",
-    fontSans: "'Inter', system-ui, -apple-system, sans-serif",
-    fontSerif: "'Lora', Georgia, 'Times New Roman', serif",
-    fontMono: "'Fira Code', ui-monospace, monospace",
-    fontSizeXs: "0.75rem",
-    fontSizeSm: "0.875rem",
-    fontSizeBase: "1rem",
-    fontSizeLg: "1.125rem",
-    fontSizeXl: "1.25rem",
-    fontSize2xl: "1.5rem",
-    fontSize3xl: "1.875rem",
-    lineHeightTight: "1.25",
-    lineHeightBase: "1.5",
-    lineHeightRelaxed: "1.625",
-    fontWeightNormal: "400",
-    fontWeightMedium: "500",
-    fontWeightSemibold: "600",
-    fontWeightBold: "700",
-    letterSpacingTight: "-0.025em",
-    letterSpacingNormal: "0em",
-    letterSpacingWide: "0.025em",
-    focusRingColor: "#ff2d95",
-    focusRingWidth: "2px",
-    focusRingOffset: "2px"
-  },
-  css: `
-    /* Base background */
-    [data-theme="synthwave"] body,
-    [data-theme="synthwave"] {
-      background-color: #06020f;
-    }
 
-    /* ── Border glow pulse ── */
-    @keyframes glow-pulse {
-      0%, 100% {
-        box-shadow:
-          0 0 4px rgba(0, 255, 245, 0.2),
-          0 0 8px rgba(0, 255, 245, 0.1);
-      }
-      50% {
-        box-shadow:
-          0 0 8px rgba(0, 255, 245, 0.4),
-          0 0 20px rgba(0, 255, 245, 0.15),
-          0 0 4px rgba(255, 45, 149, 0.2);
-      }
-    }
+// src/index.ts
+export * from "../../core/dist/index.js";
 
-    [data-theme="synthwave"] [style*="surface-raised"],
-    [data-theme="synthwave"] [data-variant],
-    [data-theme="synthwave"] button {
-      animation: glow-pulse 3s ease-in-out infinite;
-    }
-
-    /* ── Focused elements get hot pink glow ── */
-    @keyframes focus-strobe {
-      0%, 100% {
-        box-shadow:
-          0 0 4px rgba(255, 45, 149, 0.4),
-          0 0 12px rgba(255, 45, 149, 0.2);
-      }
-      50% {
-        box-shadow:
-          0 0 8px rgba(255, 45, 149, 0.6),
-          0 0 24px rgba(255, 45, 149, 0.3),
-          0 0 4px rgba(0, 255, 245, 0.3);
-      }
-    }
-
-    [data-theme="synthwave"] input:focus,
-    [data-theme="synthwave"] textarea:focus,
-    [data-theme="synthwave"] select:focus,
-    [data-theme="synthwave"] button:focus-visible {
-      animation: focus-strobe 2s ease-in-out infinite;
-      outline: 1px solid #ff2d95;
-      outline-offset: 1px;
-    }
-
-    /* ── Primary buttons ── */
-    @keyframes primary-glow {
-      0%, 100% {
-        box-shadow:
-          0 0 8px rgba(255, 45, 149, 0.4),
-          0 0 20px rgba(255, 45, 149, 0.15);
-      }
-      33% {
-        box-shadow:
-          0 0 12px rgba(0, 255, 245, 0.4),
-          0 0 24px rgba(0, 255, 245, 0.15);
-      }
-      66% {
-        box-shadow:
-          0 0 10px rgba(57, 255, 20, 0.35),
-          0 0 22px rgba(255, 102, 0, 0.15);
-      }
-    }
-
-    [data-theme="synthwave"] button[data-variant="primary"] {
-      animation: primary-glow 4s ease-in-out infinite;
-      text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-    }
-
-    /* ── Link text glow ── */
-    [data-theme="synthwave"] a,
-    [data-theme="synthwave"] [style*="color-text-link"] {
-      text-shadow: 0 0 6px rgba(0, 255, 245, 0.4);
-    }
-
-    /* ── Scanline overlay ── */
-    [data-theme="synthwave"]::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 9999;
-      background: repeating-linear-gradient(
-        transparent 0px,
-        transparent 2px,
-        rgba(0, 255, 245, 0.015) 2px,
-        rgba(0, 255, 245, 0.015) 4px
-      );
-    }
-  `
-};
-var slateTheme = {
-  name: "slate",
-  label: "Slate",
-  tokens: {
-    colorText: "#e0e3e8",
-    colorTextSecondary: "#b0b8c4",
-    colorTextMuted: "#8891a0",
-    colorTextInverse: "#1a1d24",
-    colorTextLink: "#7ba3d4",
-    colorTextPlaceholder: "#8891a0",
-    colorTextDisabled: "#5a6270",
-    colorSurface: "#1a1d24",
-    colorSurfacePanel: "#1a1d24",
-    colorSurfaceRaised: "#22262e",
-    colorSurfaceOverlay: "rgba(0, 0, 0, 0.7)",
-    colorSurfaceInput: "#1e2229",
-    colorSurfaceDisabled: "#2a2f38",
-    colorSurfacePage: "#1a1d24",
-    colorBorder: "#2a2f38",
-    colorBorderFocused: "#7ba3d4",
-    colorBorderError: "#ef4444",
-    colorActionPrimary: "#7ba3d4",
-    colorActionPrimaryHover: "#9ab8e0",
-    colorActionSecondary: "#22262e",
-    colorActionSecondaryHover: "#2a2f38",
-    colorActionDestructive: "#ef4444",
-    colorActionDestructiveHover: "#f87171",
-    colorSuccess: "#22c55e",
-    colorSuccessBg: "rgba(34, 197, 94, 0.1)",
-    colorWarning: "#f59e0b",
-    colorWarningBg: "rgba(245, 158, 11, 0.1)",
-    colorError: "#ef4444",
-    colorErrorBg: "rgba(239, 68, 68, 0.1)",
-    colorInfo: "#7ba3d4",
-    colorInfoBg: "rgba(123, 163, 212, 0.1)",
-    spaceXs: "0.25rem",
-    spaceSm: "0.5rem",
-    spaceMd: "1rem",
-    spaceLg: "1.5rem",
-    spaceXl: "2rem",
-    space2xl: "3rem",
-    radiusSm: "0.25rem",
-    radiusMd: "0.375rem",
-    radiusLg: "0.5rem",
-    radiusFull: "9999px",
-    shadowSm: "0 1px 2px 0 rgb(0 0 0 / 0.2)",
-    shadowMd: "0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2)",
-    shadowLg: "0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.2)",
-    fontSans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-    fontSerif: "'Lora', Georgia, 'Times New Roman', serif",
-    fontMono: "'Fira Code', ui-monospace, monospace",
-    fontSizeXs: "0.75rem",
-    fontSizeSm: "0.875rem",
-    fontSizeBase: "1rem",
-    fontSizeLg: "1.125rem",
-    fontSizeXl: "1.25rem",
-    fontSize2xl: "1.5rem",
-    fontSize3xl: "1.875rem",
-    lineHeightTight: "1.25",
-    lineHeightBase: "1.5",
-    lineHeightRelaxed: "1.625",
-    fontWeightNormal: "400",
-    fontWeightMedium: "500",
-    fontWeightSemibold: "600",
-    fontWeightBold: "700",
-    letterSpacingTight: "-0.025em",
-    letterSpacingNormal: "0em",
-    letterSpacingWide: "0.025em",
-    focusRingColor: "#7ba3d4",
-    focusRingWidth: "2px",
-    focusRingOffset: "2px"
-  }
-};
-var warmSandTheme = {
-  name: "warm-sand",
-  label: "Warm Sand",
-  tokens: {
-    colorText: "#e8e4de",
-    colorTextSecondary: "#c4bdb4",
-    colorTextMuted: "#9b8f82",
-    colorTextInverse: "#1c1917",
-    colorTextLink: "#c0673a",
-    colorTextPlaceholder: "#9b8f82",
-    colorTextDisabled: "#6b5f54",
-    colorSurface: "#1c1917",
-    colorSurfacePanel: "#1c1917",
-    colorSurfaceRaised: "#252220",
-    colorSurfaceOverlay: "rgba(0, 0, 0, 0.7)",
-    colorSurfaceInput: "#201d1b",
-    colorSurfaceDisabled: "#2e2a27",
-    colorSurfacePage: "#1c1917",
-    colorBorder: "#2e2a27",
-    colorBorderFocused: "#c0673a",
-    colorBorderError: "#ef4444",
-    colorActionPrimary: "#c0673a",
-    colorActionPrimaryHover: "#d4804f",
-    colorActionSecondary: "#252220",
-    colorActionSecondaryHover: "#2e2a27",
-    colorActionDestructive: "#ef4444",
-    colorActionDestructiveHover: "#f87171",
-    colorSuccess: "#22c55e",
-    colorSuccessBg: "rgba(34, 197, 94, 0.1)",
-    colorWarning: "#f59e0b",
-    colorWarningBg: "rgba(245, 158, 11, 0.1)",
-    colorError: "#ef4444",
-    colorErrorBg: "rgba(239, 68, 68, 0.1)",
-    colorInfo: "#c0673a",
-    colorInfoBg: "rgba(192, 103, 58, 0.1)",
-    spaceXs: "0.25rem",
-    spaceSm: "0.5rem",
-    spaceMd: "1rem",
-    spaceLg: "1.5rem",
-    spaceXl: "2rem",
-    space2xl: "3rem",
-    radiusSm: "0.25rem",
-    radiusMd: "0.375rem",
-    radiusLg: "0.5rem",
-    radiusFull: "9999px",
-    shadowSm: "0 1px 2px 0 rgb(0 0 0 / 0.2)",
-    shadowMd: "0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2)",
-    shadowLg: "0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.2)",
-    fontSans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-    fontSerif: "'Lora', Georgia, 'Times New Roman', serif",
-    fontMono: "'Fira Code', ui-monospace, monospace",
-    fontSizeXs: "0.75rem",
-    fontSizeSm: "0.875rem",
-    fontSizeBase: "1rem",
-    fontSizeLg: "1.125rem",
-    fontSizeXl: "1.25rem",
-    fontSize2xl: "1.5rem",
-    fontSize3xl: "1.875rem",
-    lineHeightTight: "1.25",
-    lineHeightBase: "1.5",
-    lineHeightRelaxed: "1.625",
-    fontWeightNormal: "400",
-    fontWeightMedium: "500",
-    fontWeightSemibold: "600",
-    fontWeightBold: "700",
-    letterSpacingTight: "-0.025em",
-    letterSpacingNormal: "0em",
-    letterSpacingWide: "0.025em",
-    focusRingColor: "#d4804f",
-    focusRingWidth: "2px",
-    focusRingOffset: "2px"
-  }
-};
-var mossTheme = {
-  name: "moss",
-  label: "Moss",
-  tokens: {
-    colorText: "#dce5da",
-    colorTextSecondary: "#b4c0af",
-    colorTextMuted: "#7d8b75",
-    colorTextInverse: "#141a14",
-    colorTextLink: "#6aad7a",
-    colorTextPlaceholder: "#7d8b75",
-    colorTextDisabled: "#556050",
-    colorSurface: "#141a14",
-    colorSurfacePanel: "#141a14",
-    colorSurfaceRaised: "#1c231c",
-    colorSurfaceOverlay: "rgba(0, 0, 0, 0.7)",
-    colorSurfaceInput: "#181f18",
-    colorSurfaceDisabled: "#243024",
-    colorSurfacePage: "#141a14",
-    colorBorder: "#243024",
-    colorBorderFocused: "#6aad7a",
-    colorBorderError: "#ef4444",
-    colorActionPrimary: "#6aad7a",
-    colorActionPrimaryHover: "#82c090",
-    colorActionSecondary: "#1c231c",
-    colorActionSecondaryHover: "#243024",
-    colorActionDestructive: "#ef4444",
-    colorActionDestructiveHover: "#f87171",
-    colorSuccess: "#6aad7a",
-    colorSuccessBg: "rgba(106, 173, 122, 0.1)",
-    colorWarning: "#f59e0b",
-    colorWarningBg: "rgba(245, 158, 11, 0.1)",
-    colorError: "#ef4444",
-    colorErrorBg: "rgba(239, 68, 68, 0.1)",
-    colorInfo: "#6aad7a",
-    colorInfoBg: "rgba(106, 173, 122, 0.1)",
-    spaceXs: "0.25rem",
-    spaceSm: "0.5rem",
-    spaceMd: "1rem",
-    spaceLg: "1.5rem",
-    spaceXl: "2rem",
-    space2xl: "3rem",
-    radiusSm: "0.25rem",
-    radiusMd: "0.375rem",
-    radiusLg: "0.5rem",
-    radiusFull: "9999px",
-    shadowSm: "0 1px 2px 0 rgb(0 0 0 / 0.2)",
-    shadowMd: "0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2)",
-    shadowLg: "0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.2)",
-    fontSans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-    fontSerif: "'Lora', Georgia, 'Times New Roman', serif",
-    fontMono: "'Fira Code', ui-monospace, monospace",
-    fontSizeXs: "0.75rem",
-    fontSizeSm: "0.875rem",
-    fontSizeBase: "1rem",
-    fontSizeLg: "1.125rem",
-    fontSizeXl: "1.25rem",
-    fontSize2xl: "1.5rem",
-    fontSize3xl: "1.875rem",
-    lineHeightTight: "1.25",
-    lineHeightBase: "1.5",
-    lineHeightRelaxed: "1.625",
-    fontWeightNormal: "400",
-    fontWeightMedium: "500",
-    fontWeightSemibold: "600",
-    fontWeightBold: "700",
-    letterSpacingTight: "-0.025em",
-    letterSpacingNormal: "0em",
-    letterSpacingWide: "0.025em",
-    focusRingColor: "#82c090",
-    focusRingWidth: "2px",
-    focusRingOffset: "2px"
-  }
-};
-var coralTheme = {
-  name: "coral",
-  label: "Coral",
-  tokens: {
-    colorText: "#f0e0d8",
-    colorTextSecondary: "#ccb8ac",
-    colorTextMuted: "#a08878",
-    colorTextInverse: "#1f1714",
-    colorTextLink: "#f08060",
-    colorTextPlaceholder: "#a08878",
-    colorTextDisabled: "#6e5c50",
-    colorSurface: "#1f1714",
-    colorSurfacePanel: "#1f1714",
-    colorSurfaceRaised: "#291f1b",
-    colorSurfaceOverlay: "rgba(0, 0, 0, 0.7)",
-    colorSurfaceInput: "#241b17",
-    colorSurfaceDisabled: "#3a2820",
-    colorSurfacePage: "#1f1714",
-    colorBorder: "#3a2820",
-    colorBorderFocused: "#f08060",
-    colorBorderError: "#ef4444",
-    colorActionPrimary: "#f08060",
-    colorActionPrimaryHover: "#f49878",
-    colorActionSecondary: "#291f1b",
-    colorActionSecondaryHover: "#3a2820",
-    colorActionDestructive: "#ef4444",
-    colorActionDestructiveHover: "#f87171",
-    colorSuccess: "#22c55e",
-    colorSuccessBg: "rgba(34, 197, 94, 0.1)",
-    colorWarning: "#f59e0b",
-    colorWarningBg: "rgba(245, 158, 11, 0.1)",
-    colorError: "#ef4444",
-    colorErrorBg: "rgba(239, 68, 68, 0.1)",
-    colorInfo: "#f08060",
-    colorInfoBg: "rgba(240, 128, 96, 0.1)",
-    spaceXs: "0.25rem",
-    spaceSm: "0.5rem",
-    spaceMd: "1rem",
-    spaceLg: "1.5rem",
-    spaceXl: "2rem",
-    space2xl: "3rem",
-    radiusSm: "0.25rem",
-    radiusMd: "0.375rem",
-    radiusLg: "0.5rem",
-    radiusFull: "9999px",
-    shadowSm: "0 1px 2px 0 rgb(0 0 0 / 0.2)",
-    shadowMd: "0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2)",
-    shadowLg: "0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.2)",
-    fontSans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-    fontSerif: "'Lora', Georgia, 'Times New Roman', serif",
-    fontMono: "'Fira Code', ui-monospace, monospace",
-    fontSizeXs: "0.75rem",
-    fontSizeSm: "0.875rem",
-    fontSizeBase: "1rem",
-    fontSizeLg: "1.125rem",
-    fontSizeXl: "1.25rem",
-    fontSize2xl: "1.5rem",
-    fontSize3xl: "1.875rem",
-    lineHeightTight: "1.25",
-    lineHeightBase: "1.5",
-    lineHeightRelaxed: "1.625",
-    fontWeightNormal: "400",
-    fontWeightMedium: "500",
-    fontWeightSemibold: "600",
-    fontWeightBold: "700",
-    letterSpacingTight: "-0.025em",
-    letterSpacingNormal: "0em",
-    letterSpacingWide: "0.025em",
-    focusRingColor: "#f49878",
-    focusRingWidth: "2px",
-    focusRingOffset: "2px"
-  }
-};
-var pipboyTheme = {
-  name: "pipboy",
-  label: "Pip-Boy",
-  tokens: {
-    colorText: "#33ff33",
-    colorTextSecondary: "#66cc66",
-    colorTextMuted: "#339933",
-    colorTextInverse: "#0a0a0a",
-    colorTextLink: "#ffb347",
-    colorTextPlaceholder: "#339933",
-    colorTextDisabled: "#1a4a1a",
-    colorSurface: "transparent",
-    colorSurfacePanel: "#0a0a0a",
-    colorSurfaceRaised: "rgba(10, 10, 10, 0.85)",
-    colorSurfaceOverlay: "rgba(0, 0, 0, 0.9)",
-    colorSurfaceInput: "rgba(13, 20, 13, 0.9)",
-    colorSurfaceDisabled: "rgba(26, 46, 26, 0.8)",
-    colorSurfacePage: "#0a0a0a",
-    colorBorder: "#1a2e1a",
-    colorBorderFocused: "#ffb347",
-    colorBorderError: "#ff4444",
-    colorActionPrimary: "#ffb347",
-    colorActionPrimaryHover: "#ffc46b",
-    colorActionSecondary: "#0f1a0f",
-    colorActionSecondaryHover: "#1a2e1a",
-    colorActionDestructive: "#ff4444",
-    colorActionDestructiveHover: "#ff6666",
-    colorSuccess: "#33ff33",
-    colorSuccessBg: "rgba(51, 255, 51, 0.08)",
-    colorWarning: "#ffb347",
-    colorWarningBg: "rgba(255, 179, 71, 0.08)",
-    colorError: "#ff4444",
-    colorErrorBg: "rgba(255, 68, 68, 0.08)",
-    colorInfo: "#33ff33",
-    colorInfoBg: "rgba(51, 255, 51, 0.08)",
-    spaceXs: "0.25rem",
-    spaceSm: "0.5rem",
-    spaceMd: "1rem",
-    spaceLg: "1.5rem",
-    spaceXl: "2rem",
-    space2xl: "3rem",
-    radiusSm: "0.25rem",
-    radiusMd: "0.375rem",
-    radiusLg: "0.5rem",
-    radiusFull: "9999px",
-    shadowSm: "0 0 4px rgba(51, 255, 51, 0.1)",
-    shadowMd: "0 0 8px rgba(51, 255, 51, 0.15)",
-    shadowLg: "0 0 16px rgba(51, 255, 51, 0.2)",
-    fontSans: "'Fira Code', 'Cascadia Code', 'JetBrains Mono', ui-monospace, monospace",
-    fontSerif: "'Fira Code', 'Cascadia Code', 'JetBrains Mono', ui-monospace, monospace",
-    fontMono: "'Fira Code', 'Cascadia Code', 'JetBrains Mono', ui-monospace, monospace",
-    fontSizeXs: "0.75rem",
-    fontSizeSm: "0.875rem",
-    fontSizeBase: "1rem",
-    fontSizeLg: "1.125rem",
-    fontSizeXl: "1.25rem",
-    fontSize2xl: "1.5rem",
-    fontSize3xl: "1.875rem",
-    lineHeightTight: "1.25",
-    lineHeightBase: "1.5",
-    lineHeightRelaxed: "1.625",
-    fontWeightNormal: "400",
-    fontWeightMedium: "500",
-    fontWeightSemibold: "600",
-    fontWeightBold: "700",
-    letterSpacingTight: "-0.025em",
-    letterSpacingNormal: "0em",
-    letterSpacingWide: "0.025em",
-    focusRingColor: "#33ff33",
-    focusRingWidth: "2px",
-    focusRingOffset: "2px"
-  },
-  css: `
-    /* Base background for canvas to render on top of */
-    [data-theme="pipboy"] body,
-    [data-theme="pipboy"] {
-      background-color: #0a0a0a;
-    }
-
-    /* Phosphor glow on text */
-    [data-theme="pipboy"] {
-      text-shadow: 0 0 8px rgba(51, 255, 51, 0.4);
-    }
-
-    [data-theme="pipboy"] h1,
-    [data-theme="pipboy"] h2,
-    [data-theme="pipboy"] h3 {
-      text-shadow: 0 0 12px rgba(51, 255, 51, 0.6);
-    }
-
-    /* CRT scanline overlay */
-    [data-theme="pipboy"]::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: repeating-linear-gradient(
-        to bottom,
-        transparent,
-        transparent 2px,
-        rgba(0, 0, 0, 0.15) 2px,
-        rgba(0, 0, 0, 0.15) 4px
-      );
-      pointer-events: none;
-      z-index: 1000;
-    }
-  `
-};
-var neuralTheme = {
-  name: "neural",
-  label: "Neural",
-  tokens: {
-    colorText: "#e0e8ff",
-    colorTextSecondary: "#a8b8d8",
-    colorTextMuted: "#64748b",
-    colorTextInverse: "#0a0a1a",
-    colorTextLink: "#38bdf8",
-    colorTextPlaceholder: "#64748b",
-    colorTextDisabled: "#3a4a5a",
-    colorSurface: "transparent",
-    colorSurfacePanel: "#0a0a1a",
-    colorSurfaceRaised: "rgba(10, 10, 26, 0.85)",
-    colorSurfaceOverlay: "rgba(0, 0, 0, 0.9)",
-    colorSurfaceInput: "rgba(14, 14, 34, 0.9)",
-    colorSurfaceDisabled: "rgba(26, 26, 58, 0.8)",
-    colorSurfacePage: "#0a0a1a",
-    colorBorder: "#1a1a3a",
-    colorBorderFocused: "#38bdf8",
-    colorBorderError: "#ff4444",
-    colorActionPrimary: "#38bdf8",
-    colorActionPrimaryHover: "#5ccdfb",
-    colorActionSecondary: "#12122a",
-    colorActionSecondaryHover: "#1a1a3a",
-    colorActionDestructive: "#ff4444",
-    colorActionDestructiveHover: "#ff6666",
-    colorSuccess: "#22c55e",
-    colorSuccessBg: "rgba(34, 197, 94, 0.08)",
-    colorWarning: "#f59e0b",
-    colorWarningBg: "rgba(245, 158, 11, 0.08)",
-    colorError: "#ff4444",
-    colorErrorBg: "rgba(255, 68, 68, 0.08)",
-    colorInfo: "#38bdf8",
-    colorInfoBg: "rgba(56, 189, 248, 0.08)",
-    spaceXs: "0.25rem",
-    spaceSm: "0.5rem",
-    spaceMd: "1rem",
-    spaceLg: "1.5rem",
-    spaceXl: "2rem",
-    space2xl: "3rem",
-    radiusSm: "0.25rem",
-    radiusMd: "0.375rem",
-    radiusLg: "0.5rem",
-    radiusFull: "9999px",
-    shadowSm: "0 0 4px rgba(56, 189, 248, 0.1)",
-    shadowMd: "0 0 8px rgba(56, 189, 248, 0.15)",
-    shadowLg: "0 0 16px rgba(56, 189, 248, 0.2)",
-    fontSans: "'Inter', system-ui, -apple-system, sans-serif",
-    fontSerif: "'Space Grotesk', system-ui, sans-serif",
-    fontMono: "'Fira Code', ui-monospace, monospace",
-    fontSizeXs: "0.75rem",
-    fontSizeSm: "0.875rem",
-    fontSizeBase: "1rem",
-    fontSizeLg: "1.125rem",
-    fontSizeXl: "1.25rem",
-    fontSize2xl: "1.5rem",
-    fontSize3xl: "1.875rem",
-    lineHeightTight: "1.25",
-    lineHeightBase: "1.5",
-    lineHeightRelaxed: "1.625",
-    fontWeightNormal: "400",
-    fontWeightMedium: "500",
-    fontWeightSemibold: "600",
-    fontWeightBold: "700",
-    letterSpacingTight: "-0.025em",
-    letterSpacingNormal: "0em",
-    letterSpacingWide: "0.025em",
-    focusRingColor: "#38bdf8",
-    focusRingWidth: "2px",
-    focusRingOffset: "2px"
-  },
-  css: `
-    [data-theme="neural"] body,
-    [data-theme="neural"] {
-      background-color: #0a0a1a;
-    }
-  `
-};
-var pacmanTheme = {
-  name: "pacman",
-  label: "Pac-Man",
-  tokens: {
-    colorText: "#e0e0e0",
-    colorTextSecondary: "#b0b0b0",
-    colorTextMuted: "#5555ff",
-    colorTextInverse: "#000000",
-    colorTextLink: "#ffff00",
-    colorTextPlaceholder: "#5555ff",
-    colorTextDisabled: "#333366",
-    colorSurface: "transparent",
-    colorSurfacePanel: "#000000",
-    colorSurfaceRaised: "rgba(0, 0, 0, 0.85)",
-    colorSurfaceOverlay: "rgba(0, 0, 0, 0.9)",
-    colorSurfaceInput: "rgba(10, 10, 42, 0.9)",
-    colorSurfaceDisabled: "rgba(26, 26, 74, 0.8)",
-    colorSurfacePage: "#000000",
-    colorBorder: "#1a1a4a",
-    colorBorderFocused: "#ffff00",
-    colorBorderError: "#ff4444",
-    colorActionPrimary: "#ffff00",
-    colorActionPrimaryHover: "#ffff66",
-    colorActionSecondary: "#0a0a2a",
-    colorActionSecondaryHover: "#1a1a4a",
-    colorActionDestructive: "#ff4444",
-    colorActionDestructiveHover: "#ff6666",
-    colorSuccess: "#22c55e",
-    colorSuccessBg: "rgba(34, 197, 94, 0.1)",
-    colorWarning: "#ffb852",
-    colorWarningBg: "rgba(255, 184, 82, 0.1)",
-    colorError: "#ff4444",
-    colorErrorBg: "rgba(255, 68, 68, 0.1)",
-    colorInfo: "#00ffff",
-    colorInfoBg: "rgba(0, 255, 255, 0.1)",
-    spaceXs: "0.25rem",
-    spaceSm: "0.5rem",
-    spaceMd: "1rem",
-    spaceLg: "1.5rem",
-    spaceXl: "2rem",
-    space2xl: "3rem",
-    radiusSm: "0",
-    radiusMd: "0",
-    radiusLg: "0",
-    radiusFull: "9999px",
-    shadowSm: "0 0 4px rgba(33, 33, 222, 0.2)",
-    shadowMd: "0 0 8px rgba(33, 33, 222, 0.3)",
-    shadowLg: "0 0 16px rgba(255, 255, 0, 0.2)",
-    fontSans: "'Press Start 2P', monospace",
-    fontSerif: "'Press Start 2P', monospace",
-    fontMono: "'Press Start 2P', monospace",
-    fontSizeXs: "0.75rem",
-    fontSizeSm: "0.875rem",
-    fontSizeBase: "1rem",
-    fontSizeLg: "1.125rem",
-    fontSizeXl: "1.25rem",
-    fontSize2xl: "1.5rem",
-    fontSize3xl: "1.875rem",
-    lineHeightTight: "1.25",
-    lineHeightBase: "1.5",
-    lineHeightRelaxed: "1.625",
-    fontWeightNormal: "400",
-    fontWeightMedium: "500",
-    fontWeightSemibold: "600",
-    fontWeightBold: "700",
-    letterSpacingTight: "-0.025em",
-    letterSpacingNormal: "0em",
-    letterSpacingWide: "0.025em",
-    focusRingColor: "#ffff00",
-    focusRingWidth: "2px",
-    focusRingOffset: "2px"
-  },
-  css: `
-    [data-theme="pacman"] body,
-    [data-theme="pacman"] {
-      background-color: #000000;
-    }
-
-    /* Scale down pixel font headings */
-    [data-theme="pacman"] h1 { font-size: clamp(1.1rem, 3vw, 1.5rem); line-height: 1.6; letter-spacing: 0.5px; }
-    [data-theme="pacman"] h2 { font-size: clamp(0.9rem, 2.5vw, 1.15rem); line-height: 1.6; letter-spacing: 0.5px; }
-    [data-theme="pacman"] h3 { font-size: 0.85rem; line-height: 1.6; letter-spacing: 0.5px; }
-
-    /* Maze-wall borders on buttons */
-    [data-theme="pacman"] button {
-      border: 3px solid #2121de;
-      border-radius: 0;
-      box-shadow: 0 0 8px rgba(33, 33, 222, 0.3);
-    }
-
-    [data-theme="pacman"] button:hover {
-      box-shadow: 0 0 16px rgba(255, 255, 0, 0.4);
-      border-color: #ffff00;
-    }
-
-    /* Links glow like power pellets */
-    [data-theme="pacman"] a:hover {
-      text-shadow: 0 0 8px rgba(255, 255, 0, 0.6);
-    }
-
-    /* Pixelated images */
-    [data-theme="pacman"] img {
-      image-rendering: pixelated;
-    }
-  `
-};
-var ThemeContext = createContext(null);
-function applyTokens(element, tokens) {
-  const keys = Object.keys(tokens);
-  for (const key of keys) {
-    element.style.setProperty(tokenToCssProperty(key), tokens[key]);
-  }
-}
-function stripBodyBackground(css) {
-  return css.replace(/[^{}]*\bbody\b[^{}]*\{[^}]*background-color:[^}]*\}/gi, (match) => match.replace(/background-color:[^;]+;?/gi, ""));
-}
-var _applyPageStylesWarned = false;
-function ThemeProvider({
-  children,
-  themes: extraThemes,
-  defaultTheme = "synthwave",
-  storageKey = "ui-theme",
-  applyPageStyles
-}) {
-  if (applyPageStyles === undefined && !_applyPageStylesWarned) {
-    _applyPageStylesWarned = true;
-    console.warn("ThemeProvider: applyPageStyles will default to false in v2. " + "Set it explicitly or use <ThemeSurface> for page backgrounds.");
-  }
-  const shouldApplyPageStyles = applyPageStyles ?? true;
-  const registry = useMemo(() => {
-    const map = new Map;
-    map.set(synthwaveTheme.name, synthwaveTheme);
-    map.set(slateTheme.name, slateTheme);
-    map.set(warmSandTheme.name, warmSandTheme);
-    map.set(mossTheme.name, mossTheme);
-    map.set(coralTheme.name, coralTheme);
-    map.set(pipboyTheme.name, pipboyTheme);
-    map.set(neuralTheme.name, neuralTheme);
-    map.set(pacmanTheme.name, pacmanTheme);
-    if (extraThemes) {
-      for (const t of extraThemes) {
-        map.set(t.name, t);
-      }
-    }
-    return map;
-  }, [extraThemes]);
-  const [theme, setThemeState] = useState(() => {
-    if (typeof window === "undefined")
-      return defaultTheme;
-    return localStorage.getItem(storageKey) ?? defaultTheme;
-  });
-  const resolved = theme;
-  const setTheme = useCallback((next) => {
-    setThemeState(next);
-    localStorage.setItem(storageKey, next);
-  }, [storageKey]);
-  const focusStyleRef = useRef(null);
-  useEffect22(() => {
-    if (focusStyleRef.current)
-      return;
-    const style = document.createElement("style");
-    style.setAttribute("data-ui-focus", "");
-    style.textContent = [
-      "button:focus-visible,",
-      '[role="button"]:focus-visible,',
-      "input:focus-visible,",
-      "select:focus-visible,",
-      "textarea:focus-visible,",
-      "a[href]:focus-visible,",
-      '[tabindex]:not([tabindex="-1"]):focus-visible {',
-      "  outline: var(--focus-ring-width) solid var(--focus-ring-color);",
-      "  outline-offset: var(--focus-ring-offset);",
-      "}"
-    ].join(`
-`);
-    document.head.appendChild(style);
-    focusStyleRef.current = style;
-    return () => {
-      if (focusStyleRef.current) {
-        focusStyleRef.current.remove();
-        focusStyleRef.current = null;
-      }
-    };
-  }, []);
-  const styleElRef = useRef(null);
-  useEffect22(() => {
-    const definition = registry.get(resolved);
-    if (!definition) {
-      console.warn(`[@4lt7ab/ui] Theme "${resolved}" not found in registry. ` + `Available: ${Array.from(registry.keys()).join(", ")}`);
-      return;
-    }
-    applyTokens(document.documentElement, definition.tokens);
-    document.documentElement.setAttribute("data-theme", resolved);
-    if (styleElRef.current) {
-      styleElRef.current.remove();
-      styleElRef.current = null;
-    }
-    if (definition.css) {
-      const style = document.createElement("style");
-      style.setAttribute("data-theme-css", resolved);
-      style.textContent = shouldApplyPageStyles ? definition.css : stripBodyBackground(definition.css);
-      document.head.appendChild(style);
-      styleElRef.current = style;
-    }
-    return () => {
-      if (styleElRef.current) {
-        styleElRef.current.remove();
-        styleElRef.current = null;
-      }
-    };
-  }, [resolved, registry, shouldApplyPageStyles]);
-  const value = useMemo(() => ({ theme, resolved, themes: registry, setTheme }), [theme, resolved, registry, setTheme]);
-  return /* @__PURE__ */ jsx(ThemeContext.Provider, {
-    value,
-    children
-  });
-}
-function useTheme() {
-  const ctx = useContext(ThemeContext);
-  if (!ctx)
-    throw new Error("useTheme must be used within <ThemeProvider>");
-  return ctx;
-}
 // src/components/ThemePicker/ThemePicker.tsx
 import { forwardRef } from "react";
-import { jsx as jsx2, jsxs } from "react/jsx-runtime";
+import { useTheme } from "../../core/dist/index.js";
+import { useInjectStyles } from "../../core/dist/index.js";
+import { jsx, jsxs } from "react/jsx-runtime";
 var STYLES_ID = "alttab-theme-picker";
 var pickerCSS = `
   .alttab-theme-picker {
@@ -1179,7 +97,7 @@ var pickerCSS = `
 var ThemePicker = forwardRef(function ThemePicker2({ descriptions = {} }, ref) {
   useInjectStyles(STYLES_ID, pickerCSS);
   const { resolved, themes, setTheme } = useTheme();
-  return /* @__PURE__ */ jsx2("div", {
+  return /* @__PURE__ */ jsx("div", {
     ref,
     className: "alttab-theme-picker",
     children: Array.from(themes.values()).map((def) => {
@@ -1188,11 +106,11 @@ var ThemePicker = forwardRef(function ThemePicker2({ descriptions = {} }, ref) {
         className: `alttab-theme-card${isActive ? " alttab-theme-card--active" : ""}`,
         onClick: () => setTheme(def.name),
         children: [
-          /* @__PURE__ */ jsx2("span", {
+          /* @__PURE__ */ jsx("span", {
             className: "alttab-theme-card__name",
             children: def.label
           }),
-          descriptions[def.name] && /* @__PURE__ */ jsx2("span", {
+          descriptions[def.name] && /* @__PURE__ */ jsx("span", {
             className: "alttab-theme-card__desc",
             children: descriptions[def.name]
           })
@@ -1202,7 +120,7 @@ var ThemePicker = forwardRef(function ThemePicker2({ descriptions = {} }, ref) {
   });
 });
 // src/icons/icons.tsx
-import { jsx as jsx3, jsxs as jsxs2 } from "react/jsx-runtime";
+import { jsx as jsx2, jsxs as jsxs2 } from "react/jsx-runtime";
 function svgProps(size, style) {
   return {
     width: size,
@@ -1217,49 +135,49 @@ function svgProps(size, style) {
   };
 }
 function IconClose({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx3("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M18 6L6 18M6 6l12 12"
     })
   });
 }
 function IconChevronRight({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx3("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M9 18l6-6-6-6"
     })
   });
 }
 function IconChevronDown({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx3("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M6 9l6 6 6-6"
     })
   });
 }
 function IconChevronLeft({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx3("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M15 18l-6-6 6-6"
     })
   });
 }
 function IconChevronUp({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx3("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M18 15l-6-6-6 6"
     })
   });
 }
 function IconCheck({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx3("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M20 6L9 17l-5-5"
     })
   });
@@ -1268,10 +186,10 @@ function IconCheckCircle({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs2("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx3("path", {
+      /* @__PURE__ */ jsx2("path", {
         d: "M22 11.08V12a10 10 0 11-5.93-9.14"
       }),
-      /* @__PURE__ */ jsx3("path", {
+      /* @__PURE__ */ jsx2("path", {
         d: "M22 4L12 14.01l-3-3"
       })
     ]
@@ -1281,16 +199,16 @@ function IconWarning({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs2("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx3("path", {
+      /* @__PURE__ */ jsx2("path", {
         d: "M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
       }),
-      /* @__PURE__ */ jsx3("line", {
+      /* @__PURE__ */ jsx2("line", {
         x1: "12",
         y1: "9",
         x2: "12",
         y2: "13"
       }),
-      /* @__PURE__ */ jsx3("line", {
+      /* @__PURE__ */ jsx2("line", {
         x1: "12",
         y1: "17",
         x2: "12.01",
@@ -1303,12 +221,12 @@ function IconError({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs2("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx3("circle", {
+      /* @__PURE__ */ jsx2("circle", {
         cx: "12",
         cy: "12",
         r: "10"
       }),
-      /* @__PURE__ */ jsx3("path", {
+      /* @__PURE__ */ jsx2("path", {
         d: "M15 9l-6 6M9 9l6 6"
       })
     ]
@@ -1318,18 +236,18 @@ function IconInfo({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs2("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx3("circle", {
+      /* @__PURE__ */ jsx2("circle", {
         cx: "12",
         cy: "12",
         r: "10"
       }),
-      /* @__PURE__ */ jsx3("line", {
+      /* @__PURE__ */ jsx2("line", {
         x1: "12",
         y1: "16",
         x2: "12",
         y2: "12"
       }),
-      /* @__PURE__ */ jsx3("line", {
+      /* @__PURE__ */ jsx2("line", {
         x1: "12",
         y1: "8",
         x2: "12.01",
@@ -1342,21 +260,21 @@ function IconSearch({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs2("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx3("circle", {
+      /* @__PURE__ */ jsx2("circle", {
         cx: "11",
         cy: "11",
         r: "8"
       }),
-      /* @__PURE__ */ jsx3("path", {
+      /* @__PURE__ */ jsx2("path", {
         d: "M21 21l-4.35-4.35"
       })
     ]
   });
 }
 function IconTrash({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx3("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"
     })
   });
@@ -1365,29 +283,29 @@ function IconSettings({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs2("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx3("circle", {
+      /* @__PURE__ */ jsx2("circle", {
         cx: "12",
         cy: "12",
         r: "3"
       }),
-      /* @__PURE__ */ jsx3("path", {
+      /* @__PURE__ */ jsx2("path", {
         d: "M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"
       })
     ]
   });
 }
 function IconPlus({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx3("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M12 5v14M5 12h14"
     })
   });
 }
 function IconMinus({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx3("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M5 12h14"
     })
   });
@@ -1396,35 +314,35 @@ function IconEdit({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs2("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx3("path", {
+      /* @__PURE__ */ jsx2("path", {
         d: "M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
       }),
-      /* @__PURE__ */ jsx3("path", {
+      /* @__PURE__ */ jsx2("path", {
         d: "M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
       })
     ]
   });
 }
 function IconArrowLeft({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx3("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M19 12H5M12 19l-7-7 7-7"
     })
   });
 }
 function IconArrowRight({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx3("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M5 12h14M12 5l7 7-7 7"
     })
   });
 }
 function IconMenu({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx3("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M3 12h18M3 6h18M3 18h18"
     })
   });
@@ -1433,10 +351,10 @@ function IconEye({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs2("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx3("path", {
+      /* @__PURE__ */ jsx2("path", {
         d: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
       }),
-      /* @__PURE__ */ jsx3("circle", {
+      /* @__PURE__ */ jsx2("circle", {
         cx: "12",
         cy: "12",
         r: "3"
@@ -1448,10 +366,10 @@ function IconEyeOff({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs2("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx3("path", {
+      /* @__PURE__ */ jsx2("path", {
         d: "M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"
       }),
-      /* @__PURE__ */ jsx3("path", {
+      /* @__PURE__ */ jsx2("path", {
         d: "M1 1l22 22"
       })
     ]
@@ -1461,7 +379,7 @@ function IconCopy({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs2("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx3("rect", {
+      /* @__PURE__ */ jsx2("rect", {
         x: "9",
         y: "9",
         width: "13",
@@ -1469,16 +387,16 @@ function IconCopy({ size = 24, style } = {}) {
         rx: "2",
         ry: "2"
       }),
-      /* @__PURE__ */ jsx3("path", {
+      /* @__PURE__ */ jsx2("path", {
         d: "M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"
       })
     ]
   });
 }
 function IconExternalLink({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx3("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"
     })
   });
@@ -1487,17 +405,17 @@ function IconMoreVertical({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs2("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx3("circle", {
+      /* @__PURE__ */ jsx2("circle", {
         cx: "12",
         cy: "12",
         r: "1"
       }),
-      /* @__PURE__ */ jsx3("circle", {
+      /* @__PURE__ */ jsx2("circle", {
         cx: "12",
         cy: "5",
         r: "1"
       }),
-      /* @__PURE__ */ jsx3("circle", {
+      /* @__PURE__ */ jsx2("circle", {
         cx: "12",
         cy: "19",
         r: "1"
@@ -1506,9 +424,9 @@ function IconMoreVertical({ size = 24, style } = {}) {
   });
 }
 function IconFilter({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx3("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M22 3H2l8 9.46V19l4 2v-8.54L22 3z"
     })
   });
@@ -1543,54 +461,55 @@ var iconRegistry = {
 };
 // src/components/Button/Button.tsx
 import { forwardRef as forwardRef2 } from "react";
-import { jsx as jsx4 } from "react/jsx-runtime";
+import { semantic as t } from "../../core/dist/index.js";
+import { jsx as jsx3 } from "react/jsx-runtime";
 var variantStyles = {
   primary: {
-    background: semantic.colorActionPrimary,
-    color: semantic.colorTextInverse,
+    background: t.colorActionPrimary,
+    color: t.colorTextInverse,
     border: "none"
   },
   secondary: {
-    background: semantic.colorActionSecondary,
-    color: semantic.colorText,
-    border: `1px solid ${semantic.colorBorder}`
+    background: t.colorActionSecondary,
+    color: t.colorText,
+    border: `1px solid ${t.colorBorder}`
   },
   destructive: {
-    background: semantic.colorActionDestructive,
-    color: semantic.colorTextInverse,
+    background: t.colorActionDestructive,
+    color: t.colorTextInverse,
     border: "none"
   },
   ghost: {
     background: "transparent",
-    color: semantic.colorText,
+    color: t.colorText,
     border: "1px solid transparent"
   }
 };
 var sizeStyles = {
   sm: {
-    padding: `${semantic.spaceXs} ${semantic.spaceSm}`,
-    fontSize: semantic.fontSizeSm,
-    lineHeight: semantic.lineHeightTight
+    padding: `${t.spaceXs} ${t.spaceSm}`,
+    fontSize: t.fontSizeSm,
+    lineHeight: t.lineHeightTight
   },
   md: {
-    padding: `${semantic.spaceSm} ${semantic.spaceMd}`,
-    fontSize: semantic.fontSizeSm,
-    lineHeight: semantic.lineHeightTight
+    padding: `${t.spaceSm} ${t.spaceMd}`,
+    fontSize: t.fontSizeSm,
+    lineHeight: t.lineHeightTight
   },
   lg: {
-    padding: `${semantic.spaceSm} ${semantic.spaceLg}`,
-    fontSize: semantic.fontSizeBase,
-    lineHeight: semantic.lineHeightBase
+    padding: `${t.spaceSm} ${t.spaceLg}`,
+    fontSize: t.fontSizeBase,
+    lineHeight: t.lineHeightBase
   }
 };
 var baseStyles = {
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
-  gap: semantic.spaceSm,
-  borderRadius: semantic.radiusMd,
-  fontFamily: semantic.fontSans,
-  fontWeight: semantic.fontWeightMedium,
+  gap: t.spaceSm,
+  borderRadius: t.radiusMd,
+  fontFamily: t.fontSans,
+  fontWeight: t.fontWeightMedium,
   cursor: "pointer",
   transition: "background 150ms ease, border-color 150ms ease, opacity 150ms ease"
 };
@@ -1602,7 +521,7 @@ var Button = forwardRef2(function Button2({
   disabled,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx4("button", {
+  return /* @__PURE__ */ jsx3("button", {
     ref,
     style: {
       ...baseStyles,
@@ -1618,14 +537,15 @@ var Button = forwardRef2(function Button2({
 });
 // src/components/Stack/Stack.tsx
 import { forwardRef as forwardRef3 } from "react";
-import { jsx as jsx5 } from "react/jsx-runtime";
+import { semantic as t2 } from "../../core/dist/index.js";
+import { jsx as jsx4 } from "react/jsx-runtime";
 var gapMap = {
-  xs: semantic.spaceXs,
-  sm: semantic.spaceSm,
-  md: semantic.spaceMd,
-  lg: semantic.spaceLg,
-  xl: semantic.spaceXl,
-  "2xl": semantic.space2xl
+  xs: t2.spaceXs,
+  sm: t2.spaceSm,
+  md: t2.spaceMd,
+  lg: t2.spaceLg,
+  xl: t2.spaceXl,
+  "2xl": t2.space2xl
 };
 var Stack = forwardRef3(function Stack2({
   direction = "vertical",
@@ -1637,7 +557,7 @@ var Stack = forwardRef3(function Stack2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx5("div", {
+  return /* @__PURE__ */ jsx4("div", {
     ref,
     style: {
       display: "flex",
@@ -1654,30 +574,31 @@ var Stack = forwardRef3(function Stack2({
 });
 // src/components/Card/Card.tsx
 import { forwardRef as forwardRef4 } from "react";
-import { jsx as jsx6 } from "react/jsx-runtime";
+import { semantic as t3 } from "../../core/dist/index.js";
+import { jsx as jsx5 } from "react/jsx-runtime";
 var paddingMap = {
-  xs: semantic.spaceXs,
-  sm: semantic.spaceSm,
-  md: semantic.spaceMd,
-  lg: semantic.spaceLg,
-  xl: semantic.spaceXl,
-  "2xl": semantic.space2xl
+  xs: t3.spaceXs,
+  sm: t3.spaceSm,
+  md: t3.spaceMd,
+  lg: t3.spaceLg,
+  xl: t3.spaceXl,
+  "2xl": t3.space2xl
 };
 var variantStyles2 = {
   default: {
-    background: semantic.colorSurface,
-    border: `1px solid ${semantic.colorBorder}`,
-    boxShadow: semantic.shadowSm
+    background: t3.colorSurface,
+    border: `1px solid ${t3.colorBorder}`,
+    boxShadow: t3.shadowSm
   },
   flat: {
-    background: semantic.colorSurfaceRaised,
-    border: `1px solid ${semantic.colorBorder}`,
+    background: t3.colorSurfaceRaised,
+    border: `1px solid ${t3.colorBorder}`,
     boxShadow: "none"
   },
   elevated: {
-    background: semantic.colorSurface,
-    border: `1px solid ${semantic.colorBorder}`,
-    boxShadow: semantic.shadowMd
+    background: t3.colorSurface,
+    border: `1px solid ${t3.colorBorder}`,
+    boxShadow: t3.shadowMd
   }
 };
 var Card = forwardRef4(function Card2({
@@ -1687,10 +608,10 @@ var Card = forwardRef4(function Card2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx6("div", {
+  return /* @__PURE__ */ jsx5("div", {
     ref,
     style: {
-      borderRadius: semantic.radiusLg,
+      borderRadius: t3.radiusLg,
       padding: paddingMap[padding],
       ...variantStyles2[variant],
       ...style
@@ -1700,32 +621,33 @@ var Card = forwardRef4(function Card2({
   });
 });
 // src/components/Field/Field.tsx
+import { semantic as t4 } from "../../core/dist/index.js";
 import { forwardRef as forwardRef5, useId, isValidElement, cloneElement } from "react";
-import { jsx as jsx7, jsxs as jsxs3 } from "react/jsx-runtime";
+import { jsx as jsx6, jsxs as jsxs3 } from "react/jsx-runtime";
 var labelStyle = {
   display: "block",
-  fontSize: semantic.fontSizeSm,
-  fontWeight: semantic.fontWeightMedium,
-  lineHeight: semantic.lineHeightTight,
-  color: semantic.colorText,
-  fontFamily: semantic.fontSans
+  fontSize: t4.fontSizeSm,
+  fontWeight: t4.fontWeightMedium,
+  lineHeight: t4.lineHeightTight,
+  color: t4.colorText,
+  fontFamily: t4.fontSans
 };
 var requiredStyle = {
-  color: semantic.colorError,
+  color: t4.colorError,
   marginLeft: "0.125rem"
 };
 var helpStyle = {
-  fontSize: semantic.fontSizeXs,
-  lineHeight: semantic.lineHeightTight,
-  color: semantic.colorTextMuted,
-  fontFamily: semantic.fontSans,
+  fontSize: t4.fontSizeXs,
+  lineHeight: t4.lineHeightTight,
+  color: t4.colorTextMuted,
+  fontFamily: t4.fontSans,
   margin: 0
 };
 var errorStyle = {
-  fontSize: semantic.fontSizeXs,
-  lineHeight: semantic.lineHeightTight,
-  color: semantic.colorError,
-  fontFamily: semantic.fontSans,
+  fontSize: t4.fontSizeXs,
+  lineHeight: t4.lineHeightTight,
+  color: t4.colorError,
+  fontFamily: t4.fontSans,
   margin: 0
 };
 var Field = forwardRef5(function Field2({
@@ -1751,7 +673,7 @@ var Field = forwardRef5(function Field2({
     style: {
       display: "flex",
       flexDirection: "column",
-      gap: semantic.spaceXs,
+      gap: t4.spaceXs,
       opacity: disabled ? 0.6 : undefined,
       ...style
     },
@@ -1762,7 +684,7 @@ var Field = forwardRef5(function Field2({
         style: labelStyle,
         children: [
           label,
-          required && /* @__PURE__ */ jsx7("span", {
+          required && /* @__PURE__ */ jsx6("span", {
             style: requiredStyle,
             "aria-hidden": "true",
             children: "*"
@@ -1770,13 +692,13 @@ var Field = forwardRef5(function Field2({
         ]
       }),
       enhancedChildren,
-      error && /* @__PURE__ */ jsx7("p", {
+      error && /* @__PURE__ */ jsx6("p", {
         id: errorId,
         role: "alert",
         style: errorStyle,
         children: error
       }),
-      !error && help && /* @__PURE__ */ jsx7("p", {
+      !error && help && /* @__PURE__ */ jsx6("p", {
         id: helpId,
         style: helpStyle,
         children: help
@@ -1786,28 +708,29 @@ var Field = forwardRef5(function Field2({
 });
 // src/components/Input/Input.tsx
 import { forwardRef as forwardRef6 } from "react";
-import { jsx as jsx8 } from "react/jsx-runtime";
+import { semantic as t5 } from "../../core/dist/index.js";
+import { jsx as jsx7 } from "react/jsx-runtime";
 var baseStyle = {
   display: "block",
   width: "100%",
-  padding: `${semantic.spaceSm} ${semantic.spaceMd}`,
-  fontSize: semantic.fontSizeSm,
-  lineHeight: semantic.lineHeightTight,
-  fontFamily: semantic.fontSans,
-  color: semantic.colorText,
-  background: semantic.colorSurfaceInput,
-  border: `1px solid ${semantic.colorBorder}`,
-  borderRadius: semantic.radiusMd,
+  padding: `${t5.spaceSm} ${t5.spaceMd}`,
+  fontSize: t5.fontSizeSm,
+  lineHeight: t5.lineHeightTight,
+  fontFamily: t5.fontSans,
+  color: t5.colorText,
+  background: t5.colorSurfaceInput,
+  border: `1px solid ${t5.colorBorder}`,
+  borderRadius: t5.radiusMd,
   outline: "none",
   transition: "border-color 150ms ease, box-shadow 150ms ease",
   boxSizing: "border-box"
 };
 var errorBorderStyle = {
-  borderColor: semantic.colorBorderError
+  borderColor: t5.colorBorderError
 };
 var disabledStyle = {
-  background: semantic.colorSurfaceDisabled,
-  color: semantic.colorTextDisabled,
+  background: t5.colorSurfaceDisabled,
+  color: t5.colorTextDisabled,
   cursor: "not-allowed"
 };
 var Input = forwardRef6(function Input2({
@@ -1816,7 +739,7 @@ var Input = forwardRef6(function Input2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx8("input", {
+  return /* @__PURE__ */ jsx7("input", {
     ref,
     "aria-invalid": hasError || undefined,
     style: {
@@ -1831,18 +754,19 @@ var Input = forwardRef6(function Input2({
 });
 // src/components/Textarea/Textarea.tsx
 import { forwardRef as forwardRef7 } from "react";
-import { jsx as jsx9 } from "react/jsx-runtime";
+import { semantic as t6 } from "../../core/dist/index.js";
+import { jsx as jsx8 } from "react/jsx-runtime";
 var baseStyle2 = {
   display: "block",
   width: "100%",
-  padding: `${semantic.spaceSm} ${semantic.spaceMd}`,
-  fontSize: semantic.fontSizeSm,
-  lineHeight: semantic.lineHeightBase,
-  fontFamily: semantic.fontSans,
-  color: semantic.colorText,
-  background: semantic.colorSurfaceInput,
-  border: `1px solid ${semantic.colorBorder}`,
-  borderRadius: semantic.radiusMd,
+  padding: `${t6.spaceSm} ${t6.spaceMd}`,
+  fontSize: t6.fontSizeSm,
+  lineHeight: t6.lineHeightBase,
+  fontFamily: t6.fontSans,
+  color: t6.colorText,
+  background: t6.colorSurfaceInput,
+  border: `1px solid ${t6.colorBorder}`,
+  borderRadius: t6.radiusMd,
   outline: "none",
   transition: "border-color 150ms ease, box-shadow 150ms ease",
   boxSizing: "border-box",
@@ -1850,11 +774,11 @@ var baseStyle2 = {
   minHeight: "5rem"
 };
 var errorBorderStyle2 = {
-  borderColor: semantic.colorBorderError
+  borderColor: t6.colorBorderError
 };
 var disabledStyle2 = {
-  background: semantic.colorSurfaceDisabled,
-  color: semantic.colorTextDisabled,
+  background: t6.colorSurfaceDisabled,
+  color: t6.colorTextDisabled,
   cursor: "not-allowed",
   resize: "none"
 };
@@ -1864,7 +788,7 @@ var Textarea = forwardRef7(function Textarea2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx9("textarea", {
+  return /* @__PURE__ */ jsx8("textarea", {
     ref,
     "aria-invalid": hasError || undefined,
     style: {
@@ -1879,7 +803,8 @@ var Textarea = forwardRef7(function Textarea2({
 });
 // src/components/Select/Select.tsx
 import { forwardRef as forwardRef8 } from "react";
-import { jsx as jsx10, jsxs as jsxs4 } from "react/jsx-runtime";
+import { semantic as t7 } from "../../core/dist/index.js";
+import { jsx as jsx9, jsxs as jsxs4 } from "react/jsx-runtime";
 var wrapperStyle = {
   position: "relative",
   display: "block",
@@ -1888,38 +813,38 @@ var wrapperStyle = {
 var baseStyle3 = {
   display: "block",
   width: "100%",
-  padding: `${semantic.spaceSm} ${semantic.spaceMd}`,
-  fontSize: semantic.fontSizeSm,
-  lineHeight: semantic.lineHeightTight,
-  fontFamily: semantic.fontSans,
-  color: semantic.colorText,
-  background: semantic.colorSurfaceInput,
-  border: `1px solid ${semantic.colorBorder}`,
-  borderRadius: semantic.radiusMd,
+  padding: `${t7.spaceSm} ${t7.spaceMd}`,
+  fontSize: t7.fontSizeSm,
+  lineHeight: t7.lineHeightTight,
+  fontFamily: t7.fontSans,
+  color: t7.colorText,
+  background: t7.colorSurfaceInput,
+  border: `1px solid ${t7.colorBorder}`,
+  borderRadius: t7.radiusMd,
   outline: "none",
   transition: "border-color 150ms ease, box-shadow 150ms ease",
   boxSizing: "border-box",
   cursor: "pointer",
   appearance: "none",
-  paddingRight: semantic.space2xl
+  paddingRight: t7.space2xl
 };
 var chevronStyle = {
   position: "absolute",
-  right: semantic.spaceSm,
+  right: t7.spaceSm,
   top: "50%",
   transform: "translateY(-50%)",
   pointerEvents: "none",
-  color: semantic.colorTextSecondary,
+  color: t7.colorTextSecondary,
   display: "flex",
   alignItems: "center",
   justifyContent: "center"
 };
 var errorBorderStyle3 = {
-  borderColor: semantic.colorBorderError
+  borderColor: t7.colorBorderError
 };
 var disabledStyle3 = {
-  background: semantic.colorSurfaceDisabled,
-  color: semantic.colorTextDisabled,
+  background: t7.colorSurfaceDisabled,
+  color: t7.colorTextDisabled,
   cursor: "not-allowed"
 };
 var Select = forwardRef8(function Select2({
@@ -1946,28 +871,28 @@ var Select = forwardRef8(function Select2({
         disabled,
         ...props,
         children: [
-          placeholder && /* @__PURE__ */ jsx10("option", {
+          placeholder && /* @__PURE__ */ jsx9("option", {
             value: "",
             disabled: true,
             children: placeholder
           }),
-          children ?? options?.map((opt) => /* @__PURE__ */ jsx10("option", {
+          children ?? options?.map((opt) => /* @__PURE__ */ jsx9("option", {
             value: opt.value,
             disabled: opt.disabled,
             children: opt.label
           }, opt.value))
         ]
       }),
-      /* @__PURE__ */ jsx10("span", {
+      /* @__PURE__ */ jsx9("span", {
         "aria-hidden": true,
         style: chevronStyle,
-        children: /* @__PURE__ */ jsx10("svg", {
+        children: /* @__PURE__ */ jsx9("svg", {
           width: "12",
           height: "12",
           viewBox: "0 0 12 12",
           fill: "none",
           xmlns: "http://www.w3.org/2000/svg",
-          children: /* @__PURE__ */ jsx10("path", {
+          children: /* @__PURE__ */ jsx9("path", {
             d: "M2.22 4.47a.75.75 0 0 1 1.06 0L6 7.19l2.72-2.72a.75.75 0 1 1 1.06 1.06L6 9.31 2.22 5.53a.75.75 0 0 1 0-1.06z",
             fill: "currentColor"
           })
@@ -1978,38 +903,39 @@ var Select = forwardRef8(function Select2({
 });
 // src/components/Badge/Badge.tsx
 import { forwardRef as forwardRef9 } from "react";
-import { jsx as jsx11 } from "react/jsx-runtime";
+import { semantic as t8 } from "../../core/dist/index.js";
+import { jsx as jsx10 } from "react/jsx-runtime";
 var variantStyles3 = {
   default: {
-    border: `1px solid ${semantic.colorBorder}`,
-    color: semantic.colorTextSecondary
+    border: `1px solid ${t8.colorBorder}`,
+    color: t8.colorTextSecondary
   },
   success: {
-    background: semantic.colorSuccessBg,
-    color: semantic.colorSuccess
+    background: t8.colorSuccessBg,
+    color: t8.colorSuccess
   },
   warning: {
-    background: semantic.colorWarningBg,
-    color: semantic.colorWarning
+    background: t8.colorWarningBg,
+    color: t8.colorWarning
   },
   error: {
-    background: semantic.colorErrorBg,
-    color: semantic.colorError
+    background: t8.colorErrorBg,
+    color: t8.colorError
   },
   info: {
-    background: semantic.colorInfoBg,
-    color: semantic.colorInfo
+    background: t8.colorInfoBg,
+    color: t8.colorInfo
   }
 };
 var baseStyles2 = {
   display: "inline-block",
-  padding: `${semantic.spaceXs} ${semantic.spaceSm}`,
-  borderRadius: semantic.radiusFull,
-  fontSize: semantic.fontSizeXs,
-  fontWeight: semantic.fontWeightSemibold,
-  fontFamily: semantic.fontSans,
+  padding: `${t8.spaceXs} ${t8.spaceSm}`,
+  borderRadius: t8.radiusFull,
+  fontSize: t8.fontSizeXs,
+  fontWeight: t8.fontWeightSemibold,
+  fontFamily: t8.fontSans,
   textTransform: "uppercase",
-  letterSpacing: semantic.letterSpacingWide
+  letterSpacing: t8.letterSpacingWide
 };
 var Badge = forwardRef9(function Badge2({
   children,
@@ -2017,7 +943,7 @@ var Badge = forwardRef9(function Badge2({
   style,
   ...rest
 }, ref) {
-  return /* @__PURE__ */ jsx11("span", {
+  return /* @__PURE__ */ jsx10("span", {
     ref,
     ...rest,
     style: {
@@ -2030,11 +956,11 @@ var Badge = forwardRef9(function Badge2({
 });
 // src/components/Icon/Icon.tsx
 import { forwardRef as forwardRef10 } from "react";
-import { jsx as jsx12 } from "react/jsx-runtime";
+import { jsx as jsx11 } from "react/jsx-runtime";
 var Icon = forwardRef10(function Icon2({ name, size = 24, style, "aria-label": ariaLabel, ...props }, ref) {
   const IconComponent = iconRegistry[name];
   const isDecorative = !ariaLabel;
-  return /* @__PURE__ */ jsx12("span", {
+  return /* @__PURE__ */ jsx11("span", {
     ref,
     role: isDecorative ? undefined : "img",
     "aria-hidden": isDecorative || undefined,
@@ -2050,14 +976,15 @@ var Icon = forwardRef10(function Icon2({ name, size = 24, style, "aria-label": a
       ...style
     },
     ...props,
-    children: /* @__PURE__ */ jsx12(IconComponent, {
+    children: /* @__PURE__ */ jsx11(IconComponent, {
       size
     })
   });
 });
 // src/components/IconButton/IconButton.tsx
 import { forwardRef as forwardRef11 } from "react";
-import { jsx as jsx13, jsxs as jsxs5 } from "react/jsx-runtime";
+import { semantic as t9 } from "../../core/dist/index.js";
+import { jsx as jsx12, jsxs as jsxs5 } from "react/jsx-runtime";
 var IconButton = forwardRef11(function IconButton2({
   icon,
   size = 24,
@@ -2074,30 +1001,30 @@ var IconButton = forwardRef11(function IconButton2({
       justifyContent: "center",
       width: 36,
       height: 36,
-      borderRadius: semantic.radiusFull,
+      borderRadius: t9.radiusFull,
       background: "transparent",
       border: "none",
-      color: semantic.colorTextMuted,
+      color: t9.colorTextMuted,
       cursor: "pointer",
       padding: 0,
       ...style
     },
     ...props,
     children: [
-      /* @__PURE__ */ jsx13(Icon, {
+      /* @__PURE__ */ jsx12(Icon, {
         name: icon,
         size
       }),
-      badge && /* @__PURE__ */ jsx13("span", {
+      badge && /* @__PURE__ */ jsx12("span", {
         style: {
           position: "absolute",
           top: 2,
           right: 2,
           width: 8,
           height: 8,
-          borderRadius: semantic.radiusFull,
-          background: semantic.colorError,
-          border: `2px solid ${semantic.colorSurface}`
+          borderRadius: t9.radiusFull,
+          background: t9.colorError,
+          border: `2px solid ${t9.colorSurface}`
         }
       })
     ]
@@ -2105,20 +1032,21 @@ var IconButton = forwardRef11(function IconButton2({
 });
 // src/components/Overlay/Overlay.tsx
 import { forwardRef as forwardRef12 } from "react";
-import { jsx as jsx14 } from "react/jsx-runtime";
+import { semantic as t10 } from "../../core/dist/index.js";
+import { jsx as jsx13 } from "react/jsx-runtime";
 var Overlay = forwardRef12(function Overlay2({
   onClick,
   zIndex = 100,
   style
 }, ref) {
-  return /* @__PURE__ */ jsx14("div", {
+  return /* @__PURE__ */ jsx13("div", {
     ref,
     role: "presentation",
     onClick,
     style: {
       position: "fixed",
       inset: 0,
-      background: semantic.colorSurfaceOverlay,
+      background: t10.colorSurfaceOverlay,
       zIndex,
       ...style
     }
@@ -2126,21 +1054,22 @@ var Overlay = forwardRef12(function Overlay2({
 });
 // src/components/Skeleton/Skeleton.tsx
 import { forwardRef as forwardRef13 } from "react";
-import { jsx as jsx15, jsxs as jsxs6 } from "react/jsx-runtime";
+import { semantic as t11 } from "../../core/dist/index.js";
+import { jsx as jsx14, jsxs as jsxs6 } from "react/jsx-runtime";
 var Skeleton = forwardRef13(function Skeleton2({
   width = "100%",
   height = 16,
-  borderRadius = semantic.radiusMd,
+  borderRadius = t11.radiusMd,
   style
 }, ref) {
-  return /* @__PURE__ */ jsx15("div", {
+  return /* @__PURE__ */ jsx14("div", {
     ref,
     "aria-hidden": "true",
     style: {
       width,
       height,
       borderRadius,
-      background: semantic.colorSurfaceRaised,
+      background: t11.colorSurfaceRaised,
       ...style
     }
   });
@@ -2150,24 +1079,24 @@ var CardSkeleton = forwardRef13(function CardSkeleton2({ style }, ref) {
     ref,
     "aria-hidden": "true",
     style: {
-      borderRadius: semantic.radiusLg,
-      border: `1px solid ${semantic.colorBorder}`,
-      padding: semantic.spaceLg,
+      borderRadius: t11.radiusLg,
+      border: `1px solid ${t11.colorBorder}`,
+      padding: t11.spaceLg,
       display: "flex",
       flexDirection: "column",
-      gap: semantic.spaceSm,
+      gap: t11.spaceSm,
       ...style
     },
     children: [
-      /* @__PURE__ */ jsx15(Skeleton, {
+      /* @__PURE__ */ jsx14(Skeleton, {
         width: "60%",
         height: 20
       }),
-      /* @__PURE__ */ jsx15(Skeleton, {
+      /* @__PURE__ */ jsx14(Skeleton, {
         width: "100%",
         height: 14
       }),
-      /* @__PURE__ */ jsx15(Skeleton, {
+      /* @__PURE__ */ jsx14(Skeleton, {
         width: "80%",
         height: 14
       })
@@ -2181,24 +1110,24 @@ var RowSkeleton = forwardRef13(function RowSkeleton2({ style }, ref) {
     style: {
       display: "flex",
       alignItems: "center",
-      gap: semantic.spaceSm,
-      padding: `${semantic.spaceSm} 0`,
+      gap: t11.spaceSm,
+      padding: `${t11.spaceSm} 0`,
       ...style
     },
     children: [
-      /* @__PURE__ */ jsx15(Skeleton, {
+      /* @__PURE__ */ jsx14(Skeleton, {
         width: 32,
         height: 32,
-        borderRadius: semantic.radiusFull
+        borderRadius: t11.radiusFull
       }),
       /* @__PURE__ */ jsxs6("div", {
-        style: { flex: 1, display: "flex", flexDirection: "column", gap: semantic.spaceXs },
+        style: { flex: 1, display: "flex", flexDirection: "column", gap: t11.spaceXs },
         children: [
-          /* @__PURE__ */ jsx15(Skeleton, {
+          /* @__PURE__ */ jsx14(Skeleton, {
             width: "40%",
             height: 14
           }),
-          /* @__PURE__ */ jsx15(Skeleton, {
+          /* @__PURE__ */ jsx14(Skeleton, {
             width: "70%",
             height: 12
           })
@@ -2209,7 +1138,8 @@ var RowSkeleton = forwardRef13(function RowSkeleton2({ style }, ref) {
 });
 // src/components/ProgressBar/ProgressBar.tsx
 import { forwardRef as forwardRef14 } from "react";
-import { jsx as jsx16 } from "react/jsx-runtime";
+import { semantic as t12 } from "../../core/dist/index.js";
+import { jsx as jsx15 } from "react/jsx-runtime";
 var ProgressBar = forwardRef14(function ProgressBar2({
   segments,
   height = 6,
@@ -2217,7 +1147,7 @@ var ProgressBar = forwardRef14(function ProgressBar2({
   style
 }, ref) {
   const total = segments.reduce((sum, s) => sum + s.value, 0);
-  return /* @__PURE__ */ jsx16("div", {
+  return /* @__PURE__ */ jsx15("div", {
     ref,
     role: "progressbar",
     "aria-valuenow": total,
@@ -2230,12 +1160,12 @@ var ProgressBar = forwardRef14(function ProgressBar2({
       borderRadius: height / 2,
       overflow: "hidden",
       display: "flex",
-      background: semantic.colorSurfaceRaised,
+      background: t12.colorSurfaceRaised,
       ...style
     },
     children: segments.map((segment, i) => {
       const pct = total > 0 ? segment.value / total * 100 : 0;
-      return /* @__PURE__ */ jsx16("div", {
+      return /* @__PURE__ */ jsx15("div", {
         title: segment.label ? `${segment.label}: ${segment.value}` : String(segment.value),
         style: {
           width: `${pct}%`,
@@ -2248,7 +1178,8 @@ var ProgressBar = forwardRef14(function ProgressBar2({
 });
 // src/components/EmptyState/EmptyState.tsx
 import { forwardRef as forwardRef15 } from "react";
-import { jsx as jsx17, jsxs as jsxs7 } from "react/jsx-runtime";
+import { semantic as t13 } from "../../core/dist/index.js";
+import { jsx as jsx16, jsxs as jsxs7 } from "react/jsx-runtime";
 var EmptyState = forwardRef15(function EmptyState2({
   icon,
   message,
@@ -2260,44 +1191,45 @@ var EmptyState = forwardRef15(function EmptyState2({
   const content = /* @__PURE__ */ jsxs7(Stack, {
     align: "center",
     gap: "sm",
-    style: { padding: semantic.spaceXl, ...style },
+    style: { padding: t13.spaceXl, ...style },
     children: [
-      /* @__PURE__ */ jsx17(Icon, {
+      /* @__PURE__ */ jsx16(Icon, {
         name: icon,
         size: 32,
-        style: { color: semantic.colorTextMuted }
+        style: { color: t13.colorTextMuted }
       }),
-      /* @__PURE__ */ jsx17("span", {
+      /* @__PURE__ */ jsx16("span", {
         style: {
-          color: semantic.colorTextSecondary,
-          fontSize: semantic.fontSizeSm,
+          color: t13.colorTextSecondary,
+          fontSize: t13.fontSizeSm,
           textAlign: "center",
-          fontFamily: semantic.fontSans
+          fontFamily: t13.fontSans
         },
         children: message
       }),
       children,
-      action && /* @__PURE__ */ jsx17("div", {
-        style: { marginTop: semantic.spaceSm },
+      action && /* @__PURE__ */ jsx16("div", {
+        style: { marginTop: t13.spaceSm },
         children: action
       })
     ]
   });
   if (variant === "card") {
-    return /* @__PURE__ */ jsx17(Card, {
+    return /* @__PURE__ */ jsx16(Card, {
       ref,
       variant: "flat",
       children: content
     });
   }
-  return /* @__PURE__ */ jsx17("div", {
+  return /* @__PURE__ */ jsx16("div", {
     ref,
     children: content
   });
 });
 // src/components/Pagination/Pagination.tsx
 import { forwardRef as forwardRef16 } from "react";
-import { jsx as jsx18, jsxs as jsxs8 } from "react/jsx-runtime";
+import { semantic as t14 } from "../../core/dist/index.js";
+import { jsx as jsx17, jsxs as jsxs8 } from "react/jsx-runtime";
 var defaultLabels = {
   previous: "Previous",
   next: "Next",
@@ -2320,11 +1252,11 @@ var Pagination = forwardRef16(function Pagination2({
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      gap: semantic.spaceSm,
+      gap: t14.spaceSm,
       ...style
     },
     children: [
-      /* @__PURE__ */ jsx18(Button, {
+      /* @__PURE__ */ jsx17(Button, {
         variant: "ghost",
         size: "sm",
         disabled: page <= 1,
@@ -2333,9 +1265,9 @@ var Pagination = forwardRef16(function Pagination2({
       }),
       /* @__PURE__ */ jsxs8("span", {
         style: {
-          color: semantic.colorTextMuted,
-          fontSize: semantic.fontSizeSm,
-          fontFamily: semantic.fontSans
+          color: t14.colorTextMuted,
+          fontSize: t14.fontSizeSm,
+          fontFamily: t14.fontSans
         },
         children: [
           resolvedLabels.pageOf(page, totalPages),
@@ -2344,7 +1276,7 @@ var Pagination = forwardRef16(function Pagination2({
           " total)"
         ]
       }),
-      /* @__PURE__ */ jsx18(Button, {
+      /* @__PURE__ */ jsx17(Button, {
         variant: "ghost",
         size: "sm",
         disabled: page >= totalPages,
@@ -2356,7 +1288,8 @@ var Pagination = forwardRef16(function Pagination2({
 });
 // src/components/PageHeader/PageHeader.tsx
 import { createElement, forwardRef as forwardRef17 } from "react";
-import { jsx as jsx19, jsxs as jsxs9 } from "react/jsx-runtime";
+import { semantic as t15 } from "../../core/dist/index.js";
+import { jsx as jsx18, jsxs as jsxs9 } from "react/jsx-runtime";
 var PageHeader = forwardRef17(function PageHeader2({
   title,
   subtitle,
@@ -2368,9 +1301,9 @@ var PageHeader = forwardRef17(function PageHeader2({
   const heading = createElement(`h${level}`, {
     style: {
       margin: 0,
-      fontFamily: semantic.fontSans,
-      fontWeight: semantic.fontWeightBold,
-      color: semantic.colorText
+      fontFamily: t15.fontSans,
+      fontWeight: t15.fontWeightBold,
+      color: t15.colorText
     }
   }, title);
   return /* @__PURE__ */ jsxs9("div", {
@@ -2386,16 +1319,16 @@ var PageHeader = forwardRef17(function PageHeader2({
       /* @__PURE__ */ jsxs9("div", {
         children: [
           heading,
-          subtitle && /* @__PURE__ */ jsx19("span", {
+          subtitle && /* @__PURE__ */ jsx18("span", {
             style: {
-              color: semantic.colorTextMuted,
-              fontSize: semantic.fontSizeSm
+              color: t15.colorTextMuted,
+              fontSize: t15.fontSizeSm
             },
             children: subtitle
           })
         ]
       }),
-      trailing && /* @__PURE__ */ jsx19("div", {
+      trailing && /* @__PURE__ */ jsx18("div", {
         children: trailing
       })
     ]
@@ -2403,7 +1336,8 @@ var PageHeader = forwardRef17(function PageHeader2({
 });
 // src/components/TagChip/TagChip.tsx
 import { forwardRef as forwardRef18 } from "react";
-import { jsx as jsx20, jsxs as jsxs10 } from "react/jsx-runtime";
+import { semantic as t16 } from "../../core/dist/index.js";
+import { jsx as jsx19, jsxs as jsxs10 } from "react/jsx-runtime";
 var TagChip = forwardRef18(function TagChip2({
   name,
   onRemove,
@@ -2415,29 +1349,30 @@ var TagChip = forwardRef18(function TagChip2({
       display: "inline-flex",
       alignItems: "center",
       gap: 4,
-      fontSize: semantic.fontSizeXs,
-      color: semantic.colorActionPrimary,
-      background: semantic.colorSurfaceRaised,
-      borderRadius: semantic.radiusFull,
+      fontSize: t16.fontSizeXs,
+      color: t16.colorActionPrimary,
+      background: t16.colorSurfaceRaised,
+      borderRadius: t16.radiusFull,
       padding: "2px 8px",
-      fontFamily: semantic.fontSans,
+      fontFamily: t16.fontSans,
       ...style
     },
     children: [
       name,
-      onRemove && /* @__PURE__ */ jsx20(IconButton, {
+      onRemove && /* @__PURE__ */ jsx19(IconButton, {
         icon: "close",
         size: 12,
         onClick: onRemove,
         "aria-label": `Remove ${name}`,
-        style: { width: 18, height: 18, color: semantic.colorActionPrimary }
+        style: { width: 18, height: 18, color: t16.colorActionPrimary }
       })
     ]
   });
 });
 // src/components/ExpandableCard/ExpandableCard.tsx
-import { forwardRef as forwardRef19, useState as useState2, useId as useId2 } from "react";
-import { jsx as jsx21, jsxs as jsxs11 } from "react/jsx-runtime";
+import { semantic as t17 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef19, useState, useId as useId2 } from "react";
+import { jsx as jsx20, jsxs as jsxs11 } from "react/jsx-runtime";
 var ExpandableCard = forwardRef19(function ExpandableCard2({
   title,
   children,
@@ -2448,7 +1383,7 @@ var ExpandableCard = forwardRef19(function ExpandableCard2({
   style,
   headerAction
 }, ref) {
-  const [internalOpen, setInternalOpen] = useState2(defaultOpen);
+  const [internalOpen, setInternalOpen] = useState(defaultOpen);
   const isOpen = controlledOpen !== undefined ? controlledOpen : internalOpen;
   const panelId = useId2();
   const handleToggle = () => {
@@ -2475,10 +1410,10 @@ var ExpandableCard = forwardRef19(function ExpandableCard2({
             style: {
               display: "flex",
               alignItems: "center",
-              gap: semantic.spaceSm,
-              padding: `${semantic.spaceSm} ${semantic.spaceMd}`,
+              gap: t17.spaceSm,
+              padding: `${t17.spaceSm} ${t17.spaceMd}`,
               cursor: "pointer",
-              borderRadius: semantic.radiusMd,
+              borderRadius: t17.radiusMd,
               transition: "background 150ms ease",
               background: "none",
               border: "none",
@@ -2487,7 +1422,7 @@ var ExpandableCard = forwardRef19(function ExpandableCard2({
               flex: 1
             },
             children: [
-              /* @__PURE__ */ jsx21("span", {
+              /* @__PURE__ */ jsx20("span", {
                 style: {
                   display: "inline-flex",
                   alignItems: "center",
@@ -2499,28 +1434,28 @@ var ExpandableCard = forwardRef19(function ExpandableCard2({
                   transition: "transform 200ms ease",
                   transform: isOpen ? "rotate(90deg)" : "rotate(0deg)"
                 },
-                children: /* @__PURE__ */ jsx21(IconChevronRight, {
+                children: /* @__PURE__ */ jsx20(IconChevronRight, {
                   size: 20
                 })
               }),
-              /* @__PURE__ */ jsx21("span", {
+              /* @__PURE__ */ jsx20("span", {
                 style: {
-                  fontWeight: semantic.fontWeightSemibold,
-                  fontFamily: semantic.fontSans,
-                  color: semantic.colorText,
-                  fontSize: semantic.fontSizeSm
+                  fontWeight: t17.fontWeightSemibold,
+                  fontFamily: t17.fontSans,
+                  color: t17.colorText,
+                  fontSize: t17.fontSizeSm
                 },
                 children: title
               })
             ]
           }),
-          headerAction && /* @__PURE__ */ jsx21("div", {
-            style: { padding: `0 ${semantic.spaceMd}` },
+          headerAction && /* @__PURE__ */ jsx20("div", {
+            style: { padding: `0 ${t17.spaceMd}` },
             children: headerAction
           })
         ]
       }),
-      /* @__PURE__ */ jsx21("div", {
+      /* @__PURE__ */ jsx20("div", {
         id: panelId,
         role: "region",
         style: {
@@ -2528,10 +1463,10 @@ var ExpandableCard = forwardRef19(function ExpandableCard2({
           gridTemplateRows: isOpen ? "1fr" : "0fr",
           transition: "grid-template-rows 200ms ease"
         },
-        children: /* @__PURE__ */ jsx21("div", {
+        children: /* @__PURE__ */ jsx20("div", {
           style: { overflow: "hidden" },
-          children: /* @__PURE__ */ jsx21("div", {
-            style: { padding: `${semantic.spaceSm} ${semantic.spaceMd} ${semantic.spaceMd}` },
+          children: /* @__PURE__ */ jsx20("div", {
+            style: { padding: `${t17.spaceSm} ${t17.spaceMd} ${t17.spaceMd}` },
             children
           })
         })
@@ -2540,9 +1475,10 @@ var ExpandableCard = forwardRef19(function ExpandableCard2({
   });
 });
 // src/components/ModalShell/ModalShell.tsx
-import { forwardRef as forwardRef20, useEffect as useEffect3, useId as useId3, useRef as useRef2 } from "react";
+import { forwardRef as forwardRef20, useEffect as useEffect2, useId as useId3, useRef } from "react";
 import { createPortal } from "react-dom";
-import { jsx as jsx22, jsxs as jsxs12, Fragment } from "react/jsx-runtime";
+import { semantic as t18 } from "../../core/dist/index.js";
+import { jsx as jsx21, jsxs as jsxs12, Fragment } from "react/jsx-runtime";
 var FOCUSABLE_SELECTOR2 = [
   "a[href]",
   "button:not(:disabled)",
@@ -2563,7 +1499,7 @@ var ModalShell = forwardRef20(function ModalShell2({
 }, ref) {
   const generatedId = useId3();
   const resolvedLabelId = titleId ?? generatedId;
-  const internalRef = useRef2(null);
+  const internalRef = useRef(null);
   const setRefs = (node) => {
     internalRef.current = node;
     if (typeof ref === "function") {
@@ -2573,7 +1509,7 @@ var ModalShell = forwardRef20(function ModalShell2({
     }
   };
   useFocusTrap(internalRef);
-  useEffect3(() => {
+  useEffect2(() => {
     const previouslyFocused = document.activeElement;
     const container = internalRef.current;
     if (container) {
@@ -2588,7 +1524,7 @@ var ModalShell = forwardRef20(function ModalShell2({
       previouslyFocused?.focus();
     };
   }, []);
-  useEffect3(() => {
+  useEffect2(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
         onClose();
@@ -2599,11 +1535,11 @@ var ModalShell = forwardRef20(function ModalShell2({
   }, [onClose]);
   return createPortal(/* @__PURE__ */ jsxs12(Fragment, {
     children: [
-      /* @__PURE__ */ jsx22(Overlay, {
+      /* @__PURE__ */ jsx21(Overlay, {
         onClick: onClose,
         zIndex
       }),
-      /* @__PURE__ */ jsx22("div", {
+      /* @__PURE__ */ jsx21("div", {
         style: {
           position: "fixed",
           inset: 0,
@@ -2613,7 +1549,7 @@ var ModalShell = forwardRef20(function ModalShell2({
           zIndex: zIndex + 1,
           pointerEvents: "none"
         },
-        children: /* @__PURE__ */ jsx22("div", {
+        children: /* @__PURE__ */ jsx21("div", {
           ref: setRefs,
           role,
           "aria-modal": "true",
@@ -2621,11 +1557,11 @@ var ModalShell = forwardRef20(function ModalShell2({
           "aria-label": ariaLabel,
           tabIndex: -1,
           style: {
-            background: semantic.colorSurface,
-            borderRadius: semantic.radiusLg,
-            boxShadow: semantic.shadowLg,
-            border: `1px solid ${semantic.colorBorder}`,
-            padding: semantic.spaceXl,
+            background: t18.colorSurface,
+            borderRadius: t18.radiusLg,
+            boxShadow: t18.shadowLg,
+            border: `1px solid ${t18.colorBorder}`,
+            padding: t18.spaceXl,
             maxWidth,
             width: "100%",
             pointerEvents: "auto",
@@ -2639,8 +1575,9 @@ var ModalShell = forwardRef20(function ModalShell2({
   }), document.body);
 });
 // src/components/ConfirmDialog/ConfirmDialog.tsx
-import { forwardRef as forwardRef21, useId as useId4, useState as useState3 } from "react";
-import { jsx as jsx23, jsxs as jsxs13 } from "react/jsx-runtime";
+import { forwardRef as forwardRef21, useId as useId4, useState as useState2 } from "react";
+import { semantic as t19 } from "../../core/dist/index.js";
+import { jsx as jsx22, jsxs as jsxs13 } from "react/jsx-runtime";
 var variantButtonMap = {
   destructive: "destructive",
   info: "primary",
@@ -2655,7 +1592,7 @@ var ConfirmDialog = forwardRef21(function ConfirmDialog2({
   children,
   variant = "destructive"
 }, ref) {
-  const [loading, setLoading] = useState3(false);
+  const [loading, setLoading] = useState2(false);
   const titleId = useId4();
   const handleConfirm = async () => {
     setLoading(true);
@@ -2671,45 +1608,45 @@ var ConfirmDialog = forwardRef21(function ConfirmDialog2({
     role: "alertdialog",
     titleId,
     children: [
-      /* @__PURE__ */ jsx23("h2", {
+      /* @__PURE__ */ jsx22("h2", {
         id: titleId,
         style: {
           margin: 0,
-          fontWeight: semantic.fontWeightSemibold,
-          fontFamily: semantic.fontSans,
-          color: semantic.colorText,
-          fontSize: semantic.fontSizeLg
+          fontWeight: t19.fontWeightSemibold,
+          fontFamily: t19.fontSans,
+          color: t19.colorText,
+          fontSize: t19.fontSizeLg
         },
         children: title
       }),
-      /* @__PURE__ */ jsx23("p", {
+      /* @__PURE__ */ jsx22("p", {
         style: {
-          margin: `${semantic.spaceSm} 0 ${children ? "0" : semantic.spaceLg}`,
-          color: semantic.colorTextMuted,
-          fontSize: semantic.fontSizeSm,
-          fontFamily: semantic.fontSans
+          margin: `${t19.spaceSm} 0 ${children ? "0" : t19.spaceLg}`,
+          color: t19.colorTextMuted,
+          fontSize: t19.fontSizeSm,
+          fontFamily: t19.fontSans
         },
         children: message
       }),
-      children && /* @__PURE__ */ jsx23("div", {
-        style: { margin: `${semantic.spaceSm} 0 ${semantic.spaceLg}` },
+      children && /* @__PURE__ */ jsx22("div", {
+        style: { margin: `${t19.spaceSm} 0 ${t19.spaceLg}` },
         children
       }),
       /* @__PURE__ */ jsxs13("div", {
         style: {
           display: "flex",
           justifyContent: "flex-end",
-          gap: semantic.spaceSm
+          gap: t19.spaceSm
         },
         children: [
-          /* @__PURE__ */ jsx23(Button, {
+          /* @__PURE__ */ jsx22(Button, {
             variant: "ghost",
             onClick: onCancel,
             disabled: loading,
             autoFocus: true,
             children: "Cancel"
           }),
-          /* @__PURE__ */ jsx23(Button, {
+          /* @__PURE__ */ jsx22(Button, {
             variant: variantButtonMap[variant],
             onClick: handleConfirm,
             disabled: loading,
@@ -2722,13 +1659,14 @@ var ConfirmDialog = forwardRef21(function ConfirmDialog2({
 });
 // src/components/StatusDot/StatusDot.tsx
 import { forwardRef as forwardRef22 } from "react";
-import { jsx as jsx24 } from "react/jsx-runtime";
+import { semantic as t20 } from "../../core/dist/index.js";
+import { jsx as jsx23 } from "react/jsx-runtime";
 var variantColors = {
-  default: semantic.colorTextMuted,
-  success: semantic.colorSuccess,
-  warning: semantic.colorWarning,
-  error: semantic.colorError,
-  info: semantic.colorInfo
+  default: t20.colorTextMuted,
+  success: t20.colorSuccess,
+  warning: t20.colorWarning,
+  error: t20.colorError,
+  info: t20.colorInfo
 };
 var StatusDot = forwardRef22(function StatusDot2({
   variant = "default",
@@ -2738,7 +1676,7 @@ var StatusDot = forwardRef22(function StatusDot2({
   style
 }, ref) {
   const resolvedColor = color ?? variantColors[variant];
-  return /* @__PURE__ */ jsx24("span", {
+  return /* @__PURE__ */ jsx23("span", {
     ref,
     role: ariaLabel ? "img" : undefined,
     "aria-label": ariaLabel,
@@ -2747,7 +1685,7 @@ var StatusDot = forwardRef22(function StatusDot2({
       display: "inline-block",
       width: size,
       height: size,
-      borderRadius: semantic.radiusFull,
+      borderRadius: t20.radiusFull,
       background: resolvedColor,
       flexShrink: 0,
       ...style
@@ -2755,16 +1693,18 @@ var StatusDot = forwardRef22(function StatusDot2({
   });
 });
 // src/components/ThemeSurface/ThemeSurface.tsx
-import { forwardRef as forwardRef23, useEffect as useEffect4, useRef as useRef3 } from "react";
-import { jsx as jsx25, Fragment as Fragment2 } from "react/jsx-runtime";
+import { forwardRef as forwardRef23, useEffect as useEffect3, useRef as useRef2 } from "react";
+import { semantic as t21 } from "../../core/dist/index.js";
+import { useTheme as useTheme2 } from "../../core/dist/index.js";
+import { jsx as jsx24, Fragment as Fragment2 } from "react/jsx-runtime";
 var ThemeSurface = forwardRef23(function ThemeSurface2({
   children,
   global = false,
   style
 }, ref) {
-  const { resolved, themes } = useTheme();
-  const prevBodyBgRef = useRef3("");
-  useEffect4(() => {
+  const { resolved, themes } = useTheme2();
+  const prevBodyBgRef = useRef2("");
+  useEffect3(() => {
     if (!global)
       return;
     const definition = themes.get(resolved);
@@ -2780,14 +1720,14 @@ var ThemeSurface = forwardRef23(function ThemeSurface2({
     };
   }, [global, resolved, themes]);
   if (global) {
-    return /* @__PURE__ */ jsx25(Fragment2, {
+    return /* @__PURE__ */ jsx24(Fragment2, {
       children
     });
   }
-  return /* @__PURE__ */ jsx25("div", {
+  return /* @__PURE__ */ jsx24("div", {
     ref,
     style: {
-      background: semantic.colorSurfacePage,
+      background: t21.colorSurfacePage,
       ...style
     },
     children
@@ -2795,20 +1735,22 @@ var ThemeSurface = forwardRef23(function ThemeSurface2({
 });
 // src/components/Table/Table.tsx
 import { forwardRef as forwardRef24 } from "react";
-import { jsx as jsx26 } from "react/jsx-runtime";
+import { semantic as t22 } from "../../core/dist/index.js";
+import { useInjectStyles as useInjectStyles2 } from "../../core/dist/index.js";
+import { jsx as jsx25 } from "react/jsx-runtime";
 var spaceMap = {
-  xs: semantic.spaceXs,
-  sm: semantic.spaceSm,
-  md: semantic.spaceMd,
-  lg: semantic.spaceLg
+  xs: t22.spaceXs,
+  sm: t22.spaceSm,
+  md: t22.spaceMd,
+  lg: t22.spaceLg
 };
 var TABLE_STYLES_ID = "4lt7ab-table-row";
 var TABLE_STYLES_CSS = `
 [data-table-row-hoverable]:hover {
-  background: ${semantic.colorSurfaceRaised} !important;
+  background: ${t22.colorSurfaceRaised} !important;
 }
 [data-table-row-selected] > td {
-  border-bottom-color: ${semantic.colorSurfaceRaised};
+  border-bottom-color: ${t22.colorSurfaceRaised};
 }
 [data-table-row-selected] > td:first-child {
   position: relative;
@@ -2820,15 +1762,15 @@ var TABLE_STYLES_CSS = `
   top: 0;
   bottom: 0;
   width: 3px;
-  background: ${semantic.colorActionPrimary};
+  background: ${t22.colorActionPrimary};
   pointer-events: none;
 }
 `;
 var wrapperVariants = {
   default: {
-    border: `1px solid ${semantic.colorBorder}`,
-    borderRadius: semantic.radiusLg,
-    boxShadow: semantic.shadowSm
+    border: `1px solid ${t22.colorBorder}`,
+    borderRadius: t22.radiusLg,
+    boxShadow: t22.shadowSm
   },
   flat: {}
 };
@@ -2839,8 +1781,8 @@ var Table = forwardRef24(function Table2({
   style,
   ...props
 }, ref) {
-  useInjectStyles(TABLE_STYLES_ID, TABLE_STYLES_CSS);
-  return /* @__PURE__ */ jsx26("div", {
+  useInjectStyles2(TABLE_STYLES_ID, TABLE_STYLES_CSS);
+  return /* @__PURE__ */ jsx25("div", {
     ref,
     style: {
       overflowX: "auto",
@@ -2848,25 +1790,25 @@ var Table = forwardRef24(function Table2({
       ...style
     },
     ...props,
-    children: /* @__PURE__ */ jsx26("table", {
+    children: /* @__PURE__ */ jsx25("table", {
       "data-table-density": density,
       style: {
         width: "100%",
         borderCollapse: "collapse",
-        fontSize: semantic.fontSizeSm,
-        fontFamily: semantic.fontSans,
-        color: semantic.colorText
+        fontSize: t22.fontSizeSm,
+        fontFamily: t22.fontSans,
+        color: t22.colorText
       },
       children
     })
   });
 });
 var TableHeader = forwardRef24(function TableHeader2({ children, style, ...props }, ref) {
-  return /* @__PURE__ */ jsx26("thead", {
+  return /* @__PURE__ */ jsx25("thead", {
     ref,
     style,
     ...props,
-    children: /* @__PURE__ */ jsx26("tr", {
+    children: /* @__PURE__ */ jsx25("tr", {
       children
     })
   });
@@ -2878,17 +1820,17 @@ var TableHeaderCell = forwardRef24(function TableHeaderCell2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx26("th", {
+  return /* @__PURE__ */ jsx25("th", {
     ref,
     style: {
-      padding: `${semantic.spaceSm} ${semantic.spaceMd}`,
+      padding: `${t22.spaceSm} ${t22.spaceMd}`,
       textAlign: align,
-      fontWeight: semantic.fontWeightSemibold,
-      fontSize: semantic.fontSizeXs,
-      color: semantic.colorTextMuted,
+      fontWeight: t22.fontWeightSemibold,
+      fontSize: t22.fontSizeXs,
+      color: t22.colorTextMuted,
       textTransform: "uppercase",
-      letterSpacing: semantic.letterSpacingWide,
-      borderBottom: `2px solid ${semantic.colorBorder}`,
+      letterSpacing: t22.letterSpacingWide,
+      borderBottom: `2px solid ${t22.colorBorder}`,
       whiteSpace: "nowrap",
       width: typeof width === "number" ? `${width}px` : width,
       ...style
@@ -2898,7 +1840,7 @@ var TableHeaderCell = forwardRef24(function TableHeaderCell2({
   });
 });
 var TableBody = forwardRef24(function TableBody2({ children, ...props }, ref) {
-  return /* @__PURE__ */ jsx26("tbody", {
+  return /* @__PURE__ */ jsx25("tbody", {
     ref,
     ...props,
     children
@@ -2920,7 +1862,7 @@ var TableRow = forwardRef24(function TableRow2({
     }
     onKeyDown?.(e);
   } : onKeyDown;
-  return /* @__PURE__ */ jsx26("tr", {
+  return /* @__PURE__ */ jsx25("tr", {
     ref,
     "data-table-row-hoverable": hoverable || undefined,
     "data-table-row-selected": selected || undefined,
@@ -2929,7 +1871,7 @@ var TableRow = forwardRef24(function TableRow2({
     onKeyDown: handleKeyDown,
     style: {
       cursor: onClick ? "pointer" : undefined,
-      background: selected ? semantic.colorSurfaceRaised : undefined,
+      background: selected ? t22.colorSurfaceRaised : undefined,
       transition: "background 0.1s",
       ...style
     },
@@ -2946,14 +1888,14 @@ var TableCell = forwardRef24(function TableCell2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx26("td", {
+  return /* @__PURE__ */ jsx25("td", {
     ref,
     style: {
-      padding: `${semantic.spaceSm} ${semantic.spaceMd}`,
-      borderBottom: `1px solid ${semantic.colorBorder}`,
+      padding: `${t22.spaceSm} ${t22.spaceMd}`,
+      borderBottom: `1px solid ${t22.colorBorder}`,
       verticalAlign: "middle",
       textAlign: align,
-      color: muted ? semantic.colorTextMuted : undefined,
+      color: muted ? t22.colorTextMuted : undefined,
       width: typeof width === "number" ? `${width}px` : width,
       ...truncate ? {
         maxWidth: 0,
@@ -2973,21 +1915,21 @@ var TableGroupHeader = forwardRef24(function TableGroupHeader2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx26("tr", {
+  return /* @__PURE__ */ jsx25("tr", {
     ref,
     style: { cursor: "default", ...style },
     ...props,
-    children: /* @__PURE__ */ jsx26("td", {
+    children: /* @__PURE__ */ jsx25("td", {
       colSpan,
       style: {
-        padding: `${semantic.spaceXs} ${semantic.spaceMd}`,
-        background: semantic.colorSurfaceRaised,
-        borderBottom: `1px solid ${semantic.colorBorder}`,
-        fontSize: semantic.fontSizeXs,
-        fontWeight: semantic.fontWeightBold,
-        letterSpacing: semantic.letterSpacingWide,
+        padding: `${t22.spaceXs} ${t22.spaceMd}`,
+        background: t22.colorSurfaceRaised,
+        borderBottom: `1px solid ${t22.colorBorder}`,
+        fontSize: t22.fontSizeXs,
+        fontWeight: t22.fontWeightBold,
+        letterSpacing: t22.letterSpacingWide,
         textTransform: "uppercase",
-        color: semantic.colorTextMuted,
+        color: t22.colorTextMuted,
         overflow: "hidden",
         textOverflow: "ellipsis",
         whiteSpace: "nowrap"
@@ -3002,44 +1944,26 @@ var TableEmptyRow = forwardRef24(function TableEmptyRow2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx26("tr", {
+  return /* @__PURE__ */ jsx25("tr", {
     ref,
     style,
     ...props,
-    children: /* @__PURE__ */ jsx26("td", {
+    children: /* @__PURE__ */ jsx25("td", {
       colSpan,
       style: {
-        padding: `${semantic.spaceXl} ${semantic.spaceMd}`,
+        padding: `${t22.spaceXl} ${t22.spaceMd}`,
         textAlign: "center",
-        color: semantic.colorTextMuted,
-        fontSize: semantic.fontSizeSm
+        color: t22.colorTextMuted,
+        fontSize: t22.fontSizeSm
       },
       children
     })
   });
 });
 export {
-  warmSandTheme,
-  useTheme,
-  useInjectStyles,
   useFocusTrap,
-  typography,
-  tokenToCssProperty,
-  synthwaveTheme,
-  spacing,
-  slateTheme,
-  shadows,
-  semantic,
-  radii,
-  pipboyTheme,
-  pacmanTheme,
-  neuralTheme,
-  mossTheme,
   iconRegistry,
-  coralTheme,
-  colors,
   ThemeSurface,
-  ThemeProvider,
   ThemePicker,
   Textarea,
   TagChip,
