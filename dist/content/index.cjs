@@ -41,15 +41,11 @@ var __export = (target, all) => {
 var exports_content = {};
 __export(exports_content, {
   ThinkingCycle: () => import_ThinkingCycle.ThinkingCycle,
-  SiteNav: () => import_SiteNav.SiteNav,
   SideNote: () => import_SideNote.SideNote,
   PullQuote: () => import_PullQuote.PullQuote,
   Prose: () => import_Prose.Prose,
-  PageShell: () => import_PageShell.PageShell,
-  MarginSpotlight: () => import_MarginSpotlight.MarginSpotlight,
   MarginNote: () => import_MarginNote.MarginNote,
   LinkCard: () => import_LinkCard.LinkCard,
-  Footer: () => import_Footer.Footer,
   Epigraph: () => import_Epigraph.Epigraph,
   Container: () => import_Container.Container
 });

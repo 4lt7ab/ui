@@ -3,13 +3,17 @@ import { Icon } from '../Icon';
 import { Stack } from '../Stack';
 import { Card } from '../Card';
 import type { IconName } from '../../icons';
-import type { CSSProperties } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 export interface EmptyStateProps {
   icon: IconName;
   message: string;
   variant?: 'plain' | 'card';
   style?: CSSProperties;
+  /** Additional content rendered below the message. */
+  children?: ReactNode;
+  /** Action slot (e.g. a CTA button) rendered below message and children. */
+  action?: ReactNode;
 }
 
 export function EmptyState({
@@ -17,6 +21,8 @@ export function EmptyState({
   message,
   variant = 'plain',
   style,
+  children,
+  action,
 }: EmptyStateProps): React.JSX.Element {
   const content = (
     <Stack align="center" gap="sm" style={{ padding: t.spaceXl, ...style }}>
@@ -31,6 +37,8 @@ export function EmptyState({
       >
         {message}
       </span>
+      {children}
+      {action && <div style={{ marginTop: t.spaceSm }}>{action}</div>}
     </Stack>
   );
 

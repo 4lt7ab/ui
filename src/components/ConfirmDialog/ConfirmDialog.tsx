@@ -2,6 +2,16 @@ import { semantic as t } from '../../tokens/semantic';
 import { ModalShell } from '../ModalShell';
 import { Button } from '../Button';
 import { useState } from 'react';
+import type { ReactNode } from 'react';
+import type { ButtonVariant } from '../Button/Button';
+
+export type ConfirmDialogVariant = 'destructive' | 'info' | 'warning';
+
+const variantButtonMap: Record<ConfirmDialogVariant, ButtonVariant> = {
+  destructive: 'destructive',
+  info: 'primary',
+  warning: 'primary',
+};
 
 export interface ConfirmDialogProps {
   title: string;
@@ -9,14 +19,20 @@ export interface ConfirmDialogProps {
   confirmLabel?: string;
   onConfirm: () => Promise<void> | void;
   onCancel: () => void;
+  /** Custom body content rendered between the message and the buttons. */
+  children?: ReactNode;
+  /** Controls confirm button styling. Defaults to 'destructive'. */
+  variant?: ConfirmDialogVariant;
 }
 
 export function ConfirmDialog({
   title,
   message,
-  confirmLabel = 'Delete',
+  confirmLabel = 'Confirm',
   onConfirm,
   onCancel,
+  children,
+  variant = 'destructive',
 }: ConfirmDialogProps): React.JSX.Element {
   const [loading, setLoading] = useState(false);
 
@@ -44,7 +60,7 @@ export function ConfirmDialog({
       </h2>
       <p
         style={{
-          margin: `${t.spaceSm} 0 ${t.spaceLg}`,
+          margin: `${t.spaceSm} 0 ${children ? '0' : t.spaceLg}`,
           color: t.colorTextMuted,
           fontSize: '0.875rem',
           fontFamily: t.fontSans,
@@ -52,6 +68,11 @@ export function ConfirmDialog({
       >
         {message}
       </p>
+      {children && (
+        <div style={{ margin: `${t.spaceSm} 0 ${t.spaceLg}` }}>
+          {children}
+        </div>
+      )}
       <div
         style={{
           display: 'flex',
@@ -62,7 +83,7 @@ export function ConfirmDialog({
         <Button variant="ghost" onClick={onCancel} disabled={loading}>
           Cancel
         </Button>
-        <Button variant="destructive" onClick={handleConfirm} disabled={loading}>
+        <Button variant={variantButtonMap[variant]} onClick={handleConfirm} disabled={loading}>
           {loading ? 'Loading...' : confirmLabel}
         </Button>
       </div>

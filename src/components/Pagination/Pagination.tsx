@@ -1,26 +1,49 @@
 import { semantic as t } from '../../tokens/semantic';
 import { Button } from '../Button';
+import type { CSSProperties } from 'react';
+
+export interface PaginationLabels {
+  previous?: string;
+  next?: string;
+  pageOf?: (page: number, total: number) => string;
+}
 
 export interface PaginationProps {
   page: number;
   totalPages: number;
   total: number;
   onPageChange: (page: number) => void;
+  labels?: PaginationLabels;
+  className?: string;
+  style?: CSSProperties;
 }
+
+const defaultLabels: Required<PaginationLabels> = {
+  previous: 'Previous',
+  next: 'Next',
+  pageOf: (page, total) => `Page ${page} of ${total}`,
+};
 
 export function Pagination({
   page,
   totalPages,
   total,
   onPageChange,
+  labels,
+  className,
+  style,
 }: PaginationProps): React.JSX.Element {
+  const resolvedLabels = { ...defaultLabels, ...labels };
+
   return (
     <div
+      className={className}
       style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         gap: t.spaceSm,
+        ...style,
       }}
     >
       <Button
@@ -29,7 +52,7 @@ export function Pagination({
         disabled={page <= 1}
         onClick={() => onPageChange(page - 1)}
       >
-        Previous
+        {resolvedLabels.previous}
       </Button>
       <span
         style={{
@@ -38,7 +61,7 @@ export function Pagination({
           fontFamily: t.fontSans,
         }}
       >
-        Page {page} of {totalPages} ({total} total)
+        {resolvedLabels.pageOf(page, totalPages)} ({total} total)
       </span>
       <Button
         variant="ghost"
@@ -46,7 +69,7 @@ export function Pagination({
         disabled={page >= totalPages}
         onClick={() => onPageChange(page + 1)}
       >
-        Next
+        {resolvedLabels.next}
       </Button>
     </div>
   );
