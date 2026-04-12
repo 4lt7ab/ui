@@ -3,3 +3,6 @@ export { OnboardingFlow } from './OnboardingFlow';
 export { BlogPost } from './BlogPost';
 export { ProjectHub } from './ProjectHub';
 export { ComponentCatalogue } from './ComponentCatalogue';
+export { DeleteFlow } from './DeleteFlow';
+export { SettingsPage } from './SettingsPage';
+export { TaskDashboard } from './TaskDashboard';

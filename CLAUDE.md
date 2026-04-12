@@ -20,13 +20,13 @@ Build order matters: all packages depend on `@4lt7ab/core`, so the root build sc
 
 ## Architecture
 
-`@4lt7ab/core` is the theme platform. It owns the token layer and theme system. The other three packages import from core at build time -- core is bundled into each package's dist (not externalized).
+`@4lt7ab/core` is the theme platform. It owns the token layer and theme system. The other three packages externalize core and import it via relative paths in dist (`../../core/dist/index.js`), ensuring a single shared context instance.
 
 ```
 @4lt7ab/core  (tokens, themes, ThemeProvider, useTheme, useInjectStyles)
-  ├── @4lt7ab/ui         (interactive components -- bundles core, re-exports core API)
-  ├── @4lt7ab/content    (prose/layout components -- bundles core)
-  └── @4lt7ab/animations (canvas backgrounds -- bundles core)
+  ├── @4lt7ab/ui         (interactive components -- externalizes core, re-exports core API)
+  ├── @4lt7ab/content    (prose/layout components -- externalizes core)
+  └── @4lt7ab/animations (canvas backgrounds -- externalizes core)
 ```
 
 Three token layers. Each layer only depends on the one below it.
@@ -37,7 +37,7 @@ Semantic    ->  var(--...) references resolved by theme CSS
 Primitives  ->  raw palette values (colors, spacing, radii, shadows, typography)
 ```
 
-The token layer and themes live in `@4lt7ab/core`. `@4lt7ab/content` and `@4lt7ab/animations` import from core directly -- they do not depend on `@4lt7ab/ui`. `@4lt7ab/ui` bundles core and re-exports its entire API for convenience. Core is bundled into each consumer package's dist so there are no cross-package runtime imports.
+The token layer and themes live in `@4lt7ab/core`. `@4lt7ab/content` and `@4lt7ab/animations` import from core directly -- they do not depend on `@4lt7ab/ui`. `@4lt7ab/ui` externalizes core and re-exports its entire API for convenience. At build time, `@4lt7ab/core` imports in dist are rewritten to relative paths (`../../core/dist/`) so all packages share one context instance without requiring a separate `@4lt7ab/core` install.
 
 ## Source Layout
 

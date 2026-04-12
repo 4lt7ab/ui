@@ -1,72 +1,38 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { ThemeProvider, useTheme, Icon } from '@4lt7ab/ui';
+import type { IconName } from '@4lt7ab/ui';
 import { ThemeBackground } from '@4lt7ab/animations';
-import { CommandCenter } from './examples/CommandCenter';
-import { OnboardingFlow } from './examples/OnboardingFlow';
-import { BlogPost } from './examples/BlogPost';
-import { ProjectHub } from './examples/ProjectHub';
-import { ComponentCatalogue } from './examples/ComponentCatalogue';
+import { Landing } from './views/Landing';
+import { ComponentExplorer } from './views/ComponentExplorer';
+import { PatternRecipes } from './views/PatternRecipes';
+import { ThemePlayground } from './views/ThemePlayground';
 
 // ---------------------------------------------------------------------------
-// App registry
+// View routing
 // ---------------------------------------------------------------------------
 
-type AppId = 'components' | 'command-center' | 'onboarding' | 'blog' | 'project-hub';
+type ViewId = 'home' | 'components' | 'patterns' | 'themes';
 
-interface MockApp {
-  id: AppId;
+interface NavItem {
+  id: ViewId;
   label: string;
-  description: string;
-  icon: 'settings' | 'plus' | 'edit' | 'menu' | 'search';
-  component: () => React.JSX.Element;
+  icon: IconName;
 }
 
-const APPS: MockApp[] = [
-  {
-    id: 'components',
-    label: 'Components',
-    description: 'Browse all components with prop variants',
-    icon: 'search',
-    component: ComponentCatalogue,
-  },
-  {
-    id: 'command-center',
-    label: 'Command Center',
-    description: 'System monitor with tables, status indicators, and progress tracking',
-    icon: 'settings',
-    component: CommandCenter,
-  },
-  {
-    id: 'onboarding',
-    label: 'Onboarding',
-    description: 'Multi-step workspace creation wizard with forms and validation',
-    icon: 'plus',
-    component: OnboardingFlow,
-  },
-  {
-    id: 'blog',
-    label: 'Blog Post',
-    description: 'Long-form content with pull quotes, margin notes, and linked resources',
-    icon: 'edit',
-    component: BlogPost,
-  },
-  {
-    id: 'project-hub',
-    label: 'Project Hub',
-    description: 'Project management with CRUD, loading states, and tag management',
-    icon: 'menu',
-    component: ProjectHub,
-  },
+const NAV_ITEMS: NavItem[] = [
+  { id: 'home', label: 'Home', icon: 'arrow-right' },
+  { id: 'components', label: 'Components', icon: 'search' },
+  { id: 'patterns', label: 'Patterns', icon: 'menu' },
+  { id: 'themes', label: 'Themes', icon: 'eye' },
 ];
 
 // ---------------------------------------------------------------------------
-// Theme selector (compact dropdown)
+// Theme dropdown (compact)
 // ---------------------------------------------------------------------------
 
 function ThemeDropdown(): React.JSX.Element {
   const { resolved, themes, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
-
   const themeList = Array.from(themes.values());
 
   return (
@@ -102,11 +68,7 @@ function ThemeDropdown(): React.JSX.Element {
         <>
           <div
             onClick={() => setOpen(false)}
-            style={{
-              position: 'fixed',
-              inset: 0,
-              zIndex: 99,
-            }}
+            style={{ position: 'fixed', inset: 0, zIndex: 99 }}
           />
           <div style={{
             position: 'absolute',
@@ -155,16 +117,27 @@ function ThemeDropdown(): React.JSX.Element {
 // ---------------------------------------------------------------------------
 
 function Shell(): React.JSX.Element {
-  const [activeApp, setActiveApp] = useState<AppId>('components');
+  const [activeView, setActiveView] = useState<ViewId>('home');
+  const [componentTarget, setComponentTarget] = useState<string | undefined>(undefined);
 
-  const current = APPS.find((a) => a.id === activeApp) ?? APPS[0];
-  const ActiveComponent = current.component;
+  const navigateTo = useCallback((view: string): void => {
+    if (view === 'components' || view === 'patterns' || view === 'themes' || view === 'home') {
+      setActiveView(view as ViewId);
+      setComponentTarget(undefined);
+    }
+  }, []);
+
+  const navigateToComponent = useCallback((name: string): void => {
+    setActiveView('components');
+    setComponentTarget(name);
+    window.location.hash = `#/components/${name}`;
+  }, []);
 
   return (
     <div style={{
       display: 'flex',
       flexDirection: 'column',
-      minHeight: '100vh',
+      height: '100vh',
       background: 'var(--color-surface)',
       fontFamily: 'var(--font-sans)',
       color: 'var(--color-text)',
@@ -176,32 +149,36 @@ function Shell(): React.JSX.Element {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '0.625rem 1.25rem',
+        padding: '0.5rem 1rem',
         borderBottom: '1px solid var(--color-border)',
         background: 'var(--color-surface-panel)',
-        position: 'sticky',
-        top: 0,
+        flexShrink: 0,
         zIndex: 10,
       }}>
         {/* Left: brand + nav */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-          <span style={{
-            fontSize: '0.8rem',
-            fontWeight: 700,
-            fontFamily: 'var(--font-mono)',
-            letterSpacing: '-0.025em',
-            color: 'var(--color-text)',
-          }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+          <button
+            onClick={() => setActiveView('home')}
+            style={{
+              all: 'unset',
+              cursor: 'pointer',
+              fontSize: '0.8rem',
+              fontWeight: 700,
+              fontFamily: 'var(--font-mono)',
+              letterSpacing: '-0.025em',
+              color: 'var(--color-text)',
+            }}
+          >
             @4lt7ab/ui
-          </span>
+          </button>
 
           <nav style={{ display: 'flex', gap: '0.125rem' }}>
-            {APPS.map((app) => {
-              const isActive = activeApp === app.id;
+            {NAV_ITEMS.filter((n) => n.id !== 'home').map((item) => {
+              const isActive = activeView === item.id;
               return (
                 <button
-                  key={app.id}
-                  onClick={() => setActiveApp(app.id)}
+                  key={item.id}
+                  onClick={() => navigateTo(item.id)}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -218,7 +195,8 @@ function Shell(): React.JSX.Element {
                     transition: 'background 100ms ease, color 100ms ease',
                   }}
                 >
-                  {app.label}
+                  <Icon name={item.icon} size={14} />
+                  {item.label}
                 </button>
               );
             })}
@@ -229,19 +207,32 @@ function Shell(): React.JSX.Element {
         <ThemeDropdown />
       </header>
 
-      {/* Main content */}
+      {/* Main content — fills remaining height */}
       <main style={{
         flex: 1,
-        padding: '1.5rem',
-        maxWidth: '72rem',
-        width: '100%',
-        margin: '0 auto',
+        overflow: 'auto',
+        minHeight: 0,
       }}>
-        <ActiveComponent />
+        {activeView === 'home' && (
+          <Landing onNavigate={navigateTo} />
+        )}
+        {activeView === 'components' && (
+          <ComponentExplorer initialComponent={componentTarget} />
+        )}
+        {activeView === 'patterns' && (
+          <PatternRecipes onNavigateComponent={navigateToComponent} />
+        )}
+        {activeView === 'themes' && (
+          <ThemePlayground />
+        )}
       </main>
     </div>
   );
 }
+
+// ---------------------------------------------------------------------------
+// App
+// ---------------------------------------------------------------------------
 
 export function App(): React.JSX.Element {
   return (
