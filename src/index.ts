@@ -1,3 +1,6 @@
+// Utilities
+export { useFocusTrap } from './utils/useFocusTrap';
+
 // Tokens
 export { typography, semantic } from './tokens';
 export type { Typography, SemanticTokens } from './tokens';

@@ -1,10 +1,11 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef, useId, useState } from 'react';
 import { semantic as t } from '../../tokens/semantic';
 import { ModalShell } from '../ModalShell';
 import { Button } from '../Button';
 import type { ReactNode } from 'react';
 import type { ButtonVariant } from '../Button/Button';
 
+/** Semantic variant controlling the confirm button style. */
 export type ConfirmDialogVariant = 'destructive' | 'info' | 'warning';
 
 const variantButtonMap: Record<ConfirmDialogVariant, ButtonVariant> = {
@@ -13,15 +14,28 @@ const variantButtonMap: Record<ConfirmDialogVariant, ButtonVariant> = {
   warning: 'primary',
 };
 
+/** A modal confirmation dialog with title, message, and Cancel/Confirm buttons. Supports async confirm handlers with loading state. */
 export interface ConfirmDialogProps {
+  /** Dialog heading text. */
   title: string;
+  /** Descriptive text explaining what the user is confirming. */
   message: string;
+  /** Label for the confirm button.
+   * @default 'Confirm'
+   */
   confirmLabel?: string;
+  /** Called when the user clicks confirm. Can return a Promise to show a loading state. */
   onConfirm: () => Promise<void> | void;
+  /** Called when the user cancels (Cancel button, Escape key, or overlay click). */
   onCancel: () => void;
-  /** Custom body content rendered between the message and the buttons. */
+  /** Custom body content rendered between the message and the action buttons. */
   children?: ReactNode;
-  /** Controls confirm button styling. Defaults to 'destructive'. */
+  /** Controls the confirm button color variant.
+   * - `destructive` — red destructive button
+   * - `info` — primary accent button
+   * - `warning` — primary accent button
+   * @default 'destructive'
+   */
   variant?: ConfirmDialogVariant;
 }
 
@@ -36,6 +50,7 @@ export const ConfirmDialog: React.ForwardRefExoticComponent<Omit<ConfirmDialogPr
     variant = 'destructive',
   }, ref): React.JSX.Element {
     const [loading, setLoading] = useState(false);
+    const titleId = useId();
 
     const handleConfirm = async (): Promise<void> => {
       setLoading(true);
@@ -47,8 +62,9 @@ export const ConfirmDialog: React.ForwardRefExoticComponent<Omit<ConfirmDialogPr
     };
 
     return (
-      <ModalShell ref={ref} onClose={onCancel}>
+      <ModalShell ref={ref} onClose={onCancel} role="alertdialog" titleId={titleId}>
       <h2
+        id={titleId}
         style={{
           margin: 0,
           fontWeight: t.fontWeightSemibold,
@@ -81,7 +97,7 @@ export const ConfirmDialog: React.ForwardRefExoticComponent<Omit<ConfirmDialogPr
           gap: t.spaceSm,
         }}
       >
-        <Button variant="ghost" onClick={onCancel} disabled={loading}>
+        <Button variant="ghost" onClick={onCancel} disabled={loading} autoFocus>
           Cancel
         </Button>
         <Button variant={variantButtonMap[variant]} onClick={handleConfirm} disabled={loading}>
