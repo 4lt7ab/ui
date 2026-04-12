@@ -22,6 +22,8 @@ import { PageShellDemo } from './PageShellDemo';
 import { ThinkingCycleDemo } from './ThinkingCycleDemo';
 import { LinkCardDemo } from './LinkCardDemo';
 import { MarginSpotlightDemo } from './MarginSpotlightDemo';
+import { TableDemo } from './TableDemo';
+import { StatusDotDemo } from './StatusDotDemo';
 import { ThemePickerDemo } from './ThemePickerDemo';
 
 export type DemoSource = 'ui' | 'content';
@@ -43,6 +45,7 @@ export const demos: DemoEntry[] = [
   { name: 'Card', category: 'Layout', source: 'ui', component: CardDemo },
   { name: 'ExpandableCard', category: 'Layout', source: 'ui', component: ExpandableCardDemo },
   { name: 'PageHeader', category: 'Layout', source: 'ui', component: PageHeaderDemo },
+  { name: 'Table', category: 'Layout', source: 'ui', component: TableDemo },
   { name: 'Skeleton', category: 'Layout', source: 'ui', component: SkeletonDemo },
 
   // Action
@@ -55,6 +58,7 @@ export const demos: DemoEntry[] = [
   { name: 'Badge', category: 'Feedback', source: 'ui', component: BadgeDemo },
   { name: 'ProgressBar', category: 'Feedback', source: 'ui', component: ProgressBarDemo },
   { name: 'EmptyState', category: 'Feedback', source: 'ui', component: EmptyStateDemo },
+  { name: 'StatusDot', category: 'Feedback', source: 'ui', component: StatusDotDemo },
   { name: 'Modal', category: 'Feedback', source: 'ui', component: ModalDemo },
 
   // Form

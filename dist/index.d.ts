@@ -531,4 +531,77 @@ interface ConfirmDialogProps {
 	onCancel: () => void;
 }
 declare function ConfirmDialog({ title, message, confirmLabel, onConfirm, onCancel }: ConfirmDialogProps): React.JSX.Element;
-export { warmSandTheme, useTheme, typography, tokenToCssProperty, synthwaveTheme, spacing, slateTheme, shadows, semantic, radii, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, iconRegistry, coralTheme, colors, Typography, ThemeTokens, ThemeProviderProps, ThemeProvider, ThemePickerProps, ThemePicker, ThemeDefinition, ThemeContextValue, Theme, TextareaProps, Textarea, TagChipProps, TagChip, StackProps, Stack, Spacing, SkeletonProps, Skeleton, Shadows, SemanticTokens, SelectProps, SelectOption, Select, RowSkeleton, ResolvedTheme, Radii, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, ModalShellProps, ModalShell, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, FieldProps, Field, ExpandableCardProps, ExpandableCard, EmptyStateProps, EmptyState, ConfirmDialogProps, ConfirmDialog, Colors, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge };
+import { CSSProperties as CSSProperties13 } from "react";
+type StatusDotVariant = "default" | "success" | "warning" | "error" | "info";
+interface StatusDotProps {
+	/** Semantic variant — maps to feedback tokens. */
+	variant?: StatusDotVariant;
+	/** Raw color override. Takes precedence over variant. */
+	color?: string;
+	/** Dot diameter in pixels. @default 8 */
+	size?: number;
+	/** Accessible label describing the status. */
+	"aria-label"?: string;
+	style?: CSSProperties13;
+}
+declare function StatusDot({ variant, color, size, "aria-label": ariaLabel, style }: StatusDotProps): React.JSX.Element;
+import { HTMLAttributes as HTMLAttributes5, TdHTMLAttributes, ThHTMLAttributes, ReactNode as ReactNode10 } from "react";
+type SpacingToken3 = "xs" | "sm" | "md" | "lg";
+type TableVariant = "default" | "flat";
+interface TableProps extends HTMLAttributes5<HTMLDivElement> {
+	/** Visual treatment. Default wraps with border + shadow; flat has no chrome. */
+	variant?: TableVariant;
+	/** Cell density. Default: 'md' */
+	density?: SpacingToken3;
+	children: ReactNode10;
+}
+declare function Table({ variant, density, children, style,...props }: TableProps): React.JSX.Element;
+interface TableHeaderProps extends HTMLAttributes5<HTMLTableSectionElement> {
+	children: ReactNode10;
+}
+declare function TableHeader({ children, style,...props }: TableHeaderProps): React.JSX.Element;
+interface TableHeaderCellProps extends ThHTMLAttributes<HTMLTableCellElement> {
+	/** Text alignment. Default: 'left' */
+	align?: "left" | "center" | "right";
+	/** Fixed width in px or CSS string */
+	width?: number | string;
+	children?: ReactNode10;
+}
+declare function TableHeaderCell({ align, width, children, style,...props }: TableHeaderCellProps): React.JSX.Element;
+interface TableBodyProps extends HTMLAttributes5<HTMLTableSectionElement> {
+	children: ReactNode10;
+}
+declare function TableBody({ children,...props }: TableBodyProps): React.JSX.Element;
+interface TableRowProps extends HTMLAttributes5<HTMLTableRowElement> {
+	/** Highlight as selected */
+	selected?: boolean;
+	/** Enable hover background */
+	hoverable?: boolean;
+	children: ReactNode10;
+}
+declare function TableRow({ selected, hoverable, children, style, onClick,...props }: TableRowProps): React.JSX.Element;
+interface TableCellProps extends TdHTMLAttributes<HTMLTableCellElement> {
+	/** Text alignment. Default: 'left' */
+	align?: "left" | "center" | "right";
+	/** Truncate overflowing text with ellipsis */
+	truncate?: boolean;
+	/** Use muted text color */
+	muted?: boolean;
+	/** Fixed width in px or CSS string */
+	width?: number | string;
+	children?: ReactNode10;
+}
+declare function TableCell({ align, truncate, muted, width, children, style,...props }: TableCellProps): React.JSX.Element;
+interface TableGroupHeaderProps extends HTMLAttributes5<HTMLTableRowElement> {
+	/** Number of columns to span */
+	colSpan: number;
+	children: ReactNode10;
+}
+declare function TableGroupHeader({ colSpan, children, style,...props }: TableGroupHeaderProps): React.JSX.Element;
+interface TableEmptyRowProps extends HTMLAttributes5<HTMLTableRowElement> {
+	/** Number of columns to span */
+	colSpan: number;
+	children: ReactNode10;
+}
+declare function TableEmptyRow({ colSpan, children, style,...props }: TableEmptyRowProps): React.JSX.Element;
+export { warmSandTheme, useTheme, typography, tokenToCssProperty, synthwaveTheme, spacing, slateTheme, shadows, semantic, radii, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, iconRegistry, coralTheme, colors, Typography, ThemeTokens, ThemeProviderProps, ThemeProvider, ThemePickerProps, ThemePicker, ThemeDefinition, ThemeContextValue, Theme, TextareaProps, Textarea, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDot, StackProps, Stack, Spacing, SkeletonProps, Skeleton, Shadows, SemanticTokens, SelectProps, SelectOption, Select, RowSkeleton, ResolvedTheme, Radii, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, ModalShellProps, ModalShell, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, FieldProps, Field, ExpandableCardProps, ExpandableCard, EmptyStateProps, EmptyState, ConfirmDialogProps, ConfirmDialog, Colors, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge };

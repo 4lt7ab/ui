@@ -118,6 +118,8 @@ Both share the same token layer and respond to the active theme.
 | `PageHeader` | Page title with optional actions slot. |
 | `TagChip` | Removable tag/chip. |
 | `ExpandableCard` | Card with collapsible content section. |
+| `Table` | Compound table: `Table`, `TableHeader`, `TableHeaderCell`, `TableBody`, `TableRow`, `TableCell`, `TableGroupHeader`, `TableEmptyRow`. Default and flat variants. Supports row selection, hover, truncation, group headers, and empty states. |
+| `StatusDot` | Colored dot for status indicators. Semantic variants or custom colors. |
 | `ThemePicker` | Visual theme selector grid. |
 
 ### Content (`@4lt7ab/ui/content`)

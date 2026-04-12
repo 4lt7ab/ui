@@ -88,3 +88,16 @@ export type { ModalShellProps } from './components/ModalShell';
 
 export { ConfirmDialog } from './components/ConfirmDialog';
 export type { ConfirmDialogProps } from './components/ConfirmDialog';
+
+export { StatusDot } from './components/StatusDot';
+export type { StatusDotProps, StatusDotVariant } from './components/StatusDot';
+
+export {
+  Table, TableHeader, TableHeaderCell, TableBody,
+  TableRow, TableCell, TableGroupHeader, TableEmptyRow,
+} from './components/Table';
+export type {
+  TableProps, TableVariant, TableHeaderProps, TableHeaderCellProps,
+  TableBodyProps, TableRowProps, TableCellProps,
+  TableGroupHeaderProps, TableEmptyRowProps,
+} from './components/Table';

@@ -52,6 +52,8 @@ src/
 ├── components/
 │   ├── Button/          # app UI components
 │   ├── Card/
+│   ├── StatusDot/       # colored status indicator dot
+│   ├── Table/           # compound table (Table, Header, Row, Cell, etc.)
 │   ├── ...
 │   ├── Container/       # content components
 │   ├── Prose/
