@@ -142,7 +142,7 @@ demo/                            # Vite demo app
 4. Export from `packages/ui/src/index.ts`
 5. If the theme has a background animation, add it to `@4lt7ab/animations`
 
-Built-in themes: synthwave, slate, warm-sand, moss, coral, pipboy, neural, pacman.
+Built-in themes: synthwave, slate, warm-sand, moss, coral, pipboy, neural, pacman. **Hard cap: 10 themes.** To add a new theme beyond the cap, retire an existing one first.
 
 ## Adding a Token
 
