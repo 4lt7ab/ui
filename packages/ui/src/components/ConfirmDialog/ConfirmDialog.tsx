@@ -1,5 +1,5 @@
 import { forwardRef, useId, useState } from 'react';
-import { semantic as t } from '../../tokens/semantic';
+import { semantic as t } from '@4lt7ab/core';
 import { ModalShell } from '../ModalShell';
 import { Button } from '../Button';
 import type { ReactNode } from 'react';

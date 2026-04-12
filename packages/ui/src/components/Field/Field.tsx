@@ -1,4 +1,4 @@
-import { semantic as t } from '../../tokens/semantic';
+import { semantic as t } from '@4lt7ab/core';
 import { forwardRef, useId, isValidElement, cloneElement, type HTMLAttributes, type ReactNode, type ReactElement } from 'react';
 
 /** Wraps an input with a label, help text, and error message. Handles `aria-describedby` wiring automatically. */

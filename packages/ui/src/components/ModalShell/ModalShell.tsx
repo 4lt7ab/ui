@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useId, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { semantic as t } from '../../tokens/semantic';
+import { semantic as t } from '@4lt7ab/core';
 import { useFocusTrap } from '../../utils/useFocusTrap';
 import { Overlay } from '../Overlay';
 import type { CSSProperties, ReactNode } from 'react';

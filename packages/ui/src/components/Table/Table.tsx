@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
-import { semantic as t } from '../../tokens/semantic';
-import { useInjectStyles } from '../../utils/useInjectStyles';
+import { semantic as t } from '@4lt7ab/core';
+import { useInjectStyles } from '@4lt7ab/core';
 import type { HTMLAttributes, TdHTMLAttributes, ThHTMLAttributes, ReactNode, CSSProperties, KeyboardEvent } from 'react';
 
 // ---------------------------------------------------------------------------

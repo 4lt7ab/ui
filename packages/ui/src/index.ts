@@ -1,21 +1,21 @@
-// Utilities
+// Utilities (local)
 export { useFocusTrap } from './utils/useFocusTrap';
-export { useInjectStyles } from './utils/useInjectStyles';
 
-// Tokens
-export { typography, semantic } from './tokens';
-export type { Typography, SemanticTokens } from './tokens';
-
-// Theme
-export { ThemeProvider, useTheme } from './themes/ThemeProvider';
-export type { Theme, ResolvedTheme, ThemeContextValue, ThemeProviderProps } from './themes/ThemeProvider';
-export type { ThemeDefinition, ThemeTokens } from './themes/types';
-export { tokenToCssProperty } from './themes/types';
+// Re-export core theme system
 export {
-  synthwaveTheme,
-  slateTheme, warmSandTheme, mossTheme, coralTheme,
+  useInjectStyles,
+  typography, semantic,
+  colors, spacing, radii, shadows,
+  ThemeProvider, useTheme,
+  tokenToCssProperty,
+  synthwaveTheme, slateTheme, warmSandTheme, mossTheme, coralTheme,
   pipboyTheme, neuralTheme, pacmanTheme,
-} from './themes/definitions';
+} from '@4lt7ab/core';
+export type {
+  Typography, SemanticTokens, Colors, Spacing, Radii, Shadows,
+  Theme, ResolvedTheme, ThemeContextValue, ThemeProviderProps,
+  ThemeDefinition, ThemeTokens,
+} from '@4lt7ab/core';
 
 // Theme Picker
 export { ThemePicker } from './components/ThemePicker';

@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { semantic as t } from '../../tokens/semantic';
+import { semantic as t } from '@4lt7ab/core';
 import type { TextareaHTMLAttributes } from 'react';
 
 /** A multi-line text input area. Vertically resizable by default. */

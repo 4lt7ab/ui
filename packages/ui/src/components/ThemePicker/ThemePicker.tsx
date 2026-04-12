@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
-import { useTheme } from '../../themes/ThemeProvider';
-import { useInjectStyles } from '../../utils/useInjectStyles';
+import { useTheme } from '@4lt7ab/core';
+import { useInjectStyles } from '@4lt7ab/core';
 
 export interface ThemePickerProps {
   /** Optional descriptions for each theme, keyed by theme name. */

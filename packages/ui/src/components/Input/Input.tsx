@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { semantic as t } from '../../tokens/semantic';
+import { semantic as t } from '@4lt7ab/core';
 import type { InputHTMLAttributes } from 'react';
 
 /** A single-line text input field. */

@@ -1,4 +1,4 @@
-import { semantic as t } from '../../tokens/semantic';
+import { semantic as t } from '@4lt7ab/core';
 import { Card } from '../Card';
 import { IconChevronRight } from '../../icons/icons';
 import type { CardVariant } from '../Card';

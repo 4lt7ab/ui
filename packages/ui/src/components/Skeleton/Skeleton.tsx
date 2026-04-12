@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { semantic as t } from '../../tokens/semantic';
+import { semantic as t } from '@4lt7ab/core';
 import type { CSSProperties } from 'react';
 
 /** A placeholder loading shape. Renders a static block with the raised surface color. */

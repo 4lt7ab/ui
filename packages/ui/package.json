@@ -15,11 +15,12 @@
   "sideEffects": false,
   "files": ["dist"],
   "peerDependencies": {
+    "@4lt7ab/core": "workspace:*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "scripts": {
-    "build": "bunup src/index.ts --format esm,cjs --dts",
+    "build": "bunup src/index.ts --format esm,cjs --dts --external @4lt7ab/core --external react --external react-dom",
     "typecheck": "tsc --noEmit"
   }
 }
