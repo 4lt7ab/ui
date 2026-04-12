@@ -1,19 +1,60 @@
 # @4lt7ab
 
-A React design system distributed as three packages: tokens, themes, and components for building apps and content sites.
+A React component library distributed as four packages built on a shared theme platform. Every component consumes semantic tokens and responds to the active theme at runtime.
 
 ## Packages
 
-| Package | Description |
-|---------|-------------|
-| [`@4lt7ab/ui`](packages/ui/README.md) | Tokens, themes, icons, and interactive UI components |
+| Package | What it does |
+|---------|--------------|
+| [`@4lt7ab/core`](packages/core/README.md) | Theme platform: tokens, themes, ThemeProvider, useTheme, useInjectStyles |
+| [`@4lt7ab/ui`](packages/ui/README.md) | Icons and interactive UI components |
 | [`@4lt7ab/content`](packages/content/README.md) | Layout and prose components for blogs and docs |
 | [`@4lt7ab/animations`](packages/animations/README.md) | Canvas background animations tied to themes |
+
+`@4lt7ab/core` is the foundation — it provides the token layer and theme system that all other packages depend on. `@4lt7ab/ui`, `@4lt7ab/content`, and `@4lt7ab/animations` are independent of each other and each peer-depend on `@4lt7ab/core`.
+
+## Install
+
+Packages are distributed as git dependencies. Add the ones you need to your `package.json`:
+
+```json
+{
+  "dependencies": {
+    "@4lt7ab/core": "github:4lt7ab/ui#v0.1.0",
+    "@4lt7ab/ui": "github:4lt7ab/ui#v0.1.0",
+    "@4lt7ab/content": "github:4lt7ab/ui#v0.1.0",
+    "@4lt7ab/animations": "github:4lt7ab/ui#v0.1.0"
+  }
+}
+```
+
+Install only what you need. `@4lt7ab/core` is always required:
+
+```bash
+# Just interactive components
+@4lt7ab/core + @4lt7ab/ui
+
+# Just content/prose
+@4lt7ab/core + @4lt7ab/content
+
+# Everything
+@4lt7ab/core + @4lt7ab/ui + @4lt7ab/content + @4lt7ab/animations
+```
+
+Then install:
+
+```bash
+bun install
+# or: npm install, yarn install, pnpm install
+```
+
+**Peer dependencies:** `react` and `react-dom` ^19.0.0. You provide React — the library doesn't bundle it.
 
 ## Quick Start
 
 ```tsx
-import { ThemeProvider, Button, Card } from '@4lt7ab/ui';
+import { ThemeProvider } from '@4lt7ab/core';
+import { Button, Card } from '@4lt7ab/ui';
 import { Prose, Container } from '@4lt7ab/content';
 import { ThemeBackground } from '@4lt7ab/animations';
 
@@ -22,57 +63,93 @@ function App() {
     <ThemeProvider defaultTheme="synthwave">
       <ThemeBackground />
       <Container width="prose">
-        <Prose>
-          <h1>Hello</h1>
-          <p>Content goes here.</p>
-        </Prose>
+        <Card>
+          <Prose>
+            <h1>Hello</h1>
+            <p>Content goes here.</p>
+          </Prose>
+          <Button variant="primary">Click me</Button>
+        </Card>
       </Container>
-      <Card>
-        <Button variant="primary">Click me</Button>
-      </Card>
     </ThemeProvider>
   );
 }
 ```
 
-## Install
-
-Add the packages you need to your `package.json`:
-
-```json
-{
-  "dependencies": {
-    "@4lt7ab/ui": "github:username/component-library#v0.1.0",
-    "@4lt7ab/content": "github:username/component-library#v0.1.0",
-    "@4lt7ab/animations": "github:username/component-library#v0.1.0"
-  }
-}
-```
-
-Then install:
-
-```bash
-bun install
-```
-
-All three packages share the same token layer and respond to the active theme. `@4lt7ab/content` and `@4lt7ab/animations` are peer dependencies of `@4lt7ab/ui` -- consumers must install the UI package for themes and tokens to work.
+Everything lives inside a `ThemeProvider` (from `@4lt7ab/core` or re-exported by `@4lt7ab/ui`). It injects CSS custom properties for the active theme, and all components read from those variables. Switch themes at runtime and every component updates automatically.
 
 ## Themes
 
-Eight built-in themes: **synthwave**, **slate**, **warm-sand**, **moss**, **coral**, **pipboy**, **neural**, **pacman**.
+Eight built-in themes:
 
-The default is `synthwave`. Each theme provides a complete set of semantic tokens (colors, spacing, radii, shadows, typography) that all components consume.
+| Theme | Vibe |
+|-------|------|
+| `synthwave` | Neon on dark purple (default) |
+| `slate` | Clean neutral gray |
+| `warm-sand` | Warm earth tones |
+| `moss` | Dark green, natural |
+| `coral` | Warm coral accent on dark |
+| `pipboy` | Green-on-black terminal |
+| `neural` | Deep blue, data-viz feel |
+| `pacman` | Retro arcade yellow |
 
-## Development
+Four themes have animated canvas backgrounds (`synthwave`, `pipboy`, `neural`, `pacman`). The rest use plain CSS backgrounds.
 
-```bash
-bun install          # install all workspace dependencies
-bun run build        # build all packages (UI first, then content + animations)
-bun run typecheck    # type-check all packages
-bun run dev          # start the demo app (Vite)
+### Switching Themes
+
+```tsx
+import { useTheme } from '@4lt7ab/core';
+
+function ThemeSwitcher() {
+  const { theme, setTheme, themes } = useTheme();
+
+  return (
+    <select value={theme} onChange={(e) => setTheme(e.target.value)}>
+      {Array.from(themes.keys()).map((name) => (
+        <option key={name} value={name}>{themes.get(name)?.label}</option>
+      ))}
+    </select>
+  );
+}
 ```
 
-## Versioning
+Or drop in the built-in visual picker:
+
+```tsx
+import { ThemePicker } from '@4lt7ab/ui';
+
+<ThemePicker />
+```
+
+Theme selection persists to `localStorage` automatically.
+
+## Token System
+
+Components never use raw color values or pixel literals. Instead, they reference semantic tokens — CSS custom properties that resolve to the active theme's values.
+
+```tsx
+import { semantic as t } from '@4lt7ab/core';
+
+// These are var(--...) references, not hard-coded values
+t.colorBackground    // page background
+t.colorSurface       // card/panel background
+t.colorText          // primary text
+t.colorBorder        // borders
+t.spaceMd            // spacing
+t.radiusMd           // border radius
+```
+
+Use these tokens when building custom components that should stay consistent with the design system.
+
+## Versioning & Updates
+
+The library uses git tags for versioning. To update, change the tag in your `package.json` and re-install:
+
+```json
+"@4lt7ab/core": "github:4lt7ab/ui#v0.2.0"
+```
+
+### Release Process (for contributors)
 
 ```bash
 bun run build
@@ -82,8 +159,15 @@ git tag v0.2.0
 git push origin main --tags
 ```
 
-Consumers update the tag in their `package.json` and re-install.
+`dist/` directories are committed to git so consumers don't need a build step.
 
-## Package Details
+## Development
 
-Each package has its own README with full API documentation, component tables, and usage examples. See the links in the table above.
+```bash
+bun install          # install all workspace dependencies
+bun run build        # build all packages (core first, then ui, then content + animations)
+bun run typecheck    # type-check all packages
+bun run dev          # start the Vite demo app
+```
+
+Build order matters: all packages depend on `@4lt7ab/core`, so the root build script runs core first.

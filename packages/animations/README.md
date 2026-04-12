@@ -1,26 +1,26 @@
 # @4lt7ab/animations
 
-Canvas background animations that match the active theme. Four animated backgrounds for themes that support them.
+Canvas background animations that respond to the active theme.
 
 ## Install
 
 ```json
 {
   "dependencies": {
-    "@4lt7ab/animations": "github:username/component-library#v0.1.0",
-    "@4lt7ab/ui": "github:username/component-library#v0.1.0"
+    "@4lt7ab/core": "github:4lt7ab/ui#v0.1.0",
+    "@4lt7ab/animations": "github:4lt7ab/ui#v0.1.0"
   }
 }
 ```
 
-Peer dependencies: `@4lt7ab/ui`, `react`, `react-dom` (^19.0.0).
+Peer dependencies: `@4lt7ab/core`, `react`, `react-dom` ^19.0.0.
 
 ## ThemeBackground
 
-The simplest way to add a background animation. Drop it inside a `ThemeProvider` and it automatically renders the correct animation for the active theme:
+Drop-in component that renders the correct canvas animation for the active theme. Place it inside a `ThemeProvider` and it handles everything — theme switches, cleanup, resize.
 
 ```tsx
-import { ThemeProvider } from '@4lt7ab/ui';
+import { ThemeProvider } from '@4lt7ab/core';
 import { ThemeBackground } from '@4lt7ab/animations';
 
 function App() {
@@ -35,16 +35,20 @@ function App() {
 
 `ThemeBackground` renders nothing to the React tree. It creates a fixed-position canvas behind your content (`z-index: 0`, `pointer-events: none`). When the theme changes, it swaps the animation automatically.
 
+---
+
 ## Available Backgrounds
 
-| Background | Theme |
-|------------|-------|
-| `synthwaveBackground` | synthwave |
-| `pipboyBackground` | pipboy |
-| `neuralBackground` | neural |
-| `pacmanBackground` | pacman |
+| Function | Theme | Description |
+|----------|-------|-------------|
+| `synthwaveBackground` | synthwave | Neon grid perspective animation |
+| `pipboyBackground` | pipboy | Green terminal scanline effect |
+| `neuralBackground` | neural | Connected node network |
+| `pacmanBackground` | pacman | Retro arcade elements |
 
-Themes without a registered background (slate, warm-sand, moss, coral) render no canvas -- the theme's CSS background applies normally.
+Themes without a registered background (`slate`, `warm-sand`, `moss`, `coral`) render no canvas — the theme's CSS background color applies normally.
+
+---
 
 ## Standalone Usage
 
@@ -60,7 +64,7 @@ const cleanup = synthwaveBackground(canvas);
 cleanup();
 ```
 
-Each background function has the signature:
+Every background function has the same signature:
 
 ```ts
 type BackgroundFunction = (canvas: HTMLCanvasElement) => () => void;
@@ -68,19 +72,22 @@ type BackgroundFunction = (canvas: HTMLCanvasElement) => () => void;
 
 Pass a canvas element, get back a cleanup function that stops the animation and releases resources.
 
+---
+
 ## Behavior
 
-- **Reduced motion**: Disabled when `prefers-reduced-motion: reduce` is active.
-- **Viewport guard**: Only activates on viewports wider than 768px. No animations on mobile.
-- **Z-index stacking**: The canvas renders at `z-index: 0` with `position: fixed`. Your app content should be above it -- use `ThemeSurface` from `@4lt7ab/ui` for themed containers that layer correctly over the background.
-- **Cleanup**: Animations are cleaned up automatically when the theme changes or the component unmounts.
+- **Reduced motion:** Animations are disabled when `prefers-reduced-motion: reduce` is active.
+- **Mobile:** Only activates on viewports wider than 768px. No animations on mobile.
+- **Z-index:** The canvas renders at `z-index: 0` with `position: fixed`. Your app content should layer above it. Use `ThemeSurface` from `@4lt7ab/ui` for themed containers that stack correctly.
+- **Cleanup:** Animations clean up automatically on theme change or component unmount.
 
-## Working with ThemeSurface
+## Layering with ThemeSurface
 
-`ThemeSurface` from `@4lt7ab/ui` provides a themed container with a background that can be made transparent, allowing the canvas animation to show through:
+`ThemeSurface` from `@4lt7ab/ui` provides a themed container that sits above the canvas animation:
 
 ```tsx
-import { ThemeProvider, ThemeSurface } from '@4lt7ab/ui';
+import { ThemeProvider } from '@4lt7ab/core';
+import { ThemeSurface } from '@4lt7ab/ui';
 import { ThemeBackground } from '@4lt7ab/animations';
 
 function App() {
