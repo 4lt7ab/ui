@@ -1,5 +1,5 @@
 import { semantic as t } from '../../tokens/semantic';
-import { useId, isValidElement, cloneElement, type HTMLAttributes, type ReactNode, type ReactElement } from 'react';
+import { forwardRef, useId, isValidElement, cloneElement, type HTMLAttributes, type ReactNode, type ReactElement } from 'react';
 
 export interface FieldProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
   /** Field label text. */
@@ -19,9 +19,9 @@ export interface FieldProps extends Omit<HTMLAttributes<HTMLDivElement>, 'childr
 
 const labelStyle: React.CSSProperties = {
   display: 'block',
-  fontSize: '0.875rem',
-  fontWeight: 500,
-  lineHeight: '1.25rem',
+  fontSize: t.fontSizeSm,
+  fontWeight: t.fontWeightMedium,
+  lineHeight: t.lineHeightTight,
   color: t.colorText,
   fontFamily: t.fontSans,
 };
@@ -32,64 +32,67 @@ const requiredStyle: React.CSSProperties = {
 };
 
 const helpStyle: React.CSSProperties = {
-  fontSize: '0.75rem',
-  lineHeight: '1rem',
+  fontSize: t.fontSizeXs,
+  lineHeight: t.lineHeightTight,
   color: t.colorTextMuted,
   fontFamily: t.fontSans,
   margin: 0,
 };
 
 const errorStyle: React.CSSProperties = {
-  fontSize: '0.75rem',
-  lineHeight: '1rem',
+  fontSize: t.fontSizeXs,
+  lineHeight: t.lineHeightTight,
   color: t.colorError,
   fontFamily: t.fontSans,
   margin: 0,
 };
 
-export function Field({
-  label,
-  htmlFor,
-  error,
-  help,
-  required,
-  disabled,
-  children,
-  style,
-  ...props
-}: FieldProps): React.JSX.Element {
-  const autoId = useId();
-  const helpId = help ? `${autoId}-help` : undefined;
-  const errorId = error ? `${autoId}-error` : undefined;
-  const describedBy = [errorId, helpId].filter(Boolean).join(' ') || undefined;
+export const Field = forwardRef<HTMLDivElement, FieldProps>(
+  function Field({
+    label,
+    htmlFor,
+    error,
+    help,
+    required,
+    disabled,
+    children,
+    style,
+    ...props
+  }, ref): React.JSX.Element {
+    const autoId = useId();
+    const helpId = help ? `${autoId}-help` : undefined;
+    const errorId = error ? `${autoId}-error` : undefined;
+    const describedBy = [errorId, helpId].filter(Boolean).join(' ') || undefined;
 
-  // Pass aria-describedby to the child input element via cloneElement
-  const enhancedChildren = isValidElement(children)
-    ? cloneElement(children as ReactElement<Record<string, unknown>>, {
-        'aria-describedby': describedBy,
-      })
-    : children;
+    // Pass aria-describedby to the child input element via cloneElement
+    const enhancedChildren = isValidElement(children)
+      ? cloneElement(children as ReactElement<Record<string, unknown>>, {
+          'aria-describedby': describedBy,
+        })
+      : children;
 
-  return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: t.spaceXs,
-        opacity: disabled ? 0.6 : undefined,
-        ...style,
-      }}
-      {...props}
-    >
-      <label htmlFor={htmlFor} style={labelStyle}>
-        {label}
-        {required && <span style={requiredStyle} aria-hidden="true">*</span>}
-      </label>
+    return (
+      <div
+        ref={ref}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: t.spaceXs,
+          opacity: disabled ? 0.6 : undefined,
+          ...style,
+        }}
+        {...props}
+      >
+        <label htmlFor={htmlFor} style={labelStyle}>
+          {label}
+          {required && <span style={requiredStyle} aria-hidden="true">*</span>}
+        </label>
 
-      {enhancedChildren}
+        {enhancedChildren}
 
-      {error && <p id={errorId} role="alert" style={errorStyle}>{error}</p>}
-      {!error && help && <p id={helpId} style={helpStyle}>{help}</p>}
-    </div>
-  );
-}
+        {error && <p id={errorId} role="alert" style={errorStyle}>{error}</p>}
+        {!error && help && <p id={helpId} style={helpStyle}>{help}</p>}
+      </div>
+    );
+  }
+);

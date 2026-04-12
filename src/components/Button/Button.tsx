@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { semantic as t } from '../../tokens/semantic';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
@@ -36,18 +37,18 @@ const variantStyles: Record<ButtonVariant, React.CSSProperties> = {
 const sizeStyles: Record<ButtonSize, React.CSSProperties> = {
   sm: {
     padding: `${t.spaceXs} ${t.spaceSm}`,
-    fontSize: '0.875rem',
-    lineHeight: '1.25rem',
+    fontSize: t.fontSizeSm,
+    lineHeight: t.lineHeightTight,
   },
   md: {
     padding: `${t.spaceSm} ${t.spaceMd}`,
-    fontSize: '0.875rem',
-    lineHeight: '1.25rem',
+    fontSize: t.fontSizeSm,
+    lineHeight: t.lineHeightTight,
   },
   lg: {
     padding: `${t.spaceSm} ${t.spaceLg}`,
-    fontSize: '1rem',
-    lineHeight: '1.5rem',
+    fontSize: t.fontSizeBase,
+    lineHeight: t.lineHeightBase,
   },
 };
 
@@ -58,32 +59,35 @@ const baseStyles: React.CSSProperties = {
   gap: t.spaceSm,
   borderRadius: t.radiusMd,
   fontFamily: t.fontSans,
-  fontWeight: 500,
+  fontWeight: t.fontWeightMedium,
   cursor: 'pointer',
   transition: 'background 150ms ease, border-color 150ms ease, opacity 150ms ease',
 };
 
-export function Button({
-  variant = 'primary',
-  size = 'md',
-  children,
-  style,
-  disabled,
-  ...props
-}: ButtonProps): React.JSX.Element {
-  return (
-    <button
-      style={{
-        ...baseStyles,
-        ...variantStyles[variant],
-        ...sizeStyles[size],
-        ...(disabled ? { opacity: 0.5, cursor: 'not-allowed' } : {}),
-        ...style,
-      }}
-      disabled={disabled}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-}
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  function Button({
+    variant = 'primary',
+    size = 'md',
+    children,
+    style,
+    disabled,
+    ...props
+  }, ref): React.JSX.Element {
+    return (
+      <button
+        ref={ref}
+        style={{
+          ...baseStyles,
+          ...variantStyles[variant],
+          ...sizeStyles[size],
+          ...(disabled ? { opacity: 0.5, cursor: 'not-allowed' } : {}),
+          ...style,
+        }}
+        disabled={disabled}
+        {...props}
+      >
+        {children}
+      </button>
+    );
+  }
+);

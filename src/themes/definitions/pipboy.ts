@@ -74,6 +74,7 @@ export const pipboyTheme: ThemeDefinition = {
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.9)',
     colorSurfaceInput: 'rgba(13, 20, 13, 0.9)',
     colorSurfaceDisabled: 'rgba(26, 46, 26, 0.8)',
+    colorSurfacePage: '#0a0a0a',
 
     colorBorder: '#1a2e1a',
     colorBorderFocused: '#ffb347',
@@ -114,6 +115,31 @@ export const pipboyTheme: ThemeDefinition = {
     fontSans: "'Fira Code', 'Cascadia Code', 'JetBrains Mono', ui-monospace, monospace",
     fontSerif: "'Fira Code', 'Cascadia Code', 'JetBrains Mono', ui-monospace, monospace",
     fontMono: "'Fira Code', 'Cascadia Code', 'JetBrains Mono', ui-monospace, monospace",
+
+    // Font sizes
+    fontSizeXs: '0.75rem',
+    fontSizeSm: '0.875rem',
+    fontSizeBase: '1rem',
+    fontSizeLg: '1.125rem',
+    fontSizeXl: '1.25rem',
+    fontSize2xl: '1.5rem',
+    fontSize3xl: '1.875rem',
+
+    // Line heights
+    lineHeightTight: '1.25',
+    lineHeightBase: '1.5',
+    lineHeightRelaxed: '1.625',
+
+    // Font weights
+    fontWeightNormal: '400',
+    fontWeightMedium: '500',
+    fontWeightSemibold: '600',
+    fontWeightBold: '700',
+
+    // Letter spacing
+    letterSpacingTight: '-0.025em',
+    letterSpacingNormal: '0em',
+    letterSpacingWide: '0.025em',
 
     // Focus
     focusRingColor: '#33ff33',

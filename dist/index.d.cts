@@ -267,11 +267,11 @@ interface ThemePickerProps {
 * Must be rendered inside a <ThemeProvider>.
 */
 declare function ThemePicker({ descriptions }: ThemePickerProps): React.JSX.Element;
+import { CSSProperties as CSSProperties3 } from "react";
 import { CSSProperties as CSSProperties2 } from "react";
-import { CSSProperties } from "react";
 interface IconComponentProps {
 	size?: number;
-	style?: CSSProperties;
+	style?: CSSProperties2;
 }
 declare function IconClose({ size, style }?: IconComponentProps): React.JSX.Element;
 declare function IconChevronRight({ size, style }?: IconComponentProps): React.JSX.Element;
@@ -301,7 +301,7 @@ declare function IconFilter({ size, style }?: IconComponentProps): React.JSX.Ele
 type IconName = "close" | "chevron-right" | "chevron-down" | "chevron-left" | "chevron-up" | "check" | "check-circle" | "warning" | "error" | "info" | "search" | "trash" | "settings" | "plus" | "minus" | "edit" | "arrow-left" | "arrow-right" | "menu" | "eye" | "eye-off" | "copy" | "external-link" | "more-vertical" | "filter";
 declare const iconRegistry: Record<IconName, (props: {
 	size?: number;
-	style?: CSSProperties2;
+	style?: CSSProperties3;
 }) => React.JSX.Element>;
 import { ButtonHTMLAttributes, ReactNode as ReactNode2 } from "react";
 type ButtonVariant = "primary" | "secondary" | "destructive" | "ghost";
@@ -312,7 +312,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	children: ReactNode2;
 }
 declare const Button: unknown;
-import { CSSProperties as CSSProperties3, HTMLAttributes as HTMLAttributes2, ReactNode as ReactNode3 } from "react";
+import { CSSProperties as CSSProperties4, HTMLAttributes as HTMLAttributes2, ReactNode as ReactNode3 } from "react";
 type SpacingToken = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 interface StackProps extends HTMLAttributes2<HTMLDivElement> {
 	/** Stack direction. Default: 'vertical' */
@@ -320,9 +320,9 @@ interface StackProps extends HTMLAttributes2<HTMLDivElement> {
 	/** Gap between children. Default: 'md' */
 	gap?: SpacingToken;
 	/** Cross-axis alignment. */
-	align?: CSSProperties3["alignItems"];
+	align?: CSSProperties4["alignItems"];
 	/** Main-axis alignment. */
-	justify?: CSSProperties3["justifyContent"];
+	justify?: CSSProperties4["justifyContent"];
 	/** Whether children should wrap. */
 	wrap?: boolean;
 	children: ReactNode3;
@@ -355,7 +355,7 @@ interface FieldProps extends Omit<HTMLAttributes4<HTMLDivElement>, "children"> {
 	disabled?: boolean;
 	children: ReactNode5;
 }
-declare function Field({ label, htmlFor, error, help, required, disabled, children, style,...props }: FieldProps): React.JSX.Element;
+declare const Field: unknown;
 import { InputHTMLAttributes } from "react";
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 	/** Renders error border styling. Typically driven by a parent Field. */
@@ -407,28 +407,24 @@ interface IconButtonProps extends ButtonHTMLAttributes2<HTMLButtonElement> {
 	"aria-label": string;
 }
 declare const IconButton: unknown;
-import { CSSProperties as CSSProperties4 } from "react";
+import { CSSProperties as CSSProperties5 } from "react";
 interface OverlayProps {
 	onClick?: () => void;
 	zIndex?: number;
-	style?: CSSProperties4;
+	style?: CSSProperties5;
 }
-declare function Overlay({ onClick, zIndex, style }: OverlayProps): React.JSX.Element;
-import { CSSProperties as CSSProperties5 } from "react";
+declare const Overlay: unknown;
+import { CSSProperties as CSSProperties6 } from "react";
 interface SkeletonProps {
 	width?: string | number;
 	height?: string | number;
 	borderRadius?: string;
-	style?: CSSProperties5;
+	style?: CSSProperties6;
 }
-declare function Skeleton({ width, height, borderRadius, style }: SkeletonProps): React.JSX.Element;
-declare function CardSkeleton({ style }: {
-	style?: CSSProperties5;
-}): React.JSX.Element;
-declare function RowSkeleton({ style }: {
-	style?: CSSProperties5;
-}): React.JSX.Element;
-import { CSSProperties as CSSProperties6 } from "react";
+declare const Skeleton: unknown;
+declare const CardSkeleton: unknown;
+declare const RowSkeleton: unknown;
+import { CSSProperties as CSSProperties7 } from "react";
 interface ProgressBarSegment {
 	value: number;
 	color: string;
@@ -439,22 +435,22 @@ interface ProgressBarProps {
 	height?: number;
 	/** Accessible label for screen readers. */
 	"aria-label"?: string;
-	style?: CSSProperties6;
+	style?: CSSProperties7;
 }
-declare function ProgressBar({ segments, height, "aria-label": ariaLabel, style }: ProgressBarProps): React.JSX.Element;
-import { CSSProperties as CSSProperties7, ReactNode as ReactNode8 } from "react";
+declare const ProgressBar: unknown;
+import { CSSProperties as CSSProperties8, ReactNode as ReactNode8 } from "react";
 interface EmptyStateProps {
 	icon: IconName;
 	message: string;
 	variant?: "plain" | "card";
-	style?: CSSProperties7;
+	style?: CSSProperties8;
 	/** Additional content rendered below the message. */
 	children?: ReactNode8;
 	/** Action slot (e.g. a CTA button) rendered below message and children. */
 	action?: ReactNode8;
 }
 declare function EmptyState({ icon, message, variant, style, children, action }: EmptyStateProps): React.JSX.Element;
-import { CSSProperties as CSSProperties8 } from "react";
+import { CSSProperties as CSSProperties9 } from "react";
 interface PaginationLabels {
 	previous?: string;
 	next?: string;
@@ -467,29 +463,29 @@ interface PaginationProps {
 	onPageChange: (page: number) => void;
 	labels?: PaginationLabels;
 	className?: string;
-	style?: CSSProperties8;
+	style?: CSSProperties9;
 }
 declare function Pagination({ page, totalPages, total, onPageChange, labels, className, style }: PaginationProps): React.JSX.Element;
-import { CSSProperties as CSSProperties9, ReactNode as ReactNode9 } from "react";
+import { CSSProperties as CSSProperties10, ReactNode as ReactNode9 } from "react";
 type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 interface PageHeaderProps {
 	title: string;
 	subtitle?: string;
 	trailing?: ReactNode9;
-	style?: CSSProperties9;
+	style?: CSSProperties10;
 	className?: string;
 	/** Heading level (1-6). Defaults to 2. */
 	level?: HeadingLevel;
 }
 declare const PageHeader: unknown;
-import { CSSProperties as CSSProperties10 } from "react";
+import { CSSProperties as CSSProperties11 } from "react";
 interface TagChipProps {
 	name: string;
 	onRemove?: () => void;
-	style?: CSSProperties10;
+	style?: CSSProperties11;
 }
-declare function TagChip({ name, onRemove, style }: TagChipProps): React.JSX.Element;
-import { CSSProperties as CSSProperties11, ReactNode as ReactNode10 } from "react";
+declare const TagChip: unknown;
+import { CSSProperties as CSSProperties12, ReactNode as ReactNode10 } from "react";
 interface ExpandableCardProps {
 	title: string;
 	children: ReactNode10;
@@ -497,17 +493,17 @@ interface ExpandableCardProps {
 	open?: boolean;
 	onToggle?: (open: boolean) => void;
 	variant?: CardVariant;
-	style?: CSSProperties11;
+	style?: CSSProperties12;
 	headerAction?: ReactNode10;
 }
 declare const ExpandableCard: unknown;
-import { CSSProperties as CSSProperties12, ReactNode as ReactNode11 } from "react";
+import { CSSProperties as CSSProperties13, ReactNode as ReactNode11 } from "react";
 interface ModalShellProps {
 	onClose: () => void;
 	children: ReactNode11;
 	maxWidth?: number;
 	zIndex?: number;
-	style?: CSSProperties12;
+	style?: CSSProperties13;
 }
 declare function ModalShell({ onClose, children, maxWidth, zIndex, style }: ModalShellProps): React.JSX.Element;
 import { ReactNode as ReactNode12 } from "react";
@@ -524,7 +520,7 @@ interface ConfirmDialogProps {
 	variant?: ConfirmDialogVariant;
 }
 declare function ConfirmDialog({ title, message, confirmLabel, onConfirm, onCancel, children, variant }: ConfirmDialogProps): React.JSX.Element;
-import { CSSProperties as CSSProperties13 } from "react";
+import { CSSProperties as CSSProperties14 } from "react";
 type StatusDotVariant = "default" | "success" | "warning" | "error" | "info";
 interface StatusDotProps {
 	/** Semantic variant — maps to feedback tokens. */
@@ -535,10 +531,38 @@ interface StatusDotProps {
 	size?: number;
 	/** Accessible label describing the status. */
 	"aria-label"?: string;
-	style?: CSSProperties13;
+	style?: CSSProperties14;
 }
-declare function StatusDot({ variant, color, size, "aria-label": ariaLabel, style }: StatusDotProps): React.JSX.Element;
-import { HTMLAttributes as HTMLAttributes6, TdHTMLAttributes, ThHTMLAttributes, ReactNode as ReactNode13 } from "react";
+declare const StatusDot: unknown;
+import { ReactNode as ReactNode13 } from "react";
+interface ThemeSurfaceProps {
+	children: ReactNode13;
+	/**
+	* When true, applies the page background to document.body and optionally
+	* creates a canvas animation. When false (default), renders a div with
+	* the page background color.
+	*
+	* @default false
+	*/
+	global?: boolean;
+	/**
+	* When global is true, enables the theme's canvas background animation.
+	* Respects prefers-reduced-motion and skips on screens narrower than 768px.
+	*
+	* @default true
+	*/
+	animated?: boolean;
+	/** Additional inline styles for the wrapper div (only used when global=false). */
+	style?: React.CSSProperties;
+}
+/**
+* Applies the theme's page background color.
+*
+* Use `global` to set the body background and optionally run canvas animations.
+* Without `global`, renders a styled div with the page background.
+*/
+declare function ThemeSurface({ children, global, animated, style }: ThemeSurfaceProps): React.JSX.Element;
+import { HTMLAttributes as HTMLAttributes6, TdHTMLAttributes, ThHTMLAttributes, ReactNode as ReactNode14 } from "react";
 type SpacingToken3 = "xs" | "sm" | "md" | "lg";
 type TableVariant = "default" | "flat";
 interface TableProps extends HTMLAttributes6<HTMLDivElement> {
@@ -546,11 +570,11 @@ interface TableProps extends HTMLAttributes6<HTMLDivElement> {
 	variant?: TableVariant;
 	/** Cell density. Default: 'md' */
 	density?: SpacingToken3;
-	children: ReactNode13;
+	children: ReactNode14;
 }
 declare function Table({ variant, density, children, style,...props }: TableProps): React.JSX.Element;
 interface TableHeaderProps extends HTMLAttributes6<HTMLTableSectionElement> {
-	children: ReactNode13;
+	children: ReactNode14;
 }
 declare function TableHeader({ children, style,...props }: TableHeaderProps): React.JSX.Element;
 interface TableHeaderCellProps extends ThHTMLAttributes<HTMLTableCellElement> {
@@ -558,11 +582,11 @@ interface TableHeaderCellProps extends ThHTMLAttributes<HTMLTableCellElement> {
 	align?: "left" | "center" | "right";
 	/** Fixed width in px or CSS string */
 	width?: number | string;
-	children?: ReactNode13;
+	children?: ReactNode14;
 }
 declare function TableHeaderCell({ align, width, children, style,...props }: TableHeaderCellProps): React.JSX.Element;
 interface TableBodyProps extends HTMLAttributes6<HTMLTableSectionElement> {
-	children: ReactNode13;
+	children: ReactNode14;
 }
 declare function TableBody({ children,...props }: TableBodyProps): React.JSX.Element;
 interface TableRowProps extends HTMLAttributes6<HTMLTableRowElement> {
@@ -570,7 +594,7 @@ interface TableRowProps extends HTMLAttributes6<HTMLTableRowElement> {
 	selected?: boolean;
 	/** Enable hover background */
 	hoverable?: boolean;
-	children: ReactNode13;
+	children: ReactNode14;
 }
 declare function TableRow({ selected, hoverable, children, style, onClick, onKeyDown,...props }: TableRowProps): React.JSX.Element;
 interface TableCellProps extends TdHTMLAttributes<HTMLTableCellElement> {
@@ -582,19 +606,19 @@ interface TableCellProps extends TdHTMLAttributes<HTMLTableCellElement> {
 	muted?: boolean;
 	/** Fixed width in px or CSS string */
 	width?: number | string;
-	children?: ReactNode13;
+	children?: ReactNode14;
 }
 declare function TableCell({ align, truncate, muted, width, children, style,...props }: TableCellProps): React.JSX.Element;
 interface TableGroupHeaderProps extends HTMLAttributes6<HTMLTableRowElement> {
 	/** Number of columns to span */
 	colSpan: number;
-	children: ReactNode13;
+	children: ReactNode14;
 }
 declare function TableGroupHeader({ colSpan, children, style,...props }: TableGroupHeaderProps): React.JSX.Element;
 interface TableEmptyRowProps extends HTMLAttributes6<HTMLTableRowElement> {
 	/** Number of columns to span */
 	colSpan: number;
-	children: ReactNode13;
+	children: ReactNode14;
 }
 declare function TableEmptyRow({ colSpan, children, style,...props }: TableEmptyRowProps): React.JSX.Element;
-export { warmSandTheme, useTheme, typography, tokenToCssProperty, synthwaveTheme, slateTheme, semantic, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, iconRegistry, coralTheme, Typography, ThemeTokens, ThemeProviderProps, ThemeProvider, ThemePickerProps, ThemePicker, ThemeDefinition, ThemeContextValue, Theme, TextareaProps, Textarea, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, SemanticTokens, SelectProps, SelectOption, Select, RowSkeleton, ResolvedTheme, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, ModalShellProps, ModalShell, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FieldProps, Field, ExpandableCardProps, ExpandableCard, EmptyStateProps, EmptyState, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge };
+export { warmSandTheme, useTheme, typography, tokenToCssProperty, synthwaveTheme, slateTheme, semantic, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, iconRegistry, coralTheme, Typography, ThemeTokens, ThemeSurfaceProps, ThemeSurface, ThemeProviderProps, ThemeProvider, ThemePickerProps, ThemePicker, ThemeDefinition, ThemeContextValue, Theme, TextareaProps, Textarea, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, SemanticTokens, SelectProps, SelectOption, Select, RowSkeleton, ResolvedTheme, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, ModalShellProps, ModalShell, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FieldProps, Field, ExpandableCardProps, ExpandableCard, EmptyStateProps, EmptyState, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge };

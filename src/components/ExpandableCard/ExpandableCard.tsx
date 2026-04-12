@@ -78,10 +78,10 @@ export const ExpandableCard = forwardRef<HTMLDivElement, ExpandableCardProps>(
           </span>
           <span
             style={{
-              fontWeight: 600,
+              fontWeight: t.fontWeightSemibold,
               fontFamily: t.fontSans,
               color: t.colorText,
-              fontSize: '0.875rem',
+              fontSize: t.fontSizeSm,
             }}
           >
             {title}

@@ -14,7 +14,7 @@ import { HTMLAttributes as HTMLAttributes2, ReactNode as ReactNode2 } from "reac
 interface ProseProps extends HTMLAttributes2<HTMLDivElement> {
 	children: ReactNode2;
 }
-declare function Prose({ children, style,...props }: ProseProps): React.JSX.Element;
+declare const Prose: unknown;
 import { ReactNode as ReactNode3 } from "react";
 interface PullQuoteProps {
 	children: ReactNode3;
@@ -54,7 +54,7 @@ interface EpigraphProps {
 * Good for opening quotes, page epigraphs, or hero-level callouts.
 * Works both inside and outside <Prose>.
 */
-declare function Epigraph({ children, cite }: EpigraphProps): React.JSX.Element;
+declare const Epigraph: unknown;
 import { AnchorHTMLAttributes, ReactNode as ReactNode7 } from "react";
 interface LinkCardProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "title"> {
 	/** Card title — rendered in serif. */
@@ -68,7 +68,7 @@ interface LinkCardProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "t
 * Clickable card with serif title and muted description.
 * Hover lifts and accent-borders. Good for project links, post previews, etc.
 */
-declare function LinkCard({ title, description, external, children,...props }: LinkCardProps): React.JSX.Element;
+declare const LinkCard: unknown;
 interface ThinkingCycleProps {
 	/** Words to cycle through. Needs at least 2. */
 	words: string[];

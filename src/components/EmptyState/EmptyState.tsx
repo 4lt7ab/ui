@@ -30,7 +30,7 @@ export function EmptyState({
       <span
         style={{
           color: t.colorTextSecondary,
-          fontSize: '0.875rem',
+          fontSize: t.fontSizeSm,
           textAlign: 'center',
           fontFamily: t.fontSans,
         }}

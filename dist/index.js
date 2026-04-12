@@ -12,6 +12,7 @@ export {
   mossTheme,
   iconRegistry,
   coralTheme,
+  ThemeSurface,
   ThemeProvider,
   ThemePicker,
   Textarea,

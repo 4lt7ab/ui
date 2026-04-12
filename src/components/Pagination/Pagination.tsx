@@ -57,7 +57,7 @@ export function Pagination({
       <span
         style={{
           color: t.colorTextMuted,
-          fontSize: '0.875rem',
+          fontSize: t.fontSizeSm,
           fontFamily: t.fontSans,
         }}
       >

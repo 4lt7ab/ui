@@ -53,6 +53,7 @@ __export(exports_src, {
   mossTheme: () => import_definitions.mossTheme,
   iconRegistry: () => import_icons.iconRegistry,
   coralTheme: () => import_definitions.coralTheme,
+  ThemeSurface: () => import_ThemeSurface.ThemeSurface,
   ThemeProvider: () => import_ThemeProvider.ThemeProvider,
   ThemePicker: () => import_ThemePicker.ThemePicker,
   Textarea: () => import_Textarea.Textarea,

@@ -147,6 +147,7 @@ export const neuralTheme: ThemeDefinition = {
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.9)',
     colorSurfaceInput: 'rgba(14, 14, 34, 0.9)',
     colorSurfaceDisabled: 'rgba(26, 26, 58, 0.8)',
+    colorSurfacePage: '#0a0a1a',
 
     colorBorder: '#1a1a3a',
     colorBorderFocused: '#38bdf8',
@@ -187,6 +188,31 @@ export const neuralTheme: ThemeDefinition = {
     fontSans: "'Inter', system-ui, -apple-system, sans-serif",
     fontSerif: "'Space Grotesk', system-ui, sans-serif",
     fontMono: "'Fira Code', ui-monospace, monospace",
+
+    // Font sizes
+    fontSizeXs: '0.75rem',
+    fontSizeSm: '0.875rem',
+    fontSizeBase: '1rem',
+    fontSizeLg: '1.125rem',
+    fontSizeXl: '1.25rem',
+    fontSize2xl: '1.5rem',
+    fontSize3xl: '1.875rem',
+
+    // Line heights
+    lineHeightTight: '1.25',
+    lineHeightBase: '1.5',
+    lineHeightRelaxed: '1.625',
+
+    // Font weights
+    fontWeightNormal: '400',
+    fontWeightMedium: '500',
+    fontWeightSemibold: '600',
+    fontWeightBold: '700',
+
+    // Letter spacing
+    letterSpacingTight: '-0.025em',
+    letterSpacingNormal: '0em',
+    letterSpacingWide: '0.025em',
 
     // Focus
     focusRingColor: '#38bdf8',

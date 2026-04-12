@@ -84,7 +84,7 @@ export function Table({
         style={{
           width: '100%',
           borderCollapse: 'collapse',
-          fontSize: '0.875rem',
+          fontSize: t.fontSizeSm,
           fontFamily: t.fontSans,
           color: t.colorText,
         }}
@@ -135,11 +135,11 @@ export function TableHeaderCell({
       style={{
         padding: `${t.spaceSm} ${t.spaceMd}`,
         textAlign: align,
-        fontWeight: 600,
-        fontSize: '0.6875rem',
+        fontWeight: t.fontWeightSemibold,
+        fontSize: t.fontSizeXs,
         color: t.colorTextMuted,
         textTransform: 'uppercase',
-        letterSpacing: '0.05em',
+        letterSpacing: t.letterSpacingWide,
         borderBottom: `2px solid ${t.colorBorder}`,
         whiteSpace: 'nowrap',
         width: typeof width === 'number' ? `${width}px` : width,
@@ -290,9 +290,9 @@ export function TableGroupHeader({
           padding: `${t.spaceXs} ${t.spaceMd}`,
           background: t.colorSurfaceRaised,
           borderBottom: `1px solid ${t.colorBorder}`,
-          fontSize: '0.6875rem',
-          fontWeight: 700,
-          letterSpacing: '0.05em',
+          fontSize: t.fontSizeXs,
+          fontWeight: t.fontWeightBold,
+          letterSpacing: t.letterSpacingWide,
           textTransform: 'uppercase',
           color: t.colorTextMuted,
           overflow: 'hidden',
@@ -330,7 +330,7 @@ export function TableEmptyRow({
           padding: `${t.spaceXl} ${t.spaceMd}`,
           textAlign: 'center',
           color: t.colorTextMuted,
-          fontSize: '0.875rem',
+          fontSize: t.fontSizeSm,
         }}
       >
         {children}

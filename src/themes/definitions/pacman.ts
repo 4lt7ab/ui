@@ -207,6 +207,7 @@ export const pacmanTheme: ThemeDefinition = {
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.9)',
     colorSurfaceInput: 'rgba(10, 10, 42, 0.9)',
     colorSurfaceDisabled: 'rgba(26, 26, 74, 0.8)',
+    colorSurfacePage: '#000000',
 
     colorBorder: '#1a1a4a',
     colorBorderFocused: '#ffff00',
@@ -247,6 +248,31 @@ export const pacmanTheme: ThemeDefinition = {
     fontSans: "'Press Start 2P', monospace",
     fontSerif: "'Press Start 2P', monospace",
     fontMono: "'Press Start 2P', monospace",
+
+    // Font sizes
+    fontSizeXs: '0.75rem',
+    fontSizeSm: '0.875rem',
+    fontSizeBase: '1rem',
+    fontSizeLg: '1.125rem',
+    fontSizeXl: '1.25rem',
+    fontSize2xl: '1.5rem',
+    fontSize3xl: '1.875rem',
+
+    // Line heights
+    lineHeightTight: '1.25',
+    lineHeightBase: '1.5',
+    lineHeightRelaxed: '1.625',
+
+    // Font weights
+    fontWeightNormal: '400',
+    fontWeightMedium: '500',
+    fontWeightSemibold: '600',
+    fontWeightBold: '700',
+
+    // Letter spacing
+    letterSpacingTight: '-0.025em',
+    letterSpacingNormal: '0em',
+    letterSpacingWide: '0.025em',
 
     // Focus
     focusRingColor: '#ffff00',

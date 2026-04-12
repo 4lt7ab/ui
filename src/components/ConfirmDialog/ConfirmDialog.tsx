@@ -50,10 +50,10 @@ export function ConfirmDialog({
       <h2
         style={{
           margin: 0,
-          fontWeight: 600,
+          fontWeight: t.fontWeightSemibold,
           fontFamily: t.fontSans,
           color: t.colorText,
-          fontSize: '1.125rem',
+          fontSize: t.fontSizeLg,
         }}
       >
         {title}
@@ -62,7 +62,7 @@ export function ConfirmDialog({
         style={{
           margin: `${t.spaceSm} 0 ${children ? '0' : t.spaceLg}`,
           color: t.colorTextMuted,
-          fontSize: '0.875rem',
+          fontSize: t.fontSizeSm,
           fontFamily: t.fontSans,
         }}
       >

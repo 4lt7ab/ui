@@ -20,6 +20,7 @@ export const warmSandTheme: ThemeDefinition = {
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.7)',
     colorSurfaceInput: '#201d1b',
     colorSurfaceDisabled: '#2e2a27',
+    colorSurfacePage: '#1c1917',
 
     // Borders
     colorBorder: '#2e2a27',
@@ -67,6 +68,31 @@ export const warmSandTheme: ThemeDefinition = {
     fontSans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
     fontSerif: "'Lora', Georgia, 'Times New Roman', serif",
     fontMono: "'Fira Code', ui-monospace, monospace",
+
+    // Font sizes
+    fontSizeXs: '0.75rem',
+    fontSizeSm: '0.875rem',
+    fontSizeBase: '1rem',
+    fontSizeLg: '1.125rem',
+    fontSizeXl: '1.25rem',
+    fontSize2xl: '1.5rem',
+    fontSize3xl: '1.875rem',
+
+    // Line heights
+    lineHeightTight: '1.25',
+    lineHeightBase: '1.5',
+    lineHeightRelaxed: '1.625',
+
+    // Font weights
+    fontWeightNormal: '400',
+    fontWeightMedium: '500',
+    fontWeightSemibold: '600',
+    fontWeightBold: '700',
+
+    // Letter spacing
+    letterSpacingTight: '-0.025em',
+    letterSpacingNormal: '0em',
+    letterSpacingWide: '0.025em',
 
     // Focus
     focusRingColor: '#d4804f',
