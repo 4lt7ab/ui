@@ -46,6 +46,16 @@ function applyTokens(
   }
 }
 
+/** Strips body background-color rules from theme CSS so tokens-only mode doesn't force backgrounds. */
+function stripBodyBackground(css: string): string {
+  return css.replace(
+    /[^{}]*\bbody\b[^{}]*\{[^}]*background-color:[^}]*\}/gi,
+    (match) => match.replace(/background-color:[^;]+;?/gi, ''),
+  );
+}
+
+let _applyPageStylesWarned = false;
+
 export interface ThemeProviderProps {
   children: ReactNode;
   /** Additional themes beyond the built-ins. */
@@ -54,6 +64,14 @@ export interface ThemeProviderProps {
   defaultTheme?: Theme;
   /** localStorage key for persisting preference. */
   storageKey?: string;
+  /**
+   * When true, applies body background-color from theme CSS and runs canvas
+   * background animations. When false, only token CSS variables are applied.
+   * Defaults to true for backward compatibility.
+   *
+   * @default true
+   */
+  applyPageStyles?: boolean;
 }
 
 export function ThemeProvider({
@@ -61,7 +79,18 @@ export function ThemeProvider({
   themes: extraThemes,
   defaultTheme = 'synthwave',
   storageKey = 'ui-theme',
+  applyPageStyles,
 }: ThemeProviderProps): React.JSX.Element {
+  // One-time deprecation warning when applyPageStyles is not explicitly set
+  if (applyPageStyles === undefined && !_applyPageStylesWarned) {
+    _applyPageStylesWarned = true;
+    console.warn(
+      'ThemeProvider: applyPageStyles will default to false in v2. ' +
+      'Set it explicitly or use <ThemeSurface> for page backgrounds.',
+    );
+  }
+
+  const shouldApplyPageStyles = applyPageStyles ?? true;
   // Build the theme registry: built-ins + extras
   const registry = useMemo(() => {
     const map = new Map<string, ThemeDefinition>();
@@ -150,7 +179,9 @@ export function ThemeProvider({
     if (definition.css) {
       const style = document.createElement('style');
       style.setAttribute('data-theme-css', resolved);
-      style.textContent = definition.css;
+      style.textContent = shouldApplyPageStyles
+        ? definition.css
+        : stripBodyBackground(definition.css);
       document.head.appendChild(style);
       styleElRef.current = style;
     }
@@ -166,6 +197,7 @@ export function ThemeProvider({
     }
 
     if (
+      shouldApplyPageStyles &&
       definition.background &&
       window.innerWidth > 768 &&
       !window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -199,7 +231,7 @@ export function ThemeProvider({
         bgContainerRef.current = null;
       }
     };
-  }, [resolved, registry]);
+  }, [resolved, registry, shouldApplyPageStyles]);
 
   const value = useMemo<ThemeContextValue>(
     () => ({ theme, resolved, themes: registry, setTheme }),

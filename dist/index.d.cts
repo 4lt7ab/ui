@@ -327,7 +327,7 @@ interface StackProps extends HTMLAttributes2<HTMLDivElement> {
 	wrap?: boolean;
 	children: ReactNode3;
 }
-declare const Stack: unknown;
+declare function Stack({ direction, gap, align, justify, wrap, children, style,...props }: StackProps): React.JSX.Element;
 import { HTMLAttributes as HTMLAttributes3, ReactNode as ReactNode4 } from "react";
 type SpacingToken2 = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 type CardVariant = "default" | "flat" | "elevated";
@@ -338,7 +338,7 @@ interface CardProps extends HTMLAttributes3<HTMLDivElement> {
 	padding?: SpacingToken2;
 	children: ReactNode4;
 }
-declare const Card: unknown;
+declare function Card({ variant, padding, children, style,...props }: CardProps): React.JSX.Element;
 import { HTMLAttributes as HTMLAttributes4, ReactNode as ReactNode5 } from "react";
 interface FieldProps extends Omit<HTMLAttributes4<HTMLDivElement>, "children"> {
 	/** Field label text. */
@@ -397,7 +397,7 @@ interface IconProps extends Omit<HTMLAttributes5<HTMLSpanElement>, "children"> {
 	name: IconName;
 	size?: number;
 }
-declare const Icon: unknown;
+declare function Icon({ name, size, style, "aria-label": ariaLabel,...props }: IconProps): React.JSX.Element;
 import { ButtonHTMLAttributes as ButtonHTMLAttributes2 } from "react";
 interface IconButtonProps extends ButtonHTMLAttributes2<HTMLButtonElement> {
 	icon: IconName;
@@ -413,7 +413,7 @@ interface OverlayProps {
 	zIndex?: number;
 	style?: CSSProperties5;
 }
-declare const Overlay: unknown;
+declare function Overlay({ onClick, zIndex, style }: OverlayProps): React.JSX.Element;
 import { CSSProperties as CSSProperties6 } from "react";
 interface SkeletonProps {
 	width?: string | number;
@@ -421,9 +421,13 @@ interface SkeletonProps {
 	borderRadius?: string;
 	style?: CSSProperties6;
 }
-declare const Skeleton: unknown;
-declare const CardSkeleton: unknown;
-declare const RowSkeleton: unknown;
+declare function Skeleton({ width, height, borderRadius, style }: SkeletonProps): React.JSX.Element;
+declare function CardSkeleton({ style }: {
+	style?: CSSProperties6;
+}): React.JSX.Element;
+declare function RowSkeleton({ style }: {
+	style?: CSSProperties6;
+}): React.JSX.Element;
 import { CSSProperties as CSSProperties7 } from "react";
 interface ProgressBarSegment {
 	value: number;
@@ -437,7 +441,7 @@ interface ProgressBarProps {
 	"aria-label"?: string;
 	style?: CSSProperties7;
 }
-declare const ProgressBar: unknown;
+declare function ProgressBar({ segments, height, "aria-label": ariaLabel, style }: ProgressBarProps): React.JSX.Element;
 import { CSSProperties as CSSProperties8, ReactNode as ReactNode8 } from "react";
 interface EmptyStateProps {
 	icon: IconName;
@@ -449,7 +453,7 @@ interface EmptyStateProps {
 	/** Action slot (e.g. a CTA button) rendered below message and children. */
 	action?: ReactNode8;
 }
-declare function EmptyState({ icon, message, variant, style, children, action }: EmptyStateProps): React.JSX.Element;
+declare const EmptyState: unknown;
 import { CSSProperties as CSSProperties9 } from "react";
 interface PaginationLabels {
 	previous?: string;
@@ -519,7 +523,7 @@ interface ConfirmDialogProps {
 	/** Controls confirm button styling. Defaults to 'destructive'. */
 	variant?: ConfirmDialogVariant;
 }
-declare function ConfirmDialog({ title, message, confirmLabel, onConfirm, onCancel, children, variant }: ConfirmDialogProps): React.JSX.Element;
+declare const ConfirmDialog: unknown;
 import { CSSProperties as CSSProperties14 } from "react";
 type StatusDotVariant = "default" | "success" | "warning" | "error" | "info";
 interface StatusDotProps {
@@ -533,7 +537,7 @@ interface StatusDotProps {
 	"aria-label"?: string;
 	style?: CSSProperties14;
 }
-declare const StatusDot: unknown;
+declare function StatusDot({ variant, color, size, "aria-label": ariaLabel, style }: StatusDotProps): React.JSX.Element;
 import { ReactNode as ReactNode13 } from "react";
 interface ThemeSurfaceProps {
 	children: ReactNode13;
