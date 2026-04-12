@@ -6,24 +6,6 @@ var __hasOwnProp = Object.prototype.hasOwnProperty;
 function __accessProp(key) {
   return this[key];
 }
-var __reExport = (target, mod, secondTarget) => {
-  var keys = __getOwnPropNames(mod);
-  for (let key of keys)
-    if (!__hasOwnProp.call(target, key) && key !== "default")
-      __defProp(target, key, {
-        get: __accessProp.bind(mod, key),
-        enumerable: true
-      });
-  if (secondTarget) {
-    for (let key of keys)
-      if (!__hasOwnProp.call(secondTarget, key) && key !== "default")
-        __defProp(secondTarget, key, {
-          get: __accessProp.bind(mod, key),
-          enumerable: true
-        });
-    return secondTarget;
-  }
-};
 var __toCommonJS = (from) => {
   var entry = (__moduleCache ??= new WeakMap).get(from), desc;
   if (entry)
@@ -58,9 +40,27 @@ var __export = (target, all) => {
 // src/index.ts
 var exports_src = {};
 __export(exports_src, {
+  warmSandTheme: () => warmSandTheme,
+  useTheme: () => useTheme,
+  useInjectStyles: () => useInjectStyles,
   useFocusTrap: () => useFocusTrap,
+  typography: () => typography,
+  tokenToCssProperty: () => tokenToCssProperty,
+  synthwaveTheme: () => synthwaveTheme,
+  spacing: () => spacing,
+  slateTheme: () => slateTheme,
+  shadows: () => shadows,
+  semantic: () => semantic,
+  radii: () => radii,
+  pipboyTheme: () => pipboyTheme,
+  pacmanTheme: () => pacmanTheme,
+  neuralTheme: () => neuralTheme,
+  mossTheme: () => mossTheme,
   iconRegistry: () => iconRegistry,
+  coralTheme: () => coralTheme,
+  colors: () => colors,
   ThemeSurface: () => ThemeSurface,
+  ThemeProvider: () => ThemeProvider,
   ThemePicker: () => ThemePicker,
   Textarea: () => Textarea,
   TagChip: () => TagChip,
@@ -122,10 +122,6 @@ __export(exports_src, {
 module.exports = __toCommonJS(exports_src);
 
 // src/utils/useFocusTrap.ts
-var exports_useFocusTrap = {};
-__export(exports_useFocusTrap, {
-  useFocusTrap: () => useFocusTrap
-});
 var import_react = require("react");
 var FOCUSABLE_SELECTOR = [
   "a[href]",
@@ -169,20 +165,1088 @@ function useFocusTrap(ref) {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [ref]);
 }
-
-// src/index.ts
-__reExport(exports_src, require("@4lt7ab/core"), module.exports);
-
-// src/components/ThemePicker/index.ts
-var exports_ThemePicker = {};
-__export(exports_ThemePicker, {
-  ThemePicker: () => ThemePicker
-});
-
-// src/components/ThemePicker/ThemePicker.tsx
+// ../core/dist/index.js
 var import_react2 = require("react");
-var import_core = require("@4lt7ab/core");
-var import_core2 = require("@4lt7ab/core");
+var import_react3 = require("react");
+var import_jsx_dev_runtime = require("react/jsx-dev-runtime");
+function useInjectStyles(id, css) {
+  import_react2.useEffect(() => {
+    let el = document.getElementById(id);
+    if (el) {
+      if (el.textContent !== css) {
+        el.textContent = css;
+      }
+      return;
+    }
+    el = document.createElement("style");
+    el.id = id;
+    el.textContent = css;
+    document.head.appendChild(el);
+  }, [id, css]);
+}
+var colors = {
+  gray50: "#f9fafb",
+  gray100: "#f3f4f6",
+  gray200: "#e5e7eb",
+  gray300: "#d1d5db",
+  gray400: "#9ca3af",
+  gray500: "#6b7280",
+  gray600: "#4b5563",
+  gray700: "#374151",
+  gray800: "#1f2937",
+  gray900: "#111827",
+  gray950: "#030712",
+  blue50: "#eff6ff",
+  blue100: "#dbeafe",
+  blue200: "#bfdbfe",
+  blue300: "#93c5fd",
+  blue400: "#60a5fa",
+  blue500: "#3b82f6",
+  blue600: "#2563eb",
+  blue700: "#1d4ed8",
+  blue800: "#1e40af",
+  blue900: "#1e3a8a",
+  red50: "#fef2f2",
+  red100: "#fee2e2",
+  red400: "#f87171",
+  red500: "#ef4444",
+  red600: "#dc2626",
+  red700: "#b91c1c",
+  green50: "#f0fdf4",
+  green100: "#dcfce7",
+  green400: "#4ade80",
+  green500: "#22c55e",
+  green600: "#16a34a",
+  green700: "#15803d",
+  amber50: "#fffbeb",
+  amber100: "#fef3c7",
+  amber400: "#fbbf24",
+  amber500: "#f59e0b",
+  amber600: "#d97706",
+  white: "#ffffff",
+  black: "#000000"
+};
+var spacing = {
+  0: "0",
+  px: "1px",
+  0.5: "0.125rem",
+  1: "0.25rem",
+  1.5: "0.375rem",
+  2: "0.5rem",
+  2.5: "0.625rem",
+  3: "0.75rem",
+  4: "1rem",
+  5: "1.25rem",
+  6: "1.5rem",
+  8: "2rem",
+  10: "2.5rem",
+  12: "3rem",
+  16: "4rem",
+  20: "5rem",
+  24: "6rem"
+};
+var radii = {
+  none: "0",
+  sm: "0.125rem",
+  base: "0.25rem",
+  md: "0.375rem",
+  lg: "0.5rem",
+  xl: "0.75rem",
+  "2xl": "1rem",
+  "3xl": "1.5rem",
+  full: "9999px"
+};
+var shadows = {
+  sm: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+  base: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+  md: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+  lg: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+  xl: "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+  none: "none"
+};
+var typography = {
+  fontFamily: {
+    sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
+    serif: ["Lora", "Georgia", "Times New Roman", "serif"],
+    mono: ["Fira Code", "ui-monospace", "monospace"]
+  },
+  fontSize: {
+    xs: "0.75rem",
+    sm: "0.875rem",
+    base: "1rem",
+    lg: "1.125rem",
+    xl: "1.25rem",
+    "2xl": "1.5rem",
+    "3xl": "1.875rem",
+    "4xl": "2.25rem"
+  },
+  fontWeight: {
+    normal: 400,
+    medium: 500,
+    semibold: 600,
+    bold: 700
+  },
+  lineHeight: {
+    none: 1,
+    tight: 1.25,
+    snug: 1.375,
+    normal: 1.5,
+    relaxed: 1.625,
+    loose: 2
+  },
+  letterSpacing: {
+    tighter: "-0.05em",
+    tight: "-0.025em",
+    normal: "0em",
+    wide: "0.025em",
+    wider: "0.05em"
+  }
+};
+var semantic = {
+  colorText: "var(--color-text)",
+  colorTextSecondary: "var(--color-text-secondary)",
+  colorTextMuted: "var(--color-text-muted)",
+  colorTextInverse: "var(--color-text-inverse)",
+  colorTextLink: "var(--color-text-link)",
+  colorTextPlaceholder: "var(--color-text-placeholder)",
+  colorTextDisabled: "var(--color-text-disabled)",
+  colorSurface: "var(--color-surface)",
+  colorSurfacePanel: "var(--color-surface-panel)",
+  colorSurfaceRaised: "var(--color-surface-raised)",
+  colorSurfaceOverlay: "var(--color-surface-overlay)",
+  colorSurfaceInput: "var(--color-surface-input)",
+  colorSurfaceDisabled: "var(--color-surface-disabled)",
+  colorSurfacePage: "var(--color-surface-page)",
+  colorBorder: "var(--color-border)",
+  colorBorderFocused: "var(--color-border-focused)",
+  colorBorderError: "var(--color-border-error)",
+  colorActionPrimary: "var(--color-action-primary)",
+  colorActionPrimaryHover: "var(--color-action-primary-hover)",
+  colorActionSecondary: "var(--color-action-secondary)",
+  colorActionSecondaryHover: "var(--color-action-secondary-hover)",
+  colorActionDestructive: "var(--color-action-destructive)",
+  colorActionDestructiveHover: "var(--color-action-destructive-hover)",
+  colorSuccess: "var(--color-success)",
+  colorSuccessBg: "var(--color-success-bg)",
+  colorWarning: "var(--color-warning)",
+  colorWarningBg: "var(--color-warning-bg)",
+  colorError: "var(--color-error)",
+  colorErrorBg: "var(--color-error-bg)",
+  colorInfo: "var(--color-info)",
+  colorInfoBg: "var(--color-info-bg)",
+  spaceXs: "var(--space-xs)",
+  spaceSm: "var(--space-sm)",
+  spaceMd: "var(--space-md)",
+  spaceLg: "var(--space-lg)",
+  spaceXl: "var(--space-xl)",
+  space2xl: "var(--space-2xl)",
+  radiusSm: "var(--radius-sm)",
+  radiusMd: "var(--radius-md)",
+  radiusLg: "var(--radius-lg)",
+  radiusFull: "var(--radius-full)",
+  shadowSm: "var(--shadow-sm)",
+  shadowMd: "var(--shadow-md)",
+  shadowLg: "var(--shadow-lg)",
+  fontSans: "var(--font-sans)",
+  fontSerif: "var(--font-serif)",
+  fontMono: "var(--font-mono)",
+  fontSizeXs: "var(--font-size-xs)",
+  fontSizeSm: "var(--font-size-sm)",
+  fontSizeBase: "var(--font-size-base)",
+  fontSizeLg: "var(--font-size-lg)",
+  fontSizeXl: "var(--font-size-xl)",
+  fontSize2xl: "var(--font-size-2xl)",
+  fontSize3xl: "var(--font-size-3xl)",
+  lineHeightTight: "var(--line-height-tight)",
+  lineHeightBase: "var(--line-height-base)",
+  lineHeightRelaxed: "var(--line-height-relaxed)",
+  fontWeightNormal: "var(--font-weight-normal)",
+  fontWeightMedium: "var(--font-weight-medium)",
+  fontWeightSemibold: "var(--font-weight-semibold)",
+  fontWeightBold: "var(--font-weight-bold)",
+  letterSpacingTight: "var(--letter-spacing-tight)",
+  letterSpacingNormal: "var(--letter-spacing-normal)",
+  letterSpacingWide: "var(--letter-spacing-wide)",
+  focusRingColor: "var(--focus-ring-color)",
+  focusRingWidth: "var(--focus-ring-width)",
+  focusRingOffset: "var(--focus-ring-offset)"
+};
+function tokenToCssProperty(key) {
+  return "--" + key.replace(/([A-Z0-9])/g, "-$1").toLowerCase();
+}
+var synthwaveTheme = {
+  name: "synthwave",
+  label: "Synthwave",
+  tokens: {
+    colorText: "#e0d6f6",
+    colorTextSecondary: "#a0c4e8",
+    colorTextMuted: "#5a7a99",
+    colorTextInverse: "#06020f",
+    colorTextLink: "#00fff5",
+    colorTextPlaceholder: "#4a6a88",
+    colorTextDisabled: "#3a5a78",
+    colorSurface: "transparent",
+    colorSurfacePanel: "#0c081c",
+    colorSurfaceRaised: "rgba(12, 8, 28, 0.75)",
+    colorSurfaceOverlay: "rgba(6, 2, 15, 0.9)",
+    colorSurfaceInput: "rgba(14, 10, 32, 0.85)",
+    colorSurfaceDisabled: "rgba(22, 18, 48, 0.7)",
+    colorSurfacePage: "#06020f",
+    colorBorder: "#00fff540",
+    colorBorderFocused: "#ff2d95",
+    colorBorderError: "#ff4444",
+    colorActionPrimary: "#ff2d95",
+    colorActionPrimaryHover: "#ff5cb0",
+    colorActionSecondary: "#0e0e24",
+    colorActionSecondaryHover: "#1a1a3a",
+    colorActionDestructive: "#ff4444",
+    colorActionDestructiveHover: "#ff6666",
+    colorSuccess: "#39ff14",
+    colorSuccessBg: "rgba(57, 255, 20, 0.08)",
+    colorWarning: "#ffe44d",
+    colorWarningBg: "rgba(255, 228, 77, 0.08)",
+    colorError: "#ff4080",
+    colorErrorBg: "rgba(255, 64, 128, 0.08)",
+    colorInfo: "#00fff5",
+    colorInfoBg: "rgba(0, 255, 245, 0.08)",
+    spaceXs: "0.25rem",
+    spaceSm: "0.5rem",
+    spaceMd: "1rem",
+    spaceLg: "1.5rem",
+    spaceXl: "2rem",
+    space2xl: "3rem",
+    radiusSm: "0.25rem",
+    radiusMd: "0.375rem",
+    radiusLg: "0.5rem",
+    radiusFull: "9999px",
+    shadowSm: "0 0 8px rgba(0, 255, 245, 0.15), 0 0 2px rgba(255, 45, 149, 0.1)",
+    shadowMd: "0 0 16px rgba(0, 255, 245, 0.2), 0 0 4px rgba(255, 45, 149, 0.15)",
+    shadowLg: "0 0 32px rgba(0, 255, 245, 0.25), 0 0 8px rgba(255, 45, 149, 0.2)",
+    fontSans: "'Inter', system-ui, -apple-system, sans-serif",
+    fontSerif: "'Lora', Georgia, 'Times New Roman', serif",
+    fontMono: "'Fira Code', ui-monospace, monospace",
+    fontSizeXs: "0.75rem",
+    fontSizeSm: "0.875rem",
+    fontSizeBase: "1rem",
+    fontSizeLg: "1.125rem",
+    fontSizeXl: "1.25rem",
+    fontSize2xl: "1.5rem",
+    fontSize3xl: "1.875rem",
+    lineHeightTight: "1.25",
+    lineHeightBase: "1.5",
+    lineHeightRelaxed: "1.625",
+    fontWeightNormal: "400",
+    fontWeightMedium: "500",
+    fontWeightSemibold: "600",
+    fontWeightBold: "700",
+    letterSpacingTight: "-0.025em",
+    letterSpacingNormal: "0em",
+    letterSpacingWide: "0.025em",
+    focusRingColor: "#ff2d95",
+    focusRingWidth: "2px",
+    focusRingOffset: "2px"
+  },
+  css: `
+    /* Base background */
+    [data-theme="synthwave"] body,
+    [data-theme="synthwave"] {
+      background-color: #06020f;
+    }
+
+    /* ── Border glow pulse ── */
+    @keyframes glow-pulse {
+      0%, 100% {
+        box-shadow:
+          0 0 4px rgba(0, 255, 245, 0.2),
+          0 0 8px rgba(0, 255, 245, 0.1);
+      }
+      50% {
+        box-shadow:
+          0 0 8px rgba(0, 255, 245, 0.4),
+          0 0 20px rgba(0, 255, 245, 0.15),
+          0 0 4px rgba(255, 45, 149, 0.2);
+      }
+    }
+
+    [data-theme="synthwave"] [style*="surface-raised"],
+    [data-theme="synthwave"] [data-variant],
+    [data-theme="synthwave"] button {
+      animation: glow-pulse 3s ease-in-out infinite;
+    }
+
+    /* ── Focused elements get hot pink glow ── */
+    @keyframes focus-strobe {
+      0%, 100% {
+        box-shadow:
+          0 0 4px rgba(255, 45, 149, 0.4),
+          0 0 12px rgba(255, 45, 149, 0.2);
+      }
+      50% {
+        box-shadow:
+          0 0 8px rgba(255, 45, 149, 0.6),
+          0 0 24px rgba(255, 45, 149, 0.3),
+          0 0 4px rgba(0, 255, 245, 0.3);
+      }
+    }
+
+    [data-theme="synthwave"] input:focus,
+    [data-theme="synthwave"] textarea:focus,
+    [data-theme="synthwave"] select:focus,
+    [data-theme="synthwave"] button:focus-visible {
+      animation: focus-strobe 2s ease-in-out infinite;
+      outline: 1px solid #ff2d95;
+      outline-offset: 1px;
+    }
+
+    /* ── Primary buttons ── */
+    @keyframes primary-glow {
+      0%, 100% {
+        box-shadow:
+          0 0 8px rgba(255, 45, 149, 0.4),
+          0 0 20px rgba(255, 45, 149, 0.15);
+      }
+      33% {
+        box-shadow:
+          0 0 12px rgba(0, 255, 245, 0.4),
+          0 0 24px rgba(0, 255, 245, 0.15);
+      }
+      66% {
+        box-shadow:
+          0 0 10px rgba(57, 255, 20, 0.35),
+          0 0 22px rgba(255, 102, 0, 0.15);
+      }
+    }
+
+    [data-theme="synthwave"] button[data-variant="primary"] {
+      animation: primary-glow 4s ease-in-out infinite;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    }
+
+    /* ── Link text glow ── */
+    [data-theme="synthwave"] a,
+    [data-theme="synthwave"] [style*="color-text-link"] {
+      text-shadow: 0 0 6px rgba(0, 255, 245, 0.4);
+    }
+
+    /* ── Scanline overlay ── */
+    [data-theme="synthwave"]::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      background: repeating-linear-gradient(
+        transparent 0px,
+        transparent 2px,
+        rgba(0, 255, 245, 0.015) 2px,
+        rgba(0, 255, 245, 0.015) 4px
+      );
+    }
+  `
+};
+var slateTheme = {
+  name: "slate",
+  label: "Slate",
+  tokens: {
+    colorText: "#e0e3e8",
+    colorTextSecondary: "#b0b8c4",
+    colorTextMuted: "#8891a0",
+    colorTextInverse: "#1a1d24",
+    colorTextLink: "#7ba3d4",
+    colorTextPlaceholder: "#8891a0",
+    colorTextDisabled: "#5a6270",
+    colorSurface: "#1a1d24",
+    colorSurfacePanel: "#1a1d24",
+    colorSurfaceRaised: "#22262e",
+    colorSurfaceOverlay: "rgba(0, 0, 0, 0.7)",
+    colorSurfaceInput: "#1e2229",
+    colorSurfaceDisabled: "#2a2f38",
+    colorSurfacePage: "#1a1d24",
+    colorBorder: "#2a2f38",
+    colorBorderFocused: "#7ba3d4",
+    colorBorderError: "#ef4444",
+    colorActionPrimary: "#7ba3d4",
+    colorActionPrimaryHover: "#9ab8e0",
+    colorActionSecondary: "#22262e",
+    colorActionSecondaryHover: "#2a2f38",
+    colorActionDestructive: "#ef4444",
+    colorActionDestructiveHover: "#f87171",
+    colorSuccess: "#22c55e",
+    colorSuccessBg: "rgba(34, 197, 94, 0.1)",
+    colorWarning: "#f59e0b",
+    colorWarningBg: "rgba(245, 158, 11, 0.1)",
+    colorError: "#ef4444",
+    colorErrorBg: "rgba(239, 68, 68, 0.1)",
+    colorInfo: "#7ba3d4",
+    colorInfoBg: "rgba(123, 163, 212, 0.1)",
+    spaceXs: "0.25rem",
+    spaceSm: "0.5rem",
+    spaceMd: "1rem",
+    spaceLg: "1.5rem",
+    spaceXl: "2rem",
+    space2xl: "3rem",
+    radiusSm: "0.25rem",
+    radiusMd: "0.375rem",
+    radiusLg: "0.5rem",
+    radiusFull: "9999px",
+    shadowSm: "0 1px 2px 0 rgb(0 0 0 / 0.2)",
+    shadowMd: "0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2)",
+    shadowLg: "0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.2)",
+    fontSans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    fontSerif: "'Lora', Georgia, 'Times New Roman', serif",
+    fontMono: "'Fira Code', ui-monospace, monospace",
+    fontSizeXs: "0.75rem",
+    fontSizeSm: "0.875rem",
+    fontSizeBase: "1rem",
+    fontSizeLg: "1.125rem",
+    fontSizeXl: "1.25rem",
+    fontSize2xl: "1.5rem",
+    fontSize3xl: "1.875rem",
+    lineHeightTight: "1.25",
+    lineHeightBase: "1.5",
+    lineHeightRelaxed: "1.625",
+    fontWeightNormal: "400",
+    fontWeightMedium: "500",
+    fontWeightSemibold: "600",
+    fontWeightBold: "700",
+    letterSpacingTight: "-0.025em",
+    letterSpacingNormal: "0em",
+    letterSpacingWide: "0.025em",
+    focusRingColor: "#7ba3d4",
+    focusRingWidth: "2px",
+    focusRingOffset: "2px"
+  }
+};
+var warmSandTheme = {
+  name: "warm-sand",
+  label: "Warm Sand",
+  tokens: {
+    colorText: "#e8e4de",
+    colorTextSecondary: "#c4bdb4",
+    colorTextMuted: "#9b8f82",
+    colorTextInverse: "#1c1917",
+    colorTextLink: "#c0673a",
+    colorTextPlaceholder: "#9b8f82",
+    colorTextDisabled: "#6b5f54",
+    colorSurface: "#1c1917",
+    colorSurfacePanel: "#1c1917",
+    colorSurfaceRaised: "#252220",
+    colorSurfaceOverlay: "rgba(0, 0, 0, 0.7)",
+    colorSurfaceInput: "#201d1b",
+    colorSurfaceDisabled: "#2e2a27",
+    colorSurfacePage: "#1c1917",
+    colorBorder: "#2e2a27",
+    colorBorderFocused: "#c0673a",
+    colorBorderError: "#ef4444",
+    colorActionPrimary: "#c0673a",
+    colorActionPrimaryHover: "#d4804f",
+    colorActionSecondary: "#252220",
+    colorActionSecondaryHover: "#2e2a27",
+    colorActionDestructive: "#ef4444",
+    colorActionDestructiveHover: "#f87171",
+    colorSuccess: "#22c55e",
+    colorSuccessBg: "rgba(34, 197, 94, 0.1)",
+    colorWarning: "#f59e0b",
+    colorWarningBg: "rgba(245, 158, 11, 0.1)",
+    colorError: "#ef4444",
+    colorErrorBg: "rgba(239, 68, 68, 0.1)",
+    colorInfo: "#c0673a",
+    colorInfoBg: "rgba(192, 103, 58, 0.1)",
+    spaceXs: "0.25rem",
+    spaceSm: "0.5rem",
+    spaceMd: "1rem",
+    spaceLg: "1.5rem",
+    spaceXl: "2rem",
+    space2xl: "3rem",
+    radiusSm: "0.25rem",
+    radiusMd: "0.375rem",
+    radiusLg: "0.5rem",
+    radiusFull: "9999px",
+    shadowSm: "0 1px 2px 0 rgb(0 0 0 / 0.2)",
+    shadowMd: "0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2)",
+    shadowLg: "0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.2)",
+    fontSans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    fontSerif: "'Lora', Georgia, 'Times New Roman', serif",
+    fontMono: "'Fira Code', ui-monospace, monospace",
+    fontSizeXs: "0.75rem",
+    fontSizeSm: "0.875rem",
+    fontSizeBase: "1rem",
+    fontSizeLg: "1.125rem",
+    fontSizeXl: "1.25rem",
+    fontSize2xl: "1.5rem",
+    fontSize3xl: "1.875rem",
+    lineHeightTight: "1.25",
+    lineHeightBase: "1.5",
+    lineHeightRelaxed: "1.625",
+    fontWeightNormal: "400",
+    fontWeightMedium: "500",
+    fontWeightSemibold: "600",
+    fontWeightBold: "700",
+    letterSpacingTight: "-0.025em",
+    letterSpacingNormal: "0em",
+    letterSpacingWide: "0.025em",
+    focusRingColor: "#d4804f",
+    focusRingWidth: "2px",
+    focusRingOffset: "2px"
+  }
+};
+var mossTheme = {
+  name: "moss",
+  label: "Moss",
+  tokens: {
+    colorText: "#dce5da",
+    colorTextSecondary: "#b4c0af",
+    colorTextMuted: "#7d8b75",
+    colorTextInverse: "#141a14",
+    colorTextLink: "#6aad7a",
+    colorTextPlaceholder: "#7d8b75",
+    colorTextDisabled: "#556050",
+    colorSurface: "#141a14",
+    colorSurfacePanel: "#141a14",
+    colorSurfaceRaised: "#1c231c",
+    colorSurfaceOverlay: "rgba(0, 0, 0, 0.7)",
+    colorSurfaceInput: "#181f18",
+    colorSurfaceDisabled: "#243024",
+    colorSurfacePage: "#141a14",
+    colorBorder: "#243024",
+    colorBorderFocused: "#6aad7a",
+    colorBorderError: "#ef4444",
+    colorActionPrimary: "#6aad7a",
+    colorActionPrimaryHover: "#82c090",
+    colorActionSecondary: "#1c231c",
+    colorActionSecondaryHover: "#243024",
+    colorActionDestructive: "#ef4444",
+    colorActionDestructiveHover: "#f87171",
+    colorSuccess: "#6aad7a",
+    colorSuccessBg: "rgba(106, 173, 122, 0.1)",
+    colorWarning: "#f59e0b",
+    colorWarningBg: "rgba(245, 158, 11, 0.1)",
+    colorError: "#ef4444",
+    colorErrorBg: "rgba(239, 68, 68, 0.1)",
+    colorInfo: "#6aad7a",
+    colorInfoBg: "rgba(106, 173, 122, 0.1)",
+    spaceXs: "0.25rem",
+    spaceSm: "0.5rem",
+    spaceMd: "1rem",
+    spaceLg: "1.5rem",
+    spaceXl: "2rem",
+    space2xl: "3rem",
+    radiusSm: "0.25rem",
+    radiusMd: "0.375rem",
+    radiusLg: "0.5rem",
+    radiusFull: "9999px",
+    shadowSm: "0 1px 2px 0 rgb(0 0 0 / 0.2)",
+    shadowMd: "0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2)",
+    shadowLg: "0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.2)",
+    fontSans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    fontSerif: "'Lora', Georgia, 'Times New Roman', serif",
+    fontMono: "'Fira Code', ui-monospace, monospace",
+    fontSizeXs: "0.75rem",
+    fontSizeSm: "0.875rem",
+    fontSizeBase: "1rem",
+    fontSizeLg: "1.125rem",
+    fontSizeXl: "1.25rem",
+    fontSize2xl: "1.5rem",
+    fontSize3xl: "1.875rem",
+    lineHeightTight: "1.25",
+    lineHeightBase: "1.5",
+    lineHeightRelaxed: "1.625",
+    fontWeightNormal: "400",
+    fontWeightMedium: "500",
+    fontWeightSemibold: "600",
+    fontWeightBold: "700",
+    letterSpacingTight: "-0.025em",
+    letterSpacingNormal: "0em",
+    letterSpacingWide: "0.025em",
+    focusRingColor: "#82c090",
+    focusRingWidth: "2px",
+    focusRingOffset: "2px"
+  }
+};
+var coralTheme = {
+  name: "coral",
+  label: "Coral",
+  tokens: {
+    colorText: "#f0e0d8",
+    colorTextSecondary: "#ccb8ac",
+    colorTextMuted: "#a08878",
+    colorTextInverse: "#1f1714",
+    colorTextLink: "#f08060",
+    colorTextPlaceholder: "#a08878",
+    colorTextDisabled: "#6e5c50",
+    colorSurface: "#1f1714",
+    colorSurfacePanel: "#1f1714",
+    colorSurfaceRaised: "#291f1b",
+    colorSurfaceOverlay: "rgba(0, 0, 0, 0.7)",
+    colorSurfaceInput: "#241b17",
+    colorSurfaceDisabled: "#3a2820",
+    colorSurfacePage: "#1f1714",
+    colorBorder: "#3a2820",
+    colorBorderFocused: "#f08060",
+    colorBorderError: "#ef4444",
+    colorActionPrimary: "#f08060",
+    colorActionPrimaryHover: "#f49878",
+    colorActionSecondary: "#291f1b",
+    colorActionSecondaryHover: "#3a2820",
+    colorActionDestructive: "#ef4444",
+    colorActionDestructiveHover: "#f87171",
+    colorSuccess: "#22c55e",
+    colorSuccessBg: "rgba(34, 197, 94, 0.1)",
+    colorWarning: "#f59e0b",
+    colorWarningBg: "rgba(245, 158, 11, 0.1)",
+    colorError: "#ef4444",
+    colorErrorBg: "rgba(239, 68, 68, 0.1)",
+    colorInfo: "#f08060",
+    colorInfoBg: "rgba(240, 128, 96, 0.1)",
+    spaceXs: "0.25rem",
+    spaceSm: "0.5rem",
+    spaceMd: "1rem",
+    spaceLg: "1.5rem",
+    spaceXl: "2rem",
+    space2xl: "3rem",
+    radiusSm: "0.25rem",
+    radiusMd: "0.375rem",
+    radiusLg: "0.5rem",
+    radiusFull: "9999px",
+    shadowSm: "0 1px 2px 0 rgb(0 0 0 / 0.2)",
+    shadowMd: "0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2)",
+    shadowLg: "0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.2)",
+    fontSans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    fontSerif: "'Lora', Georgia, 'Times New Roman', serif",
+    fontMono: "'Fira Code', ui-monospace, monospace",
+    fontSizeXs: "0.75rem",
+    fontSizeSm: "0.875rem",
+    fontSizeBase: "1rem",
+    fontSizeLg: "1.125rem",
+    fontSizeXl: "1.25rem",
+    fontSize2xl: "1.5rem",
+    fontSize3xl: "1.875rem",
+    lineHeightTight: "1.25",
+    lineHeightBase: "1.5",
+    lineHeightRelaxed: "1.625",
+    fontWeightNormal: "400",
+    fontWeightMedium: "500",
+    fontWeightSemibold: "600",
+    fontWeightBold: "700",
+    letterSpacingTight: "-0.025em",
+    letterSpacingNormal: "0em",
+    letterSpacingWide: "0.025em",
+    focusRingColor: "#f49878",
+    focusRingWidth: "2px",
+    focusRingOffset: "2px"
+  }
+};
+var pipboyTheme = {
+  name: "pipboy",
+  label: "Pip-Boy",
+  tokens: {
+    colorText: "#33ff33",
+    colorTextSecondary: "#66cc66",
+    colorTextMuted: "#339933",
+    colorTextInverse: "#0a0a0a",
+    colorTextLink: "#ffb347",
+    colorTextPlaceholder: "#339933",
+    colorTextDisabled: "#1a4a1a",
+    colorSurface: "transparent",
+    colorSurfacePanel: "#0a0a0a",
+    colorSurfaceRaised: "rgba(10, 10, 10, 0.85)",
+    colorSurfaceOverlay: "rgba(0, 0, 0, 0.9)",
+    colorSurfaceInput: "rgba(13, 20, 13, 0.9)",
+    colorSurfaceDisabled: "rgba(26, 46, 26, 0.8)",
+    colorSurfacePage: "#0a0a0a",
+    colorBorder: "#1a2e1a",
+    colorBorderFocused: "#ffb347",
+    colorBorderError: "#ff4444",
+    colorActionPrimary: "#ffb347",
+    colorActionPrimaryHover: "#ffc46b",
+    colorActionSecondary: "#0f1a0f",
+    colorActionSecondaryHover: "#1a2e1a",
+    colorActionDestructive: "#ff4444",
+    colorActionDestructiveHover: "#ff6666",
+    colorSuccess: "#33ff33",
+    colorSuccessBg: "rgba(51, 255, 51, 0.08)",
+    colorWarning: "#ffb347",
+    colorWarningBg: "rgba(255, 179, 71, 0.08)",
+    colorError: "#ff4444",
+    colorErrorBg: "rgba(255, 68, 68, 0.08)",
+    colorInfo: "#33ff33",
+    colorInfoBg: "rgba(51, 255, 51, 0.08)",
+    spaceXs: "0.25rem",
+    spaceSm: "0.5rem",
+    spaceMd: "1rem",
+    spaceLg: "1.5rem",
+    spaceXl: "2rem",
+    space2xl: "3rem",
+    radiusSm: "0.25rem",
+    radiusMd: "0.375rem",
+    radiusLg: "0.5rem",
+    radiusFull: "9999px",
+    shadowSm: "0 0 4px rgba(51, 255, 51, 0.1)",
+    shadowMd: "0 0 8px rgba(51, 255, 51, 0.15)",
+    shadowLg: "0 0 16px rgba(51, 255, 51, 0.2)",
+    fontSans: "'Fira Code', 'Cascadia Code', 'JetBrains Mono', ui-monospace, monospace",
+    fontSerif: "'Fira Code', 'Cascadia Code', 'JetBrains Mono', ui-monospace, monospace",
+    fontMono: "'Fira Code', 'Cascadia Code', 'JetBrains Mono', ui-monospace, monospace",
+    fontSizeXs: "0.75rem",
+    fontSizeSm: "0.875rem",
+    fontSizeBase: "1rem",
+    fontSizeLg: "1.125rem",
+    fontSizeXl: "1.25rem",
+    fontSize2xl: "1.5rem",
+    fontSize3xl: "1.875rem",
+    lineHeightTight: "1.25",
+    lineHeightBase: "1.5",
+    lineHeightRelaxed: "1.625",
+    fontWeightNormal: "400",
+    fontWeightMedium: "500",
+    fontWeightSemibold: "600",
+    fontWeightBold: "700",
+    letterSpacingTight: "-0.025em",
+    letterSpacingNormal: "0em",
+    letterSpacingWide: "0.025em",
+    focusRingColor: "#33ff33",
+    focusRingWidth: "2px",
+    focusRingOffset: "2px"
+  },
+  css: `
+    /* Base background for canvas to render on top of */
+    [data-theme="pipboy"] body,
+    [data-theme="pipboy"] {
+      background-color: #0a0a0a;
+    }
+
+    /* Phosphor glow on text */
+    [data-theme="pipboy"] {
+      text-shadow: 0 0 8px rgba(51, 255, 51, 0.4);
+    }
+
+    [data-theme="pipboy"] h1,
+    [data-theme="pipboy"] h2,
+    [data-theme="pipboy"] h3 {
+      text-shadow: 0 0 12px rgba(51, 255, 51, 0.6);
+    }
+
+    /* CRT scanline overlay */
+    [data-theme="pipboy"]::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.15) 2px,
+        rgba(0, 0, 0, 0.15) 4px
+      );
+      pointer-events: none;
+      z-index: 1000;
+    }
+  `
+};
+var neuralTheme = {
+  name: "neural",
+  label: "Neural",
+  tokens: {
+    colorText: "#e0e8ff",
+    colorTextSecondary: "#a8b8d8",
+    colorTextMuted: "#64748b",
+    colorTextInverse: "#0a0a1a",
+    colorTextLink: "#38bdf8",
+    colorTextPlaceholder: "#64748b",
+    colorTextDisabled: "#3a4a5a",
+    colorSurface: "transparent",
+    colorSurfacePanel: "#0a0a1a",
+    colorSurfaceRaised: "rgba(10, 10, 26, 0.85)",
+    colorSurfaceOverlay: "rgba(0, 0, 0, 0.9)",
+    colorSurfaceInput: "rgba(14, 14, 34, 0.9)",
+    colorSurfaceDisabled: "rgba(26, 26, 58, 0.8)",
+    colorSurfacePage: "#0a0a1a",
+    colorBorder: "#1a1a3a",
+    colorBorderFocused: "#38bdf8",
+    colorBorderError: "#ff4444",
+    colorActionPrimary: "#38bdf8",
+    colorActionPrimaryHover: "#5ccdfb",
+    colorActionSecondary: "#12122a",
+    colorActionSecondaryHover: "#1a1a3a",
+    colorActionDestructive: "#ff4444",
+    colorActionDestructiveHover: "#ff6666",
+    colorSuccess: "#22c55e",
+    colorSuccessBg: "rgba(34, 197, 94, 0.08)",
+    colorWarning: "#f59e0b",
+    colorWarningBg: "rgba(245, 158, 11, 0.08)",
+    colorError: "#ff4444",
+    colorErrorBg: "rgba(255, 68, 68, 0.08)",
+    colorInfo: "#38bdf8",
+    colorInfoBg: "rgba(56, 189, 248, 0.08)",
+    spaceXs: "0.25rem",
+    spaceSm: "0.5rem",
+    spaceMd: "1rem",
+    spaceLg: "1.5rem",
+    spaceXl: "2rem",
+    space2xl: "3rem",
+    radiusSm: "0.25rem",
+    radiusMd: "0.375rem",
+    radiusLg: "0.5rem",
+    radiusFull: "9999px",
+    shadowSm: "0 0 4px rgba(56, 189, 248, 0.1)",
+    shadowMd: "0 0 8px rgba(56, 189, 248, 0.15)",
+    shadowLg: "0 0 16px rgba(56, 189, 248, 0.2)",
+    fontSans: "'Inter', system-ui, -apple-system, sans-serif",
+    fontSerif: "'Space Grotesk', system-ui, sans-serif",
+    fontMono: "'Fira Code', ui-monospace, monospace",
+    fontSizeXs: "0.75rem",
+    fontSizeSm: "0.875rem",
+    fontSizeBase: "1rem",
+    fontSizeLg: "1.125rem",
+    fontSizeXl: "1.25rem",
+    fontSize2xl: "1.5rem",
+    fontSize3xl: "1.875rem",
+    lineHeightTight: "1.25",
+    lineHeightBase: "1.5",
+    lineHeightRelaxed: "1.625",
+    fontWeightNormal: "400",
+    fontWeightMedium: "500",
+    fontWeightSemibold: "600",
+    fontWeightBold: "700",
+    letterSpacingTight: "-0.025em",
+    letterSpacingNormal: "0em",
+    letterSpacingWide: "0.025em",
+    focusRingColor: "#38bdf8",
+    focusRingWidth: "2px",
+    focusRingOffset: "2px"
+  },
+  css: `
+    [data-theme="neural"] body,
+    [data-theme="neural"] {
+      background-color: #0a0a1a;
+    }
+  `
+};
+var pacmanTheme = {
+  name: "pacman",
+  label: "Pac-Man",
+  tokens: {
+    colorText: "#e0e0e0",
+    colorTextSecondary: "#b0b0b0",
+    colorTextMuted: "#5555ff",
+    colorTextInverse: "#000000",
+    colorTextLink: "#ffff00",
+    colorTextPlaceholder: "#5555ff",
+    colorTextDisabled: "#333366",
+    colorSurface: "transparent",
+    colorSurfacePanel: "#000000",
+    colorSurfaceRaised: "rgba(0, 0, 0, 0.85)",
+    colorSurfaceOverlay: "rgba(0, 0, 0, 0.9)",
+    colorSurfaceInput: "rgba(10, 10, 42, 0.9)",
+    colorSurfaceDisabled: "rgba(26, 26, 74, 0.8)",
+    colorSurfacePage: "#000000",
+    colorBorder: "#1a1a4a",
+    colorBorderFocused: "#ffff00",
+    colorBorderError: "#ff4444",
+    colorActionPrimary: "#ffff00",
+    colorActionPrimaryHover: "#ffff66",
+    colorActionSecondary: "#0a0a2a",
+    colorActionSecondaryHover: "#1a1a4a",
+    colorActionDestructive: "#ff4444",
+    colorActionDestructiveHover: "#ff6666",
+    colorSuccess: "#22c55e",
+    colorSuccessBg: "rgba(34, 197, 94, 0.1)",
+    colorWarning: "#ffb852",
+    colorWarningBg: "rgba(255, 184, 82, 0.1)",
+    colorError: "#ff4444",
+    colorErrorBg: "rgba(255, 68, 68, 0.1)",
+    colorInfo: "#00ffff",
+    colorInfoBg: "rgba(0, 255, 255, 0.1)",
+    spaceXs: "0.25rem",
+    spaceSm: "0.5rem",
+    spaceMd: "1rem",
+    spaceLg: "1.5rem",
+    spaceXl: "2rem",
+    space2xl: "3rem",
+    radiusSm: "0",
+    radiusMd: "0",
+    radiusLg: "0",
+    radiusFull: "9999px",
+    shadowSm: "0 0 4px rgba(33, 33, 222, 0.2)",
+    shadowMd: "0 0 8px rgba(33, 33, 222, 0.3)",
+    shadowLg: "0 0 16px rgba(255, 255, 0, 0.2)",
+    fontSans: "'Press Start 2P', monospace",
+    fontSerif: "'Press Start 2P', monospace",
+    fontMono: "'Press Start 2P', monospace",
+    fontSizeXs: "0.75rem",
+    fontSizeSm: "0.875rem",
+    fontSizeBase: "1rem",
+    fontSizeLg: "1.125rem",
+    fontSizeXl: "1.25rem",
+    fontSize2xl: "1.5rem",
+    fontSize3xl: "1.875rem",
+    lineHeightTight: "1.25",
+    lineHeightBase: "1.5",
+    lineHeightRelaxed: "1.625",
+    fontWeightNormal: "400",
+    fontWeightMedium: "500",
+    fontWeightSemibold: "600",
+    fontWeightBold: "700",
+    letterSpacingTight: "-0.025em",
+    letterSpacingNormal: "0em",
+    letterSpacingWide: "0.025em",
+    focusRingColor: "#ffff00",
+    focusRingWidth: "2px",
+    focusRingOffset: "2px"
+  },
+  css: `
+    [data-theme="pacman"] body,
+    [data-theme="pacman"] {
+      background-color: #000000;
+    }
+
+    /* Scale down pixel font headings */
+    [data-theme="pacman"] h1 { font-size: clamp(1.1rem, 3vw, 1.5rem); line-height: 1.6; letter-spacing: 0.5px; }
+    [data-theme="pacman"] h2 { font-size: clamp(0.9rem, 2.5vw, 1.15rem); line-height: 1.6; letter-spacing: 0.5px; }
+    [data-theme="pacman"] h3 { font-size: 0.85rem; line-height: 1.6; letter-spacing: 0.5px; }
+
+    /* Maze-wall borders on buttons */
+    [data-theme="pacman"] button {
+      border: 3px solid #2121de;
+      border-radius: 0;
+      box-shadow: 0 0 8px rgba(33, 33, 222, 0.3);
+    }
+
+    [data-theme="pacman"] button:hover {
+      box-shadow: 0 0 16px rgba(255, 255, 0, 0.4);
+      border-color: #ffff00;
+    }
+
+    /* Links glow like power pellets */
+    [data-theme="pacman"] a:hover {
+      text-shadow: 0 0 8px rgba(255, 255, 0, 0.6);
+    }
+
+    /* Pixelated images */
+    [data-theme="pacman"] img {
+      image-rendering: pixelated;
+    }
+  `
+};
+var ThemeContext = import_react3.createContext(null);
+function applyTokens(element, tokens) {
+  const keys = Object.keys(tokens);
+  for (const key of keys) {
+    element.style.setProperty(tokenToCssProperty(key), tokens[key]);
+  }
+}
+function stripBodyBackground(css) {
+  return css.replace(/[^{}]*\bbody\b[^{}]*\{[^}]*background-color:[^}]*\}/gi, (match) => match.replace(/background-color:[^;]+;?/gi, ""));
+}
+var _applyPageStylesWarned = false;
+function ThemeProvider({
+  children,
+  themes: extraThemes,
+  defaultTheme = "synthwave",
+  storageKey = "ui-theme",
+  applyPageStyles
+}) {
+  if (applyPageStyles === undefined && !_applyPageStylesWarned) {
+    _applyPageStylesWarned = true;
+    console.warn("ThemeProvider: applyPageStyles will default to false in v2. " + "Set it explicitly or use <ThemeSurface> for page backgrounds.");
+  }
+  const shouldApplyPageStyles = applyPageStyles ?? true;
+  const registry = import_react3.useMemo(() => {
+    const map = new Map;
+    map.set(synthwaveTheme.name, synthwaveTheme);
+    map.set(slateTheme.name, slateTheme);
+    map.set(warmSandTheme.name, warmSandTheme);
+    map.set(mossTheme.name, mossTheme);
+    map.set(coralTheme.name, coralTheme);
+    map.set(pipboyTheme.name, pipboyTheme);
+    map.set(neuralTheme.name, neuralTheme);
+    map.set(pacmanTheme.name, pacmanTheme);
+    if (extraThemes) {
+      for (const t of extraThemes) {
+        map.set(t.name, t);
+      }
+    }
+    return map;
+  }, [extraThemes]);
+  const [theme, setThemeState] = import_react3.useState(() => {
+    if (typeof window === "undefined")
+      return defaultTheme;
+    return localStorage.getItem(storageKey) ?? defaultTheme;
+  });
+  const resolved = theme;
+  const setTheme = import_react3.useCallback((next) => {
+    setThemeState(next);
+    localStorage.setItem(storageKey, next);
+  }, [storageKey]);
+  const focusStyleRef = import_react3.useRef(null);
+  import_react3.useEffect(() => {
+    if (focusStyleRef.current)
+      return;
+    const style = document.createElement("style");
+    style.setAttribute("data-ui-focus", "");
+    style.textContent = [
+      "button:focus-visible,",
+      '[role="button"]:focus-visible,',
+      "input:focus-visible,",
+      "select:focus-visible,",
+      "textarea:focus-visible,",
+      "a[href]:focus-visible,",
+      '[tabindex]:not([tabindex="-1"]):focus-visible {',
+      "  outline: var(--focus-ring-width) solid var(--focus-ring-color);",
+      "  outline-offset: var(--focus-ring-offset);",
+      "}"
+    ].join(`
+`);
+    document.head.appendChild(style);
+    focusStyleRef.current = style;
+    return () => {
+      if (focusStyleRef.current) {
+        focusStyleRef.current.remove();
+        focusStyleRef.current = null;
+      }
+    };
+  }, []);
+  const styleElRef = import_react3.useRef(null);
+  import_react3.useEffect(() => {
+    const definition = registry.get(resolved);
+    if (!definition) {
+      console.warn(`[@4lt7ab/ui] Theme "${resolved}" not found in registry. ` + `Available: ${Array.from(registry.keys()).join(", ")}`);
+      return;
+    }
+    applyTokens(document.documentElement, definition.tokens);
+    document.documentElement.setAttribute("data-theme", resolved);
+    if (styleElRef.current) {
+      styleElRef.current.remove();
+      styleElRef.current = null;
+    }
+    if (definition.css) {
+      const style = document.createElement("style");
+      style.setAttribute("data-theme-css", resolved);
+      style.textContent = shouldApplyPageStyles ? definition.css : stripBodyBackground(definition.css);
+      document.head.appendChild(style);
+      styleElRef.current = style;
+    }
+    return () => {
+      if (styleElRef.current) {
+        styleElRef.current.remove();
+        styleElRef.current = null;
+      }
+    };
+  }, [resolved, registry, shouldApplyPageStyles]);
+  const value = import_react3.useMemo(() => ({ theme, resolved, themes: registry, setTheme }), [theme, resolved, registry, setTheme]);
+  return /* @__PURE__ */ import_jsx_dev_runtime.jsxDEV(ThemeContext.Provider, {
+    value,
+    children
+  }, undefined, false, undefined, this);
+}
+function useTheme() {
+  const ctx = import_react3.useContext(ThemeContext);
+  if (!ctx)
+    throw new Error("useTheme must be used within <ThemeProvider>");
+  return ctx;
+}
+// src/components/ThemePicker/ThemePicker.tsx
+var import_react4 = require("react");
 var jsx_dev_runtime = require("react/jsx-dev-runtime");
 var STYLES_ID = "alttab-theme-picker";
 var pickerCSS = `
@@ -227,9 +1291,9 @@ var pickerCSS = `
     color: var(--color-text-muted);
   }
 `;
-var ThemePicker = import_react2.forwardRef(function ThemePicker2({ descriptions = {} }, ref) {
-  import_core2.useInjectStyles(STYLES_ID, pickerCSS);
-  const { resolved, themes, setTheme } = import_core.useTheme();
+var ThemePicker = import_react4.forwardRef(function ThemePicker2({ descriptions = {} }, ref) {
+  useInjectStyles(STYLES_ID, pickerCSS);
+  const { resolved, themes, setTheme } = useTheme();
   return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("div", {
     ref,
     className: "alttab-theme-picker",
@@ -252,37 +1316,6 @@ var ThemePicker = import_react2.forwardRef(function ThemePicker2({ descriptions 
     })
   }, undefined, false, undefined, this);
 });
-// src/icons/index.ts
-var exports_icons = {};
-__export(exports_icons, {
-  iconRegistry: () => iconRegistry,
-  IconWarning: () => IconWarning,
-  IconTrash: () => IconTrash,
-  IconSettings: () => IconSettings,
-  IconSearch: () => IconSearch,
-  IconPlus: () => IconPlus,
-  IconMoreVertical: () => IconMoreVertical,
-  IconMinus: () => IconMinus,
-  IconMenu: () => IconMenu,
-  IconInfo: () => IconInfo,
-  IconFilter: () => IconFilter,
-  IconEyeOff: () => IconEyeOff,
-  IconEye: () => IconEye,
-  IconExternalLink: () => IconExternalLink,
-  IconError: () => IconError,
-  IconEdit: () => IconEdit,
-  IconCopy: () => IconCopy,
-  IconClose: () => IconClose,
-  IconChevronUp: () => IconChevronUp,
-  IconChevronRight: () => IconChevronRight,
-  IconChevronLeft: () => IconChevronLeft,
-  IconChevronDown: () => IconChevronDown,
-  IconCheckCircle: () => IconCheckCircle,
-  IconCheck: () => IconCheck,
-  IconArrowRight: () => IconArrowRight,
-  IconArrowLeft: () => IconArrowLeft
-});
-
 // src/icons/icons.tsx
 var jsx_dev_runtime2 = require("react/jsx-dev-runtime");
 function svgProps(size, style) {
@@ -623,67 +1656,60 @@ var iconRegistry = {
   "more-vertical": IconMoreVertical,
   filter: IconFilter
 };
-// src/components/Button/index.ts
-var exports_Button = {};
-__export(exports_Button, {
-  Button: () => Button
-});
-
 // src/components/Button/Button.tsx
-var import_react3 = require("react");
-var import_core3 = require("@4lt7ab/core");
+var import_react5 = require("react");
 var jsx_dev_runtime3 = require("react/jsx-dev-runtime");
 var variantStyles = {
   primary: {
-    background: import_core3.semantic.colorActionPrimary,
-    color: import_core3.semantic.colorTextInverse,
+    background: semantic.colorActionPrimary,
+    color: semantic.colorTextInverse,
     border: "none"
   },
   secondary: {
-    background: import_core3.semantic.colorActionSecondary,
-    color: import_core3.semantic.colorText,
-    border: `1px solid ${import_core3.semantic.colorBorder}`
+    background: semantic.colorActionSecondary,
+    color: semantic.colorText,
+    border: `1px solid ${semantic.colorBorder}`
   },
   destructive: {
-    background: import_core3.semantic.colorActionDestructive,
-    color: import_core3.semantic.colorTextInverse,
+    background: semantic.colorActionDestructive,
+    color: semantic.colorTextInverse,
     border: "none"
   },
   ghost: {
     background: "transparent",
-    color: import_core3.semantic.colorText,
+    color: semantic.colorText,
     border: "1px solid transparent"
   }
 };
 var sizeStyles = {
   sm: {
-    padding: `${import_core3.semantic.spaceXs} ${import_core3.semantic.spaceSm}`,
-    fontSize: import_core3.semantic.fontSizeSm,
-    lineHeight: import_core3.semantic.lineHeightTight
+    padding: `${semantic.spaceXs} ${semantic.spaceSm}`,
+    fontSize: semantic.fontSizeSm,
+    lineHeight: semantic.lineHeightTight
   },
   md: {
-    padding: `${import_core3.semantic.spaceSm} ${import_core3.semantic.spaceMd}`,
-    fontSize: import_core3.semantic.fontSizeSm,
-    lineHeight: import_core3.semantic.lineHeightTight
+    padding: `${semantic.spaceSm} ${semantic.spaceMd}`,
+    fontSize: semantic.fontSizeSm,
+    lineHeight: semantic.lineHeightTight
   },
   lg: {
-    padding: `${import_core3.semantic.spaceSm} ${import_core3.semantic.spaceLg}`,
-    fontSize: import_core3.semantic.fontSizeBase,
-    lineHeight: import_core3.semantic.lineHeightBase
+    padding: `${semantic.spaceSm} ${semantic.spaceLg}`,
+    fontSize: semantic.fontSizeBase,
+    lineHeight: semantic.lineHeightBase
   }
 };
 var baseStyles = {
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
-  gap: import_core3.semantic.spaceSm,
-  borderRadius: import_core3.semantic.radiusMd,
-  fontFamily: import_core3.semantic.fontSans,
-  fontWeight: import_core3.semantic.fontWeightMedium,
+  gap: semantic.spaceSm,
+  borderRadius: semantic.radiusMd,
+  fontFamily: semantic.fontSans,
+  fontWeight: semantic.fontWeightMedium,
   cursor: "pointer",
   transition: "background 150ms ease, border-color 150ms ease, opacity 150ms ease"
 };
-var Button = import_react3.forwardRef(function Button2({
+var Button = import_react5.forwardRef(function Button2({
   variant = "primary",
   size = "md",
   children,
@@ -705,25 +1731,18 @@ var Button = import_react3.forwardRef(function Button2({
     children
   }, undefined, false, undefined, this);
 });
-// src/components/Stack/index.ts
-var exports_Stack = {};
-__export(exports_Stack, {
-  Stack: () => Stack
-});
-
 // src/components/Stack/Stack.tsx
-var import_react4 = require("react");
-var import_core4 = require("@4lt7ab/core");
+var import_react6 = require("react");
 var jsx_dev_runtime4 = require("react/jsx-dev-runtime");
 var gapMap = {
-  xs: import_core4.semantic.spaceXs,
-  sm: import_core4.semantic.spaceSm,
-  md: import_core4.semantic.spaceMd,
-  lg: import_core4.semantic.spaceLg,
-  xl: import_core4.semantic.spaceXl,
-  "2xl": import_core4.semantic.space2xl
+  xs: semantic.spaceXs,
+  sm: semantic.spaceSm,
+  md: semantic.spaceMd,
+  lg: semantic.spaceLg,
+  xl: semantic.spaceXl,
+  "2xl": semantic.space2xl
 };
-var Stack = import_react4.forwardRef(function Stack2({
+var Stack = import_react6.forwardRef(function Stack2({
   direction = "vertical",
   gap = "md",
   align,
@@ -748,42 +1767,35 @@ var Stack = import_react4.forwardRef(function Stack2({
     children
   }, undefined, false, undefined, this);
 });
-// src/components/Card/index.ts
-var exports_Card = {};
-__export(exports_Card, {
-  Card: () => Card
-});
-
 // src/components/Card/Card.tsx
-var import_react5 = require("react");
-var import_core5 = require("@4lt7ab/core");
+var import_react7 = require("react");
 var jsx_dev_runtime5 = require("react/jsx-dev-runtime");
 var paddingMap = {
-  xs: import_core5.semantic.spaceXs,
-  sm: import_core5.semantic.spaceSm,
-  md: import_core5.semantic.spaceMd,
-  lg: import_core5.semantic.spaceLg,
-  xl: import_core5.semantic.spaceXl,
-  "2xl": import_core5.semantic.space2xl
+  xs: semantic.spaceXs,
+  sm: semantic.spaceSm,
+  md: semantic.spaceMd,
+  lg: semantic.spaceLg,
+  xl: semantic.spaceXl,
+  "2xl": semantic.space2xl
 };
 var variantStyles2 = {
   default: {
-    background: import_core5.semantic.colorSurface,
-    border: `1px solid ${import_core5.semantic.colorBorder}`,
-    boxShadow: import_core5.semantic.shadowSm
+    background: semantic.colorSurface,
+    border: `1px solid ${semantic.colorBorder}`,
+    boxShadow: semantic.shadowSm
   },
   flat: {
-    background: import_core5.semantic.colorSurfaceRaised,
-    border: `1px solid ${import_core5.semantic.colorBorder}`,
+    background: semantic.colorSurfaceRaised,
+    border: `1px solid ${semantic.colorBorder}`,
     boxShadow: "none"
   },
   elevated: {
-    background: import_core5.semantic.colorSurface,
-    border: `1px solid ${import_core5.semantic.colorBorder}`,
-    boxShadow: import_core5.semantic.shadowMd
+    background: semantic.colorSurface,
+    border: `1px solid ${semantic.colorBorder}`,
+    boxShadow: semantic.shadowMd
   }
 };
-var Card = import_react5.forwardRef(function Card2({
+var Card = import_react7.forwardRef(function Card2({
   variant = "default",
   padding = "lg",
   children,
@@ -793,7 +1805,7 @@ var Card = import_react5.forwardRef(function Card2({
   return /* @__PURE__ */ jsx_dev_runtime5.jsxDEV("div", {
     ref,
     style: {
-      borderRadius: import_core5.semantic.radiusLg,
+      borderRadius: semantic.radiusLg,
       padding: paddingMap[padding],
       ...variantStyles2[variant],
       ...style
@@ -802,43 +1814,36 @@ var Card = import_react5.forwardRef(function Card2({
     children
   }, undefined, false, undefined, this);
 });
-// src/components/Field/index.ts
-var exports_Field = {};
-__export(exports_Field, {
-  Field: () => Field
-});
-
 // src/components/Field/Field.tsx
-var import_core6 = require("@4lt7ab/core");
-var import_react6 = require("react");
+var import_react8 = require("react");
 var jsx_dev_runtime6 = require("react/jsx-dev-runtime");
 var labelStyle = {
   display: "block",
-  fontSize: import_core6.semantic.fontSizeSm,
-  fontWeight: import_core6.semantic.fontWeightMedium,
-  lineHeight: import_core6.semantic.lineHeightTight,
-  color: import_core6.semantic.colorText,
-  fontFamily: import_core6.semantic.fontSans
+  fontSize: semantic.fontSizeSm,
+  fontWeight: semantic.fontWeightMedium,
+  lineHeight: semantic.lineHeightTight,
+  color: semantic.colorText,
+  fontFamily: semantic.fontSans
 };
 var requiredStyle = {
-  color: import_core6.semantic.colorError,
+  color: semantic.colorError,
   marginLeft: "0.125rem"
 };
 var helpStyle = {
-  fontSize: import_core6.semantic.fontSizeXs,
-  lineHeight: import_core6.semantic.lineHeightTight,
-  color: import_core6.semantic.colorTextMuted,
-  fontFamily: import_core6.semantic.fontSans,
+  fontSize: semantic.fontSizeXs,
+  lineHeight: semantic.lineHeightTight,
+  color: semantic.colorTextMuted,
+  fontFamily: semantic.fontSans,
   margin: 0
 };
 var errorStyle = {
-  fontSize: import_core6.semantic.fontSizeXs,
-  lineHeight: import_core6.semantic.lineHeightTight,
-  color: import_core6.semantic.colorError,
-  fontFamily: import_core6.semantic.fontSans,
+  fontSize: semantic.fontSizeXs,
+  lineHeight: semantic.lineHeightTight,
+  color: semantic.colorError,
+  fontFamily: semantic.fontSans,
   margin: 0
 };
-var Field = import_react6.forwardRef(function Field2({
+var Field = import_react8.forwardRef(function Field2({
   label,
   htmlFor,
   error,
@@ -849,11 +1854,11 @@ var Field = import_react6.forwardRef(function Field2({
   style,
   ...props
 }, ref) {
-  const autoId = import_react6.useId();
+  const autoId = import_react8.useId();
   const helpId = help ? `${autoId}-help` : undefined;
   const errorId = error ? `${autoId}-error` : undefined;
   const describedBy = [errorId, helpId].filter(Boolean).join(" ") || undefined;
-  const enhancedChildren = import_react6.isValidElement(children) ? import_react6.cloneElement(children, {
+  const enhancedChildren = import_react8.isValidElement(children) ? import_react8.cloneElement(children, {
     "aria-describedby": describedBy
   }) : children;
   return /* @__PURE__ */ jsx_dev_runtime6.jsxDEV("div", {
@@ -861,7 +1866,7 @@ var Field = import_react6.forwardRef(function Field2({
     style: {
       display: "flex",
       flexDirection: "column",
-      gap: import_core6.semantic.spaceXs,
+      gap: semantic.spaceXs,
       opacity: disabled ? 0.6 : undefined,
       ...style
     },
@@ -894,40 +1899,33 @@ var Field = import_react6.forwardRef(function Field2({
     ]
   }, undefined, true, undefined, this);
 });
-// src/components/Input/index.ts
-var exports_Input = {};
-__export(exports_Input, {
-  Input: () => Input
-});
-
 // src/components/Input/Input.tsx
-var import_react7 = require("react");
-var import_core7 = require("@4lt7ab/core");
+var import_react9 = require("react");
 var jsx_dev_runtime7 = require("react/jsx-dev-runtime");
 var baseStyle = {
   display: "block",
   width: "100%",
-  padding: `${import_core7.semantic.spaceSm} ${import_core7.semantic.spaceMd}`,
-  fontSize: import_core7.semantic.fontSizeSm,
-  lineHeight: import_core7.semantic.lineHeightTight,
-  fontFamily: import_core7.semantic.fontSans,
-  color: import_core7.semantic.colorText,
-  background: import_core7.semantic.colorSurfaceInput,
-  border: `1px solid ${import_core7.semantic.colorBorder}`,
-  borderRadius: import_core7.semantic.radiusMd,
+  padding: `${semantic.spaceSm} ${semantic.spaceMd}`,
+  fontSize: semantic.fontSizeSm,
+  lineHeight: semantic.lineHeightTight,
+  fontFamily: semantic.fontSans,
+  color: semantic.colorText,
+  background: semantic.colorSurfaceInput,
+  border: `1px solid ${semantic.colorBorder}`,
+  borderRadius: semantic.radiusMd,
   outline: "none",
   transition: "border-color 150ms ease, box-shadow 150ms ease",
   boxSizing: "border-box"
 };
 var errorBorderStyle = {
-  borderColor: import_core7.semantic.colorBorderError
+  borderColor: semantic.colorBorderError
 };
 var disabledStyle = {
-  background: import_core7.semantic.colorSurfaceDisabled,
-  color: import_core7.semantic.colorTextDisabled,
+  background: semantic.colorSurfaceDisabled,
+  color: semantic.colorTextDisabled,
   cursor: "not-allowed"
 };
-var Input = import_react7.forwardRef(function Input2({
+var Input = import_react9.forwardRef(function Input2({
   hasError,
   disabled,
   style,
@@ -946,27 +1944,20 @@ var Input = import_react7.forwardRef(function Input2({
     ...props
   }, undefined, false, undefined, this);
 });
-// src/components/Textarea/index.ts
-var exports_Textarea = {};
-__export(exports_Textarea, {
-  Textarea: () => Textarea
-});
-
 // src/components/Textarea/Textarea.tsx
-var import_react8 = require("react");
-var import_core8 = require("@4lt7ab/core");
+var import_react10 = require("react");
 var jsx_dev_runtime8 = require("react/jsx-dev-runtime");
 var baseStyle2 = {
   display: "block",
   width: "100%",
-  padding: `${import_core8.semantic.spaceSm} ${import_core8.semantic.spaceMd}`,
-  fontSize: import_core8.semantic.fontSizeSm,
-  lineHeight: import_core8.semantic.lineHeightBase,
-  fontFamily: import_core8.semantic.fontSans,
-  color: import_core8.semantic.colorText,
-  background: import_core8.semantic.colorSurfaceInput,
-  border: `1px solid ${import_core8.semantic.colorBorder}`,
-  borderRadius: import_core8.semantic.radiusMd,
+  padding: `${semantic.spaceSm} ${semantic.spaceMd}`,
+  fontSize: semantic.fontSizeSm,
+  lineHeight: semantic.lineHeightBase,
+  fontFamily: semantic.fontSans,
+  color: semantic.colorText,
+  background: semantic.colorSurfaceInput,
+  border: `1px solid ${semantic.colorBorder}`,
+  borderRadius: semantic.radiusMd,
   outline: "none",
   transition: "border-color 150ms ease, box-shadow 150ms ease",
   boxSizing: "border-box",
@@ -974,15 +1965,15 @@ var baseStyle2 = {
   minHeight: "5rem"
 };
 var errorBorderStyle2 = {
-  borderColor: import_core8.semantic.colorBorderError
+  borderColor: semantic.colorBorderError
 };
 var disabledStyle2 = {
-  background: import_core8.semantic.colorSurfaceDisabled,
-  color: import_core8.semantic.colorTextDisabled,
+  background: semantic.colorSurfaceDisabled,
+  color: semantic.colorTextDisabled,
   cursor: "not-allowed",
   resize: "none"
 };
-var Textarea = import_react8.forwardRef(function Textarea2({
+var Textarea = import_react10.forwardRef(function Textarea2({
   hasError,
   disabled,
   style,
@@ -1001,15 +1992,8 @@ var Textarea = import_react8.forwardRef(function Textarea2({
     ...props
   }, undefined, false, undefined, this);
 });
-// src/components/Select/index.ts
-var exports_Select = {};
-__export(exports_Select, {
-  Select: () => Select
-});
-
 // src/components/Select/Select.tsx
-var import_react9 = require("react");
-var import_core9 = require("@4lt7ab/core");
+var import_react11 = require("react");
 var jsx_dev_runtime9 = require("react/jsx-dev-runtime");
 var wrapperStyle = {
   position: "relative",
@@ -1019,41 +2003,41 @@ var wrapperStyle = {
 var baseStyle3 = {
   display: "block",
   width: "100%",
-  padding: `${import_core9.semantic.spaceSm} ${import_core9.semantic.spaceMd}`,
-  fontSize: import_core9.semantic.fontSizeSm,
-  lineHeight: import_core9.semantic.lineHeightTight,
-  fontFamily: import_core9.semantic.fontSans,
-  color: import_core9.semantic.colorText,
-  background: import_core9.semantic.colorSurfaceInput,
-  border: `1px solid ${import_core9.semantic.colorBorder}`,
-  borderRadius: import_core9.semantic.radiusMd,
+  padding: `${semantic.spaceSm} ${semantic.spaceMd}`,
+  fontSize: semantic.fontSizeSm,
+  lineHeight: semantic.lineHeightTight,
+  fontFamily: semantic.fontSans,
+  color: semantic.colorText,
+  background: semantic.colorSurfaceInput,
+  border: `1px solid ${semantic.colorBorder}`,
+  borderRadius: semantic.radiusMd,
   outline: "none",
   transition: "border-color 150ms ease, box-shadow 150ms ease",
   boxSizing: "border-box",
   cursor: "pointer",
   appearance: "none",
-  paddingRight: import_core9.semantic.space2xl
+  paddingRight: semantic.space2xl
 };
 var chevronStyle = {
   position: "absolute",
-  right: import_core9.semantic.spaceSm,
+  right: semantic.spaceSm,
   top: "50%",
   transform: "translateY(-50%)",
   pointerEvents: "none",
-  color: import_core9.semantic.colorTextSecondary,
+  color: semantic.colorTextSecondary,
   display: "flex",
   alignItems: "center",
   justifyContent: "center"
 };
 var errorBorderStyle3 = {
-  borderColor: import_core9.semantic.colorBorderError
+  borderColor: semantic.colorBorderError
 };
 var disabledStyle3 = {
-  background: import_core9.semantic.colorSurfaceDisabled,
-  color: import_core9.semantic.colorTextDisabled,
+  background: semantic.colorSurfaceDisabled,
+  color: semantic.colorTextDisabled,
   cursor: "not-allowed"
 };
-var Select = import_react9.forwardRef(function Select2({
+var Select = import_react11.forwardRef(function Select2({
   options,
   children,
   placeholder,
@@ -1107,49 +2091,42 @@ var Select = import_react9.forwardRef(function Select2({
     ]
   }, undefined, true, undefined, this);
 });
-// src/components/Badge/index.ts
-var exports_Badge = {};
-__export(exports_Badge, {
-  Badge: () => Badge
-});
-
 // src/components/Badge/Badge.tsx
-var import_react10 = require("react");
-var import_core10 = require("@4lt7ab/core");
+var import_react12 = require("react");
 var jsx_dev_runtime10 = require("react/jsx-dev-runtime");
 var variantStyles3 = {
   default: {
-    border: `1px solid ${import_core10.semantic.colorBorder}`,
-    color: import_core10.semantic.colorTextSecondary
+    border: `1px solid ${semantic.colorBorder}`,
+    color: semantic.colorTextSecondary
   },
   success: {
-    background: import_core10.semantic.colorSuccessBg,
-    color: import_core10.semantic.colorSuccess
+    background: semantic.colorSuccessBg,
+    color: semantic.colorSuccess
   },
   warning: {
-    background: import_core10.semantic.colorWarningBg,
-    color: import_core10.semantic.colorWarning
+    background: semantic.colorWarningBg,
+    color: semantic.colorWarning
   },
   error: {
-    background: import_core10.semantic.colorErrorBg,
-    color: import_core10.semantic.colorError
+    background: semantic.colorErrorBg,
+    color: semantic.colorError
   },
   info: {
-    background: import_core10.semantic.colorInfoBg,
-    color: import_core10.semantic.colorInfo
+    background: semantic.colorInfoBg,
+    color: semantic.colorInfo
   }
 };
 var baseStyles2 = {
   display: "inline-block",
-  padding: `${import_core10.semantic.spaceXs} ${import_core10.semantic.spaceSm}`,
-  borderRadius: import_core10.semantic.radiusFull,
-  fontSize: import_core10.semantic.fontSizeXs,
-  fontWeight: import_core10.semantic.fontWeightSemibold,
-  fontFamily: import_core10.semantic.fontSans,
+  padding: `${semantic.spaceXs} ${semantic.spaceSm}`,
+  borderRadius: semantic.radiusFull,
+  fontSize: semantic.fontSizeXs,
+  fontWeight: semantic.fontWeightSemibold,
+  fontFamily: semantic.fontSans,
   textTransform: "uppercase",
-  letterSpacing: import_core10.semantic.letterSpacingWide
+  letterSpacing: semantic.letterSpacingWide
 };
-var Badge = import_react10.forwardRef(function Badge2({
+var Badge = import_react12.forwardRef(function Badge2({
   children,
   variant = "default",
   style,
@@ -1166,16 +2143,10 @@ var Badge = import_react10.forwardRef(function Badge2({
     children
   }, undefined, false, undefined, this);
 });
-// src/components/Icon/index.ts
-var exports_Icon = {};
-__export(exports_Icon, {
-  Icon: () => Icon
-});
-
 // src/components/Icon/Icon.tsx
-var import_react11 = require("react");
+var import_react13 = require("react");
 var jsx_dev_runtime11 = require("react/jsx-dev-runtime");
-var Icon = import_react11.forwardRef(function Icon2({ name, size = 24, style, "aria-label": ariaLabel, ...props }, ref) {
+var Icon = import_react13.forwardRef(function Icon2({ name, size = 24, style, "aria-label": ariaLabel, ...props }, ref) {
   const IconComponent = iconRegistry[name];
   const isDecorative = !ariaLabel;
   return /* @__PURE__ */ jsx_dev_runtime11.jsxDEV("span", {
@@ -1199,17 +2170,10 @@ var Icon = import_react11.forwardRef(function Icon2({ name, size = 24, style, "a
     }, undefined, false, undefined, this)
   }, undefined, false, undefined, this);
 });
-// src/components/IconButton/index.ts
-var exports_IconButton = {};
-__export(exports_IconButton, {
-  IconButton: () => IconButton
-});
-
 // src/components/IconButton/IconButton.tsx
-var import_react12 = require("react");
-var import_core11 = require("@4lt7ab/core");
+var import_react14 = require("react");
 var jsx_dev_runtime12 = require("react/jsx-dev-runtime");
-var IconButton = import_react12.forwardRef(function IconButton2({
+var IconButton = import_react14.forwardRef(function IconButton2({
   icon,
   size = 24,
   badge,
@@ -1225,10 +2189,10 @@ var IconButton = import_react12.forwardRef(function IconButton2({
       justifyContent: "center",
       width: 36,
       height: 36,
-      borderRadius: import_core11.semantic.radiusFull,
+      borderRadius: semantic.radiusFull,
       background: "transparent",
       border: "none",
-      color: import_core11.semantic.colorTextMuted,
+      color: semantic.colorTextMuted,
       cursor: "pointer",
       padding: 0,
       ...style
@@ -1246,25 +2210,18 @@ var IconButton = import_react12.forwardRef(function IconButton2({
           right: 2,
           width: 8,
           height: 8,
-          borderRadius: import_core11.semantic.radiusFull,
-          background: import_core11.semantic.colorError,
-          border: `2px solid ${import_core11.semantic.colorSurface}`
+          borderRadius: semantic.radiusFull,
+          background: semantic.colorError,
+          border: `2px solid ${semantic.colorSurface}`
         }
       }, undefined, false, undefined, this)
     ]
   }, undefined, true, undefined, this);
 });
-// src/components/Overlay/index.ts
-var exports_Overlay = {};
-__export(exports_Overlay, {
-  Overlay: () => Overlay
-});
-
 // src/components/Overlay/Overlay.tsx
-var import_react13 = require("react");
-var import_core12 = require("@4lt7ab/core");
+var import_react15 = require("react");
 var jsx_dev_runtime13 = require("react/jsx-dev-runtime");
-var Overlay = import_react13.forwardRef(function Overlay2({
+var Overlay = import_react15.forwardRef(function Overlay2({
   onClick,
   zIndex = 100,
   style
@@ -1276,28 +2233,19 @@ var Overlay = import_react13.forwardRef(function Overlay2({
     style: {
       position: "fixed",
       inset: 0,
-      background: import_core12.semantic.colorSurfaceOverlay,
+      background: semantic.colorSurfaceOverlay,
       zIndex,
       ...style
     }
   }, undefined, false, undefined, this);
 });
-// src/components/Skeleton/index.ts
-var exports_Skeleton = {};
-__export(exports_Skeleton, {
-  Skeleton: () => Skeleton,
-  RowSkeleton: () => RowSkeleton,
-  CardSkeleton: () => CardSkeleton
-});
-
 // src/components/Skeleton/Skeleton.tsx
-var import_react14 = require("react");
-var import_core13 = require("@4lt7ab/core");
+var import_react16 = require("react");
 var jsx_dev_runtime14 = require("react/jsx-dev-runtime");
-var Skeleton = import_react14.forwardRef(function Skeleton2({
+var Skeleton = import_react16.forwardRef(function Skeleton2({
   width = "100%",
   height = 16,
-  borderRadius = import_core13.semantic.radiusMd,
+  borderRadius = semantic.radiusMd,
   style
 }, ref) {
   return /* @__PURE__ */ jsx_dev_runtime14.jsxDEV("div", {
@@ -1307,22 +2255,22 @@ var Skeleton = import_react14.forwardRef(function Skeleton2({
       width,
       height,
       borderRadius,
-      background: import_core13.semantic.colorSurfaceRaised,
+      background: semantic.colorSurfaceRaised,
       ...style
     }
   }, undefined, false, undefined, this);
 });
-var CardSkeleton = import_react14.forwardRef(function CardSkeleton2({ style }, ref) {
+var CardSkeleton = import_react16.forwardRef(function CardSkeleton2({ style }, ref) {
   return /* @__PURE__ */ jsx_dev_runtime14.jsxDEV("div", {
     ref,
     "aria-hidden": "true",
     style: {
-      borderRadius: import_core13.semantic.radiusLg,
-      border: `1px solid ${import_core13.semantic.colorBorder}`,
-      padding: import_core13.semantic.spaceLg,
+      borderRadius: semantic.radiusLg,
+      border: `1px solid ${semantic.colorBorder}`,
+      padding: semantic.spaceLg,
       display: "flex",
       flexDirection: "column",
-      gap: import_core13.semantic.spaceSm,
+      gap: semantic.spaceSm,
       ...style
     },
     children: [
@@ -1341,25 +2289,25 @@ var CardSkeleton = import_react14.forwardRef(function CardSkeleton2({ style }, r
     ]
   }, undefined, true, undefined, this);
 });
-var RowSkeleton = import_react14.forwardRef(function RowSkeleton2({ style }, ref) {
+var RowSkeleton = import_react16.forwardRef(function RowSkeleton2({ style }, ref) {
   return /* @__PURE__ */ jsx_dev_runtime14.jsxDEV("div", {
     ref,
     "aria-hidden": "true",
     style: {
       display: "flex",
       alignItems: "center",
-      gap: import_core13.semantic.spaceSm,
-      padding: `${import_core13.semantic.spaceSm} 0`,
+      gap: semantic.spaceSm,
+      padding: `${semantic.spaceSm} 0`,
       ...style
     },
     children: [
       /* @__PURE__ */ jsx_dev_runtime14.jsxDEV(Skeleton, {
         width: 32,
         height: 32,
-        borderRadius: import_core13.semantic.radiusFull
+        borderRadius: semantic.radiusFull
       }, undefined, false, undefined, this),
       /* @__PURE__ */ jsx_dev_runtime14.jsxDEV("div", {
-        style: { flex: 1, display: "flex", flexDirection: "column", gap: import_core13.semantic.spaceXs },
+        style: { flex: 1, display: "flex", flexDirection: "column", gap: semantic.spaceXs },
         children: [
           /* @__PURE__ */ jsx_dev_runtime14.jsxDEV(Skeleton, {
             width: "40%",
@@ -1374,17 +2322,10 @@ var RowSkeleton = import_react14.forwardRef(function RowSkeleton2({ style }, ref
     ]
   }, undefined, true, undefined, this);
 });
-// src/components/ProgressBar/index.ts
-var exports_ProgressBar = {};
-__export(exports_ProgressBar, {
-  ProgressBar: () => ProgressBar
-});
-
 // src/components/ProgressBar/ProgressBar.tsx
-var import_react15 = require("react");
-var import_core14 = require("@4lt7ab/core");
+var import_react17 = require("react");
 var jsx_dev_runtime15 = require("react/jsx-dev-runtime");
-var ProgressBar = import_react15.forwardRef(function ProgressBar2({
+var ProgressBar = import_react17.forwardRef(function ProgressBar2({
   segments,
   height = 6,
   "aria-label": ariaLabel,
@@ -1404,7 +2345,7 @@ var ProgressBar = import_react15.forwardRef(function ProgressBar2({
       borderRadius: height / 2,
       overflow: "hidden",
       display: "flex",
-      background: import_core14.semantic.colorSurfaceRaised,
+      background: semantic.colorSurfaceRaised,
       ...style
     },
     children: segments.map((segment, i) => {
@@ -1420,17 +2361,10 @@ var ProgressBar = import_react15.forwardRef(function ProgressBar2({
     })
   }, undefined, false, undefined, this);
 });
-// src/components/EmptyState/index.ts
-var exports_EmptyState = {};
-__export(exports_EmptyState, {
-  EmptyState: () => EmptyState
-});
-
 // src/components/EmptyState/EmptyState.tsx
-var import_react16 = require("react");
-var import_core15 = require("@4lt7ab/core");
+var import_react18 = require("react");
 var jsx_dev_runtime16 = require("react/jsx-dev-runtime");
-var EmptyState = import_react16.forwardRef(function EmptyState2({
+var EmptyState = import_react18.forwardRef(function EmptyState2({
   icon,
   message,
   variant = "plain",
@@ -1441,25 +2375,25 @@ var EmptyState = import_react16.forwardRef(function EmptyState2({
   const content = /* @__PURE__ */ jsx_dev_runtime16.jsxDEV(Stack, {
     align: "center",
     gap: "sm",
-    style: { padding: import_core15.semantic.spaceXl, ...style },
+    style: { padding: semantic.spaceXl, ...style },
     children: [
       /* @__PURE__ */ jsx_dev_runtime16.jsxDEV(Icon, {
         name: icon,
         size: 32,
-        style: { color: import_core15.semantic.colorTextMuted }
+        style: { color: semantic.colorTextMuted }
       }, undefined, false, undefined, this),
       /* @__PURE__ */ jsx_dev_runtime16.jsxDEV("span", {
         style: {
-          color: import_core15.semantic.colorTextSecondary,
-          fontSize: import_core15.semantic.fontSizeSm,
+          color: semantic.colorTextSecondary,
+          fontSize: semantic.fontSizeSm,
           textAlign: "center",
-          fontFamily: import_core15.semantic.fontSans
+          fontFamily: semantic.fontSans
         },
         children: message
       }, undefined, false, undefined, this),
       children,
       action && /* @__PURE__ */ jsx_dev_runtime16.jsxDEV("div", {
-        style: { marginTop: import_core15.semantic.spaceSm },
+        style: { marginTop: semantic.spaceSm },
         children: action
       }, undefined, false, undefined, this)
     ]
@@ -1476,22 +2410,15 @@ var EmptyState = import_react16.forwardRef(function EmptyState2({
     children: content
   }, undefined, false, undefined, this);
 });
-// src/components/Pagination/index.ts
-var exports_Pagination = {};
-__export(exports_Pagination, {
-  Pagination: () => Pagination
-});
-
 // src/components/Pagination/Pagination.tsx
-var import_react17 = require("react");
-var import_core16 = require("@4lt7ab/core");
+var import_react19 = require("react");
 var jsx_dev_runtime17 = require("react/jsx-dev-runtime");
 var defaultLabels = {
   previous: "Previous",
   next: "Next",
   pageOf: (page, total) => `Page ${page} of ${total}`
 };
-var Pagination = import_react17.forwardRef(function Pagination2({
+var Pagination = import_react19.forwardRef(function Pagination2({
   page,
   totalPages,
   total,
@@ -1508,7 +2435,7 @@ var Pagination = import_react17.forwardRef(function Pagination2({
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      gap: import_core16.semantic.spaceSm,
+      gap: semantic.spaceSm,
       ...style
     },
     children: [
@@ -1521,9 +2448,9 @@ var Pagination = import_react17.forwardRef(function Pagination2({
       }, undefined, false, undefined, this),
       /* @__PURE__ */ jsx_dev_runtime17.jsxDEV("span", {
         style: {
-          color: import_core16.semantic.colorTextMuted,
-          fontSize: import_core16.semantic.fontSizeSm,
-          fontFamily: import_core16.semantic.fontSans
+          color: semantic.colorTextMuted,
+          fontSize: semantic.fontSizeSm,
+          fontFamily: semantic.fontSans
         },
         children: [
           resolvedLabels.pageOf(page, totalPages),
@@ -1542,17 +2469,10 @@ var Pagination = import_react17.forwardRef(function Pagination2({
     ]
   }, undefined, true, undefined, this);
 });
-// src/components/PageHeader/index.ts
-var exports_PageHeader = {};
-__export(exports_PageHeader, {
-  PageHeader: () => PageHeader
-});
-
 // src/components/PageHeader/PageHeader.tsx
-var import_react18 = require("react");
-var import_core17 = require("@4lt7ab/core");
+var import_react20 = require("react");
 var jsx_dev_runtime18 = require("react/jsx-dev-runtime");
-var PageHeader = import_react18.forwardRef(function PageHeader2({
+var PageHeader = import_react20.forwardRef(function PageHeader2({
   title,
   subtitle,
   trailing,
@@ -1560,12 +2480,12 @@ var PageHeader = import_react18.forwardRef(function PageHeader2({
   className,
   level = 2
 }, ref) {
-  const heading = import_react18.createElement(`h${level}`, {
+  const heading = import_react20.createElement(`h${level}`, {
     style: {
       margin: 0,
-      fontFamily: import_core17.semantic.fontSans,
-      fontWeight: import_core17.semantic.fontWeightBold,
-      color: import_core17.semantic.colorText
+      fontFamily: semantic.fontSans,
+      fontWeight: semantic.fontWeightBold,
+      color: semantic.colorText
     }
   }, title);
   return /* @__PURE__ */ jsx_dev_runtime18.jsxDEV("div", {
@@ -1583,8 +2503,8 @@ var PageHeader = import_react18.forwardRef(function PageHeader2({
           heading,
           subtitle && /* @__PURE__ */ jsx_dev_runtime18.jsxDEV("span", {
             style: {
-              color: import_core17.semantic.colorTextMuted,
-              fontSize: import_core17.semantic.fontSizeSm
+              color: semantic.colorTextMuted,
+              fontSize: semantic.fontSizeSm
             },
             children: subtitle
           }, undefined, false, undefined, this)
@@ -1596,17 +2516,10 @@ var PageHeader = import_react18.forwardRef(function PageHeader2({
     ]
   }, undefined, true, undefined, this);
 });
-// src/components/TagChip/index.ts
-var exports_TagChip = {};
-__export(exports_TagChip, {
-  TagChip: () => TagChip
-});
-
 // src/components/TagChip/TagChip.tsx
-var import_react19 = require("react");
-var import_core18 = require("@4lt7ab/core");
+var import_react21 = require("react");
 var jsx_dev_runtime19 = require("react/jsx-dev-runtime");
-var TagChip = import_react19.forwardRef(function TagChip2({
+var TagChip = import_react21.forwardRef(function TagChip2({
   name,
   onRemove,
   style
@@ -1617,12 +2530,12 @@ var TagChip = import_react19.forwardRef(function TagChip2({
       display: "inline-flex",
       alignItems: "center",
       gap: 4,
-      fontSize: import_core18.semantic.fontSizeXs,
-      color: import_core18.semantic.colorActionPrimary,
-      background: import_core18.semantic.colorSurfaceRaised,
-      borderRadius: import_core18.semantic.radiusFull,
+      fontSize: semantic.fontSizeXs,
+      color: semantic.colorActionPrimary,
+      background: semantic.colorSurfaceRaised,
+      borderRadius: semantic.radiusFull,
       padding: "2px 8px",
-      fontFamily: import_core18.semantic.fontSans,
+      fontFamily: semantic.fontSans,
       ...style
     },
     children: [
@@ -1632,22 +2545,15 @@ var TagChip = import_react19.forwardRef(function TagChip2({
         size: 12,
         onClick: onRemove,
         "aria-label": `Remove ${name}`,
-        style: { width: 18, height: 18, color: import_core18.semantic.colorActionPrimary }
+        style: { width: 18, height: 18, color: semantic.colorActionPrimary }
       }, undefined, false, undefined, this)
     ]
   }, undefined, true, undefined, this);
 });
-// src/components/ExpandableCard/index.ts
-var exports_ExpandableCard = {};
-__export(exports_ExpandableCard, {
-  ExpandableCard: () => ExpandableCard
-});
-
 // src/components/ExpandableCard/ExpandableCard.tsx
-var import_core19 = require("@4lt7ab/core");
-var import_react20 = require("react");
+var import_react22 = require("react");
 var jsx_dev_runtime20 = require("react/jsx-dev-runtime");
-var ExpandableCard = import_react20.forwardRef(function ExpandableCard2({
+var ExpandableCard = import_react22.forwardRef(function ExpandableCard2({
   title,
   children,
   defaultOpen = false,
@@ -1657,9 +2563,9 @@ var ExpandableCard = import_react20.forwardRef(function ExpandableCard2({
   style,
   headerAction
 }, ref) {
-  const [internalOpen, setInternalOpen] = import_react20.useState(defaultOpen);
+  const [internalOpen, setInternalOpen] = import_react22.useState(defaultOpen);
   const isOpen = controlledOpen !== undefined ? controlledOpen : internalOpen;
-  const panelId = import_react20.useId();
+  const panelId = import_react22.useId();
   const handleToggle = () => {
     const next = !isOpen;
     if (controlledOpen === undefined) {
@@ -1684,10 +2590,10 @@ var ExpandableCard = import_react20.forwardRef(function ExpandableCard2({
             style: {
               display: "flex",
               alignItems: "center",
-              gap: import_core19.semantic.spaceSm,
-              padding: `${import_core19.semantic.spaceSm} ${import_core19.semantic.spaceMd}`,
+              gap: semantic.spaceSm,
+              padding: `${semantic.spaceSm} ${semantic.spaceMd}`,
               cursor: "pointer",
-              borderRadius: import_core19.semantic.radiusMd,
+              borderRadius: semantic.radiusMd,
               transition: "background 150ms ease",
               background: "none",
               border: "none",
@@ -1714,17 +2620,17 @@ var ExpandableCard = import_react20.forwardRef(function ExpandableCard2({
               }, undefined, false, undefined, this),
               /* @__PURE__ */ jsx_dev_runtime20.jsxDEV("span", {
                 style: {
-                  fontWeight: import_core19.semantic.fontWeightSemibold,
-                  fontFamily: import_core19.semantic.fontSans,
-                  color: import_core19.semantic.colorText,
-                  fontSize: import_core19.semantic.fontSizeSm
+                  fontWeight: semantic.fontWeightSemibold,
+                  fontFamily: semantic.fontSans,
+                  color: semantic.colorText,
+                  fontSize: semantic.fontSizeSm
                 },
                 children: title
               }, undefined, false, undefined, this)
             ]
           }, undefined, true, undefined, this),
           headerAction && /* @__PURE__ */ jsx_dev_runtime20.jsxDEV("div", {
-            style: { padding: `0 ${import_core19.semantic.spaceMd}` },
+            style: { padding: `0 ${semantic.spaceMd}` },
             children: headerAction
           }, undefined, false, undefined, this)
         ]
@@ -1740,7 +2646,7 @@ var ExpandableCard = import_react20.forwardRef(function ExpandableCard2({
         children: /* @__PURE__ */ jsx_dev_runtime20.jsxDEV("div", {
           style: { overflow: "hidden" },
           children: /* @__PURE__ */ jsx_dev_runtime20.jsxDEV("div", {
-            style: { padding: `${import_core19.semantic.spaceSm} ${import_core19.semantic.spaceMd} ${import_core19.semantic.spaceMd}` },
+            style: { padding: `${semantic.spaceSm} ${semantic.spaceMd} ${semantic.spaceMd}` },
             children
           }, undefined, false, undefined, this)
         }, undefined, false, undefined, this)
@@ -1748,16 +2654,9 @@ var ExpandableCard = import_react20.forwardRef(function ExpandableCard2({
     ]
   }, undefined, true, undefined, this);
 });
-// src/components/ModalShell/index.ts
-var exports_ModalShell = {};
-__export(exports_ModalShell, {
-  ModalShell: () => ModalShell
-});
-
 // src/components/ModalShell/ModalShell.tsx
-var import_react21 = require("react");
+var import_react23 = require("react");
 var import_react_dom = require("react-dom");
-var import_core20 = require("@4lt7ab/core");
 var jsx_dev_runtime21 = require("react/jsx-dev-runtime");
 var FOCUSABLE_SELECTOR2 = [
   "a[href]",
@@ -1767,7 +2666,7 @@ var FOCUSABLE_SELECTOR2 = [
   "textarea:not(:disabled)",
   '[tabindex]:not([tabindex="-1"])'
 ].join(", ");
-var ModalShell = import_react21.forwardRef(function ModalShell2({
+var ModalShell = import_react23.forwardRef(function ModalShell2({
   onClose,
   children,
   maxWidth = 480,
@@ -1777,9 +2676,9 @@ var ModalShell = import_react21.forwardRef(function ModalShell2({
   "aria-label": ariaLabel,
   role = "dialog"
 }, ref) {
-  const generatedId = import_react21.useId();
+  const generatedId = import_react23.useId();
   const resolvedLabelId = titleId ?? generatedId;
-  const internalRef = import_react21.useRef(null);
+  const internalRef = import_react23.useRef(null);
   const setRefs = (node) => {
     internalRef.current = node;
     if (typeof ref === "function") {
@@ -1789,7 +2688,7 @@ var ModalShell = import_react21.forwardRef(function ModalShell2({
     }
   };
   useFocusTrap(internalRef);
-  import_react21.useEffect(() => {
+  import_react23.useEffect(() => {
     const previouslyFocused = document.activeElement;
     const container = internalRef.current;
     if (container) {
@@ -1804,7 +2703,7 @@ var ModalShell = import_react21.forwardRef(function ModalShell2({
       previouslyFocused?.focus();
     };
   }, []);
-  import_react21.useEffect(() => {
+  import_react23.useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
         onClose();
@@ -1837,11 +2736,11 @@ var ModalShell = import_react21.forwardRef(function ModalShell2({
           "aria-label": ariaLabel,
           tabIndex: -1,
           style: {
-            background: import_core20.semantic.colorSurface,
-            borderRadius: import_core20.semantic.radiusLg,
-            boxShadow: import_core20.semantic.shadowLg,
-            border: `1px solid ${import_core20.semantic.colorBorder}`,
-            padding: import_core20.semantic.spaceXl,
+            background: semantic.colorSurface,
+            borderRadius: semantic.radiusLg,
+            boxShadow: semantic.shadowLg,
+            border: `1px solid ${semantic.colorBorder}`,
+            padding: semantic.spaceXl,
             maxWidth,
             width: "100%",
             pointerEvents: "auto",
@@ -1854,22 +2753,15 @@ var ModalShell = import_react21.forwardRef(function ModalShell2({
     ]
   }, undefined, true, undefined, this), document.body);
 });
-// src/components/ConfirmDialog/index.ts
-var exports_ConfirmDialog = {};
-__export(exports_ConfirmDialog, {
-  ConfirmDialog: () => ConfirmDialog
-});
-
 // src/components/ConfirmDialog/ConfirmDialog.tsx
-var import_react22 = require("react");
-var import_core21 = require("@4lt7ab/core");
+var import_react24 = require("react");
 var jsx_dev_runtime22 = require("react/jsx-dev-runtime");
 var variantButtonMap = {
   destructive: "destructive",
   info: "primary",
   warning: "primary"
 };
-var ConfirmDialog = import_react22.forwardRef(function ConfirmDialog2({
+var ConfirmDialog = import_react24.forwardRef(function ConfirmDialog2({
   title,
   message,
   confirmLabel = "Confirm",
@@ -1878,8 +2770,8 @@ var ConfirmDialog = import_react22.forwardRef(function ConfirmDialog2({
   children,
   variant = "destructive"
 }, ref) {
-  const [loading, setLoading] = import_react22.useState(false);
-  const titleId = import_react22.useId();
+  const [loading, setLoading] = import_react24.useState(false);
+  const titleId = import_react24.useId();
   const handleConfirm = async () => {
     setLoading(true);
     try {
@@ -1898,31 +2790,31 @@ var ConfirmDialog = import_react22.forwardRef(function ConfirmDialog2({
         id: titleId,
         style: {
           margin: 0,
-          fontWeight: import_core21.semantic.fontWeightSemibold,
-          fontFamily: import_core21.semantic.fontSans,
-          color: import_core21.semantic.colorText,
-          fontSize: import_core21.semantic.fontSizeLg
+          fontWeight: semantic.fontWeightSemibold,
+          fontFamily: semantic.fontSans,
+          color: semantic.colorText,
+          fontSize: semantic.fontSizeLg
         },
         children: title
       }, undefined, false, undefined, this),
       /* @__PURE__ */ jsx_dev_runtime22.jsxDEV("p", {
         style: {
-          margin: `${import_core21.semantic.spaceSm} 0 ${children ? "0" : import_core21.semantic.spaceLg}`,
-          color: import_core21.semantic.colorTextMuted,
-          fontSize: import_core21.semantic.fontSizeSm,
-          fontFamily: import_core21.semantic.fontSans
+          margin: `${semantic.spaceSm} 0 ${children ? "0" : semantic.spaceLg}`,
+          color: semantic.colorTextMuted,
+          fontSize: semantic.fontSizeSm,
+          fontFamily: semantic.fontSans
         },
         children: message
       }, undefined, false, undefined, this),
       children && /* @__PURE__ */ jsx_dev_runtime22.jsxDEV("div", {
-        style: { margin: `${import_core21.semantic.spaceSm} 0 ${import_core21.semantic.spaceLg}` },
+        style: { margin: `${semantic.spaceSm} 0 ${semantic.spaceLg}` },
         children
       }, undefined, false, undefined, this),
       /* @__PURE__ */ jsx_dev_runtime22.jsxDEV("div", {
         style: {
           display: "flex",
           justifyContent: "flex-end",
-          gap: import_core21.semantic.spaceSm
+          gap: semantic.spaceSm
         },
         children: [
           /* @__PURE__ */ jsx_dev_runtime22.jsxDEV(Button, {
@@ -1943,24 +2835,17 @@ var ConfirmDialog = import_react22.forwardRef(function ConfirmDialog2({
     ]
   }, undefined, true, undefined, this);
 });
-// src/components/StatusDot/index.ts
-var exports_StatusDot = {};
-__export(exports_StatusDot, {
-  StatusDot: () => StatusDot
-});
-
 // src/components/StatusDot/StatusDot.tsx
-var import_react23 = require("react");
-var import_core22 = require("@4lt7ab/core");
+var import_react25 = require("react");
 var jsx_dev_runtime23 = require("react/jsx-dev-runtime");
 var variantColors = {
-  default: import_core22.semantic.colorTextMuted,
-  success: import_core22.semantic.colorSuccess,
-  warning: import_core22.semantic.colorWarning,
-  error: import_core22.semantic.colorError,
-  info: import_core22.semantic.colorInfo
+  default: semantic.colorTextMuted,
+  success: semantic.colorSuccess,
+  warning: semantic.colorWarning,
+  error: semantic.colorError,
+  info: semantic.colorInfo
 };
-var StatusDot = import_react23.forwardRef(function StatusDot2({
+var StatusDot = import_react25.forwardRef(function StatusDot2({
   variant = "default",
   color,
   size = 8,
@@ -1977,32 +2862,24 @@ var StatusDot = import_react23.forwardRef(function StatusDot2({
       display: "inline-block",
       width: size,
       height: size,
-      borderRadius: import_core22.semantic.radiusFull,
+      borderRadius: semantic.radiusFull,
       background: resolvedColor,
       flexShrink: 0,
       ...style
     }
   }, undefined, false, undefined, this);
 });
-// src/components/ThemeSurface/index.ts
-var exports_ThemeSurface = {};
-__export(exports_ThemeSurface, {
-  ThemeSurface: () => ThemeSurface
-});
-
 // src/components/ThemeSurface/ThemeSurface.tsx
-var import_react24 = require("react");
-var import_core23 = require("@4lt7ab/core");
-var import_core24 = require("@4lt7ab/core");
+var import_react26 = require("react");
 var jsx_dev_runtime24 = require("react/jsx-dev-runtime");
-var ThemeSurface = import_react24.forwardRef(function ThemeSurface2({
+var ThemeSurface = import_react26.forwardRef(function ThemeSurface2({
   children,
   global = false,
   style
 }, ref) {
-  const { resolved, themes } = import_core24.useTheme();
-  const prevBodyBgRef = import_react24.useRef("");
-  import_react24.useEffect(() => {
+  const { resolved, themes } = useTheme();
+  const prevBodyBgRef = import_react26.useRef("");
+  import_react26.useEffect(() => {
     if (!global)
       return;
     const definition = themes.get(resolved);
@@ -2025,43 +2902,28 @@ var ThemeSurface = import_react24.forwardRef(function ThemeSurface2({
   return /* @__PURE__ */ jsx_dev_runtime24.jsxDEV("div", {
     ref,
     style: {
-      background: import_core23.semantic.colorSurfacePage,
+      background: semantic.colorSurfacePage,
       ...style
     },
     children
   }, undefined, false, undefined, this);
 });
-// src/components/Table/index.ts
-var exports_Table = {};
-__export(exports_Table, {
-  TableRow: () => TableRow,
-  TableHeaderCell: () => TableHeaderCell,
-  TableHeader: () => TableHeader,
-  TableGroupHeader: () => TableGroupHeader,
-  TableEmptyRow: () => TableEmptyRow,
-  TableCell: () => TableCell,
-  TableBody: () => TableBody,
-  Table: () => Table
-});
-
 // src/components/Table/Table.tsx
-var import_react25 = require("react");
-var import_core25 = require("@4lt7ab/core");
-var import_core26 = require("@4lt7ab/core");
+var import_react27 = require("react");
 var jsx_dev_runtime25 = require("react/jsx-dev-runtime");
 var spaceMap = {
-  xs: import_core25.semantic.spaceXs,
-  sm: import_core25.semantic.spaceSm,
-  md: import_core25.semantic.spaceMd,
-  lg: import_core25.semantic.spaceLg
+  xs: semantic.spaceXs,
+  sm: semantic.spaceSm,
+  md: semantic.spaceMd,
+  lg: semantic.spaceLg
 };
 var TABLE_STYLES_ID = "4lt7ab-table-row";
 var TABLE_STYLES_CSS = `
 [data-table-row-hoverable]:hover {
-  background: ${import_core25.semantic.colorSurfaceRaised} !important;
+  background: ${semantic.colorSurfaceRaised} !important;
 }
 [data-table-row-selected] > td {
-  border-bottom-color: ${import_core25.semantic.colorSurfaceRaised};
+  border-bottom-color: ${semantic.colorSurfaceRaised};
 }
 [data-table-row-selected] > td:first-child {
   position: relative;
@@ -2073,26 +2935,26 @@ var TABLE_STYLES_CSS = `
   top: 0;
   bottom: 0;
   width: 3px;
-  background: ${import_core25.semantic.colorActionPrimary};
+  background: ${semantic.colorActionPrimary};
   pointer-events: none;
 }
 `;
 var wrapperVariants = {
   default: {
-    border: `1px solid ${import_core25.semantic.colorBorder}`,
-    borderRadius: import_core25.semantic.radiusLg,
-    boxShadow: import_core25.semantic.shadowSm
+    border: `1px solid ${semantic.colorBorder}`,
+    borderRadius: semantic.radiusLg,
+    boxShadow: semantic.shadowSm
   },
   flat: {}
 };
-var Table = import_react25.forwardRef(function Table2({
+var Table = import_react27.forwardRef(function Table2({
   variant = "default",
   density = "md",
   children,
   style,
   ...props
 }, ref) {
-  import_core26.useInjectStyles(TABLE_STYLES_ID, TABLE_STYLES_CSS);
+  useInjectStyles(TABLE_STYLES_ID, TABLE_STYLES_CSS);
   return /* @__PURE__ */ jsx_dev_runtime25.jsxDEV("div", {
     ref,
     style: {
@@ -2106,15 +2968,15 @@ var Table = import_react25.forwardRef(function Table2({
       style: {
         width: "100%",
         borderCollapse: "collapse",
-        fontSize: import_core25.semantic.fontSizeSm,
-        fontFamily: import_core25.semantic.fontSans,
-        color: import_core25.semantic.colorText
+        fontSize: semantic.fontSizeSm,
+        fontFamily: semantic.fontSans,
+        color: semantic.colorText
       },
       children
     }, undefined, false, undefined, this)
   }, undefined, false, undefined, this);
 });
-var TableHeader = import_react25.forwardRef(function TableHeader2({ children, style, ...props }, ref) {
+var TableHeader = import_react27.forwardRef(function TableHeader2({ children, style, ...props }, ref) {
   return /* @__PURE__ */ jsx_dev_runtime25.jsxDEV("thead", {
     ref,
     style,
@@ -2124,7 +2986,7 @@ var TableHeader = import_react25.forwardRef(function TableHeader2({ children, st
     }, undefined, false, undefined, this)
   }, undefined, false, undefined, this);
 });
-var TableHeaderCell = import_react25.forwardRef(function TableHeaderCell2({
+var TableHeaderCell = import_react27.forwardRef(function TableHeaderCell2({
   align = "left",
   width,
   children,
@@ -2134,14 +2996,14 @@ var TableHeaderCell = import_react25.forwardRef(function TableHeaderCell2({
   return /* @__PURE__ */ jsx_dev_runtime25.jsxDEV("th", {
     ref,
     style: {
-      padding: `${import_core25.semantic.spaceSm} ${import_core25.semantic.spaceMd}`,
+      padding: `${semantic.spaceSm} ${semantic.spaceMd}`,
       textAlign: align,
-      fontWeight: import_core25.semantic.fontWeightSemibold,
-      fontSize: import_core25.semantic.fontSizeXs,
-      color: import_core25.semantic.colorTextMuted,
+      fontWeight: semantic.fontWeightSemibold,
+      fontSize: semantic.fontSizeXs,
+      color: semantic.colorTextMuted,
       textTransform: "uppercase",
-      letterSpacing: import_core25.semantic.letterSpacingWide,
-      borderBottom: `2px solid ${import_core25.semantic.colorBorder}`,
+      letterSpacing: semantic.letterSpacingWide,
+      borderBottom: `2px solid ${semantic.colorBorder}`,
       whiteSpace: "nowrap",
       width: typeof width === "number" ? `${width}px` : width,
       ...style
@@ -2150,14 +3012,14 @@ var TableHeaderCell = import_react25.forwardRef(function TableHeaderCell2({
     children
   }, undefined, false, undefined, this);
 });
-var TableBody = import_react25.forwardRef(function TableBody2({ children, ...props }, ref) {
+var TableBody = import_react27.forwardRef(function TableBody2({ children, ...props }, ref) {
   return /* @__PURE__ */ jsx_dev_runtime25.jsxDEV("tbody", {
     ref,
     ...props,
     children
   }, undefined, false, undefined, this);
 });
-var TableRow = import_react25.forwardRef(function TableRow2({
+var TableRow = import_react27.forwardRef(function TableRow2({
   selected = false,
   hoverable = false,
   children,
@@ -2182,7 +3044,7 @@ var TableRow = import_react25.forwardRef(function TableRow2({
     onKeyDown: handleKeyDown,
     style: {
       cursor: onClick ? "pointer" : undefined,
-      background: selected ? import_core25.semantic.colorSurfaceRaised : undefined,
+      background: selected ? semantic.colorSurfaceRaised : undefined,
       transition: "background 0.1s",
       ...style
     },
@@ -2190,7 +3052,7 @@ var TableRow = import_react25.forwardRef(function TableRow2({
     children
   }, undefined, false, undefined, this);
 });
-var TableCell = import_react25.forwardRef(function TableCell2({
+var TableCell = import_react27.forwardRef(function TableCell2({
   align = "left",
   truncate = false,
   muted = false,
@@ -2202,11 +3064,11 @@ var TableCell = import_react25.forwardRef(function TableCell2({
   return /* @__PURE__ */ jsx_dev_runtime25.jsxDEV("td", {
     ref,
     style: {
-      padding: `${import_core25.semantic.spaceSm} ${import_core25.semantic.spaceMd}`,
-      borderBottom: `1px solid ${import_core25.semantic.colorBorder}`,
+      padding: `${semantic.spaceSm} ${semantic.spaceMd}`,
+      borderBottom: `1px solid ${semantic.colorBorder}`,
       verticalAlign: "middle",
       textAlign: align,
-      color: muted ? import_core25.semantic.colorTextMuted : undefined,
+      color: muted ? semantic.colorTextMuted : undefined,
       width: typeof width === "number" ? `${width}px` : width,
       ...truncate ? {
         maxWidth: 0,
@@ -2220,7 +3082,7 @@ var TableCell = import_react25.forwardRef(function TableCell2({
     children
   }, undefined, false, undefined, this);
 });
-var TableGroupHeader = import_react25.forwardRef(function TableGroupHeader2({
+var TableGroupHeader = import_react27.forwardRef(function TableGroupHeader2({
   colSpan,
   children,
   style,
@@ -2233,14 +3095,14 @@ var TableGroupHeader = import_react25.forwardRef(function TableGroupHeader2({
     children: /* @__PURE__ */ jsx_dev_runtime25.jsxDEV("td", {
       colSpan,
       style: {
-        padding: `${import_core25.semantic.spaceXs} ${import_core25.semantic.spaceMd}`,
-        background: import_core25.semantic.colorSurfaceRaised,
-        borderBottom: `1px solid ${import_core25.semantic.colorBorder}`,
-        fontSize: import_core25.semantic.fontSizeXs,
-        fontWeight: import_core25.semantic.fontWeightBold,
-        letterSpacing: import_core25.semantic.letterSpacingWide,
+        padding: `${semantic.spaceXs} ${semantic.spaceMd}`,
+        background: semantic.colorSurfaceRaised,
+        borderBottom: `1px solid ${semantic.colorBorder}`,
+        fontSize: semantic.fontSizeXs,
+        fontWeight: semantic.fontWeightBold,
+        letterSpacing: semantic.letterSpacingWide,
         textTransform: "uppercase",
-        color: import_core25.semantic.colorTextMuted,
+        color: semantic.colorTextMuted,
         overflow: "hidden",
         textOverflow: "ellipsis",
         whiteSpace: "nowrap"
@@ -2249,7 +3111,7 @@ var TableGroupHeader = import_react25.forwardRef(function TableGroupHeader2({
     }, undefined, false, undefined, this)
   }, undefined, false, undefined, this);
 });
-var TableEmptyRow = import_react25.forwardRef(function TableEmptyRow2({
+var TableEmptyRow = import_react27.forwardRef(function TableEmptyRow2({
   colSpan,
   children,
   style,
@@ -2262,10 +3124,10 @@ var TableEmptyRow = import_react25.forwardRef(function TableEmptyRow2({
     children: /* @__PURE__ */ jsx_dev_runtime25.jsxDEV("td", {
       colSpan,
       style: {
-        padding: `${import_core25.semantic.spaceXl} ${import_core25.semantic.spaceMd}`,
+        padding: `${semantic.spaceXl} ${semantic.spaceMd}`,
         textAlign: "center",
-        color: import_core25.semantic.colorTextMuted,
-        fontSize: import_core25.semantic.fontSizeSm
+        color: semantic.colorTextMuted,
+        fontSize: semantic.fontSizeSm
       },
       children
     }, undefined, false, undefined, this)
