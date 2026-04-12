@@ -15,7 +15,7 @@ export interface ExpandableCardProps {
   headerAction?: ReactNode;
 }
 
-export const ExpandableCard = forwardRef<HTMLDivElement, ExpandableCardProps>(
+export const ExpandableCard: React.ForwardRefExoticComponent<Omit<ExpandableCardProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, ExpandableCardProps>(
   function ExpandableCard({
     title,
     children,

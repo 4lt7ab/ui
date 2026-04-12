@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { forwardRef, useEffect, useRef, useCallback, useImperativeHandle } from 'react';
 import { useInjectStyles } from '../../utils/useInjectStyles';
 
 export interface ThinkingCycleProps {
@@ -61,137 +61,141 @@ function randomChar(): string {
  *
  * Usage: Building with AI tools is <ThinkingCycle words={['powerful', 'wild']} />.
  */
-export function ThinkingCycle({
-  words,
-  holdMs = 2000,
-  scrambleTicks = 4,
-  tickMs = 50,
-  staggerMs = 30,
-}: ThinkingCycleProps): React.JSX.Element {
-  useInjectStyles(STYLES_ID, thinkingCSS);
+export const ThinkingCycle: React.ForwardRefExoticComponent<Omit<ThinkingCycleProps, 'ref'> & React.RefAttributes<HTMLSpanElement>> = forwardRef<HTMLSpanElement, ThinkingCycleProps>(
+  function ThinkingCycle({
+    words,
+    holdMs = 2000,
+    scrambleTicks = 4,
+    tickMs = 50,
+    staggerMs = 30,
+  }, ref): React.JSX.Element {
+    useInjectStyles(STYLES_ID, thinkingCSS);
 
-  const elRef = useRef<HTMLSpanElement>(null);
-  const indexRef = useRef(0);
-  const widthsRef = useRef<number[]>([]);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+    const elRef = useRef<HTMLSpanElement>(null);
+    useImperativeHandle(ref, () => elRef.current!);
 
-  // Measure all word widths by temporarily rendering each one
-  const measure = useCallback(() => {
-    const el = elRef.current;
-    if (!el) return;
-    const saved = el.innerHTML;
-    el.style.width = '';
-    const measured: number[] = [];
-    for (const w of words) {
-      el.textContent = w;
-      measured.push(Math.ceil(el.getBoundingClientRect().width));
-    }
-    el.innerHTML = saved || '';
-    widthsRef.current = measured;
-    el.style.width = measured[indexRef.current] + 'px';
-  }, [words]);
+    const indexRef = useRef(0);
+    const widthsRef = useRef<number[]>([]);
+    const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Render a word with per-character spans (no scramble)
-  const setWord = useCallback((word: string) => {
-    const el = elRef.current;
-    if (!el) return;
-    el.innerHTML = '';
-    for (let i = 0; i < word.length; i++) {
-      const span = document.createElement('span');
-      span.className = 'alttab-char';
-      span.textContent = word[i];
-      span.style.animationDelay = `${i * staggerMs}ms`;
-      el.appendChild(span);
-    }
-  }, [staggerMs]);
-
-  // Scramble into a target word, then call done()
-  const scrambleTo = useCallback((target: string, done: () => void) => {
-    const el = elRef.current;
-    if (!el) return;
-
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduced) {
-      el.textContent = target;
-      done();
-      return;
-    }
-
-    el.innerHTML = '';
-    const chars: { span: HTMLSpanElement; final: string; ticks: number; maxTicks: number }[] = [];
-
-    for (let i = 0; i < target.length; i++) {
-      const span = document.createElement('span');
-      span.className = 'alttab-char';
-      span.style.animationDelay = `${i * staggerMs}ms`;
-      span.textContent = target[i] === ' ' ? '\u00a0' : randomChar();
-      el.appendChild(span);
-      chars.push({ span, final: target[i], ticks: 0, maxTicks: scrambleTicks + i * 2 });
-    }
-
-    intervalRef.current = setInterval(() => {
-      let allDone = true;
-      for (const c of chars) {
-        if (c.ticks >= c.maxTicks) {
-          c.span.textContent = c.final;
-        } else {
-          allDone = false;
-          c.ticks++;
-          c.span.textContent = c.final === ' ' ? '\u00a0' : randomChar();
-        }
-      }
-      if (allDone) {
-        clearInterval(intervalRef.current!);
-        intervalRef.current = null;
-        done();
-      }
-    }, tickMs);
-  }, [scrambleTicks, tickMs, staggerMs]);
-
-  useEffect(() => {
-    if (words.length < 2) return;
-
-    measure();
-
-    // Re-measure when fonts finish loading
-    document.fonts.ready.then(measure);
-    const onFonts = () => measure();
-    document.fonts.addEventListener('loadingdone', onFonts);
-
-    // Re-measure on theme change (font-family may differ)
-    const observer = new MutationObserver(() => requestAnimationFrame(measure));
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-
-    // Initial word
-    indexRef.current = 0;
-    setWord(words[0]);
-
-    function cycle() {
-      indexRef.current = (indexRef.current + 1) % words.length;
-      // Set width immediately — CSS transition handles the animation
+    // Measure all word widths by temporarily rendering each one
+    const measure = useCallback(() => {
       const el = elRef.current;
-      if (el) el.style.width = widthsRef.current[indexRef.current] + 'px';
+      if (!el) return;
+      const saved = el.innerHTML;
+      el.style.width = '';
+      const measured: number[] = [];
+      for (const w of words) {
+        el.textContent = w;
+        measured.push(Math.ceil(el.getBoundingClientRect().width));
+      }
+      el.innerHTML = saved || '';
+      widthsRef.current = measured;
+      el.style.width = measured[indexRef.current] + 'px';
+    }, [words]);
 
-      scrambleTo(words[indexRef.current], () => {
-        timerRef.current = setTimeout(cycle, holdMs);
-      });
-    }
+    // Render a word with per-character spans (no scramble)
+    const setWord = useCallback((word: string) => {
+      const el = elRef.current;
+      if (!el) return;
+      el.innerHTML = '';
+      for (let i = 0; i < word.length; i++) {
+        const span = document.createElement('span');
+        span.className = 'alttab-char';
+        span.textContent = word[i];
+        span.style.animationDelay = `${i * staggerMs}ms`;
+        el.appendChild(span);
+      }
+    }, [staggerMs]);
 
-    timerRef.current = setTimeout(cycle, holdMs);
+    // Scramble into a target word, then call done()
+    const scrambleTo = useCallback((target: string, done: () => void) => {
+      const el = elRef.current;
+      if (!el) return;
 
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      document.fonts.removeEventListener('loadingdone', onFonts);
-      observer.disconnect();
-    };
-  }, [words, holdMs, measure, setWord, scrambleTo]);
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced) {
+        el.textContent = target;
+        done();
+        return;
+      }
 
-  return (
-    <span
-      ref={elRef}
-      className="alttab-thinking"
-    />
-  );
-}
+      el.innerHTML = '';
+      const chars: { span: HTMLSpanElement; final: string; ticks: number; maxTicks: number }[] = [];
+
+      for (let i = 0; i < target.length; i++) {
+        const span = document.createElement('span');
+        span.className = 'alttab-char';
+        span.style.animationDelay = `${i * staggerMs}ms`;
+        span.textContent = target[i] === ' ' ? '\u00a0' : randomChar();
+        el.appendChild(span);
+        chars.push({ span, final: target[i], ticks: 0, maxTicks: scrambleTicks + i * 2 });
+      }
+
+      intervalRef.current = setInterval(() => {
+        let allDone = true;
+        for (const c of chars) {
+          if (c.ticks >= c.maxTicks) {
+            c.span.textContent = c.final;
+          } else {
+            allDone = false;
+            c.ticks++;
+            c.span.textContent = c.final === ' ' ? '\u00a0' : randomChar();
+          }
+        }
+        if (allDone) {
+          clearInterval(intervalRef.current!);
+          intervalRef.current = null;
+          done();
+        }
+      }, tickMs);
+    }, [scrambleTicks, tickMs, staggerMs]);
+
+    useEffect(() => {
+      if (words.length < 2) return;
+
+      measure();
+
+      // Re-measure when fonts finish loading
+      document.fonts.ready.then(measure);
+      const onFonts = () => measure();
+      document.fonts.addEventListener('loadingdone', onFonts);
+
+      // Re-measure on theme change (font-family may differ)
+      const observer = new MutationObserver(() => requestAnimationFrame(measure));
+      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+      // Initial word
+      indexRef.current = 0;
+      setWord(words[0]);
+
+      function cycle() {
+        indexRef.current = (indexRef.current + 1) % words.length;
+        // Set width immediately — CSS transition handles the animation
+        const el = elRef.current;
+        if (el) el.style.width = widthsRef.current[indexRef.current] + 'px';
+
+        scrambleTo(words[indexRef.current], () => {
+          timerRef.current = setTimeout(cycle, holdMs);
+        });
+      }
+
+      timerRef.current = setTimeout(cycle, holdMs);
+
+      return () => {
+        if (timerRef.current) clearTimeout(timerRef.current);
+        if (intervalRef.current) clearInterval(intervalRef.current);
+        document.fonts.removeEventListener('loadingdone', onFonts);
+        observer.disconnect();
+      };
+    }, [words, holdMs, measure, setWord, scrambleTo]);
+
+    return (
+      <span
+        ref={elRef}
+        className="alttab-thinking"
+      />
+    );
+  }
+);

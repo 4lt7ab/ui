@@ -4,15 +4,23 @@ import { Icon } from '../Icon';
 import type { IconName } from '../../icons';
 import type { ButtonHTMLAttributes } from 'react';
 
+/** A circular icon-only button. Requires `aria-label` for accessibility. */
 export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Icon to render from the built-in icon registry. */
   icon: IconName;
+  /** Icon dimensions in pixels.
+   * @default 24
+   */
   size?: number;
+  /** Shows a small red notification dot in the top-right corner.
+   * @default false
+   */
   badge?: boolean;
   /** Required accessible label for icon-only buttons. */
   'aria-label': string;
 }
 
-export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
+export const IconButton: React.ForwardRefExoticComponent<Omit<IconButtonProps, 'ref'> & React.RefAttributes<HTMLButtonElement>> = forwardRef<HTMLButtonElement, IconButtonProps>(
   function IconButton({
     icon,
     size = 24,

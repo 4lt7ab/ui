@@ -9,7 +9,7 @@ export interface TagChipProps {
   style?: CSSProperties;
 }
 
-export const TagChip = forwardRef<HTMLSpanElement, TagChipProps>(
+export const TagChip: React.ForwardRefExoticComponent<Omit<TagChipProps, 'ref'> & React.RefAttributes<HTMLSpanElement>> = forwardRef<HTMLSpanElement, TagChipProps>(
   function TagChip({
     name,
     onRemove,

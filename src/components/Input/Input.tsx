@@ -2,8 +2,11 @@ import { forwardRef } from 'react';
 import { semantic as t } from '../../tokens/semantic';
 import type { InputHTMLAttributes } from 'react';
 
+/** A single-line text input field. */
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  /** Renders error border styling. Typically driven by a parent Field. */
+  /** Renders error border styling. Typically driven by a parent Field.
+   * @default false
+   */
   hasError?: boolean;
 }
 
@@ -33,7 +36,7 @@ const disabledStyle: React.CSSProperties = {
   cursor: 'not-allowed',
 };
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(
+export const Input: React.ForwardRefExoticComponent<Omit<InputProps, 'ref'> & React.RefAttributes<HTMLInputElement>> = forwardRef<HTMLInputElement, InputProps>(
   function Input({
     hasError,
     disabled,

@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { useTheme } from '../../themes/ThemeProvider';
 import { useInjectStyles } from '../../utils/useInjectStyles';
 
@@ -55,28 +56,30 @@ const pickerCSS = /* css */ `
  * Grid of theme cards wired into useTheme(). Clicking a card switches the active theme.
  * Must be rendered inside a <ThemeProvider>.
  */
-export function ThemePicker({ descriptions = {} }: ThemePickerProps): React.JSX.Element {
-  useInjectStyles(STYLES_ID, pickerCSS);
+export const ThemePicker: React.ForwardRefExoticComponent<Omit<ThemePickerProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, ThemePickerProps>(
+  function ThemePicker({ descriptions = {} }, ref): React.JSX.Element {
+    useInjectStyles(STYLES_ID, pickerCSS);
 
-  const { resolved, themes, setTheme } = useTheme();
+    const { resolved, themes, setTheme } = useTheme();
 
-  return (
-    <div className="alttab-theme-picker">
-      {Array.from(themes.values()).map((def) => {
-        const isActive = resolved === def.name;
-        return (
-          <button
-            key={def.name}
-            className={`alttab-theme-card${isActive ? ' alttab-theme-card--active' : ''}`}
-            onClick={() => setTheme(def.name)}
-          >
-            <span className="alttab-theme-card__name">{def.label}</span>
-            {descriptions[def.name] && (
-              <span className="alttab-theme-card__desc">{descriptions[def.name]}</span>
-            )}
-          </button>
-        );
-      })}
-    </div>
-  );
-}
+    return (
+      <div ref={ref} className="alttab-theme-picker">
+        {Array.from(themes.values()).map((def) => {
+          const isActive = resolved === def.name;
+          return (
+            <button
+              key={def.name}
+              className={`alttab-theme-card${isActive ? ' alttab-theme-card--active' : ''}`}
+              onClick={() => setTheme(def.name)}
+            >
+              <span className="alttab-theme-card__name">{def.label}</span>
+              {descriptions[def.name] && (
+                <span className="alttab-theme-card__desc">{descriptions[def.name]}</span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
+);

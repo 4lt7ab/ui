@@ -1,19 +1,25 @@
 import { semantic as t } from '../../tokens/semantic';
 import { forwardRef, useId, isValidElement, cloneElement, type HTMLAttributes, type ReactNode, type ReactElement } from 'react';
 
+/** Wraps an input with a label, help text, and error message. Handles `aria-describedby` wiring automatically. */
 export interface FieldProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
-  /** Field label text. */
+  /** Field label text displayed above the input. */
   label: string;
-  /** Associates label with input via htmlFor/id. */
+  /** Associates the label with the input via `htmlFor`/`id`. */
   htmlFor?: string;
-  /** Error message. When set, field renders in error state. */
+  /** Error message. When set, the field renders in error state and the message is announced via `role="alert"`. */
   error?: string;
-  /** Help text shown below the input. */
+  /** Help text shown below the input. Hidden when `error` is set. */
   help?: string;
-  /** Shows required indicator on the label. */
+  /** Shows a red asterisk (*) on the label.
+   * @default false
+   */
   required?: boolean;
-  /** Disables the field visually. Does not disable the child input — do that yourself. */
+  /** Reduces field opacity. Does not disable the child input — do that yourself.
+   * @default false
+   */
   disabled?: boolean;
+  /** The form control to wrap (Input, Select, Textarea, etc.). */
   children: ReactNode;
 }
 
@@ -47,7 +53,7 @@ const errorStyle: React.CSSProperties = {
   margin: 0,
 };
 
-export const Field = forwardRef<HTMLDivElement, FieldProps>(
+export const Field: React.ForwardRefExoticComponent<Omit<FieldProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, FieldProps>(
   function Field({
     label,
     htmlFor,

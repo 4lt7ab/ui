@@ -18,7 +18,7 @@ export interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
 }
 
-export const Container = forwardRef<HTMLDivElement, ContainerProps>(
+export const Container: React.ForwardRefExoticComponent<Omit<ContainerProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, ContainerProps>(
   function Container({
     width = 'prose',
     maxWidth,

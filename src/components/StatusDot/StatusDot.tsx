@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { semantic as t } from '../../tokens/semantic';
 import type { CSSProperties } from 'react';
 
@@ -23,29 +24,32 @@ const variantColors: Record<StatusDotVariant, string> = {
   info: t.colorInfo,
 };
 
-export function StatusDot({
-  variant = 'default',
-  color,
-  size = 8,
-  'aria-label': ariaLabel,
-  style,
-}: StatusDotProps): React.JSX.Element {
-  const resolvedColor = color ?? variantColors[variant];
+export const StatusDot: React.ForwardRefExoticComponent<Omit<StatusDotProps, 'ref'> & React.RefAttributes<HTMLSpanElement>> = forwardRef<HTMLSpanElement, StatusDotProps>(
+  function StatusDot({
+    variant = 'default',
+    color,
+    size = 8,
+    'aria-label': ariaLabel,
+    style,
+  }, ref): React.JSX.Element {
+    const resolvedColor = color ?? variantColors[variant];
 
-  return (
-    <span
-      role={ariaLabel ? 'img' : undefined}
-      aria-label={ariaLabel}
-      aria-hidden={ariaLabel ? undefined : true}
-      style={{
-        display: 'inline-block',
-        width: size,
-        height: size,
-        borderRadius: t.radiusFull,
-        background: resolvedColor,
-        flexShrink: 0,
-        ...style,
-      }}
-    />
-  );
-}
+    return (
+      <span
+        ref={ref}
+        role={ariaLabel ? 'img' : undefined}
+        aria-label={ariaLabel}
+        aria-hidden={ariaLabel ? undefined : true}
+        style={{
+          display: 'inline-block',
+          width: size,
+          height: size,
+          borderRadius: t.radiusFull,
+          background: resolvedColor,
+          flexShrink: 0,
+          ...style,
+        }}
+      />
+    );
+  }
+);

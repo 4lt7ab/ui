@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { semantic as t } from '../../tokens/semantic';
 import { Icon } from '../Icon';
 import { Stack } from '../Stack';
@@ -16,35 +17,37 @@ export interface EmptyStateProps {
   action?: ReactNode;
 }
 
-export function EmptyState({
-  icon,
-  message,
-  variant = 'plain',
-  style,
-  children,
-  action,
-}: EmptyStateProps): React.JSX.Element {
-  const content = (
-    <Stack align="center" gap="sm" style={{ padding: t.spaceXl, ...style }}>
-      <Icon name={icon} size={32} style={{ color: t.colorTextMuted }} />
-      <span
-        style={{
-          color: t.colorTextSecondary,
-          fontSize: t.fontSizeSm,
-          textAlign: 'center',
-          fontFamily: t.fontSans,
-        }}
-      >
-        {message}
-      </span>
-      {children}
-      {action && <div style={{ marginTop: t.spaceSm }}>{action}</div>}
-    </Stack>
-  );
+export const EmptyState: React.ForwardRefExoticComponent<Omit<EmptyStateProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, EmptyStateProps>(
+  function EmptyState({
+    icon,
+    message,
+    variant = 'plain',
+    style,
+    children,
+    action,
+  }, ref): React.JSX.Element {
+    const content = (
+      <Stack align="center" gap="sm" style={{ padding: t.spaceXl, ...style }}>
+        <Icon name={icon} size={32} style={{ color: t.colorTextMuted }} />
+        <span
+          style={{
+            color: t.colorTextSecondary,
+            fontSize: t.fontSizeSm,
+            textAlign: 'center',
+            fontFamily: t.fontSans,
+          }}
+        >
+          {message}
+        </span>
+        {children}
+        {action && <div style={{ marginTop: t.spaceSm }}>{action}</div>}
+      </Stack>
+    );
 
-  if (variant === 'card') {
-    return <Card variant="flat">{content}</Card>;
+    if (variant === 'card') {
+      return <Card ref={ref} variant="flat">{content}</Card>;
+    }
+
+    return <div ref={ref}>{content}</div>;
   }
-
-  return content;
-}
+);

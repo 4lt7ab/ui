@@ -2,8 +2,11 @@ import { forwardRef } from 'react';
 import { semantic as t } from '../../tokens/semantic';
 import type { TextareaHTMLAttributes } from 'react';
 
+/** A multi-line text input area. Vertically resizable by default. */
 export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  /** Renders error border styling. Typically driven by a parent Field. */
+  /** Renders error border styling. Typically driven by a parent Field.
+   * @default false
+   */
   hasError?: boolean;
 }
 
@@ -36,7 +39,7 @@ const disabledStyle: React.CSSProperties = {
   resize: 'none' as const,
 };
 
-export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
+export const Textarea: React.ForwardRefExoticComponent<Omit<TextareaProps, 'ref'> & React.RefAttributes<HTMLTextAreaElement>> = forwardRef<HTMLTextAreaElement, TextareaProps>(
   function Textarea({
     hasError,
     disabled,

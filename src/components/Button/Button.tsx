@@ -2,12 +2,30 @@ import { forwardRef } from 'react';
 import { semantic as t } from '../../tokens/semantic';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
+/** Visual style variant for buttons. */
 export type ButtonVariant = 'primary' | 'secondary' | 'destructive' | 'ghost';
+
+/** Controls padding and font size. */
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
+/** A clickable button that triggers an action. */
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Visual style variant.
+   * - `primary` — filled accent background, high emphasis
+   * - `secondary` — subtle background with border, medium emphasis
+   * - `destructive` — filled danger background, for irreversible actions
+   * - `ghost` — transparent background, low emphasis
+   * @default 'primary'
+   */
   variant?: ButtonVariant;
+  /** Controls padding and font size.
+   * - `sm` — compact, smaller text
+   * - `md` — standard size
+   * - `lg` — larger padding and text
+   * @default 'md'
+   */
   size?: ButtonSize;
+  /** Button content. */
   children: ReactNode;
 }
 
@@ -64,7 +82,7 @@ const baseStyles: React.CSSProperties = {
   transition: 'background 150ms ease, border-color 150ms ease, opacity 150ms ease',
 };
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button: React.ForwardRefExoticComponent<Omit<ButtonProps, 'ref'> & React.RefAttributes<HTMLButtonElement>> = forwardRef<HTMLButtonElement, ButtonProps>(
   function Button({
     variant = 'primary',
     size = 'md',

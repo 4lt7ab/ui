@@ -9,12 +9,12 @@ interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
 	padding?: string;
 	children: ReactNode;
 }
-declare const Container: unknown;
+declare const Container: React.ForwardRefExoticComponent<Omit<ContainerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 import { HTMLAttributes as HTMLAttributes2, ReactNode as ReactNode2 } from "react";
 interface ProseProps extends HTMLAttributes2<HTMLDivElement> {
 	children: ReactNode2;
 }
-declare function Prose({ children, style,...props }: ProseProps): React.JSX.Element;
+declare const Prose: React.ForwardRefExoticComponent<Omit<ProseProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 import { ReactNode as ReactNode3 } from "react";
 interface PullQuoteProps {
 	children: ReactNode3;
@@ -23,7 +23,7 @@ interface PullQuoteProps {
 * Centered pull quote with serif italic text and horizontal rules.
 * Must be used inside <Prose> for styling.
 */
-declare function PullQuote({ children }: PullQuoteProps): React.JSX.Element;
+declare const PullQuote: React.ForwardRefExoticComponent<Omit<PullQuoteProps, "ref"> & React.RefAttributes<HTMLQuoteElement>>;
 import { ReactNode as ReactNode4 } from "react";
 interface MarginNoteProps {
 	children: ReactNode4;
@@ -32,7 +32,7 @@ interface MarginNoteProps {
 * Side annotation that appears inline on mobile and in the left margin on wide screens (>=1100px).
 * Must be used inside <Prose> for styling and positioning.
 */
-declare function MarginNote({ children }: MarginNoteProps): React.JSX.Element;
+declare const MarginNote: React.ForwardRefExoticComponent<Omit<MarginNoteProps, "ref"> & React.RefAttributes<HTMLElement>>;
 import { ReactNode as ReactNode5 } from "react";
 interface SideNoteProps {
 	children: ReactNode5;
@@ -41,7 +41,7 @@ interface SideNoteProps {
 * Side annotation that appears inline on mobile and in the right margin on wide screens (>=1100px).
 * Must be used inside <Prose> for styling and positioning.
 */
-declare function SideNote({ children }: SideNoteProps): React.JSX.Element;
+declare const SideNote: React.ForwardRefExoticComponent<Omit<SideNoteProps, "ref"> & React.RefAttributes<HTMLElement>>;
 import { ReactNode as ReactNode6 } from "react";
 interface EpigraphProps {
 	/** The quote text. */
@@ -54,7 +54,7 @@ interface EpigraphProps {
 * Good for opening quotes, page epigraphs, or hero-level callouts.
 * Works both inside and outside <Prose>.
 */
-declare function Epigraph({ children, cite }: EpigraphProps): React.JSX.Element;
+declare const Epigraph: React.ForwardRefExoticComponent<Omit<EpigraphProps, "ref"> & React.RefAttributes<HTMLQuoteElement>>;
 import { AnchorHTMLAttributes, ReactNode as ReactNode7 } from "react";
 interface LinkCardProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "title"> {
 	/** Card title — rendered in serif. */
@@ -68,7 +68,7 @@ interface LinkCardProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "t
 * Clickable card with serif title and muted description.
 * Hover lifts and accent-borders. Good for project links, post previews, etc.
 */
-declare function LinkCard({ title, description, external, children,...props }: LinkCardProps): React.JSX.Element;
+declare const LinkCard: React.ForwardRefExoticComponent<Omit<LinkCardProps, "ref"> & React.RefAttributes<HTMLAnchorElement>>;
 interface ThinkingCycleProps {
 	/** Words to cycle through. Needs at least 2. */
 	words: string[];
@@ -90,5 +90,5 @@ interface ThinkingCycleProps {
 *
 * Usage: Building with AI tools is <ThinkingCycle words={['powerful', 'wild']} />.
 */
-declare function ThinkingCycle({ words, holdMs, scrambleTicks, tickMs, staggerMs }: ThinkingCycleProps): React.JSX.Element;
+declare const ThinkingCycle: React.ForwardRefExoticComponent<Omit<ThinkingCycleProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
 export { ThinkingCycleProps, ThinkingCycle, SideNoteProps, SideNote, PullQuoteProps, PullQuote, ProseProps, Prose, MarginNoteProps, MarginNote, LinkCardProps, LinkCard, EpigraphProps, Epigraph, ContainerWidth, ContainerProps, Container };

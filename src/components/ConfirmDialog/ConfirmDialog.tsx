@@ -1,7 +1,7 @@
+import { forwardRef, useState } from 'react';
 import { semantic as t } from '../../tokens/semantic';
 import { ModalShell } from '../ModalShell';
 import { Button } from '../Button';
-import { useState } from 'react';
 import type { ReactNode } from 'react';
 import type { ButtonVariant } from '../Button/Button';
 
@@ -25,28 +25,29 @@ export interface ConfirmDialogProps {
   variant?: ConfirmDialogVariant;
 }
 
-export function ConfirmDialog({
-  title,
-  message,
-  confirmLabel = 'Confirm',
-  onConfirm,
-  onCancel,
-  children,
-  variant = 'destructive',
-}: ConfirmDialogProps): React.JSX.Element {
-  const [loading, setLoading] = useState(false);
+export const ConfirmDialog: React.ForwardRefExoticComponent<Omit<ConfirmDialogProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, ConfirmDialogProps>(
+  function ConfirmDialog({
+    title,
+    message,
+    confirmLabel = 'Confirm',
+    onConfirm,
+    onCancel,
+    children,
+    variant = 'destructive',
+  }, ref): React.JSX.Element {
+    const [loading, setLoading] = useState(false);
 
-  const handleConfirm = async (): Promise<void> => {
-    setLoading(true);
-    try {
-      await onConfirm();
-    } finally {
-      setLoading(false);
-    }
-  };
+    const handleConfirm = async (): Promise<void> => {
+      setLoading(true);
+      try {
+        await onConfirm();
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  return (
-    <ModalShell onClose={onCancel}>
+    return (
+      <ModalShell ref={ref} onClose={onCancel}>
       <h2
         style={{
           margin: 0,
@@ -88,5 +89,6 @@ export function ConfirmDialog({
         </Button>
       </div>
     </ModalShell>
-  );
-}
+    );
+  }
+);

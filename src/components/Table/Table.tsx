@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { semantic as t } from '../../tokens/semantic';
 import { useInjectStyles } from '../../utils/useInjectStyles';
 import type { HTMLAttributes, TdHTMLAttributes, ThHTMLAttributes, ReactNode, CSSProperties, KeyboardEvent } from 'react';
@@ -61,39 +62,42 @@ const wrapperVariants: Record<TableVariant, CSSProperties> = {
   flat: {},
 };
 
-export function Table({
-  variant = 'default',
-  density = 'md',
-  children,
-  style,
-  ...props
-}: TableProps): React.JSX.Element {
-  useInjectStyles(TABLE_STYLES_ID, TABLE_STYLES_CSS);
+export const Table: React.ForwardRefExoticComponent<Omit<TableProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, TableProps>(
+  function Table({
+    variant = 'default',
+    density = 'md',
+    children,
+    style,
+    ...props
+  }, ref): React.JSX.Element {
+    useInjectStyles(TABLE_STYLES_ID, TABLE_STYLES_CSS);
 
-  return (
-    <div
-      style={{
-        overflowX: 'auto',
-        ...wrapperVariants[variant],
-        ...style,
-      }}
-      {...props}
-    >
-      <table
-        data-table-density={density}
+    return (
+      <div
+        ref={ref}
         style={{
-          width: '100%',
-          borderCollapse: 'collapse',
-          fontSize: t.fontSizeSm,
-          fontFamily: t.fontSans,
-          color: t.colorText,
+          overflowX: 'auto',
+          ...wrapperVariants[variant],
+          ...style,
         }}
+        {...props}
       >
-        {children}
-      </table>
-    </div>
-  );
-}
+        <table
+          data-table-density={density}
+          style={{
+            width: '100%',
+            borderCollapse: 'collapse',
+            fontSize: t.fontSizeSm,
+            fontFamily: t.fontSans,
+            color: t.colorText,
+          }}
+        >
+          {children}
+        </table>
+      </div>
+    );
+  }
+);
 
 // ---------------------------------------------------------------------------
 // Header (<thead> + row)
@@ -103,13 +107,15 @@ export interface TableHeaderProps extends HTMLAttributes<HTMLTableSectionElement
   children: ReactNode;
 }
 
-export function TableHeader({ children, style, ...props }: TableHeaderProps): React.JSX.Element {
-  return (
-    <thead style={style} {...props}>
-      <tr>{children}</tr>
-    </thead>
-  );
-}
+export const TableHeader: React.ForwardRefExoticComponent<Omit<TableHeaderProps, 'ref'> & React.RefAttributes<HTMLTableSectionElement>> = forwardRef<HTMLTableSectionElement, TableHeaderProps>(
+  function TableHeader({ children, style, ...props }, ref): React.JSX.Element {
+    return (
+      <thead ref={ref} style={style} {...props}>
+        <tr>{children}</tr>
+      </thead>
+    );
+  }
+);
 
 // ---------------------------------------------------------------------------
 // HeaderCell (<th>)
@@ -123,16 +129,18 @@ export interface TableHeaderCellProps extends ThHTMLAttributes<HTMLTableCellElem
   children?: ReactNode;
 }
 
-export function TableHeaderCell({
-  align = 'left',
-  width,
-  children,
-  style,
-  ...props
-}: TableHeaderCellProps): React.JSX.Element {
-  return (
-    <th
-      style={{
+export const TableHeaderCell: React.ForwardRefExoticComponent<Omit<TableHeaderCellProps, 'ref'> & React.RefAttributes<HTMLTableCellElement>> = forwardRef<HTMLTableCellElement, TableHeaderCellProps>(
+  function TableHeaderCell({
+    align = 'left',
+    width,
+    children,
+    style,
+    ...props
+  }, ref): React.JSX.Element {
+    return (
+      <th
+        ref={ref}
+        style={{
         padding: `${t.spaceSm} ${t.spaceMd}`,
         textAlign: align,
         fontWeight: t.fontWeightSemibold,
@@ -149,8 +157,9 @@ export function TableHeaderCell({
     >
       {children}
     </th>
-  );
-}
+    );
+  }
+);
 
 // ---------------------------------------------------------------------------
 // Body (<tbody>)
@@ -160,9 +169,11 @@ export interface TableBodyProps extends HTMLAttributes<HTMLTableSectionElement> 
   children: ReactNode;
 }
 
-export function TableBody({ children, ...props }: TableBodyProps): React.JSX.Element {
-  return <tbody {...props}>{children}</tbody>;
-}
+export const TableBody: React.ForwardRefExoticComponent<Omit<TableBodyProps, 'ref'> & React.RefAttributes<HTMLTableSectionElement>> = forwardRef<HTMLTableSectionElement, TableBodyProps>(
+  function TableBody({ children, ...props }, ref): React.JSX.Element {
+    return <tbody ref={ref} {...props}>{children}</tbody>;
+  }
+);
 
 // ---------------------------------------------------------------------------
 // Row (<tr>)
@@ -176,44 +187,47 @@ export interface TableRowProps extends HTMLAttributes<HTMLTableRowElement> {
   children: ReactNode;
 }
 
-export function TableRow({
-  selected = false,
-  hoverable = false,
-  children,
-  style,
-  onClick,
-  onKeyDown,
-  ...props
-}: TableRowProps): React.JSX.Element {
-  const handleKeyDown = onClick
-    ? (e: KeyboardEvent<HTMLTableRowElement>): void => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          onClick(e as unknown as React.MouseEvent<HTMLTableRowElement>);
+export const TableRow: React.ForwardRefExoticComponent<Omit<TableRowProps, 'ref'> & React.RefAttributes<HTMLTableRowElement>> = forwardRef<HTMLTableRowElement, TableRowProps>(
+  function TableRow({
+    selected = false,
+    hoverable = false,
+    children,
+    style,
+    onClick,
+    onKeyDown,
+    ...props
+  }, ref): React.JSX.Element {
+    const handleKeyDown = onClick
+      ? (e: KeyboardEvent<HTMLTableRowElement>): void => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onClick(e as unknown as React.MouseEvent<HTMLTableRowElement>);
+          }
+          onKeyDown?.(e);
         }
-        onKeyDown?.(e);
-      }
-    : onKeyDown;
+      : onKeyDown;
 
-  return (
-    <tr
-      data-table-row-hoverable={hoverable || undefined}
-      data-table-row-selected={selected || undefined}
-      tabIndex={onClick ? 0 : undefined}
-      onClick={onClick}
-      onKeyDown={handleKeyDown}
-      style={{
-        cursor: onClick ? 'pointer' : undefined,
-        background: selected ? t.colorSurfaceRaised : undefined,
-        transition: 'background 0.1s',
-        ...style,
-      }}
-      {...props}
-    >
-      {children}
-    </tr>
-  );
-}
+    return (
+      <tr
+        ref={ref}
+        data-table-row-hoverable={hoverable || undefined}
+        data-table-row-selected={selected || undefined}
+        tabIndex={onClick ? 0 : undefined}
+        onClick={onClick}
+        onKeyDown={handleKeyDown}
+        style={{
+          cursor: onClick ? 'pointer' : undefined,
+          background: selected ? t.colorSurfaceRaised : undefined,
+          transition: 'background 0.1s',
+          ...style,
+        }}
+        {...props}
+      >
+        {children}
+      </tr>
+    );
+  }
+);
 
 // ---------------------------------------------------------------------------
 // Cell (<td>)
@@ -231,18 +245,20 @@ export interface TableCellProps extends TdHTMLAttributes<HTMLTableCellElement> {
   children?: ReactNode;
 }
 
-export function TableCell({
-  align = 'left',
-  truncate = false,
-  muted = false,
-  width,
-  children,
-  style,
-  ...props
-}: TableCellProps): React.JSX.Element {
-  return (
-    <td
-      style={{
+export const TableCell: React.ForwardRefExoticComponent<Omit<TableCellProps, 'ref'> & React.RefAttributes<HTMLTableCellElement>> = forwardRef<HTMLTableCellElement, TableCellProps>(
+  function TableCell({
+    align = 'left',
+    truncate = false,
+    muted = false,
+    width,
+    children,
+    style,
+    ...props
+  }, ref): React.JSX.Element {
+    return (
+      <td
+        ref={ref}
+        style={{
         padding: `${t.spaceSm} ${t.spaceMd}`,
         borderBottom: `1px solid ${t.colorBorder}`,
         verticalAlign: 'middle',
@@ -263,8 +279,9 @@ export function TableCell({
     >
       {children}
     </td>
-  );
-}
+    );
+  }
+);
 
 // ---------------------------------------------------------------------------
 // GroupHeader (full-width subheading row)
@@ -276,14 +293,15 @@ export interface TableGroupHeaderProps extends HTMLAttributes<HTMLTableRowElemen
   children: ReactNode;
 }
 
-export function TableGroupHeader({
-  colSpan,
-  children,
-  style,
-  ...props
-}: TableGroupHeaderProps): React.JSX.Element {
-  return (
-    <tr style={{ cursor: 'default', ...style }} {...props}>
+export const TableGroupHeader: React.ForwardRefExoticComponent<Omit<TableGroupHeaderProps, 'ref'> & React.RefAttributes<HTMLTableRowElement>> = forwardRef<HTMLTableRowElement, TableGroupHeaderProps>(
+  function TableGroupHeader({
+    colSpan,
+    children,
+    style,
+    ...props
+  }, ref): React.JSX.Element {
+    return (
+      <tr ref={ref} style={{ cursor: 'default', ...style }} {...props}>
       <td
         colSpan={colSpan}
         style={{
@@ -303,8 +321,9 @@ export function TableGroupHeader({
         {children}
       </td>
     </tr>
-  );
-}
+    );
+  }
+);
 
 // ---------------------------------------------------------------------------
 // EmptyRow (centered message spanning all columns)
@@ -316,14 +335,15 @@ export interface TableEmptyRowProps extends HTMLAttributes<HTMLTableRowElement> 
   children: ReactNode;
 }
 
-export function TableEmptyRow({
-  colSpan,
-  children,
-  style,
-  ...props
-}: TableEmptyRowProps): React.JSX.Element {
-  return (
-    <tr style={style} {...props}>
+export const TableEmptyRow: React.ForwardRefExoticComponent<Omit<TableEmptyRowProps, 'ref'> & React.RefAttributes<HTMLTableRowElement>> = forwardRef<HTMLTableRowElement, TableEmptyRowProps>(
+  function TableEmptyRow({
+    colSpan,
+    children,
+    style,
+    ...props
+  }, ref): React.JSX.Element {
+    return (
+      <tr ref={ref} style={style} {...props}>
       <td
         colSpan={colSpan}
         style={{
@@ -335,6 +355,7 @@ export function TableEmptyRow({
       >
         {children}
       </td>
-    </tr>
-  );
-}
+      </tr>
+    );
+  }
+);

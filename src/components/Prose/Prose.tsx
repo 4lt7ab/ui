@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import type { HTMLAttributes, ReactNode } from 'react';
 import { useInjectStyles } from '../../utils/useInjectStyles';
 
@@ -263,20 +264,23 @@ const proseCSS = /* css */ `
   }
 `;
 
-export function Prose({
-  children,
-  style,
-  ...props
-}: ProseProps): React.JSX.Element {
-  useInjectStyles(PROSE_STYLES_ID, proseCSS);
+export const Prose: React.ForwardRefExoticComponent<Omit<ProseProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, ProseProps>(
+  function Prose({
+    children,
+    style,
+    ...props
+  }, ref): React.JSX.Element {
+    useInjectStyles(PROSE_STYLES_ID, proseCSS);
 
-  return (
-    <div
-      className="alttab-prose"
-      style={style}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-}
+    return (
+      <div
+        ref={ref}
+        className="alttab-prose"
+        style={style}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
+);

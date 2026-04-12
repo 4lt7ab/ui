@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { semantic as t } from '../../tokens/semantic';
 import type { CSSProperties } from 'react';
 
@@ -15,22 +16,24 @@ export interface ProgressBarProps {
   style?: CSSProperties;
 }
 
-export function ProgressBar({
-  segments,
-  height = 6,
-  'aria-label': ariaLabel,
-  style,
-}: ProgressBarProps): React.JSX.Element {
-  const total = segments.reduce((sum, s) => sum + s.value, 0);
+export const ProgressBar: React.ForwardRefExoticComponent<Omit<ProgressBarProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, ProgressBarProps>(
+  function ProgressBar({
+    segments,
+    height = 6,
+    'aria-label': ariaLabel,
+    style,
+  }, ref): React.JSX.Element {
+    const total = segments.reduce((sum, s) => sum + s.value, 0);
 
-  return (
-    <div
-      role="progressbar"
-      aria-valuenow={total}
-      aria-valuemin={0}
-      aria-valuemax={100}
-      aria-label={ariaLabel}
-      style={{
+    return (
+      <div
+        ref={ref}
+        role="progressbar"
+        aria-valuenow={total}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label={ariaLabel}
+        style={{
         width: '100%',
         height,
         borderRadius: height / 2,
@@ -55,5 +58,6 @@ export function ProgressBar({
         );
       })}
     </div>
-  );
-}
+    );
+  }
+);

@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { semantic as t } from '../../tokens/semantic';
 import type { HTMLAttributes, ReactNode } from 'react';
 
@@ -12,13 +13,23 @@ const paddingMap: Record<SpacingToken, string> = {
   '2xl': t.space2xl,
 };
 
+/** Visual treatment for the Card surface. */
 export type CardVariant = 'default' | 'flat' | 'elevated';
 
+/** A contained surface for grouping related content. */
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
-  /** Visual treatment. Default: 'default' */
+  /** Visual treatment.
+   * - `default` — standard surface with border and small shadow
+   * - `flat` — raised background with border, no shadow
+   * - `elevated` — standard surface with border and medium shadow
+   * @default 'default'
+   */
   variant?: CardVariant;
-  /** Inner padding. Default: 'lg' */
+  /** Inner padding using spacing tokens.
+   * @default 'lg'
+   */
   padding?: SpacingToken;
+  /** Card content. */
   children: ReactNode;
 }
 
@@ -40,24 +51,27 @@ const variantStyles: Record<CardVariant, React.CSSProperties> = {
   },
 };
 
-export function Card({
-  variant = 'default',
-  padding = 'lg',
-  children,
-  style,
-  ...props
-}: CardProps): React.JSX.Element {
-  return (
-    <div
-      style={{
-        borderRadius: t.radiusLg,
-        padding: paddingMap[padding],
-        ...variantStyles[variant],
-        ...style,
-      }}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-}
+export const Card: React.ForwardRefExoticComponent<Omit<CardProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, CardProps>(
+  function Card({
+    variant = 'default',
+    padding = 'lg',
+    children,
+    style,
+    ...props
+  }, ref): React.JSX.Element {
+    return (
+      <div
+        ref={ref}
+        style={{
+          borderRadius: t.radiusLg,
+          padding: paddingMap[padding],
+          ...variantStyles[variant],
+          ...style,
+        }}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
+);

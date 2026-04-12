@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import type { AnchorHTMLAttributes, ReactNode } from 'react';
 import { useInjectStyles } from '../../utils/useInjectStyles';
 
@@ -49,24 +50,27 @@ const linkCardCSS = /* css */ `
  * Clickable card with serif title and muted description.
  * Hover lifts and accent-borders. Good for project links, post previews, etc.
  */
-export function LinkCard({
-  title,
-  description,
-  external,
-  children,
-  ...props
-}: LinkCardProps): React.JSX.Element {
-  useInjectStyles(STYLES_ID, linkCardCSS);
+export const LinkCard: React.ForwardRefExoticComponent<Omit<LinkCardProps, 'ref'> & React.RefAttributes<HTMLAnchorElement>> = forwardRef<HTMLAnchorElement, LinkCardProps>(
+  function LinkCard({
+    title,
+    description,
+    external,
+    children,
+    ...props
+  }, ref): React.JSX.Element {
+    useInjectStyles(STYLES_ID, linkCardCSS);
 
-  return (
-    <a
-      className="alttab-link-card"
-      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-      {...props}
-    >
-      <span className="alttab-link-card__title">{title}</span>
-      {description && <span className="alttab-link-card__desc">{description}</span>}
-      {children}
-    </a>
-  );
-}
+    return (
+      <a
+        ref={ref}
+        className="alttab-link-card"
+        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        {...props}
+      >
+        <span className="alttab-link-card__title">{title}</span>
+        {description && <span className="alttab-link-card__desc">{description}</span>}
+        {children}
+      </a>
+    );
+  }
+);

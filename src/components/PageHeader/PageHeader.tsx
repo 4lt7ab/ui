@@ -14,7 +14,7 @@ export interface PageHeaderProps {
   level?: HeadingLevel;
 }
 
-export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
+export const PageHeader: React.ForwardRefExoticComponent<Omit<PageHeaderProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, PageHeaderProps>(
   function PageHeader({
     title,
     subtitle,

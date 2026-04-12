@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import type { ReactNode } from 'react';
 
 export interface MarginNoteProps {
@@ -8,10 +9,12 @@ export interface MarginNoteProps {
  * Side annotation that appears inline on mobile and in the left margin on wide screens (>=1100px).
  * Must be used inside <Prose> for styling and positioning.
  */
-export function MarginNote({ children }: MarginNoteProps): React.JSX.Element {
-  return (
-    <small data-margin-note="">
-      {children}
-    </small>
-  );
-}
+export const MarginNote: React.ForwardRefExoticComponent<Omit<MarginNoteProps, 'ref'> & React.RefAttributes<HTMLElement>> = forwardRef<HTMLElement, MarginNoteProps>(
+  function MarginNote({ children }, ref): React.JSX.Element {
+    return (
+      <small ref={ref} data-margin-note="">
+        {children}
+      </small>
+    );
+  }
+);

@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { semantic as t } from '../../tokens/semantic';
 import { Button } from '../Button';
 import type { CSSProperties } from 'react';
@@ -24,20 +25,22 @@ const defaultLabels: Required<PaginationLabels> = {
   pageOf: (page, total) => `Page ${page} of ${total}`,
 };
 
-export function Pagination({
-  page,
-  totalPages,
-  total,
-  onPageChange,
-  labels,
-  className,
-  style,
-}: PaginationProps): React.JSX.Element {
-  const resolvedLabels = { ...defaultLabels, ...labels };
+export const Pagination: React.ForwardRefExoticComponent<Omit<PaginationProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, PaginationProps>(
+  function Pagination({
+    page,
+    totalPages,
+    total,
+    onPageChange,
+    labels,
+    className,
+    style,
+  }, ref): React.JSX.Element {
+    const resolvedLabels = { ...defaultLabels, ...labels };
 
-  return (
-    <div
-      className={className}
+    return (
+      <div
+        ref={ref}
+        className={className}
       style={{
         display: 'flex',
         alignItems: 'center',
@@ -72,5 +75,6 @@ export function Pagination({
         {resolvedLabels.next}
       </Button>
     </div>
-  );
-}
+    );
+  }
+);

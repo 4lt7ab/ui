@@ -2,10 +2,21 @@ import { forwardRef } from 'react';
 import { semantic as t } from '../../tokens/semantic';
 import type { ReactNode } from 'react';
 
+/** Semantic color variant for badges. */
 export type BadgeVariant = 'default' | 'success' | 'warning' | 'error' | 'info';
 
+/** A small label for status, category, or metadata. Rendered as uppercase pill text. */
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
+  /** Badge content (typically short text). */
   children: ReactNode;
+  /** Color variant mapping to feedback tokens.
+   * - `default` — neutral with border
+   * - `success` — green tinted background
+   * - `warning` — amber tinted background
+   * - `error` — red tinted background
+   * - `info` — blue tinted background
+   * @default 'default'
+   */
   variant?: BadgeVariant;
 }
 
@@ -43,7 +54,7 @@ const baseStyles: React.CSSProperties = {
   letterSpacing: t.letterSpacingWide,
 };
 
-export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
+export const Badge: React.ForwardRefExoticComponent<Omit<BadgeProps, 'ref'> & React.RefAttributes<HTMLSpanElement>> = forwardRef<HTMLSpanElement, BadgeProps>(
   function Badge({
     children,
     variant = 'default',

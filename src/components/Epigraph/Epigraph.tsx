@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import type { ReactNode } from 'react';
 import { useInjectStyles } from '../../utils/useInjectStyles';
 
@@ -45,13 +46,15 @@ const epigraphCSS = /* css */ `
  * Good for opening quotes, page epigraphs, or hero-level callouts.
  * Works both inside and outside <Prose>.
  */
-export function Epigraph({ children, cite }: EpigraphProps): React.JSX.Element {
-  useInjectStyles(STYLES_ID, epigraphCSS);
+export const Epigraph: React.ForwardRefExoticComponent<Omit<EpigraphProps, 'ref'> & React.RefAttributes<HTMLQuoteElement>> = forwardRef<HTMLQuoteElement, EpigraphProps>(
+  function Epigraph({ children, cite }, ref): React.JSX.Element {
+    useInjectStyles(STYLES_ID, epigraphCSS);
 
-  return (
-    <blockquote className="alttab-epigraph">
-      <p>{children}</p>
-      {cite && <footer>{cite}</footer>}
-    </blockquote>
-  );
-}
+    return (
+      <blockquote ref={ref} className="alttab-epigraph">
+        <p>{children}</p>
+        {cite && <footer>{cite}</footer>}
+      </blockquote>
+    );
+  }
+);

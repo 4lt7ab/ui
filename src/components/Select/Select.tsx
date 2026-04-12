@@ -2,20 +2,27 @@ import { forwardRef } from 'react';
 import { semantic as t } from '../../tokens/semantic';
 import type { ReactNode, SelectHTMLAttributes } from 'react';
 
+/** A single option in the Select dropdown. */
 export interface SelectOption {
+  /** The value submitted with the form. */
   value: string;
+  /** Display text shown in the dropdown. */
   label: string;
+  /** Whether this option is disabled. */
   disabled?: boolean;
 }
 
+/** A native dropdown select with custom chevron styling. */
 export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'children'> {
   /** Options to render. Ignored when `children` is provided. */
   options?: SelectOption[];
   /** Custom option/optgroup elements. When provided, `options` is ignored. */
   children?: ReactNode;
-  /** Optional placeholder shown as first disabled option. */
+  /** Optional placeholder shown as a first disabled option. */
   placeholder?: string;
-  /** Renders error border styling. Typically driven by a parent Field. */
+  /** Renders error border styling. Typically driven by a parent Field.
+   * @default false
+   */
   hasError?: boolean;
 }
 
@@ -67,7 +74,7 @@ const disabledStyle: React.CSSProperties = {
   cursor: 'not-allowed',
 };
 
-export const Select = forwardRef<HTMLSelectElement, SelectProps>(
+export const Select: React.ForwardRefExoticComponent<Omit<SelectProps, 'ref'> & React.RefAttributes<HTMLSelectElement>> = forwardRef<HTMLSelectElement, SelectProps>(
   function Select({
     options,
     children,
