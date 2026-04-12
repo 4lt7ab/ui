@@ -12,7 +12,7 @@ import {
   useRef,
   useState
 } from "react";
-import { jsxDEV } from "react/jsx-dev-runtime";
+import { jsx } from "react/jsx-runtime";
 var ThemeContext = createContext(null);
 function useTheme() {
   const ctx = useContext(ThemeContext);

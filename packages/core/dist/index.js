@@ -984,7 +984,7 @@ var pacmanTheme = {
   `
 };
 // src/themes/ThemeProvider.tsx
-import { jsxDEV } from "react/jsx-dev-runtime";
+import { jsx } from "react/jsx-runtime";
 var ThemeContext = createContext(null);
 function applyTokens(element, tokens) {
   const keys = Object.keys(tokens);
@@ -1091,10 +1091,10 @@ function ThemeProvider({
     };
   }, [resolved, registry, shouldApplyPageStyles]);
   const value = useMemo(() => ({ theme, resolved, themes: registry, setTheme }), [theme, resolved, registry, setTheme]);
-  return /* @__PURE__ */ jsxDEV(ThemeContext.Provider, {
+  return /* @__PURE__ */ jsx(ThemeContext.Provider, {
     value,
     children
-  }, undefined, false, undefined, this);
+  });
 }
 function useTheme() {
   const ctx = useContext(ThemeContext);

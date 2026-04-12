@@ -1039,7 +1039,7 @@ var pacmanTheme = {
   `
 };
 // src/themes/ThemeProvider.tsx
-var jsx_dev_runtime = require("react/jsx-dev-runtime");
+var jsx_runtime = require("react/jsx-runtime");
 var ThemeContext = import_react2.createContext(null);
 function applyTokens(element, tokens) {
   const keys = Object.keys(tokens);
@@ -1146,10 +1146,10 @@ function ThemeProvider({
     };
   }, [resolved, registry, shouldApplyPageStyles]);
   const value = import_react2.useMemo(() => ({ theme, resolved, themes: registry, setTheme }), [theme, resolved, registry, setTheme]);
-  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV(ThemeContext.Provider, {
+  return /* @__PURE__ */ jsx_runtime.jsx(ThemeContext.Provider, {
     value,
     children
-  }, undefined, false, undefined, this);
+  });
 }
 function useTheme() {
   const ctx = import_react2.useContext(ThemeContext);

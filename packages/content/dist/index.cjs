@@ -53,7 +53,7 @@ module.exports = __toCommonJS(exports_src);
 
 // src/components/Container/Container.tsx
 var import_react = require("react");
-var jsx_dev_runtime = require("react/jsx-dev-runtime");
+var jsx_runtime = require("react/jsx-runtime");
 var widthMap = {
   prose: "680px",
   wide: "900px"
@@ -66,7 +66,7 @@ var Container = import_react.forwardRef(function Container2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("div", {
+  return /* @__PURE__ */ jsx_runtime.jsx("div", {
     ref,
     style: {
       boxSizing: "border-box",
@@ -79,7 +79,7 @@ var Container = import_react.forwardRef(function Container2({
     },
     ...props,
     children
-  }, undefined, false, undefined, this);
+  });
 });
 // src/components/Prose/Prose.tsx
 var import_react4 = require("react");
@@ -87,7 +87,7 @@ var import_react4 = require("react");
 // ../core/dist/index.js
 var import_react2 = require("react");
 var import_react3 = require("react");
-var import_jsx_dev_runtime = require("react/jsx-dev-runtime");
+var import_jsx_runtime = require("react/jsx-runtime");
 function useInjectStyles(id, css) {
   import_react2.useEffect(() => {
     let el = document.getElementById(id);
@@ -106,7 +106,7 @@ function useInjectStyles(id, css) {
 var ThemeContext = import_react3.createContext(null);
 
 // src/components/Prose/Prose.tsx
-var jsx_dev_runtime2 = require("react/jsx-dev-runtime");
+var jsx_runtime2 = require("react/jsx-runtime");
 var PROSE_STYLES_ID = "alttab-prose-styles";
 var proseCSS = `
   /* ── Typography ── */
@@ -362,49 +362,49 @@ var Prose = import_react4.forwardRef(function Prose2({
   ...props
 }, ref) {
   useInjectStyles(PROSE_STYLES_ID, proseCSS);
-  return /* @__PURE__ */ jsx_dev_runtime2.jsxDEV("div", {
+  return /* @__PURE__ */ jsx_runtime2.jsx("div", {
     ref,
     className: "alttab-prose",
     style,
     ...props,
     children
-  }, undefined, false, undefined, this);
+  });
 });
 // src/components/PullQuote/PullQuote.tsx
 var import_react5 = require("react");
-var jsx_dev_runtime3 = require("react/jsx-dev-runtime");
+var jsx_runtime3 = require("react/jsx-runtime");
 var PullQuote = import_react5.forwardRef(function PullQuote2({ children }, ref) {
-  return /* @__PURE__ */ jsx_dev_runtime3.jsxDEV("blockquote", {
+  return /* @__PURE__ */ jsx_runtime3.jsx("blockquote", {
     ref,
     "data-pull-quote": "",
-    children: /* @__PURE__ */ jsx_dev_runtime3.jsxDEV("p", {
+    children: /* @__PURE__ */ jsx_runtime3.jsx("p", {
       children
-    }, undefined, false, undefined, this)
-  }, undefined, false, undefined, this);
+    })
+  });
 });
 // src/components/MarginNote/MarginNote.tsx
 var import_react6 = require("react");
-var jsx_dev_runtime4 = require("react/jsx-dev-runtime");
+var jsx_runtime4 = require("react/jsx-runtime");
 var MarginNote = import_react6.forwardRef(function MarginNote2({ children }, ref) {
-  return /* @__PURE__ */ jsx_dev_runtime4.jsxDEV("small", {
+  return /* @__PURE__ */ jsx_runtime4.jsx("small", {
     ref,
     "data-margin-note": "",
     children
-  }, undefined, false, undefined, this);
+  });
 });
 // src/components/SideNote/SideNote.tsx
 var import_react7 = require("react");
-var jsx_dev_runtime5 = require("react/jsx-dev-runtime");
+var jsx_runtime5 = require("react/jsx-runtime");
 var SideNote = import_react7.forwardRef(function SideNote2({ children }, ref) {
-  return /* @__PURE__ */ jsx_dev_runtime5.jsxDEV("small", {
+  return /* @__PURE__ */ jsx_runtime5.jsx("small", {
     ref,
     "data-side-note": "",
     children
-  }, undefined, false, undefined, this);
+  });
 });
 // src/components/Epigraph/Epigraph.tsx
 var import_react8 = require("react");
-var jsx_dev_runtime6 = require("react/jsx-dev-runtime");
+var jsx_runtime6 = require("react/jsx-runtime");
 var STYLES_ID = "alttab-epigraph";
 var epigraphCSS = `
   .alttab-epigraph {
@@ -437,22 +437,22 @@ var epigraphCSS = `
 `;
 var Epigraph = import_react8.forwardRef(function Epigraph2({ children, cite }, ref) {
   useInjectStyles(STYLES_ID, epigraphCSS);
-  return /* @__PURE__ */ jsx_dev_runtime6.jsxDEV("blockquote", {
+  return /* @__PURE__ */ jsx_runtime6.jsxs("blockquote", {
     ref,
     className: "alttab-epigraph",
     children: [
-      /* @__PURE__ */ jsx_dev_runtime6.jsxDEV("p", {
+      /* @__PURE__ */ jsx_runtime6.jsx("p", {
         children
-      }, undefined, false, undefined, this),
-      cite && /* @__PURE__ */ jsx_dev_runtime6.jsxDEV("footer", {
+      }),
+      cite && /* @__PURE__ */ jsx_runtime6.jsx("footer", {
         children: cite
-      }, undefined, false, undefined, this)
+      })
     ]
-  }, undefined, true, undefined, this);
+  });
 });
 // src/components/LinkCard/LinkCard.tsx
 var import_react9 = require("react");
-var jsx_dev_runtime7 = require("react/jsx-dev-runtime");
+var jsx_runtime7 = require("react/jsx-runtime");
 var STYLES_ID2 = "alttab-link-card";
 var linkCardCSS = `
   .alttab-link-card {
@@ -494,27 +494,27 @@ var LinkCard = import_react9.forwardRef(function LinkCard2({
   ...props
 }, ref) {
   useInjectStyles(STYLES_ID2, linkCardCSS);
-  return /* @__PURE__ */ jsx_dev_runtime7.jsxDEV("a", {
+  return /* @__PURE__ */ jsx_runtime7.jsxs("a", {
     ref,
     className: "alttab-link-card",
     ...external ? { target: "_blank", rel: "noopener noreferrer" } : {},
     ...props,
     children: [
-      /* @__PURE__ */ jsx_dev_runtime7.jsxDEV("span", {
+      /* @__PURE__ */ jsx_runtime7.jsx("span", {
         className: "alttab-link-card__title",
         children: title
-      }, undefined, false, undefined, this),
-      description && /* @__PURE__ */ jsx_dev_runtime7.jsxDEV("span", {
+      }),
+      description && /* @__PURE__ */ jsx_runtime7.jsx("span", {
         className: "alttab-link-card__desc",
         children: description
-      }, undefined, false, undefined, this),
+      }),
       children
     ]
-  }, undefined, true, undefined, this);
+  });
 });
 // src/components/ThinkingCycle/ThinkingCycle.tsx
 var import_react10 = require("react");
-var jsx_dev_runtime8 = require("react/jsx-dev-runtime");
+var jsx_runtime8 = require("react/jsx-runtime");
 var SCRAMBLE_CHARS = "abcdefghijklmnopqrstuvwxyz!?*~+#";
 var STYLES_ID3 = "alttab-thinking-cycle";
 var thinkingCSS = `
@@ -660,8 +660,8 @@ var ThinkingCycle = import_react10.forwardRef(function ThinkingCycle2({
       observer.disconnect();
     };
   }, [words, holdMs, measure, setWord, scrambleTo]);
-  return /* @__PURE__ */ jsx_dev_runtime8.jsxDEV("span", {
+  return /* @__PURE__ */ jsx_runtime8.jsx("span", {
     ref: elRef,
     className: "alttab-thinking"
-  }, undefined, false, undefined, this);
+  });
 });

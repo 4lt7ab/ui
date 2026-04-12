@@ -54,7 +54,7 @@ var import_react3 = require("react");
 // ../core/dist/index.js
 var import_react = require("react");
 var import_react2 = require("react");
-var import_jsx_dev_runtime = require("react/jsx-dev-runtime");
+var import_jsx_runtime = require("react/jsx-runtime");
 var ThemeContext = import_react2.createContext(null);
 function useTheme() {
   const ctx = import_react2.useContext(ThemeContext);
