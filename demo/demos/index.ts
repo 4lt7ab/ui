@@ -18,10 +18,8 @@ import { ExpandableCardDemo } from './ExpandableCardDemo';
 import { ModalDemo } from './ModalDemo';
 import { ContainerDemo } from './ContainerDemo';
 import { ProseDemo } from './ProseDemo';
-import { PageShellDemo } from './PageShellDemo';
 import { ThinkingCycleDemo } from './ThinkingCycleDemo';
 import { LinkCardDemo } from './LinkCardDemo';
-import { MarginSpotlightDemo } from './MarginSpotlightDemo';
 import { TableDemo } from './TableDemo';
 import { StatusDotDemo } from './StatusDotDemo';
 import { ThemePickerDemo } from './ThemePickerDemo';
@@ -70,9 +68,7 @@ export const demos: DemoEntry[] = [
   // ── @4lt7ab/ui/content ──
   { name: 'Container', category: 'Layout', source: 'content', component: ContainerDemo },
   { name: 'Prose', category: 'Layout', source: 'content', component: ProseDemo },
-  { name: 'PageShell', category: 'Layout', source: 'content', component: PageShellDemo },
   { name: 'ThinkingCycle', category: 'Action', source: 'content', component: ThinkingCycleDemo },
   { name: 'LinkCard', category: 'Layout', source: 'content', component: LinkCardDemo },
-  { name: 'MarginSpotlight', category: 'Layout', source: 'content', component: MarginSpotlightDemo },
   { name: 'ThemePicker', category: 'Action', source: 'ui', component: ThemePickerDemo },
 ];

@@ -16,11 +16,11 @@ The library ships two separate bundles so consumers only pull what they need:
 
 ```ts
 import { Button, Card, ThemeProvider } from '@4lt7ab/ui'           // app UI
-import { Prose, PageShell, Container } from '@4lt7ab/ui/content'   // content/layout
+import { Prose, Container } from '@4lt7ab/ui/content'              // content/layout
 ```
 
 - **`@4lt7ab/ui`** — Tokens, themes, icons, and interactive UI components (Button, Card, Input, Modal, etc.). For dashboards, apps, and tools.
-- **`@4lt7ab/ui/content`** — Layout and prose components (Container, Prose, PageShell, SiteNav, Footer, PullQuote, MarginNote). For blogs, docs, and reading-oriented pages.
+- **`@4lt7ab/ui/content`** — Layout and prose components (Container, Prose, PullQuote, MarginNote, SideNote, Epigraph, LinkCard, ThinkingCycle). For blogs, docs, and reading-oriented pages.
 
 Both share the same token layer and themes. A component in either entry point uses `semantic` tokens and responds to the active theme.
 
@@ -57,11 +57,12 @@ src/
 │   ├── ...
 │   ├── Container/       # content components
 │   ├── Prose/
-│   ├── PageShell/
-│   ├─�� SiteNav/
-│   ├── Footer/
 │   ├── PullQuote/
-│   └── MarginNote/
+│   ├── MarginNote/
+│   ├── SideNote/
+│   ├── Epigraph/
+│   ├── LinkCard/
+│   └── ThinkingCycle/
 ├── content/
 │   └── index.ts         # content entry point barrel
 └── index.ts             # main entry point barrel (app UI)

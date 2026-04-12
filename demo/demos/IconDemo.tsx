@@ -41,10 +41,10 @@ export function IconDemo(): React.JSX.Element {
       <Stack gap="sm">
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>IconButton</h3>
         <Stack direction="horizontal" gap="sm" align="center">
-          <IconButton icon="settings" />
-          <IconButton icon="info" badge />
-          <IconButton icon="check-circle" />
-          <IconButton icon="more-vertical" />
+          <IconButton icon="settings" aria-label="Settings" />
+          <IconButton icon="info" badge aria-label="Info" />
+          <IconButton icon="check-circle" aria-label="Confirm" />
+          <IconButton icon="more-vertical" aria-label="More options" />
         </Stack>
       </Stack>
     </Stack>

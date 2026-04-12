@@ -14,6 +14,7 @@ export function Overlay({
 }: OverlayProps): React.JSX.Element {
   return (
     <div
+      role="presentation"
       onClick={onClick}
       style={{
         position: 'fixed',

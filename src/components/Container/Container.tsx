@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import type { HTMLAttributes, ReactNode } from 'react';
 
 export type ContainerWidth = 'prose' | 'wide';
@@ -8,34 +9,40 @@ const widthMap: Record<ContainerWidth, string> = {
 };
 
 export interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
-  /** Max content width. Default: 'prose' (680px) */
+  /** Named width preset. Default: 'prose' (680px) */
   width?: ContainerWidth;
+  /** Arbitrary max-width value (e.g. '1200px', '100%'). Overrides `width` when set. */
+  maxWidth?: string;
   /** Horizontal padding. Default: '1.5rem' */
   padding?: string;
   children: ReactNode;
 }
 
-export function Container({
-  width = 'prose',
-  padding = '1.5rem',
-  children,
-  style,
-  ...props
-}: ContainerProps): React.JSX.Element {
-  return (
-    <div
-      style={{
-        boxSizing: 'border-box',
-        width: '100%',
-        maxWidth: widthMap[width],
-        marginInline: 'auto',
-        paddingInline: padding,
-        overflow: 'visible',
-        ...style,
-      }}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-}
+export const Container = forwardRef<HTMLDivElement, ContainerProps>(
+  function Container({
+    width = 'prose',
+    maxWidth,
+    padding = '1.5rem',
+    children,
+    style,
+    ...props
+  }, ref): React.JSX.Element {
+    return (
+      <div
+        ref={ref}
+        style={{
+          boxSizing: 'border-box',
+          width: '100%',
+          maxWidth: maxWidth ?? widthMap[width],
+          marginInline: 'auto',
+          paddingInline: padding,
+          overflow: 'visible',
+          ...style,
+        }}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
+);

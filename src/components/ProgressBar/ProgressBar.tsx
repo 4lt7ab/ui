@@ -10,18 +10,26 @@ export interface ProgressBarSegment {
 export interface ProgressBarProps {
   segments: ProgressBarSegment[];
   height?: number;
+  /** Accessible label for screen readers. */
+  'aria-label'?: string;
   style?: CSSProperties;
 }
 
 export function ProgressBar({
   segments,
   height = 6,
+  'aria-label': ariaLabel,
   style,
 }: ProgressBarProps): React.JSX.Element {
   const total = segments.reduce((sum, s) => sum + s.value, 0);
 
   return (
     <div
+      role="progressbar"
+      aria-valuenow={total}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-label={ariaLabel}
       style={{
         width: '100%',
         height,

@@ -16,6 +16,7 @@ export function Skeleton({
 }: SkeletonProps): React.JSX.Element {
   return (
     <div
+      aria-hidden="true"
       style={{
         width,
         height,
@@ -30,6 +31,7 @@ export function Skeleton({
 export function CardSkeleton({ style }: { style?: CSSProperties }): React.JSX.Element {
   return (
     <div
+      aria-hidden="true"
       style={{
         borderRadius: t.radiusLg,
         border: `1px solid ${t.colorBorder}`,
@@ -50,6 +52,7 @@ export function CardSkeleton({ style }: { style?: CSSProperties }): React.JSX.El
 export function RowSkeleton({ style }: { style?: CSSProperties }): React.JSX.Element {
   return (
     <div
+      aria-hidden="true"
       style={{
         display: 'flex',
         alignItems: 'center',

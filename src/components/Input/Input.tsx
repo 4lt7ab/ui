@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { semantic as t } from '../../tokens/semantic';
 import type { InputHTMLAttributes } from 'react';
 
@@ -32,22 +33,26 @@ const disabledStyle: React.CSSProperties = {
   cursor: 'not-allowed',
 };
 
-export function Input({
-  hasError,
-  disabled,
-  style,
-  ...props
-}: InputProps): React.JSX.Element {
-  return (
-    <input
-      style={{
-        ...baseStyle,
-        ...(hasError ? errorBorderStyle : {}),
-        ...(disabled ? disabledStyle : {}),
-        ...style,
-      }}
-      disabled={disabled}
-      {...props}
-    />
-  );
-}
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+  function Input({
+    hasError,
+    disabled,
+    style,
+    ...props
+  }, ref): React.JSX.Element {
+    return (
+      <input
+        ref={ref}
+        aria-invalid={hasError || undefined}
+        style={{
+          ...baseStyle,
+          ...(hasError ? errorBorderStyle : {}),
+          ...(disabled ? disabledStyle : {}),
+          ...style,
+        }}
+        disabled={disabled}
+        {...props}
+      />
+    );
+  }
+);

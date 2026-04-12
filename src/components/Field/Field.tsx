@@ -1,5 +1,5 @@
 import { semantic as t } from '../../tokens/semantic';
-import type { HTMLAttributes, ReactNode } from 'react';
+import { useId, isValidElement, cloneElement, type HTMLAttributes, type ReactNode, type ReactElement } from 'react';
 
 export interface FieldProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
   /** Field label text. */
@@ -58,6 +58,18 @@ export function Field({
   style,
   ...props
 }: FieldProps): React.JSX.Element {
+  const autoId = useId();
+  const helpId = help ? `${autoId}-help` : undefined;
+  const errorId = error ? `${autoId}-error` : undefined;
+  const describedBy = [errorId, helpId].filter(Boolean).join(' ') || undefined;
+
+  // Pass aria-describedby to the child input element via cloneElement
+  const enhancedChildren = isValidElement(children)
+    ? cloneElement(children as ReactElement<Record<string, unknown>>, {
+        'aria-describedby': describedBy,
+      })
+    : children;
+
   return (
     <div
       style={{
@@ -74,10 +86,10 @@ export function Field({
         {required && <span style={requiredStyle} aria-hidden="true">*</span>}
       </label>
 
-      {children}
+      {enhancedChildren}
 
-      {error && <p role="alert" style={errorStyle}>{error}</p>}
-      {!error && help && <p style={helpStyle}>{help}</p>}
+      {error && <p id={errorId} role="alert" style={errorStyle}>{error}</p>}
+      {!error && help && <p id={helpId} style={helpStyle}>{help}</p>}
     </div>
   );
 }

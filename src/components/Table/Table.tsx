@@ -1,6 +1,6 @@
 import { semantic as t } from '../../tokens/semantic';
 import { useInjectStyles } from '../../utils/useInjectStyles';
-import type { HTMLAttributes, TdHTMLAttributes, ThHTMLAttributes, ReactNode, CSSProperties } from 'react';
+import type { HTMLAttributes, TdHTMLAttributes, ThHTMLAttributes, ReactNode, CSSProperties, KeyboardEvent } from 'react';
 
 // ---------------------------------------------------------------------------
 // Shared types
@@ -57,7 +57,6 @@ const wrapperVariants: Record<TableVariant, CSSProperties> = {
     border: `1px solid ${t.colorBorder}`,
     borderRadius: t.radiusLg,
     boxShadow: t.shadowSm,
-    background: t.colorSurface,
   },
   flat: {},
 };
@@ -183,13 +182,26 @@ export function TableRow({
   children,
   style,
   onClick,
+  onKeyDown,
   ...props
 }: TableRowProps): React.JSX.Element {
+  const handleKeyDown = onClick
+    ? (e: KeyboardEvent<HTMLTableRowElement>): void => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick(e as unknown as React.MouseEvent<HTMLTableRowElement>);
+        }
+        onKeyDown?.(e);
+      }
+    : onKeyDown;
+
   return (
     <tr
       data-table-row-hoverable={hoverable || undefined}
       data-table-row-selected={selected || undefined}
+      tabIndex={onClick ? 0 : undefined}
       onClick={onClick}
+      onKeyDown={handleKeyDown}
       style={{
         cursor: onClick ? 'pointer' : undefined,
         background: selected ? t.colorSurfaceRaised : undefined,

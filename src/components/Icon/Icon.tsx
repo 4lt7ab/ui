@@ -7,11 +7,15 @@ export interface IconProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'childr
   size?: number;
 }
 
-export function Icon({ name, size = 24, style, ...props }: IconProps): React.JSX.Element {
+export function Icon({ name, size = 24, style, 'aria-label': ariaLabel, ...props }: IconProps): React.JSX.Element {
   const IconComponent = iconRegistry[name];
+  const isDecorative = !ariaLabel;
 
   return (
     <span
+      role={isDecorative ? undefined : 'img'}
+      aria-hidden={isDecorative || undefined}
+      aria-label={ariaLabel}
       style={{
         display: 'inline-flex',
         alignItems: 'center',

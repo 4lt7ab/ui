@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { semantic as t } from '../../tokens/semantic';
 import type { TextareaHTMLAttributes } from 'react';
 
@@ -35,22 +36,26 @@ const disabledStyle: React.CSSProperties = {
   resize: 'none' as const,
 };
 
-export function Textarea({
-  hasError,
-  disabled,
-  style,
-  ...props
-}: TextareaProps): React.JSX.Element {
-  return (
-    <textarea
-      style={{
-        ...baseStyle,
-        ...(hasError ? errorBorderStyle : {}),
-        ...(disabled ? disabledStyle : {}),
-        ...style,
-      }}
-      disabled={disabled}
-      {...props}
-    />
-  );
-}
+export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
+  function Textarea({
+    hasError,
+    disabled,
+    style,
+    ...props
+  }, ref): React.JSX.Element {
+    return (
+      <textarea
+        ref={ref}
+        aria-invalid={hasError || undefined}
+        style={{
+          ...baseStyle,
+          ...(hasError ? errorBorderStyle : {}),
+          ...(disabled ? disabledStyle : {}),
+          ...style,
+        }}
+        disabled={disabled}
+        {...props}
+      />
+    );
+  }
+);
