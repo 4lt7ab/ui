@@ -39,12 +39,17 @@ bun run typecheck
 bun run build
 
 # ── Update package.json versions ─────────────────────────────────
-for pkg in packages/ui/package.json packages/content/package.json packages/animations/package.json; do
+for pkg in package.json packages/core/package.json packages/ui/package.json packages/content/package.json packages/animations/package.json; do
   sed -i '' "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" "$pkg"
 done
 
+# Update @4lt7ab/core peer dep version in consumer packages
+for pkg in packages/ui/package.json packages/content/package.json packages/animations/package.json; do
+  sed -i '' "s/\"@4lt7ab\/core\": \".*\"/\"@4lt7ab\/core\": \"$VERSION\"/" "$pkg"
+done
+
 # ── Commit & tag ─────────────────────────────────────────────────
-git add packages/*/dist/ packages/*/package.json
+git add packages/*/dist/ packages/*/package.json package.json
 git commit -m "release: v$VERSION"
 git tag "$TAG"
 
@@ -55,6 +60,7 @@ echo ""
 echo "Deployed $TAG"
 echo ""
 echo "Consumers:"
-echo "  \"@4lt7ab/ui\": \"github:username/component-library#$TAG\""
-echo "  \"@4lt7ab/content\": \"github:username/component-library#$TAG\""
-echo "  \"@4lt7ab/animations\": \"github:username/component-library#$TAG\""
+echo "  \"@4lt7ab/core\": \"github:4lt7ab/ui#$TAG\""
+echo "  \"@4lt7ab/ui\": \"github:4lt7ab/ui#$TAG\""
+echo "  \"@4lt7ab/content\": \"github:4lt7ab/ui#$TAG\""
+echo "  \"@4lt7ab/animations\": \"github:4lt7ab/ui#$TAG\""
