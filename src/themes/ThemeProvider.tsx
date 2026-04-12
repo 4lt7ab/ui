@@ -96,6 +96,34 @@ export function ThemeProvider({
     [storageKey],
   );
 
+  // Inject global :focus-visible styles once (uses var() so adapts to any theme)
+  const focusStyleRef = useRef<HTMLStyleElement | null>(null);
+  useEffect(() => {
+    if (focusStyleRef.current) return;
+    const style = document.createElement('style');
+    style.setAttribute('data-ui-focus', '');
+    style.textContent = [
+      'button:focus-visible,',
+      '[role="button"]:focus-visible,',
+      'input:focus-visible,',
+      'select:focus-visible,',
+      'textarea:focus-visible,',
+      'a[href]:focus-visible,',
+      '[tabindex]:not([tabindex="-1"]):focus-visible {',
+      '  outline: var(--focus-ring-width) solid var(--focus-ring-color);',
+      '  outline-offset: var(--focus-ring-offset);',
+      '}',
+    ].join('\n');
+    document.head.appendChild(style);
+    focusStyleRef.current = style;
+    return () => {
+      if (focusStyleRef.current) {
+        focusStyleRef.current.remove();
+        focusStyleRef.current = null;
+      }
+    };
+  }, []);
+
   // Apply tokens, injected CSS, and canvas background whenever resolved theme changes
   const styleElRef = useRef<HTMLStyleElement | null>(null);
   const bgContainerRef = useRef<HTMLDivElement | null>(null);

@@ -15,6 +15,7 @@ export const warmSandTheme: ThemeDefinition = {
 
     // Surfaces
     colorSurface: '#1c1917',
+    colorSurfacePanel: '#1c1917',
     colorSurfaceRaised: '#252220',
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.7)',
     colorSurfaceInput: '#201d1b',
@@ -66,5 +67,10 @@ export const warmSandTheme: ThemeDefinition = {
     fontSans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
     fontSerif: "'Lora', Georgia, 'Times New Roman', serif",
     fontMono: "'Fira Code', ui-monospace, monospace",
+
+    // Focus
+    focusRingColor: '#d4804f',
+    focusRingWidth: '2px',
+    focusRingOffset: '2px',
   },
 };

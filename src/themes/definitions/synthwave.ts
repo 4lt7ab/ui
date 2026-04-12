@@ -298,8 +298,9 @@ export const synthwaveTheme: ThemeDefinition = {
     colorTextPlaceholder: '#4a6a88',
     colorTextDisabled: '#3a5a78',
 
-    // Surfaces — transparent so canvas shows through
+    // Surfaces — base is transparent so canvas shows through layouts
     colorSurface: 'transparent',
+    colorSurfacePanel: '#0c081c',
     colorSurfaceRaised: 'rgba(12, 8, 28, 0.75)',
     colorSurfaceOverlay: 'rgba(6, 2, 15, 0.9)',
     colorSurfaceInput: 'rgba(14, 10, 32, 0.85)',
@@ -351,6 +352,11 @@ export const synthwaveTheme: ThemeDefinition = {
     fontSans: "'Inter', system-ui, -apple-system, sans-serif",
     fontSerif: "'Lora', Georgia, 'Times New Roman', serif",
     fontMono: "'Fira Code', ui-monospace, monospace",
+
+    // Focus
+    focusRingColor: '#ff2d95',
+    focusRingWidth: '2px',
+    focusRingOffset: '2px',
   },
 
   css: /* css */ `

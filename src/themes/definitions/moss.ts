@@ -15,6 +15,7 @@ export const mossTheme: ThemeDefinition = {
 
     // Surfaces
     colorSurface: '#141a14',
+    colorSurfacePanel: '#141a14',
     colorSurfaceRaised: '#1c231c',
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.7)',
     colorSurfaceInput: '#181f18',
@@ -66,5 +67,10 @@ export const mossTheme: ThemeDefinition = {
     fontSans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
     fontSerif: "'Lora', Georgia, 'Times New Roman', serif",
     fontMono: "'Fira Code', ui-monospace, monospace",
+
+    // Focus
+    focusRingColor: '#82c090',
+    focusRingWidth: '2px',
+    focusRingOffset: '2px',
   },
 };

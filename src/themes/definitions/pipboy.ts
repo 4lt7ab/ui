@@ -69,6 +69,7 @@ export const pipboyTheme: ThemeDefinition = {
     colorTextDisabled: '#1a4a1a',
 
     colorSurface: 'transparent',
+    colorSurfacePanel: '#0a0a0a',
     colorSurfaceRaised: 'rgba(10, 10, 10, 0.85)',
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.9)',
     colorSurfaceInput: 'rgba(13, 20, 13, 0.9)',
@@ -113,6 +114,11 @@ export const pipboyTheme: ThemeDefinition = {
     fontSans: "'Fira Code', 'Cascadia Code', 'JetBrains Mono', ui-monospace, monospace",
     fontSerif: "'Fira Code', 'Cascadia Code', 'JetBrains Mono', ui-monospace, monospace",
     fontMono: "'Fira Code', 'Cascadia Code', 'JetBrains Mono', ui-monospace, monospace",
+
+    // Focus
+    focusRingColor: '#33ff33',
+    focusRingWidth: '2px',
+    focusRingOffset: '2px',
   },
 
   css: /* css */ `

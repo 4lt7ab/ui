@@ -202,6 +202,7 @@ export const pacmanTheme: ThemeDefinition = {
     colorTextDisabled: '#333366',
 
     colorSurface: 'transparent',
+    colorSurfacePanel: '#000000',
     colorSurfaceRaised: 'rgba(0, 0, 0, 0.85)',
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.9)',
     colorSurfaceInput: 'rgba(10, 10, 42, 0.9)',
@@ -246,6 +247,11 @@ export const pacmanTheme: ThemeDefinition = {
     fontSans: "'Press Start 2P', monospace",
     fontSerif: "'Press Start 2P', monospace",
     fontMono: "'Press Start 2P', monospace",
+
+    // Focus
+    focusRingColor: '#ffff00',
+    focusRingWidth: '2px',
+    focusRingOffset: '2px',
   },
 
   css: /* css */ `

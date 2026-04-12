@@ -15,6 +15,7 @@ export const coralTheme: ThemeDefinition = {
 
     // Surfaces
     colorSurface: '#1f1714',
+    colorSurfacePanel: '#1f1714',
     colorSurfaceRaised: '#291f1b',
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.7)',
     colorSurfaceInput: '#241b17',
@@ -66,5 +67,10 @@ export const coralTheme: ThemeDefinition = {
     fontSans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
     fontSerif: "'Lora', Georgia, 'Times New Roman', serif",
     fontMono: "'Fira Code', ui-monospace, monospace",
+
+    // Focus
+    focusRingColor: '#f49878',
+    focusRingWidth: '2px',
+    focusRingOffset: '2px',
   },
 };

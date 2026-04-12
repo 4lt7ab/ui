@@ -18,10 +18,12 @@ export interface ThemeTokens {
 
   // Surfaces
   colorSurface: string;
+  colorSurfacePanel: string;
   colorSurfaceRaised: string;
   colorSurfaceOverlay: string;
   colorSurfaceInput: string;
   colorSurfaceDisabled: string;
+  colorSurfacePage: string;
 
   // Borders
   colorBorder: string;
@@ -65,10 +67,40 @@ export interface ThemeTokens {
   shadowMd: string;
   shadowLg: string;
 
-  // Typography
+  // Typography — font families
   fontSans: string;
   fontSerif: string;
   fontMono: string;
+
+  // Typography — font sizes
+  fontSizeXs: string;
+  fontSizeSm: string;
+  fontSizeBase: string;
+  fontSizeLg: string;
+  fontSizeXl: string;
+  fontSize2xl: string;
+  fontSize3xl: string;
+
+  // Typography — line heights
+  lineHeightTight: string;
+  lineHeightBase: string;
+  lineHeightRelaxed: string;
+
+  // Typography — font weights
+  fontWeightNormal: string;
+  fontWeightMedium: string;
+  fontWeightSemibold: string;
+  fontWeightBold: string;
+
+  // Typography — letter spacing
+  letterSpacingTight: string;
+  letterSpacingNormal: string;
+  letterSpacingWide: string;
+
+  // Focus
+  focusRingColor: string;
+  focusRingWidth: string;
+  focusRingOffset: string;
 }
 
 /** A named theme definition. */

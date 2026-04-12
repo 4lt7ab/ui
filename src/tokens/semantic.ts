@@ -18,10 +18,12 @@ export const semantic = {
 
   // Surfaces
   colorSurface: 'var(--color-surface)',
+  colorSurfacePanel: 'var(--color-surface-panel)',
   colorSurfaceRaised: 'var(--color-surface-raised)',
   colorSurfaceOverlay: 'var(--color-surface-overlay)',
   colorSurfaceInput: 'var(--color-surface-input)',
   colorSurfaceDisabled: 'var(--color-surface-disabled)',
+  colorSurfacePage: 'var(--color-surface-page)',
 
   // Borders
   colorBorder: 'var(--color-border)',
@@ -65,10 +67,40 @@ export const semantic = {
   shadowMd: 'var(--shadow-md)',
   shadowLg: 'var(--shadow-lg)',
 
-  // Typography
+  // Typography — font families
   fontSans: 'var(--font-sans)',
   fontSerif: 'var(--font-serif)',
   fontMono: 'var(--font-mono)',
+
+  // Typography — font sizes
+  fontSizeXs: 'var(--font-size-xs)',
+  fontSizeSm: 'var(--font-size-sm)',
+  fontSizeBase: 'var(--font-size-base)',
+  fontSizeLg: 'var(--font-size-lg)',
+  fontSizeXl: 'var(--font-size-xl)',
+  fontSize2xl: 'var(--font-size-2xl)',
+  fontSize3xl: 'var(--font-size-3xl)',
+
+  // Typography — line heights
+  lineHeightTight: 'var(--line-height-tight)',
+  lineHeightBase: 'var(--line-height-base)',
+  lineHeightRelaxed: 'var(--line-height-relaxed)',
+
+  // Typography — font weights
+  fontWeightNormal: 'var(--font-weight-normal)',
+  fontWeightMedium: 'var(--font-weight-medium)',
+  fontWeightSemibold: 'var(--font-weight-semibold)',
+  fontWeightBold: 'var(--font-weight-bold)',
+
+  // Typography — letter spacing
+  letterSpacingTight: 'var(--letter-spacing-tight)',
+  letterSpacingNormal: 'var(--letter-spacing-normal)',
+  letterSpacingWide: 'var(--letter-spacing-wide)',
+
+  // Focus
+  focusRingColor: 'var(--focus-ring-color)',
+  focusRingWidth: 'var(--focus-ring-width)',
+  focusRingOffset: 'var(--focus-ring-offset)',
 } as const;
 
 export type SemanticTokens = typeof semantic;

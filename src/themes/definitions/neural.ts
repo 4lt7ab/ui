@@ -142,6 +142,7 @@ export const neuralTheme: ThemeDefinition = {
     colorTextDisabled: '#3a4a5a',
 
     colorSurface: 'transparent',
+    colorSurfacePanel: '#0a0a1a',
     colorSurfaceRaised: 'rgba(10, 10, 26, 0.85)',
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.9)',
     colorSurfaceInput: 'rgba(14, 14, 34, 0.9)',
@@ -186,6 +187,11 @@ export const neuralTheme: ThemeDefinition = {
     fontSans: "'Inter', system-ui, -apple-system, sans-serif",
     fontSerif: "'Space Grotesk', system-ui, sans-serif",
     fontMono: "'Fira Code', ui-monospace, monospace",
+
+    // Focus
+    focusRingColor: '#38bdf8',
+    focusRingWidth: '2px',
+    focusRingOffset: '2px',
   },
 
   css: /* css */ `
