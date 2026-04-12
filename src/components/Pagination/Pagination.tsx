@@ -3,19 +3,35 @@ import { semantic as t } from '../../tokens/semantic';
 import { Button } from '../Button';
 import type { CSSProperties } from 'react';
 
+/** Customizable text labels for the Pagination component. */
 export interface PaginationLabels {
+  /** Label for the previous button.
+   * @default 'Previous'
+   */
   previous?: string;
+  /** Label for the next button.
+   * @default 'Next'
+   */
   next?: string;
+  /** Formatter for the "Page X of Y" text. */
   pageOf?: (page: number, total: number) => string;
 }
 
+/** Previous/Next pagination controls with page indicator. */
 export interface PaginationProps {
+  /** Current page number (1-based). */
   page: number;
+  /** Total number of pages. */
   totalPages: number;
+  /** Total number of items across all pages (shown in the indicator text). */
   total: number;
+  /** Called when the user navigates to a different page. */
   onPageChange: (page: number) => void;
+  /** Custom text labels for buttons and page indicator. */
   labels?: PaginationLabels;
+  /** CSS class name for the wrapper. */
   className?: string;
+  /** Additional inline styles for the wrapper. */
   style?: CSSProperties;
 }
 

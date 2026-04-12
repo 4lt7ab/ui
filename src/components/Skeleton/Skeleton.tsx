@@ -2,10 +2,21 @@ import { forwardRef } from 'react';
 import { semantic as t } from '../../tokens/semantic';
 import type { CSSProperties } from 'react';
 
+/** A placeholder loading shape. Renders a static block with the raised surface color. */
 export interface SkeletonProps {
+  /** Width of the skeleton. Numbers are treated as pixels.
+   * @default '100%'
+   */
   width?: string | number;
+  /** Height of the skeleton. Numbers are treated as pixels.
+   * @default 16
+   */
   height?: string | number;
+  /** Border radius CSS value.
+   * @default radiusMd token
+   */
   borderRadius?: string;
+  /** Additional inline styles. */
   style?: CSSProperties;
 }
 

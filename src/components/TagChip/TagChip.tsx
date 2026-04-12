@@ -3,9 +3,13 @@ import { semantic as t } from '../../tokens/semantic';
 import { IconButton } from '../IconButton';
 import type { CSSProperties } from 'react';
 
+/** A small pill-shaped tag with an optional remove button. */
 export interface TagChipProps {
+  /** Tag display text. */
   name: string;
+  /** When provided, renders a close button that calls this handler on click. */
   onRemove?: () => void;
+  /** Additional inline styles. */
   style?: CSSProperties;
 }
 

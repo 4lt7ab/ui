@@ -2,8 +2,10 @@ import { forwardRef } from 'react';
 import { semantic as t } from '../../tokens/semantic';
 import type { CSSProperties } from 'react';
 
+/** Semantic color variant for the status dot. */
 export type StatusDotVariant = 'default' | 'success' | 'warning' | 'error' | 'info';
 
+/** A small colored circle indicating status. */
 export interface StatusDotProps {
   /** Semantic variant — maps to feedback tokens. */
   variant?: StatusDotVariant;

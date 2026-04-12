@@ -2,17 +2,27 @@ import { forwardRef } from 'react';
 import { semantic as t } from '../../tokens/semantic';
 import type { CSSProperties } from 'react';
 
+/** A single segment in a multi-part progress bar. */
 export interface ProgressBarSegment {
+  /** Numeric value for this segment. Width is proportional to value / total. */
   value: number;
+  /** Segment fill color (CSS color string or semantic token). */
   color: string;
+  /** Optional label shown in the segment's title tooltip. */
   label?: string;
 }
 
+/** A horizontal segmented progress bar. Each segment's width is proportional to its value relative to the total. */
 export interface ProgressBarProps {
+  /** One or more segments to display. */
   segments: ProgressBarSegment[];
+  /** Bar height in pixels.
+   * @default 6
+   */
   height?: number;
   /** Accessible label for screen readers. */
   'aria-label'?: string;
+  /** Additional inline styles for the track container. */
   style?: CSSProperties;
 }
 

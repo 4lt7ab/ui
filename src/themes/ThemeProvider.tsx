@@ -56,13 +56,19 @@ function stripBodyBackground(css: string): string {
 
 let _applyPageStylesWarned = false;
 
+/** Provides theme context to all descendant components. Applies CSS custom properties to the document root and persists the user's theme preference to localStorage. */
 export interface ThemeProviderProps {
+  /** Application content. All children can access the active theme via `useTheme()`. */
   children: ReactNode;
-  /** Additional themes beyond the built-ins. */
+  /** Additional theme definitions beyond the built-in set. */
   themes?: ThemeDefinition[];
-  /** Default theme when no stored preference exists. */
+  /** Theme to use when no stored preference exists in localStorage.
+   * @default 'synthwave'
+   */
   defaultTheme?: Theme;
-  /** localStorage key for persisting preference. */
+  /** localStorage key for persisting the user's theme preference.
+   * @default 'ui-theme'
+   */
   storageKey?: string;
   /**
    * When true, applies body background-color from theme CSS and runs canvas

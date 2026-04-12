@@ -6,14 +6,23 @@ import { Card } from '../Card';
 import type { IconName } from '../../icons';
 import type { CSSProperties, ReactNode } from 'react';
 
+/** A placeholder shown when a section has no content. Displays an icon, message, and optional action. */
 export interface EmptyStateProps {
+  /** Icon displayed above the message. */
   icon: IconName;
+  /** Primary message text. */
   message: string;
+  /** Container variant.
+   * - `plain` — no card wrapper
+   * - `card` — wraps content in a flat Card
+   * @default 'plain'
+   */
   variant?: 'plain' | 'card';
+  /** Additional inline styles. */
   style?: CSSProperties;
   /** Additional content rendered below the message. */
   children?: ReactNode;
-  /** Action slot (e.g. a CTA button) rendered below message and children. */
+  /** Action slot (e.g. a CTA button) rendered below the message and children. */
   action?: ReactNode;
 }
 

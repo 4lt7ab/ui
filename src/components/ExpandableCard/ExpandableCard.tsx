@@ -4,14 +4,27 @@ import { IconChevronRight } from '../../icons/icons';
 import type { CardVariant } from '../Card';
 import { forwardRef, useState, useId, type CSSProperties, type ReactNode } from 'react';
 
+/** A Card with a collapsible body. Supports both controlled and uncontrolled open state. */
 export interface ExpandableCardProps {
+  /** Header text shown alongside the chevron toggle. */
   title: string;
+  /** Collapsible body content. */
   children: ReactNode;
+  /** Initial open state when uncontrolled.
+   * @default false
+   */
   defaultOpen?: boolean;
+  /** Controlled open state. When provided, the component is fully controlled. */
   open?: boolean;
+  /** Called when the open state changes. Receives the next open value. */
   onToggle?: (open: boolean) => void;
+  /** Card surface variant passed to the underlying Card.
+   * @default 'default'
+   */
   variant?: CardVariant;
+  /** Additional inline styles for the Card wrapper. */
   style?: CSSProperties;
+  /** Content rendered in the header row to the right of the title (e.g. action buttons). */
   headerAction?: ReactNode;
 }
 

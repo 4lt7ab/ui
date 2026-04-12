@@ -20,13 +20,22 @@ const spaceMap: Record<SpacingToken, string> = {
 // Table (root wrapper + <table>)
 // ---------------------------------------------------------------------------
 
+/** Visual treatment for the table wrapper. */
 export type TableVariant = 'default' | 'flat';
 
+/** Root table wrapper. Provides overflow scrolling, border, and shadow. */
 export interface TableProps extends HTMLAttributes<HTMLDivElement> {
-  /** Visual treatment. Default wraps with border + shadow; flat has no chrome. */
+  /** Visual treatment for the outer wrapper.
+   * - `default` — border, rounded corners, and small shadow
+   * - `flat` — no wrapper chrome
+   * @default 'default'
+   */
   variant?: TableVariant;
-  /** Cell density. Default: 'md' */
+  /** Cell padding density.
+   * @default 'md'
+   */
   density?: SpacingToken;
+  /** Table content (TableHeader, TableBody, etc.). */
   children: ReactNode;
 }
 
@@ -103,7 +112,9 @@ export const Table: React.ForwardRefExoticComponent<Omit<TableProps, 'ref'> & Re
 // Header (<thead> + row)
 // ---------------------------------------------------------------------------
 
+/** Table header section. Renders a `<thead>` with a single `<tr>` wrapping the children. */
 export interface TableHeaderProps extends HTMLAttributes<HTMLTableSectionElement> {
+  /** TableHeaderCell elements. */
   children: ReactNode;
 }
 
@@ -121,11 +132,15 @@ export const TableHeader: React.ForwardRefExoticComponent<Omit<TableHeaderProps,
 // HeaderCell (<th>)
 // ---------------------------------------------------------------------------
 
+/** A single column header cell (`<th>`). Renders uppercase, muted, semibold text. */
 export interface TableHeaderCellProps extends ThHTMLAttributes<HTMLTableCellElement> {
-  /** Text alignment. Default: 'left' */
+  /** Text alignment.
+   * @default 'left'
+   */
   align?: 'left' | 'center' | 'right';
-  /** Fixed width in px or CSS string */
+  /** Fixed column width. Numbers are treated as pixels; strings are used as-is. */
   width?: number | string;
+  /** Header label. */
   children?: ReactNode;
 }
 
@@ -165,7 +180,9 @@ export const TableHeaderCell: React.ForwardRefExoticComponent<Omit<TableHeaderCe
 // Body (<tbody>)
 // ---------------------------------------------------------------------------
 
+/** Table body section (`<tbody>`). Wraps TableRow elements. */
 export interface TableBodyProps extends HTMLAttributes<HTMLTableSectionElement> {
+  /** TableRow elements. */
   children: ReactNode;
 }
 
@@ -179,11 +196,17 @@ export const TableBody: React.ForwardRefExoticComponent<Omit<TableBodyProps, 're
 // Row (<tr>)
 // ---------------------------------------------------------------------------
 
+/** A table row (`<tr>`). Supports selection highlighting and hover effects. When `onClick` is provided, the row becomes focusable and responds to Enter/Space. */
 export interface TableRowProps extends HTMLAttributes<HTMLTableRowElement> {
-  /** Highlight as selected */
+  /** Highlights the row with a raised background and a left accent border.
+   * @default false
+   */
   selected?: boolean;
-  /** Enable hover background */
+  /** Enables a hover background color change.
+   * @default false
+   */
   hoverable?: boolean;
+  /** TableCell elements. */
   children: ReactNode;
 }
 
@@ -233,15 +256,23 @@ export const TableRow: React.ForwardRefExoticComponent<Omit<TableRowProps, 'ref'
 // Cell (<td>)
 // ---------------------------------------------------------------------------
 
+/** A table data cell (`<td>`). */
 export interface TableCellProps extends TdHTMLAttributes<HTMLTableCellElement> {
-  /** Text alignment. Default: 'left' */
+  /** Text alignment.
+   * @default 'left'
+   */
   align?: 'left' | 'center' | 'right';
-  /** Truncate overflowing text with ellipsis */
+  /** Truncates overflowing text with an ellipsis. Requires a fixed `width` to take effect.
+   * @default false
+   */
   truncate?: boolean;
-  /** Use muted text color */
+  /** Renders the cell text in a muted color.
+   * @default false
+   */
   muted?: boolean;
-  /** Fixed width in px or CSS string */
+  /** Fixed column width. Numbers are treated as pixels; strings are used as-is. */
   width?: number | string;
+  /** Cell content. */
   children?: ReactNode;
 }
 
@@ -287,9 +318,11 @@ export const TableCell: React.ForwardRefExoticComponent<Omit<TableCellProps, 're
 // GroupHeader (full-width subheading row)
 // ---------------------------------------------------------------------------
 
+/** A full-width subheading row for grouping table rows under a shared label. */
 export interface TableGroupHeaderProps extends HTMLAttributes<HTMLTableRowElement> {
-  /** Number of columns to span */
+  /** Number of columns the header should span. */
   colSpan: number;
+  /** Group label text. */
   children: ReactNode;
 }
 
@@ -329,9 +362,11 @@ export const TableGroupHeader: React.ForwardRefExoticComponent<Omit<TableGroupHe
 // EmptyRow (centered message spanning all columns)
 // ---------------------------------------------------------------------------
 
+/** A centered message row displayed when the table has no data. */
 export interface TableEmptyRowProps extends HTMLAttributes<HTMLTableRowElement> {
-  /** Number of columns to span */
+  /** Number of columns the message should span. */
   colSpan: number;
+  /** Empty state message content. */
   children: ReactNode;
 }
 

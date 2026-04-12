@@ -2,9 +2,15 @@ import { forwardRef } from 'react';
 import { semantic as t } from '../../tokens/semantic';
 import type { CSSProperties } from 'react';
 
+/** A full-screen semi-transparent backdrop. Used behind modals and drawers. */
 export interface OverlayProps {
+  /** Called when the overlay is clicked (typically to close the parent modal). */
   onClick?: () => void;
+  /** CSS z-index for stacking control.
+   * @default 100
+   */
   zIndex?: number;
+  /** Additional inline styles. */
   style?: CSSProperties;
 }
 
