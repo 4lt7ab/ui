@@ -1,8 +1,30 @@
 {
-  "name": "@4lt7ab/monorepo",
+  "name": "@4lt7ab/ui",
   "private": true,
   "version": "0.2.2",
   "type": "module",
+  "exports": {
+    "./core": {
+      "import": "./packages/core/dist/index.js",
+      "require": "./packages/core/dist/index.cjs",
+      "types": "./packages/core/dist/index.d.ts"
+    },
+    "./ui": {
+      "import": "./packages/ui/dist/index.js",
+      "require": "./packages/ui/dist/index.cjs",
+      "types": "./packages/ui/dist/index.d.ts"
+    },
+    "./content": {
+      "import": "./packages/content/dist/index.js",
+      "require": "./packages/content/dist/index.cjs",
+      "types": "./packages/content/dist/index.d.ts"
+    },
+    "./animations": {
+      "import": "./packages/animations/dist/index.js",
+      "require": "./packages/animations/dist/index.cjs",
+      "types": "./packages/animations/dist/index.d.ts"
+    }
+  },
   "workspaces": [
     "packages/*"
   ],

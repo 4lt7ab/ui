@@ -20,8 +20,8 @@ Peer dependencies: `@4lt7ab/core`, `react`, `react-dom` ^19.0.0.
 Drop-in component that renders the correct canvas animation for the active theme. Place it inside a `ThemeProvider` and it handles everything — theme switches, cleanup, resize.
 
 ```tsx
-import { ThemeProvider } from '@4lt7ab/core';
-import { ThemeBackground } from '@4lt7ab/animations';
+import { ThemeProvider } from '@4lt7ab/ui/core';
+import { ThemeBackground } from '@4lt7ab/ui/animations';
 
 function App() {
   return (
@@ -55,7 +55,7 @@ Themes without a registered background (`slate`, `warm-sand`, `moss`, `coral`) r
 For full control, use the background functions directly with your own canvas:
 
 ```tsx
-import { synthwaveBackground } from '@4lt7ab/animations';
+import { synthwaveBackground } from '@4lt7ab/ui/animations';
 
 const canvas = document.getElementById('my-canvas') as HTMLCanvasElement;
 const cleanup = synthwaveBackground(canvas);
@@ -86,9 +86,9 @@ Pass a canvas element, get back a cleanup function that stops the animation and 
 `ThemeSurface` from `@4lt7ab/ui` provides a themed container that sits above the canvas animation:
 
 ```tsx
-import { ThemeProvider } from '@4lt7ab/core';
-import { ThemeSurface } from '@4lt7ab/ui';
-import { ThemeBackground } from '@4lt7ab/animations';
+import { ThemeProvider } from '@4lt7ab/ui/core';
+import { ThemeSurface } from '@4lt7ab/ui/ui';
+import { ThemeBackground } from '@4lt7ab/ui/animations';
 
 function App() {
   return (

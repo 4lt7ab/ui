@@ -15,37 +15,28 @@ A React component library distributed as four packages built on a shared theme p
 
 ## Install
 
-Packages are distributed as git dependencies. Add the ones you need to your `package.json`:
+Distributed as a single git dependency with subpath exports:
 
 ```json
 {
   "dependencies": {
-    "@4lt7ab/core": "github:4lt7ab/ui#v0.2.0",
-    "@4lt7ab/ui": "github:4lt7ab/ui#v0.2.0",
-    "@4lt7ab/content": "github:4lt7ab/ui#v0.2.0",
-    "@4lt7ab/animations": "github:4lt7ab/ui#v0.2.0"
+    "@4lt7ab/ui": "github:4lt7ab/ui#v0.2.2"
   }
 }
 ```
 
-Install only what you need. `@4lt7ab/core` is always required:
-
-```bash
-# Just interactive components
-@4lt7ab/core + @4lt7ab/ui
-
-# Just content/prose
-@4lt7ab/core + @4lt7ab/content
-
-# Everything
-@4lt7ab/core + @4lt7ab/ui + @4lt7ab/content + @4lt7ab/animations
-```
-
-Then install:
-
 ```bash
 bun install
 # or: npm install, yarn install, pnpm install
+```
+
+Import from the subpath you need:
+
+```ts
+import { ThemeProvider, useTheme } from '@4lt7ab/ui/core';
+import { Button, Card } from '@4lt7ab/ui/ui';
+import { Prose, Container } from '@4lt7ab/ui/content';
+import { ThemeBackground } from '@4lt7ab/ui/animations';
 ```
 
 **Peer dependencies:** `react` and `react-dom` ^19.0.0. You provide React — the library doesn't bundle it.
@@ -53,10 +44,10 @@ bun install
 ## Quick Start
 
 ```tsx
-import { ThemeProvider } from '@4lt7ab/core';
-import { Button, Card } from '@4lt7ab/ui';
-import { Prose, Container } from '@4lt7ab/content';
-import { ThemeBackground } from '@4lt7ab/animations';
+import { ThemeProvider } from '@4lt7ab/ui/core';
+import { Button, Card } from '@4lt7ab/ui/ui';
+import { Prose, Container } from '@4lt7ab/ui/content';
+import { ThemeBackground } from '@4lt7ab/ui/animations';
 
 function App() {
   return (
@@ -76,7 +67,7 @@ function App() {
 }
 ```
 
-Everything lives inside a `ThemeProvider` (from `@4lt7ab/core` or re-exported by `@4lt7ab/ui`). It injects CSS custom properties for the active theme, and all components read from those variables. Switch themes at runtime and every component updates automatically.
+Everything lives inside a `ThemeProvider` (from `@4lt7ab/ui/core` or re-exported by `@4lt7ab/ui/ui`). It injects CSS custom properties for the active theme, and all components read from those variables. Switch themes at runtime and every component updates automatically.
 
 ## Themes
 
@@ -98,7 +89,7 @@ Four themes have animated canvas backgrounds (`synthwave`, `pipboy`, `neural`, `
 ### Switching Themes
 
 ```tsx
-import { useTheme } from '@4lt7ab/core';
+import { useTheme } from '@4lt7ab/ui/core';
 
 function ThemeSwitcher() {
   const { theme, setTheme, themes } = useTheme();
@@ -116,7 +107,7 @@ function ThemeSwitcher() {
 Or drop in the built-in visual picker:
 
 ```tsx
-import { ThemePicker } from '@4lt7ab/ui';
+import { ThemePicker } from '@4lt7ab/ui/ui';
 
 <ThemePicker />
 ```
@@ -128,7 +119,7 @@ Theme selection persists to `localStorage` automatically.
 Components never use raw color values or pixel literals. Instead, they reference semantic tokens — CSS custom properties that resolve to the active theme's values.
 
 ```tsx
-import { semantic as t } from '@4lt7ab/core';
+import { semantic as t } from '@4lt7ab/ui/core';
 
 // These are var(--...) references, not hard-coded values
 t.colorBackground    // page background
@@ -146,7 +137,7 @@ Use these tokens when building custom components that should stay consistent wit
 The library uses git tags for versioning. To update, change the tag in your `package.json` and re-install:
 
 ```json
-"@4lt7ab/core": "github:4lt7ab/ui#v0.2.0"
+"@4lt7ab/ui": "github:4lt7ab/ui#v0.2.2"
 ```
 
 ### Release Process (for contributors)

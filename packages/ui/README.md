@@ -22,8 +22,8 @@ Peer dependencies: `@4lt7ab/core`, `react`, `react-dom` ^19.0.0.
 Wrap your app in `ThemeProvider` (from `@4lt7ab/core` or `@4lt7ab/ui`):
 
 ```tsx
-import { ThemeProvider } from '@4lt7ab/core';
-import { Button } from '@4lt7ab/ui';
+import { ThemeProvider } from '@4lt7ab/ui/core';
+import { Button } from '@4lt7ab/ui/ui';
 
 function App() {
   return (
@@ -513,7 +513,7 @@ Themed container that applies background and border tokens. Use it to layer cont
 25 built-in icons, usable as named components or dynamically via the `Icon` component:
 
 ```tsx
-import { IconSearch, IconCheck, Icon } from '@4lt7ab/ui';
+import { IconSearch, IconCheck, Icon } from '@4lt7ab/ui/ui';
 
 <IconSearch />
 <Icon name="search" size={20} />
@@ -532,7 +532,7 @@ These are re-exported from `@4lt7ab/core`. See the [core README](../core/README.
 CSS custom property references that resolve to the active theme. Use these for custom components:
 
 ```tsx
-import { semantic as t } from '@4lt7ab/core'; // or from '@4lt7ab/ui'
+import { semantic as t } from '@4lt7ab/ui/core'; // or from '@4lt7ab/ui/ui'
 
 const style = {
   background: t.colorSurfaceRaised,
@@ -545,7 +545,7 @@ const style = {
 ### Typography
 
 ```tsx
-import { typography } from '@4lt7ab/core'; // or from '@4lt7ab/ui'
+import { typography } from '@4lt7ab/ui/core'; // or from '@4lt7ab/ui/ui'
 
 typography.fontSans   // sans-serif font-family
 typography.fontSerif  // serif font-family

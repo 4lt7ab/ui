@@ -181,13 +181,19 @@ When adding a theme: add it to the built-in themes list in both the root README 
 
 ## Distribution
 
-Git dependency via tags. The monorepo is a single repo with four packages. Consumers add:
+Single git dependency with subpath exports. Consumers add:
 
 ```json
-"@4lt7ab/core": "github:4lt7ab/ui#v0.2.0",
-"@4lt7ab/ui": "github:4lt7ab/ui#v0.2.0",
-"@4lt7ab/content": "github:4lt7ab/ui#v0.2.0",
-"@4lt7ab/animations": "github:4lt7ab/ui#v0.2.0"
+"@4lt7ab/ui": "github:4lt7ab/ui#v0.2.2"
 ```
 
-`dist/` directories are committed to git. Tag after building.
+Import via subpaths:
+
+```ts
+import { ThemeProvider } from '@4lt7ab/ui/core';
+import { Button } from '@4lt7ab/ui/ui';
+import { Prose } from '@4lt7ab/ui/content';
+import { ThemeBackground } from '@4lt7ab/ui/animations';
+```
+
+The root `package.json` has an `exports` map that routes subpaths to `packages/*/dist/`. `dist/` directories are committed to git. Tag after building.

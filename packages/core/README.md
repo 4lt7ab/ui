@@ -19,7 +19,7 @@ Peer dependencies: `react` and `react-dom` ^19.0.0.
 Wrap your app in `ThemeProvider`:
 
 ```tsx
-import { ThemeProvider } from '@4lt7ab/core';
+import { ThemeProvider } from '@4lt7ab/ui/core';
 
 function App() {
   return (
@@ -39,7 +39,7 @@ The selected theme persists to `localStorage` automatically.
 Access the current theme and switch themes at runtime:
 
 ```tsx
-import { useTheme } from '@4lt7ab/core';
+import { useTheme } from '@4lt7ab/ui/core';
 
 function ThemeSwitcher() {
   const { theme, setTheme, themes } = useTheme();
@@ -63,7 +63,7 @@ function ThemeSwitcher() {
 CSS custom property references that resolve to the active theme. Use these when building components:
 
 ```tsx
-import { semantic as t } from '@4lt7ab/core';
+import { semantic as t } from '@4lt7ab/ui/core';
 
 const style = {
   background: t.colorSurface,       // card/panel background
@@ -79,7 +79,7 @@ These are `var(--...)` references, not hard-coded values. They resolve at runtim
 ### Typography
 
 ```tsx
-import { typography } from '@4lt7ab/core';
+import { typography } from '@4lt7ab/ui/core';
 
 typography.fontSans   // sans-serif font-family
 typography.fontSerif  // serif font-family
@@ -110,7 +110,7 @@ Eight themes are included:
 Create a theme by implementing the `ThemeDefinition` type:
 
 ```tsx
-import type { ThemeDefinition } from '@4lt7ab/core';
+import type { ThemeDefinition } from '@4lt7ab/ui/core';
 
 const myTheme: ThemeDefinition = {
   name: 'my-theme',
@@ -145,7 +145,7 @@ See the built-in theme definitions in `src/themes/definitions/` for complete exa
 Singleton style injection hook for CSS that requires pseudo-elements, hover states, or other features that can't be expressed with inline styles:
 
 ```tsx
-import { useInjectStyles } from '@4lt7ab/core';
+import { useInjectStyles } from '@4lt7ab/ui/core';
 
 function MyComponent() {
   useInjectStyles('my-component', `

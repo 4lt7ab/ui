@@ -20,8 +20,8 @@ Peer dependencies: `@4lt7ab/core`, `react`, `react-dom` ^19.0.0.
 ## Setup
 
 ```tsx
-import { ThemeProvider } from '@4lt7ab/core';
-import { Container, Prose } from '@4lt7ab/content';
+import { ThemeProvider } from '@4lt7ab/ui/core';
+import { Container, Prose } from '@4lt7ab/ui/content';
 
 function BlogPost() {
   return (
