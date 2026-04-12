@@ -8,11 +8,8 @@ import { Stack } from '../../src';
 export function BlogPost(): React.JSX.Element {
   return (
     <div style={{
-      border: '1px solid var(--color-border)',
       borderRadius: 'var(--radius-lg)',
       overflow: 'hidden',
-      maxHeight: '700px',
-      overflowY: 'auto',
     }}>
       <Container style={{ paddingBlock: '2rem' }}>
         <Epigraph cite="— Frank Chimero, The Shape of Design">
