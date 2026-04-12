@@ -25,7 +25,7 @@ export function PageShell({
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        background: t.colorSurface,
+        background: t.colorSurfacePage,
         fontFamily: t.fontSans,
         color: t.colorText,
         position: 'relative',

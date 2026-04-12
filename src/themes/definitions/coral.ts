@@ -19,6 +19,7 @@ export const coralTheme: ThemeDefinition = {
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.7)',
     colorSurfaceInput: '#241b17',
     colorSurfaceDisabled: '#3a2820',
+    colorSurfacePage: '#1f1714',
 
     // Borders
     colorBorder: '#3a2820',

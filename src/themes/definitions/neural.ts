@@ -146,6 +146,7 @@ export const neuralTheme: ThemeDefinition = {
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.9)',
     colorSurfaceInput: 'rgba(14, 14, 34, 0.9)',
     colorSurfaceDisabled: 'rgba(26, 26, 58, 0.8)',
+    colorSurfacePage: '#0a0a1a',
 
     colorBorder: '#1a1a3a',
     colorBorderFocused: '#38bdf8',

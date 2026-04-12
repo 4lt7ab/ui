@@ -206,6 +206,7 @@ export const pacmanTheme: ThemeDefinition = {
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.9)',
     colorSurfaceInput: 'rgba(10, 10, 42, 0.9)',
     colorSurfaceDisabled: 'rgba(26, 26, 74, 0.8)',
+    colorSurfacePage: '#000000',
 
     colorBorder: '#1a1a4a',
     colorBorderFocused: '#ffff00',

@@ -73,6 +73,7 @@ export const pipboyTheme: ThemeDefinition = {
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.9)',
     colorSurfaceInput: 'rgba(13, 20, 13, 0.9)',
     colorSurfaceDisabled: 'rgba(26, 46, 26, 0.8)',
+    colorSurfacePage: '#0a0a0a',
 
     colorBorder: '#1a2e1a',
     colorBorderFocused: '#ffb347',

@@ -19,6 +19,7 @@ export const mossTheme: ThemeDefinition = {
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.7)',
     colorSurfaceInput: '#181f18',
     colorSurfaceDisabled: '#243024',
+    colorSurfacePage: '#141a14',
 
     // Borders
     colorBorder: '#243024',

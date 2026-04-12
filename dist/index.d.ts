@@ -148,6 +148,7 @@ declare const semantic: {
 	readonly colorSurfaceOverlay: "var(--color-surface-overlay)";
 	readonly colorSurfaceInput: "var(--color-surface-input)";
 	readonly colorSurfaceDisabled: "var(--color-surface-disabled)";
+	readonly colorSurfacePage: "var(--color-surface-page)";
 	readonly colorBorder: "var(--color-border)";
 	readonly colorBorderFocused: "var(--color-border-focused)";
 	readonly colorBorderError: "var(--color-border-error)";
@@ -204,6 +205,7 @@ interface ThemeTokens {
 	colorSurfaceOverlay: string;
 	colorSurfaceInput: string;
 	colorSurfaceDisabled: string;
+	colorSurfacePage: string;
 	colorBorder: string;
 	colorBorderFocused: string;
 	colorBorderError: string;
@@ -283,8 +285,16 @@ interface ThemeProviderProps {
 	defaultTheme?: Theme;
 	/** localStorage key for persisting preference. */
 	storageKey?: string;
+	/**
+	* When true, applies body background-color from theme CSS and runs canvas
+	* background animations. When false, only token CSS variables are applied.
+	* Defaults to true for backward compatibility.
+	*
+	* @default true
+	*/
+	applyPageStyles?: boolean;
 }
-declare function ThemeProvider({ children, themes: extraThemes, defaultTheme, storageKey }: ThemeProviderProps): React.JSX.Element;
+declare function ThemeProvider({ children, themes: extraThemes, defaultTheme, storageKey, applyPageStyles }: ThemeProviderProps): React.JSX.Element;
 declare function useTheme(): ThemeContextValue;
 declare const synthwaveTheme: ThemeDefinition;
 declare const slateTheme: ThemeDefinition;
@@ -303,11 +313,11 @@ interface ThemePickerProps {
 * Must be rendered inside a <ThemeProvider>.
 */
 declare function ThemePicker({ descriptions }: ThemePickerProps): React.JSX.Element;
+import { CSSProperties as CSSProperties3 } from "react";
 import { CSSProperties as CSSProperties2 } from "react";
-import { CSSProperties } from "react";
 interface IconComponentProps {
 	size?: number;
-	style?: CSSProperties;
+	style?: CSSProperties2;
 }
 declare function IconClose({ size, style }?: IconComponentProps): React.JSX.Element;
 declare function IconChevronRight({ size, style }?: IconComponentProps): React.JSX.Element;
@@ -337,7 +347,7 @@ declare function IconFilter({ size, style }?: IconComponentProps): React.JSX.Ele
 type IconName = "close" | "chevron-right" | "chevron-down" | "chevron-left" | "chevron-up" | "check" | "check-circle" | "warning" | "error" | "info" | "search" | "trash" | "settings" | "plus" | "minus" | "edit" | "arrow-left" | "arrow-right" | "menu" | "eye" | "eye-off" | "copy" | "external-link" | "more-vertical" | "filter";
 declare const iconRegistry: Record<IconName, (props: {
 	size?: number;
-	style?: CSSProperties2;
+	style?: CSSProperties3;
 }) => React.JSX.Element>;
 import { ButtonHTMLAttributes, ReactNode as ReactNode2 } from "react";
 type ButtonVariant = "primary" | "secondary" | "destructive" | "ghost";
@@ -348,7 +358,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	children: ReactNode2;
 }
 declare function Button({ variant, size, children, style, disabled,...props }: ButtonProps): React.JSX.Element;
-import { CSSProperties as CSSProperties3, HTMLAttributes, ReactNode as ReactNode3 } from "react";
+import { CSSProperties as CSSProperties4, HTMLAttributes, ReactNode as ReactNode3 } from "react";
 type SpacingToken = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 interface StackProps extends HTMLAttributes<HTMLDivElement> {
 	/** Stack direction. Default: 'vertical' */
@@ -356,9 +366,9 @@ interface StackProps extends HTMLAttributes<HTMLDivElement> {
 	/** Gap between children. Default: 'md' */
 	gap?: SpacingToken;
 	/** Cross-axis alignment. */
-	align?: CSSProperties3["alignItems"];
+	align?: CSSProperties4["alignItems"];
 	/** Main-axis alignment. */
-	justify?: CSSProperties3["justifyContent"];
+	justify?: CSSProperties4["justifyContent"];
 	/** Whether children should wrap. */
 	wrap?: boolean;
 	children: ReactNode3;
@@ -418,12 +428,12 @@ interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "chi
 	hasError?: boolean;
 }
 declare function Select({ options, placeholder, hasError, disabled, style,...props }: SelectProps): React.JSX.Element;
-import { CSSProperties as CSSProperties4, ReactNode as ReactNode6 } from "react";
+import { CSSProperties as CSSProperties5, ReactNode as ReactNode6 } from "react";
 type BadgeVariant = "default" | "success" | "warning" | "error" | "info";
 interface BadgeProps {
 	children: ReactNode6;
 	variant?: BadgeVariant;
-	style?: CSSProperties4;
+	style?: CSSProperties5;
 }
 declare function Badge({ children, variant, style }: BadgeProps): React.JSX.Element;
 import { HTMLAttributes as HTMLAttributes4 } from "react";
@@ -439,28 +449,28 @@ interface IconButtonProps extends ButtonHTMLAttributes2<HTMLButtonElement> {
 	badge?: boolean;
 }
 declare function IconButton({ icon, size, badge, style,...props }: IconButtonProps): React.JSX.Element;
-import { CSSProperties as CSSProperties5 } from "react";
+import { CSSProperties as CSSProperties6 } from "react";
 interface OverlayProps {
 	onClick?: () => void;
 	zIndex?: number;
-	style?: CSSProperties5;
+	style?: CSSProperties6;
 }
 declare function Overlay({ onClick, zIndex, style }: OverlayProps): React.JSX.Element;
-import { CSSProperties as CSSProperties6 } from "react";
+import { CSSProperties as CSSProperties7 } from "react";
 interface SkeletonProps {
 	width?: string | number;
 	height?: string | number;
 	borderRadius?: string;
-	style?: CSSProperties6;
+	style?: CSSProperties7;
 }
 declare function Skeleton({ width, height, borderRadius, style }: SkeletonProps): React.JSX.Element;
 declare function CardSkeleton({ style }: {
-	style?: CSSProperties6;
+	style?: CSSProperties7;
 }): React.JSX.Element;
 declare function RowSkeleton({ style }: {
-	style?: CSSProperties6;
+	style?: CSSProperties7;
 }): React.JSX.Element;
-import { CSSProperties as CSSProperties7 } from "react";
+import { CSSProperties as CSSProperties8 } from "react";
 interface ProgressBarSegment {
 	value: number;
 	color: string;
@@ -469,15 +479,15 @@ interface ProgressBarSegment {
 interface ProgressBarProps {
 	segments: ProgressBarSegment[];
 	height?: number;
-	style?: CSSProperties7;
+	style?: CSSProperties8;
 }
 declare function ProgressBar({ segments, height, style }: ProgressBarProps): React.JSX.Element;
-import { CSSProperties as CSSProperties8 } from "react";
+import { CSSProperties as CSSProperties9 } from "react";
 interface EmptyStateProps {
 	icon: IconName;
 	message: string;
 	variant?: "plain" | "card";
-	style?: CSSProperties8;
+	style?: CSSProperties9;
 }
 declare function EmptyState({ icon, message, variant, style }: EmptyStateProps): React.JSX.Element;
 interface PaginationProps {
@@ -487,22 +497,22 @@ interface PaginationProps {
 	onPageChange: (page: number) => void;
 }
 declare function Pagination({ page, totalPages, total, onPageChange }: PaginationProps): React.JSX.Element;
-import { CSSProperties as CSSProperties9, ReactNode as ReactNode7 } from "react";
+import { CSSProperties as CSSProperties10, ReactNode as ReactNode7 } from "react";
 interface PageHeaderProps {
 	title: string;
 	subtitle?: string;
 	trailing?: ReactNode7;
-	style?: CSSProperties9;
+	style?: CSSProperties10;
 }
 declare function PageHeader({ title, subtitle, trailing, style }: PageHeaderProps): React.JSX.Element;
-import { CSSProperties as CSSProperties10 } from "react";
+import { CSSProperties as CSSProperties11 } from "react";
 interface TagChipProps {
 	name: string;
 	onRemove?: () => void;
-	style?: CSSProperties10;
+	style?: CSSProperties11;
 }
 declare function TagChip({ name, onRemove, style }: TagChipProps): React.JSX.Element;
-import { CSSProperties as CSSProperties11, ReactNode as ReactNode8 } from "react";
+import { CSSProperties as CSSProperties12, ReactNode as ReactNode8 } from "react";
 interface ExpandableCardProps {
 	title: string;
 	children: ReactNode8;
@@ -510,17 +520,17 @@ interface ExpandableCardProps {
 	open?: boolean;
 	onToggle?: (open: boolean) => void;
 	variant?: CardVariant;
-	style?: CSSProperties11;
+	style?: CSSProperties12;
 	headerAction?: ReactNode8;
 }
 declare function ExpandableCard({ title, children, defaultOpen, open: controlledOpen, onToggle, variant, style, headerAction }: ExpandableCardProps): React.JSX.Element;
-import { CSSProperties as CSSProperties12, ReactNode as ReactNode9 } from "react";
+import { CSSProperties as CSSProperties13, ReactNode as ReactNode9 } from "react";
 interface ModalShellProps {
 	onClose: () => void;
 	children: ReactNode9;
 	maxWidth?: number;
 	zIndex?: number;
-	style?: CSSProperties12;
+	style?: CSSProperties13;
 }
 declare function ModalShell({ onClose, children, maxWidth, zIndex, style }: ModalShellProps): React.JSX.Element;
 interface ConfirmDialogProps {
@@ -531,7 +541,7 @@ interface ConfirmDialogProps {
 	onCancel: () => void;
 }
 declare function ConfirmDialog({ title, message, confirmLabel, onConfirm, onCancel }: ConfirmDialogProps): React.JSX.Element;
-import { CSSProperties as CSSProperties13 } from "react";
+import { CSSProperties as CSSProperties14 } from "react";
 type StatusDotVariant = "default" | "success" | "warning" | "error" | "info";
 interface StatusDotProps {
 	/** Semantic variant — maps to feedback tokens. */
@@ -542,10 +552,38 @@ interface StatusDotProps {
 	size?: number;
 	/** Accessible label describing the status. */
 	"aria-label"?: string;
-	style?: CSSProperties13;
+	style?: CSSProperties14;
 }
 declare function StatusDot({ variant, color, size, "aria-label": ariaLabel, style }: StatusDotProps): React.JSX.Element;
-import { HTMLAttributes as HTMLAttributes5, TdHTMLAttributes, ThHTMLAttributes, ReactNode as ReactNode10 } from "react";
+import { ReactNode as ReactNode10 } from "react";
+interface ThemeSurfaceProps {
+	children: ReactNode10;
+	/**
+	* When true, applies the page background to document.body and optionally
+	* creates a canvas animation. When false (default), renders a div with
+	* the page background color.
+	*
+	* @default false
+	*/
+	global?: boolean;
+	/**
+	* When global is true, enables the theme's canvas background animation.
+	* Respects prefers-reduced-motion and skips on screens narrower than 768px.
+	*
+	* @default true
+	*/
+	animated?: boolean;
+	/** Additional inline styles for the wrapper div (only used when global=false). */
+	style?: React.CSSProperties;
+}
+/**
+* Applies the theme's page background color.
+*
+* Use `global` to set the body background and optionally run canvas animations.
+* Without `global`, renders a styled div with the page background.
+*/
+declare function ThemeSurface({ children, global, animated, style }: ThemeSurfaceProps): React.JSX.Element;
+import { HTMLAttributes as HTMLAttributes5, TdHTMLAttributes, ThHTMLAttributes, ReactNode as ReactNode11 } from "react";
 type SpacingToken3 = "xs" | "sm" | "md" | "lg";
 type TableVariant = "default" | "flat";
 interface TableProps extends HTMLAttributes5<HTMLDivElement> {
@@ -553,11 +591,11 @@ interface TableProps extends HTMLAttributes5<HTMLDivElement> {
 	variant?: TableVariant;
 	/** Cell density. Default: 'md' */
 	density?: SpacingToken3;
-	children: ReactNode10;
+	children: ReactNode11;
 }
 declare function Table({ variant, density, children, style,...props }: TableProps): React.JSX.Element;
 interface TableHeaderProps extends HTMLAttributes5<HTMLTableSectionElement> {
-	children: ReactNode10;
+	children: ReactNode11;
 }
 declare function TableHeader({ children, style,...props }: TableHeaderProps): React.JSX.Element;
 interface TableHeaderCellProps extends ThHTMLAttributes<HTMLTableCellElement> {
@@ -565,11 +603,11 @@ interface TableHeaderCellProps extends ThHTMLAttributes<HTMLTableCellElement> {
 	align?: "left" | "center" | "right";
 	/** Fixed width in px or CSS string */
 	width?: number | string;
-	children?: ReactNode10;
+	children?: ReactNode11;
 }
 declare function TableHeaderCell({ align, width, children, style,...props }: TableHeaderCellProps): React.JSX.Element;
 interface TableBodyProps extends HTMLAttributes5<HTMLTableSectionElement> {
-	children: ReactNode10;
+	children: ReactNode11;
 }
 declare function TableBody({ children,...props }: TableBodyProps): React.JSX.Element;
 interface TableRowProps extends HTMLAttributes5<HTMLTableRowElement> {
@@ -577,7 +615,7 @@ interface TableRowProps extends HTMLAttributes5<HTMLTableRowElement> {
 	selected?: boolean;
 	/** Enable hover background */
 	hoverable?: boolean;
-	children: ReactNode10;
+	children: ReactNode11;
 }
 declare function TableRow({ selected, hoverable, children, style, onClick,...props }: TableRowProps): React.JSX.Element;
 interface TableCellProps extends TdHTMLAttributes<HTMLTableCellElement> {
@@ -589,19 +627,19 @@ interface TableCellProps extends TdHTMLAttributes<HTMLTableCellElement> {
 	muted?: boolean;
 	/** Fixed width in px or CSS string */
 	width?: number | string;
-	children?: ReactNode10;
+	children?: ReactNode11;
 }
 declare function TableCell({ align, truncate, muted, width, children, style,...props }: TableCellProps): React.JSX.Element;
 interface TableGroupHeaderProps extends HTMLAttributes5<HTMLTableRowElement> {
 	/** Number of columns to span */
 	colSpan: number;
-	children: ReactNode10;
+	children: ReactNode11;
 }
 declare function TableGroupHeader({ colSpan, children, style,...props }: TableGroupHeaderProps): React.JSX.Element;
 interface TableEmptyRowProps extends HTMLAttributes5<HTMLTableRowElement> {
 	/** Number of columns to span */
 	colSpan: number;
-	children: ReactNode10;
+	children: ReactNode11;
 }
 declare function TableEmptyRow({ colSpan, children, style,...props }: TableEmptyRowProps): React.JSX.Element;
-export { warmSandTheme, useTheme, typography, tokenToCssProperty, synthwaveTheme, spacing, slateTheme, shadows, semantic, radii, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, iconRegistry, coralTheme, colors, Typography, ThemeTokens, ThemeProviderProps, ThemeProvider, ThemePickerProps, ThemePicker, ThemeDefinition, ThemeContextValue, Theme, TextareaProps, Textarea, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDot, StackProps, Stack, Spacing, SkeletonProps, Skeleton, Shadows, SemanticTokens, SelectProps, SelectOption, Select, RowSkeleton, ResolvedTheme, Radii, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, ModalShellProps, ModalShell, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, FieldProps, Field, ExpandableCardProps, ExpandableCard, EmptyStateProps, EmptyState, ConfirmDialogProps, ConfirmDialog, Colors, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge };
+export { warmSandTheme, useTheme, typography, tokenToCssProperty, synthwaveTheme, spacing, slateTheme, shadows, semantic, radii, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, iconRegistry, coralTheme, colors, Typography, ThemeTokens, ThemeSurfaceProps, ThemeSurface, ThemeProviderProps, ThemeProvider, ThemePickerProps, ThemePicker, ThemeDefinition, ThemeContextValue, Theme, TextareaProps, Textarea, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDot, StackProps, Stack, Spacing, SkeletonProps, Skeleton, Shadows, SemanticTokens, SelectProps, SelectOption, Select, RowSkeleton, ResolvedTheme, Radii, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, ModalShellProps, ModalShell, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, FieldProps, Field, ExpandableCardProps, ExpandableCard, EmptyStateProps, EmptyState, ConfirmDialogProps, ConfirmDialog, Colors, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge };

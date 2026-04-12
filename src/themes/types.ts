@@ -22,6 +22,7 @@ export interface ThemeTokens {
   colorSurfaceOverlay: string;
   colorSurfaceInput: string;
   colorSurfaceDisabled: string;
+  colorSurfacePage: string;
 
   // Borders
   colorBorder: string;

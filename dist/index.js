@@ -16,6 +16,7 @@ export {
   iconRegistry,
   coralTheme,
   colors,
+  ThemeSurface,
   ThemeProvider,
   ThemePicker,
   Textarea,

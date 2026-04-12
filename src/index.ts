@@ -92,6 +92,9 @@ export type { ConfirmDialogProps } from './components/ConfirmDialog';
 export { StatusDot } from './components/StatusDot';
 export type { StatusDotProps, StatusDotVariant } from './components/StatusDot';
 
+export { ThemeSurface } from './components/ThemeSurface';
+export type { ThemeSurfaceProps } from './components/ThemeSurface';
+
 export {
   Table, TableHeader, TableHeaderCell, TableBody,
   TableRow, TableCell, TableGroupHeader, TableEmptyRow,

@@ -22,6 +22,7 @@ export const semantic = {
   colorSurfaceOverlay: 'var(--color-surface-overlay)',
   colorSurfaceInput: 'var(--color-surface-input)',
   colorSurfaceDisabled: 'var(--color-surface-disabled)',
+  colorSurfacePage: 'var(--color-surface-page)',
 
   // Borders
   colorBorder: 'var(--color-border)',

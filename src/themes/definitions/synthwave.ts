@@ -304,6 +304,7 @@ export const synthwaveTheme: ThemeDefinition = {
     colorSurfaceOverlay: 'rgba(6, 2, 15, 0.9)',
     colorSurfaceInput: 'rgba(14, 10, 32, 0.85)',
     colorSurfaceDisabled: 'rgba(22, 18, 48, 0.7)',
+    colorSurfacePage: '#06020f',
 
     // Borders — cyan glow
     colorBorder: '#00fff540',

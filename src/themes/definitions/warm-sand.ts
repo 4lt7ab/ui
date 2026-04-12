@@ -19,6 +19,7 @@ export const warmSandTheme: ThemeDefinition = {
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.7)',
     colorSurfaceInput: '#201d1b',
     colorSurfaceDisabled: '#2e2a27',
+    colorSurfacePage: '#1c1917',
 
     // Borders
     colorBorder: '#2e2a27',

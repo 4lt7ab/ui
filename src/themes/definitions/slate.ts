@@ -19,6 +19,7 @@ export const slateTheme: ThemeDefinition = {
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.7)',
     colorSurfaceInput: '#1e2229',
     colorSurfaceDisabled: '#2a2f38',
+    colorSurfacePage: '#1a1d24',
 
     // Borders
     colorBorder: '#2a2f38',

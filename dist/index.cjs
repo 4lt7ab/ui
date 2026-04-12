@@ -57,6 +57,7 @@ __export(exports_src, {
   iconRegistry: () => import_icons.iconRegistry,
   coralTheme: () => import_definitions.coralTheme,
   colors: () => import_tokens.colors,
+  ThemeSurface: () => import_ThemeSurface.ThemeSurface,
   ThemeProvider: () => import_ThemeProvider.ThemeProvider,
   ThemePicker: () => import_ThemePicker.ThemePicker,
   Textarea: () => import_Textarea.Textarea,
