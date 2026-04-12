@@ -1,2 +1,1 @@
-export { ThemePicker } from './ThemePicker';
-export type { ThemePickerProps } from './ThemePicker';
+export * from './ThemePicker';

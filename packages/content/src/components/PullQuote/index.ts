@@ -1,2 +1,1 @@
-export { PullQuote } from './PullQuote';
-export type { PullQuoteProps } from './PullQuote';
+export * from './PullQuote';

@@ -1,2 +1,1 @@
-export { Prose } from './Prose';
-export type { ProseProps } from './Prose';
+export * from './Prose';

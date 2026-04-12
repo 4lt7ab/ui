@@ -1,12 +1,6 @@
 import type { CSSProperties } from 'react';
 
-export {
-  IconClose, IconChevronRight, IconChevronDown, IconChevronLeft, IconChevronUp,
-  IconCheck, IconCheckCircle, IconWarning, IconError, IconInfo,
-  IconSearch, IconTrash, IconSettings, IconPlus, IconMinus,
-  IconEdit, IconArrowLeft, IconArrowRight, IconMenu,
-  IconEye, IconEyeOff, IconCopy, IconExternalLink, IconMoreVertical, IconFilter,
-} from './icons';
+export * from './icons';
 
 import {
   IconClose, IconChevronRight, IconChevronDown, IconChevronLeft, IconChevronUp,

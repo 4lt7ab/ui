@@ -1,2 +1,1 @@
-export { Epigraph } from './Epigraph';
-export type { EpigraphProps } from './Epigraph';
+export * from './Epigraph';

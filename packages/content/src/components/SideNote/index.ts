@@ -1,2 +1,1 @@
-export { SideNote } from './SideNote';
-export type { SideNoteProps } from './SideNote';
+export * from './SideNote';

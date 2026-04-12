@@ -19,7 +19,7 @@
     "react-dom": "^19.0.0"
   },
   "scripts": {
-    "build": "bunup src/index.ts --format esm,cjs --dts --external react --external react-dom",
+    "build": "bunup src/index.ts --format esm,cjs --dts --no-splitting --external react --external react-dom",
     "typecheck": "tsc --noEmit"
   }
 }

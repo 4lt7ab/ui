@@ -1,4 +1,4 @@
-export { synthwaveBackground } from './synthwave';
-export { pipboyBackground } from './pipboy';
-export { neuralBackground } from './neural';
-export { pacmanBackground } from './pacman';
+export * from './synthwave';
+export * from './pipboy';
+export * from './neural';
+export * from './pacman';

@@ -1,2 +1,1 @@
-export { MarginNote } from './MarginNote';
-export type { MarginNoteProps } from './MarginNote';
+export * from './MarginNote';

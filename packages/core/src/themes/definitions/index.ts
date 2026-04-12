@@ -1,8 +1,8 @@
-export { synthwaveTheme } from './synthwave';
-export { slateTheme } from './slate';
-export { warmSandTheme } from './warm-sand';
-export { mossTheme } from './moss';
-export { coralTheme } from './coral';
-export { pipboyTheme } from './pipboy';
-export { neuralTheme } from './neural';
-export { pacmanTheme } from './pacman';
+export * from './synthwave';
+export * from './slate';
+export * from './warm-sand';
+export * from './moss';
+export * from './coral';
+export * from './pipboy';
+export * from './neural';
+export * from './pacman';
