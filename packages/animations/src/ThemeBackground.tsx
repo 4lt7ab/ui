@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useTheme } from '@4lt7ab/ui';
+import { useTheme } from '@4lt7ab/core';
 import { synthwaveBackground } from './backgrounds/synthwave';
 import { pipboyBackground } from './backgrounds/pipboy';
 import { neuralBackground } from './backgrounds/neural';
