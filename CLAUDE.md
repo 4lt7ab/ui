@@ -171,6 +171,8 @@ Built-in themes: synthwave, slate, warm-sand, moss, coral, pipboy, neural, pacma
 
 `CHANGELOG.md` at the repo root. Keep it brief — version header + bullet list of what changed. Update the `## Unreleased` section with every commit that changes public API, adds features, or fixes bugs. The `deploy.sh` script automatically stamps `## Unreleased` with the release version and adds a fresh `## Unreleased` section.
 
+**Do not commit without updating the changelog.** Every commit that adds, changes, or fixes user-facing behavior must have a corresponding entry in `## Unreleased` before the commit is created.
+
 ## Releasing
 
 ```bash
