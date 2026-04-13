@@ -486,4 +486,5 @@ declare const coralTheme: ThemeDefinition;
 declare const pipboyTheme: ThemeDefinition;
 declare const neuralTheme: ThemeDefinition;
 declare const pacmanTheme: ThemeDefinition;
-export { warmSandTheme, useTheme, useInjectStyles, typography, tokenToCssProperty, synthwaveTheme, spacing, slateTheme, shadows, semantic, radii, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, coralTheme, colors, Typography, ThemeTokens, ThemeProviderProps, ThemeProvider, ThemeDefinition, ThemeContextValue, Theme, Spacing, Shadows, SemanticTokens, ResolvedTheme, Radii, Colors };
+declare const blackHoleTheme: ThemeDefinition;
+export { warmSandTheme, useTheme, useInjectStyles, typography, tokenToCssProperty, synthwaveTheme, spacing, slateTheme, shadows, semantic, radii, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, coralTheme, colors, blackHoleTheme, Typography, ThemeTokens, ThemeProviderProps, ThemeProvider, ThemeDefinition, ThemeContextValue, Theme, Spacing, Shadows, SemanticTokens, ResolvedTheme, Radii, Colors };

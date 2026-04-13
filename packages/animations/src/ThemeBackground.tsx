@@ -4,6 +4,7 @@ import { synthwaveBackground } from './backgrounds/synthwave';
 import { pipboyBackground } from './backgrounds/pipboy';
 import { neuralBackground } from './backgrounds/neural';
 import { pacmanBackground } from './backgrounds/pacman';
+import { blackHoleBackground } from './backgrounds/black-hole';
 import type { BackgroundFunction } from './index';
 
 const backgroundRegistry: Record<string, BackgroundFunction> = {
@@ -11,6 +12,7 @@ const backgroundRegistry: Record<string, BackgroundFunction> = {
   pipboy: pipboyBackground,
   neural: neuralBackground,
   pacman: pacmanBackground,
+  'black-hole': blackHoleBackground,
 };
 
 /** Props for the ThemeBackground component. Currently empty — reserved for future options. */

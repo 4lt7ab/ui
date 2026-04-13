@@ -14,6 +14,7 @@ declare function synthwaveBackground(canvas: HTMLCanvasElement): () => void;
 declare function pipboyBackground(canvas: HTMLCanvasElement): () => void;
 declare function neuralBackground(canvas: HTMLCanvasElement): () => void;
 declare function pacmanBackground(canvas: HTMLCanvasElement): () => void;
+declare function blackHoleBackground(canvas: HTMLCanvasElement): () => void;
 /** A background animation function that takes a canvas element and returns a cleanup function. */
 type BackgroundFunction = (canvas: HTMLCanvasElement) => () => void;
-export { synthwaveBackground, pipboyBackground, pacmanBackground, neuralBackground, ThemeBackgroundProps, ThemeBackground, BackgroundFunction };
+export { synthwaveBackground, pipboyBackground, pacmanBackground, neuralBackground, blackHoleBackground, ThemeBackgroundProps, ThemeBackground, BackgroundFunction };

@@ -5,7 +5,7 @@ import path from 'path';
 export default defineConfig({
   root: __dirname,
   plugins: [react()],
-  server: { port: 4900, open: true },
+  server: { port: 4900, strictPort: true },
   resolve: {
     alias: {
       '@4lt7ab/core': path.resolve(__dirname, '../packages/core/src'),

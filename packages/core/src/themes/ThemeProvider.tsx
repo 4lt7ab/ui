@@ -13,7 +13,7 @@ import { tokenToCssProperty } from './types';
 import {
   synthwaveTheme,
   slateTheme, warmSandTheme, mossTheme, coralTheme,
-  pipboyTheme, neuralTheme, pacmanTheme,
+  pipboyTheme, neuralTheme, pacmanTheme, blackHoleTheme,
 } from './definitions';
 
 /** A theme name. */
@@ -108,6 +108,7 @@ export function ThemeProvider({
     map.set(pipboyTheme.name, pipboyTheme);
     map.set(neuralTheme.name, neuralTheme);
     map.set(pacmanTheme.name, pacmanTheme);
+    map.set(blackHoleTheme.name, blackHoleTheme);
     if (extraThemes) {
       for (const t of extraThemes) {
         map.set(t.name, t);
