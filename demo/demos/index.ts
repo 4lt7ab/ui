@@ -30,6 +30,7 @@ import { EpigraphDemo } from './EpigraphDemo';
 import { PullQuoteDemo } from './PullQuoteDemo';
 import { MarginNoteDemo } from './MarginNoteDemo';
 import { SideNoteDemo } from './SideNoteDemo';
+import { DateRangePickerDemo } from './DateRangePickerDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -74,6 +75,7 @@ export const demos: DemoEntry[] = [
   { name: 'Input', category: 'Form', source: 'ui', component: InputDemo },
   { name: 'Textarea', category: 'Form', source: 'ui', component: TextareaDemo },
   { name: 'Select', category: 'Form', source: 'ui', component: SelectDemo },
+  { name: 'DateRangePicker', category: 'Form', source: 'ui', component: DateRangePickerDemo },
 
   // ── @4lt7ab/ui/content ──
   { name: 'Container', category: 'Layout', source: 'content', component: ContainerDemo },
@@ -96,5 +98,5 @@ export {
   ModalDemo, OverlayDemo, ConfirmDialogDemo, ContainerDemo,
   ProseDemo, ThinkingCycleDemo, LinkCardDemo, TableDemo,
   StatusDotDemo, ThemePickerDemo, EpigraphDemo, PullQuoteDemo,
-  MarginNoteDemo, SideNoteDemo,
+  MarginNoteDemo, SideNoteDemo, DateRangePickerDemo,
 };

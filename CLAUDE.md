@@ -84,6 +84,7 @@ packages/
 │       │   ├── TagChip/
 │       │   ├── ExpandableCard/
 │       │   ├── Table/
+│       │   ├── DateRangePicker/
 │       │   ├── StatusDot/
 │       │   ├── ThemePicker/
 │       │   └── ThemeSurface/

@@ -147,6 +147,35 @@ Dropdown select with options or custom children.
 
 `SelectOption`: `{ value: string; label: string; disabled?: boolean }`
 
+### DateRangePicker
+
+Calendar-based date range selector with zero external dependencies.
+
+```tsx
+const [range, setRange] = useState<DateRange | undefined>();
+
+<DateRangePicker
+  value={range}
+  onChange={setRange}
+  minDate={new Date(2025, 0, 1)}
+  maxDate={new Date(2025, 11, 31)}
+  placeholder="Pick dates"
+/>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `DateRange` | — | Currently selected range (`{ from: Date; to: Date }`) |
+| `onChange` | `(range: DateRange \| undefined) => void` | *required* | Called when range changes |
+| `minDate` | `Date` | — | Earliest selectable date |
+| `maxDate` | `Date` | — | Latest selectable date |
+| `disabledDates` | `Date[]` | — | Specific dates that cannot be selected |
+| `placeholder` | `string` | `'Select date range'` | Placeholder text |
+| `hasError` | `boolean` | `false` | Renders error border styling |
+| `disabled` | `boolean` | `false` | Disables the picker |
+
+`DateRange`: `{ from: Date; to: Date }`
+
 ### Field
 
 Label + input wrapper with error and help text.
