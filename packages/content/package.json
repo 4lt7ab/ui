@@ -1,6 +1,6 @@
 {
   "name": "@4lt7ab/content",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
