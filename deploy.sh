@@ -33,6 +33,13 @@ if git rev-parse "$TAG" >/dev/null 2>&1; then
   exit 1
 fi
 
+# ── Preflight: verify remote is reachable ────────────────────────
+echo "Checking remote access..."
+if ! git ls-remote --exit-code origin >/dev/null 2>&1; then
+  echo "Error: cannot reach remote 'origin'. Fix auth before deploying."
+  exit 1
+fi
+
 # ── Build ────────────────────────────────────────────────────────
 echo "Building..."
 bun run typecheck

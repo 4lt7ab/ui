@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add Makefile with build, typecheck, dev, verify, clean, and deploy targets
+- Add remote connectivity preflight check to deploy.sh to fail fast on auth issues
+
 ## v0.2.8
 
 - Fix DatePicker and DateRangePicker missing from dist bundles due to bunup v0.16.31 silently dropping modules
