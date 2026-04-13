@@ -264,7 +264,7 @@ function CompactView(): React.JSX.Element {
           style={{
             position: 'absolute',
             top: '100%',
-            right: 0,
+            left: 0,
             marginTop: '0.25rem',
             background: 'var(--color-surface-panel)',
             border: '1px solid var(--color-border)',
@@ -325,7 +325,7 @@ export const ThemePicker: React.ForwardRefExoticComponent<Omit<ThemePickerProps,
   function ThemePicker({ descriptions = {}, variant = 'grid' }, ref): React.JSX.Element {
     if (variant === 'compact') {
       return (
-        <div ref={ref}>
+        <div ref={ref} style={{ display: 'inline-block' }}>
           <CompactView />
         </div>
       );
