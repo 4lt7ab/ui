@@ -63,7 +63,7 @@ export interface ThemeProviderProps {
   /** Additional theme definitions beyond the built-in set. */
   themes?: ThemeDefinition[];
   /** Theme to use when no stored preference exists in localStorage.
-   * @default 'synthwave'
+   * @default 'warm-sand'
    */
   defaultTheme?: Theme;
   /** localStorage key for persisting the user's theme preference.
@@ -83,7 +83,7 @@ export interface ThemeProviderProps {
 export function ThemeProvider({
   children,
   themes: extraThemes,
-  defaultTheme = 'synthwave',
+  defaultTheme = 'warm-sand',
   storageKey = 'ui-theme',
   applyPageStyles,
 }: ThemeProviderProps): React.JSX.Element {

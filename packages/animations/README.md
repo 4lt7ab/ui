@@ -25,7 +25,7 @@ import { ThemeBackground } from '@4lt7ab/ui/animations';
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="synthwave">
+    <ThemeProvider defaultTheme="warm-sand">
       <ThemeBackground />
       {/* Your app content */}
     </ThemeProvider>
@@ -92,7 +92,7 @@ import { ThemeBackground } from '@4lt7ab/ui/animations';
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="synthwave">
+    <ThemeProvider defaultTheme="warm-sand">
       <ThemeBackground />
       <ThemeSurface>
         {/* Content here sits above the animation */}

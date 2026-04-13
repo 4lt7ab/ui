@@ -165,6 +165,10 @@ Built-in themes: synthwave, slate, warm-sand, moss, coral, pipboy, neural, pacma
 3. Add the value to every theme definition in `packages/core/src/themes/definitions/`
 4. If it maps to a new primitive, add to `packages/core/src/tokens/primitives.ts`
 
+## Changelog
+
+`CHANGELOG.md` at the repo root. Keep it brief — version header + bullet list of what changed. Update the `## Unreleased` section with every commit that changes public API, adds features, or fixes bugs. When cutting a release, rename `## Unreleased` to `## vX.Y.Z` and add a fresh `## Unreleased` above it.
+
 ## Documentation
 
 Each package has its own `README.md` for user-facing API docs. The root `README.md` is a monorepo overview.

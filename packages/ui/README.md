@@ -27,7 +27,7 @@ import { Button } from '@4lt7ab/ui/ui';
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="synthwave">
+    <ThemeProvider defaultTheme="warm-sand">
       <Button variant="primary">Click me</Button>
     </ThemeProvider>
   );

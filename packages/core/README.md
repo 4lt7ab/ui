@@ -23,7 +23,7 @@ import { ThemeProvider } from '@4lt7ab/ui/core';
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="synthwave">
+    <ThemeProvider defaultTheme="warm-sand">
       {/* Your app */}
     </ThemeProvider>
   );
@@ -94,9 +94,9 @@ Eight themes are included:
 
 | Theme | Vibe |
 |-------|------|
-| `synthwave` | Neon on dark purple (default) |
+| `synthwave` | Neon on dark purple |
 | `slate` | Clean neutral gray |
-| `warm-sand` | Warm earth tones |
+| `warm-sand` | Warm earth tones (default) |
 | `moss` | Dark green, natural |
 | `coral` | Warm coral accent on dark |
 | `pipboy` | Green-on-black terminal |

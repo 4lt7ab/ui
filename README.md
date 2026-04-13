@@ -51,7 +51,7 @@ import { ThemeBackground } from '@4lt7ab/ui/animations';
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="synthwave">
+    <ThemeProvider defaultTheme="warm-sand">
       <ThemeBackground />
       <Container width="prose">
         <Card>
@@ -75,9 +75,9 @@ Eight built-in themes:
 
 | Theme | Vibe |
 |-------|------|
-| `synthwave` | Neon on dark purple (default) |
+| `synthwave` | Neon on dark purple |
 | `slate` | Clean neutral gray |
-| `warm-sand` | Warm earth tones |
+| `warm-sand` | Warm earth tones (default) |
 | `moss` | Dark green, natural |
 | `coral` | Warm coral accent on dark |
 | `pipboy` | Green-on-black terminal |
