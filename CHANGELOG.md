@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.9
+
 - Add Makefile with build, typecheck, dev, verify, clean, and deploy targets
 - Add remote connectivity preflight check to deploy.sh to fail fast on auth issues
 
