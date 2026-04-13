@@ -301,17 +301,11 @@ var synthwaveTheme = {
       background-color: #06020f;
     }
 
-    /* ── Focus ring — static pink outline, no animation ── */
+    /* ── Focus ring — static pink outline on form fields, no animation ── */
     [data-theme="synthwave"] input:focus,
     [data-theme="synthwave"] textarea:focus,
-    [data-theme="synthwave"] select:focus,
-    [data-theme="synthwave"] button:focus-visible {
+    [data-theme="synthwave"] select:focus {
       box-shadow: 0 0 6px rgba(255, 45, 149, 0.4);
-    }
-
-    /* ── Primary buttons — subtle static glow ── */
-    [data-theme="synthwave"] button[data-variant="primary"] {
-      box-shadow: 0 0 10px rgba(255, 45, 149, 0.3), 0 0 4px rgba(255, 45, 149, 0.15);
     }
 
     /* ── Scanline overlay ── */

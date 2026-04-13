@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Fix synthwave theme button glow: remove static box-shadow on `button:focus-visible` and dead `button[data-variant="primary"]` rule
+
 ## v0.2.9
 
 - Add Makefile with build, typecheck, dev, verify, clean, and deploy targets
