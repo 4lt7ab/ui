@@ -1558,6 +1558,7 @@ var ModalShell = forwardRef20(function ModalShell2({
           tabIndex: -1,
           style: {
             background: t18.colorSurface,
+            color: t18.colorText,
             borderRadius: t18.radiusLg,
             boxShadow: t18.shadowLg,
             border: `1px solid ${t18.colorBorder}`,

@@ -120,6 +120,7 @@ export const ModalShell: React.ForwardRefExoticComponent<Omit<ModalShellProps, '
             tabIndex={-1}
             style={{
               background: t.colorSurface,
+              color: t.colorText,
               borderRadius: t.radiusLg,
               boxShadow: t.shadowLg,
               border: `1px solid ${t.colorBorder}`,

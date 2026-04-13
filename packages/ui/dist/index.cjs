@@ -1838,6 +1838,7 @@ var ModalShell = import_react21.forwardRef(function ModalShell2({
           tabIndex: -1,
           style: {
             background: import_core20.semantic.colorSurface,
+            color: import_core20.semantic.colorText,
             borderRadius: import_core20.semantic.radiusLg,
             boxShadow: import_core20.semantic.shadowLg,
             border: `1px solid ${import_core20.semantic.colorBorder}`,
