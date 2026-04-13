@@ -16,7 +16,9 @@ bun run typecheck    # tsc --noEmit across all packages
 bun run dev          # start the demo app (Vite)
 ```
 
-Build order matters: all packages depend on `@4lt7ab/core`, so the root build script runs core first, then ui, content, and animations in parallel.
+Build order matters: all packages depend on `@4lt7ab/core`, so the root build script runs core first, then ui, content, and animations in parallel. After building, `scripts/verify-exports.ts` runs automatically to confirm every source barrel export has a real definition in the compiled bundle. This catches silent bundler bugs (e.g. bunup dropping modules without error).
+
+**Note:** `@4lt7ab/ui` uses `bun build` for JS output instead of bunup due to a bunup v0.16.31 bug that silently drops certain components. bunup still runs first to generate `.d.ts` files, then `bun build` overwrites the JS bundles.
 
 ## Architecture
 
@@ -111,6 +113,8 @@ packages/
 │       │   ├── neural.ts
 │       │   └── pacman.ts
 │       └── index.ts
+scripts/
+├── verify-exports.ts            # post-build: confirms all source exports exist in dist bundles
 demo/                            # Vite demo app
 ```
 

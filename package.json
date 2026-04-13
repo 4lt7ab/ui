@@ -40,7 +40,7 @@
   },
   "scripts": {
     "dev": "vite --config demo/vite.config.ts",
-    "build": "bun run --filter '@4lt7ab/core' build && bun run --filter '@4lt7ab/ui' --filter '@4lt7ab/content' --filter '@4lt7ab/animations' build",
+    "build": "bun run --filter '@4lt7ab/core' build && bun run --filter '@4lt7ab/ui' --filter '@4lt7ab/content' --filter '@4lt7ab/animations' build && bun run scripts/verify-exports.ts",
     "typecheck": "bun run --filter '*' typecheck",
     "prepublish": "bun run build"
   }

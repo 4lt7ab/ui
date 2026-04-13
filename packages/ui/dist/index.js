@@ -55,7 +55,7 @@ import { useInjectStyles } from "../../core/dist/index.js";
 import { forwardRef } from "react";
 
 // src/icons/icons.tsx
-import { jsx, jsxs } from "react/jsx-runtime";
+import { jsxDEV } from "react/jsx-dev-runtime";
 function svgProps(size, style) {
   return {
     width: size,
@@ -70,301 +70,301 @@ function svgProps(size, style) {
   };
 }
 function IconClose({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsxDEV("path", {
       d: "M18 6L6 18M6 6l12 12"
-    })
-  });
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
 }
 function IconChevronRight({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsxDEV("path", {
       d: "M9 18l6-6-6-6"
-    })
-  });
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
 }
 function IconChevronDown({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsxDEV("path", {
       d: "M6 9l6 6 6-6"
-    })
-  });
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
 }
 function IconChevronLeft({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsxDEV("path", {
       d: "M15 18l-6-6 6-6"
-    })
-  });
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
 }
 function IconChevronUp({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsxDEV("path", {
       d: "M18 15l-6-6-6 6"
-    })
-  });
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
 }
 function IconCheck({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsxDEV("path", {
       d: "M20 6L9 17l-5-5"
-    })
-  });
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
 }
 function IconCheckCircle({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx("path", {
+      /* @__PURE__ */ jsxDEV("path", {
         d: "M22 11.08V12a10 10 0 11-5.93-9.14"
-      }),
-      /* @__PURE__ */ jsx("path", {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("path", {
         d: "M22 4L12 14.01l-3-3"
-      })
+      }, undefined, false, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 }
 function IconWarning({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx("path", {
+      /* @__PURE__ */ jsxDEV("path", {
         d: "M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
-      }),
-      /* @__PURE__ */ jsx("line", {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("line", {
         x1: "12",
         y1: "9",
         x2: "12",
         y2: "13"
-      }),
-      /* @__PURE__ */ jsx("line", {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("line", {
         x1: "12",
         y1: "17",
         x2: "12.01",
         y2: "17"
-      })
+      }, undefined, false, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 }
 function IconError({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx("circle", {
+      /* @__PURE__ */ jsxDEV("circle", {
         cx: "12",
         cy: "12",
         r: "10"
-      }),
-      /* @__PURE__ */ jsx("path", {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("path", {
         d: "M15 9l-6 6M9 9l6 6"
-      })
+      }, undefined, false, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 }
 function IconInfo({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx("circle", {
+      /* @__PURE__ */ jsxDEV("circle", {
         cx: "12",
         cy: "12",
         r: "10"
-      }),
-      /* @__PURE__ */ jsx("line", {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("line", {
         x1: "12",
         y1: "16",
         x2: "12",
         y2: "12"
-      }),
-      /* @__PURE__ */ jsx("line", {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("line", {
         x1: "12",
         y1: "8",
         x2: "12.01",
         y2: "8"
-      })
+      }, undefined, false, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 }
 function IconSearch({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx("circle", {
+      /* @__PURE__ */ jsxDEV("circle", {
         cx: "11",
         cy: "11",
         r: "8"
-      }),
-      /* @__PURE__ */ jsx("path", {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("path", {
         d: "M21 21l-4.35-4.35"
-      })
+      }, undefined, false, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 }
 function IconTrash({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsxDEV("path", {
       d: "M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"
-    })
-  });
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
 }
 function IconSettings({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx("circle", {
+      /* @__PURE__ */ jsxDEV("circle", {
         cx: "12",
         cy: "12",
         r: "3"
-      }),
-      /* @__PURE__ */ jsx("path", {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("path", {
         d: "M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"
-      })
+      }, undefined, false, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 }
 function IconPlus({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsxDEV("path", {
       d: "M12 5v14M5 12h14"
-    })
-  });
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
 }
 function IconMinus({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsxDEV("path", {
       d: "M5 12h14"
-    })
-  });
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
 }
 function IconEdit({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx("path", {
+      /* @__PURE__ */ jsxDEV("path", {
         d: "M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
-      }),
-      /* @__PURE__ */ jsx("path", {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("path", {
         d: "M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
-      })
+      }, undefined, false, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 }
 function IconArrowLeft({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsxDEV("path", {
       d: "M19 12H5M12 19l-7-7 7-7"
-    })
-  });
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
 }
 function IconArrowRight({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsxDEV("path", {
       d: "M5 12h14M12 5l7 7-7 7"
-    })
-  });
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
 }
 function IconMenu({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsxDEV("path", {
       d: "M3 12h18M3 6h18M3 18h18"
-    })
-  });
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
 }
 function IconEye({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx("path", {
+      /* @__PURE__ */ jsxDEV("path", {
         d: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
-      }),
-      /* @__PURE__ */ jsx("circle", {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("circle", {
         cx: "12",
         cy: "12",
         r: "3"
-      })
+      }, undefined, false, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 }
 function IconEyeOff({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx("path", {
+      /* @__PURE__ */ jsxDEV("path", {
         d: "M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"
-      }),
-      /* @__PURE__ */ jsx("path", {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("path", {
         d: "M1 1l22 22"
-      })
+      }, undefined, false, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 }
 function IconCopy({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx("rect", {
+      /* @__PURE__ */ jsxDEV("rect", {
         x: "9",
         y: "9",
         width: "13",
         height: "13",
         rx: "2",
         ry: "2"
-      }),
-      /* @__PURE__ */ jsx("path", {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("path", {
         d: "M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"
-      })
+      }, undefined, false, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 }
 function IconExternalLink({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsxDEV("path", {
       d: "M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"
-    })
-  });
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
 }
 function IconMoreVertical({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
     children: [
-      /* @__PURE__ */ jsx("circle", {
+      /* @__PURE__ */ jsxDEV("circle", {
         cx: "12",
         cy: "12",
         r: "1"
-      }),
-      /* @__PURE__ */ jsx("circle", {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("circle", {
         cx: "12",
         cy: "5",
         r: "1"
-      }),
-      /* @__PURE__ */ jsx("circle", {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("circle", {
         cx: "12",
         cy: "19",
         r: "1"
-      })
+      }, undefined, false, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 }
 function IconFilter({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsxDEV("svg", {
     ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsxDEV("path", {
       d: "M22 3H2l8 9.46V19l4 2v-8.54L22 3z"
-    })
-  });
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
 }
 // src/icons/index.ts
 var iconRegistry = {
@@ -396,11 +396,11 @@ var iconRegistry = {
 };
 
 // src/components/Icon/Icon.tsx
-import { jsx as jsx2 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV2 } from "react/jsx-dev-runtime";
 var Icon = forwardRef(function Icon2({ name, size = 24, style, "aria-label": ariaLabel, ...props }, ref) {
   const IconComponent = iconRegistry[name];
   const isDecorative = !ariaLabel;
-  return /* @__PURE__ */ jsx2("span", {
+  return /* @__PURE__ */ jsxDEV2("span", {
     ref,
     role: isDecorative ? undefined : "img",
     "aria-hidden": isDecorative || undefined,
@@ -416,13 +416,14 @@ var Icon = forwardRef(function Icon2({ name, size = 24, style, "aria-label": ari
       ...style
     },
     ...props,
-    children: /* @__PURE__ */ jsx2(IconComponent, {
+    children: /* @__PURE__ */ jsxDEV2(IconComponent, {
       size
-    })
-  });
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
 });
+
 // src/components/ThemePicker/ThemePicker.tsx
-import { jsx as jsx3, jsxs as jsxs2 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV3 } from "react/jsx-dev-runtime";
 var GRID_STYLES_ID = "alttab-theme-picker";
 var gridCSS = `
   .alttab-theme-picker {
@@ -520,26 +521,26 @@ var compactCSS = `
 function GridView({ descriptions }) {
   useInjectStyles(GRID_STYLES_ID, gridCSS);
   const { resolved, themes, setTheme } = useTheme();
-  return /* @__PURE__ */ jsx3("div", {
+  return /* @__PURE__ */ jsxDEV3("div", {
     className: "alttab-theme-picker",
     children: Array.from(themes.values()).map((def) => {
       const isActive = resolved === def.name;
-      return /* @__PURE__ */ jsxs2("button", {
+      return /* @__PURE__ */ jsxDEV3("button", {
         className: `alttab-theme-card${isActive ? " alttab-theme-card--active" : ""}`,
         onClick: () => setTheme(def.name),
         children: [
-          /* @__PURE__ */ jsx3("span", {
+          /* @__PURE__ */ jsxDEV3("span", {
             className: "alttab-theme-card__name",
             children: def.label
-          }),
-          descriptions[def.name] && /* @__PURE__ */ jsx3("span", {
+          }, undefined, false, undefined, this),
+          descriptions[def.name] && /* @__PURE__ */ jsxDEV3("span", {
             className: "alttab-theme-card__desc",
             children: descriptions[def.name]
-          })
+          }, undefined, false, undefined, this)
         ]
-      }, def.name);
+      }, def.name, true, undefined, this);
     })
-  });
+  }, undefined, false, undefined, this);
 }
 function CompactView() {
   useInjectStyles(COMPACT_STYLES_ID, compactCSS);
@@ -619,19 +620,19 @@ function CompactView() {
     }
   }, [open]);
   const currentTheme = themeList.find((t) => t.name === resolved);
-  return /* @__PURE__ */ jsxs2("div", {
+  return /* @__PURE__ */ jsxDEV3("div", {
     ref: containerRef,
     style: { position: "relative" },
     onKeyDown: handleKeyDown,
     children: [
-      /* @__PURE__ */ jsxs2("button", {
+      /* @__PURE__ */ jsxDEV3("button", {
         ref: triggerRef,
         className: "alttab-tp-trigger",
         onClick: () => setOpen((o) => !o),
         "aria-haspopup": "listbox",
         "aria-expanded": open,
         children: [
-          /* @__PURE__ */ jsx3("span", {
+          /* @__PURE__ */ jsxDEV3("span", {
             style: {
               width: 8,
               height: 8,
@@ -639,15 +640,15 @@ function CompactView() {
               background: "var(--color-action-primary)",
               flexShrink: 0
             }
-          }),
+          }, undefined, false, undefined, this),
           currentTheme?.label ?? resolved,
-          /* @__PURE__ */ jsx3(Icon, {
+          /* @__PURE__ */ jsxDEV3(Icon, {
             name: open ? "chevron-up" : "chevron-down",
             size: 12
-          })
+          }, undefined, false, undefined, this)
         ]
-      }),
-      open && /* @__PURE__ */ jsx3("div", {
+      }, undefined, true, undefined, this),
+      open && /* @__PURE__ */ jsxDEV3("div", {
         ref: menuRef,
         role: "listbox",
         "aria-activedescendant": focusedIndex >= 0 ? `alttab-tp-item-${themeList[focusedIndex]?.name}` : undefined,
@@ -672,7 +673,7 @@ function CompactView() {
             isActive ? "alttab-tp-menu-item--active" : "",
             isFocused && !isActive ? "alttab-tp-menu-item--focused" : ""
           ].filter(Boolean).join(" ");
-          return /* @__PURE__ */ jsxs2("button", {
+          return /* @__PURE__ */ jsxDEV3("button", {
             id: `alttab-tp-item-${t.name}`,
             role: "option",
             "aria-selected": isActive,
@@ -684,7 +685,7 @@ function CompactView() {
             },
             onMouseEnter: () => setFocusedIndex(idx),
             children: [
-              /* @__PURE__ */ jsx3("span", {
+              /* @__PURE__ */ jsxDEV3("span", {
                 style: {
                   width: 6,
                   height: 6,
@@ -692,34 +693,34 @@ function CompactView() {
                   background: isActive ? "var(--color-action-primary)" : "var(--color-text-muted)",
                   flexShrink: 0
                 }
-              }),
+              }, undefined, false, undefined, this),
               t.label
             ]
-          }, t.name);
+          }, t.name, true, undefined, this);
         })
-      })
+      }, undefined, false, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 }
 var ThemePicker = forwardRef2(function ThemePicker2({ descriptions = {}, variant = "grid" }, ref) {
   if (variant === "compact") {
-    return /* @__PURE__ */ jsx3("div", {
+    return /* @__PURE__ */ jsxDEV3("div", {
       ref,
       style: { display: "inline-block" },
-      children: /* @__PURE__ */ jsx3(CompactView, {})
-    });
+      children: /* @__PURE__ */ jsxDEV3(CompactView, {}, undefined, false, undefined, this)
+    }, undefined, false, undefined, this);
   }
-  return /* @__PURE__ */ jsx3("div", {
+  return /* @__PURE__ */ jsxDEV3("div", {
     ref,
-    children: /* @__PURE__ */ jsx3(GridView, {
+    children: /* @__PURE__ */ jsxDEV3(GridView, {
       descriptions
-    })
-  });
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
 });
 // src/components/Button/Button.tsx
 import { forwardRef as forwardRef3 } from "react";
 import { semantic as t } from "../../core/dist/index.js";
-import { jsx as jsx4 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV4 } from "react/jsx-dev-runtime";
 var variantStyles = {
   primary: {
     background: t.colorActionPrimary,
@@ -778,7 +779,7 @@ var Button = forwardRef3(function Button2({
   disabled,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx4("button", {
+  return /* @__PURE__ */ jsxDEV4("button", {
     ref,
     style: {
       ...baseStyles,
@@ -790,12 +791,12 @@ var Button = forwardRef3(function Button2({
     disabled,
     ...props,
     children
-  });
+  }, undefined, false, undefined, this);
 });
 // src/components/Stack/Stack.tsx
 import { forwardRef as forwardRef4 } from "react";
 import { semantic as t2 } from "../../core/dist/index.js";
-import { jsx as jsx5 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV5 } from "react/jsx-dev-runtime";
 var gapMap = {
   xs: t2.spaceXs,
   sm: t2.spaceSm,
@@ -814,7 +815,7 @@ var Stack = forwardRef4(function Stack2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx5("div", {
+  return /* @__PURE__ */ jsxDEV5("div", {
     ref,
     style: {
       display: "flex",
@@ -827,12 +828,12 @@ var Stack = forwardRef4(function Stack2({
     },
     ...props,
     children
-  });
+  }, undefined, false, undefined, this);
 });
 // src/components/Card/Card.tsx
 import { forwardRef as forwardRef5 } from "react";
 import { semantic as t3 } from "../../core/dist/index.js";
-import { jsx as jsx6 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV6 } from "react/jsx-dev-runtime";
 var paddingMap = {
   xs: t3.spaceXs,
   sm: t3.spaceSm,
@@ -865,7 +866,7 @@ var Card = forwardRef5(function Card2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx6("div", {
+  return /* @__PURE__ */ jsxDEV6("div", {
     ref,
     style: {
       borderRadius: t3.radiusLg,
@@ -875,12 +876,12 @@ var Card = forwardRef5(function Card2({
     },
     ...props,
     children
-  });
+  }, undefined, false, undefined, this);
 });
 // src/components/Field/Field.tsx
 import { semantic as t4 } from "../../core/dist/index.js";
 import { forwardRef as forwardRef6, useId, isValidElement, cloneElement } from "react";
-import { jsx as jsx7, jsxs as jsxs3 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV7 } from "react/jsx-dev-runtime";
 var labelStyle = {
   display: "block",
   fontSize: t4.fontSizeSm,
@@ -925,7 +926,7 @@ var Field = forwardRef6(function Field2({
   const enhancedChildren = isValidElement(children) ? cloneElement(children, {
     "aria-describedby": describedBy
   }) : children;
-  return /* @__PURE__ */ jsxs3("div", {
+  return /* @__PURE__ */ jsxDEV7("div", {
     ref,
     style: {
       display: "flex",
@@ -936,37 +937,37 @@ var Field = forwardRef6(function Field2({
     },
     ...props,
     children: [
-      /* @__PURE__ */ jsxs3("label", {
+      /* @__PURE__ */ jsxDEV7("label", {
         htmlFor,
         style: labelStyle,
         children: [
           label,
-          required && /* @__PURE__ */ jsx7("span", {
+          required && /* @__PURE__ */ jsxDEV7("span", {
             style: requiredStyle,
             "aria-hidden": "true",
             children: "*"
-          })
+          }, undefined, false, undefined, this)
         ]
-      }),
+      }, undefined, true, undefined, this),
       enhancedChildren,
-      error && /* @__PURE__ */ jsx7("p", {
+      error && /* @__PURE__ */ jsxDEV7("p", {
         id: errorId,
         role: "alert",
         style: errorStyle,
         children: error
-      }),
-      !error && help && /* @__PURE__ */ jsx7("p", {
+      }, undefined, false, undefined, this),
+      !error && help && /* @__PURE__ */ jsxDEV7("p", {
         id: helpId,
         style: helpStyle,
         children: help
-      })
+      }, undefined, false, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 });
 // src/components/Input/Input.tsx
 import { forwardRef as forwardRef7 } from "react";
 import { semantic as t5 } from "../../core/dist/index.js";
-import { jsx as jsx8 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV8 } from "react/jsx-dev-runtime";
 var baseStyle = {
   display: "block",
   width: "100%",
@@ -996,7 +997,7 @@ var Input = forwardRef7(function Input2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx8("input", {
+  return /* @__PURE__ */ jsxDEV8("input", {
     ref,
     "aria-invalid": hasError || undefined,
     style: {
@@ -1007,12 +1008,12 @@ var Input = forwardRef7(function Input2({
     },
     disabled,
     ...props
-  });
+  }, undefined, false, undefined, this);
 });
 // src/components/Textarea/Textarea.tsx
 import { forwardRef as forwardRef8 } from "react";
 import { semantic as t6 } from "../../core/dist/index.js";
-import { jsx as jsx9 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV9 } from "react/jsx-dev-runtime";
 var baseStyle2 = {
   display: "block",
   width: "100%",
@@ -1045,7 +1046,7 @@ var Textarea = forwardRef8(function Textarea2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx9("textarea", {
+  return /* @__PURE__ */ jsxDEV9("textarea", {
     ref,
     "aria-invalid": hasError || undefined,
     style: {
@@ -1056,12 +1057,12 @@ var Textarea = forwardRef8(function Textarea2({
     },
     disabled,
     ...props
-  });
+  }, undefined, false, undefined, this);
 });
 // src/components/Select/Select.tsx
 import { forwardRef as forwardRef9 } from "react";
 import { semantic as t7 } from "../../core/dist/index.js";
-import { jsx as jsx10, jsxs as jsxs4 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV10 } from "react/jsx-dev-runtime";
 var wrapperStyle = {
   position: "relative",
   display: "block",
@@ -1113,10 +1114,10 @@ var Select = forwardRef9(function Select2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsxs4("div", {
+  return /* @__PURE__ */ jsxDEV10("div", {
     style: wrapperStyle,
     children: [
-      /* @__PURE__ */ jsxs4("select", {
+      /* @__PURE__ */ jsxDEV10("select", {
         ref,
         "aria-invalid": hasError || undefined,
         style: {
@@ -1128,40 +1129,40 @@ var Select = forwardRef9(function Select2({
         disabled,
         ...props,
         children: [
-          placeholder && /* @__PURE__ */ jsx10("option", {
+          placeholder && /* @__PURE__ */ jsxDEV10("option", {
             value: "",
             disabled: true,
             children: placeholder
-          }),
-          children ?? options?.map((opt) => /* @__PURE__ */ jsx10("option", {
+          }, undefined, false, undefined, this),
+          children ?? options?.map((opt) => /* @__PURE__ */ jsxDEV10("option", {
             value: opt.value,
             disabled: opt.disabled,
             children: opt.label
-          }, opt.value))
+          }, opt.value, false, undefined, this))
         ]
-      }),
-      /* @__PURE__ */ jsx10("span", {
+      }, undefined, true, undefined, this),
+      /* @__PURE__ */ jsxDEV10("span", {
         "aria-hidden": true,
         style: chevronStyle,
-        children: /* @__PURE__ */ jsx10("svg", {
+        children: /* @__PURE__ */ jsxDEV10("svg", {
           width: "12",
           height: "12",
           viewBox: "0 0 12 12",
           fill: "none",
           xmlns: "http://www.w3.org/2000/svg",
-          children: /* @__PURE__ */ jsx10("path", {
+          children: /* @__PURE__ */ jsxDEV10("path", {
             d: "M2.22 4.47a.75.75 0 0 1 1.06 0L6 7.19l2.72-2.72a.75.75 0 1 1 1.06 1.06L6 9.31 2.22 5.53a.75.75 0 0 1 0-1.06z",
             fill: "currentColor"
-          })
-        })
-      })
+          }, undefined, false, undefined, this)
+        }, undefined, false, undefined, this)
+      }, undefined, false, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 });
 // src/components/Badge/Badge.tsx
 import { forwardRef as forwardRef10 } from "react";
 import { semantic as t8 } from "../../core/dist/index.js";
-import { jsx as jsx11 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV11 } from "react/jsx-dev-runtime";
 var variantStyles3 = {
   default: {
     border: `1px solid ${t8.colorBorder}`,
@@ -1200,7 +1201,7 @@ var Badge = forwardRef10(function Badge2({
   style,
   ...rest
 }, ref) {
-  return /* @__PURE__ */ jsx11("span", {
+  return /* @__PURE__ */ jsxDEV11("span", {
     ref,
     ...rest,
     style: {
@@ -1209,12 +1210,12 @@ var Badge = forwardRef10(function Badge2({
       ...style
     },
     children
-  });
+  }, undefined, false, undefined, this);
 });
 // src/components/IconButton/IconButton.tsx
 import { forwardRef as forwardRef11 } from "react";
 import { semantic as t9 } from "../../core/dist/index.js";
-import { jsx as jsx12, jsxs as jsxs5 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV12 } from "react/jsx-dev-runtime";
 var IconButton = forwardRef11(function IconButton2({
   icon,
   size = 24,
@@ -1222,7 +1223,7 @@ var IconButton = forwardRef11(function IconButton2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsxs5("button", {
+  return /* @__PURE__ */ jsxDEV12("button", {
     ref,
     style: {
       position: "relative",
@@ -1241,11 +1242,11 @@ var IconButton = forwardRef11(function IconButton2({
     },
     ...props,
     children: [
-      /* @__PURE__ */ jsx12(Icon, {
+      /* @__PURE__ */ jsxDEV12(Icon, {
         name: icon,
         size
-      }),
-      badge && /* @__PURE__ */ jsx12("span", {
+      }, undefined, false, undefined, this),
+      badge && /* @__PURE__ */ jsxDEV12("span", {
         style: {
           position: "absolute",
           top: 2,
@@ -1256,20 +1257,20 @@ var IconButton = forwardRef11(function IconButton2({
           background: t9.colorError,
           border: `2px solid ${t9.colorSurface}`
         }
-      })
+      }, undefined, false, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 });
 // src/components/Overlay/Overlay.tsx
 import { forwardRef as forwardRef12 } from "react";
 import { semantic as t10 } from "../../core/dist/index.js";
-import { jsx as jsx13 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV13 } from "react/jsx-dev-runtime";
 var Overlay = forwardRef12(function Overlay2({
   onClick,
   zIndex = 100,
   style
 }, ref) {
-  return /* @__PURE__ */ jsx13("div", {
+  return /* @__PURE__ */ jsxDEV13("div", {
     ref,
     role: "presentation",
     onClick,
@@ -1280,19 +1281,19 @@ var Overlay = forwardRef12(function Overlay2({
       zIndex,
       ...style
     }
-  });
+  }, undefined, false, undefined, this);
 });
 // src/components/Skeleton/Skeleton.tsx
 import { forwardRef as forwardRef13 } from "react";
 import { semantic as t11 } from "../../core/dist/index.js";
-import { jsx as jsx14, jsxs as jsxs6 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV14 } from "react/jsx-dev-runtime";
 var Skeleton = forwardRef13(function Skeleton2({
   width = "100%",
   height = 16,
   borderRadius = t11.radiusMd,
   style
 }, ref) {
-  return /* @__PURE__ */ jsx14("div", {
+  return /* @__PURE__ */ jsxDEV14("div", {
     ref,
     "aria-hidden": "true",
     style: {
@@ -1302,10 +1303,10 @@ var Skeleton = forwardRef13(function Skeleton2({
       background: t11.colorSurfaceRaised,
       ...style
     }
-  });
+  }, undefined, false, undefined, this);
 });
 var CardSkeleton = forwardRef13(function CardSkeleton2({ style }, ref) {
-  return /* @__PURE__ */ jsxs6("div", {
+  return /* @__PURE__ */ jsxDEV14("div", {
     ref,
     "aria-hidden": "true",
     style: {
@@ -1318,23 +1319,23 @@ var CardSkeleton = forwardRef13(function CardSkeleton2({ style }, ref) {
       ...style
     },
     children: [
-      /* @__PURE__ */ jsx14(Skeleton, {
+      /* @__PURE__ */ jsxDEV14(Skeleton, {
         width: "60%",
         height: 20
-      }),
-      /* @__PURE__ */ jsx14(Skeleton, {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV14(Skeleton, {
         width: "100%",
         height: 14
-      }),
-      /* @__PURE__ */ jsx14(Skeleton, {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV14(Skeleton, {
         width: "80%",
         height: 14
-      })
+      }, undefined, false, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 });
 var RowSkeleton = forwardRef13(function RowSkeleton2({ style }, ref) {
-  return /* @__PURE__ */ jsxs6("div", {
+  return /* @__PURE__ */ jsxDEV14("div", {
     ref,
     "aria-hidden": "true",
     style: {
@@ -1345,31 +1346,31 @@ var RowSkeleton = forwardRef13(function RowSkeleton2({ style }, ref) {
       ...style
     },
     children: [
-      /* @__PURE__ */ jsx14(Skeleton, {
+      /* @__PURE__ */ jsxDEV14(Skeleton, {
         width: 32,
         height: 32,
         borderRadius: t11.radiusFull
-      }),
-      /* @__PURE__ */ jsxs6("div", {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV14("div", {
         style: { flex: 1, display: "flex", flexDirection: "column", gap: t11.spaceXs },
         children: [
-          /* @__PURE__ */ jsx14(Skeleton, {
+          /* @__PURE__ */ jsxDEV14(Skeleton, {
             width: "40%",
             height: 14
-          }),
-          /* @__PURE__ */ jsx14(Skeleton, {
+          }, undefined, false, undefined, this),
+          /* @__PURE__ */ jsxDEV14(Skeleton, {
             width: "70%",
             height: 12
-          })
+          }, undefined, false, undefined, this)
         ]
-      })
+      }, undefined, true, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 });
 // src/components/ProgressBar/ProgressBar.tsx
 import { forwardRef as forwardRef14 } from "react";
 import { semantic as t12 } from "../../core/dist/index.js";
-import { jsx as jsx15 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV15 } from "react/jsx-dev-runtime";
 var ProgressBar = forwardRef14(function ProgressBar2({
   segments,
   height = 6,
@@ -1377,7 +1378,7 @@ var ProgressBar = forwardRef14(function ProgressBar2({
   style
 }, ref) {
   const total = segments.reduce((sum, s) => sum + s.value, 0);
-  return /* @__PURE__ */ jsx15("div", {
+  return /* @__PURE__ */ jsxDEV15("div", {
     ref,
     role: "progressbar",
     "aria-valuenow": total,
@@ -1395,21 +1396,21 @@ var ProgressBar = forwardRef14(function ProgressBar2({
     },
     children: segments.map((segment, i) => {
       const pct = total > 0 ? segment.value / total * 100 : 0;
-      return /* @__PURE__ */ jsx15("div", {
+      return /* @__PURE__ */ jsxDEV15("div", {
         title: segment.label ? `${segment.label}: ${segment.value}` : String(segment.value),
         style: {
           width: `${pct}%`,
           height: "100%",
           background: segment.color
         }
-      }, i);
+      }, i, false, undefined, this);
     })
-  });
+  }, undefined, false, undefined, this);
 });
 // src/components/EmptyState/EmptyState.tsx
 import { forwardRef as forwardRef15 } from "react";
 import { semantic as t13 } from "../../core/dist/index.js";
-import { jsx as jsx16, jsxs as jsxs7 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV16 } from "react/jsx-dev-runtime";
 var EmptyState = forwardRef15(function EmptyState2({
   icon,
   message,
@@ -1418,17 +1419,17 @@ var EmptyState = forwardRef15(function EmptyState2({
   children,
   action
 }, ref) {
-  const content = /* @__PURE__ */ jsxs7(Stack, {
+  const content = /* @__PURE__ */ jsxDEV16(Stack, {
     align: "center",
     gap: "sm",
     style: { padding: t13.spaceXl, ...style },
     children: [
-      /* @__PURE__ */ jsx16(Icon, {
+      /* @__PURE__ */ jsxDEV16(Icon, {
         name: icon,
         size: 32,
         style: { color: t13.colorTextMuted }
-      }),
-      /* @__PURE__ */ jsx16("span", {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV16("span", {
         style: {
           color: t13.colorTextSecondary,
           fontSize: t13.fontSizeSm,
@@ -1436,30 +1437,30 @@ var EmptyState = forwardRef15(function EmptyState2({
           fontFamily: t13.fontSans
         },
         children: message
-      }),
+      }, undefined, false, undefined, this),
       children,
-      action && /* @__PURE__ */ jsx16("div", {
+      action && /* @__PURE__ */ jsxDEV16("div", {
         style: { marginTop: t13.spaceSm },
         children: action
-      })
+      }, undefined, false, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
   if (variant === "card") {
-    return /* @__PURE__ */ jsx16(Card, {
+    return /* @__PURE__ */ jsxDEV16(Card, {
       ref,
       variant: "flat",
       children: content
-    });
+    }, undefined, false, undefined, this);
   }
-  return /* @__PURE__ */ jsx16("div", {
+  return /* @__PURE__ */ jsxDEV16("div", {
     ref,
     children: content
-  });
+  }, undefined, false, undefined, this);
 });
 // src/components/Pagination/Pagination.tsx
 import { forwardRef as forwardRef16 } from "react";
 import { semantic as t14 } from "../../core/dist/index.js";
-import { jsx as jsx17, jsxs as jsxs8 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV17 } from "react/jsx-dev-runtime";
 var defaultLabels = {
   previous: "Previous",
   next: "Next",
@@ -1475,7 +1476,7 @@ var Pagination = forwardRef16(function Pagination2({
   style
 }, ref) {
   const resolvedLabels = { ...defaultLabels, ...labels };
-  return /* @__PURE__ */ jsxs8("div", {
+  return /* @__PURE__ */ jsxDEV17("div", {
     ref,
     className,
     style: {
@@ -1486,14 +1487,14 @@ var Pagination = forwardRef16(function Pagination2({
       ...style
     },
     children: [
-      /* @__PURE__ */ jsx17(Button, {
+      /* @__PURE__ */ jsxDEV17(Button, {
         variant: "ghost",
         size: "sm",
         disabled: page <= 1,
         onClick: () => onPageChange(page - 1),
         children: resolvedLabels.previous
-      }),
-      /* @__PURE__ */ jsxs8("span", {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV17("span", {
         style: {
           color: t14.colorTextMuted,
           fontSize: t14.fontSizeSm,
@@ -1505,21 +1506,21 @@ var Pagination = forwardRef16(function Pagination2({
           total,
           " total)"
         ]
-      }),
-      /* @__PURE__ */ jsx17(Button, {
+      }, undefined, true, undefined, this),
+      /* @__PURE__ */ jsxDEV17(Button, {
         variant: "ghost",
         size: "sm",
         disabled: page >= totalPages,
         onClick: () => onPageChange(page + 1),
         children: resolvedLabels.next
-      })
+      }, undefined, false, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 });
 // src/components/PageHeader/PageHeader.tsx
 import { createElement, forwardRef as forwardRef17 } from "react";
 import { semantic as t15 } from "../../core/dist/index.js";
-import { jsx as jsx18, jsxs as jsxs9 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV18 } from "react/jsx-dev-runtime";
 var PageHeader = forwardRef17(function PageHeader2({
   title,
   subtitle,
@@ -1536,7 +1537,7 @@ var PageHeader = forwardRef17(function PageHeader2({
       color: t15.colorText
     }
   }, title);
-  return /* @__PURE__ */ jsxs9("div", {
+  return /* @__PURE__ */ jsxDEV18("div", {
     ref,
     className,
     style: {
@@ -1546,34 +1547,34 @@ var PageHeader = forwardRef17(function PageHeader2({
       ...style
     },
     children: [
-      /* @__PURE__ */ jsxs9("div", {
+      /* @__PURE__ */ jsxDEV18("div", {
         children: [
           heading,
-          subtitle && /* @__PURE__ */ jsx18("span", {
+          subtitle && /* @__PURE__ */ jsxDEV18("span", {
             style: {
               color: t15.colorTextMuted,
               fontSize: t15.fontSizeSm
             },
             children: subtitle
-          })
+          }, undefined, false, undefined, this)
         ]
-      }),
-      trailing && /* @__PURE__ */ jsx18("div", {
+      }, undefined, true, undefined, this),
+      trailing && /* @__PURE__ */ jsxDEV18("div", {
         children: trailing
-      })
+      }, undefined, false, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 });
 // src/components/TagChip/TagChip.tsx
 import { forwardRef as forwardRef18 } from "react";
 import { semantic as t16 } from "../../core/dist/index.js";
-import { jsx as jsx19, jsxs as jsxs10 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV19 } from "react/jsx-dev-runtime";
 var TagChip = forwardRef18(function TagChip2({
   name,
   onRemove,
   style
 }, ref) {
-  return /* @__PURE__ */ jsxs10("span", {
+  return /* @__PURE__ */ jsxDEV19("span", {
     ref,
     style: {
       display: "inline-flex",
@@ -1589,20 +1590,20 @@ var TagChip = forwardRef18(function TagChip2({
     },
     children: [
       name,
-      onRemove && /* @__PURE__ */ jsx19(IconButton, {
+      onRemove && /* @__PURE__ */ jsxDEV19(IconButton, {
         icon: "close",
         size: 12,
         onClick: onRemove,
         "aria-label": `Remove ${name}`,
         style: { width: 18, height: 18, color: t16.colorActionPrimary }
-      })
+      }, undefined, false, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 });
 // src/components/ExpandableCard/ExpandableCard.tsx
 import { semantic as t17 } from "../../core/dist/index.js";
 import { forwardRef as forwardRef19, useState as useState2, useId as useId2 } from "react";
-import { jsx as jsx20, jsxs as jsxs11 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV20 } from "react/jsx-dev-runtime";
 var ExpandableCard = forwardRef19(function ExpandableCard2({
   title,
   children,
@@ -1623,16 +1624,16 @@ var ExpandableCard = forwardRef19(function ExpandableCard2({
     }
     onToggle?.(next);
   };
-  return /* @__PURE__ */ jsxs11(Card, {
+  return /* @__PURE__ */ jsxDEV20(Card, {
     ref,
     variant,
     padding: "xs",
     style,
     children: [
-      /* @__PURE__ */ jsxs11("div", {
+      /* @__PURE__ */ jsxDEV20("div", {
         style: { display: "flex", alignItems: "center", justifyContent: "space-between" },
         children: [
-          /* @__PURE__ */ jsxs11("button", {
+          /* @__PURE__ */ jsxDEV20("button", {
             type: "button",
             onClick: handleToggle,
             "aria-expanded": isOpen,
@@ -1652,7 +1653,7 @@ var ExpandableCard = forwardRef19(function ExpandableCard2({
               flex: 1
             },
             children: [
-              /* @__PURE__ */ jsx20("span", {
+              /* @__PURE__ */ jsxDEV20("span", {
                 style: {
                   display: "inline-flex",
                   alignItems: "center",
@@ -1664,11 +1665,11 @@ var ExpandableCard = forwardRef19(function ExpandableCard2({
                   transition: "transform 200ms ease",
                   transform: isOpen ? "rotate(90deg)" : "rotate(0deg)"
                 },
-                children: /* @__PURE__ */ jsx20(IconChevronRight, {
+                children: /* @__PURE__ */ jsxDEV20(IconChevronRight, {
                   size: 20
-                })
-              }),
-              /* @__PURE__ */ jsx20("span", {
+                }, undefined, false, undefined, this)
+              }, undefined, false, undefined, this),
+              /* @__PURE__ */ jsxDEV20("span", {
                 style: {
                   fontWeight: t17.fontWeightSemibold,
                   fontFamily: t17.fontSans,
@@ -1676,16 +1677,16 @@ var ExpandableCard = forwardRef19(function ExpandableCard2({
                   fontSize: t17.fontSizeSm
                 },
                 children: title
-              })
+              }, undefined, false, undefined, this)
             ]
-          }),
-          headerAction && /* @__PURE__ */ jsx20("div", {
+          }, undefined, true, undefined, this),
+          headerAction && /* @__PURE__ */ jsxDEV20("div", {
             style: { padding: `0 ${t17.spaceMd}` },
             children: headerAction
-          })
+          }, undefined, false, undefined, this)
         ]
-      }),
-      /* @__PURE__ */ jsx20("div", {
+      }, undefined, true, undefined, this),
+      /* @__PURE__ */ jsxDEV20("div", {
         id: panelId,
         role: "region",
         style: {
@@ -1693,22 +1694,22 @@ var ExpandableCard = forwardRef19(function ExpandableCard2({
           gridTemplateRows: isOpen ? "1fr" : "0fr",
           transition: "grid-template-rows 200ms ease"
         },
-        children: /* @__PURE__ */ jsx20("div", {
+        children: /* @__PURE__ */ jsxDEV20("div", {
           style: { overflow: "hidden" },
-          children: /* @__PURE__ */ jsx20("div", {
+          children: /* @__PURE__ */ jsxDEV20("div", {
             style: { padding: `${t17.spaceSm} ${t17.spaceMd} ${t17.spaceMd}` },
             children
-          })
-        })
-      })
+          }, undefined, false, undefined, this)
+        }, undefined, false, undefined, this)
+      }, undefined, false, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 });
 // src/components/ModalShell/ModalShell.tsx
 import { forwardRef as forwardRef20, useEffect as useEffect3, useId as useId3, useRef as useRef2 } from "react";
 import { createPortal } from "react-dom";
 import { semantic as t18 } from "../../core/dist/index.js";
-import { jsx as jsx21, jsxs as jsxs12, Fragment } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV21, Fragment } from "react/jsx-dev-runtime";
 var FOCUSABLE_SELECTOR2 = [
   "a[href]",
   "button:not(:disabled)",
@@ -1763,13 +1764,13 @@ var ModalShell = forwardRef20(function ModalShell2({
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
-  return createPortal(/* @__PURE__ */ jsxs12(Fragment, {
+  return createPortal(/* @__PURE__ */ jsxDEV21(Fragment, {
     children: [
-      /* @__PURE__ */ jsx21(Overlay, {
+      /* @__PURE__ */ jsxDEV21(Overlay, {
         onClick: onClose,
         zIndex
-      }),
-      /* @__PURE__ */ jsx21("div", {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV21("div", {
         style: {
           position: "fixed",
           inset: 0,
@@ -1779,7 +1780,7 @@ var ModalShell = forwardRef20(function ModalShell2({
           zIndex: zIndex + 1,
           pointerEvents: "none"
         },
-        children: /* @__PURE__ */ jsx21("div", {
+        children: /* @__PURE__ */ jsxDEV21("div", {
           ref: setRefs,
           role,
           "aria-modal": "true",
@@ -1800,15 +1801,15 @@ var ModalShell = forwardRef20(function ModalShell2({
             ...style
           },
           children
-        })
-      })
+        }, undefined, false, undefined, this)
+      }, undefined, false, undefined, this)
     ]
-  }), document.body);
+  }, undefined, true, undefined, this), document.body);
 });
 // src/components/ConfirmDialog/ConfirmDialog.tsx
 import { forwardRef as forwardRef21, useId as useId4, useState as useState3 } from "react";
 import { semantic as t19 } from "../../core/dist/index.js";
-import { jsx as jsx22, jsxs as jsxs13 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV22 } from "react/jsx-dev-runtime";
 var variantButtonMap = {
   destructive: "destructive",
   info: "primary",
@@ -1833,13 +1834,13 @@ var ConfirmDialog = forwardRef21(function ConfirmDialog2({
       setLoading(false);
     }
   };
-  return /* @__PURE__ */ jsxs13(ModalShell, {
+  return /* @__PURE__ */ jsxDEV22(ModalShell, {
     ref,
     onClose: onCancel,
     role: "alertdialog",
     titleId,
     children: [
-      /* @__PURE__ */ jsx22("h2", {
+      /* @__PURE__ */ jsxDEV22("h2", {
         id: titleId,
         style: {
           margin: 0,
@@ -1849,8 +1850,8 @@ var ConfirmDialog = forwardRef21(function ConfirmDialog2({
           fontSize: t19.fontSizeLg
         },
         children: title
-      }),
-      /* @__PURE__ */ jsx22("p", {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV22("p", {
         style: {
           margin: `${t19.spaceSm} 0 ${children ? "0" : t19.spaceLg}`,
           color: t19.colorTextMuted,
@@ -1858,40 +1859,40 @@ var ConfirmDialog = forwardRef21(function ConfirmDialog2({
           fontFamily: t19.fontSans
         },
         children: message
-      }),
-      children && /* @__PURE__ */ jsx22("div", {
+      }, undefined, false, undefined, this),
+      children && /* @__PURE__ */ jsxDEV22("div", {
         style: { margin: `${t19.spaceSm} 0 ${t19.spaceLg}` },
         children
-      }),
-      /* @__PURE__ */ jsxs13("div", {
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV22("div", {
         style: {
           display: "flex",
           justifyContent: "flex-end",
           gap: t19.spaceSm
         },
         children: [
-          /* @__PURE__ */ jsx22(Button, {
+          /* @__PURE__ */ jsxDEV22(Button, {
             variant: "ghost",
             onClick: onCancel,
             disabled: loading,
             autoFocus: true,
             children: "Cancel"
-          }),
-          /* @__PURE__ */ jsx22(Button, {
+          }, undefined, false, undefined, this),
+          /* @__PURE__ */ jsxDEV22(Button, {
             variant: variantButtonMap[variant],
             onClick: handleConfirm,
             disabled: loading,
             children: loading ? "Loading..." : confirmLabel
-          })
+          }, undefined, false, undefined, this)
         ]
-      })
+      }, undefined, true, undefined, this)
     ]
-  });
+  }, undefined, true, undefined, this);
 });
 // src/components/StatusDot/StatusDot.tsx
 import { forwardRef as forwardRef22 } from "react";
 import { semantic as t20 } from "../../core/dist/index.js";
-import { jsx as jsx23 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV23 } from "react/jsx-dev-runtime";
 var variantColors = {
   default: t20.colorTextMuted,
   success: t20.colorSuccess,
@@ -1907,7 +1908,7 @@ var StatusDot = forwardRef22(function StatusDot2({
   style
 }, ref) {
   const resolvedColor = color ?? variantColors[variant];
-  return /* @__PURE__ */ jsx23("span", {
+  return /* @__PURE__ */ jsxDEV23("span", {
     ref,
     role: ariaLabel ? "img" : undefined,
     "aria-label": ariaLabel,
@@ -1921,13 +1922,13 @@ var StatusDot = forwardRef22(function StatusDot2({
       flexShrink: 0,
       ...style
     }
-  });
+  }, undefined, false, undefined, this);
 });
 // src/components/ThemeSurface/ThemeSurface.tsx
 import { forwardRef as forwardRef23, useEffect as useEffect4, useRef as useRef3 } from "react";
 import { semantic as t21 } from "../../core/dist/index.js";
 import { useTheme as useTheme2 } from "../../core/dist/index.js";
-import { jsx as jsx24, Fragment as Fragment2 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV24, Fragment as Fragment2 } from "react/jsx-dev-runtime";
 var ThemeSurface = forwardRef23(function ThemeSurface2({
   children,
   global = false,
@@ -1951,24 +1952,24 @@ var ThemeSurface = forwardRef23(function ThemeSurface2({
     };
   }, [global, resolved, themes]);
   if (global) {
-    return /* @__PURE__ */ jsx24(Fragment2, {
+    return /* @__PURE__ */ jsxDEV24(Fragment2, {
       children
-    });
+    }, undefined, false, undefined, this);
   }
-  return /* @__PURE__ */ jsx24("div", {
+  return /* @__PURE__ */ jsxDEV24("div", {
     ref,
     style: {
       background: t21.colorSurfacePage,
       ...style
     },
     children
-  });
+  }, undefined, false, undefined, this);
 });
 // src/components/Table/Table.tsx
 import { forwardRef as forwardRef24 } from "react";
 import { semantic as t22 } from "../../core/dist/index.js";
 import { useInjectStyles as useInjectStyles2 } from "../../core/dist/index.js";
-import { jsx as jsx25 } from "react/jsx-runtime";
+import { jsxDEV as jsxDEV25 } from "react/jsx-dev-runtime";
 var spaceMap = {
   xs: t22.spaceXs,
   sm: t22.spaceSm,
@@ -2013,7 +2014,7 @@ var Table = forwardRef24(function Table2({
   ...props
 }, ref) {
   useInjectStyles2(TABLE_STYLES_ID, TABLE_STYLES_CSS);
-  return /* @__PURE__ */ jsx25("div", {
+  return /* @__PURE__ */ jsxDEV25("div", {
     ref,
     style: {
       overflowX: "auto",
@@ -2021,7 +2022,7 @@ var Table = forwardRef24(function Table2({
       ...style
     },
     ...props,
-    children: /* @__PURE__ */ jsx25("table", {
+    children: /* @__PURE__ */ jsxDEV25("table", {
       "data-table-density": density,
       style: {
         width: "100%",
@@ -2031,18 +2032,18 @@ var Table = forwardRef24(function Table2({
         color: t22.colorText
       },
       children
-    })
-  });
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
 });
 var TableHeader = forwardRef24(function TableHeader2({ children, style, ...props }, ref) {
-  return /* @__PURE__ */ jsx25("thead", {
+  return /* @__PURE__ */ jsxDEV25("thead", {
     ref,
     style,
     ...props,
-    children: /* @__PURE__ */ jsx25("tr", {
+    children: /* @__PURE__ */ jsxDEV25("tr", {
       children
-    })
-  });
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
 });
 var TableHeaderCell = forwardRef24(function TableHeaderCell2({
   align = "left",
@@ -2051,7 +2052,7 @@ var TableHeaderCell = forwardRef24(function TableHeaderCell2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx25("th", {
+  return /* @__PURE__ */ jsxDEV25("th", {
     ref,
     style: {
       padding: `${t22.spaceSm} ${t22.spaceMd}`,
@@ -2068,14 +2069,14 @@ var TableHeaderCell = forwardRef24(function TableHeaderCell2({
     },
     ...props,
     children
-  });
+  }, undefined, false, undefined, this);
 });
 var TableBody = forwardRef24(function TableBody2({ children, ...props }, ref) {
-  return /* @__PURE__ */ jsx25("tbody", {
+  return /* @__PURE__ */ jsxDEV25("tbody", {
     ref,
     ...props,
     children
-  });
+  }, undefined, false, undefined, this);
 });
 var TableRow = forwardRef24(function TableRow2({
   selected = false,
@@ -2093,7 +2094,7 @@ var TableRow = forwardRef24(function TableRow2({
     }
     onKeyDown?.(e);
   } : onKeyDown;
-  return /* @__PURE__ */ jsx25("tr", {
+  return /* @__PURE__ */ jsxDEV25("tr", {
     ref,
     "data-table-row-hoverable": hoverable || undefined,
     "data-table-row-selected": selected || undefined,
@@ -2108,7 +2109,7 @@ var TableRow = forwardRef24(function TableRow2({
     },
     ...props,
     children
-  });
+  }, undefined, false, undefined, this);
 });
 var TableCell = forwardRef24(function TableCell2({
   align = "left",
@@ -2119,7 +2120,7 @@ var TableCell = forwardRef24(function TableCell2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx25("td", {
+  return /* @__PURE__ */ jsxDEV25("td", {
     ref,
     style: {
       padding: `${t22.spaceSm} ${t22.spaceMd}`,
@@ -2138,7 +2139,7 @@ var TableCell = forwardRef24(function TableCell2({
     },
     ...props,
     children
-  });
+  }, undefined, false, undefined, this);
 });
 var TableGroupHeader = forwardRef24(function TableGroupHeader2({
   colSpan,
@@ -2146,11 +2147,11 @@ var TableGroupHeader = forwardRef24(function TableGroupHeader2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx25("tr", {
+  return /* @__PURE__ */ jsxDEV25("tr", {
     ref,
     style: { cursor: "default", ...style },
     ...props,
-    children: /* @__PURE__ */ jsx25("td", {
+    children: /* @__PURE__ */ jsxDEV25("td", {
       colSpan,
       style: {
         padding: `${t22.spaceXs} ${t22.spaceMd}`,
@@ -2166,8 +2167,8 @@ var TableGroupHeader = forwardRef24(function TableGroupHeader2({
         whiteSpace: "nowrap"
       },
       children
-    })
-  });
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
 });
 var TableEmptyRow = forwardRef24(function TableEmptyRow2({
   colSpan,
@@ -2175,11 +2176,11 @@ var TableEmptyRow = forwardRef24(function TableEmptyRow2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx25("tr", {
+  return /* @__PURE__ */ jsxDEV25("tr", {
     ref,
     style,
     ...props,
-    children: /* @__PURE__ */ jsx25("td", {
+    children: /* @__PURE__ */ jsxDEV25("td", {
       colSpan,
       style: {
         padding: `${t22.spaceXl} ${t22.spaceMd}`,
@@ -2188,8 +2189,777 @@ var TableEmptyRow = forwardRef24(function TableEmptyRow2({
         fontSize: t22.fontSizeSm
       },
       children
-    })
-  });
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+});
+// src/components/DateRangePicker/DateRangePicker.tsx
+import { forwardRef as forwardRef25, useState as useState4, useRef as useRef5, useCallback as useCallback3, useEffect as useEffect5 } from "react";
+import { semantic as t26, useInjectStyles as useInjectStyles3 } from "../../core/dist/index.js";
+
+// src/components/DateRangePicker/CalendarHeader.tsx
+import { semantic as t23 } from "../../core/dist/index.js";
+
+// src/components/DateRangePicker/dateUtils.ts
+function getDaysInMonth(year, month) {
+  return new Date(year, month + 1, 0).getDate();
+}
+function getFirstDayOfMonth(year, month) {
+  return new Date(year, month, 1).getDay();
+}
+function isSameDay(a, b) {
+  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+}
+function isInRange(date, from, to) {
+  const d = stripTime(date).getTime();
+  const f = stripTime(from).getTime();
+  const t23 = stripTime(to).getTime();
+  return d >= f && d <= t23;
+}
+function isDateDisabled(date, minDate, maxDate, disabledDates) {
+  const d = stripTime(date).getTime();
+  if (minDate && d < stripTime(minDate).getTime())
+    return true;
+  if (maxDate && d > stripTime(maxDate).getTime())
+    return true;
+  if (disabledDates) {
+    for (const dd of disabledDates) {
+      if (isSameDay(date, dd))
+        return true;
+    }
+  }
+  return false;
+}
+function formatDate(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+function stripTime(d) {
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+var MONTH_NAMES = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+];
+var WEEKDAY_LABELS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+function buildCalendarGrid(year, month) {
+  const firstDay = getFirstDayOfMonth(year, month);
+  const grid = [];
+  for (let i = firstDay - 1;i >= 0; i--) {
+    const d = new Date(year, month, -i);
+    grid.push(d);
+  }
+  const daysInMonth = getDaysInMonth(year, month);
+  for (let d = 1;d <= daysInMonth; d++) {
+    grid.push(new Date(year, month, d));
+  }
+  while (grid.length < 42) {
+    const overflow = grid.length - firstDay - daysInMonth + 1;
+    grid.push(new Date(year, month + 1, overflow));
+  }
+  return grid;
+}
+
+// src/components/DateRangePicker/CalendarHeader.tsx
+import { jsxDEV as jsxDEV26 } from "react/jsx-dev-runtime";
+var headerStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  padding: `${t23.spaceXs} 0`
+};
+var titleStyle = {
+  fontSize: t23.fontSizeSm,
+  fontWeight: t23.fontWeightSemibold,
+  fontFamily: t23.fontSans,
+  color: t23.colorText,
+  margin: 0,
+  userSelect: "none"
+};
+function CalendarHeader({
+  year,
+  month,
+  onPrev,
+  onNext
+}) {
+  return /* @__PURE__ */ jsxDEV26("div", {
+    style: headerStyle,
+    children: [
+      /* @__PURE__ */ jsxDEV26(IconButton, {
+        icon: "chevron-left",
+        "aria-label": "Previous month",
+        size: 16,
+        onClick: onPrev,
+        style: { width: 28, height: 28 }
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV26("span", {
+        style: titleStyle,
+        children: [
+          MONTH_NAMES[month],
+          " ",
+          year
+        ]
+      }, undefined, true, undefined, this),
+      /* @__PURE__ */ jsxDEV26(IconButton, {
+        icon: "chevron-right",
+        "aria-label": "Next month",
+        size: 16,
+        onClick: onNext,
+        style: { width: 28, height: 28 }
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+
+// src/components/DateRangePicker/CalendarGrid.tsx
+import { useCallback as useCallback2, useRef as useRef4 } from "react";
+import { semantic as t25 } from "../../core/dist/index.js";
+
+// src/components/DateRangePicker/DayCell.tsx
+import { semantic as t24 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV27 } from "react/jsx-dev-runtime";
+var baseCellStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: t24.spaceXl,
+  height: t24.spaceXl,
+  border: "none",
+  borderRadius: t24.radiusSm,
+  fontSize: t24.fontSizeSm,
+  fontFamily: t24.fontSans,
+  cursor: "pointer",
+  background: "transparent",
+  color: t24.colorText,
+  padding: 0,
+  transition: "background 120ms ease, color 120ms ease",
+  outline: "none",
+  boxSizing: "border-box"
+};
+function DayCell({
+  date,
+  currentMonth,
+  today,
+  rangeStart,
+  rangeEnd,
+  isInRange: inRange,
+  isDisabled,
+  scopeClass,
+  onSelect,
+  onKeyDown,
+  tabIndex
+}) {
+  const isOutsideMonth = date.getMonth() !== currentMonth;
+  const isToday = isSameDay(date, today);
+  const isStart = rangeStart !== null && isSameDay(date, rangeStart);
+  const isEnd = rangeEnd !== null && isSameDay(date, rangeEnd);
+  const isEndpoint = isStart || isEnd;
+  const cellStyle = {
+    ...baseCellStyle,
+    ...isOutsideMonth ? { color: t24.colorTextMuted, opacity: 0.5 } : {},
+    ...isToday && !isEndpoint ? { border: `1px solid ${t24.colorActionPrimary}` } : {},
+    ...inRange && !isEndpoint ? { background: `color-mix(in srgb, ${t24.colorActionPrimary} 15%, transparent)` } : {},
+    ...isEndpoint ? { background: t24.colorActionPrimary, color: t24.colorTextInverse } : {},
+    ...isDisabled ? {
+      color: t24.colorTextDisabled,
+      pointerEvents: "none",
+      cursor: "default",
+      opacity: 0.5
+    } : {}
+  };
+  const classNames = [
+    scopeClass + "-day",
+    ...isDisabled ? [] : [scopeClass + "-day--enabled"]
+  ].join(" ");
+  return /* @__PURE__ */ jsxDEV27("td", {
+    role: "gridcell",
+    style: { padding: 0 },
+    children: /* @__PURE__ */ jsxDEV27("button", {
+      type: "button",
+      className: classNames,
+      style: cellStyle,
+      tabIndex,
+      "aria-selected": isEndpoint || inRange && !isDisabled || undefined,
+      "aria-disabled": isDisabled || undefined,
+      onClick: () => {
+        if (!isDisabled)
+          onSelect(date);
+      },
+      onKeyDown: (e) => onKeyDown(e, date),
+      children: date.getDate()
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+
+// src/components/DateRangePicker/CalendarGrid.tsx
+import { jsxDEV as jsxDEV28 } from "react/jsx-dev-runtime";
+var tableStyle = {
+  borderCollapse: "collapse",
+  width: "100%",
+  tableLayout: "fixed"
+};
+var weekdayHeaderStyle = {
+  fontSize: t25.fontSizeXs,
+  fontFamily: t25.fontSans,
+  fontWeight: t25.fontWeightMedium,
+  color: t25.colorTextMuted,
+  textAlign: "center",
+  padding: `${t25.spaceXs} 0`,
+  userSelect: "none"
+};
+function CalendarGrid({
+  year,
+  month,
+  rangeStart,
+  rangeEnd,
+  minDate,
+  maxDate,
+  disabledDates,
+  scopeClass,
+  focusedDate,
+  onSelect,
+  onFocusedDateChange
+}) {
+  const today = useRef4(new Date).current;
+  const grid = buildCalendarGrid(year, month);
+  const rows = [];
+  for (let r = 0;r < 6; r++) {
+    rows.push(grid.slice(r * 7, r * 7 + 7));
+  }
+  const handleKeyDown = useCallback2((e, date) => {
+    let next = null;
+    switch (e.key) {
+      case "ArrowLeft":
+        next = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1);
+        break;
+      case "ArrowRight":
+        next = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
+        break;
+      case "ArrowUp":
+        next = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 7);
+        break;
+      case "ArrowDown":
+        next = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 7);
+        break;
+      case "Enter":
+      case " ":
+        e.preventDefault();
+        if (!isDateDisabled(date, minDate, maxDate, disabledDates)) {
+          onSelect(date);
+        }
+        return;
+      default:
+        return;
+    }
+    e.preventDefault();
+    if (next) {
+      onFocusedDateChange(next);
+    }
+  }, [minDate, maxDate, disabledDates, onSelect, onFocusedDateChange]);
+  const sortedStart = rangeStart && rangeEnd ? rangeStart.getTime() <= rangeEnd.getTime() ? rangeStart : rangeEnd : rangeStart;
+  const sortedEnd = rangeStart && rangeEnd ? rangeStart.getTime() <= rangeEnd.getTime() ? rangeEnd : rangeStart : rangeEnd;
+  return /* @__PURE__ */ jsxDEV28("table", {
+    style: tableStyle,
+    role: "grid",
+    "aria-label": "Calendar",
+    children: [
+      /* @__PURE__ */ jsxDEV28("thead", {
+        children: /* @__PURE__ */ jsxDEV28("tr", {
+          children: WEEKDAY_LABELS.map((label) => /* @__PURE__ */ jsxDEV28("th", {
+            scope: "col",
+            style: weekdayHeaderStyle,
+            children: label
+          }, label, false, undefined, this))
+        }, undefined, false, undefined, this)
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV28("tbody", {
+        children: rows.map((row, ri) => /* @__PURE__ */ jsxDEV28("tr", {
+          children: row.map((date) => {
+            const key = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+            const disabled = isDateDisabled(date, minDate, maxDate, disabledDates);
+            const inRange = sortedStart !== null && sortedEnd !== null && isInRange(date, sortedStart, sortedEnd);
+            const isFocused = isSameDay(date, focusedDate);
+            return /* @__PURE__ */ jsxDEV28(DayCell, {
+              date,
+              currentMonth: month,
+              today,
+              rangeStart: sortedStart ?? null,
+              rangeEnd: sortedEnd ?? null,
+              isInRange: inRange,
+              isDisabled: disabled,
+              scopeClass,
+              onSelect,
+              onKeyDown: handleKeyDown,
+              tabIndex: isFocused ? 0 : -1
+            }, key, false, undefined, this);
+          })
+        }, ri, false, undefined, this))
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+
+// src/components/DateRangePicker/DateRangePicker.tsx
+import { jsxDEV as jsxDEV29 } from "react/jsx-dev-runtime";
+var SCOPE = "alttab-drp";
+var injectedCSS = `
+  .${SCOPE}-day--enabled:hover {
+    background: ${t26.colorSurfaceRaised} !important;
+  }
+  .${SCOPE}-day--enabled:focus-visible {
+    outline: ${t26.focusRingWidth} solid ${t26.focusRingColor};
+    outline-offset: ${t26.focusRingOffset};
+  }
+  .${SCOPE}-trigger:focus-visible {
+    border-color: ${t26.colorBorderFocused};
+    box-shadow: 0 0 0 ${t26.focusRingWidth} ${t26.focusRingColor};
+  }
+  .${SCOPE}-trigger:hover:not(:disabled) {
+    border-color: ${t26.colorBorderFocused};
+  }
+`;
+var wrapperStyle2 = {
+  position: "relative",
+  display: "inline-block",
+  width: "100%"
+};
+var triggerBaseStyle = {
+  display: "block",
+  width: "100%",
+  padding: `${t26.spaceSm} ${t26.spaceMd}`,
+  fontSize: t26.fontSizeSm,
+  lineHeight: t26.lineHeightTight,
+  fontFamily: t26.fontSans,
+  color: t26.colorText,
+  background: t26.colorSurfaceInput,
+  border: `1px solid ${t26.colorBorder}`,
+  borderRadius: t26.radiusMd,
+  outline: "none",
+  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  boxSizing: "border-box",
+  cursor: "pointer",
+  textAlign: "left"
+};
+var triggerErrorStyle = {
+  borderColor: t26.colorBorderError
+};
+var triggerDisabledStyle = {
+  background: t26.colorSurfaceDisabled,
+  color: t26.colorTextDisabled,
+  cursor: "not-allowed"
+};
+var popoverStyle = {
+  position: "absolute",
+  top: "100%",
+  left: 0,
+  zIndex: 50,
+  marginTop: t26.spaceXs,
+  background: t26.colorSurfacePanel,
+  border: `1px solid ${t26.colorBorder}`,
+  borderRadius: t26.radiusLg,
+  boxShadow: t26.shadowMd,
+  padding: t26.spaceMd,
+  minWidth: 290,
+  boxSizing: "border-box"
+};
+var placeholderStyle = {
+  color: t26.colorTextPlaceholder
+};
+var DateRangePicker = forwardRef25(function DateRangePicker2({
+  value,
+  onChange,
+  minDate,
+  maxDate,
+  disabledDates,
+  placeholder = "Select date range",
+  hasError,
+  disabled,
+  style
+}, ref) {
+  useInjectStyles3(SCOPE, injectedCSS);
+  const [open, setOpen] = useState4(false);
+  const [selectionStart, setSelectionStart] = useState4(null);
+  const containerRef = useRef5(null);
+  const initialDate = value?.from ?? new Date;
+  const [viewYear, setViewYear] = useState4(initialDate.getFullYear());
+  const [viewMonth, setViewMonth] = useState4(initialDate.getMonth());
+  const [focusedDate, setFocusedDate] = useState4(value?.from ?? new Date);
+  const handleFocusedDateChange = useCallback3((date) => {
+    setFocusedDate(date);
+    setViewYear(date.getFullYear());
+    setViewMonth(date.getMonth());
+  }, []);
+  useEffect5(() => {
+    if (!open)
+      return;
+    const container = containerRef.current;
+    if (!container)
+      return;
+    const btn = container.querySelector('button[tabindex="0"]');
+    btn?.focus();
+  }, [focusedDate, open]);
+  useEffect5(() => {
+    if (!open)
+      return;
+    function handleMouseDown(e) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setOpen(false);
+        setSelectionStart(null);
+      }
+    }
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [open]);
+  useEffect5(() => {
+    if (!open)
+      return;
+    function handleKey(e) {
+      if (e.key === "Escape") {
+        setOpen(false);
+        setSelectionStart(null);
+      }
+    }
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [open]);
+  const handleToggle = useCallback3(() => {
+    if (disabled)
+      return;
+    setOpen((prev) => {
+      if (!prev) {
+        const base = value?.from ?? new Date;
+        setViewYear(base.getFullYear());
+        setViewMonth(base.getMonth());
+        setFocusedDate(value?.from ?? new Date);
+        setSelectionStart(null);
+      }
+      return !prev;
+    });
+  }, [disabled, value]);
+  const handlePrevMonth = useCallback3(() => {
+    setViewMonth((m) => {
+      if (m === 0) {
+        setViewYear((y) => y - 1);
+        return 11;
+      }
+      return m - 1;
+    });
+  }, []);
+  const handleNextMonth = useCallback3(() => {
+    setViewMonth((m) => {
+      if (m === 11) {
+        setViewYear((y) => y + 1);
+        return 0;
+      }
+      return m + 1;
+    });
+  }, []);
+  const handleDaySelect = useCallback3((date) => {
+    if (selectionStart === null) {
+      setSelectionStart(date);
+    } else {
+      const from = selectionStart.getTime() <= date.getTime() ? selectionStart : date;
+      const to = selectionStart.getTime() <= date.getTime() ? date : selectionStart;
+      onChange({ from, to });
+      setSelectionStart(null);
+      setOpen(false);
+    }
+  }, [selectionStart, onChange]);
+  let displayText;
+  if (value) {
+    displayText = `${formatDate(value.from)} – ${formatDate(value.to)}`;
+  } else {
+    displayText = /* @__PURE__ */ jsxDEV29("span", {
+      style: placeholderStyle,
+      children: placeholder
+    }, undefined, false, undefined, this);
+  }
+  const calendarStart = selectionStart ?? value?.from ?? null;
+  const calendarEnd = selectionStart ? null : value?.to ?? null;
+  return /* @__PURE__ */ jsxDEV29("div", {
+    ref: (node) => {
+      containerRef.current = node;
+      if (typeof ref === "function")
+        ref(node);
+      else if (ref)
+        ref.current = node;
+    },
+    style: { ...wrapperStyle2, ...style },
+    children: [
+      /* @__PURE__ */ jsxDEV29("button", {
+        type: "button",
+        className: `${SCOPE}-trigger`,
+        style: {
+          ...triggerBaseStyle,
+          ...hasError ? triggerErrorStyle : {},
+          ...disabled ? triggerDisabledStyle : {}
+        },
+        onClick: handleToggle,
+        disabled,
+        "aria-haspopup": "dialog",
+        "aria-expanded": open,
+        "aria-invalid": hasError || undefined,
+        children: displayText
+      }, undefined, false, undefined, this),
+      open && /* @__PURE__ */ jsxDEV29("div", {
+        style: popoverStyle,
+        role: "dialog",
+        "aria-label": "Date range picker",
+        children: [
+          /* @__PURE__ */ jsxDEV29(CalendarHeader, {
+            year: viewYear,
+            month: viewMonth,
+            onPrev: handlePrevMonth,
+            onNext: handleNextMonth
+          }, undefined, false, undefined, this),
+          /* @__PURE__ */ jsxDEV29(CalendarGrid, {
+            year: viewYear,
+            month: viewMonth,
+            rangeStart: calendarStart,
+            rangeEnd: calendarEnd,
+            minDate,
+            maxDate,
+            disabledDates,
+            scopeClass: SCOPE,
+            focusedDate,
+            onSelect: handleDaySelect,
+            onFocusedDateChange: handleFocusedDateChange
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/DatePicker/DatePicker.tsx
+import { forwardRef as forwardRef26, useState as useState5, useRef as useRef6, useCallback as useCallback4, useEffect as useEffect6 } from "react";
+import { semantic as t27, useInjectStyles as useInjectStyles4 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV30 } from "react/jsx-dev-runtime";
+var SCOPE2 = "alttab-dp";
+var injectedCSS2 = `
+  .${SCOPE2}-day--enabled:hover {
+    background: ${t27.colorSurfaceRaised} !important;
+  }
+  .${SCOPE2}-day--enabled:focus-visible {
+    outline: ${t27.focusRingWidth} solid ${t27.focusRingColor};
+    outline-offset: ${t27.focusRingOffset};
+  }
+  .${SCOPE2}-trigger:focus-visible {
+    border-color: ${t27.colorBorderFocused};
+    box-shadow: 0 0 0 ${t27.focusRingWidth} ${t27.focusRingColor};
+  }
+  .${SCOPE2}-trigger:hover:not(:disabled) {
+    border-color: ${t27.colorBorderFocused};
+  }
+`;
+var wrapperStyle3 = {
+  position: "relative",
+  display: "inline-block",
+  width: "100%"
+};
+var triggerBaseStyle2 = {
+  display: "block",
+  width: "100%",
+  padding: `${t27.spaceSm} ${t27.spaceMd}`,
+  fontSize: t27.fontSizeSm,
+  lineHeight: t27.lineHeightTight,
+  fontFamily: t27.fontSans,
+  color: t27.colorText,
+  background: t27.colorSurfaceInput,
+  border: `1px solid ${t27.colorBorder}`,
+  borderRadius: t27.radiusMd,
+  outline: "none",
+  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  boxSizing: "border-box",
+  cursor: "pointer",
+  textAlign: "left"
+};
+var triggerErrorStyle2 = {
+  borderColor: t27.colorBorderError
+};
+var triggerDisabledStyle2 = {
+  background: t27.colorSurfaceDisabled,
+  color: t27.colorTextDisabled,
+  cursor: "not-allowed"
+};
+var popoverStyle2 = {
+  position: "absolute",
+  top: "100%",
+  left: 0,
+  zIndex: 50,
+  marginTop: t27.spaceXs,
+  background: t27.colorSurfacePanel,
+  border: `1px solid ${t27.colorBorder}`,
+  borderRadius: t27.radiusLg,
+  boxShadow: t27.shadowMd,
+  padding: t27.spaceMd,
+  minWidth: 290,
+  boxSizing: "border-box"
+};
+var placeholderStyle2 = {
+  color: t27.colorTextPlaceholder
+};
+var DatePicker = forwardRef26(function DatePicker2({
+  value,
+  onChange,
+  minDate,
+  maxDate,
+  disabledDates,
+  placeholder = "Select date",
+  hasError,
+  disabled,
+  style
+}, ref) {
+  useInjectStyles4(SCOPE2, injectedCSS2);
+  const [open, setOpen] = useState5(false);
+  const containerRef = useRef6(null);
+  const initialDate = value ?? new Date;
+  const [viewYear, setViewYear] = useState5(initialDate.getFullYear());
+  const [viewMonth, setViewMonth] = useState5(initialDate.getMonth());
+  const [focusedDate, setFocusedDate] = useState5(value ?? new Date);
+  const handleFocusedDateChange = useCallback4((date) => {
+    setFocusedDate(date);
+    setViewYear(date.getFullYear());
+    setViewMonth(date.getMonth());
+  }, []);
+  useEffect6(() => {
+    if (!open)
+      return;
+    const container = containerRef.current;
+    if (!container)
+      return;
+    const btn = container.querySelector('button[tabindex="0"]');
+    btn?.focus();
+  }, [focusedDate, open]);
+  useEffect6(() => {
+    if (!open)
+      return;
+    function handleMouseDown(e) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [open]);
+  useEffect6(() => {
+    if (!open)
+      return;
+    function handleKey(e) {
+      if (e.key === "Escape") {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [open]);
+  const handleToggle = useCallback4(() => {
+    if (disabled)
+      return;
+    setOpen((prev) => {
+      if (!prev) {
+        const base = value ?? new Date;
+        setViewYear(base.getFullYear());
+        setViewMonth(base.getMonth());
+        setFocusedDate(value ?? new Date);
+      }
+      return !prev;
+    });
+  }, [disabled, value]);
+  const handlePrevMonth = useCallback4(() => {
+    setViewMonth((m) => {
+      if (m === 0) {
+        setViewYear((y) => y - 1);
+        return 11;
+      }
+      return m - 1;
+    });
+  }, []);
+  const handleNextMonth = useCallback4(() => {
+    setViewMonth((m) => {
+      if (m === 11) {
+        setViewYear((y) => y + 1);
+        return 0;
+      }
+      return m + 1;
+    });
+  }, []);
+  const handleDaySelect = useCallback4((date) => {
+    onChange(date);
+    setOpen(false);
+  }, [onChange]);
+  let displayText;
+  if (value) {
+    displayText = formatDate(value);
+  } else {
+    displayText = /* @__PURE__ */ jsxDEV30("span", {
+      style: placeholderStyle2,
+      children: placeholder
+    }, undefined, false, undefined, this);
+  }
+  return /* @__PURE__ */ jsxDEV30("div", {
+    ref: (node) => {
+      containerRef.current = node;
+      if (typeof ref === "function")
+        ref(node);
+      else if (ref)
+        ref.current = node;
+    },
+    style: { ...wrapperStyle3, ...style },
+    children: [
+      /* @__PURE__ */ jsxDEV30("button", {
+        type: "button",
+        className: `${SCOPE2}-trigger`,
+        style: {
+          ...triggerBaseStyle2,
+          ...hasError ? triggerErrorStyle2 : {},
+          ...disabled ? triggerDisabledStyle2 : {}
+        },
+        onClick: handleToggle,
+        disabled,
+        "aria-haspopup": "dialog",
+        "aria-expanded": open,
+        "aria-invalid": hasError || undefined,
+        children: displayText
+      }, undefined, false, undefined, this),
+      open && /* @__PURE__ */ jsxDEV30("div", {
+        style: popoverStyle2,
+        role: "dialog",
+        "aria-label": "Date picker",
+        children: [
+          /* @__PURE__ */ jsxDEV30(CalendarHeader, {
+            year: viewYear,
+            month: viewMonth,
+            onPrev: handlePrevMonth,
+            onNext: handleNextMonth
+          }, undefined, false, undefined, this),
+          /* @__PURE__ */ jsxDEV30(CalendarGrid, {
+            year: viewYear,
+            month: viewMonth,
+            rangeStart: value ?? null,
+            rangeEnd: null,
+            minDate,
+            maxDate,
+            disabledDates,
+            scopeClass: SCOPE2,
+            focusedDate,
+            onSelect: handleDaySelect,
+            onFocusedDateChange: handleFocusedDateChange
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
 });
 export {
   useFocusTrap,
