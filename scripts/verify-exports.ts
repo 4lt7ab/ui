@@ -113,18 +113,27 @@ function resolveBarrelExports(fromFile: string, modulePath: string): string[] {
   return [];
 }
 
-// Check that an export name has an actual definition in the dist bundle,
-// not just a reference in the export {} block at the bottom.
+// Check that an export name has an actual definition in the dist bundle.
+// Handles both unminified bundles (var Button =) and minified bundles
+// where identifiers are mangled but export aliases preserve names
+// (export { e as Button }).
 function isDefinedInBundle(distContent: string, exportName: string): boolean {
-  // Look for actual definitions: var X =, const X =, function X, class X, let X =
-  // Also handle bundler patterns like: var X = ..., exports.X =
-  const patterns = [
+  // Direct definitions: var X =, const X =, function X, class X
+  const definitionPatterns = [
     new RegExp(`(?:var|const|let)\\s+${exportName}\\s*=`),
     new RegExp(`function\\s+${exportName}[\\s(]`),
     new RegExp(`class\\s+${exportName}[\\s{]`),
   ];
 
-  return patterns.some((p) => p.test(distContent));
+  if (definitionPatterns.some((p) => p.test(distContent))) return true;
+
+  // Minified export alias: "as ExportName" or "as ExportName," or "as ExportName}"
+  // in an export { ... } block. This proves the name survived compilation —
+  // the bundler mapped a mangled internal name to the correct export name.
+  const aliasPattern = new RegExp(`\\bas\\s+${exportName}\\b`);
+  if (aliasPattern.test(distContent)) return true;
+
+  return false;
 }
 
 // --- Run ---

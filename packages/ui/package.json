@@ -19,7 +19,7 @@
     "react-dom": "^19.0.0"
   },
   "scripts": {
-    "build": "NODE_ENV=production bunup src/index.ts --format esm,cjs --dts --no-splitting --external @4lt7ab/core --external react --external react-dom && NODE_ENV=production bun build src/index.ts --format esm --external @4lt7ab/core --external react --external react-dom --outfile dist/index.js && NODE_ENV=production bun build src/index.ts --format cjs --external @4lt7ab/core --external react --external react-dom --outfile dist/index.cjs && sed -i '' 's|from \"@4lt7ab/core\"|from \"../../core/dist/index.js\"|g' dist/index.js && sed -i '' 's|require(\"@4lt7ab/core\")|require(\"../../core/dist/index.cjs\")|g' dist/index.cjs",
+    "build": "NODE_ENV=production bunup src/index.ts --format esm,cjs --dts --no-splitting --external @4lt7ab/core --external react --external react-dom && bun build src/index.ts --production --format esm --external @4lt7ab/core --external react --external react-dom --outfile dist/index.js && bun build src/index.ts --production --format cjs --external @4lt7ab/core --external react --external react-dom --outfile dist/index.cjs && sed -i '' 's|from *\"@4lt7ab/core\"|from \"../../core/dist/index.js\"|g' dist/index.js && sed -i '' 's|require(\"@4lt7ab/core\")|require(\"../../core/dist/index.cjs\")|g' dist/index.cjs",
     "typecheck": "tsc --noEmit"
   }
 }
