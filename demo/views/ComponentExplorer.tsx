@@ -8,7 +8,7 @@ import {
   ProgressBarDemo, SkeletonDemo, CardDemo, ExpandableCardDemo,
   EmptyStateDemo, LinkCardDemo, OverlayDemo, ModalDemo,
   ConfirmDialogDemo, ThemePickerDemo, TokensDemo, PageHeaderDemo,
-  IconDemo,
+  IconDemo, DateRangePickerDemo, DatePickerDemo,
 } from '../demos';
 
 // ---------------------------------------------------------------------------
@@ -64,6 +64,8 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'Textarea', source: 'ui', Demo: TextareaDemo },
       { name: 'Select', source: 'ui', Demo: SelectDemo },
       { name: 'Field', source: 'ui', Demo: FieldDemo },
+      { name: 'DatePicker', source: 'ui', Demo: DatePickerDemo },
+      { name: 'DateRangePicker', source: 'ui', Demo: DateRangePickerDemo },
     ],
   },
   {

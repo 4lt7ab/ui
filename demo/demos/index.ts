@@ -31,6 +31,7 @@ import { PullQuoteDemo } from './PullQuoteDemo';
 import { MarginNoteDemo } from './MarginNoteDemo';
 import { SideNoteDemo } from './SideNoteDemo';
 import { DateRangePickerDemo } from './DateRangePickerDemo';
+import { DatePickerDemo } from './DatePickerDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -75,6 +76,7 @@ export const demos: DemoEntry[] = [
   { name: 'Input', category: 'Form', source: 'ui', component: InputDemo },
   { name: 'Textarea', category: 'Form', source: 'ui', component: TextareaDemo },
   { name: 'Select', category: 'Form', source: 'ui', component: SelectDemo },
+  { name: 'DatePicker', category: 'Form', source: 'ui', component: DatePickerDemo },
   { name: 'DateRangePicker', category: 'Form', source: 'ui', component: DateRangePickerDemo },
 
   // ── @4lt7ab/ui/content ──
@@ -98,5 +100,5 @@ export {
   ModalDemo, OverlayDemo, ConfirmDialogDemo, ContainerDemo,
   ProseDemo, ThinkingCycleDemo, LinkCardDemo, TableDemo,
   StatusDotDemo, ThemePickerDemo, EpigraphDemo, PullQuoteDemo,
-  MarginNoteDemo, SideNoteDemo, DateRangePickerDemo,
+  MarginNoteDemo, SideNoteDemo, DateRangePickerDemo, DatePickerDemo,
 };

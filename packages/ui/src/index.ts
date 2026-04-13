@@ -35,3 +35,4 @@ export * from './components/StatusDot';
 export * from './components/ThemeSurface';
 export * from './components/Table';
 export * from './components/DateRangePicker';
+export * from './components/DatePicker';

@@ -2247,6 +2247,7 @@ export {
   ExpandableCard,
   EmptyState,
   DateRangePicker,
+  DatePicker,
   ConfirmDialog,
   CardSkeleton,
   Card,

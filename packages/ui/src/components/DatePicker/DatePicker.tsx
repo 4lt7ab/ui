@@ -1,28 +1,22 @@
 import { forwardRef, useState, useRef, useCallback, useEffect } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
-import { CalendarHeader } from './CalendarHeader';
-import { CalendarGrid } from './CalendarGrid';
-import { formatDate } from './dateUtils';
+import { CalendarHeader } from '../DateRangePicker/CalendarHeader';
+import { CalendarGrid } from '../DateRangePicker/CalendarGrid';
+import { formatDate } from '../DateRangePicker/dateUtils';
 
-/** A date range with inclusive start and end. */
-export interface DateRange {
-  from: Date;
-  to: Date;
-}
-
-/** Props for the DateRangePicker component. */
-export interface DateRangePickerProps {
-  /** Currently selected date range. */
-  value?: DateRange;
-  /** Called when the range changes (or is cleared). */
-  onChange: (range: DateRange | undefined) => void;
+/** Props for the DatePicker component. */
+export interface DatePickerProps {
+  /** Currently selected date. */
+  value?: Date;
+  /** Called when a date is selected (or cleared). */
+  onChange: (date: Date | undefined) => void;
   /** Earliest selectable date. */
   minDate?: Date;
   /** Latest selectable date. */
   maxDate?: Date;
   /** Specific dates that cannot be selected. */
   disabledDates?: Date[];
-  /** Placeholder text when no range is selected. */
+  /** Placeholder text when no date is selected. */
   placeholder?: string;
   /** Renders error border styling.
    * @default false
@@ -36,7 +30,7 @@ export interface DateRangePickerProps {
   style?: React.CSSProperties;
 }
 
-const SCOPE = 'alttab-drp';
+const SCOPE = 'alttab-dp';
 
 const injectedCSS = /* css */ `
   .${SCOPE}-day--enabled:hover {
@@ -108,17 +102,17 @@ const placeholderStyle: React.CSSProperties = {
   color: t.colorTextPlaceholder,
 };
 
-export const DateRangePicker: React.ForwardRefExoticComponent<
-  Omit<DateRangePickerProps, 'ref'> & React.RefAttributes<HTMLDivElement>
-> = forwardRef<HTMLDivElement, DateRangePickerProps>(
-  function DateRangePicker(
+export const DatePicker: React.ForwardRefExoticComponent<
+  Omit<DatePickerProps, 'ref'> & React.RefAttributes<HTMLDivElement>
+> = forwardRef<HTMLDivElement, DatePickerProps>(
+  function DatePicker(
     {
       value,
       onChange,
       minDate,
       maxDate,
       disabledDates,
-      placeholder = 'Select date range',
+      placeholder = 'Select date',
       hasError,
       disabled,
       style,
@@ -128,27 +122,23 @@ export const DateRangePicker: React.ForwardRefExoticComponent<
     useInjectStyles(SCOPE, injectedCSS);
 
     const [open, setOpen] = useState(false);
-    const [selectionStart, setSelectionStart] = useState<Date | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
-    // Calendar view state — default to current month or the start of the range
-    const initialDate = value?.from ?? new Date();
+    // Calendar view state
+    const initialDate = value ?? new Date();
     const [viewYear, setViewYear] = useState(initialDate.getFullYear());
     const [viewMonth, setViewMonth] = useState(initialDate.getMonth());
 
     // Focused date for keyboard nav
-    const [focusedDate, setFocusedDate] = useState(
-      value?.from ?? new Date(),
-    );
+    const [focusedDate, setFocusedDate] = useState(value ?? new Date());
 
-    // When focused date leaves the visible month, navigate the calendar
     const handleFocusedDateChange = useCallback((date: Date) => {
       setFocusedDate(date);
       setViewYear(date.getFullYear());
       setViewMonth(date.getMonth());
     }, []);
 
-    // Focus the active day button when focused date changes while popover is open
+    // Focus the active day button when focused date changes
     useEffect(() => {
       if (!open) return;
       const container = containerRef.current;
@@ -168,7 +158,6 @@ export const DateRangePicker: React.ForwardRefExoticComponent<
           !containerRef.current.contains(e.target as Node)
         ) {
           setOpen(false);
-          setSelectionStart(null);
         }
       }
       document.addEventListener('mousedown', handleMouseDown);
@@ -181,7 +170,6 @@ export const DateRangePicker: React.ForwardRefExoticComponent<
       function handleKey(e: KeyboardEvent): void {
         if (e.key === 'Escape') {
           setOpen(false);
-          setSelectionStart(null);
         }
       }
       document.addEventListener('keydown', handleKey);
@@ -192,12 +180,10 @@ export const DateRangePicker: React.ForwardRefExoticComponent<
       if (disabled) return;
       setOpen((prev) => {
         if (!prev) {
-          // Reset view to current range or today when opening
-          const base = value?.from ?? new Date();
+          const base = value ?? new Date();
           setViewYear(base.getFullYear());
           setViewMonth(base.getMonth());
-          setFocusedDate(value?.from ?? new Date());
-          setSelectionStart(null);
+          setFocusedDate(value ?? new Date());
         }
         return !prev;
       });
@@ -225,43 +211,23 @@ export const DateRangePicker: React.ForwardRefExoticComponent<
 
     const handleDaySelect = useCallback(
       (date: Date) => {
-        if (selectionStart === null) {
-          // First click — set the start
-          setSelectionStart(date);
-        } else {
-          // Second click — finalize the range
-          const from =
-            selectionStart.getTime() <= date.getTime()
-              ? selectionStart
-              : date;
-          const to =
-            selectionStart.getTime() <= date.getTime()
-              ? date
-              : selectionStart;
-          onChange({ from, to });
-          setSelectionStart(null);
-          setOpen(false);
-        }
+        onChange(date);
+        setOpen(false);
       },
-      [selectionStart, onChange],
+      [onChange],
     );
 
-    // Build display text
+    // Display text
     let displayText: React.ReactNode;
     if (value) {
-      displayText = `${formatDate(value.from)} \u2013 ${formatDate(value.to)}`;
+      displayText = formatDate(value);
     } else {
       displayText = <span style={placeholderStyle}>{placeholder}</span>;
     }
 
-    // The rangeStart/rangeEnd shown in the calendar while selecting
-    const calendarStart = selectionStart ?? value?.from ?? null;
-    const calendarEnd = selectionStart ? null : value?.to ?? null;
-
     return (
       <div
         ref={(node) => {
-          // Merge forwarded ref and local ref
           (containerRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
           if (typeof ref === 'function') ref(node);
           else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
@@ -286,7 +252,7 @@ export const DateRangePicker: React.ForwardRefExoticComponent<
         </button>
 
         {open && (
-          <div style={popoverStyle} role="dialog" aria-label="Date range picker">
+          <div style={popoverStyle} role="dialog" aria-label="Date picker">
             <CalendarHeader
               year={viewYear}
               month={viewMonth}
@@ -296,8 +262,8 @@ export const DateRangePicker: React.ForwardRefExoticComponent<
             <CalendarGrid
               year={viewYear}
               month={viewMonth}
-              rangeStart={calendarStart}
-              rangeEnd={calendarEnd}
+              rangeStart={value ?? null}
+              rangeEnd={null}
               minDate={minDate}
               maxDate={maxDate}
               disabledDates={disabledDates}

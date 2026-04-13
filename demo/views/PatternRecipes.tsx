@@ -8,6 +8,7 @@ import { ProjectHub } from '../examples/ProjectHub';
 import { DeleteFlow } from '../examples/DeleteFlow';
 import { SettingsPage } from '../examples/SettingsPage';
 import { TaskDashboard } from '../examples/TaskDashboard';
+import { AnalyticsDashboard } from '../examples/AnalyticsDashboard';
 
 // ---------------------------------------------------------------------------
 // Recipe registry
@@ -77,6 +78,15 @@ const RECIPES: Recipe[] = [
     components: ['PageHeader', 'Card', 'Field', 'Input', 'Select', 'Textarea', 'Button'],
     category: 'workflow',
     Component: SettingsPage,
+  },
+  {
+    id: 'analytics-dashboard',
+    title: 'Analytics Dashboard',
+    description: 'Traffic overview with date range filtering, channel breakdown, top pages, and theme switching.',
+    icon: 'filter',
+    components: ['PageHeader', 'DateRangePicker', 'ThemePicker', 'Card', 'Field', 'Select', 'Table', 'Badge', 'StatusDot', 'ProgressBar', 'Button'],
+    category: 'dashboard',
+    Component: AnalyticsDashboard,
   },
   {
     id: 'delete-flow',

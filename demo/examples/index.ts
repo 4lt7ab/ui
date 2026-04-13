@@ -6,3 +6,4 @@ export { ComponentCatalogue } from './ComponentCatalogue';
 export { DeleteFlow } from './DeleteFlow';
 export { SettingsPage } from './SettingsPage';
 export { TaskDashboard } from './TaskDashboard';
+export { AnalyticsDashboard } from './AnalyticsDashboard';

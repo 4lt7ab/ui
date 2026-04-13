@@ -1,4 +1,4 @@
-import { ThemePicker } from '@4lt7ab/ui';
+import { ThemePicker, Stack } from '@4lt7ab/ui';
 
 const descriptions: Record<string, string> = {
   synthwave: 'Neon gradients and glow effects. The bold choice.',
@@ -12,5 +12,25 @@ const descriptions: Record<string, string> = {
 };
 
 export function ThemePickerDemo(): React.JSX.Element {
-  return <ThemePicker descriptions={descriptions} />;
+  return (
+    <Stack gap="xl">
+      <Stack gap="sm">
+        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Compact</h3>
+        <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--color-text-muted)' }}>
+          Dropdown variant for toolbars and headers.
+        </p>
+        <div>
+          <ThemePicker variant="compact" />
+        </div>
+      </Stack>
+
+      <Stack gap="sm">
+        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Grid</h3>
+        <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--color-text-muted)' }}>
+          Card grid for settings pages and theme playgrounds.
+        </p>
+        <ThemePicker variant="grid" descriptions={descriptions} />
+      </Stack>
+    </Stack>
+  );
 }

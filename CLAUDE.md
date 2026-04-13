@@ -84,6 +84,7 @@ packages/
 │       │   ├── TagChip/
 │       │   ├── ExpandableCard/
 │       │   ├── Table/
+│       │   ├── DatePicker/
 │       │   ├── DateRangePicker/
 │       │   ├── StatusDot/
 │       │   ├── ThemePicker/
@@ -130,7 +131,7 @@ demo/                            # Vite demo app
 2. Create `packages/ui/src/components/MyComponent/index.ts` barrel
 3. Export from `packages/ui/src/index.ts`
 4. Use only `semantic` tokens (from `@4lt7ab/core`) for all visual values
-5. Update the demo app (`demo/`) to display the new component
+5. **Add a demo** — create `demo/demos/MyComponentDemo.tsx`, register it in `demo/demos/index.ts` with the correct category. Demo is mandatory; components without demos will not be merged.
 6. `bun run typecheck && bun run build`
 
 ### To `@4lt7ab/content`
@@ -139,7 +140,7 @@ demo/                            # Vite demo app
 2. Create `packages/content/src/components/MyComponent/index.ts` barrel
 3. Export from `packages/content/src/index.ts`
 4. Import tokens and utilities from `@4lt7ab/core` (peer dep)
-5. Update the demo app
+5. **Add a demo** — create `demo/demos/MyComponentDemo.tsx`, register it in `demo/demos/index.ts`. Demo is mandatory.
 6. `bun run typecheck && bun run build`
 
 ### To `@4lt7ab/animations`
