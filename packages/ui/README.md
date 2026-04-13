@@ -478,15 +478,23 @@ Colored dot for status indicators.
 
 ### ThemePicker
 
-Visual theme selector grid with color previews.
+Theme selector wired into `useTheme()`. Two variants:
+
+- **`grid`** (default) -- card grid for settings pages and theme playgrounds.
+- **`compact`** -- dropdown button for toolbars and headers with keyboard navigation.
 
 ```tsx
+{/* Full grid for a settings page */}
 <ThemePicker descriptions={{ synthwave: 'Neon retro', slate: 'Clean and minimal' }} />
+
+{/* Compact dropdown for a toolbar */}
+<ThemePicker variant="compact" />
 ```
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `descriptions` | `Record<string, string>` | — | Optional per-theme descriptions |
+| `variant` | `'grid' \| 'compact'` | `'grid'` | Display variant |
+| `descriptions` | `Record<string, string>` | — | Optional per-theme descriptions (grid variant only) |
 
 ### ThemeSurface
 

@@ -9,10 +9,14 @@ export * from "@4lt7ab/core";
 interface ThemePickerProps {
 	/** Optional descriptions for each theme, keyed by theme name. */
 	descriptions?: Record<string, string>;
+	/** Display variant. `'grid'` (default) renders a card grid; `'compact'` renders a dropdown for toolbars/headers. */
+	variant?: "grid" | "compact";
 }
 /**
-* Grid of theme cards wired into useTheme(). Clicking a card switches the active theme.
-* Must be rendered inside a <ThemeProvider>.
+* Theme selector wired into useTheme(). Must be rendered inside a <ThemeProvider>.
+*
+* - `variant="grid"` (default) -- card grid for settings pages / theme playgrounds.
+* - `variant="compact"` -- dropdown button for toolbars and headers.
 */
 declare const ThemePicker: React.ForwardRefExoticComponent<Omit<ThemePickerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 import { CSSProperties as CSSProperties3 } from "react";

@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { ThemeProvider, useTheme, Icon } from '@4lt7ab/ui';
+import { ThemeProvider, Icon, ThemePicker } from '@4lt7ab/ui';
 import type { IconName } from '@4lt7ab/ui';
 import { ThemeBackground } from '@4lt7ab/animations';
 import { Landing } from './views/Landing';
@@ -25,92 +25,6 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'patterns', label: 'Patterns', icon: 'menu' },
   { id: 'themes', label: 'Themes', icon: 'eye' },
 ];
-
-// ---------------------------------------------------------------------------
-// Theme dropdown (compact)
-// ---------------------------------------------------------------------------
-
-function ThemeDropdown(): React.JSX.Element {
-  const { resolved, themes, setTheme } = useTheme();
-  const [open, setOpen] = useState(false);
-  const themeList = Array.from(themes.values());
-
-  return (
-    <div style={{ position: 'relative' }}>
-      <button
-        onClick={() => setOpen((o) => !o)}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.375rem',
-          padding: '0.375rem 0.625rem',
-          fontSize: '0.75rem',
-          fontFamily: 'var(--font-mono)',
-          color: 'var(--color-text-secondary)',
-          background: 'var(--color-surface-raised)',
-          border: '1px solid var(--color-border)',
-          borderRadius: 'var(--radius-md)',
-          cursor: 'pointer',
-        }}
-      >
-        <span style={{
-          width: 8,
-          height: 8,
-          borderRadius: '50%',
-          background: 'var(--color-action-primary)',
-          flexShrink: 0,
-        }} />
-        {themeList.find((t) => t.name === resolved)?.label ?? resolved}
-        <Icon name={open ? 'chevron-up' : 'chevron-down'} size={12} />
-      </button>
-
-      {open && (
-        <>
-          <div
-            onClick={() => setOpen(false)}
-            style={{ position: 'fixed', inset: 0, zIndex: 99 }}
-          />
-          <div style={{
-            position: 'absolute',
-            top: '100%',
-            right: 0,
-            marginTop: '0.25rem',
-            background: 'var(--color-surface-panel)',
-            border: '1px solid var(--color-border)',
-            borderRadius: 'var(--radius-md)',
-            padding: '0.25rem',
-            minWidth: '10rem',
-            zIndex: 100,
-            boxShadow: 'var(--shadow-md)',
-          }}>
-            {themeList.map((t) => (
-              <button
-                key={t.name}
-                onClick={() => { setTheme(t.name); setOpen(false); }}
-                style={{
-                  display: 'block',
-                  width: '100%',
-                  textAlign: 'left',
-                  padding: '0.375rem 0.5rem',
-                  fontSize: '0.8rem',
-                  fontFamily: 'var(--font-sans)',
-                  fontWeight: resolved === t.name ? 600 : 400,
-                  color: resolved === t.name ? 'var(--color-text)' : 'var(--color-text-secondary)',
-                  background: resolved === t.name ? 'var(--color-surface-raised)' : 'transparent',
-                  border: 'none',
-                  borderRadius: 'var(--radius-sm)',
-                  cursor: 'pointer',
-                }}
-              >
-                {t.label}
-              </button>
-            ))}
-          </div>
-        </>
-      )}
-    </div>
-  );
-}
 
 // ---------------------------------------------------------------------------
 // Shell
@@ -204,7 +118,7 @@ function Shell(): React.JSX.Element {
         </div>
 
         {/* Right: theme picker */}
-        <ThemeDropdown />
+        <ThemePicker variant="compact" />
       </header>
 
       {/* Main content — fills remaining height */}

@@ -180,12 +180,421 @@ __export(exports_ThemePicker, {
 });
 
 // src/components/ThemePicker/ThemePicker.tsx
-var import_react2 = require("react");
+var import_react3 = require("react");
 var import_core = require("../../core/dist/index.cjs");
 var import_core2 = require("../../core/dist/index.cjs");
+
+// src/components/Icon/index.ts
+var exports_Icon = {};
+__export(exports_Icon, {
+  Icon: () => Icon
+});
+
+// src/components/Icon/Icon.tsx
+var import_react2 = require("react");
+
+// src/icons/index.ts
+var exports_icons = {};
+__export(exports_icons, {
+  iconRegistry: () => iconRegistry,
+  IconWarning: () => IconWarning,
+  IconTrash: () => IconTrash,
+  IconSettings: () => IconSettings,
+  IconSearch: () => IconSearch,
+  IconPlus: () => IconPlus,
+  IconMoreVertical: () => IconMoreVertical,
+  IconMinus: () => IconMinus,
+  IconMenu: () => IconMenu,
+  IconInfo: () => IconInfo,
+  IconFilter: () => IconFilter,
+  IconEyeOff: () => IconEyeOff,
+  IconEye: () => IconEye,
+  IconExternalLink: () => IconExternalLink,
+  IconError: () => IconError,
+  IconEdit: () => IconEdit,
+  IconCopy: () => IconCopy,
+  IconClose: () => IconClose,
+  IconChevronUp: () => IconChevronUp,
+  IconChevronRight: () => IconChevronRight,
+  IconChevronLeft: () => IconChevronLeft,
+  IconChevronDown: () => IconChevronDown,
+  IconCheckCircle: () => IconCheckCircle,
+  IconCheck: () => IconCheck,
+  IconArrowRight: () => IconArrowRight,
+  IconArrowLeft: () => IconArrowLeft
+});
+
+// src/icons/icons.tsx
 var jsx_runtime = require("react/jsx-runtime");
-var STYLES_ID = "alttab-theme-picker";
-var pickerCSS = `
+function svgProps(size, style) {
+  return {
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 2,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    style
+  };
+}
+function IconClose({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_runtime.jsx("path", {
+      d: "M18 6L6 18M6 6l12 12"
+    })
+  });
+}
+function IconChevronRight({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_runtime.jsx("path", {
+      d: "M9 18l6-6-6-6"
+    })
+  });
+}
+function IconChevronDown({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_runtime.jsx("path", {
+      d: "M6 9l6 6 6-6"
+    })
+  });
+}
+function IconChevronLeft({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_runtime.jsx("path", {
+      d: "M15 18l-6-6 6-6"
+    })
+  });
+}
+function IconChevronUp({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_runtime.jsx("path", {
+      d: "M18 15l-6-6-6 6"
+    })
+  });
+}
+function IconCheck({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_runtime.jsx("path", {
+      d: "M20 6L9 17l-5-5"
+    })
+  });
+}
+function IconCheckCircle({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_runtime.jsx("path", {
+        d: "M22 11.08V12a10 10 0 11-5.93-9.14"
+      }),
+      /* @__PURE__ */ jsx_runtime.jsx("path", {
+        d: "M22 4L12 14.01l-3-3"
+      })
+    ]
+  });
+}
+function IconWarning({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_runtime.jsx("path", {
+        d: "M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
+      }),
+      /* @__PURE__ */ jsx_runtime.jsx("line", {
+        x1: "12",
+        y1: "9",
+        x2: "12",
+        y2: "13"
+      }),
+      /* @__PURE__ */ jsx_runtime.jsx("line", {
+        x1: "12",
+        y1: "17",
+        x2: "12.01",
+        y2: "17"
+      })
+    ]
+  });
+}
+function IconError({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_runtime.jsx("circle", {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }),
+      /* @__PURE__ */ jsx_runtime.jsx("path", {
+        d: "M15 9l-6 6M9 9l6 6"
+      })
+    ]
+  });
+}
+function IconInfo({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_runtime.jsx("circle", {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }),
+      /* @__PURE__ */ jsx_runtime.jsx("line", {
+        x1: "12",
+        y1: "16",
+        x2: "12",
+        y2: "12"
+      }),
+      /* @__PURE__ */ jsx_runtime.jsx("line", {
+        x1: "12",
+        y1: "8",
+        x2: "12.01",
+        y2: "8"
+      })
+    ]
+  });
+}
+function IconSearch({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_runtime.jsx("circle", {
+        cx: "11",
+        cy: "11",
+        r: "8"
+      }),
+      /* @__PURE__ */ jsx_runtime.jsx("path", {
+        d: "M21 21l-4.35-4.35"
+      })
+    ]
+  });
+}
+function IconTrash({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_runtime.jsx("path", {
+      d: "M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"
+    })
+  });
+}
+function IconSettings({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_runtime.jsx("circle", {
+        cx: "12",
+        cy: "12",
+        r: "3"
+      }),
+      /* @__PURE__ */ jsx_runtime.jsx("path", {
+        d: "M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"
+      })
+    ]
+  });
+}
+function IconPlus({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_runtime.jsx("path", {
+      d: "M12 5v14M5 12h14"
+    })
+  });
+}
+function IconMinus({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_runtime.jsx("path", {
+      d: "M5 12h14"
+    })
+  });
+}
+function IconEdit({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_runtime.jsx("path", {
+        d: "M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+      }),
+      /* @__PURE__ */ jsx_runtime.jsx("path", {
+        d: "M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+      })
+    ]
+  });
+}
+function IconArrowLeft({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_runtime.jsx("path", {
+      d: "M19 12H5M12 19l-7-7 7-7"
+    })
+  });
+}
+function IconArrowRight({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_runtime.jsx("path", {
+      d: "M5 12h14M12 5l7 7-7 7"
+    })
+  });
+}
+function IconMenu({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_runtime.jsx("path", {
+      d: "M3 12h18M3 6h18M3 18h18"
+    })
+  });
+}
+function IconEye({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_runtime.jsx("path", {
+        d: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+      }),
+      /* @__PURE__ */ jsx_runtime.jsx("circle", {
+        cx: "12",
+        cy: "12",
+        r: "3"
+      })
+    ]
+  });
+}
+function IconEyeOff({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_runtime.jsx("path", {
+        d: "M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"
+      }),
+      /* @__PURE__ */ jsx_runtime.jsx("path", {
+        d: "M1 1l22 22"
+      })
+    ]
+  });
+}
+function IconCopy({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_runtime.jsx("rect", {
+        x: "9",
+        y: "9",
+        width: "13",
+        height: "13",
+        rx: "2",
+        ry: "2"
+      }),
+      /* @__PURE__ */ jsx_runtime.jsx("path", {
+        d: "M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"
+      })
+    ]
+  });
+}
+function IconExternalLink({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_runtime.jsx("path", {
+      d: "M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"
+    })
+  });
+}
+function IconMoreVertical({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_runtime.jsx("circle", {
+        cx: "12",
+        cy: "12",
+        r: "1"
+      }),
+      /* @__PURE__ */ jsx_runtime.jsx("circle", {
+        cx: "12",
+        cy: "5",
+        r: "1"
+      }),
+      /* @__PURE__ */ jsx_runtime.jsx("circle", {
+        cx: "12",
+        cy: "19",
+        r: "1"
+      })
+    ]
+  });
+}
+function IconFilter({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_runtime.jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_runtime.jsx("path", {
+      d: "M22 3H2l8 9.46V19l4 2v-8.54L22 3z"
+    })
+  });
+}
+// src/icons/index.ts
+var iconRegistry = {
+  close: IconClose,
+  "chevron-right": IconChevronRight,
+  "chevron-down": IconChevronDown,
+  "chevron-left": IconChevronLeft,
+  "chevron-up": IconChevronUp,
+  check: IconCheck,
+  "check-circle": IconCheckCircle,
+  warning: IconWarning,
+  error: IconError,
+  info: IconInfo,
+  search: IconSearch,
+  trash: IconTrash,
+  settings: IconSettings,
+  plus: IconPlus,
+  minus: IconMinus,
+  edit: IconEdit,
+  "arrow-left": IconArrowLeft,
+  "arrow-right": IconArrowRight,
+  menu: IconMenu,
+  eye: IconEye,
+  "eye-off": IconEyeOff,
+  copy: IconCopy,
+  "external-link": IconExternalLink,
+  "more-vertical": IconMoreVertical,
+  filter: IconFilter
+};
+
+// src/components/Icon/Icon.tsx
+var jsx_runtime2 = require("react/jsx-runtime");
+var Icon = import_react2.forwardRef(function Icon2({ name, size = 24, style, "aria-label": ariaLabel, ...props }, ref) {
+  const IconComponent = iconRegistry[name];
+  const isDecorative = !ariaLabel;
+  return /* @__PURE__ */ jsx_runtime2.jsx("span", {
+    ref,
+    role: isDecorative ? undefined : "img",
+    "aria-hidden": isDecorative || undefined,
+    "aria-label": ariaLabel,
+    style: {
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: size,
+      height: size,
+      lineHeight: 1,
+      color: "inherit",
+      ...style
+    },
+    ...props,
+    children: /* @__PURE__ */ jsx_runtime2.jsx(IconComponent, {
+      size
+    })
+  });
+});
+// src/components/ThemePicker/ThemePicker.tsx
+var jsx_runtime3 = require("react/jsx-runtime");
+var GRID_STYLES_ID = "alttab-theme-picker";
+var gridCSS = `
   .alttab-theme-picker {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -227,23 +636,73 @@ var pickerCSS = `
     color: var(--color-text-muted);
   }
 `;
-var ThemePicker = import_react2.forwardRef(function ThemePicker2({ descriptions = {} }, ref) {
-  import_core2.useInjectStyles(STYLES_ID, pickerCSS);
+var COMPACT_STYLES_ID = "alttab-theme-picker-compact";
+var compactCSS = `
+  .alttab-tp-trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.625rem;
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    color: var(--color-text-secondary);
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+
+  .alttab-tp-trigger:hover {
+    border-color: var(--color-text-link);
+  }
+
+  .alttab-tp-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    text-align: left;
+    padding: 0.375rem 0.5rem;
+    font-size: 0.8rem;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background 0.1s ease, color 0.1s ease;
+  }
+
+  .alttab-tp-menu-item:hover,
+  .alttab-tp-menu-item--focused {
+    background: var(--color-surface-raised);
+    color: var(--color-text);
+  }
+
+  .alttab-tp-menu-item--active {
+    font-weight: 600;
+    color: var(--color-text);
+    background: var(--color-surface-raised);
+  }
+`;
+function GridView({ descriptions }) {
+  import_core2.useInjectStyles(GRID_STYLES_ID, gridCSS);
   const { resolved, themes, setTheme } = import_core.useTheme();
-  return /* @__PURE__ */ jsx_runtime.jsx("div", {
-    ref,
+  return /* @__PURE__ */ jsx_runtime3.jsx("div", {
     className: "alttab-theme-picker",
     children: Array.from(themes.values()).map((def) => {
       const isActive = resolved === def.name;
-      return /* @__PURE__ */ jsx_runtime.jsxs("button", {
+      return /* @__PURE__ */ jsx_runtime3.jsxs("button", {
         className: `alttab-theme-card${isActive ? " alttab-theme-card--active" : ""}`,
         onClick: () => setTheme(def.name),
         children: [
-          /* @__PURE__ */ jsx_runtime.jsx("span", {
+          /* @__PURE__ */ jsx_runtime3.jsx("span", {
             className: "alttab-theme-card__name",
             children: def.label
           }),
-          descriptions[def.name] && /* @__PURE__ */ jsx_runtime.jsx("span", {
+          descriptions[def.name] && /* @__PURE__ */ jsx_runtime3.jsx("span", {
             className: "alttab-theme-card__desc",
             children: descriptions[def.name]
           })
@@ -251,378 +710,181 @@ var ThemePicker = import_react2.forwardRef(function ThemePicker2({ descriptions 
       }, def.name);
     })
   });
+}
+function CompactView() {
+  import_core2.useInjectStyles(COMPACT_STYLES_ID, compactCSS);
+  const { resolved, themes, setTheme } = import_core.useTheme();
+  const [open, setOpen] = import_react3.useState(false);
+  const [focusedIndex, setFocusedIndex] = import_react3.useState(-1);
+  const containerRef = import_react3.useRef(null);
+  const menuRef = import_react3.useRef(null);
+  const triggerRef = import_react3.useRef(null);
+  const themeList = Array.from(themes.values());
+  import_react3.useEffect(() => {
+    if (!open)
+      return;
+    function handleMouseDown(e) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [open]);
+  const handleKeyDown = import_react3.useCallback((e) => {
+    if (e.key === "Escape") {
+      setOpen(false);
+      triggerRef.current?.focus();
+      return;
+    }
+    if (!open) {
+      if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        setOpen(true);
+        setFocusedIndex(0);
+      }
+      return;
+    }
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault();
+        setFocusedIndex((i) => (i + 1) % themeList.length);
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        setFocusedIndex((i) => (i - 1 + themeList.length) % themeList.length);
+        break;
+      case "Enter":
+      case " ":
+        e.preventDefault();
+        if (focusedIndex >= 0 && focusedIndex < themeList.length) {
+          setTheme(themeList[focusedIndex].name);
+          setOpen(false);
+          triggerRef.current?.focus();
+        }
+        break;
+      case "Home":
+        e.preventDefault();
+        setFocusedIndex(0);
+        break;
+      case "End":
+        e.preventDefault();
+        setFocusedIndex(themeList.length - 1);
+        break;
+    }
+  }, [open, focusedIndex, themeList, setTheme]);
+  import_react3.useEffect(() => {
+    if (!open || focusedIndex < 0)
+      return;
+    const menu = menuRef.current;
+    if (!menu)
+      return;
+    const items = menu.querySelectorAll('[role="option"]');
+    items[focusedIndex]?.scrollIntoView({ block: "nearest" });
+  }, [open, focusedIndex]);
+  import_react3.useEffect(() => {
+    if (open) {
+      const activeIdx = themeList.findIndex((t) => t.name === resolved);
+      setFocusedIndex(activeIdx >= 0 ? activeIdx : 0);
+    }
+  }, [open]);
+  const currentTheme = themeList.find((t) => t.name === resolved);
+  return /* @__PURE__ */ jsx_runtime3.jsxs("div", {
+    ref: containerRef,
+    style: { position: "relative" },
+    onKeyDown: handleKeyDown,
+    children: [
+      /* @__PURE__ */ jsx_runtime3.jsxs("button", {
+        ref: triggerRef,
+        className: "alttab-tp-trigger",
+        onClick: () => setOpen((o) => !o),
+        "aria-haspopup": "listbox",
+        "aria-expanded": open,
+        children: [
+          /* @__PURE__ */ jsx_runtime3.jsx("span", {
+            style: {
+              width: 8,
+              height: 8,
+              borderRadius: "50%",
+              background: "var(--color-action-primary)",
+              flexShrink: 0
+            }
+          }),
+          currentTheme?.label ?? resolved,
+          /* @__PURE__ */ jsx_runtime3.jsx(Icon, {
+            name: open ? "chevron-up" : "chevron-down",
+            size: 12
+          })
+        ]
+      }),
+      open && /* @__PURE__ */ jsx_runtime3.jsx("div", {
+        ref: menuRef,
+        role: "listbox",
+        "aria-activedescendant": focusedIndex >= 0 ? `alttab-tp-item-${themeList[focusedIndex]?.name}` : undefined,
+        style: {
+          position: "absolute",
+          top: "100%",
+          right: 0,
+          marginTop: "0.25rem",
+          background: "var(--color-surface-panel)",
+          border: "1px solid var(--color-border)",
+          borderRadius: "var(--radius-md)",
+          padding: "0.25rem",
+          minWidth: "10rem",
+          zIndex: 100,
+          boxShadow: "var(--shadow-md)"
+        },
+        children: themeList.map((t, idx) => {
+          const isActive = resolved === t.name;
+          const isFocused = focusedIndex === idx;
+          const classes = [
+            "alttab-tp-menu-item",
+            isActive ? "alttab-tp-menu-item--active" : "",
+            isFocused && !isActive ? "alttab-tp-menu-item--focused" : ""
+          ].filter(Boolean).join(" ");
+          return /* @__PURE__ */ jsx_runtime3.jsxs("button", {
+            id: `alttab-tp-item-${t.name}`,
+            role: "option",
+            "aria-selected": isActive,
+            className: classes,
+            onClick: () => {
+              setTheme(t.name);
+              setOpen(false);
+              triggerRef.current?.focus();
+            },
+            onMouseEnter: () => setFocusedIndex(idx),
+            children: [
+              /* @__PURE__ */ jsx_runtime3.jsx("span", {
+                style: {
+                  width: 6,
+                  height: 6,
+                  borderRadius: "50%",
+                  background: isActive ? "var(--color-action-primary)" : "var(--color-text-muted)",
+                  flexShrink: 0
+                }
+              }),
+              t.label
+            ]
+          }, t.name);
+        })
+      })
+    ]
+  });
+}
+var ThemePicker = import_react3.forwardRef(function ThemePicker2({ descriptions = {}, variant = "grid" }, ref) {
+  if (variant === "compact") {
+    return /* @__PURE__ */ jsx_runtime3.jsx("div", {
+      ref,
+      children: /* @__PURE__ */ jsx_runtime3.jsx(CompactView, {})
+    });
+  }
+  return /* @__PURE__ */ jsx_runtime3.jsx("div", {
+    ref,
+    children: /* @__PURE__ */ jsx_runtime3.jsx(GridView, {
+      descriptions
+    })
+  });
 });
-// src/icons/index.ts
-var exports_icons = {};
-__export(exports_icons, {
-  iconRegistry: () => iconRegistry,
-  IconWarning: () => IconWarning,
-  IconTrash: () => IconTrash,
-  IconSettings: () => IconSettings,
-  IconSearch: () => IconSearch,
-  IconPlus: () => IconPlus,
-  IconMoreVertical: () => IconMoreVertical,
-  IconMinus: () => IconMinus,
-  IconMenu: () => IconMenu,
-  IconInfo: () => IconInfo,
-  IconFilter: () => IconFilter,
-  IconEyeOff: () => IconEyeOff,
-  IconEye: () => IconEye,
-  IconExternalLink: () => IconExternalLink,
-  IconError: () => IconError,
-  IconEdit: () => IconEdit,
-  IconCopy: () => IconCopy,
-  IconClose: () => IconClose,
-  IconChevronUp: () => IconChevronUp,
-  IconChevronRight: () => IconChevronRight,
-  IconChevronLeft: () => IconChevronLeft,
-  IconChevronDown: () => IconChevronDown,
-  IconCheckCircle: () => IconCheckCircle,
-  IconCheck: () => IconCheck,
-  IconArrowRight: () => IconArrowRight,
-  IconArrowLeft: () => IconArrowLeft
-});
-
-// src/icons/icons.tsx
-var jsx_runtime2 = require("react/jsx-runtime");
-function svgProps(size, style) {
-  return {
-    width: size,
-    height: size,
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: 2,
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    style
-  };
-}
-function IconClose({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsx("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx_runtime2.jsx("path", {
-      d: "M18 6L6 18M6 6l12 12"
-    })
-  });
-}
-function IconChevronRight({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsx("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx_runtime2.jsx("path", {
-      d: "M9 18l6-6-6-6"
-    })
-  });
-}
-function IconChevronDown({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsx("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx_runtime2.jsx("path", {
-      d: "M6 9l6 6 6-6"
-    })
-  });
-}
-function IconChevronLeft({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsx("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx_runtime2.jsx("path", {
-      d: "M15 18l-6-6 6-6"
-    })
-  });
-}
-function IconChevronUp({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsx("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx_runtime2.jsx("path", {
-      d: "M18 15l-6-6-6 6"
-    })
-  });
-}
-function IconCheck({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsx("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx_runtime2.jsx("path", {
-      d: "M20 6L9 17l-5-5"
-    })
-  });
-}
-function IconCheckCircle({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsxs("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx_runtime2.jsx("path", {
-        d: "M22 11.08V12a10 10 0 11-5.93-9.14"
-      }),
-      /* @__PURE__ */ jsx_runtime2.jsx("path", {
-        d: "M22 4L12 14.01l-3-3"
-      })
-    ]
-  });
-}
-function IconWarning({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsxs("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx_runtime2.jsx("path", {
-        d: "M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
-      }),
-      /* @__PURE__ */ jsx_runtime2.jsx("line", {
-        x1: "12",
-        y1: "9",
-        x2: "12",
-        y2: "13"
-      }),
-      /* @__PURE__ */ jsx_runtime2.jsx("line", {
-        x1: "12",
-        y1: "17",
-        x2: "12.01",
-        y2: "17"
-      })
-    ]
-  });
-}
-function IconError({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsxs("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx_runtime2.jsx("circle", {
-        cx: "12",
-        cy: "12",
-        r: "10"
-      }),
-      /* @__PURE__ */ jsx_runtime2.jsx("path", {
-        d: "M15 9l-6 6M9 9l6 6"
-      })
-    ]
-  });
-}
-function IconInfo({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsxs("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx_runtime2.jsx("circle", {
-        cx: "12",
-        cy: "12",
-        r: "10"
-      }),
-      /* @__PURE__ */ jsx_runtime2.jsx("line", {
-        x1: "12",
-        y1: "16",
-        x2: "12",
-        y2: "12"
-      }),
-      /* @__PURE__ */ jsx_runtime2.jsx("line", {
-        x1: "12",
-        y1: "8",
-        x2: "12.01",
-        y2: "8"
-      })
-    ]
-  });
-}
-function IconSearch({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsxs("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx_runtime2.jsx("circle", {
-        cx: "11",
-        cy: "11",
-        r: "8"
-      }),
-      /* @__PURE__ */ jsx_runtime2.jsx("path", {
-        d: "M21 21l-4.35-4.35"
-      })
-    ]
-  });
-}
-function IconTrash({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsx("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx_runtime2.jsx("path", {
-      d: "M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"
-    })
-  });
-}
-function IconSettings({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsxs("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx_runtime2.jsx("circle", {
-        cx: "12",
-        cy: "12",
-        r: "3"
-      }),
-      /* @__PURE__ */ jsx_runtime2.jsx("path", {
-        d: "M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"
-      })
-    ]
-  });
-}
-function IconPlus({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsx("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx_runtime2.jsx("path", {
-      d: "M12 5v14M5 12h14"
-    })
-  });
-}
-function IconMinus({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsx("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx_runtime2.jsx("path", {
-      d: "M5 12h14"
-    })
-  });
-}
-function IconEdit({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsxs("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx_runtime2.jsx("path", {
-        d: "M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
-      }),
-      /* @__PURE__ */ jsx_runtime2.jsx("path", {
-        d: "M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
-      })
-    ]
-  });
-}
-function IconArrowLeft({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsx("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx_runtime2.jsx("path", {
-      d: "M19 12H5M12 19l-7-7 7-7"
-    })
-  });
-}
-function IconArrowRight({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsx("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx_runtime2.jsx("path", {
-      d: "M5 12h14M12 5l7 7-7 7"
-    })
-  });
-}
-function IconMenu({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsx("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx_runtime2.jsx("path", {
-      d: "M3 12h18M3 6h18M3 18h18"
-    })
-  });
-}
-function IconEye({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsxs("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx_runtime2.jsx("path", {
-        d: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
-      }),
-      /* @__PURE__ */ jsx_runtime2.jsx("circle", {
-        cx: "12",
-        cy: "12",
-        r: "3"
-      })
-    ]
-  });
-}
-function IconEyeOff({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsxs("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx_runtime2.jsx("path", {
-        d: "M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"
-      }),
-      /* @__PURE__ */ jsx_runtime2.jsx("path", {
-        d: "M1 1l22 22"
-      })
-    ]
-  });
-}
-function IconCopy({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsxs("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx_runtime2.jsx("rect", {
-        x: "9",
-        y: "9",
-        width: "13",
-        height: "13",
-        rx: "2",
-        ry: "2"
-      }),
-      /* @__PURE__ */ jsx_runtime2.jsx("path", {
-        d: "M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"
-      })
-    ]
-  });
-}
-function IconExternalLink({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsx("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx_runtime2.jsx("path", {
-      d: "M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"
-    })
-  });
-}
-function IconMoreVertical({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsxs("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx_runtime2.jsx("circle", {
-        cx: "12",
-        cy: "12",
-        r: "1"
-      }),
-      /* @__PURE__ */ jsx_runtime2.jsx("circle", {
-        cx: "12",
-        cy: "5",
-        r: "1"
-      }),
-      /* @__PURE__ */ jsx_runtime2.jsx("circle", {
-        cx: "12",
-        cy: "19",
-        r: "1"
-      })
-    ]
-  });
-}
-function IconFilter({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx_runtime2.jsx("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx_runtime2.jsx("path", {
-      d: "M22 3H2l8 9.46V19l4 2v-8.54L22 3z"
-    })
-  });
-}
-// src/icons/index.ts
-var iconRegistry = {
-  close: IconClose,
-  "chevron-right": IconChevronRight,
-  "chevron-down": IconChevronDown,
-  "chevron-left": IconChevronLeft,
-  "chevron-up": IconChevronUp,
-  check: IconCheck,
-  "check-circle": IconCheckCircle,
-  warning: IconWarning,
-  error: IconError,
-  info: IconInfo,
-  search: IconSearch,
-  trash: IconTrash,
-  settings: IconSettings,
-  plus: IconPlus,
-  minus: IconMinus,
-  edit: IconEdit,
-  "arrow-left": IconArrowLeft,
-  "arrow-right": IconArrowRight,
-  menu: IconMenu,
-  eye: IconEye,
-  "eye-off": IconEyeOff,
-  copy: IconCopy,
-  "external-link": IconExternalLink,
-  "more-vertical": IconMoreVertical,
-  filter: IconFilter
-};
 // src/components/Button/index.ts
 var exports_Button = {};
 __export(exports_Button, {
@@ -630,9 +892,9 @@ __export(exports_Button, {
 });
 
 // src/components/Button/Button.tsx
-var import_react3 = require("react");
+var import_react4 = require("react");
 var import_core3 = require("../../core/dist/index.cjs");
-var jsx_runtime3 = require("react/jsx-runtime");
+var jsx_runtime4 = require("react/jsx-runtime");
 var variantStyles = {
   primary: {
     background: import_core3.semantic.colorActionPrimary,
@@ -683,7 +945,7 @@ var baseStyles = {
   cursor: "pointer",
   transition: "background 150ms ease, border-color 150ms ease, opacity 150ms ease"
 };
-var Button = import_react3.forwardRef(function Button2({
+var Button = import_react4.forwardRef(function Button2({
   variant = "primary",
   size = "md",
   children,
@@ -691,7 +953,7 @@ var Button = import_react3.forwardRef(function Button2({
   disabled,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx_runtime3.jsx("button", {
+  return /* @__PURE__ */ jsx_runtime4.jsx("button", {
     ref,
     style: {
       ...baseStyles,
@@ -712,9 +974,9 @@ __export(exports_Stack, {
 });
 
 // src/components/Stack/Stack.tsx
-var import_react4 = require("react");
+var import_react5 = require("react");
 var import_core4 = require("../../core/dist/index.cjs");
-var jsx_runtime4 = require("react/jsx-runtime");
+var jsx_runtime5 = require("react/jsx-runtime");
 var gapMap = {
   xs: import_core4.semantic.spaceXs,
   sm: import_core4.semantic.spaceSm,
@@ -723,7 +985,7 @@ var gapMap = {
   xl: import_core4.semantic.spaceXl,
   "2xl": import_core4.semantic.space2xl
 };
-var Stack = import_react4.forwardRef(function Stack2({
+var Stack = import_react5.forwardRef(function Stack2({
   direction = "vertical",
   gap = "md",
   align,
@@ -733,7 +995,7 @@ var Stack = import_react4.forwardRef(function Stack2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx_runtime4.jsx("div", {
+  return /* @__PURE__ */ jsx_runtime5.jsx("div", {
     ref,
     style: {
       display: "flex",
@@ -755,9 +1017,9 @@ __export(exports_Card, {
 });
 
 // src/components/Card/Card.tsx
-var import_react5 = require("react");
+var import_react6 = require("react");
 var import_core5 = require("../../core/dist/index.cjs");
-var jsx_runtime5 = require("react/jsx-runtime");
+var jsx_runtime6 = require("react/jsx-runtime");
 var paddingMap = {
   xs: import_core5.semantic.spaceXs,
   sm: import_core5.semantic.spaceSm,
@@ -783,14 +1045,14 @@ var variantStyles2 = {
     boxShadow: import_core5.semantic.shadowMd
   }
 };
-var Card = import_react5.forwardRef(function Card2({
+var Card = import_react6.forwardRef(function Card2({
   variant = "default",
   padding = "lg",
   children,
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx_runtime5.jsx("div", {
+  return /* @__PURE__ */ jsx_runtime6.jsx("div", {
     ref,
     style: {
       borderRadius: import_core5.semantic.radiusLg,
@@ -810,8 +1072,8 @@ __export(exports_Field, {
 
 // src/components/Field/Field.tsx
 var import_core6 = require("../../core/dist/index.cjs");
-var import_react6 = require("react");
-var jsx_runtime6 = require("react/jsx-runtime");
+var import_react7 = require("react");
+var jsx_runtime7 = require("react/jsx-runtime");
 var labelStyle = {
   display: "block",
   fontSize: import_core6.semantic.fontSizeSm,
@@ -838,7 +1100,7 @@ var errorStyle = {
   fontFamily: import_core6.semantic.fontSans,
   margin: 0
 };
-var Field = import_react6.forwardRef(function Field2({
+var Field = import_react7.forwardRef(function Field2({
   label,
   htmlFor,
   error,
@@ -849,14 +1111,14 @@ var Field = import_react6.forwardRef(function Field2({
   style,
   ...props
 }, ref) {
-  const autoId = import_react6.useId();
+  const autoId = import_react7.useId();
   const helpId = help ? `${autoId}-help` : undefined;
   const errorId = error ? `${autoId}-error` : undefined;
   const describedBy = [errorId, helpId].filter(Boolean).join(" ") || undefined;
-  const enhancedChildren = import_react6.isValidElement(children) ? import_react6.cloneElement(children, {
+  const enhancedChildren = import_react7.isValidElement(children) ? import_react7.cloneElement(children, {
     "aria-describedby": describedBy
   }) : children;
-  return /* @__PURE__ */ jsx_runtime6.jsxs("div", {
+  return /* @__PURE__ */ jsx_runtime7.jsxs("div", {
     ref,
     style: {
       display: "flex",
@@ -867,12 +1129,12 @@ var Field = import_react6.forwardRef(function Field2({
     },
     ...props,
     children: [
-      /* @__PURE__ */ jsx_runtime6.jsxs("label", {
+      /* @__PURE__ */ jsx_runtime7.jsxs("label", {
         htmlFor,
         style: labelStyle,
         children: [
           label,
-          required && /* @__PURE__ */ jsx_runtime6.jsx("span", {
+          required && /* @__PURE__ */ jsx_runtime7.jsx("span", {
             style: requiredStyle,
             "aria-hidden": "true",
             children: "*"
@@ -880,13 +1142,13 @@ var Field = import_react6.forwardRef(function Field2({
         ]
       }),
       enhancedChildren,
-      error && /* @__PURE__ */ jsx_runtime6.jsx("p", {
+      error && /* @__PURE__ */ jsx_runtime7.jsx("p", {
         id: errorId,
         role: "alert",
         style: errorStyle,
         children: error
       }),
-      !error && help && /* @__PURE__ */ jsx_runtime6.jsx("p", {
+      !error && help && /* @__PURE__ */ jsx_runtime7.jsx("p", {
         id: helpId,
         style: helpStyle,
         children: help
@@ -901,9 +1163,9 @@ __export(exports_Input, {
 });
 
 // src/components/Input/Input.tsx
-var import_react7 = require("react");
+var import_react8 = require("react");
 var import_core7 = require("../../core/dist/index.cjs");
-var jsx_runtime7 = require("react/jsx-runtime");
+var jsx_runtime8 = require("react/jsx-runtime");
 var baseStyle = {
   display: "block",
   width: "100%",
@@ -927,13 +1189,13 @@ var disabledStyle = {
   color: import_core7.semantic.colorTextDisabled,
   cursor: "not-allowed"
 };
-var Input = import_react7.forwardRef(function Input2({
+var Input = import_react8.forwardRef(function Input2({
   hasError,
   disabled,
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx_runtime7.jsx("input", {
+  return /* @__PURE__ */ jsx_runtime8.jsx("input", {
     ref,
     "aria-invalid": hasError || undefined,
     style: {
@@ -953,9 +1215,9 @@ __export(exports_Textarea, {
 });
 
 // src/components/Textarea/Textarea.tsx
-var import_react8 = require("react");
+var import_react9 = require("react");
 var import_core8 = require("../../core/dist/index.cjs");
-var jsx_runtime8 = require("react/jsx-runtime");
+var jsx_runtime9 = require("react/jsx-runtime");
 var baseStyle2 = {
   display: "block",
   width: "100%",
@@ -982,13 +1244,13 @@ var disabledStyle2 = {
   cursor: "not-allowed",
   resize: "none"
 };
-var Textarea = import_react8.forwardRef(function Textarea2({
+var Textarea = import_react9.forwardRef(function Textarea2({
   hasError,
   disabled,
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx_runtime8.jsx("textarea", {
+  return /* @__PURE__ */ jsx_runtime9.jsx("textarea", {
     ref,
     "aria-invalid": hasError || undefined,
     style: {
@@ -1008,9 +1270,9 @@ __export(exports_Select, {
 });
 
 // src/components/Select/Select.tsx
-var import_react9 = require("react");
+var import_react10 = require("react");
 var import_core9 = require("../../core/dist/index.cjs");
-var jsx_runtime9 = require("react/jsx-runtime");
+var jsx_runtime10 = require("react/jsx-runtime");
 var wrapperStyle = {
   position: "relative",
   display: "block",
@@ -1053,7 +1315,7 @@ var disabledStyle3 = {
   color: import_core9.semantic.colorTextDisabled,
   cursor: "not-allowed"
 };
-var Select = import_react9.forwardRef(function Select2({
+var Select = import_react10.forwardRef(function Select2({
   options,
   children,
   placeholder,
@@ -1062,10 +1324,10 @@ var Select = import_react9.forwardRef(function Select2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx_runtime9.jsxs("div", {
+  return /* @__PURE__ */ jsx_runtime10.jsxs("div", {
     style: wrapperStyle,
     children: [
-      /* @__PURE__ */ jsx_runtime9.jsxs("select", {
+      /* @__PURE__ */ jsx_runtime10.jsxs("select", {
         ref,
         "aria-invalid": hasError || undefined,
         style: {
@@ -1077,28 +1339,28 @@ var Select = import_react9.forwardRef(function Select2({
         disabled,
         ...props,
         children: [
-          placeholder && /* @__PURE__ */ jsx_runtime9.jsx("option", {
+          placeholder && /* @__PURE__ */ jsx_runtime10.jsx("option", {
             value: "",
             disabled: true,
             children: placeholder
           }),
-          children ?? options?.map((opt) => /* @__PURE__ */ jsx_runtime9.jsx("option", {
+          children ?? options?.map((opt) => /* @__PURE__ */ jsx_runtime10.jsx("option", {
             value: opt.value,
             disabled: opt.disabled,
             children: opt.label
           }, opt.value))
         ]
       }),
-      /* @__PURE__ */ jsx_runtime9.jsx("span", {
+      /* @__PURE__ */ jsx_runtime10.jsx("span", {
         "aria-hidden": true,
         style: chevronStyle,
-        children: /* @__PURE__ */ jsx_runtime9.jsx("svg", {
+        children: /* @__PURE__ */ jsx_runtime10.jsx("svg", {
           width: "12",
           height: "12",
           viewBox: "0 0 12 12",
           fill: "none",
           xmlns: "http://www.w3.org/2000/svg",
-          children: /* @__PURE__ */ jsx_runtime9.jsx("path", {
+          children: /* @__PURE__ */ jsx_runtime10.jsx("path", {
             d: "M2.22 4.47a.75.75 0 0 1 1.06 0L6 7.19l2.72-2.72a.75.75 0 1 1 1.06 1.06L6 9.31 2.22 5.53a.75.75 0 0 1 0-1.06z",
             fill: "currentColor"
           })
@@ -1114,9 +1376,9 @@ __export(exports_Badge, {
 });
 
 // src/components/Badge/Badge.tsx
-var import_react10 = require("react");
+var import_react11 = require("react");
 var import_core10 = require("../../core/dist/index.cjs");
-var jsx_runtime10 = require("react/jsx-runtime");
+var jsx_runtime11 = require("react/jsx-runtime");
 var variantStyles3 = {
   default: {
     border: `1px solid ${import_core10.semantic.colorBorder}`,
@@ -1149,13 +1411,13 @@ var baseStyles2 = {
   textTransform: "uppercase",
   letterSpacing: import_core10.semantic.letterSpacingWide
 };
-var Badge = import_react10.forwardRef(function Badge2({
+var Badge = import_react11.forwardRef(function Badge2({
   children,
   variant = "default",
   style,
   ...rest
 }, ref) {
-  return /* @__PURE__ */ jsx_runtime10.jsx("span", {
+  return /* @__PURE__ */ jsx_runtime11.jsx("span", {
     ref,
     ...rest,
     style: {
@@ -1164,39 +1426,6 @@ var Badge = import_react10.forwardRef(function Badge2({
       ...style
     },
     children
-  });
-});
-// src/components/Icon/index.ts
-var exports_Icon = {};
-__export(exports_Icon, {
-  Icon: () => Icon
-});
-
-// src/components/Icon/Icon.tsx
-var import_react11 = require("react");
-var jsx_runtime11 = require("react/jsx-runtime");
-var Icon = import_react11.forwardRef(function Icon2({ name, size = 24, style, "aria-label": ariaLabel, ...props }, ref) {
-  const IconComponent = iconRegistry[name];
-  const isDecorative = !ariaLabel;
-  return /* @__PURE__ */ jsx_runtime11.jsx("span", {
-    ref,
-    role: isDecorative ? undefined : "img",
-    "aria-hidden": isDecorative || undefined,
-    "aria-label": ariaLabel,
-    style: {
-      display: "inline-flex",
-      alignItems: "center",
-      justifyContent: "center",
-      width: size,
-      height: size,
-      lineHeight: 1,
-      color: "inherit",
-      ...style
-    },
-    ...props,
-    children: /* @__PURE__ */ jsx_runtime11.jsx(IconComponent, {
-      size
-    })
   });
 });
 // src/components/IconButton/index.ts

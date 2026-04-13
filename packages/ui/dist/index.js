@@ -47,12 +47,384 @@ function useFocusTrap(ref) {
 export * from "../../core/dist/index.js";
 
 // src/components/ThemePicker/ThemePicker.tsx
-import { forwardRef } from "react";
+import { forwardRef as forwardRef2, useState, useEffect as useEffect2, useRef, useCallback } from "react";
 import { useTheme } from "../../core/dist/index.js";
 import { useInjectStyles } from "../../core/dist/index.js";
+
+// src/components/Icon/Icon.tsx
+import { forwardRef } from "react";
+
+// src/icons/icons.tsx
 import { jsx, jsxs } from "react/jsx-runtime";
-var STYLES_ID = "alttab-theme-picker";
-var pickerCSS = `
+function svgProps(size, style) {
+  return {
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 2,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    style
+  };
+}
+function IconClose({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx("path", {
+      d: "M18 6L6 18M6 6l12 12"
+    })
+  });
+}
+function IconChevronRight({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx("path", {
+      d: "M9 18l6-6-6-6"
+    })
+  });
+}
+function IconChevronDown({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx("path", {
+      d: "M6 9l6 6 6-6"
+    })
+  });
+}
+function IconChevronLeft({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx("path", {
+      d: "M15 18l-6-6 6-6"
+    })
+  });
+}
+function IconChevronUp({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx("path", {
+      d: "M18 15l-6-6-6 6"
+    })
+  });
+}
+function IconCheck({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx("path", {
+      d: "M20 6L9 17l-5-5"
+    })
+  });
+}
+function IconCheckCircle({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx("path", {
+        d: "M22 11.08V12a10 10 0 11-5.93-9.14"
+      }),
+      /* @__PURE__ */ jsx("path", {
+        d: "M22 4L12 14.01l-3-3"
+      })
+    ]
+  });
+}
+function IconWarning({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx("path", {
+        d: "M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
+      }),
+      /* @__PURE__ */ jsx("line", {
+        x1: "12",
+        y1: "9",
+        x2: "12",
+        y2: "13"
+      }),
+      /* @__PURE__ */ jsx("line", {
+        x1: "12",
+        y1: "17",
+        x2: "12.01",
+        y2: "17"
+      })
+    ]
+  });
+}
+function IconError({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx("circle", {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }),
+      /* @__PURE__ */ jsx("path", {
+        d: "M15 9l-6 6M9 9l6 6"
+      })
+    ]
+  });
+}
+function IconInfo({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx("circle", {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }),
+      /* @__PURE__ */ jsx("line", {
+        x1: "12",
+        y1: "16",
+        x2: "12",
+        y2: "12"
+      }),
+      /* @__PURE__ */ jsx("line", {
+        x1: "12",
+        y1: "8",
+        x2: "12.01",
+        y2: "8"
+      })
+    ]
+  });
+}
+function IconSearch({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx("circle", {
+        cx: "11",
+        cy: "11",
+        r: "8"
+      }),
+      /* @__PURE__ */ jsx("path", {
+        d: "M21 21l-4.35-4.35"
+      })
+    ]
+  });
+}
+function IconTrash({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx("path", {
+      d: "M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"
+    })
+  });
+}
+function IconSettings({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx("circle", {
+        cx: "12",
+        cy: "12",
+        r: "3"
+      }),
+      /* @__PURE__ */ jsx("path", {
+        d: "M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"
+      })
+    ]
+  });
+}
+function IconPlus({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx("path", {
+      d: "M12 5v14M5 12h14"
+    })
+  });
+}
+function IconMinus({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx("path", {
+      d: "M5 12h14"
+    })
+  });
+}
+function IconEdit({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx("path", {
+        d: "M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+      }),
+      /* @__PURE__ */ jsx("path", {
+        d: "M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+      })
+    ]
+  });
+}
+function IconArrowLeft({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx("path", {
+      d: "M19 12H5M12 19l-7-7 7-7"
+    })
+  });
+}
+function IconArrowRight({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx("path", {
+      d: "M5 12h14M12 5l7 7-7 7"
+    })
+  });
+}
+function IconMenu({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx("path", {
+      d: "M3 12h18M3 6h18M3 18h18"
+    })
+  });
+}
+function IconEye({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx("path", {
+        d: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+      }),
+      /* @__PURE__ */ jsx("circle", {
+        cx: "12",
+        cy: "12",
+        r: "3"
+      })
+    ]
+  });
+}
+function IconEyeOff({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx("path", {
+        d: "M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"
+      }),
+      /* @__PURE__ */ jsx("path", {
+        d: "M1 1l22 22"
+      })
+    ]
+  });
+}
+function IconCopy({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx("rect", {
+        x: "9",
+        y: "9",
+        width: "13",
+        height: "13",
+        rx: "2",
+        ry: "2"
+      }),
+      /* @__PURE__ */ jsx("path", {
+        d: "M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"
+      })
+    ]
+  });
+}
+function IconExternalLink({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx("path", {
+      d: "M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"
+    })
+  });
+}
+function IconMoreVertical({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx("circle", {
+        cx: "12",
+        cy: "12",
+        r: "1"
+      }),
+      /* @__PURE__ */ jsx("circle", {
+        cx: "12",
+        cy: "5",
+        r: "1"
+      }),
+      /* @__PURE__ */ jsx("circle", {
+        cx: "12",
+        cy: "19",
+        r: "1"
+      })
+    ]
+  });
+}
+function IconFilter({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx("path", {
+      d: "M22 3H2l8 9.46V19l4 2v-8.54L22 3z"
+    })
+  });
+}
+// src/icons/index.ts
+var iconRegistry = {
+  close: IconClose,
+  "chevron-right": IconChevronRight,
+  "chevron-down": IconChevronDown,
+  "chevron-left": IconChevronLeft,
+  "chevron-up": IconChevronUp,
+  check: IconCheck,
+  "check-circle": IconCheckCircle,
+  warning: IconWarning,
+  error: IconError,
+  info: IconInfo,
+  search: IconSearch,
+  trash: IconTrash,
+  settings: IconSettings,
+  plus: IconPlus,
+  minus: IconMinus,
+  edit: IconEdit,
+  "arrow-left": IconArrowLeft,
+  "arrow-right": IconArrowRight,
+  menu: IconMenu,
+  eye: IconEye,
+  "eye-off": IconEyeOff,
+  copy: IconCopy,
+  "external-link": IconExternalLink,
+  "more-vertical": IconMoreVertical,
+  filter: IconFilter
+};
+
+// src/components/Icon/Icon.tsx
+import { jsx as jsx2 } from "react/jsx-runtime";
+var Icon = forwardRef(function Icon2({ name, size = 24, style, "aria-label": ariaLabel, ...props }, ref) {
+  const IconComponent = iconRegistry[name];
+  const isDecorative = !ariaLabel;
+  return /* @__PURE__ */ jsx2("span", {
+    ref,
+    role: isDecorative ? undefined : "img",
+    "aria-hidden": isDecorative || undefined,
+    "aria-label": ariaLabel,
+    style: {
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: size,
+      height: size,
+      lineHeight: 1,
+      color: "inherit",
+      ...style
+    },
+    ...props,
+    children: /* @__PURE__ */ jsx2(IconComponent, {
+      size
+    })
+  });
+});
+// src/components/ThemePicker/ThemePicker.tsx
+import { jsx as jsx3, jsxs as jsxs2 } from "react/jsx-runtime";
+var GRID_STYLES_ID = "alttab-theme-picker";
+var gridCSS = `
   .alttab-theme-picker {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -94,23 +466,73 @@ var pickerCSS = `
     color: var(--color-text-muted);
   }
 `;
-var ThemePicker = forwardRef(function ThemePicker2({ descriptions = {} }, ref) {
-  useInjectStyles(STYLES_ID, pickerCSS);
+var COMPACT_STYLES_ID = "alttab-theme-picker-compact";
+var compactCSS = `
+  .alttab-tp-trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.625rem;
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    color: var(--color-text-secondary);
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+
+  .alttab-tp-trigger:hover {
+    border-color: var(--color-text-link);
+  }
+
+  .alttab-tp-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    text-align: left;
+    padding: 0.375rem 0.5rem;
+    font-size: 0.8rem;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background 0.1s ease, color 0.1s ease;
+  }
+
+  .alttab-tp-menu-item:hover,
+  .alttab-tp-menu-item--focused {
+    background: var(--color-surface-raised);
+    color: var(--color-text);
+  }
+
+  .alttab-tp-menu-item--active {
+    font-weight: 600;
+    color: var(--color-text);
+    background: var(--color-surface-raised);
+  }
+`;
+function GridView({ descriptions }) {
+  useInjectStyles(GRID_STYLES_ID, gridCSS);
   const { resolved, themes, setTheme } = useTheme();
-  return /* @__PURE__ */ jsx("div", {
-    ref,
+  return /* @__PURE__ */ jsx3("div", {
     className: "alttab-theme-picker",
     children: Array.from(themes.values()).map((def) => {
       const isActive = resolved === def.name;
-      return /* @__PURE__ */ jsxs("button", {
+      return /* @__PURE__ */ jsxs2("button", {
         className: `alttab-theme-card${isActive ? " alttab-theme-card--active" : ""}`,
         onClick: () => setTheme(def.name),
         children: [
-          /* @__PURE__ */ jsx("span", {
+          /* @__PURE__ */ jsx3("span", {
             className: "alttab-theme-card__name",
             children: def.label
           }),
-          descriptions[def.name] && /* @__PURE__ */ jsx("span", {
+          descriptions[def.name] && /* @__PURE__ */ jsx3("span", {
             className: "alttab-theme-card__desc",
             children: descriptions[def.name]
           })
@@ -118,351 +540,185 @@ var ThemePicker = forwardRef(function ThemePicker2({ descriptions = {} }, ref) {
       }, def.name);
     })
   });
+}
+function CompactView() {
+  useInjectStyles(COMPACT_STYLES_ID, compactCSS);
+  const { resolved, themes, setTheme } = useTheme();
+  const [open, setOpen] = useState(false);
+  const [focusedIndex, setFocusedIndex] = useState(-1);
+  const containerRef = useRef(null);
+  const menuRef = useRef(null);
+  const triggerRef = useRef(null);
+  const themeList = Array.from(themes.values());
+  useEffect2(() => {
+    if (!open)
+      return;
+    function handleMouseDown(e) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [open]);
+  const handleKeyDown = useCallback((e) => {
+    if (e.key === "Escape") {
+      setOpen(false);
+      triggerRef.current?.focus();
+      return;
+    }
+    if (!open) {
+      if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        setOpen(true);
+        setFocusedIndex(0);
+      }
+      return;
+    }
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault();
+        setFocusedIndex((i) => (i + 1) % themeList.length);
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        setFocusedIndex((i) => (i - 1 + themeList.length) % themeList.length);
+        break;
+      case "Enter":
+      case " ":
+        e.preventDefault();
+        if (focusedIndex >= 0 && focusedIndex < themeList.length) {
+          setTheme(themeList[focusedIndex].name);
+          setOpen(false);
+          triggerRef.current?.focus();
+        }
+        break;
+      case "Home":
+        e.preventDefault();
+        setFocusedIndex(0);
+        break;
+      case "End":
+        e.preventDefault();
+        setFocusedIndex(themeList.length - 1);
+        break;
+    }
+  }, [open, focusedIndex, themeList, setTheme]);
+  useEffect2(() => {
+    if (!open || focusedIndex < 0)
+      return;
+    const menu = menuRef.current;
+    if (!menu)
+      return;
+    const items = menu.querySelectorAll('[role="option"]');
+    items[focusedIndex]?.scrollIntoView({ block: "nearest" });
+  }, [open, focusedIndex]);
+  useEffect2(() => {
+    if (open) {
+      const activeIdx = themeList.findIndex((t) => t.name === resolved);
+      setFocusedIndex(activeIdx >= 0 ? activeIdx : 0);
+    }
+  }, [open]);
+  const currentTheme = themeList.find((t) => t.name === resolved);
+  return /* @__PURE__ */ jsxs2("div", {
+    ref: containerRef,
+    style: { position: "relative" },
+    onKeyDown: handleKeyDown,
+    children: [
+      /* @__PURE__ */ jsxs2("button", {
+        ref: triggerRef,
+        className: "alttab-tp-trigger",
+        onClick: () => setOpen((o) => !o),
+        "aria-haspopup": "listbox",
+        "aria-expanded": open,
+        children: [
+          /* @__PURE__ */ jsx3("span", {
+            style: {
+              width: 8,
+              height: 8,
+              borderRadius: "50%",
+              background: "var(--color-action-primary)",
+              flexShrink: 0
+            }
+          }),
+          currentTheme?.label ?? resolved,
+          /* @__PURE__ */ jsx3(Icon, {
+            name: open ? "chevron-up" : "chevron-down",
+            size: 12
+          })
+        ]
+      }),
+      open && /* @__PURE__ */ jsx3("div", {
+        ref: menuRef,
+        role: "listbox",
+        "aria-activedescendant": focusedIndex >= 0 ? `alttab-tp-item-${themeList[focusedIndex]?.name}` : undefined,
+        style: {
+          position: "absolute",
+          top: "100%",
+          right: 0,
+          marginTop: "0.25rem",
+          background: "var(--color-surface-panel)",
+          border: "1px solid var(--color-border)",
+          borderRadius: "var(--radius-md)",
+          padding: "0.25rem",
+          minWidth: "10rem",
+          zIndex: 100,
+          boxShadow: "var(--shadow-md)"
+        },
+        children: themeList.map((t, idx) => {
+          const isActive = resolved === t.name;
+          const isFocused = focusedIndex === idx;
+          const classes = [
+            "alttab-tp-menu-item",
+            isActive ? "alttab-tp-menu-item--active" : "",
+            isFocused && !isActive ? "alttab-tp-menu-item--focused" : ""
+          ].filter(Boolean).join(" ");
+          return /* @__PURE__ */ jsxs2("button", {
+            id: `alttab-tp-item-${t.name}`,
+            role: "option",
+            "aria-selected": isActive,
+            className: classes,
+            onClick: () => {
+              setTheme(t.name);
+              setOpen(false);
+              triggerRef.current?.focus();
+            },
+            onMouseEnter: () => setFocusedIndex(idx),
+            children: [
+              /* @__PURE__ */ jsx3("span", {
+                style: {
+                  width: 6,
+                  height: 6,
+                  borderRadius: "50%",
+                  background: isActive ? "var(--color-action-primary)" : "var(--color-text-muted)",
+                  flexShrink: 0
+                }
+              }),
+              t.label
+            ]
+          }, t.name);
+        })
+      })
+    ]
+  });
+}
+var ThemePicker = forwardRef2(function ThemePicker2({ descriptions = {}, variant = "grid" }, ref) {
+  if (variant === "compact") {
+    return /* @__PURE__ */ jsx3("div", {
+      ref,
+      children: /* @__PURE__ */ jsx3(CompactView, {})
+    });
+  }
+  return /* @__PURE__ */ jsx3("div", {
+    ref,
+    children: /* @__PURE__ */ jsx3(GridView, {
+      descriptions
+    })
+  });
 });
-// src/icons/icons.tsx
-import { jsx as jsx2, jsxs as jsxs2 } from "react/jsx-runtime";
-function svgProps(size, style) {
-  return {
-    width: size,
-    height: size,
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: 2,
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    style
-  };
-}
-function IconClose({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx2("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx2("path", {
-      d: "M18 6L6 18M6 6l12 12"
-    })
-  });
-}
-function IconChevronRight({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx2("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx2("path", {
-      d: "M9 18l6-6-6-6"
-    })
-  });
-}
-function IconChevronDown({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx2("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx2("path", {
-      d: "M6 9l6 6 6-6"
-    })
-  });
-}
-function IconChevronLeft({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx2("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx2("path", {
-      d: "M15 18l-6-6 6-6"
-    })
-  });
-}
-function IconChevronUp({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx2("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx2("path", {
-      d: "M18 15l-6-6-6 6"
-    })
-  });
-}
-function IconCheck({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx2("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx2("path", {
-      d: "M20 6L9 17l-5-5"
-    })
-  });
-}
-function IconCheckCircle({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs2("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx2("path", {
-        d: "M22 11.08V12a10 10 0 11-5.93-9.14"
-      }),
-      /* @__PURE__ */ jsx2("path", {
-        d: "M22 4L12 14.01l-3-3"
-      })
-    ]
-  });
-}
-function IconWarning({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs2("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx2("path", {
-        d: "M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
-      }),
-      /* @__PURE__ */ jsx2("line", {
-        x1: "12",
-        y1: "9",
-        x2: "12",
-        y2: "13"
-      }),
-      /* @__PURE__ */ jsx2("line", {
-        x1: "12",
-        y1: "17",
-        x2: "12.01",
-        y2: "17"
-      })
-    ]
-  });
-}
-function IconError({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs2("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx2("circle", {
-        cx: "12",
-        cy: "12",
-        r: "10"
-      }),
-      /* @__PURE__ */ jsx2("path", {
-        d: "M15 9l-6 6M9 9l6 6"
-      })
-    ]
-  });
-}
-function IconInfo({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs2("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx2("circle", {
-        cx: "12",
-        cy: "12",
-        r: "10"
-      }),
-      /* @__PURE__ */ jsx2("line", {
-        x1: "12",
-        y1: "16",
-        x2: "12",
-        y2: "12"
-      }),
-      /* @__PURE__ */ jsx2("line", {
-        x1: "12",
-        y1: "8",
-        x2: "12.01",
-        y2: "8"
-      })
-    ]
-  });
-}
-function IconSearch({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs2("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx2("circle", {
-        cx: "11",
-        cy: "11",
-        r: "8"
-      }),
-      /* @__PURE__ */ jsx2("path", {
-        d: "M21 21l-4.35-4.35"
-      })
-    ]
-  });
-}
-function IconTrash({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx2("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx2("path", {
-      d: "M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"
-    })
-  });
-}
-function IconSettings({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs2("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx2("circle", {
-        cx: "12",
-        cy: "12",
-        r: "3"
-      }),
-      /* @__PURE__ */ jsx2("path", {
-        d: "M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"
-      })
-    ]
-  });
-}
-function IconPlus({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx2("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx2("path", {
-      d: "M12 5v14M5 12h14"
-    })
-  });
-}
-function IconMinus({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx2("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx2("path", {
-      d: "M5 12h14"
-    })
-  });
-}
-function IconEdit({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs2("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx2("path", {
-        d: "M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
-      }),
-      /* @__PURE__ */ jsx2("path", {
-        d: "M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
-      })
-    ]
-  });
-}
-function IconArrowLeft({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx2("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx2("path", {
-      d: "M19 12H5M12 19l-7-7 7-7"
-    })
-  });
-}
-function IconArrowRight({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx2("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx2("path", {
-      d: "M5 12h14M12 5l7 7-7 7"
-    })
-  });
-}
-function IconMenu({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx2("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx2("path", {
-      d: "M3 12h18M3 6h18M3 18h18"
-    })
-  });
-}
-function IconEye({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs2("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx2("path", {
-        d: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
-      }),
-      /* @__PURE__ */ jsx2("circle", {
-        cx: "12",
-        cy: "12",
-        r: "3"
-      })
-    ]
-  });
-}
-function IconEyeOff({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs2("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx2("path", {
-        d: "M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"
-      }),
-      /* @__PURE__ */ jsx2("path", {
-        d: "M1 1l22 22"
-      })
-    ]
-  });
-}
-function IconCopy({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs2("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx2("rect", {
-        x: "9",
-        y: "9",
-        width: "13",
-        height: "13",
-        rx: "2",
-        ry: "2"
-      }),
-      /* @__PURE__ */ jsx2("path", {
-        d: "M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"
-      })
-    ]
-  });
-}
-function IconExternalLink({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx2("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx2("path", {
-      d: "M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"
-    })
-  });
-}
-function IconMoreVertical({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs2("svg", {
-    ...svgProps(size, style),
-    children: [
-      /* @__PURE__ */ jsx2("circle", {
-        cx: "12",
-        cy: "12",
-        r: "1"
-      }),
-      /* @__PURE__ */ jsx2("circle", {
-        cx: "12",
-        cy: "5",
-        r: "1"
-      }),
-      /* @__PURE__ */ jsx2("circle", {
-        cx: "12",
-        cy: "19",
-        r: "1"
-      })
-    ]
-  });
-}
-function IconFilter({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx2("svg", {
-    ...svgProps(size, style),
-    children: /* @__PURE__ */ jsx2("path", {
-      d: "M22 3H2l8 9.46V19l4 2v-8.54L22 3z"
-    })
-  });
-}
-// src/icons/index.ts
-var iconRegistry = {
-  close: IconClose,
-  "chevron-right": IconChevronRight,
-  "chevron-down": IconChevronDown,
-  "chevron-left": IconChevronLeft,
-  "chevron-up": IconChevronUp,
-  check: IconCheck,
-  "check-circle": IconCheckCircle,
-  warning: IconWarning,
-  error: IconError,
-  info: IconInfo,
-  search: IconSearch,
-  trash: IconTrash,
-  settings: IconSettings,
-  plus: IconPlus,
-  minus: IconMinus,
-  edit: IconEdit,
-  "arrow-left": IconArrowLeft,
-  "arrow-right": IconArrowRight,
-  menu: IconMenu,
-  eye: IconEye,
-  "eye-off": IconEyeOff,
-  copy: IconCopy,
-  "external-link": IconExternalLink,
-  "more-vertical": IconMoreVertical,
-  filter: IconFilter
-};
 // src/components/Button/Button.tsx
-import { forwardRef as forwardRef2 } from "react";
+import { forwardRef as forwardRef3 } from "react";
 import { semantic as t } from "../../core/dist/index.js";
-import { jsx as jsx3 } from "react/jsx-runtime";
+import { jsx as jsx4 } from "react/jsx-runtime";
 var variantStyles = {
   primary: {
     background: t.colorActionPrimary,
@@ -513,7 +769,7 @@ var baseStyles = {
   cursor: "pointer",
   transition: "background 150ms ease, border-color 150ms ease, opacity 150ms ease"
 };
-var Button = forwardRef2(function Button2({
+var Button = forwardRef3(function Button2({
   variant = "primary",
   size = "md",
   children,
@@ -521,7 +777,7 @@ var Button = forwardRef2(function Button2({
   disabled,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx3("button", {
+  return /* @__PURE__ */ jsx4("button", {
     ref,
     style: {
       ...baseStyles,
@@ -536,9 +792,9 @@ var Button = forwardRef2(function Button2({
   });
 });
 // src/components/Stack/Stack.tsx
-import { forwardRef as forwardRef3 } from "react";
+import { forwardRef as forwardRef4 } from "react";
 import { semantic as t2 } from "../../core/dist/index.js";
-import { jsx as jsx4 } from "react/jsx-runtime";
+import { jsx as jsx5 } from "react/jsx-runtime";
 var gapMap = {
   xs: t2.spaceXs,
   sm: t2.spaceSm,
@@ -547,7 +803,7 @@ var gapMap = {
   xl: t2.spaceXl,
   "2xl": t2.space2xl
 };
-var Stack = forwardRef3(function Stack2({
+var Stack = forwardRef4(function Stack2({
   direction = "vertical",
   gap = "md",
   align,
@@ -557,7 +813,7 @@ var Stack = forwardRef3(function Stack2({
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx4("div", {
+  return /* @__PURE__ */ jsx5("div", {
     ref,
     style: {
       display: "flex",
@@ -573,9 +829,9 @@ var Stack = forwardRef3(function Stack2({
   });
 });
 // src/components/Card/Card.tsx
-import { forwardRef as forwardRef4 } from "react";
+import { forwardRef as forwardRef5 } from "react";
 import { semantic as t3 } from "../../core/dist/index.js";
-import { jsx as jsx5 } from "react/jsx-runtime";
+import { jsx as jsx6 } from "react/jsx-runtime";
 var paddingMap = {
   xs: t3.spaceXs,
   sm: t3.spaceSm,
@@ -601,14 +857,14 @@ var variantStyles2 = {
     boxShadow: t3.shadowMd
   }
 };
-var Card = forwardRef4(function Card2({
+var Card = forwardRef5(function Card2({
   variant = "default",
   padding = "lg",
   children,
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx5("div", {
+  return /* @__PURE__ */ jsx6("div", {
     ref,
     style: {
       borderRadius: t3.radiusLg,
@@ -622,8 +878,8 @@ var Card = forwardRef4(function Card2({
 });
 // src/components/Field/Field.tsx
 import { semantic as t4 } from "../../core/dist/index.js";
-import { forwardRef as forwardRef5, useId, isValidElement, cloneElement } from "react";
-import { jsx as jsx6, jsxs as jsxs3 } from "react/jsx-runtime";
+import { forwardRef as forwardRef6, useId, isValidElement, cloneElement } from "react";
+import { jsx as jsx7, jsxs as jsxs3 } from "react/jsx-runtime";
 var labelStyle = {
   display: "block",
   fontSize: t4.fontSizeSm,
@@ -650,7 +906,7 @@ var errorStyle = {
   fontFamily: t4.fontSans,
   margin: 0
 };
-var Field = forwardRef5(function Field2({
+var Field = forwardRef6(function Field2({
   label,
   htmlFor,
   error,
@@ -684,7 +940,7 @@ var Field = forwardRef5(function Field2({
         style: labelStyle,
         children: [
           label,
-          required && /* @__PURE__ */ jsx6("span", {
+          required && /* @__PURE__ */ jsx7("span", {
             style: requiredStyle,
             "aria-hidden": "true",
             children: "*"
@@ -692,13 +948,13 @@ var Field = forwardRef5(function Field2({
         ]
       }),
       enhancedChildren,
-      error && /* @__PURE__ */ jsx6("p", {
+      error && /* @__PURE__ */ jsx7("p", {
         id: errorId,
         role: "alert",
         style: errorStyle,
         children: error
       }),
-      !error && help && /* @__PURE__ */ jsx6("p", {
+      !error && help && /* @__PURE__ */ jsx7("p", {
         id: helpId,
         style: helpStyle,
         children: help
@@ -707,9 +963,9 @@ var Field = forwardRef5(function Field2({
   });
 });
 // src/components/Input/Input.tsx
-import { forwardRef as forwardRef6 } from "react";
+import { forwardRef as forwardRef7 } from "react";
 import { semantic as t5 } from "../../core/dist/index.js";
-import { jsx as jsx7 } from "react/jsx-runtime";
+import { jsx as jsx8 } from "react/jsx-runtime";
 var baseStyle = {
   display: "block",
   width: "100%",
@@ -733,13 +989,13 @@ var disabledStyle = {
   color: t5.colorTextDisabled,
   cursor: "not-allowed"
 };
-var Input = forwardRef6(function Input2({
+var Input = forwardRef7(function Input2({
   hasError,
   disabled,
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx7("input", {
+  return /* @__PURE__ */ jsx8("input", {
     ref,
     "aria-invalid": hasError || undefined,
     style: {
@@ -753,9 +1009,9 @@ var Input = forwardRef6(function Input2({
   });
 });
 // src/components/Textarea/Textarea.tsx
-import { forwardRef as forwardRef7 } from "react";
+import { forwardRef as forwardRef8 } from "react";
 import { semantic as t6 } from "../../core/dist/index.js";
-import { jsx as jsx8 } from "react/jsx-runtime";
+import { jsx as jsx9 } from "react/jsx-runtime";
 var baseStyle2 = {
   display: "block",
   width: "100%",
@@ -782,13 +1038,13 @@ var disabledStyle2 = {
   cursor: "not-allowed",
   resize: "none"
 };
-var Textarea = forwardRef7(function Textarea2({
+var Textarea = forwardRef8(function Textarea2({
   hasError,
   disabled,
   style,
   ...props
 }, ref) {
-  return /* @__PURE__ */ jsx8("textarea", {
+  return /* @__PURE__ */ jsx9("textarea", {
     ref,
     "aria-invalid": hasError || undefined,
     style: {
@@ -802,9 +1058,9 @@ var Textarea = forwardRef7(function Textarea2({
   });
 });
 // src/components/Select/Select.tsx
-import { forwardRef as forwardRef8 } from "react";
+import { forwardRef as forwardRef9 } from "react";
 import { semantic as t7 } from "../../core/dist/index.js";
-import { jsx as jsx9, jsxs as jsxs4 } from "react/jsx-runtime";
+import { jsx as jsx10, jsxs as jsxs4 } from "react/jsx-runtime";
 var wrapperStyle = {
   position: "relative",
   display: "block",
@@ -847,7 +1103,7 @@ var disabledStyle3 = {
   color: t7.colorTextDisabled,
   cursor: "not-allowed"
 };
-var Select = forwardRef8(function Select2({
+var Select = forwardRef9(function Select2({
   options,
   children,
   placeholder,
@@ -871,28 +1127,28 @@ var Select = forwardRef8(function Select2({
         disabled,
         ...props,
         children: [
-          placeholder && /* @__PURE__ */ jsx9("option", {
+          placeholder && /* @__PURE__ */ jsx10("option", {
             value: "",
             disabled: true,
             children: placeholder
           }),
-          children ?? options?.map((opt) => /* @__PURE__ */ jsx9("option", {
+          children ?? options?.map((opt) => /* @__PURE__ */ jsx10("option", {
             value: opt.value,
             disabled: opt.disabled,
             children: opt.label
           }, opt.value))
         ]
       }),
-      /* @__PURE__ */ jsx9("span", {
+      /* @__PURE__ */ jsx10("span", {
         "aria-hidden": true,
         style: chevronStyle,
-        children: /* @__PURE__ */ jsx9("svg", {
+        children: /* @__PURE__ */ jsx10("svg", {
           width: "12",
           height: "12",
           viewBox: "0 0 12 12",
           fill: "none",
           xmlns: "http://www.w3.org/2000/svg",
-          children: /* @__PURE__ */ jsx9("path", {
+          children: /* @__PURE__ */ jsx10("path", {
             d: "M2.22 4.47a.75.75 0 0 1 1.06 0L6 7.19l2.72-2.72a.75.75 0 1 1 1.06 1.06L6 9.31 2.22 5.53a.75.75 0 0 1 0-1.06z",
             fill: "currentColor"
           })
@@ -902,9 +1158,9 @@ var Select = forwardRef8(function Select2({
   });
 });
 // src/components/Badge/Badge.tsx
-import { forwardRef as forwardRef9 } from "react";
+import { forwardRef as forwardRef10 } from "react";
 import { semantic as t8 } from "../../core/dist/index.js";
-import { jsx as jsx10 } from "react/jsx-runtime";
+import { jsx as jsx11 } from "react/jsx-runtime";
 var variantStyles3 = {
   default: {
     border: `1px solid ${t8.colorBorder}`,
@@ -937,13 +1193,13 @@ var baseStyles2 = {
   textTransform: "uppercase",
   letterSpacing: t8.letterSpacingWide
 };
-var Badge = forwardRef9(function Badge2({
+var Badge = forwardRef10(function Badge2({
   children,
   variant = "default",
   style,
   ...rest
 }, ref) {
-  return /* @__PURE__ */ jsx10("span", {
+  return /* @__PURE__ */ jsx11("span", {
     ref,
     ...rest,
     style: {
@@ -952,33 +1208,6 @@ var Badge = forwardRef9(function Badge2({
       ...style
     },
     children
-  });
-});
-// src/components/Icon/Icon.tsx
-import { forwardRef as forwardRef10 } from "react";
-import { jsx as jsx11 } from "react/jsx-runtime";
-var Icon = forwardRef10(function Icon2({ name, size = 24, style, "aria-label": ariaLabel, ...props }, ref) {
-  const IconComponent = iconRegistry[name];
-  const isDecorative = !ariaLabel;
-  return /* @__PURE__ */ jsx11("span", {
-    ref,
-    role: isDecorative ? undefined : "img",
-    "aria-hidden": isDecorative || undefined,
-    "aria-label": ariaLabel,
-    style: {
-      display: "inline-flex",
-      alignItems: "center",
-      justifyContent: "center",
-      width: size,
-      height: size,
-      lineHeight: 1,
-      color: "inherit",
-      ...style
-    },
-    ...props,
-    children: /* @__PURE__ */ jsx11(IconComponent, {
-      size
-    })
   });
 });
 // src/components/IconButton/IconButton.tsx
@@ -1371,7 +1600,7 @@ var TagChip = forwardRef18(function TagChip2({
 });
 // src/components/ExpandableCard/ExpandableCard.tsx
 import { semantic as t17 } from "../../core/dist/index.js";
-import { forwardRef as forwardRef19, useState, useId as useId2 } from "react";
+import { forwardRef as forwardRef19, useState as useState2, useId as useId2 } from "react";
 import { jsx as jsx20, jsxs as jsxs11 } from "react/jsx-runtime";
 var ExpandableCard = forwardRef19(function ExpandableCard2({
   title,
@@ -1383,7 +1612,7 @@ var ExpandableCard = forwardRef19(function ExpandableCard2({
   style,
   headerAction
 }, ref) {
-  const [internalOpen, setInternalOpen] = useState(defaultOpen);
+  const [internalOpen, setInternalOpen] = useState2(defaultOpen);
   const isOpen = controlledOpen !== undefined ? controlledOpen : internalOpen;
   const panelId = useId2();
   const handleToggle = () => {
@@ -1475,7 +1704,7 @@ var ExpandableCard = forwardRef19(function ExpandableCard2({
   });
 });
 // src/components/ModalShell/ModalShell.tsx
-import { forwardRef as forwardRef20, useEffect as useEffect2, useId as useId3, useRef } from "react";
+import { forwardRef as forwardRef20, useEffect as useEffect3, useId as useId3, useRef as useRef2 } from "react";
 import { createPortal } from "react-dom";
 import { semantic as t18 } from "../../core/dist/index.js";
 import { jsx as jsx21, jsxs as jsxs12, Fragment } from "react/jsx-runtime";
@@ -1499,7 +1728,7 @@ var ModalShell = forwardRef20(function ModalShell2({
 }, ref) {
   const generatedId = useId3();
   const resolvedLabelId = titleId ?? generatedId;
-  const internalRef = useRef(null);
+  const internalRef = useRef2(null);
   const setRefs = (node) => {
     internalRef.current = node;
     if (typeof ref === "function") {
@@ -1509,7 +1738,7 @@ var ModalShell = forwardRef20(function ModalShell2({
     }
   };
   useFocusTrap(internalRef);
-  useEffect2(() => {
+  useEffect3(() => {
     const previouslyFocused = document.activeElement;
     const container = internalRef.current;
     if (container) {
@@ -1524,7 +1753,7 @@ var ModalShell = forwardRef20(function ModalShell2({
       previouslyFocused?.focus();
     };
   }, []);
-  useEffect2(() => {
+  useEffect3(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
         onClose();
@@ -1576,7 +1805,7 @@ var ModalShell = forwardRef20(function ModalShell2({
   }), document.body);
 });
 // src/components/ConfirmDialog/ConfirmDialog.tsx
-import { forwardRef as forwardRef21, useId as useId4, useState as useState2 } from "react";
+import { forwardRef as forwardRef21, useId as useId4, useState as useState3 } from "react";
 import { semantic as t19 } from "../../core/dist/index.js";
 import { jsx as jsx22, jsxs as jsxs13 } from "react/jsx-runtime";
 var variantButtonMap = {
@@ -1593,7 +1822,7 @@ var ConfirmDialog = forwardRef21(function ConfirmDialog2({
   children,
   variant = "destructive"
 }, ref) {
-  const [loading, setLoading] = useState2(false);
+  const [loading, setLoading] = useState3(false);
   const titleId = useId4();
   const handleConfirm = async () => {
     setLoading(true);
@@ -1694,7 +1923,7 @@ var StatusDot = forwardRef22(function StatusDot2({
   });
 });
 // src/components/ThemeSurface/ThemeSurface.tsx
-import { forwardRef as forwardRef23, useEffect as useEffect3, useRef as useRef2 } from "react";
+import { forwardRef as forwardRef23, useEffect as useEffect4, useRef as useRef3 } from "react";
 import { semantic as t21 } from "../../core/dist/index.js";
 import { useTheme as useTheme2 } from "../../core/dist/index.js";
 import { jsx as jsx24, Fragment as Fragment2 } from "react/jsx-runtime";
@@ -1704,8 +1933,8 @@ var ThemeSurface = forwardRef23(function ThemeSurface2({
   style
 }, ref) {
   const { resolved, themes } = useTheme2();
-  const prevBodyBgRef = useRef2("");
-  useEffect3(() => {
+  const prevBodyBgRef = useRef3("");
+  useEffect4(() => {
     if (!global)
       return;
     const definition = themes.get(resolved);
