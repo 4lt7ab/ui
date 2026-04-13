@@ -1,6 +1,6 @@
 {
   "name": "@4lt7ab/core",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.js",

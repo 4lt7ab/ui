@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.10
+
 - Fix synthwave theme button glow: remove static box-shadow on `button:focus-visible` and dead `button[data-variant="primary"]` rule
 
 ## v0.2.9
