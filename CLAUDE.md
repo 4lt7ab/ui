@@ -179,14 +179,16 @@ Built-in themes: synthwave, slate, warm-sand, moss, coral, pipboy, neural, pacma
 
 ## Releasing
 
+**Always use `make` targets, never call `deploy.sh` directly.**
+
 ```bash
-./deploy.sh          # bump patch  (0.2.6 → 0.2.7)
-./deploy.sh minor    # bump minor  (0.2.6 → 0.3.0)
-./deploy.sh major    # bump major  (0.2.6 → 1.0.0)
-./deploy.sh 2.0.0    # exact version
+make deploy              # bump patch  (0.2.6 → 0.2.7)
+make deploy-minor        # bump minor  (0.2.6 → 0.3.0)
+make deploy-major        # bump major  (0.2.6 → 1.0.0)
+make deploy V=2.0.0      # exact version
 ```
 
-The script typechecks, builds, updates all `package.json` versions, stamps the changelog, commits, tags, and pushes.
+The deploy target typechecks, builds, updates all `package.json` versions, stamps the changelog, commits, tags, and pushes.
 
 ## Documentation
 
