@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.7
+
 - Add `DatePicker` single-date selection component, reusing DateRangePicker calendar internals
 - Add `DateRangePicker` component to `@4lt7ab/ui` with zero external dependencies, full keyboard nav, and ARIA grid pattern
 - Add `variant="compact"` to ThemePicker for toolbar/header use (dropdown with keyboard nav, click-outside-close, Escape-to-close)

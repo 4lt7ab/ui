@@ -654,7 +654,7 @@ function CompactView() {
         style: {
           position: "absolute",
           top: "100%",
-          right: 0,
+          left: 0,
           marginTop: "0.25rem",
           background: "var(--color-surface-panel)",
           border: "1px solid var(--color-border)",
@@ -705,6 +705,7 @@ var ThemePicker = forwardRef2(function ThemePicker2({ descriptions = {}, variant
   if (variant === "compact") {
     return /* @__PURE__ */ jsx3("div", {
       ref,
+      style: { display: "inline-block" },
       children: /* @__PURE__ */ jsx3(CompactView, {})
     });
   }
