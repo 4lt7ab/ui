@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.8
+
 - Fix DatePicker and DateRangePicker missing from dist bundles due to bunup v0.16.31 silently dropping modules
 - Switch `@4lt7ab/ui` JS build from bunup to `bun build` (bunup still generates `.d.ts`)
 - Add `scripts/verify-exports.ts` post-build check to catch silent bundler export omissions
