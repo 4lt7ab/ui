@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.12
+
 - Fix `@4lt7ab/ui` dist importing `jsxDEV` from `react/jsx-dev-runtime` instead of `jsx` from `react/jsx-runtime`, causing white-screen crash in production builds of consuming apps
 - Use `bun build --production` flag for correct JSX transform (shell `NODE_ENV=production` prefix was insufficient)
 - Fix sed path-rewrite pattern to handle minified output (no space after `from` keyword)
