@@ -167,7 +167,18 @@ Built-in themes: synthwave, slate, warm-sand, moss, coral, pipboy, neural, pacma
 
 ## Changelog
 
-`CHANGELOG.md` at the repo root. Keep it brief — version header + bullet list of what changed. Update the `## Unreleased` section with every commit that changes public API, adds features, or fixes bugs. When cutting a release, rename `## Unreleased` to `## vX.Y.Z` and add a fresh `## Unreleased` above it.
+`CHANGELOG.md` at the repo root. Keep it brief — version header + bullet list of what changed. Update the `## Unreleased` section with every commit that changes public API, adds features, or fixes bugs. The `deploy.sh` script automatically stamps `## Unreleased` with the release version and adds a fresh `## Unreleased` section.
+
+## Releasing
+
+```bash
+./deploy.sh          # bump patch  (0.2.6 → 0.2.7)
+./deploy.sh minor    # bump minor  (0.2.6 → 0.3.0)
+./deploy.sh major    # bump major  (0.2.6 → 1.0.0)
+./deploy.sh 2.0.0    # exact version
+```
+
+The script typechecks, builds, updates all `package.json` versions, stamps the changelog, commits, tags, and pushes.
 
 ## Documentation
 
