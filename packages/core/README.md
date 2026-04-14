@@ -140,6 +140,29 @@ See the built-in theme definitions in `src/themes/definitions/` for complete exa
 
 ---
 
+## Built-in Keyframes
+
+ThemeProvider automatically injects common keyframe animations so consumers don't need to define them:
+
+| Keyframe | Purpose | Reduced motion |
+|----------|---------|----------------|
+| `spin` | Loading spinners (continuous 360deg rotation) | Always available (functional) |
+| `fade-in-up` | Enter animations (opacity + translateY) | Falls back to opacity-only fade |
+
+Use them directly in CSS or reference the exported constants:
+
+```tsx
+import { KEYFRAMES } from '@4lt7ab/ui/core';
+
+const style = {
+  animation: `${KEYFRAMES.spin} 1s linear infinite`,
+};
+```
+
+Keyframes are injected once via `useInjectStyles` and deduplicated across multiple ThemeProvider instances.
+
+---
+
 ## useInjectStyles
 
 Singleton style injection hook for CSS that requires pseudo-elements, hover states, or other features that can't be expressed with inline styles:

@@ -439,6 +439,14 @@ interface ThemeDefinition {
 }
 /** Converts a camelCase token key to its CSS custom property name. */
 declare function tokenToCssProperty(key: string): string;
+/**
+* Built-in keyframe animation names injected globally by ThemeProvider.
+* Use these constants to reference the keyframes type-safely.
+*/
+declare const KEYFRAMES: {
+	readonly spin: "spin";
+	readonly fadeInUp: "fade-in-up";
+};
 /** A theme name. */
 type Theme = string;
 /** The resolved theme name that's actually applied. */
@@ -487,4 +495,4 @@ declare const pipboyTheme: ThemeDefinition;
 declare const neuralTheme: ThemeDefinition;
 declare const pacmanTheme: ThemeDefinition;
 declare const blackHoleTheme: ThemeDefinition;
-export { warmSandTheme, useTheme, useInjectStyles, typography, tokenToCssProperty, synthwaveTheme, spacing, slateTheme, shadows, semantic, radii, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, coralTheme, colors, blackHoleTheme, Typography, ThemeTokens, ThemeProviderProps, ThemeProvider, ThemeDefinition, ThemeContextValue, Theme, Spacing, Shadows, SemanticTokens, ResolvedTheme, Radii, Colors };
+export { warmSandTheme, useTheme, useInjectStyles, typography, tokenToCssProperty, synthwaveTheme, spacing, slateTheme, shadows, semantic, radii, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, coralTheme, colors, blackHoleTheme, Typography, ThemeTokens, ThemeProviderProps, ThemeProvider, ThemeDefinition, ThemeContextValue, Theme, Spacing, Shadows, SemanticTokens, ResolvedTheme, Radii, KEYFRAMES, Colors };

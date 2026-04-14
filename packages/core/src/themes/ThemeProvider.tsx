@@ -15,6 +15,39 @@ import {
   slateTheme, warmSandTheme, mossTheme, coralTheme,
   pipboyTheme, neuralTheme, pacmanTheme, blackHoleTheme,
 } from './definitions';
+import { useInjectStyles } from '../utils/useInjectStyles';
+
+/**
+ * Built-in keyframe animation names injected globally by ThemeProvider.
+ * Use these constants to reference the keyframes type-safely.
+ */
+export const KEYFRAMES = {
+  spin: 'spin',
+  fadeInUp: 'fade-in-up',
+} as const;
+
+/** CSS for built-in keyframes, with prefers-reduced-motion support. */
+const KEYFRAMES_CSS = [
+  /* spin: functional animation (spinners), always available */
+  '@keyframes spin {',
+  '  from { transform: rotate(0deg); }',
+  '  to { transform: rotate(360deg); }',
+  '}',
+  /* fade-in-up: full version with motion */
+  '@media (prefers-reduced-motion: no-preference) {',
+  '  @keyframes fade-in-up {',
+  '    from { opacity: 0; transform: translateY(8px); }',
+  '    to { opacity: 1; transform: translateY(0); }',
+  '  }',
+  '}',
+  /* fade-in-up: reduced-motion fallback — simple opacity fade, no translateY */
+  '@media (prefers-reduced-motion: reduce) {',
+  '  @keyframes fade-in-up {',
+  '    from { opacity: 0; }',
+  '    to { opacity: 1; }',
+  '  }',
+  '}',
+].join('\n');
 
 /** A theme name. */
 export type Theme = string;
@@ -159,6 +192,9 @@ export function ThemeProvider({
       }
     };
   }, []);
+
+  // Inject built-in keyframes once (deduplicated via useInjectStyles)
+  useInjectStyles('ui-keyframes', KEYFRAMES_CSS);
 
   // Apply tokens and injected CSS whenever resolved theme changes
   const styleElRef = useRef<HTMLStyleElement | null>(null);

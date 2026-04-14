@@ -58,7 +58,8 @@ __export(exports_src, {
   coralTheme: () => coralTheme,
   colors: () => colors,
   blackHoleTheme: () => blackHoleTheme,
-  ThemeProvider: () => ThemeProvider
+  ThemeProvider: () => ThemeProvider,
+  KEYFRAMES: () => KEYFRAMES
 });
 module.exports = __toCommonJS(exports_src);
 
@@ -1053,6 +1054,29 @@ var blackHoleTheme = {
 };
 // src/themes/ThemeProvider.tsx
 var jsx_runtime = require("react/jsx-runtime");
+var KEYFRAMES = {
+  spin: "spin",
+  fadeInUp: "fade-in-up"
+};
+var KEYFRAMES_CSS = [
+  "@keyframes spin {",
+  "  from { transform: rotate(0deg); }",
+  "  to { transform: rotate(360deg); }",
+  "}",
+  "@media (prefers-reduced-motion: no-preference) {",
+  "  @keyframes fade-in-up {",
+  "    from { opacity: 0; transform: translateY(8px); }",
+  "    to { opacity: 1; transform: translateY(0); }",
+  "  }",
+  "}",
+  "@media (prefers-reduced-motion: reduce) {",
+  "  @keyframes fade-in-up {",
+  "    from { opacity: 0; }",
+  "    to { opacity: 1; }",
+  "  }",
+  "}"
+].join(`
+`);
 var ThemeContext = import_react2.createContext(null);
 function applyTokens(element, tokens) {
   const keys = Object.keys(tokens);
@@ -1132,6 +1156,7 @@ function ThemeProvider({
       }
     };
   }, []);
+  useInjectStyles("ui-keyframes", KEYFRAMES_CSS);
   const styleElRef = import_react2.useRef(null);
   import_react2.useEffect(() => {
     const definition = registry.get(resolved);
