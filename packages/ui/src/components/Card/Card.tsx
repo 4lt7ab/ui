@@ -112,6 +112,7 @@ export const Card: React.ForwardRefExoticComponent<Omit<CardProps, 'ref'> & Reac
         style={{
           borderRadius: t.radiusLg,
           padding: paddingMap[padding],
+          color: t.colorText,
           ...variantStyles[variant],
           ...style,
         }}

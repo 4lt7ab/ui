@@ -29,17 +29,21 @@ export const ThemeSurface: React.ForwardRefExoticComponent<Omit<ThemeSurfaceProp
   }, ref): React.JSX.Element {
     const { resolved } = useTheme();
     const prevBodyBgRef = useRef<string>('');
+    const prevBodyColorRef = useRef<string>('');
 
     useEffect(() => {
       if (!global) return;
 
-      // Use the CSS variable directly so the browser resolves it dynamically,
+      // Use CSS variables directly so the browser resolves them dynamically,
       // avoiding race conditions with ThemeProvider's token application.
       prevBodyBgRef.current = document.body.style.backgroundColor;
+      prevBodyColorRef.current = document.body.style.color;
       document.body.style.backgroundColor = 'var(--color-surface-page)';
+      document.body.style.color = 'var(--color-text)';
 
       return () => {
         document.body.style.backgroundColor = prevBodyBgRef.current;
+        document.body.style.color = prevBodyColorRef.current;
       };
     }, [global, resolved]);
 

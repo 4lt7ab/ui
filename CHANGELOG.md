@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Fix ThemeSurface `global` prop not setting `body.style.color` — components using `currentColor` (icons, Card content) rendered black on dark themes
+- Add `color: var(--color-text)` to Card as defense-in-depth for `currentColor` inheritance
+
 ## v0.2.14
 
 - Add `SectionLabel` component — uppercase section heading for labeling content groups (fontSizeXs, letterSpacingWide, colorTextSecondary)
