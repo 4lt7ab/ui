@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add `AlertBanner` component — full-width dismissable notification bar with severity variants, slide-in animation, and optional auto-dismiss
 - Style Prose code blocks — darker recessed background, smaller monospace text, muted color
 - Add copy-to-clipboard button on Markdown code blocks — appears on hover, shows check icon on success
 - Add `Markdown` component to `@4lt7ab/content` — convenience wrapper rendering a markdown string inside Prose with remark-gfm for GitHub Flavored Markdown (tables, strikethrough, task lists, autolinks); `react-markdown` and `remark-gfm` added as peer dependencies
