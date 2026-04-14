@@ -11,6 +11,7 @@
 - Add `indicator` ReactNode prop to PageHeader for rendering badges or status dots next to the title
 - Add `prefix` string prop to TagChip for categorized tags like "lang: typescript"
 - Add `MetadataTable` component — vertical label/value pair list with optional section title
+- Add `ErrorBoundary` component — themed fallback UI with error message, stack trace, retry button, and custom fallback render prop
 
 ## v0.2.12
 

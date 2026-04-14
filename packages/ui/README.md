@@ -302,6 +302,33 @@ Confirm/cancel dialog built on ModalShell. Handles the async confirm flow.
 | `onCancel` | `() => void` | *required* | Called on cancel |
 | `children` | `ReactNode` | — | Custom content between message and buttons |
 
+### ErrorBoundary
+
+React error boundary with themed fallback UI. Catches render errors in its subtree and displays an error message with optional stack trace and retry button.
+
+```tsx
+<ErrorBoundary onError={(err, info) => logError(err)}>
+  <MyComponent />
+</ErrorBoundary>
+
+{/* With custom fallback */}
+<ErrorBoundary
+  fallback={({ error, resetErrorBoundary }) => (
+    <div>
+      <p>Error: {error.message}</p>
+      <button onClick={resetErrorBoundary}>Retry</button>
+    </div>
+  )}
+>
+  <MyComponent />
+</ErrorBoundary>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `fallback` | `(props: { error: Error; resetErrorBoundary: () => void }) => ReactNode` | themed UI | Custom fallback renderer |
+| `onError` | `(error: Error, errorInfo: ErrorInfo) => void` | — | Error callback for logging |
+
 ### Skeleton
 
 Loading placeholder with shimmer animation. Includes two prebuilt variants.

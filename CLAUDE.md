@@ -81,6 +81,7 @@ packages/
 │       │   ├── Skeleton/
 │       │   ├── ProgressBar/
 │       │   ├── EmptyState/
+│       │   ├── ErrorBoundary/
 │       │   ├── Pagination/
 │       │   ├── PageHeader/
 │       │   ├── TagChip/
