@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Style Prose code blocks — darker recessed background, smaller monospace text, muted color
+- Add copy-to-clipboard button on Markdown code blocks — appears on hover, shows check icon on success
 - Add `Markdown` component to `@4lt7ab/content` — convenience wrapper rendering a markdown string inside Prose with remark-gfm for GitHub Flavored Markdown (tables, strikethrough, task lists, autolinks); `react-markdown` and `remark-gfm` added as peer dependencies
 - Add built-in `@keyframes spin` and `@keyframes fade-in-up` injected globally by ThemeProvider — consumers no longer need to define common keyframes; `fade-in-up` respects `prefers-reduced-motion` (opacity-only fallback); export `KEYFRAMES` constant for type-safe references
 - Add `SearchInput` component -- debounced text input with search icon, configurable delay, and trailing slot for inline controls

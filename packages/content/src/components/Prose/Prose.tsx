@@ -119,7 +119,7 @@ const proseCSS = /* css */ `
 
   /* ── Code blocks ── */
   .alttab-prose pre {
-    background: var(--color-surface-raised);
+    background: var(--color-surface-page);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     padding: 1rem 1.25rem;
@@ -132,8 +132,10 @@ const proseCSS = /* css */ `
     background: none;
     padding: 0;
     border-radius: 0;
-    font-size: 0.875rem;
-    line-height: 1.6;
+    font-size: 0.8rem;
+    line-height: 1.55;
+    letter-spacing: -0.01em;
+    color: var(--color-text-secondary);
   }
 
   /* ── Blockquotes ── */
