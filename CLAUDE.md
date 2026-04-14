@@ -93,7 +93,8 @@ packages/
 │       │   ├── SectionLabel/
 │       │   ├── StatusDot/
 │       │   ├── ThemePicker/
-│       │   └── ThemeSurface/
+│       │   ├── ThemeSurface/
+│       │   └── Toast/
 │       └── index.ts
 ├── content/
 │   └── src/

@@ -36,6 +36,7 @@ import { MetadataTableDemo } from './MetadataTableDemo';
 import { ErrorBoundaryDemo } from './ErrorBoundaryDemo';
 import { IconFontDemo } from './IconFontDemo';
 import { SectionLabelDemo } from './SectionLabelDemo';
+import { ToastDemo } from './ToastDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -78,6 +79,7 @@ export const demos: DemoEntry[] = [
   { name: 'Overlay', category: 'Feedback', source: 'ui', component: OverlayDemo },
   { name: 'ConfirmDialog', category: 'Feedback', source: 'ui', component: ConfirmDialogDemo },
   { name: 'ErrorBoundary', category: 'Feedback', source: 'ui', component: ErrorBoundaryDemo },
+  { name: 'Toast', category: 'Feedback', source: 'ui', component: ToastDemo },
 
   // Form
   { name: 'Field', category: 'Form', source: 'ui', component: FieldDemo },
@@ -113,4 +115,5 @@ export {
   ErrorBoundaryDemo,
   IconFontDemo,
   SectionLabelDemo,
+  ToastDemo,
 };

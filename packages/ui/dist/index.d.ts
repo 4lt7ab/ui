@@ -746,4 +746,57 @@ interface SectionLabelProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 /** Uppercase section heading for labeling content groups. */
 declare function SectionLabel({ children, style,...rest }: SectionLabelProps): React.JSX.Element;
-export { useFocusTrap, iconRegistry, ThemeSurfaceProps, ThemeSurface, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, SelectProps, SelectOption, Select, SectionLabelProps, SectionLabel, RowSkeleton, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, ModalShellProps, ModalShell, MetadataTableProps, MetadataTable, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FieldProps, Field, ExpandableCardProps, ExpandableCard, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge };
+import { ReactNode as ReactNode18 } from "react";
+/** Visual type of a toast notification. */
+type ToastType = "success" | "error" | "info" | "warning";
+/** Configuration for a single toast instance. */
+interface ToastItem {
+	/** Unique identifier. */
+	id: string;
+	/** Message text to display. */
+	message: string;
+	/** Visual type controlling color.
+	* @default 'info'
+	*/
+	type: ToastType;
+	/** Auto-dismiss duration in milliseconds.
+	* @default 4000
+	*/
+	duration: number;
+}
+/** Options when showing a toast. */
+interface ShowToastOptions {
+	/** Visual type controlling color.
+	* @default 'info'
+	*/
+	type?: ToastType;
+	/** Auto-dismiss duration in milliseconds.
+	* @default 4000
+	*/
+	duration?: number;
+}
+/** Position of the toast container on screen. */
+type ToastPosition = "top-right" | "top-left" | "bottom-right" | "bottom-left";
+interface ToastContextValue {
+	showToast: (message: string, typeOrOptions?: ToastType | ShowToastOptions) => void;
+}
+/**
+* Returns the `showToast` function from the nearest `ToastProvider`.
+* Must be called within a `<ToastProvider>` tree.
+*/
+declare function useToast(): ToastContextValue;
+/** Props for the ToastProvider context component. */
+interface ToastProviderProps {
+	/** Application content. */
+	children: ReactNode18;
+	/** Screen position of the toast stack.
+	* @default 'top-right'
+	*/
+	position?: ToastPosition;
+}
+/**
+* Provides toast notification context to the component tree.
+* Renders a portal-based toast container with stacked, auto-dismissing messages.
+*/
+declare function ToastProvider({ children, position }: ToastProviderProps): React.JSX.Element;
+export { useToast, useFocusTrap, iconRegistry, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemeSurfaceProps, ThemeSurface, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, ShowToastOptions, SelectProps, SelectOption, Select, SectionLabelProps, SectionLabel, RowSkeleton, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, ModalShellProps, ModalShell, MetadataTableProps, MetadataTable, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FieldProps, Field, ExpandableCardProps, ExpandableCard, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge };

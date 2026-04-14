@@ -9,7 +9,7 @@ import {
   EmptyStateDemo, LinkCardDemo, OverlayDemo, ModalDemo,
   ConfirmDialogDemo, ThemePickerDemo, TokensDemo, PageHeaderDemo,
   IconDemo, DateRangePickerDemo, DatePickerDemo,
-  MetadataTableDemo, ErrorBoundaryDemo, IconFontDemo, SectionLabelDemo,
+  MetadataTableDemo, ErrorBoundaryDemo, IconFontDemo, SectionLabelDemo, ToastDemo,
 } from '../demos';
 
 // ---------------------------------------------------------------------------
@@ -101,6 +101,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'ModalShell', source: 'ui', Demo: ModalDemo },
       { name: 'ConfirmDialog', source: 'ui', Demo: ConfirmDialogDemo },
       { name: 'ErrorBoundary', source: 'ui', Demo: ErrorBoundaryDemo },
+      { name: 'Toast', source: 'ui', Demo: ToastDemo },
     ],
   },
 ];

@@ -351,6 +351,57 @@ React error boundary with themed fallback UI. Catches render errors in its subtr
 | `fallback` | `(props: { error: Error; resetErrorBoundary: () => void }) => ReactNode` | themed UI | Custom fallback renderer |
 | `onError` | `(error: Error, errorInfo: ErrorInfo) => void` | — | Error callback for logging |
 
+### Toast
+
+Ephemeral notification system with stacked, auto-dismissing messages. Provides a context-based API via `ToastProvider` and `useToast`.
+
+```tsx
+import { ToastProvider, useToast } from '@4lt7ab/ui/ui';
+
+function App() {
+  return (
+    <ToastProvider position="top-right">
+      <MyPage />
+    </ToastProvider>
+  );
+}
+
+function MyPage() {
+  const { showToast } = useToast();
+
+  return (
+    <>
+      <button onClick={() => showToast('Saved!', 'success')}>Save</button>
+      <button onClick={() => showToast('Oops!', 'error')}>Fail</button>
+      <button onClick={() => showToast('Heads up', { type: 'warning', duration: 8000 })}>
+        Long warning
+      </button>
+    </>
+  );
+}
+```
+
+| Export | Type | Description |
+|--------|------|-------------|
+| `ToastProvider` | Component | Context provider. Wrap your app once. |
+| `useToast` | Hook | Returns `{ showToast }` for triggering toasts |
+
+**`ToastProvider` props:**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | — | Application content |
+| `position` | `'top-right' \| 'top-left' \| 'bottom-right' \| 'bottom-left'` | `'top-right'` | Screen position of toast stack |
+
+**`showToast(message, typeOrOptions?)`:**
+
+| Param | Type | Default | Description |
+|-------|------|---------|-------------|
+| `message` | `string` | — | Toast text content |
+| `typeOrOptions` | `ToastType \| ShowToastOptions` | `'info'` | Type string or options object with `type` and `duration` |
+
+Toast types: `'success'`, `'error'`, `'info'`, `'warning'`. Default auto-dismiss: 4 seconds. Animations respect `prefers-reduced-motion`. Container uses `aria-live="polite"`.
+
 ### Skeleton
 
 Loading placeholder with shimmer animation. Includes two prebuilt variants.
