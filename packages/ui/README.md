@@ -147,6 +147,39 @@ Dropdown select with options or custom children.
 
 `SelectOption`: `{ value: string; label: string; disabled?: boolean }`
 
+### Combobox
+
+Typeahead select that combines a text input with a filterable dropdown. Supports free-text entry.
+
+```tsx
+const [value, setValue] = useState('');
+
+<Combobox
+  options={[
+    { value: 'apple', label: 'Apple' },
+    { value: 'banana', label: 'Banana' },
+  ]}
+  value={value}
+  onChange={setValue}
+  onSelect={(opt) => console.log('Selected:', opt)}
+  placeholder="Search or type..."
+/>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `options` | `ComboboxOption[]` | — | Options to filter and select from |
+| `value` | `string` | — | Current input value |
+| `onChange` | `(value: string) => void` | — | Called on input change and option selection |
+| `onSelect` | `(option: ComboboxOption) => void` | — | Called when an option is selected from the list |
+| `placeholder` | `string` | — | Input placeholder text |
+| `disabled` | `boolean` | `false` | Disables the input |
+| `hasError` | `boolean` | `false` | Renders error border styling |
+
+`ComboboxOption`: `{ value: string; label: string }`
+
+Keyboard: ArrowDown/Up to navigate, Enter to select, Escape to close. ARIA combobox pattern with `aria-activedescendant`.
+
 ### DateRangePicker
 
 Calendar-based date range selector with zero external dependencies.

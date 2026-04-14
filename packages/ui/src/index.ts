@@ -40,3 +40,4 @@ export * from './components/MetadataTable';
 export * from './components/ErrorBoundary';
 export * from './components/SectionLabel';
 export * from './components/Toast';
+export * from './components/Combobox';

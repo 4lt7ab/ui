@@ -10,6 +10,7 @@ import {
   ConfirmDialogDemo, ThemePickerDemo, TokensDemo, PageHeaderDemo,
   IconDemo, DateRangePickerDemo, DatePickerDemo,
   MetadataTableDemo, ErrorBoundaryDemo, IconFontDemo, SectionLabelDemo, ToastDemo,
+  ComboboxDemo,
 } from '../demos';
 
 // ---------------------------------------------------------------------------
@@ -69,6 +70,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'Field', source: 'ui', Demo: FieldDemo },
       { name: 'DatePicker', source: 'ui', Demo: DatePickerDemo },
       { name: 'DateRangePicker', source: 'ui', Demo: DateRangePickerDemo },
+      { name: 'Combobox', source: 'ui', Demo: ComboboxDemo },
     ],
   },
   {

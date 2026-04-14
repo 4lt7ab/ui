@@ -799,4 +799,32 @@ interface ToastProviderProps {
 * Renders a portal-based toast container with stacked, auto-dismissing messages.
 */
 declare function ToastProvider({ children, position }: ToastProviderProps): React.JSX.Element;
-export { useToast, useFocusTrap, iconRegistry, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemeSurfaceProps, ThemeSurface, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, ShowToastOptions, SelectProps, SelectOption, Select, SectionLabelProps, SectionLabel, RowSkeleton, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, ModalShellProps, ModalShell, MetadataTableProps, MetadataTable, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FieldProps, Field, ExpandableCardProps, ExpandableCard, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge };
+import { InputHTMLAttributes as InputHTMLAttributes2 } from "react";
+/** A single option in the Combobox dropdown. */
+interface ComboboxOption {
+	/** The value submitted when the option is selected. */
+	value: string;
+	/** Display text shown in the dropdown and used for filtering. */
+	label: string;
+}
+/** A typeahead select that combines free-text input with a filterable dropdown. */
+interface ComboboxProps extends Omit<InputHTMLAttributes2<HTMLInputElement>, "onChange" | "value" | "onSelect"> {
+	/** Options to render in the dropdown. */
+	options: ComboboxOption[];
+	/** Current input value. */
+	value: string;
+	/** Called on input change AND option selection. */
+	onChange: (value: string) => void;
+	/** Called specifically when an option is selected from the list. */
+	onSelect?: (option: ComboboxOption) => void;
+	/** Input placeholder text. */
+	placeholder?: string;
+	/** Whether the combobox is disabled. */
+	disabled?: boolean;
+	/** Renders error border styling. Typically driven by a parent Field.
+	* @default false
+	*/
+	hasError?: boolean;
+}
+declare const Combobox: React.ForwardRefExoticComponent<Omit<ComboboxProps, "ref"> & React.RefAttributes<HTMLInputElement>>;
+export { useToast, useFocusTrap, iconRegistry, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemeSurfaceProps, ThemeSurface, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, ShowToastOptions, SelectProps, SelectOption, Select, SectionLabelProps, SectionLabel, RowSkeleton, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, ModalShellProps, ModalShell, MetadataTableProps, MetadataTable, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FieldProps, Field, ExpandableCardProps, ExpandableCard, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxProps, ComboboxOption, Combobox, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge };

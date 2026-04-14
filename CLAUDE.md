@@ -87,6 +87,7 @@ packages/
 │       │   ├── TagChip/
 │       │   ├── ExpandableCard/
 │       │   ├── Table/
+│       │   ├── Combobox/
 │       │   ├── DatePicker/
 │       │   ├── DateRangePicker/
 │       │   ├── MetadataTable/

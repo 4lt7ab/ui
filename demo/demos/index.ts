@@ -37,6 +37,7 @@ import { ErrorBoundaryDemo } from './ErrorBoundaryDemo';
 import { IconFontDemo } from './IconFontDemo';
 import { SectionLabelDemo } from './SectionLabelDemo';
 import { ToastDemo } from './ToastDemo';
+import { ComboboxDemo } from './ComboboxDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -88,6 +89,7 @@ export const demos: DemoEntry[] = [
   { name: 'Select', category: 'Form', source: 'ui', component: SelectDemo },
   { name: 'DatePicker', category: 'Form', source: 'ui', component: DatePickerDemo },
   { name: 'DateRangePicker', category: 'Form', source: 'ui', component: DateRangePickerDemo },
+  { name: 'Combobox', category: 'Form', source: 'ui', component: ComboboxDemo },
 
   // ── @4lt7ab/ui/content ──
   { name: 'Container', category: 'Layout', source: 'content', component: ContainerDemo },
@@ -116,4 +118,5 @@ export {
   IconFontDemo,
   SectionLabelDemo,
   ToastDemo,
+  ComboboxDemo,
 };
