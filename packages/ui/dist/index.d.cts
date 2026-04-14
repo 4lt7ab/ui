@@ -192,7 +192,7 @@ interface SelectOption {
 	/** Whether this option is disabled. */
 	disabled?: boolean;
 }
-/** A custom dropdown select with viewport-aware positioning. */
+/** A native dropdown select with custom chevron styling. */
 interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "children"> {
 	/** Options to render. Ignored when `children` is provided. */
 	options?: SelectOption[];
@@ -508,6 +508,33 @@ interface ConfirmDialogProps {
 	variant?: ConfirmDialogVariant;
 }
 declare const ConfirmDialog: React.ForwardRefExoticComponent<Omit<ConfirmDialogProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
+import { ReactNode as ReactNode14 } from "react";
+/** A modal wrapper for form submission workflows with title, scrollable body, and cancel/submit footer. */
+interface FormModalProps {
+	/** Modal heading text. */
+	title: string;
+	/** Body content — typically form fields. */
+	children: ReactNode14;
+	/** Called when the submit button is clicked. If it returns a Promise, the submit button shows a loading state until resolved. */
+	onSubmit: () => void | Promise<void>;
+	/** Called when the cancel button is clicked, and also when the modal is dismissed via Escape or overlay click. */
+	onCancel: () => void;
+	/** Label for the submit button.
+	* @default 'Submit'
+	*/
+	submitLabel?: string;
+	/** Label for the cancel button.
+	* @default 'Cancel'
+	*/
+	cancelLabel?: string;
+	/** External loading control. When true, the submit button shows a spinner and is disabled. */
+	loading?: boolean;
+	/** Maximum width of the modal panel in pixels. Passed through to ModalShell.
+	* @default 480
+	*/
+	maxWidth?: number;
+}
+declare const FormModal: React.ForwardRefExoticComponent<Omit<FormModalProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 import { CSSProperties as CSSProperties14 } from "react";
 /** Semantic color variant for the status dot. */
 type StatusDotVariant = "default" | "success" | "warning" | "error" | "info";
@@ -528,9 +555,9 @@ interface StatusDotProps {
 	style?: CSSProperties14;
 }
 declare const StatusDot: React.ForwardRefExoticComponent<Omit<StatusDotProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
-import { ReactNode as ReactNode14 } from "react";
+import { ReactNode as ReactNode15 } from "react";
 interface ThemeSurfaceProps {
-	children: ReactNode14;
+	children: ReactNode15;
 	/**
 	* When true, applies the page background to document.body.
 	* When false (default), renders a div with the page background color.
@@ -548,7 +575,7 @@ interface ThemeSurfaceProps {
 * Without `global`, renders a styled div with the page background.
 */
 declare const ThemeSurface: React.ForwardRefExoticComponent<Omit<ThemeSurfaceProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { HTMLAttributes as HTMLAttributes6, TdHTMLAttributes, ThHTMLAttributes, ReactNode as ReactNode15 } from "react";
+import { HTMLAttributes as HTMLAttributes6, TdHTMLAttributes, ThHTMLAttributes, ReactNode as ReactNode16 } from "react";
 type SpacingToken3 = "xs" | "sm" | "md" | "lg";
 /** Visual treatment for the table wrapper. */
 type TableVariant = "default" | "flat";
@@ -565,13 +592,13 @@ interface TableProps extends HTMLAttributes6<HTMLDivElement> {
 	*/
 	density?: SpacingToken3;
 	/** Table content (TableHeader, TableBody, etc.). */
-	children: ReactNode15;
+	children: ReactNode16;
 }
 declare const Table: React.ForwardRefExoticComponent<Omit<TableProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /** Table header section. Renders a `<thead>` with a single `<tr>` wrapping the children. */
 interface TableHeaderProps extends HTMLAttributes6<HTMLTableSectionElement> {
 	/** TableHeaderCell elements. */
-	children: ReactNode15;
+	children: ReactNode16;
 }
 declare const TableHeader: React.ForwardRefExoticComponent<Omit<TableHeaderProps, "ref"> & React.RefAttributes<HTMLTableSectionElement>>;
 /** A single column header cell (`<th>`). Renders uppercase, muted, semibold text. */
@@ -583,13 +610,13 @@ interface TableHeaderCellProps extends ThHTMLAttributes<HTMLTableCellElement> {
 	/** Fixed column width. Numbers are treated as pixels; strings are used as-is. */
 	width?: number | string;
 	/** Header label. */
-	children?: ReactNode15;
+	children?: ReactNode16;
 }
 declare const TableHeaderCell: React.ForwardRefExoticComponent<Omit<TableHeaderCellProps, "ref"> & React.RefAttributes<HTMLTableCellElement>>;
 /** Table body section (`<tbody>`). Wraps TableRow elements. */
 interface TableBodyProps extends HTMLAttributes6<HTMLTableSectionElement> {
 	/** TableRow elements. */
-	children: ReactNode15;
+	children: ReactNode16;
 }
 declare const TableBody: React.ForwardRefExoticComponent<Omit<TableBodyProps, "ref"> & React.RefAttributes<HTMLTableSectionElement>>;
 /** A table row (`<tr>`). Supports selection highlighting and hover effects. When `onClick` is provided, the row becomes focusable and responds to Enter/Space. */
@@ -603,7 +630,7 @@ interface TableRowProps extends HTMLAttributes6<HTMLTableRowElement> {
 	*/
 	hoverable?: boolean;
 	/** TableCell elements. */
-	children: ReactNode15;
+	children: ReactNode16;
 }
 declare const TableRow: React.ForwardRefExoticComponent<Omit<TableRowProps, "ref"> & React.RefAttributes<HTMLTableRowElement>>;
 /** A table data cell (`<td>`). */
@@ -623,7 +650,7 @@ interface TableCellProps extends TdHTMLAttributes<HTMLTableCellElement> {
 	/** Fixed column width. Numbers are treated as pixels; strings are used as-is. */
 	width?: number | string;
 	/** Cell content. */
-	children?: ReactNode15;
+	children?: ReactNode16;
 }
 declare const TableCell: React.ForwardRefExoticComponent<Omit<TableCellProps, "ref"> & React.RefAttributes<HTMLTableCellElement>>;
 /** A full-width subheading row for grouping table rows under a shared label. */
@@ -631,7 +658,7 @@ interface TableGroupHeaderProps extends HTMLAttributes6<HTMLTableRowElement> {
 	/** Number of columns the header should span. */
 	colSpan: number;
 	/** Group label text. */
-	children: ReactNode15;
+	children: ReactNode16;
 }
 declare const TableGroupHeader: React.ForwardRefExoticComponent<Omit<TableGroupHeaderProps, "ref"> & React.RefAttributes<HTMLTableRowElement>>;
 /** A centered message row displayed when the table has no data. */
@@ -639,7 +666,7 @@ interface TableEmptyRowProps extends HTMLAttributes6<HTMLTableRowElement> {
 	/** Number of columns the message should span. */
 	colSpan: number;
 	/** Empty state message content. */
-	children: ReactNode15;
+	children: ReactNode16;
 }
 declare const TableEmptyRow: React.ForwardRefExoticComponent<Omit<TableEmptyRowProps, "ref"> & React.RefAttributes<HTMLTableRowElement>>;
 /** A date range with inclusive start and end. */
@@ -699,12 +726,12 @@ interface DatePickerProps {
 	style?: React.CSSProperties;
 }
 declare const DatePicker: React.ForwardRefExoticComponent<Omit<DatePickerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode16 } from "react";
+import { ReactNode as ReactNode17 } from "react";
 interface MetadataTableProps {
 	/** Label/value pairs to display. */
 	items: Array<{
 		label: string;
-		value: ReactNode16;
+		value: ReactNode17;
 	}>;
 	/** Optional section title rendered above the list. */
 	title?: string;
@@ -738,190 +765,12 @@ declare class ErrorBoundary extends React2.Component<ErrorBoundaryProps, ErrorBo
 	resetErrorBoundary: () => void;
 	render(): React2.ReactNode;
 }
-import { ReactNode as ReactNode17 } from "react";
+import { ReactNode as ReactNode18 } from "react";
 /** Props for the SectionLabel component. */
 interface SectionLabelProps extends React.HTMLAttributes<HTMLDivElement> {
 	/** Label content. */
-	children: ReactNode17;
+	children: ReactNode18;
 }
 /** Uppercase section heading for labeling content groups. */
 declare function SectionLabel({ children, style,...rest }: SectionLabelProps): React.JSX.Element;
-import { ReactNode as ReactNode18 } from "react";
-/** Visual type of a toast notification. */
-type ToastType = "success" | "error" | "info" | "warning";
-/** Configuration for a single toast instance. */
-interface ToastItem {
-	/** Unique identifier. */
-	id: string;
-	/** Message text to display. */
-	message: string;
-	/** Visual type controlling color.
-	* @default 'info'
-	*/
-	type: ToastType;
-	/** Auto-dismiss duration in milliseconds.
-	* @default 4000
-	*/
-	duration: number;
-}
-/** Options when showing a toast. */
-interface ShowToastOptions {
-	/** Visual type controlling color.
-	* @default 'info'
-	*/
-	type?: ToastType;
-	/** Auto-dismiss duration in milliseconds.
-	* @default 4000
-	*/
-	duration?: number;
-}
-/** Position of the toast container on screen. */
-type ToastPosition = "top-right" | "top-left" | "bottom-right" | "bottom-left";
-interface ToastContextValue {
-	showToast: (message: string, typeOrOptions?: ToastType | ShowToastOptions) => void;
-}
-/**
-* Returns the `showToast` function from the nearest `ToastProvider`.
-* Must be called within a `<ToastProvider>` tree.
-*/
-declare function useToast(): ToastContextValue;
-/** Props for the ToastProvider context component. */
-interface ToastProviderProps {
-	/** Application content. */
-	children: ReactNode18;
-	/** Screen position of the toast stack.
-	* @default 'top-right'
-	*/
-	position?: ToastPosition;
-}
-/**
-* Provides toast notification context to the component tree.
-* Renders a portal-based toast container with stacked, auto-dismissing messages.
-*/
-declare function ToastProvider({ children, position }: ToastProviderProps): React.JSX.Element;
-import { InputHTMLAttributes as InputHTMLAttributes2 } from "react";
-/** A single option in the Combobox dropdown. */
-interface ComboboxOption {
-	/** The value submitted when the option is selected. */
-	value: string;
-	/** Display text shown in the dropdown and used for filtering. */
-	label: string;
-}
-/** A typeahead select that combines free-text input with a filterable dropdown. */
-interface ComboboxProps extends Omit<InputHTMLAttributes2<HTMLInputElement>, "onChange" | "value" | "onSelect"> {
-	/** Options to render in the dropdown. */
-	options: ComboboxOption[];
-	/** Current input value. */
-	value: string;
-	/** Called on input change AND option selection. */
-	onChange: (value: string) => void;
-	/** Called specifically when an option is selected from the list. */
-	onSelect?: (option: ComboboxOption) => void;
-	/** Input placeholder text. */
-	placeholder?: string;
-	/** Whether the combobox is disabled. */
-	disabled?: boolean;
-	/** Renders error border styling. Typically driven by a parent Field.
-	* @default false
-	*/
-	hasError?: boolean;
-}
-declare const Combobox: React.ForwardRefExoticComponent<Omit<ComboboxProps, "ref"> & React.RefAttributes<HTMLInputElement>>;
-import { HTMLAttributes as HTMLAttributes7 } from "react";
-/** Configuration for a debounced text search filter. */
-interface TextFilterConfig {
-	type: "text";
-	/** Unique key used in the values record. */
-	key: string;
-	/** Input placeholder text. */
-	placeholder?: string;
-	/** Debounce delay in milliseconds. @default 300 */
-	debounceMs?: number;
-}
-/** Configuration for an immediate select dropdown filter. */
-interface SelectFilterConfig {
-	type: "select";
-	/** Unique key used in the values record. */
-	key: string;
-	/** Placeholder shown when no option is selected. */
-	placeholder?: string;
-	/** Available options. */
-	options: Array<{
-		value: string;
-		label: string;
-	}>;
-}
-/** A single filter definition — either text or select. */
-type FilterConfig = TextFilterConfig | SelectFilterConfig;
-/** A declarative filter bar that pairs with Table. */
-interface TableFiltersProps extends Omit<HTMLAttributes7<HTMLDivElement>, "onChange"> {
-	/** Ordered list of filter definitions. */
-	filters: FilterConfig[];
-	/** Current filter values keyed by filter key. */
-	values: Record<string, string>;
-	/** Called when any filter value changes. Receives the full updated values object. */
-	onChange: (values: Record<string, string>) => void;
-}
-declare function TableFilters({ filters, values, onChange, style,...props }: TableFiltersProps): React.JSX.Element;
-import { CSSProperties as CSSProperties15 } from "react";
-/** A single chip option. */
-interface ChipItem {
-	/** Unique value identifying this chip. */
-	value: string;
-	/** Display label. */
-	label: string;
-	/** Optional group name — chips sharing a group render under a SectionLabel header. */
-	group?: string;
-}
-/** Props for ChipPicker. */
-interface ChipPickerProps {
-	/** All available chip options. */
-	items: ChipItem[];
-	/** Currently selected values (controlled). */
-	selected: string[];
-	/** Called with the updated selection array when a chip is toggled. */
-	onChange: (selected: string[]) => void;
-	/** Additional inline styles for the root container. */
-	style?: CSSProperties15;
-}
-/** Multi-select toggle chip group with optional category grouping. */
-declare function ChipPicker({ items, selected, onChange, style }: ChipPickerProps): React.JSX.Element;
-import { InputHTMLAttributes as InputHTMLAttributes3, ReactNode as ReactNode19 } from "react";
-/** A text input with built-in debounce, search icon, and optional trailing slot. */
-interface SearchInputProps extends Omit<InputHTMLAttributes3<HTMLInputElement>, "onChange"> {
-	/** Current search value (controlled). */
-	value: string;
-	/** Debounced search callback — fires after `debounceMs` of inactivity. */
-	onSearch: (value: string) => void;
-	/** Debounce delay in milliseconds.
-	* @default 300
-	*/
-	debounceMs?: number;
-	/** Optional content rendered inside the input on the right side (toggle, clear button, etc.). */
-	trailing?: ReactNode19;
-}
-declare const SearchInput: React.ForwardRefExoticComponent<Omit<SearchInputProps, "ref"> & React.RefAttributes<HTMLInputElement>>;
-/** A single segment definition. */
-interface Segment {
-	/** Unique value identifying this segment. */
-	value: string;
-	/** Display label — text shown in the segment button. */
-	label: string;
-	/** Optional icon name (built-in registry or icon-font name). */
-	icon?: IconName | (string & {});
-}
-/** A generic segmented toggle control with a sliding pill indicator. */
-interface SegmentedControlProps {
-	/** Segment definitions. */
-	segments: Segment[];
-	/** Currently selected segment value. */
-	value: string;
-	/** Called when the user selects a segment. */
-	onChange: (value: string) => void;
-	/** Control size.
-	* @default 'md'
-	*/
-	size?: "sm" | "md";
-}
-declare function SegmentedControl({ segments, value, onChange, size }: SegmentedControlProps): React.JSX.Element;
-export { useToast, useFocusTrap, iconRegistry, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemeSurfaceProps, ThemeSurface, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, ShowToastOptions, SelectProps, SelectOption, SelectFilterConfig, Select, SegmentedControlProps, SegmentedControl, Segment, SectionLabelProps, SectionLabel, SearchInputProps, SearchInput, RowSkeleton, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, ModalShellProps, ModalShell, MetadataTableProps, MetadataTable, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FilterConfig, FieldProps, Field, ExpandableCardProps, ExpandableCard, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxProps, ComboboxOption, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge };
+export { useFocusTrap, iconRegistry, ThemeSurfaceProps, ThemeSurface, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, SelectProps, SelectOption, Select, SectionLabelProps, SectionLabel, RowSkeleton, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, ModalShellProps, ModalShell, MetadataTableProps, MetadataTable, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FormModalProps, FormModal, FieldProps, Field, ExpandableCardProps, ExpandableCard, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge };

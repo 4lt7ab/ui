@@ -19,6 +19,7 @@ import { ExpandableCardDemo } from './ExpandableCardDemo';
 import { ModalDemo } from './ModalDemo';
 import { OverlayDemo } from './OverlayDemo';
 import { ConfirmDialogDemo } from './ConfirmDialogDemo';
+import { FormModalDemo } from './FormModalDemo';
 import { ContainerDemo } from './ContainerDemo';
 import { ProseDemo } from './ProseDemo';
 import { MarkdownDemo } from './MarkdownDemo';
@@ -86,6 +87,7 @@ export const demos: DemoEntry[] = [
   { name: 'Modal', category: 'Feedback', source: 'ui', component: ModalDemo },
   { name: 'Overlay', category: 'Feedback', source: 'ui', component: OverlayDemo },
   { name: 'ConfirmDialog', category: 'Feedback', source: 'ui', component: ConfirmDialogDemo },
+  { name: 'FormModal', category: 'Feedback', source: 'ui', component: FormModalDemo },
   { name: 'ErrorBoundary', category: 'Feedback', source: 'ui', component: ErrorBoundaryDemo },
   { name: 'Toast', category: 'Feedback', source: 'ui', component: ToastDemo },
   { name: 'AlertBanner', category: 'Feedback', source: 'ui', component: AlertBannerDemo },
@@ -138,4 +140,5 @@ export {
   SearchInputDemo,
   SegmentedControlDemo,
   AlertBannerDemo,
+  FormModalDemo,
 };

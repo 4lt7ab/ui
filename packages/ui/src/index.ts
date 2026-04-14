@@ -31,6 +31,7 @@ export * from './components/TagChip';
 export * from './components/ExpandableCard';
 export * from './components/ModalShell';
 export * from './components/ConfirmDialog';
+export * from './components/FormModal';
 export * from './components/StatusDot';
 export * from './components/ThemeSurface';
 export * from './components/Table';
