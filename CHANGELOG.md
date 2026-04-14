@@ -10,6 +10,7 @@
 - Add `live` variant to Card with pulsing border glow animation (respects prefers-reduced-motion)
 - Add `indicator` ReactNode prop to PageHeader for rendering badges or status dots next to the title
 - Add `prefix` string prop to TagChip for categorized tags like "lang: typescript"
+- Add `MetadataTable` component — vertical label/value pair list with optional section title
 
 ## v0.2.12
 

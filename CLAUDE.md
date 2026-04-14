@@ -88,6 +88,7 @@ packages/
 │       │   ├── Table/
 │       │   ├── DatePicker/
 │       │   ├── DateRangePicker/
+│       │   ├── MetadataTable/
 │       │   ├── StatusDot/
 │       │   ├── ThemePicker/
 │       │   └── ThemeSurface/
