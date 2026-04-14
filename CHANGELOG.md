@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add icon font fallback to `Icon` — unregistered names render via a configurable `fontClass` prop (e.g. Material Symbols)
+- Add `IconFontProvider` context for setting a default `fontClass` across a subtree
+- Add `fontClass` prop to `IconButton` (passed through to `Icon`)
+
 ## v0.2.13
 
 - Fix ThemeSurface `global` prop race condition — use `var(--color-surface-page)` directly instead of getComputedStyle

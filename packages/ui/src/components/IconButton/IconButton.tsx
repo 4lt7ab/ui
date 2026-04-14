@@ -6,8 +6,8 @@ import type { ButtonHTMLAttributes } from 'react';
 
 /** A circular icon-only button. Requires `aria-label` for accessibility. */
 export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** Icon to render from the built-in icon registry. */
-  icon: IconName;
+  /** Icon to render — built-in registry name or any icon-font name when `fontClass` is set. */
+  icon: IconName | (string & {});
   /** Icon dimensions in pixels.
    * @default 24
    */
@@ -16,6 +16,9 @@ export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
    * @default false
    */
   badge?: boolean;
+  /** CSS class for an icon font (e.g. `'material-symbols-outlined'`).
+   *  Passed through to Icon for font-based rendering. */
+  fontClass?: string;
   /** Required accessible label for icon-only buttons. */
   'aria-label': string;
 }
@@ -25,6 +28,7 @@ export const IconButton: React.ForwardRefExoticComponent<Omit<IconButtonProps, '
     icon,
     size = 24,
     badge,
+    fontClass,
     style,
     ...props
   }, ref): React.JSX.Element {
@@ -48,7 +52,7 @@ export const IconButton: React.ForwardRefExoticComponent<Omit<IconButtonProps, '
         }}
         {...props}
       >
-        <Icon name={icon} size={size} />
+        <Icon name={icon} size={size} fontClass={fontClass} />
         {badge && (
           <span
             style={{

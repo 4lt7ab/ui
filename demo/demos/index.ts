@@ -34,6 +34,7 @@ import { DateRangePickerDemo } from './DateRangePickerDemo';
 import { DatePickerDemo } from './DatePickerDemo';
 import { MetadataTableDemo } from './MetadataTableDemo';
 import { ErrorBoundaryDemo } from './ErrorBoundaryDemo';
+import { IconFontDemo } from './IconFontDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -62,6 +63,7 @@ export const demos: DemoEntry[] = [
   { name: 'Button', category: 'Action', source: 'ui', component: ButtonDemo },
   { name: 'Icon', category: 'Action', source: 'ui', component: IconDemo },
   { name: 'IconButton', category: 'Action', source: 'ui', component: IconButtonDemo },
+  { name: 'Icon Font', category: 'Action', source: 'ui', component: IconFontDemo },
   { name: 'TagChip', category: 'Action', source: 'ui', component: TagChipDemo },
   { name: 'Pagination', category: 'Navigation', source: 'ui', component: PaginationDemo },
 
@@ -107,4 +109,5 @@ export {
   MarginNoteDemo, SideNoteDemo, DateRangePickerDemo, DatePickerDemo,
   MetadataTableDemo,
   ErrorBoundaryDemo,
+  IconFontDemo,
 };

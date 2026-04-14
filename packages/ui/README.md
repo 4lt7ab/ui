@@ -212,31 +212,51 @@ Extends `HTMLAttributes<HTMLSpanElement>`.
 
 ### Icon
 
-Renders an icon from the built-in registry.
+Renders an icon from the built-in registry, or falls back to an icon font when the name is unregistered and a `fontClass` is available.
 
 ```tsx
+{/* Built-in SVG icon */}
 <Icon name="search" size={20} />
+
+{/* Icon-font icon (e.g. Material Symbols) */}
+<Icon name="home" fontClass="material-symbols-outlined" />
 ```
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `name` | `IconName` | *required* | Icon to render |
+| `name` | `IconName \| string` | *required* | Icon to render (registry name or icon-font name) |
 | `size` | `number` | `24` | Width and height in pixels |
+| `fontClass` | `string` | — | CSS class for icon-font rendering (falls back to `IconFontProvider` context) |
+
+#### IconFontProvider
+
+Sets a default `fontClass` for all descendant `Icon` and `IconButton` components so you don't have to pass it on every instance.
+
+```tsx
+import { IconFontProvider, Icon } from '@4lt7ab/ui/ui';
+
+<IconFontProvider fontClass="material-symbols-outlined">
+  <Icon name="home" />     {/* renders via font */}
+  <Icon name="search" />   {/* still renders built-in SVG */}
+</IconFontProvider>
+```
 
 ### IconButton
 
-Icon-only button with accessible label. Optionally shows a notification dot.
+Icon-only button with accessible label. Optionally shows a notification dot. Supports both built-in and icon-font icons.
 
 ```tsx
 <IconButton icon="settings" aria-label="Open settings" />
 <IconButton icon="menu" aria-label="Menu" badge />
+<IconButton icon="home" fontClass="material-symbols-outlined" aria-label="Home" />
 ```
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `icon` | `IconName` | *required* | Icon to render |
+| `icon` | `IconName \| string` | *required* | Icon to render (registry name or icon-font name) |
 | `size` | `number` | `24` | Icon dimensions in pixels |
 | `badge` | `boolean` | `false` | Shows a red notification dot |
+| `fontClass` | `string` | — | CSS class for icon-font rendering (passed through to Icon) |
 | `aria-label` | `string` | *required* | Accessible label |
 
 Extends `ButtonHTMLAttributes<HTMLButtonElement>`.
