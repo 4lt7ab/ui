@@ -5,6 +5,22 @@ import { useFocusTrap } from '../../utils/useFocusTrap';
 import { Overlay } from '../Overlay';
 import type { CSSProperties, ReactNode } from 'react';
 
+/** Shared heading style for modal titles. Used by ConfirmDialog, FormModal, ShortcutHelpModal. */
+export const modalHeadingStyle: React.CSSProperties = {
+  margin: 0,
+  fontWeight: t.fontWeightSemibold,
+  fontFamily: t.fontSans,
+  color: t.colorText,
+  fontSize: t.fontSizeLg,
+};
+
+/** Shared footer layout for modal action buttons. Used by ConfirmDialog, FormModal. */
+export const modalFooterStyle: React.CSSProperties = {
+  display: 'flex',
+  justifyContent: 'flex-end',
+  gap: t.spaceSm,
+};
+
 const FOCUSABLE_SELECTOR = [
   'a[href]',
   'button:not(:disabled)',

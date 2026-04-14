@@ -1,6 +1,6 @@
 import { forwardRef, useId, useState } from 'react';
 import { semantic as t } from '@4lt7ab/core';
-import { ModalShell } from '../ModalShell';
+import { ModalShell, modalHeadingStyle, modalFooterStyle } from '../ModalShell';
 import { Button } from '../Button';
 import type { ReactNode } from 'react';
 
@@ -59,13 +59,7 @@ export const FormModal: React.ForwardRefExoticComponent<Omit<FormModalProps, 're
       <ModalShell ref={ref} onClose={onCancel} titleId={titleId} maxWidth={maxWidth}>
         <h2
           id={titleId}
-          style={{
-            margin: 0,
-            fontWeight: t.fontWeightSemibold,
-            fontFamily: t.fontSans,
-            color: t.colorText,
-            fontSize: t.fontSizeLg,
-          }}
+          style={modalHeadingStyle}
         >
           {title}
         </h2>
@@ -79,13 +73,7 @@ export const FormModal: React.ForwardRefExoticComponent<Omit<FormModalProps, 're
           {children}
         </div>
 
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            gap: t.spaceSm,
-          }}
-        >
+        <div style={modalFooterStyle}>
           <Button variant="ghost" onClick={onCancel}>
             {cancelLabel}
           </Button>

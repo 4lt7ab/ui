@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
-import type { HTMLAttributes, ReactNode, CSSProperties, KeyboardEvent } from 'react';
+import type { HTMLAttributes, ReactNode, CSSProperties } from 'react';
 
 // ---------------------------------------------------------------------------
 // Nav item config
@@ -110,7 +110,7 @@ export const TopBar: React.ForwardRefExoticComponent<Omit<TopBarProps, 'ref'> & 
           style={{
             display: 'flex',
             alignItems: 'center',
-            fontWeight: Number(t.fontWeightBold),
+            fontWeight: t.fontWeightBold,
             fontSize: t.fontSizeSm,
             color: t.colorText,
             marginRight: t.spaceLg,
@@ -136,30 +136,18 @@ export const TopBar: React.ForwardRefExoticComponent<Omit<TopBarProps, 'ref'> & 
             {items.map((item) => {
               const isActive = activePath === item.path;
 
-              const handleClick = (): void => {
-                onNavigate?.(item.path);
-              };
-
-              const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>): void => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  onNavigate?.(item.path);
-                }
-              };
-
               return (
                 <button
                   key={item.path}
                   type="button"
                   className="topbar-nav-item"
-                  onClick={handleClick}
-                  onKeyDown={handleKeyDown}
+                  onClick={() => onNavigate?.(item.path)}
                   aria-current={isActive ? 'page' : undefined}
                   data-active={isActive || undefined}
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: 6,
+                    gap: t.spaceXs,
                     height: '100%',
                     padding: `0 ${t.spaceSm}`,
                     border: 'none',
@@ -167,7 +155,7 @@ export const TopBar: React.ForwardRefExoticComponent<Omit<TopBarProps, 'ref'> & 
                     color: isActive ? t.colorActionPrimary : t.colorTextMuted,
                     fontSize: t.fontSizeSm,
                     fontFamily: t.fontSans,
-                    fontWeight: isActive ? 600 : 400,
+                    fontWeight: isActive ? t.fontWeightSemibold : t.fontWeightNormal,
                     cursor: 'pointer',
                     whiteSpace: 'nowrap',
                     transition: 'color 0.15s ease',

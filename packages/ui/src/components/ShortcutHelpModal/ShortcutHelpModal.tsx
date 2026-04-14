@@ -1,7 +1,15 @@
 import { forwardRef, useId } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
-import { ModalShell } from '../ModalShell';
+import { ModalShell, modalHeadingStyle } from '../ModalShell';
 import { IconButton } from '../IconButton';
+
+const SHORTCUT_HELP_STYLES_ID = '4lt7ab-shortcut-help';
+const SHORTCUT_HELP_CSS = `
+  [data-shortcut-help] kbd:hover {
+    background: ${t.colorSurfaceRaised} !important;
+    border-color: ${t.colorBorderFocused} !important;
+  }
+`;
 
 /** A single keyboard shortcut definition. */
 export interface ShortcutDef {
@@ -43,20 +51,12 @@ export const ShortcutHelpModal: React.ForwardRefExoticComponent<Omit<ShortcutHel
     maxWidth = 520,
   }, ref): React.JSX.Element {
     const titleId = useId();
-    const uid = useId();
-    const styleId = `shortcut-help-${uid.replace(/:/g, '')}`;
 
-    useInjectStyles(
-      styleId,
-      `[data-shortcut-help-id="${styleId}"] kbd:hover {
-        background: ${t.colorSurfaceRaised} !important;
-        border-color: ${t.colorBorderFocused} !important;
-      }`,
-    );
+    useInjectStyles(SHORTCUT_HELP_STYLES_ID, SHORTCUT_HELP_CSS);
 
     return (
       <ModalShell ref={ref} onClose={onClose} maxWidth={maxWidth} titleId={titleId}>
-        <div data-shortcut-help-id={styleId}>
+        <div data-shortcut-help>
           {/* Header */}
           <div
             style={{
@@ -68,13 +68,7 @@ export const ShortcutHelpModal: React.ForwardRefExoticComponent<Omit<ShortcutHel
           >
             <h2
               id={titleId}
-              style={{
-                margin: 0,
-                fontWeight: t.fontWeightSemibold,
-                fontFamily: t.fontSans,
-                color: t.colorText,
-                fontSize: t.fontSizeLg,
-              }}
+              style={modalHeadingStyle}
             >
               {title}
             </h2>
@@ -82,7 +76,7 @@ export const ShortcutHelpModal: React.ForwardRefExoticComponent<Omit<ShortcutHel
               icon="close"
               aria-label="Close"
               onClick={onClose}
-              style={{ marginRight: -8, marginTop: -8 }}
+              style={{ marginRight: `calc(-1 * ${t.spaceXs})`, marginTop: `calc(-1 * ${t.spaceXs})` }}
             />
           </div>
 
@@ -108,7 +102,6 @@ export const ShortcutHelpModal: React.ForwardRefExoticComponent<Omit<ShortcutHel
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: 0,
                   }}
                 >
                   {group.shortcuts.map((shortcut) => (
@@ -141,7 +134,7 @@ export const ShortcutHelpModal: React.ForwardRefExoticComponent<Omit<ShortcutHel
                         }}
                       >
                         {shortcut.keys.map((key, i) => (
-                          <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: t.spaceXs }}>
+                          <span key={key} style={{ display: 'inline-flex', alignItems: 'center', gap: t.spaceXs }}>
                             {i > 0 && (
                               <span
                                 style={{

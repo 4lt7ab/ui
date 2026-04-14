@@ -1,6 +1,6 @@
 import { forwardRef, useId, useState } from 'react';
 import { semantic as t } from '@4lt7ab/core';
-import { ModalShell } from '../ModalShell';
+import { ModalShell, modalHeadingStyle, modalFooterStyle } from '../ModalShell';
 import { Button } from '../Button';
 import type { ReactNode } from 'react';
 import type { ButtonVariant } from '../Button/Button';
@@ -65,13 +65,7 @@ export const ConfirmDialog: React.ForwardRefExoticComponent<Omit<ConfirmDialogPr
       <ModalShell ref={ref} onClose={onCancel} role="alertdialog" titleId={titleId}>
       <h2
         id={titleId}
-        style={{
-          margin: 0,
-          fontWeight: t.fontWeightSemibold,
-          fontFamily: t.fontSans,
-          color: t.colorText,
-          fontSize: t.fontSizeLg,
-        }}
+        style={modalHeadingStyle}
       >
         {title}
       </h2>
@@ -90,13 +84,7 @@ export const ConfirmDialog: React.ForwardRefExoticComponent<Omit<ConfirmDialogPr
           {children}
         </div>
       )}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          gap: t.spaceSm,
-        }}
-      >
+      <div style={modalFooterStyle}>
         <Button variant="ghost" onClick={onCancel} disabled={loading} autoFocus>
           Cancel
         </Button>
