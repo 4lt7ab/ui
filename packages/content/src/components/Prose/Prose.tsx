@@ -117,11 +117,23 @@ const proseCSS = /* css */ `
     border-radius: 3px;
   }
 
+  /* ── Code blocks ── */
+  .alttab-prose pre {
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.25rem;
+    margin-block: 1.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .alttab-prose pre code {
     background: none;
     padding: 0;
     border-radius: 0;
     font-size: 0.875rem;
+    line-height: 1.6;
   }
 
   /* ── Blockquotes ── */
@@ -256,6 +268,32 @@ const proseCSS = /* css */ `
 
   .alttab-prose li + li {
     margin-top: 0.5em;
+  }
+
+  /* ── Tables ── */
+  .alttab-prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-block: 1.5rem;
+    font-size: 0.9375rem;
+  }
+
+  .alttab-prose th {
+    text-align: left;
+    font-weight: 600;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 2px solid var(--color-border);
+    color: var(--color-text);
+  }
+
+  .alttab-prose td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+  }
+
+  .alttab-prose tr:last-child td {
+    border-bottom: none;
   }
 
   /* ── Strong ── */

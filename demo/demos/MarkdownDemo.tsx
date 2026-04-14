@@ -18,12 +18,12 @@ The \`<Markdown>\` component renders a markdown string inside a **Prose** contai
 
 Tables, task lists, and autolinks are supported out of the box.
 
-| Feature | Supported |
-|---------|-----------|
-| Tables | Yes |
-| Task lists | Yes |
-| Strikethrough | Yes |
-| Autolinks | Yes |
+| Component | Package | Description |
+|-----------|---------|-------------|
+| ThemeProvider | core | Context provider for theme tokens |
+| Button | ui | Primary action trigger |
+| Prose | content | Long-form typographic container |
+| ThemeBackground | animations | Canvas/CSS background per theme |
 
 > Blockquotes render with an accent-colored left border and muted text, just like in Prose.
 
