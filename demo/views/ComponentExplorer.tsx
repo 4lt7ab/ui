@@ -9,7 +9,7 @@ import {
   EmptyStateDemo, LinkCardDemo, OverlayDemo, ModalDemo,
   ConfirmDialogDemo, ThemePickerDemo, TokensDemo, PageHeaderDemo,
   IconDemo, DateRangePickerDemo, DatePickerDemo,
-  MetadataTableDemo, ErrorBoundaryDemo, IconFontDemo,
+  MetadataTableDemo, ErrorBoundaryDemo, IconFontDemo, SectionLabelDemo,
 } from '../demos';
 
 // ---------------------------------------------------------------------------
@@ -45,6 +45,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'ExpandableCard', source: 'ui', Demo: ExpandableCardDemo },
       { name: 'PageHeader', source: 'ui', Demo: PageHeaderDemo },
       { name: 'MetadataTable', source: 'ui', Demo: MetadataTableDemo },
+      { name: 'SectionLabel', source: 'ui', Demo: SectionLabelDemo },
     ],
   },
   {

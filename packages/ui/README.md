@@ -557,6 +557,21 @@ Vertical list of label/value pairs with optional section title. Common for detai
 | `items` | `Array<{ label: string; value: ReactNode }>` | required | Label/value pairs to display |
 | `title` | `string` | — | Optional section heading |
 
+### SectionLabel
+
+Uppercase section heading for labeling content groups.
+
+```tsx
+<SectionLabel>Dependencies</SectionLabel>
+<SectionLabel style={{ color: semantic.colorActionPrimary }}>Custom</SectionLabel>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | *required* | Label content |
+
+Extends `HTMLAttributes<HTMLDivElement>`.
+
 ### StatusDot
 
 Colored dot for status indicators.

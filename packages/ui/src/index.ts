@@ -38,3 +38,4 @@ export * from './components/DateRangePicker';
 export * from './components/DatePicker';
 export * from './components/MetadataTable';
 export * from './components/ErrorBoundary';
+export * from './components/SectionLabel';

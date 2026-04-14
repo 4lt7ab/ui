@@ -35,6 +35,7 @@ import { DatePickerDemo } from './DatePickerDemo';
 import { MetadataTableDemo } from './MetadataTableDemo';
 import { ErrorBoundaryDemo } from './ErrorBoundaryDemo';
 import { IconFontDemo } from './IconFontDemo';
+import { SectionLabelDemo } from './SectionLabelDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -57,6 +58,7 @@ export const demos: DemoEntry[] = [
   { name: 'PageHeader', category: 'Layout', source: 'ui', component: PageHeaderDemo },
   { name: 'Table', category: 'Layout', source: 'ui', component: TableDemo },
   { name: 'MetadataTable', category: 'Layout', source: 'ui', component: MetadataTableDemo },
+  { name: 'SectionLabel', category: 'Layout', source: 'ui', component: SectionLabelDemo },
   { name: 'Skeleton', category: 'Layout', source: 'ui', component: SkeletonDemo },
 
   // Action
@@ -110,4 +112,5 @@ export {
   MetadataTableDemo,
   ErrorBoundaryDemo,
   IconFontDemo,
+  SectionLabelDemo,
 };

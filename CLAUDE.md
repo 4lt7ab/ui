@@ -90,6 +90,7 @@ packages/
 │       │   ├── DatePicker/
 │       │   ├── DateRangePicker/
 │       │   ├── MetadataTable/
+│       │   ├── SectionLabel/
 │       │   ├── StatusDot/
 │       │   ├── ThemePicker/
 │       │   └── ThemeSurface/
