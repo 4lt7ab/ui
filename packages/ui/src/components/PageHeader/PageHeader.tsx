@@ -11,6 +11,8 @@ export interface PageHeaderProps {
   title: string;
   /** Secondary text rendered below the title in muted style. */
   subtitle?: string;
+  /** Inline indicator rendered next to the title (e.g. Badge or StatusDot). */
+  indicator?: ReactNode;
   /** Content aligned to the right of the header (e.g. action buttons). */
   trailing?: ReactNode;
   /** Additional inline styles for the wrapper. */
@@ -27,6 +29,7 @@ export const PageHeader: React.ForwardRefExoticComponent<Omit<PageHeaderProps, '
   function PageHeader({
     title,
     subtitle,
+    indicator,
     trailing,
     style,
     className,
@@ -57,7 +60,10 @@ export const PageHeader: React.ForwardRefExoticComponent<Omit<PageHeaderProps, '
         }}
       >
         <div>
-          {heading}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            {heading}
+            {indicator}
+          </div>
           {subtitle && (
             <span
               style={{

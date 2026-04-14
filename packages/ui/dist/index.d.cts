@@ -363,6 +363,8 @@ interface PageHeaderProps {
 	title: string;
 	/** Secondary text rendered below the title in muted style. */
 	subtitle?: string;
+	/** Inline indicator rendered next to the title (e.g. Badge or StatusDot). */
+	indicator?: ReactNode8;
 	/** Content aligned to the right of the header (e.g. action buttons). */
 	trailing?: ReactNode8;
 	/** Additional inline styles for the wrapper. */
@@ -380,6 +382,8 @@ import { CSSProperties as CSSProperties11 } from "react";
 interface TagChipProps {
 	/** Tag display text. */
 	name: string;
+	/** Optional prefix rendered before the label in muted color (e.g. "lang" in "lang: typescript"). */
+	prefix?: string;
 	/** When provided, renders a close button that calls this handler on click. */
 	onRemove?: () => void;
 	/** Additional inline styles. */
