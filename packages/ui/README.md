@@ -622,6 +622,35 @@ Compound table component supporting row selection, hover states, group headers, 
 
 **TableGroupHeader** and **TableEmptyRow** both require a `colSpan` number.
 
+### TableFilters
+
+Declarative filter bar for pairing with Table. Accepts a filter config array describing text inputs (debounced) and select dropdowns. Controlled via `values` and `onChange`.
+
+```tsx
+<TableFilters
+  filters={[
+    { type: 'text', key: 'title', placeholder: 'Search\u2026', debounceMs: 300 },
+    { type: 'select', key: 'status', placeholder: 'All', options: [
+      { value: '', label: 'All' },
+      { value: 'active', label: 'Active' },
+    ]},
+  ]}
+  values={filterValues}
+  onChange={setFilterValues}
+/>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `filters` | `FilterConfig[]` | *required* | Ordered filter definitions |
+| `values` | `Record<string, string>` | *required* | Current values keyed by filter key |
+| `onChange` | `(values: Record<string, string>) => void` | *required* | Called with updated values on change |
+
+**FilterConfig** is a union of `TextFilterConfig` and `SelectFilterConfig`:
+
+- `TextFilterConfig`: `{ type: 'text'; key: string; placeholder?: string; debounceMs?: number }` (default debounce 300ms)
+- `SelectFilterConfig`: `{ type: 'select'; key: string; placeholder?: string; options: Array<{ value: string; label: string }> }`
+
 ### MetadataTable
 
 Vertical list of label/value pairs with optional section title. Common for detail pages.

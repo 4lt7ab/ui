@@ -11,6 +11,7 @@ import {
   IconDemo, DateRangePickerDemo, DatePickerDemo,
   MetadataTableDemo, ErrorBoundaryDemo, IconFontDemo, SectionLabelDemo, ToastDemo,
   ComboboxDemo,
+  TableFiltersDemo,
 } from '../demos';
 
 // ---------------------------------------------------------------------------
@@ -90,6 +91,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'Badge', source: 'ui', Demo: BadgeDemo },
       { name: 'StatusDot', source: 'ui', Demo: StatusDotDemo },
       { name: 'Table', source: 'ui', Demo: TableDemo },
+      { name: 'TableFilters', source: 'ui', Demo: TableFiltersDemo },
       { name: 'Pagination', source: 'ui', Demo: PaginationDemo },
       { name: 'ProgressBar', source: 'ui', Demo: ProgressBarDemo },
       { name: 'Skeleton', source: 'ui', Demo: SkeletonDemo },

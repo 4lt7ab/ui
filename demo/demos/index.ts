@@ -38,6 +38,7 @@ import { IconFontDemo } from './IconFontDemo';
 import { SectionLabelDemo } from './SectionLabelDemo';
 import { ToastDemo } from './ToastDemo';
 import { ComboboxDemo } from './ComboboxDemo';
+import { TableFiltersDemo } from './TableFiltersDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -59,6 +60,7 @@ export const demos: DemoEntry[] = [
   { name: 'ExpandableCard', category: 'Layout', source: 'ui', component: ExpandableCardDemo },
   { name: 'PageHeader', category: 'Layout', source: 'ui', component: PageHeaderDemo },
   { name: 'Table', category: 'Layout', source: 'ui', component: TableDemo },
+  { name: 'TableFilters', category: 'Layout', source: 'ui', component: TableFiltersDemo },
   { name: 'MetadataTable', category: 'Layout', source: 'ui', component: MetadataTableDemo },
   { name: 'SectionLabel', category: 'Layout', source: 'ui', component: SectionLabelDemo },
   { name: 'Skeleton', category: 'Layout', source: 'ui', component: SkeletonDemo },
@@ -119,4 +121,5 @@ export {
   SectionLabelDemo,
   ToastDemo,
   ComboboxDemo,
+  TableFiltersDemo,
 };
