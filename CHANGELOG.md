@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.15
+
 - Add `TopBar` component — app navigation header with title/logo slot, horizontal nav items with active underline + color indicator, trailing slot, and sticky variant
 - Add `FormModal` component — modal wrapper for form submission with async loading submit, cancel, and ModalShell integration
 - Add `AlertBanner` component — full-width dismissable notification bar with severity variants, slide-in animation, and optional auto-dismiss
