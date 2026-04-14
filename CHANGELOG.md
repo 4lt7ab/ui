@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add `hover` prop to Card for interactive hover state (border highlight + translateY lift)
+- Add `live` variant to Card with pulsing border glow animation (respects prefers-reduced-motion)
+
 ## v0.2.12
 
 - Fix `@4lt7ab/ui` dist importing `jsxDEV` from `react/jsx-dev-runtime` instead of `jsx` from `react/jsx-runtime`, causing white-screen crash in production builds of consuming apps
