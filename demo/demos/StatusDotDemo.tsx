@@ -40,6 +40,18 @@ export function StatusDotDemo(): React.JSX.Element {
       </Stack>
 
       <Stack gap="sm">
+        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Pulse Animation</h3>
+        <Stack direction="horizontal" gap="md" wrap align="center">
+          {variants.map((v) => (
+            <Stack key={v} direction="horizontal" gap="xs" align="center">
+              <StatusDot variant={v} animate="pulse" aria-label={`${v} pulsing`} />
+              <span style={{ fontSize: '0.85rem' }}>{v}</span>
+            </Stack>
+          ))}
+        </Stack>
+      </Stack>
+
+      <Stack gap="sm">
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Inline with Badge</h3>
         <Stack direction="horizontal" gap="sm" wrap align="center">
           <Stack direction="horizontal" gap="xs" align="center">
