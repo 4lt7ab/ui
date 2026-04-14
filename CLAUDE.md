@@ -137,7 +137,7 @@ demo/                            # Vite demo app
 2. Create `packages/ui/src/components/MyComponent/index.ts` barrel
 3. Export from `packages/ui/src/index.ts`
 4. Use only `semantic` tokens (from `@4lt7ab/core`) for all visual values
-5. **Add a demo** — create `demo/demos/MyComponentDemo.tsx`, register it in `demo/demos/index.ts` with the correct category. Demo is mandatory; components without demos will not be merged.
+5. **Add a demo** — create `demo/demos/MyComponentDemo.tsx`, register it in **both** `demo/demos/index.ts` (flat list) **and** `demo/views/ComponentExplorer.tsx` (the `CATEGORIES` array that drives the sidebar). Demo is mandatory; components without demos will not be merged.
 6. `bun run typecheck && bun run build`
 
 ### To `@4lt7ab/content`
@@ -146,7 +146,7 @@ demo/                            # Vite demo app
 2. Create `packages/content/src/components/MyComponent/index.ts` barrel
 3. Export from `packages/content/src/index.ts`
 4. Import tokens and utilities from `@4lt7ab/core` (peer dep)
-5. **Add a demo** — create `demo/demos/MyComponentDemo.tsx`, register it in `demo/demos/index.ts`. Demo is mandatory.
+5. **Add a demo** — create `demo/demos/MyComponentDemo.tsx`, register it in **both** `demo/demos/index.ts` **and** `demo/views/ComponentExplorer.tsx` (`CATEGORIES` array). Demo is mandatory.
 6. `bun run typecheck && bun run build`
 
 ### To `@4lt7ab/animations`
