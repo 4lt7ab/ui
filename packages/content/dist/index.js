@@ -1,4 +1,4 @@
-import{forwardRef as k}from"react";import{jsx as j}from"react/jsx-runtime";var b={prose:"680px",wide:"900px"},zJ=k(function({width:J="prose",maxWidth:K,padding:Z="1.5rem",children:U,style:z,...G},F){return j("div",{ref:F,style:{boxSizing:"border-box",width:"100%",maxWidth:K??b[J],marginInline:"auto",paddingInline:Z,overflow:"visible",...z},...G,children:U})});import{forwardRef as S}from"react";import{useInjectStyles as R}from "../../core/dist/index.js";import{jsx as g}from"react/jsx-runtime";var w="alttab-prose-styles",m=`
+import{forwardRef as S}from"react";import{jsx as R}from"react/jsx-runtime";var w={prose:"680px",wide:"900px"},_J=S(function({width:J="prose",maxWidth:N,padding:Z="1.5rem",children:F,style:q,...O},U){return R("div",{ref:U,style:{boxSizing:"border-box",width:"100%",maxWidth:N??w[J],marginInline:"auto",paddingInline:Z,overflow:"visible",...q},...O,children:F})});import{forwardRef as g}from"react";import{useInjectStyles as m}from "../../core/dist/index.js";import{jsx as h}from"react/jsx-runtime";var p="alttab-prose-styles",u=`
   /* ── Typography ── */
   .alttab-prose {
     font-size: 1.0625rem;
@@ -102,7 +102,7 @@ import{forwardRef as k}from"react";import{jsx as j}from"react/jsx-runtime";var b
 
   /* ── Code blocks ── */
   .alttab-prose pre {
-    background: var(--color-surface-raised);
+    background: var(--color-surface-page);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     padding: 1rem 1.25rem;
@@ -115,8 +115,10 @@ import{forwardRef as k}from"react";import{jsx as j}from"react/jsx-runtime";var b
     background: none;
     padding: 0;
     border-radius: 0;
-    font-size: 0.875rem;
-    line-height: 1.6;
+    font-size: 0.8rem;
+    line-height: 1.55;
+    letter-spacing: -0.01em;
+    color: var(--color-text-secondary);
   }
 
   /* ── Blockquotes ── */
@@ -283,7 +285,40 @@ import{forwardRef as k}from"react";import{jsx as j}from"react/jsx-runtime";var b
   .alttab-prose strong {
     font-weight: 600;
   }
-`,P=S(function({children:J,style:K,...Z},U){return R(w,m),g("div",{ref:U,className:"alttab-prose",style:K,...Z,children:J})});import p from"react-markdown";import u from"remark-gfm";import{jsx as T}from"react/jsx-runtime";function h({children:O,...J}){return T(P,{...J,children:T(p,{remarkPlugins:[u],children:O})})}import{forwardRef as f}from"react";import{jsx as y}from"react/jsx-runtime";var yJ=f(function({children:J},K){return y("blockquote",{ref:K,"data-pull-quote":"",children:y("p",{children:J})})});import{forwardRef as c}from"react";import{jsx as o}from"react/jsx-runtime";var xJ=c(function({children:J},K){return o("small",{ref:K,"data-margin-note":"",children:J})});import{forwardRef as d}from"react";import{jsx as l}from"react/jsx-runtime";var SJ=d(function({children:J},K){return l("small",{ref:K,"data-side-note":"",children:J})});import{forwardRef as n}from"react";import{useInjectStyles as a}from "../../core/dist/index.js";import{jsx as v,jsxs as s}from"react/jsx-runtime";var i="alttab-epigraph",t=`
+`,v=g(function({children:J,style:N,...Z},F){return m(p,u),h("div",{ref:F,className:"alttab-prose",style:N,...Z,children:J})});import{useState as f,useCallback as c,useRef as l}from"react";import d from"react-markdown";import o from"remark-gfm";import{semantic as W,useInjectStyles as a}from "../../core/dist/index.js";import{jsx as G,jsxs as M}from"react/jsx-runtime";var y={width:14,height:14,fill:"none",stroke:"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round"};function n(){return M("svg",{viewBox:"0 0 24 24",...y,children:[G("rect",{x:"9",y:"9",width:"13",height:"13",rx:"2",ry:"2"}),G("path",{d:"M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"})]})}function i(){return G("svg",{viewBox:"0 0 24 24",...y,children:G("path",{d:"M20 6L9 17l-5-5"})})}var t="alttab-markdown-codeblock",r=`
+  .alttab-codeblock {
+    position: relative;
+  }
+  .alttab-codeblock-copy {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid ${W.colorBorder};
+    border-radius: ${W.radiusSm};
+    background: ${W.colorSurface};
+    color: ${W.colorTextMuted};
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .alttab-codeblock:hover .alttab-codeblock-copy {
+    opacity: 1;
+  }
+  .alttab-codeblock-copy:hover {
+    color: ${W.colorText};
+    border-color: ${W.colorTextMuted};
+  }
+  .alttab-codeblock-copy[data-copied] {
+    opacity: 1;
+    color: ${W.colorSuccess};
+    border-color: ${W.colorSuccess};
+  }
+`;function s({children:$}){a(t,r);let[J,N]=f(!1),Z=l(null),F=c(()=>{let q=document.querySelector(".alttab-codeblock pre code"),O="",U=(X)=>{if(typeof X==="string"){O+=X;return}if(Array.isArray(X)){X.forEach(U);return}if(X&&typeof X==="object"&&"props"in X)U(X.props.children)};if(U($),navigator.clipboard.writeText(O.replace(/\n$/,"")),N(!0),Z.current)clearTimeout(Z.current);Z.current=setTimeout(()=>N(!1),1500)},[$]);return M("div",{className:"alttab-codeblock",children:[G("button",{type:"button",className:"alttab-codeblock-copy",onClick:F,"aria-label":"Copy code",...J?{"data-copied":""}:{},children:J?G(i,{}):G(n,{})}),G("pre",{children:$})]})}var e={pre:s};function JJ({children:$,...J}){return G(v,{...J,children:G(d,{remarkPlugins:[o],components:e,children:$})})}import{forwardRef as NJ}from"react";import{jsx as b}from"react/jsx-runtime";var hJ=NJ(function({children:J},N){return b("blockquote",{ref:N,"data-pull-quote":"",children:b("p",{children:J})})});import{forwardRef as QJ}from"react";import{jsx as VJ}from"react/jsx-runtime";var dJ=QJ(function({children:J},N){return VJ("small",{ref:N,"data-margin-note":"",children:J})});import{forwardRef as XJ}from"react";import{jsx as ZJ}from"react/jsx-runtime";var iJ=XJ(function({children:J},N){return ZJ("small",{ref:N,"data-side-note":"",children:J})});import{forwardRef as $J}from"react";import{useInjectStyles as KJ}from "../../core/dist/index.js";import{jsx as k,jsxs as FJ}from"react/jsx-runtime";var UJ="alttab-epigraph",zJ=`
   .alttab-epigraph {
     border: none;
     border-block: 1px solid var(--color-border);
@@ -311,7 +346,7 @@ import{forwardRef as k}from"react";import{jsx as j}from"react/jsx-runtime";var b
     font-style: normal;
     color: var(--color-text-muted);
   }
-`,pJ=n(function({children:J,cite:K},Z){return a(i,t),s("blockquote",{ref:Z,className:"alttab-epigraph",children:[v("p",{children:J}),K&&v("footer",{children:K})]})});import{forwardRef as r}from"react";import{useInjectStyles as e}from "../../core/dist/index.js";import{jsx as C,jsxs as NJ}from"react/jsx-runtime";var JJ="alttab-link-card",KJ=`
+`,JN=$J(function({children:J,cite:N},Z){return KJ(UJ,zJ),FJ("blockquote",{ref:Z,className:"alttab-epigraph",children:[k("p",{children:J}),N&&k("footer",{children:N})]})});import{forwardRef as AJ}from"react";import{useInjectStyles as GJ}from "../../core/dist/index.js";import{jsx as C,jsxs as OJ}from"react/jsx-runtime";var qJ="alttab-link-card",BJ=`
   .alttab-link-card {
     display: block;
     background: var(--color-surface);
@@ -342,7 +377,7 @@ import{forwardRef as k}from"react";import{jsx as j}from"react/jsx-runtime";var b
     font-size: 0.875rem;
     color: var(--color-text-muted);
   }
-`,oJ=r(function({title:J,description:K,external:Z,children:U,...z},G){return e(JJ,KJ),NJ("a",{ref:G,className:"alttab-link-card",...Z?{target:"_blank",rel:"noopener noreferrer"}:{},...z,children:[C("span",{className:"alttab-link-card__title",children:J}),K&&C("span",{className:"alttab-link-card__desc",children:K}),U]})});import{forwardRef as QJ,useEffect as VJ,useRef as W,useCallback as H,useImperativeHandle as XJ}from"react";import{useInjectStyles as ZJ}from "../../core/dist/index.js";import{jsx as BJ}from"react/jsx-runtime";var M="abcdefghijklmnopqrstuvwxyz!?*~+#",$J="alttab-thinking-cycle",OJ=`
+`,ZN=AJ(function({title:J,description:N,external:Z,children:F,...q},O){return GJ(qJ,BJ),OJ("a",{ref:O,className:"alttab-link-card",...Z?{target:"_blank",rel:"noopener noreferrer"}:{},...q,children:[C("span",{className:"alttab-link-card__title",children:J}),N&&C("span",{className:"alttab-link-card__desc",children:N}),F]})});import{forwardRef as WJ,useEffect as YJ,useRef as D,useCallback as P,useImperativeHandle as HJ}from"react";import{useInjectStyles as DJ}from "../../core/dist/index.js";import{jsx as EJ}from"react/jsx-runtime";var x="abcdefghijklmnopqrstuvwxyz!?*~+#",LJ="alttab-thinking-cycle",PJ=`
   .alttab-thinking {
     display: inline-block;
     color: var(--color-text-link);
@@ -371,4 +406,4 @@ import{forwardRef as k}from"react";import{jsx as j}from"react/jsx-runtime";var b
       animation: none;
     }
   }
-`;function x(){return M[Math.random()*M.length|0]}var iJ=QJ(function({words:J,holdMs:K=2000,scrambleTicks:Z=4,tickMs:U=50,staggerMs:z=30},G){ZJ($J,OJ);let F=W(null);XJ(G,()=>F.current);let A=W(0),L=W([]),D=W(null),Y=W(null),q=H(()=>{let N=F.current;if(!N)return;let X=N.innerHTML;N.style.width="";let Q=[];for(let $ of J)N.textContent=$,Q.push(Math.ceil(N.getBoundingClientRect().width));N.innerHTML=X||"",L.current=Q,N.style.width=Q[A.current]+"px"},[J]),_=H((N)=>{let X=F.current;if(!X)return;X.innerHTML="";for(let Q=0;Q<N.length;Q++){let $=document.createElement("span");$.className="alttab-char",$.textContent=N[Q],$.style.animationDelay=`${Q*z}ms`,X.appendChild($)}},[z]),E=H((N,X)=>{let Q=F.current;if(!Q)return;if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){Q.textContent=N,X();return}Q.innerHTML="";let I=[];for(let B=0;B<N.length;B++){let V=document.createElement("span");V.className="alttab-char",V.style.animationDelay=`${B*z}ms`,V.textContent=N[B]===" "?" ":x(),Q.appendChild(V),I.push({span:V,final:N[B],ticks:0,maxTicks:Z+B*2})}Y.current=setInterval(()=>{let B=!0;for(let V of I)if(V.ticks>=V.maxTicks)V.span.textContent=V.final;else B=!1,V.ticks++,V.span.textContent=V.final===" "?" ":x();if(B)clearInterval(Y.current),Y.current=null,X()},U)},[Z,U,z]);return VJ(()=>{if(J.length<2)return;q(),document.fonts.ready.then(q);let N=()=>q();document.fonts.addEventListener("loadingdone",N);let X=new MutationObserver(()=>requestAnimationFrame(q));X.observe(document.documentElement,{attributes:!0,attributeFilter:["data-theme"]}),A.current=0,_(J[0]);function Q(){A.current=(A.current+1)%J.length;let $=F.current;if($)$.style.width=L.current[A.current]+"px";E(J[A.current],()=>{D.current=setTimeout(Q,K)})}return D.current=setTimeout(Q,K),()=>{if(D.current)clearTimeout(D.current);if(Y.current)clearInterval(Y.current);document.fonts.removeEventListener("loadingdone",N),X.disconnect()}},[J,K,q,_,E]),BJ("span",{ref:F,className:"alttab-thinking"})});export{iJ as ThinkingCycle,SJ as SideNote,yJ as PullQuote,P as Prose,h as Markdown,xJ as MarginNote,oJ as LinkCard,pJ as Epigraph,zJ as Container};
+`;function j(){return x[Math.random()*x.length|0]}var FN=WJ(function({words:J,holdMs:N=2000,scrambleTicks:Z=4,tickMs:F=50,staggerMs:q=30},O){DJ(LJ,PJ);let U=D(null);HJ(O,()=>U.current);let X=D(0),E=D([]),L=D(null),Y=D(null),H=P(()=>{let Q=U.current;if(!Q)return;let z=Q.innerHTML;Q.style.width="";let V=[];for(let A of J)Q.textContent=A,V.push(Math.ceil(Q.getBoundingClientRect().width));Q.innerHTML=z||"",E.current=V,Q.style.width=V[X.current]+"px"},[J]),T=P((Q)=>{let z=U.current;if(!z)return;z.innerHTML="";for(let V=0;V<Q.length;V++){let A=document.createElement("span");A.className="alttab-char",A.textContent=Q[V],A.style.animationDelay=`${V*q}ms`,z.appendChild(A)}},[q]),_=P((Q,z)=>{let V=U.current;if(!V)return;if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){V.textContent=Q,z();return}V.innerHTML="";let I=[];for(let B=0;B<Q.length;B++){let K=document.createElement("span");K.className="alttab-char",K.style.animationDelay=`${B*q}ms`,K.textContent=Q[B]===" "?" ":j(),V.appendChild(K),I.push({span:K,final:Q[B],ticks:0,maxTicks:Z+B*2})}Y.current=setInterval(()=>{let B=!0;for(let K of I)if(K.ticks>=K.maxTicks)K.span.textContent=K.final;else B=!1,K.ticks++,K.span.textContent=K.final===" "?" ":j();if(B)clearInterval(Y.current),Y.current=null,z()},F)},[Z,F,q]);return YJ(()=>{if(J.length<2)return;H(),document.fonts.ready.then(H);let Q=()=>H();document.fonts.addEventListener("loadingdone",Q);let z=new MutationObserver(()=>requestAnimationFrame(H));z.observe(document.documentElement,{attributes:!0,attributeFilter:["data-theme"]}),X.current=0,T(J[0]);function V(){X.current=(X.current+1)%J.length;let A=U.current;if(A)A.style.width=E.current[X.current]+"px";_(J[X.current],()=>{L.current=setTimeout(V,N)})}return L.current=setTimeout(V,N),()=>{if(L.current)clearTimeout(L.current);if(Y.current)clearInterval(Y.current);document.fonts.removeEventListener("loadingdone",Q),z.disconnect()}},[J,N,H,T,_]),EJ("span",{ref:U,className:"alttab-thinking"})});export{FN as ThinkingCycle,iJ as SideNote,hJ as PullQuote,v as Prose,JJ as Markdown,dJ as MarginNote,ZN as LinkCard,JN as Epigraph,_J as Container};

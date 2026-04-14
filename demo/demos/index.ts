@@ -45,6 +45,8 @@ import { ChipPickerDemo } from './ChipPickerDemo';
 import { SearchInputDemo } from './SearchInputDemo';
 import { SegmentedControlDemo } from './SegmentedControlDemo';
 import { AlertBannerDemo } from './AlertBannerDemo';
+import { TopBarDemo } from './TopBarDemo';
+import { ShortcutHelpModalDemo } from './ShortcutHelpModalDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -77,6 +79,7 @@ export const demos: DemoEntry[] = [
   { name: 'IconButton', category: 'Action', source: 'ui', component: IconButtonDemo },
   { name: 'IconFont', category: 'Action', source: 'ui', component: IconFontDemo },
   { name: 'TagChip', category: 'Action', source: 'ui', component: TagChipDemo },
+  { name: 'TopBar', category: 'Navigation', source: 'ui', component: TopBarDemo },
   { name: 'Pagination', category: 'Navigation', source: 'ui', component: PaginationDemo },
 
   // Feedback
@@ -91,6 +94,7 @@ export const demos: DemoEntry[] = [
   { name: 'ErrorBoundary', category: 'Feedback', source: 'ui', component: ErrorBoundaryDemo },
   { name: 'Toast', category: 'Feedback', source: 'ui', component: ToastDemo },
   { name: 'AlertBanner', category: 'Feedback', source: 'ui', component: AlertBannerDemo },
+  { name: 'ShortcutHelpModal', category: 'Feedback', source: 'ui', component: ShortcutHelpModalDemo },
 
   // Form
   { name: 'Field', category: 'Form', source: 'ui', component: FieldDemo },
@@ -141,4 +145,6 @@ export {
   SegmentedControlDemo,
   AlertBannerDemo,
   FormModalDemo,
+  TopBarDemo,
+  ShortcutHelpModalDemo,
 };

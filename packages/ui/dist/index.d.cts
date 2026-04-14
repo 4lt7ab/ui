@@ -192,7 +192,7 @@ interface SelectOption {
 	/** Whether this option is disabled. */
 	disabled?: boolean;
 }
-/** A native dropdown select with custom chevron styling. */
+/** A custom dropdown select with viewport-aware positioning. */
 interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "children"> {
 	/** Options to render. Ignored when `children` is provided. */
 	options?: SelectOption[];
@@ -773,4 +773,263 @@ interface SectionLabelProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 /** Uppercase section heading for labeling content groups. */
 declare function SectionLabel({ children, style,...rest }: SectionLabelProps): React.JSX.Element;
-export { useFocusTrap, iconRegistry, ThemeSurfaceProps, ThemeSurface, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, SelectProps, SelectOption, Select, SectionLabelProps, SectionLabel, RowSkeleton, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, ModalShellProps, ModalShell, MetadataTableProps, MetadataTable, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FormModalProps, FormModal, FieldProps, Field, ExpandableCardProps, ExpandableCard, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge };
+import { ReactNode as ReactNode19 } from "react";
+/** Visual type of a toast notification. */
+type ToastType = "success" | "error" | "info" | "warning";
+/** Configuration for a single toast instance. */
+interface ToastItem {
+	/** Unique identifier. */
+	id: string;
+	/** Message text to display. */
+	message: string;
+	/** Visual type controlling color.
+	* @default 'info'
+	*/
+	type: ToastType;
+	/** Auto-dismiss duration in milliseconds.
+	* @default 4000
+	*/
+	duration: number;
+}
+/** Options when showing a toast. */
+interface ShowToastOptions {
+	/** Visual type controlling color.
+	* @default 'info'
+	*/
+	type?: ToastType;
+	/** Auto-dismiss duration in milliseconds.
+	* @default 4000
+	*/
+	duration?: number;
+}
+/** Position of the toast container on screen. */
+type ToastPosition = "top-right" | "top-left" | "bottom-right" | "bottom-left";
+interface ToastContextValue {
+	showToast: (message: string, typeOrOptions?: ToastType | ShowToastOptions) => void;
+}
+/**
+* Returns the `showToast` function from the nearest `ToastProvider`.
+* Must be called within a `<ToastProvider>` tree.
+*/
+declare function useToast(): ToastContextValue;
+/** Props for the ToastProvider context component. */
+interface ToastProviderProps {
+	/** Application content. */
+	children: ReactNode19;
+	/** Screen position of the toast stack.
+	* @default 'top-right'
+	*/
+	position?: ToastPosition;
+}
+/**
+* Provides toast notification context to the component tree.
+* Renders a portal-based toast container with stacked, auto-dismissing messages.
+*/
+declare function ToastProvider({ children, position }: ToastProviderProps): React.JSX.Element;
+import { InputHTMLAttributes as InputHTMLAttributes2 } from "react";
+/** A single option in the Combobox dropdown. */
+interface ComboboxOption {
+	/** The value submitted when the option is selected. */
+	value: string;
+	/** Display text shown in the dropdown and used for filtering. */
+	label: string;
+}
+/** A typeahead select that combines free-text input with a filterable dropdown. */
+interface ComboboxProps extends Omit<InputHTMLAttributes2<HTMLInputElement>, "onChange" | "value" | "onSelect"> {
+	/** Options to render in the dropdown. */
+	options: ComboboxOption[];
+	/** Current input value. */
+	value: string;
+	/** Called on input change AND option selection. */
+	onChange: (value: string) => void;
+	/** Called specifically when an option is selected from the list. */
+	onSelect?: (option: ComboboxOption) => void;
+	/** Input placeholder text. */
+	placeholder?: string;
+	/** Whether the combobox is disabled. */
+	disabled?: boolean;
+	/** Renders error border styling. Typically driven by a parent Field.
+	* @default false
+	*/
+	hasError?: boolean;
+}
+declare const Combobox: React.ForwardRefExoticComponent<Omit<ComboboxProps, "ref"> & React.RefAttributes<HTMLInputElement>>;
+import { HTMLAttributes as HTMLAttributes7 } from "react";
+/** Configuration for a debounced text search filter. */
+interface TextFilterConfig {
+	type: "text";
+	/** Unique key used in the values record. */
+	key: string;
+	/** Input placeholder text. */
+	placeholder?: string;
+	/** Debounce delay in milliseconds. @default 300 */
+	debounceMs?: number;
+}
+/** Configuration for an immediate select dropdown filter. */
+interface SelectFilterConfig {
+	type: "select";
+	/** Unique key used in the values record. */
+	key: string;
+	/** Placeholder shown when no option is selected. */
+	placeholder?: string;
+	/** Available options. */
+	options: Array<{
+		value: string;
+		label: string;
+	}>;
+}
+/** A single filter definition — either text or select. */
+type FilterConfig = TextFilterConfig | SelectFilterConfig;
+/** A declarative filter bar that pairs with Table. */
+interface TableFiltersProps extends Omit<HTMLAttributes7<HTMLDivElement>, "onChange"> {
+	/** Ordered list of filter definitions. */
+	filters: FilterConfig[];
+	/** Current filter values keyed by filter key. */
+	values: Record<string, string>;
+	/** Called when any filter value changes. Receives the full updated values object. */
+	onChange: (values: Record<string, string>) => void;
+}
+declare function TableFilters({ filters, values, onChange, style,...props }: TableFiltersProps): React.JSX.Element;
+import { CSSProperties as CSSProperties15 } from "react";
+/** A single chip option. */
+interface ChipItem {
+	/** Unique value identifying this chip. */
+	value: string;
+	/** Display label. */
+	label: string;
+	/** Optional group name — chips sharing a group render under a SectionLabel header. */
+	group?: string;
+}
+/** Props for ChipPicker. */
+interface ChipPickerProps {
+	/** All available chip options. */
+	items: ChipItem[];
+	/** Currently selected values (controlled). */
+	selected: string[];
+	/** Called with the updated selection array when a chip is toggled. */
+	onChange: (selected: string[]) => void;
+	/** Additional inline styles for the root container. */
+	style?: CSSProperties15;
+}
+/** Multi-select toggle chip group with optional category grouping. */
+declare function ChipPicker({ items, selected, onChange, style }: ChipPickerProps): React.JSX.Element;
+import { InputHTMLAttributes as InputHTMLAttributes3, ReactNode as ReactNode20 } from "react";
+/** A text input with built-in debounce, search icon, and optional trailing slot. */
+interface SearchInputProps extends Omit<InputHTMLAttributes3<HTMLInputElement>, "onChange"> {
+	/** Current search value (controlled). */
+	value: string;
+	/** Debounced search callback — fires after `debounceMs` of inactivity. */
+	onSearch: (value: string) => void;
+	/** Debounce delay in milliseconds.
+	* @default 300
+	*/
+	debounceMs?: number;
+	/** Optional content rendered inside the input on the right side (toggle, clear button, etc.). */
+	trailing?: ReactNode20;
+}
+declare const SearchInput: React.ForwardRefExoticComponent<Omit<SearchInputProps, "ref"> & React.RefAttributes<HTMLInputElement>>;
+/** A single segment definition. */
+interface Segment {
+	/** Unique value identifying this segment. */
+	value: string;
+	/** Display label — text shown in the segment button. */
+	label: string;
+	/** Optional icon name (built-in registry or icon-font name). */
+	icon?: IconName | (string & {});
+}
+/** A generic segmented toggle control with a sliding pill indicator. */
+interface SegmentedControlProps {
+	/** Segment definitions. */
+	segments: Segment[];
+	/** Currently selected segment value. */
+	value: string;
+	/** Called when the user selects a segment. */
+	onChange: (value: string) => void;
+	/** Control size.
+	* @default 'md'
+	*/
+	size?: "sm" | "md";
+}
+declare function SegmentedControl({ segments, value, onChange, size }: SegmentedControlProps): React.JSX.Element;
+import { CSSProperties as CSSProperties16, ReactNode as ReactNode21 } from "react";
+/** Severity variant controlling banner color. */
+type AlertBannerVariant = "info" | "warning" | "error" | "success";
+/** Props for the AlertBanner component. */
+interface AlertBannerProps {
+	/** Severity variant controlling color. */
+	variant: AlertBannerVariant;
+	/** Message content. */
+	children: ReactNode21;
+	/** If provided, shows a dismiss button and is called on dismiss. */
+	onDismiss?: () => void;
+	/** Milliseconds before auto-dismissing (calls onDismiss). */
+	autoDismiss?: number;
+	/** Optional leading icon. Defaults to a variant-appropriate icon. */
+	icon?: ReactNode21;
+	/** Additional inline styles. */
+	style?: CSSProperties16;
+}
+/**
+* Full-width dismissable notification banner with severity variants.
+* Slides in from the top with a configurable auto-dismiss timer.
+*/
+declare const AlertBanner: React.ForwardRefExoticComponent<Omit<AlertBannerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
+import { HTMLAttributes as HTMLAttributes8, ReactNode as ReactNode22 } from "react";
+/** A single navigation entry in the TopBar. */
+interface NavItem {
+	/** Display label. */
+	label: string;
+	/** Route path — matched against `activePath` to determine active state. */
+	path: string;
+	/** Optional leading icon (any ReactNode). */
+	icon?: ReactNode22;
+}
+/** App-level navigation header with title, nav items, and trailing slot. */
+interface TopBarProps extends Omit<HTMLAttributes8<HTMLElement>, "title"> {
+	/** Logo or app title — rendered in the leading slot. */
+	title: ReactNode22;
+	/** Navigation items displayed as horizontal buttons. */
+	items?: NavItem[];
+	/** The currently active path. Compared against each item's `path`. */
+	activePath?: string;
+	/** Called when a nav item is clicked. Consumer handles routing. */
+	onNavigate?: (path: string) => void;
+	/** Content rendered in the trailing slot (e.g. ThemePicker, avatar). */
+	trailing?: ReactNode22;
+	/** Sticks to the top of the viewport on scroll.
+	* @default false
+	*/
+	sticky?: boolean;
+}
+declare const TopBar: React.ForwardRefExoticComponent<Omit<TopBarProps, "ref"> & React.RefAttributes<HTMLElement>>;
+/** A single keyboard shortcut definition. */
+interface ShortcutDef {
+	/** Key combination display strings, e.g. ["Cmd", "K"] or ["Ctrl", "Shift", "P"]. */
+	keys: string[];
+	/** What the shortcut does. */
+	description: string;
+}
+/** A named group of shortcuts. */
+interface ShortcutGroup {
+	/** Group heading, e.g. "Navigation", "Editing". */
+	group: string;
+	/** Shortcuts in this group. */
+	shortcuts: ShortcutDef[];
+}
+/** A modal displaying keyboard shortcuts grouped by category. Wraps ModalShell. */
+interface ShortcutHelpModalProps {
+	/** Shortcut data grouped by category. */
+	shortcuts: ShortcutGroup[];
+	/** Called when the modal should close. */
+	onClose: () => void;
+	/** Modal heading.
+	* @default 'Keyboard Shortcuts'
+	*/
+	title?: string;
+	/** Maximum width of the modal panel in pixels.
+	* @default 520
+	*/
+	maxWidth?: number;
+}
+declare const ShortcutHelpModal: React.ForwardRefExoticComponent<Omit<ShortcutHelpModalProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
+export { useToast, useFocusTrap, iconRegistry, TopBarProps, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemeSurfaceProps, ThemeSurface, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, ShowToastOptions, ShortcutHelpModalProps, ShortcutHelpModal, ShortcutGroup, ShortcutDef, SelectProps, SelectOption, SelectFilterConfig, Select, SegmentedControlProps, SegmentedControl, Segment, SectionLabelProps, SectionLabel, SearchInputProps, SearchInput, RowSkeleton, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, NavItem, ModalShellProps, ModalShell, MetadataTableProps, MetadataTable, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FormModalProps, FormModal, FilterConfig, FieldProps, Field, ExpandableCardProps, ExpandableCard, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxProps, ComboboxOption, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge, AlertBannerVariant, AlertBannerProps, AlertBanner };

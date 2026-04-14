@@ -33,6 +33,8 @@ interface MarkdownProps extends Omit<HTMLAttributes3<HTMLDivElement>, "children"
 * Convenience wrapper that renders a markdown string inside a Prose container.
 * Uses react-markdown with the remark-gfm plugin for GitHub Flavored Markdown
 * (tables, strikethrough, autolinks, task lists).
+*
+* Code blocks include a copy-to-clipboard button on hover.
 */
 declare function Markdown({ children,...proseProps }: MarkdownProps): React.JSX.Element;
 import { ReactNode as ReactNode3 } from "react";

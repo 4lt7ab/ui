@@ -2,8 +2,10 @@
 
 ## Unreleased
 
+- Add `TopBar` component — app navigation header with title/logo slot, horizontal nav items with active underline + color indicator, trailing slot, and sticky variant
 - Add `FormModal` component — modal wrapper for form submission with async loading submit, cancel, and ModalShell integration
 - Add `AlertBanner` component — full-width dismissable notification bar with severity variants, slide-in animation, and optional auto-dismiss
+- Add `ShortcutHelpModal` component — keyboard shortcut reference overlay with grouped sections and styled kbd elements
 - Style Prose code blocks — darker recessed background, smaller monospace text, muted color
 - Add copy-to-clipboard button on Markdown code blocks — appears on hover, shows check icon on success
 - Add `Markdown` component to `@4lt7ab/content` — convenience wrapper rendering a markdown string inside Prose with remark-gfm for GitHub Flavored Markdown (tables, strikethrough, task lists, autolinks); `react-markdown` and `remark-gfm` added as peer dependencies

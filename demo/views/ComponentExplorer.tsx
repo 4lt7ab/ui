@@ -16,6 +16,8 @@ import {
   SearchInputDemo,
   SegmentedControlDemo,
   AlertBannerDemo,
+  TopBarDemo,
+  ShortcutHelpModalDemo,
 } from '../demos';
 
 // ---------------------------------------------------------------------------
@@ -49,6 +51,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'Container', source: 'content', Demo: ContainerDemo },
       { name: 'Card', source: 'ui', Demo: CardDemo },
       { name: 'ExpandableCard', source: 'ui', Demo: ExpandableCardDemo },
+      { name: 'TopBar', source: 'ui', Demo: TopBarDemo },
       { name: 'PageHeader', source: 'ui', Demo: PageHeaderDemo },
       { name: 'MetadataTable', source: 'ui', Demo: MetadataTableDemo },
       { name: 'SectionLabel', source: 'ui', Demo: SectionLabelDemo },
@@ -116,6 +119,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'ErrorBoundary', source: 'ui', Demo: ErrorBoundaryDemo },
       { name: 'Toast', source: 'ui', Demo: ToastDemo },
       { name: 'AlertBanner', source: 'ui', Demo: AlertBannerDemo },
+      { name: 'ShortcutHelpModal', source: 'ui', Demo: ShortcutHelpModalDemo },
     ],
   },
 ];
