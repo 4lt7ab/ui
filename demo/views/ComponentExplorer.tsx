@@ -12,6 +12,7 @@ import {
   MetadataTableDemo, ErrorBoundaryDemo, IconFontDemo, SectionLabelDemo, ToastDemo,
   ComboboxDemo,
   TableFiltersDemo,
+  ChipPickerDemo,
 } from '../demos';
 
 // ---------------------------------------------------------------------------
@@ -72,6 +73,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'DatePicker', source: 'ui', Demo: DatePickerDemo },
       { name: 'DateRangePicker', source: 'ui', Demo: DateRangePickerDemo },
       { name: 'Combobox', source: 'ui', Demo: ComboboxDemo },
+      { name: 'ChipPicker', source: 'ui', Demo: ChipPickerDemo },
     ],
   },
   {

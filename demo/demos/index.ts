@@ -39,6 +39,7 @@ import { SectionLabelDemo } from './SectionLabelDemo';
 import { ToastDemo } from './ToastDemo';
 import { ComboboxDemo } from './ComboboxDemo';
 import { TableFiltersDemo } from './TableFiltersDemo';
+import { ChipPickerDemo } from './ChipPickerDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -92,6 +93,7 @@ export const demos: DemoEntry[] = [
   { name: 'DatePicker', category: 'Form', source: 'ui', component: DatePickerDemo },
   { name: 'DateRangePicker', category: 'Form', source: 'ui', component: DateRangePickerDemo },
   { name: 'Combobox', category: 'Form', source: 'ui', component: ComboboxDemo },
+  { name: 'ChipPicker', category: 'Form', source: 'ui', component: ChipPickerDemo },
 
   // ── @4lt7ab/ui/content ──
   { name: 'Container', category: 'Layout', source: 'content', component: ContainerDemo },
@@ -122,4 +124,5 @@ export {
   ToastDemo,
   ComboboxDemo,
   TableFiltersDemo,
+  ChipPickerDemo,
 };

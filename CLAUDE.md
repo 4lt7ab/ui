@@ -91,6 +91,7 @@ packages/
 │       │   ├── Combobox/
 │       │   ├── DatePicker/
 │       │   ├── DateRangePicker/
+│       │   ├── ChipPicker/
 │       │   ├── MetadataTable/
 │       │   ├── SectionLabel/
 │       │   ├── StatusDot/

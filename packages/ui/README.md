@@ -670,6 +670,35 @@ Vertical list of label/value pairs with optional section title. Common for detai
 | `items` | `Array<{ label: string; value: ReactNode }>` | required | Label/value pairs to display |
 | `title` | `string` | — | Optional section heading |
 
+### ChipPicker
+
+Multi-select toggle chip group with optional category grouping. Each chip is a pill-shaped button with `aria-pressed` for accessibility.
+
+```tsx
+const [selected, setSelected] = useState<string[]>([]);
+
+<ChipPicker
+  items={[
+    { value: 'react', label: 'React', group: 'Frameworks' },
+    { value: 'vue', label: 'Vue', group: 'Frameworks' },
+    { value: 'ts', label: 'TypeScript', group: 'Languages' },
+  ]}
+  selected={selected}
+  onChange={setSelected}
+/>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `ChipItem[]` | *required* | Available chip options |
+| `selected` | `string[]` | *required* | Currently selected values (controlled) |
+| `onChange` | `(selected: string[]) => void` | *required* | Called with updated selection |
+| `style` | `CSSProperties` | — | Additional inline styles |
+
+`ChipItem`: `{ value: string; label: string; group?: string }`
+
+When items have a `group` set, they render under `SectionLabel` headers. Ungrouped items render first.
+
 ### SectionLabel
 
 Uppercase section heading for labeling content groups.
