@@ -7,7 +7,7 @@ import {
   TagChipDemo, BadgeDemo, StatusDotDemo, TableDemo, PaginationDemo,
   ProgressBarDemo, SkeletonDemo, CardDemo, ExpandableCardDemo,
   EmptyStateDemo, LinkCardDemo, OverlayDemo, ModalDemo,
-  ConfirmDialogDemo, ThemePickerDemo, TokensDemo, PageHeaderDemo,
+  ConfirmDialogDemo, FormModalDemo, ThemePickerDemo, TokensDemo, PageHeaderDemo,
   IconDemo, DateRangePickerDemo, DatePickerDemo,
   MetadataTableDemo, ErrorBoundaryDemo, IconFontDemo, SectionLabelDemo,
 } from '../demos';
@@ -100,6 +100,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'Overlay', source: 'ui', Demo: OverlayDemo },
       { name: 'ModalShell', source: 'ui', Demo: ModalDemo },
       { name: 'ConfirmDialog', source: 'ui', Demo: ConfirmDialogDemo },
+      { name: 'FormModal', source: 'ui', Demo: FormModalDemo },
       { name: 'ErrorBoundary', source: 'ui', Demo: ErrorBoundaryDemo },
     ],
   },

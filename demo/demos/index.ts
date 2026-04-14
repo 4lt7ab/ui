@@ -19,6 +19,7 @@ import { ExpandableCardDemo } from './ExpandableCardDemo';
 import { ModalDemo } from './ModalDemo';
 import { OverlayDemo } from './OverlayDemo';
 import { ConfirmDialogDemo } from './ConfirmDialogDemo';
+import { FormModalDemo } from './FormModalDemo';
 import { ContainerDemo } from './ContainerDemo';
 import { ProseDemo } from './ProseDemo';
 import { ThinkingCycleDemo } from './ThinkingCycleDemo';
@@ -77,6 +78,7 @@ export const demos: DemoEntry[] = [
   { name: 'Modal', category: 'Feedback', source: 'ui', component: ModalDemo },
   { name: 'Overlay', category: 'Feedback', source: 'ui', component: OverlayDemo },
   { name: 'ConfirmDialog', category: 'Feedback', source: 'ui', component: ConfirmDialogDemo },
+  { name: 'FormModal', category: 'Feedback', source: 'ui', component: FormModalDemo },
   { name: 'ErrorBoundary', category: 'Feedback', source: 'ui', component: ErrorBoundaryDemo },
 
   // Form
@@ -113,4 +115,5 @@ export {
   ErrorBoundaryDemo,
   IconFontDemo,
   SectionLabelDemo,
+  FormModalDemo,
 };

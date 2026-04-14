@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add `FormModal` component — modal wrapper for form submission with async loading submit, cancel, and ModalShell integration
+
 ## v0.2.14
 
 - Add `SectionLabel` component — uppercase section heading for labeling content groups (fontSizeXs, letterSpacingWide, colorTextSecondary)
