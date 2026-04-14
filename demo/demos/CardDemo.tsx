@@ -24,6 +24,36 @@ export function CardDemo(): React.JSX.Element {
               Stronger shadow. Good for floating content, popovers, or prominent sections.
             </p>
           </Card>
+          <Card variant="live">
+            <strong>Live</strong>
+            <p style={{ margin: '0.25rem 0 0', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
+              Pulsing border glow to indicate real-time or active state. Respects prefers-reduced-motion.
+            </p>
+          </Card>
+        </Stack>
+      </Stack>
+
+      <Stack gap="sm">
+        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Hover interaction</h3>
+        <Stack direction="horizontal" gap="md" wrap>
+          <Card hover style={{ flex: '1 1 10rem' }}>
+            <strong>Hoverable card</strong>
+            <p style={{ margin: '0.25rem 0 0', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
+              Lifts and highlights on hover. Good for clickable tiles.
+            </p>
+          </Card>
+          <Card hover variant="flat" style={{ flex: '1 1 10rem' }}>
+            <strong>Flat + hover</strong>
+            <p style={{ margin: '0.25rem 0 0', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
+              Hover works with any variant.
+            </p>
+          </Card>
+          <Card hover variant="live" style={{ flex: '1 1 10rem' }}>
+            <strong>Live + hover</strong>
+            <p style={{ margin: '0.25rem 0 0', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
+              Combines pulse animation with hover lift.
+            </p>
+          </Card>
         </Stack>
       </Stack>
 

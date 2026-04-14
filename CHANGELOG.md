@@ -5,6 +5,8 @@
 - Add `animate` prop to StatusDot with `'pulse'` animation and `prefers-reduced-motion` support
 - Add `loading` prop to Button — shows spinner, disables interaction, sets `aria-busy`
 - Add `iconOnly` prop to Button — square aspect ratio with equal padding for icon-only use
+- Add `hover` prop to Card for interactive hover state (border highlight + translateY lift)
+- Add `live` variant to Card with pulsing border glow animation (respects prefers-reduced-motion)
 
 ## v0.2.12
 
