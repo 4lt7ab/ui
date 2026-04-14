@@ -93,7 +93,9 @@ packages/
 │       │   ├── DateRangePicker/
 │       │   ├── ChipPicker/
 │       │   ├── MetadataTable/
+│       │   ├── SearchInput/
 │       │   ├── SectionLabel/
+│       │   ├── SegmentedControl/
 │       │   ├── StatusDot/
 │       │   ├── ThemePicker/
 │       │   ├── ThemeSurface/

@@ -863,4 +863,65 @@ interface TableFiltersProps extends Omit<HTMLAttributes7<HTMLDivElement>, "onCha
 	onChange: (values: Record<string, string>) => void;
 }
 declare function TableFilters({ filters, values, onChange, style,...props }: TableFiltersProps): React.JSX.Element;
-export { useToast, useFocusTrap, iconRegistry, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemeSurfaceProps, ThemeSurface, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, ShowToastOptions, SelectProps, SelectOption, SelectFilterConfig, Select, SectionLabelProps, SectionLabel, RowSkeleton, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, ModalShellProps, ModalShell, MetadataTableProps, MetadataTable, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FilterConfig, FieldProps, Field, ExpandableCardProps, ExpandableCard, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxProps, ComboboxOption, Combobox, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge };
+import { CSSProperties as CSSProperties15 } from "react";
+/** A single chip option. */
+interface ChipItem {
+	/** Unique value identifying this chip. */
+	value: string;
+	/** Display label. */
+	label: string;
+	/** Optional group name — chips sharing a group render under a SectionLabel header. */
+	group?: string;
+}
+/** Props for ChipPicker. */
+interface ChipPickerProps {
+	/** All available chip options. */
+	items: ChipItem[];
+	/** Currently selected values (controlled). */
+	selected: string[];
+	/** Called with the updated selection array when a chip is toggled. */
+	onChange: (selected: string[]) => void;
+	/** Additional inline styles for the root container. */
+	style?: CSSProperties15;
+}
+/** Multi-select toggle chip group with optional category grouping. */
+declare function ChipPicker({ items, selected, onChange, style }: ChipPickerProps): React.JSX.Element;
+import { InputHTMLAttributes as InputHTMLAttributes3, ReactNode as ReactNode19 } from "react";
+/** A text input with built-in debounce, search icon, and optional trailing slot. */
+interface SearchInputProps extends Omit<InputHTMLAttributes3<HTMLInputElement>, "onChange"> {
+	/** Current search value (controlled). */
+	value: string;
+	/** Debounced search callback — fires after `debounceMs` of inactivity. */
+	onSearch: (value: string) => void;
+	/** Debounce delay in milliseconds.
+	* @default 300
+	*/
+	debounceMs?: number;
+	/** Optional content rendered inside the input on the right side (toggle, clear button, etc.). */
+	trailing?: ReactNode19;
+}
+declare const SearchInput: React.ForwardRefExoticComponent<Omit<SearchInputProps, "ref"> & React.RefAttributes<HTMLInputElement>>;
+/** A single segment definition. */
+interface Segment {
+	/** Unique value identifying this segment. */
+	value: string;
+	/** Display label — text shown in the segment button. */
+	label: string;
+	/** Optional icon name (built-in registry or icon-font name). */
+	icon?: IconName | (string & {});
+}
+/** A generic segmented toggle control with a sliding pill indicator. */
+interface SegmentedControlProps {
+	/** Segment definitions. */
+	segments: Segment[];
+	/** Currently selected segment value. */
+	value: string;
+	/** Called when the user selects a segment. */
+	onChange: (value: string) => void;
+	/** Control size.
+	* @default 'md'
+	*/
+	size?: "sm" | "md";
+}
+declare function SegmentedControl({ segments, value, onChange, size }: SegmentedControlProps): React.JSX.Element;
+export { useToast, useFocusTrap, iconRegistry, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemeSurfaceProps, ThemeSurface, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, ShowToastOptions, SelectProps, SelectOption, SelectFilterConfig, Select, SegmentedControlProps, SegmentedControl, Segment, SectionLabelProps, SectionLabel, SearchInputProps, SearchInput, RowSkeleton, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, ModalShellProps, ModalShell, MetadataTableProps, MetadataTable, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FilterConfig, FieldProps, Field, ExpandableCardProps, ExpandableCard, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxProps, ComboboxOption, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge };

@@ -43,3 +43,5 @@ export * from './components/Toast';
 export * from './components/Combobox';
 export * from './components/TableFilters';
 export * from './components/ChipPicker';
+export * from './components/SearchInput';
+export * from './components/SegmentedControl';

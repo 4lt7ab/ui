@@ -699,6 +699,58 @@ const [selected, setSelected] = useState<string[]>([]);
 
 When items have a `group` set, they render under `SectionLabel` headers. Ungrouped items render first.
 
+### SearchInput
+
+Debounced text input with a leading search icon and an optional trailing slot for inline controls.
+
+```tsx
+const [query, setQuery] = useState('');
+
+<SearchInput
+  value={query}
+  onSearch={setQuery}
+  debounceMs={300}
+  placeholder="Search..."
+  trailing={<SegmentedControl size="sm" segments={[...]} value={mode} onChange={setMode} />}
+/>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | *required* | Current search value (controlled) |
+| `onSearch` | `(value: string) => void` | *required* | Debounced search callback |
+| `debounceMs` | `number` | `300` | Debounce delay in milliseconds |
+| `placeholder` | `string` | `'Search...'` | Input placeholder text |
+| `trailing` | `ReactNode` | — | Content rendered inside the input on the right |
+
+Extends `InputHTMLAttributes<HTMLInputElement>` (minus `onChange`). The input maintains local state for instant keystroke feedback and debounces the `onSearch` callback.
+
+### SegmentedControl
+
+Generic segmented toggle with a sliding pill indicator. Supports text, icon, or icon+text segments.
+
+```tsx
+<SegmentedControl
+  segments={[
+    { value: 'list', label: 'List' },
+    { value: 'grid', label: 'Grid', icon: 'menu' },
+  ]}
+  value={view}
+  onChange={setView}
+/>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `segments` | `Segment[]` | *required* | Segment definitions |
+| `value` | `string` | *required* | Currently selected segment value |
+| `onChange` | `(value: string) => void` | *required* | Called when a segment is selected |
+| `size` | `'sm' \| 'md'` | `'md'` | Control size |
+
+`Segment`: `{ value: string; label: string; icon?: IconName | string }`
+
+Each segment button has `aria-pressed` for accessibility. The sliding indicator uses CSS transitions and respects `prefers-reduced-motion`. Small enough to fit inside SearchInput's `trailing` slot.
+
 ### SectionLabel
 
 Uppercase section heading for labeling content groups.

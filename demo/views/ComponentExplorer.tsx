@@ -13,6 +13,8 @@ import {
   ComboboxDemo,
   TableFiltersDemo,
   ChipPickerDemo,
+  SearchInputDemo,
+  SegmentedControlDemo,
 } from '../demos';
 
 // ---------------------------------------------------------------------------
@@ -74,6 +76,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'DateRangePicker', source: 'ui', Demo: DateRangePickerDemo },
       { name: 'Combobox', source: 'ui', Demo: ComboboxDemo },
       { name: 'ChipPicker', source: 'ui', Demo: ChipPickerDemo },
+      { name: 'SearchInput', source: 'ui', Demo: SearchInputDemo },
     ],
   },
   {
@@ -85,6 +88,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'IconFont', source: 'ui', Demo: IconFontDemo },
       { name: 'TagChip', source: 'ui', Demo: TagChipDemo },
       { name: 'ThemePicker', source: 'ui', Demo: ThemePickerDemo },
+      { name: 'SegmentedControl', source: 'ui', Demo: SegmentedControlDemo },
     ],
   },
   {

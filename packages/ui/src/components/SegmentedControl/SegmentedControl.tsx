@@ -1,0 +1,164 @@
+import { useRef, useLayoutEffect, useState, useCallback } from 'react';
+import { semantic as t, useInjectStyles } from '@4lt7ab/core';
+import { Icon } from '../Icon';
+import type { IconName } from '../../icons';
+
+/** A single segment definition. */
+export interface Segment {
+  /** Unique value identifying this segment. */
+  value: string;
+  /** Display label — text shown in the segment button. */
+  label: string;
+  /** Optional icon name (built-in registry or icon-font name). */
+  icon?: IconName | (string & {});
+}
+
+/** A generic segmented toggle control with a sliding pill indicator. */
+export interface SegmentedControlProps {
+  /** Segment definitions. */
+  segments: Segment[];
+  /** Currently selected segment value. */
+  value: string;
+  /** Called when the user selects a segment. */
+  onChange: (value: string) => void;
+  /** Control size.
+   * @default 'md'
+   */
+  size?: 'sm' | 'md';
+}
+
+const STYLE_ID = '4lt7ab-segmented-control';
+
+const hoverCSS = `
+  .segmented-ctrl-btn:hover:not([aria-pressed="true"]) {
+    color: ${t.colorText};
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .segmented-ctrl-indicator {
+      transition: none !important;
+    }
+  }
+`;
+
+const sizes = {
+  sm: { height: 28, px: 8, fontSize: 'var(--font-size-xs)', iconSize: 14 },
+  md: { height: 32, px: 12, fontSize: 'var(--font-size-sm)', iconSize: 16 },
+} as const;
+
+export function SegmentedControl({
+  segments,
+  value,
+  onChange,
+  size = 'md',
+}: SegmentedControlProps): React.JSX.Element {
+  useInjectStyles(STYLE_ID, hoverCSS);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [indicator, setIndicator] = useState<{ left: number; width: number } | null>(null);
+  const s = sizes[size];
+
+  const updateIndicator = useCallback(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const activeBtn = container.querySelector<HTMLButtonElement>('[aria-pressed="true"]');
+    if (!activeBtn) {
+      setIndicator(null);
+      return;
+    }
+    const containerRect = container.getBoundingClientRect();
+    const btnRect = activeBtn.getBoundingClientRect();
+    setIndicator({
+      left: btnRect.left - containerRect.left,
+      width: btnRect.width,
+    });
+  }, []);
+
+  // Update indicator position whenever value or segments change
+  useLayoutEffect(() => {
+    updateIndicator();
+  }, [value, segments, updateIndicator]);
+
+  // Also update on resize
+  useLayoutEffect(() => {
+    const observer = new ResizeObserver(() => updateIndicator());
+    if (containerRef.current) observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [updateIndicator]);
+
+  return (
+    <div
+      ref={containerRef}
+      role="group"
+      style={{
+        position: 'relative',
+        display: 'inline-flex',
+        alignItems: 'center',
+        height: s.height,
+        background: t.colorSurfaceInput,
+        borderRadius: t.radiusFull,
+        border: `1px solid ${t.colorBorder}`,
+        padding: 2,
+        boxSizing: 'border-box',
+      }}
+    >
+      {/* Sliding indicator */}
+      {indicator && (
+        <div
+          className="segmented-ctrl-indicator"
+          style={{
+            position: 'absolute',
+            top: 2,
+            left: indicator.left,
+            width: indicator.width,
+            height: s.height - 6,
+            borderRadius: t.radiusFull,
+            background: t.colorActionPrimary,
+            transition: 'left 200ms ease, width 200ms ease',
+            pointerEvents: 'none',
+          }}
+        />
+      )}
+
+      {/* Segment buttons */}
+      {segments.map((seg) => {
+        const isActive = seg.value === value;
+        const hasIcon = !!seg.icon;
+        const iconOnly = hasIcon && !seg.label;
+
+        return (
+          <button
+            key={seg.value}
+            type="button"
+            className="segmented-ctrl-btn"
+            aria-pressed={isActive}
+            onClick={() => onChange(seg.value)}
+            style={{
+              position: 'relative',
+              zIndex: 1,
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 4,
+              height: s.height - 6,
+              padding: iconOnly ? `0 ${s.px - 2}px` : `0 ${s.px}px`,
+              border: 'none',
+              borderRadius: t.radiusFull,
+              background: 'transparent',
+              color: isActive ? t.colorTextInverse : t.colorTextMuted,
+              fontSize: s.fontSize,
+              fontFamily: t.fontSans,
+              fontWeight: isActive ? 600 : 400,
+              cursor: 'pointer',
+              transition: 'color 150ms ease',
+              whiteSpace: 'nowrap',
+              lineHeight: 1,
+            }}
+          >
+            {hasIcon && <Icon name={seg.icon!} size={s.iconSize} />}
+            {seg.label && <span>{seg.label}</span>}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
