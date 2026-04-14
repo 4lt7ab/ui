@@ -68,6 +68,7 @@ export const Icon: React.ForwardRefExoticComponent<Omit<IconProps, 'ref'> & Reac
             height: size,
             fontSize: size,
             lineHeight: 1,
+            overflow: 'hidden',
             color: 'inherit',
             fontStyle: 'normal',
             ...style,
