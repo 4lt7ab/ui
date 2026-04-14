@@ -78,7 +78,7 @@ const defaultIcons: Record<AlertBannerVariant, ReactNode> = {
  * Full-width dismissable notification banner with severity variants.
  * Slides in from the top with a configurable auto-dismiss timer.
  */
-export const AlertBanner = forwardRef<HTMLDivElement, AlertBannerProps>(
+export const AlertBanner: React.ForwardRefExoticComponent<Omit<AlertBannerProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, AlertBannerProps>(
   function AlertBanner(
     { variant, children, onDismiss, autoDismiss, icon, style },
     ref,
