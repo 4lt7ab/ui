@@ -134,7 +134,7 @@ export const ShortcutHelpModal: React.ForwardRefExoticComponent<Omit<ShortcutHel
                         }}
                       >
                         {shortcut.keys.map((key, i) => (
-                          <span key={key} style={{ display: 'inline-flex', alignItems: 'center', gap: t.spaceXs }}>
+                          <span key={`${key}-${i}`} style={{ display: 'inline-flex', alignItems: 'center', gap: t.spaceXs }}>
                             {i > 0 && (
                               <span
                                 style={{

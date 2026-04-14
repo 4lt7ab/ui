@@ -60,7 +60,7 @@ export const PageHeader: React.ForwardRefExoticComponent<Omit<PageHeaderProps, '
         }}
       >
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: t.spaceSm }}>
             {heading}
             {indicator}
           </div>

@@ -6,20 +6,20 @@ import { Overlay } from '../Overlay';
 import type { CSSProperties, ReactNode } from 'react';
 
 /** Shared heading style for modal titles. Used by ConfirmDialog, FormModal, ShortcutHelpModal. */
-export const modalHeadingStyle: React.CSSProperties = {
+export const modalHeadingStyle: React.CSSProperties = Object.freeze({
   margin: 0,
   fontWeight: t.fontWeightSemibold,
   fontFamily: t.fontSans,
   color: t.colorText,
   fontSize: t.fontSizeLg,
-};
+});
 
 /** Shared footer layout for modal action buttons. Used by ConfirmDialog, FormModal. */
-export const modalFooterStyle: React.CSSProperties = {
+export const modalFooterStyle: React.CSSProperties = Object.freeze({
   display: 'flex',
   justifyContent: 'flex-end',
   gap: t.spaceSm,
-};
+});
 
 const FOCUSABLE_SELECTOR = [
   'a[href]',

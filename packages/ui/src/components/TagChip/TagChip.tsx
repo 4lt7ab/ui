@@ -28,7 +28,7 @@ export const TagChip: React.ForwardRefExoticComponent<Omit<TagChipProps, 'ref'> 
         style={{
           display: 'inline-flex',
           alignItems: 'center',
-          gap: 4,
+          gap: t.spaceXs,
           fontSize: t.fontSizeXs,
           color: t.colorActionPrimary,
           background: t.colorSurfaceRaised,
