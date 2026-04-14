@@ -77,6 +77,14 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	* @default 'md'
 	*/
 	size?: ButtonSize;
+	/** Show a loading spinner and disable interaction.
+	* @default false
+	*/
+	loading?: boolean;
+	/** Render as a square icon-only button with equal padding.
+	* @default false
+	*/
+	iconOnly?: boolean;
 	/** Button content. */
 	children: ReactNode;
 }

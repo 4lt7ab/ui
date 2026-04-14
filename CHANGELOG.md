@@ -3,6 +3,8 @@
 ## Unreleased
 
 - Add `animate` prop to StatusDot with `'pulse'` animation and `prefers-reduced-motion` support
+- Add `loading` prop to Button — shows spinner, disables interaction, sets `aria-busy`
+- Add `iconOnly` prop to Button — square aspect ratio with equal padding for icon-only use
 
 ## v0.2.12
 

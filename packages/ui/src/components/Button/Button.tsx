@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { semantic as t } from '@4lt7ab/core';
+import { semantic as t, useInjectStyles } from '@4lt7ab/core';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
 /** Visual style variant for buttons. */
@@ -25,6 +25,14 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    * @default 'md'
    */
   size?: ButtonSize;
+  /** Show a loading spinner and disable interaction.
+   * @default false
+   */
+  loading?: boolean;
+  /** Render as a square icon-only button with equal padding.
+   * @default false
+   */
+  iconOnly?: boolean;
   /** Button content. */
   children: ReactNode;
 }
@@ -82,29 +90,60 @@ const baseStyles: React.CSSProperties = {
   transition: 'background 150ms ease, border-color 150ms ease, opacity 150ms ease',
 };
 
+const SPINNER_STYLES_ID = 'alttab-button-spinner';
+const spinnerCSS = /* css */ `
+  @keyframes alttab-btn-spin {
+    to { transform: rotate(360deg); }
+  }
+  .alttab-btn-spinner {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: alttab-btn-spin 600ms linear infinite;
+  }
+`;
+
+/** Size-based padding values for iconOnly mode (equal padding on all sides). */
+const iconOnlyPadding: Record<ButtonSize, string> = {
+  sm: t.spaceXs,
+  md: t.spaceSm,
+  lg: t.spaceSm,
+};
+
 export const Button: React.ForwardRefExoticComponent<Omit<ButtonProps, 'ref'> & React.RefAttributes<HTMLButtonElement>> = forwardRef<HTMLButtonElement, ButtonProps>(
   function Button({
     variant = 'primary',
     size = 'md',
+    loading = false,
+    iconOnly = false,
     children,
     style,
     disabled,
     ...props
   }, ref): React.JSX.Element {
+    useInjectStyles(SPINNER_STYLES_ID, spinnerCSS);
+
+    const isDisabled = disabled || loading;
+
     return (
       <button
         ref={ref}
+        aria-busy={loading || undefined}
         style={{
           ...baseStyles,
           ...variantStyles[variant],
           ...sizeStyles[size],
-          ...(disabled ? { opacity: 0.5, cursor: 'not-allowed' } : {}),
+          ...(iconOnly ? { padding: iconOnlyPadding[size], aspectRatio: '1', minWidth: 0 } : {}),
+          ...(isDisabled ? { opacity: 0.5, cursor: 'not-allowed' } : {}),
           ...style,
         }}
-        disabled={disabled}
+        disabled={isDisabled}
         {...props}
       >
-        {children}
+        {loading ? <span className="alttab-btn-spinner" /> : children}
       </button>
     );
   }
