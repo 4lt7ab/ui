@@ -57,7 +57,6 @@ export const ShortcutHelpModal: React.ForwardRefExoticComponent<Omit<ShortcutHel
     return (
       <ModalShell ref={ref} onClose={onClose} maxWidth={maxWidth} titleId={titleId}>
         <div data-shortcut-help>
-          {/* Header */}
           <div
             style={{
               display: 'flex',
@@ -80,7 +79,6 @@ export const ShortcutHelpModal: React.ForwardRefExoticComponent<Omit<ShortcutHel
             />
           </div>
 
-          {/* Groups */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: t.spaceLg }}>
             {shortcuts.map((group) => (
               <div key={group.group}>

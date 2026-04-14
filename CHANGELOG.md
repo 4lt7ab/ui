@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+- Decouple `Markdown` from `Prose` — own `.alttab-markdown` CSS namespace, independent styling layer; Prose is no longer imported or required
+- Enhance Markdown link styles — visible underline at 40% opacity by default, full on hover, focus-visible ring
+- Enhance Markdown inline code — `colorSurfaceRaised` background with border pill, `colorTextSecondary` text, word-break support
+- Enhance Markdown code blocks — left accent border in `colorActionPrimary`, increased line-height
+- Enhance Markdown tables — rounded corners, `colorSurfaceRaised` header row, uppercase small-caps headers, row hover highlight
+- Enhance Markdown lists — `colorActionPrimary` bullet/number markers, tightened nested list spacing, flexbox task list alignment
+- Add heading anchors to Markdown — auto-generated `id` slugs, hover-visible link icon, `scroll-margin-top` for sticky headers
+- Add callout blocks to Markdown — GitHub-style `> [!NOTE]`, `> [!TIP]`, `> [!IMPORTANT]`, `> [!WARNING]`, `> [!CAUTION]` with themed colors, icons, and tinted backgrounds
+- Add copy-as-markdown button — top-right icon button copies raw markdown source on hover
+- Add GFM strikethrough styling — muted color for `del` elements
+- Remove unnecessary comments from ShortcutHelpModal
+
 ## v0.2.15
 
 - Add `TopBar` component — app navigation header with title/logo slot, horizontal nav items with active underline + color indicator, trailing slot, and sticky variant

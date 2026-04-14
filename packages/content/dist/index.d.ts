@@ -30,13 +30,18 @@ interface MarkdownProps extends Omit<HTMLAttributes3<HTMLDivElement>, "children"
 	children: string;
 }
 /**
-* Convenience wrapper that renders a markdown string inside a Prose container.
-* Uses react-markdown with the remark-gfm plugin for GitHub Flavored Markdown
-* (tables, strikethrough, autolinks, task lists).
+* Renders a markdown string with its own typographic styles.
 *
-* Code blocks include a copy-to-clipboard button on hover.
+* **Features:**
+* - GitHub Flavored Markdown (tables, strikethrough, autolinks, task lists)
+* - Heading anchors with hover-visible link icons
+* - GitHub-style callout blocks (`> [!NOTE]`, `> [!TIP]`, etc.)
+* - Code blocks with copy-to-clipboard button
+* - Copy-as-markdown button for the entire document
+*
+* Styled independently from Prose — uses the `.alttab-markdown` namespace.
 */
-declare function Markdown({ children,...proseProps }: MarkdownProps): React.JSX.Element;
+declare function Markdown({ children, className,...rest }: MarkdownProps): React.JSX.Element;
 import { ReactNode as ReactNode3 } from "react";
 interface PullQuoteProps {
 	children: ReactNode3;
