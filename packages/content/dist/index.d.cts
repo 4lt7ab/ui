@@ -24,6 +24,17 @@ interface ProseProps extends HTMLAttributes2<HTMLDivElement> {
 	children: ReactNode2;
 }
 declare const Prose: React.ForwardRefExoticComponent<Omit<ProseProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
+import { HTMLAttributes as HTMLAttributes3 } from "react";
+interface MarkdownProps extends Omit<HTMLAttributes3<HTMLDivElement>, "children"> {
+	/** Markdown source text to render. */
+	children: string;
+}
+/**
+* Convenience wrapper that renders a markdown string inside a Prose container.
+* Uses react-markdown with the remark-gfm plugin for GitHub Flavored Markdown
+* (tables, strikethrough, autolinks, task lists).
+*/
+declare function Markdown({ children,...proseProps }: MarkdownProps): React.JSX.Element;
 import { ReactNode as ReactNode3 } from "react";
 interface PullQuoteProps {
 	children: ReactNode3;
@@ -100,4 +111,4 @@ interface ThinkingCycleProps {
 * Usage: Building with AI tools is <ThinkingCycle words={['powerful', 'wild']} />.
 */
 declare const ThinkingCycle: React.ForwardRefExoticComponent<Omit<ThinkingCycleProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
-export { ThinkingCycleProps, ThinkingCycle, SideNoteProps, SideNote, PullQuoteProps, PullQuote, ProseProps, Prose, MarginNoteProps, MarginNote, LinkCardProps, LinkCard, EpigraphProps, Epigraph, ContainerWidth, ContainerProps, Container };
+export { ThinkingCycleProps, ThinkingCycle, SideNoteProps, SideNote, PullQuoteProps, PullQuote, ProseProps, Prose, MarkdownProps, Markdown, MarginNoteProps, MarginNote, LinkCardProps, LinkCard, EpigraphProps, Epigraph, ContainerWidth, ContainerProps, Container };

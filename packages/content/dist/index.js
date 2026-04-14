@@ -1,39 +1,4 @@
-// src/components/Container/Container.tsx
-import { forwardRef } from "react";
-import { jsx } from "react/jsx-runtime";
-var widthMap = {
-  prose: "680px",
-  wide: "900px"
-};
-var Container = forwardRef(function Container2({
-  width = "prose",
-  maxWidth,
-  padding = "1.5rem",
-  children,
-  style,
-  ...props
-}, ref) {
-  return /* @__PURE__ */ jsx("div", {
-    ref,
-    style: {
-      boxSizing: "border-box",
-      width: "100%",
-      maxWidth: maxWidth ?? widthMap[width],
-      marginInline: "auto",
-      paddingInline: padding,
-      overflow: "visible",
-      ...style
-    },
-    ...props,
-    children
-  });
-});
-// src/components/Prose/Prose.tsx
-import { forwardRef as forwardRef2 } from "react";
-import { useInjectStyles } from "../../core/dist/index.js";
-import { jsx as jsx2 } from "react/jsx-runtime";
-var PROSE_STYLES_ID = "alttab-prose-styles";
-var proseCSS = `
+import{forwardRef as k}from"react";import{jsx as j}from"react/jsx-runtime";var b={prose:"680px",wide:"900px"},zJ=k(function({width:J="prose",maxWidth:K,padding:Z="1.5rem",children:U,style:z,...G},F){return j("div",{ref:F,style:{boxSizing:"border-box",width:"100%",maxWidth:K??b[J],marginInline:"auto",paddingInline:Z,overflow:"visible",...z},...G,children:U})});import{forwardRef as S}from"react";import{useInjectStyles as R}from "../../core/dist/index.js";import{jsx as g}from"react/jsx-runtime";var w="alttab-prose-styles",m=`
   /* ── Typography ── */
   .alttab-prose {
     font-size: 1.0625rem;
@@ -280,59 +245,7 @@ var proseCSS = `
   .alttab-prose strong {
     font-weight: 600;
   }
-`;
-var Prose = forwardRef2(function Prose2({
-  children,
-  style,
-  ...props
-}, ref) {
-  useInjectStyles(PROSE_STYLES_ID, proseCSS);
-  return /* @__PURE__ */ jsx2("div", {
-    ref,
-    className: "alttab-prose",
-    style,
-    ...props,
-    children
-  });
-});
-// src/components/PullQuote/PullQuote.tsx
-import { forwardRef as forwardRef3 } from "react";
-import { jsx as jsx3 } from "react/jsx-runtime";
-var PullQuote = forwardRef3(function PullQuote2({ children }, ref) {
-  return /* @__PURE__ */ jsx3("blockquote", {
-    ref,
-    "data-pull-quote": "",
-    children: /* @__PURE__ */ jsx3("p", {
-      children
-    })
-  });
-});
-// src/components/MarginNote/MarginNote.tsx
-import { forwardRef as forwardRef4 } from "react";
-import { jsx as jsx4 } from "react/jsx-runtime";
-var MarginNote = forwardRef4(function MarginNote2({ children }, ref) {
-  return /* @__PURE__ */ jsx4("small", {
-    ref,
-    "data-margin-note": "",
-    children
-  });
-});
-// src/components/SideNote/SideNote.tsx
-import { forwardRef as forwardRef5 } from "react";
-import { jsx as jsx5 } from "react/jsx-runtime";
-var SideNote = forwardRef5(function SideNote2({ children }, ref) {
-  return /* @__PURE__ */ jsx5("small", {
-    ref,
-    "data-side-note": "",
-    children
-  });
-});
-// src/components/Epigraph/Epigraph.tsx
-import { forwardRef as forwardRef6 } from "react";
-import { useInjectStyles as useInjectStyles2 } from "../../core/dist/index.js";
-import { jsx as jsx6, jsxs } from "react/jsx-runtime";
-var STYLES_ID = "alttab-epigraph";
-var epigraphCSS = `
+`,P=S(function({children:J,style:K,...Z},U){return R(w,m),g("div",{ref:U,className:"alttab-prose",style:K,...Z,children:J})});import p from"react-markdown";import u from"remark-gfm";import{jsx as T}from"react/jsx-runtime";function h({children:O,...J}){return T(P,{...J,children:T(p,{remarkPlugins:[u],children:O})})}import{forwardRef as f}from"react";import{jsx as y}from"react/jsx-runtime";var yJ=f(function({children:J},K){return y("blockquote",{ref:K,"data-pull-quote":"",children:y("p",{children:J})})});import{forwardRef as c}from"react";import{jsx as o}from"react/jsx-runtime";var xJ=c(function({children:J},K){return o("small",{ref:K,"data-margin-note":"",children:J})});import{forwardRef as d}from"react";import{jsx as l}from"react/jsx-runtime";var SJ=d(function({children:J},K){return l("small",{ref:K,"data-side-note":"",children:J})});import{forwardRef as n}from"react";import{useInjectStyles as a}from "../../core/dist/index.js";import{jsx as v,jsxs as s}from"react/jsx-runtime";var i="alttab-epigraph",t=`
   .alttab-epigraph {
     border: none;
     border-block: 1px solid var(--color-border);
@@ -360,28 +273,7 @@ var epigraphCSS = `
     font-style: normal;
     color: var(--color-text-muted);
   }
-`;
-var Epigraph = forwardRef6(function Epigraph2({ children, cite }, ref) {
-  useInjectStyles2(STYLES_ID, epigraphCSS);
-  return /* @__PURE__ */ jsxs("blockquote", {
-    ref,
-    className: "alttab-epigraph",
-    children: [
-      /* @__PURE__ */ jsx6("p", {
-        children
-      }),
-      cite && /* @__PURE__ */ jsx6("footer", {
-        children: cite
-      })
-    ]
-  });
-});
-// src/components/LinkCard/LinkCard.tsx
-import { forwardRef as forwardRef7 } from "react";
-import { useInjectStyles as useInjectStyles3 } from "../../core/dist/index.js";
-import { jsx as jsx7, jsxs as jsxs2 } from "react/jsx-runtime";
-var STYLES_ID2 = "alttab-link-card";
-var linkCardCSS = `
+`,pJ=n(function({children:J,cite:K},Z){return a(i,t),s("blockquote",{ref:Z,className:"alttab-epigraph",children:[v("p",{children:J}),K&&v("footer",{children:K})]})});import{forwardRef as r}from"react";import{useInjectStyles as e}from "../../core/dist/index.js";import{jsx as C,jsxs as NJ}from"react/jsx-runtime";var JJ="alttab-link-card",KJ=`
   .alttab-link-card {
     display: block;
     background: var(--color-surface);
@@ -412,40 +304,7 @@ var linkCardCSS = `
     font-size: 0.875rem;
     color: var(--color-text-muted);
   }
-`;
-var LinkCard = forwardRef7(function LinkCard2({
-  title,
-  description,
-  external,
-  children,
-  ...props
-}, ref) {
-  useInjectStyles3(STYLES_ID2, linkCardCSS);
-  return /* @__PURE__ */ jsxs2("a", {
-    ref,
-    className: "alttab-link-card",
-    ...external ? { target: "_blank", rel: "noopener noreferrer" } : {},
-    ...props,
-    children: [
-      /* @__PURE__ */ jsx7("span", {
-        className: "alttab-link-card__title",
-        children: title
-      }),
-      description && /* @__PURE__ */ jsx7("span", {
-        className: "alttab-link-card__desc",
-        children: description
-      }),
-      children
-    ]
-  });
-});
-// src/components/ThinkingCycle/ThinkingCycle.tsx
-import { forwardRef as forwardRef8, useEffect, useRef, useCallback, useImperativeHandle } from "react";
-import { useInjectStyles as useInjectStyles4 } from "../../core/dist/index.js";
-import { jsx as jsx8 } from "react/jsx-runtime";
-var SCRAMBLE_CHARS = "abcdefghijklmnopqrstuvwxyz!?*~+#";
-var STYLES_ID3 = "alttab-thinking-cycle";
-var thinkingCSS = `
+`,oJ=r(function({title:J,description:K,external:Z,children:U,...z},G){return e(JJ,KJ),NJ("a",{ref:G,className:"alttab-link-card",...Z?{target:"_blank",rel:"noopener noreferrer"}:{},...z,children:[C("span",{className:"alttab-link-card__title",children:J}),K&&C("span",{className:"alttab-link-card__desc",children:K}),U]})});import{forwardRef as QJ,useEffect as VJ,useRef as W,useCallback as H,useImperativeHandle as XJ}from"react";import{useInjectStyles as ZJ}from "../../core/dist/index.js";import{jsx as BJ}from"react/jsx-runtime";var M="abcdefghijklmnopqrstuvwxyz!?*~+#",$J="alttab-thinking-cycle",OJ=`
   .alttab-thinking {
     display: inline-block;
     color: var(--color-text-link);
@@ -474,132 +333,4 @@ var thinkingCSS = `
       animation: none;
     }
   }
-`;
-function randomChar() {
-  return SCRAMBLE_CHARS[Math.random() * SCRAMBLE_CHARS.length | 0];
-}
-var ThinkingCycle = forwardRef8(function ThinkingCycle2({
-  words,
-  holdMs = 2000,
-  scrambleTicks = 4,
-  tickMs = 50,
-  staggerMs = 30
-}, ref) {
-  useInjectStyles4(STYLES_ID3, thinkingCSS);
-  const elRef = useRef(null);
-  useImperativeHandle(ref, () => elRef.current);
-  const indexRef = useRef(0);
-  const widthsRef = useRef([]);
-  const timerRef = useRef(null);
-  const intervalRef = useRef(null);
-  const measure = useCallback(() => {
-    const el = elRef.current;
-    if (!el)
-      return;
-    const saved = el.innerHTML;
-    el.style.width = "";
-    const measured = [];
-    for (const w of words) {
-      el.textContent = w;
-      measured.push(Math.ceil(el.getBoundingClientRect().width));
-    }
-    el.innerHTML = saved || "";
-    widthsRef.current = measured;
-    el.style.width = measured[indexRef.current] + "px";
-  }, [words]);
-  const setWord = useCallback((word) => {
-    const el = elRef.current;
-    if (!el)
-      return;
-    el.innerHTML = "";
-    for (let i = 0;i < word.length; i++) {
-      const span = document.createElement("span");
-      span.className = "alttab-char";
-      span.textContent = word[i];
-      span.style.animationDelay = `${i * staggerMs}ms`;
-      el.appendChild(span);
-    }
-  }, [staggerMs]);
-  const scrambleTo = useCallback((target, done) => {
-    const el = elRef.current;
-    if (!el)
-      return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) {
-      el.textContent = target;
-      done();
-      return;
-    }
-    el.innerHTML = "";
-    const chars = [];
-    for (let i = 0;i < target.length; i++) {
-      const span = document.createElement("span");
-      span.className = "alttab-char";
-      span.style.animationDelay = `${i * staggerMs}ms`;
-      span.textContent = target[i] === " " ? " " : randomChar();
-      el.appendChild(span);
-      chars.push({ span, final: target[i], ticks: 0, maxTicks: scrambleTicks + i * 2 });
-    }
-    intervalRef.current = setInterval(() => {
-      let allDone = true;
-      for (const c of chars) {
-        if (c.ticks >= c.maxTicks) {
-          c.span.textContent = c.final;
-        } else {
-          allDone = false;
-          c.ticks++;
-          c.span.textContent = c.final === " " ? " " : randomChar();
-        }
-      }
-      if (allDone) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-        done();
-      }
-    }, tickMs);
-  }, [scrambleTicks, tickMs, staggerMs]);
-  useEffect(() => {
-    if (words.length < 2)
-      return;
-    measure();
-    document.fonts.ready.then(measure);
-    const onFonts = () => measure();
-    document.fonts.addEventListener("loadingdone", onFonts);
-    const observer = new MutationObserver(() => requestAnimationFrame(measure));
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-    indexRef.current = 0;
-    setWord(words[0]);
-    function cycle() {
-      indexRef.current = (indexRef.current + 1) % words.length;
-      const el = elRef.current;
-      if (el)
-        el.style.width = widthsRef.current[indexRef.current] + "px";
-      scrambleTo(words[indexRef.current], () => {
-        timerRef.current = setTimeout(cycle, holdMs);
-      });
-    }
-    timerRef.current = setTimeout(cycle, holdMs);
-    return () => {
-      if (timerRef.current)
-        clearTimeout(timerRef.current);
-      if (intervalRef.current)
-        clearInterval(intervalRef.current);
-      document.fonts.removeEventListener("loadingdone", onFonts);
-      observer.disconnect();
-    };
-  }, [words, holdMs, measure, setWord, scrambleTo]);
-  return /* @__PURE__ */ jsx8("span", {
-    ref: elRef,
-    className: "alttab-thinking"
-  });
-});
-export {
-  ThinkingCycle,
-  SideNote,
-  PullQuote,
-  Prose,
-  MarginNote,
-  LinkCard,
-  Epigraph,
-  Container
-};
+`;function x(){return M[Math.random()*M.length|0]}var iJ=QJ(function({words:J,holdMs:K=2000,scrambleTicks:Z=4,tickMs:U=50,staggerMs:z=30},G){ZJ($J,OJ);let F=W(null);XJ(G,()=>F.current);let A=W(0),L=W([]),D=W(null),Y=W(null),q=H(()=>{let N=F.current;if(!N)return;let X=N.innerHTML;N.style.width="";let Q=[];for(let $ of J)N.textContent=$,Q.push(Math.ceil(N.getBoundingClientRect().width));N.innerHTML=X||"",L.current=Q,N.style.width=Q[A.current]+"px"},[J]),_=H((N)=>{let X=F.current;if(!X)return;X.innerHTML="";for(let Q=0;Q<N.length;Q++){let $=document.createElement("span");$.className="alttab-char",$.textContent=N[Q],$.style.animationDelay=`${Q*z}ms`,X.appendChild($)}},[z]),E=H((N,X)=>{let Q=F.current;if(!Q)return;if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){Q.textContent=N,X();return}Q.innerHTML="";let I=[];for(let B=0;B<N.length;B++){let V=document.createElement("span");V.className="alttab-char",V.style.animationDelay=`${B*z}ms`,V.textContent=N[B]===" "?" ":x(),Q.appendChild(V),I.push({span:V,final:N[B],ticks:0,maxTicks:Z+B*2})}Y.current=setInterval(()=>{let B=!0;for(let V of I)if(V.ticks>=V.maxTicks)V.span.textContent=V.final;else B=!1,V.ticks++,V.span.textContent=V.final===" "?" ":x();if(B)clearInterval(Y.current),Y.current=null,X()},U)},[Z,U,z]);return VJ(()=>{if(J.length<2)return;q(),document.fonts.ready.then(q);let N=()=>q();document.fonts.addEventListener("loadingdone",N);let X=new MutationObserver(()=>requestAnimationFrame(q));X.observe(document.documentElement,{attributes:!0,attributeFilter:["data-theme"]}),A.current=0,_(J[0]);function Q(){A.current=(A.current+1)%J.length;let $=F.current;if($)$.style.width=L.current[A.current]+"px";E(J[A.current],()=>{D.current=setTimeout(Q,K)})}return D.current=setTimeout(Q,K),()=>{if(D.current)clearTimeout(D.current);if(Y.current)clearInterval(Y.current);document.fonts.removeEventListener("loadingdone",N),X.disconnect()}},[J,K,q,_,E]),BJ("span",{ref:F,className:"alttab-thinking"})});export{iJ as ThinkingCycle,SJ as SideNote,yJ as PullQuote,P as Prose,h as Markdown,xJ as MarginNote,oJ as LinkCard,pJ as Epigraph,zJ as Container};

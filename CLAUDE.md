@@ -106,6 +106,7 @@ packages/
 │       ├── components/
 │       │   ├── Container/
 │       │   ├── Prose/
+│       │   ├── Markdown/
 │       │   ├── PullQuote/
 │       │   ├── MarginNote/
 │       │   ├── SideNote/

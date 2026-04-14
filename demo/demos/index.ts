@@ -21,6 +21,7 @@ import { OverlayDemo } from './OverlayDemo';
 import { ConfirmDialogDemo } from './ConfirmDialogDemo';
 import { ContainerDemo } from './ContainerDemo';
 import { ProseDemo } from './ProseDemo';
+import { MarkdownDemo } from './MarkdownDemo';
 import { ThinkingCycleDemo } from './ThinkingCycleDemo';
 import { LinkCardDemo } from './LinkCardDemo';
 import { TableDemo } from './TableDemo';
@@ -104,6 +105,7 @@ export const demos: DemoEntry[] = [
   // ── @4lt7ab/ui/content ──
   { name: 'Container', category: 'Layout', source: 'content', component: ContainerDemo },
   { name: 'Prose', category: 'Layout', source: 'content', component: ProseDemo },
+  { name: 'Markdown', category: 'Layout', source: 'content', component: MarkdownDemo },
   { name: 'Epigraph', category: 'Layout', source: 'content', component: EpigraphDemo },
   { name: 'PullQuote', category: 'Layout', source: 'content', component: PullQuoteDemo },
   { name: 'MarginNote', category: 'Layout', source: 'content', component: MarginNoteDemo },
@@ -120,7 +122,7 @@ export {
   IconButtonDemo, SkeletonDemo, ProgressBarDemo, EmptyStateDemo,
   PaginationDemo, PageHeaderDemo, TagChipDemo, ExpandableCardDemo,
   ModalDemo, OverlayDemo, ConfirmDialogDemo, ContainerDemo,
-  ProseDemo, ThinkingCycleDemo, LinkCardDemo, TableDemo,
+  ProseDemo, MarkdownDemo, ThinkingCycleDemo, LinkCardDemo, TableDemo,
   StatusDotDemo, ThemePickerDemo, EpigraphDemo, PullQuoteDemo,
   MarginNoteDemo, SideNoteDemo, DateRangePickerDemo, DatePickerDemo,
   MetadataTableDemo,

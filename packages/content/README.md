@@ -13,7 +13,7 @@ Layout and prose components for blogs, docs, and reading-oriented pages.
 }
 ```
 
-Peer dependencies: `@4lt7ab/core`, `react`, `react-dom` ^19.0.0.
+Peer dependencies: `@4lt7ab/core`, `react`, `react-dom` ^19.0.0, `react-markdown` ^9.0.0, `remark-gfm` ^4.0.0.
 
 `@4lt7ab/core` is required — content components consume its semantic tokens and must be rendered inside a `ThemeProvider`. `@4lt7ab/ui` is not needed unless you want interactive components alongside your content.
 
@@ -79,6 +79,22 @@ Typography system for long-form content. Automatically styles headings, paragrap
 | `children` | `ReactNode` | *required* | HTML content to style |
 
 Extends `HTMLAttributes<HTMLDivElement>`.
+
+### Markdown
+
+Convenience wrapper that renders a markdown string inside a Prose container with GitHub Flavored Markdown support (tables, strikethrough, task lists, autolinks).
+
+```tsx
+<Markdown>{markdownString}</Markdown>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `string` | *required* | Markdown source text |
+
+Extends `HTMLAttributes<HTMLDivElement>` (all props passed through to Prose).
+
+Peer dependencies: `react-markdown` ^9.0.0, `remark-gfm` ^4.0.0.
 
 ### PullQuote
 

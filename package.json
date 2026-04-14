@@ -35,6 +35,8 @@
     "bunup": "0.16.31",
     "react": "19.2.5",
     "react-dom": "19.2.5",
+    "react-markdown": "^9.0.0",
+    "remark-gfm": "^4.0.0",
     "typescript": "5.9.3",
     "vite": "8.0.8"
   },
