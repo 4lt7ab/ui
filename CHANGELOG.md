@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.17
+
 - Add `colorSurfaceSolid` token — opaque counterpart to `colorSurface` for canvas themes where `colorSurface` is transparent; static themes alias to `colorSurface`
 - Card component uses `colorSurfaceSolid` instead of `colorSurface` for readable backgrounds on animated themes
 
