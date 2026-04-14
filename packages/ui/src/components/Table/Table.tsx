@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, Children, isValidElement, cloneElement } from 'react';
 import { semantic as t } from '@4lt7ab/core';
 import { useInjectStyles } from '@4lt7ab/core';
 import type { HTMLAttributes, TdHTMLAttributes, ThHTMLAttributes, ReactNode, CSSProperties, KeyboardEvent } from 'react';
@@ -41,10 +41,11 @@ export interface TableProps extends HTMLAttributes<HTMLDivElement> {
 
 const TABLE_STYLES_ID = '4lt7ab-table-row';
 const TABLE_STYLES_CSS = `
-[data-table-row-hoverable]:hover {
-  background: ${t.colorSurfaceRaised} !important;
+[data-table-row-hoverable]:hover > td {
+  background: color-mix(in srgb, ${t.colorText} 8%, transparent);
 }
 [data-table-row-selected] > td {
+  background: ${t.colorSurfaceRaised};
   border-bottom-color: ${t.colorSurfaceRaised};
 }
 [data-table-row-selected] > td:first-child {
@@ -188,7 +189,36 @@ export interface TableBodyProps extends HTMLAttributes<HTMLTableSectionElement> 
 
 export const TableBody: React.ForwardRefExoticComponent<Omit<TableBodyProps, 'ref'> & React.RefAttributes<HTMLTableSectionElement>> = forwardRef<HTMLTableSectionElement, TableBodyProps>(
   function TableBody({ children, ...props }, ref): React.JSX.Element {
-    return <tbody ref={ref} {...props}>{children}</tbody>;
+    // Apply zebra-stripe backgrounds to even data rows via inline styles on <td>.
+    // CSS-based nth-child doesn't reliably paint <tr> backgrounds in all browsers.
+    let dataRowIndex = 0;
+    const styledChildren = Children.map(children, (child) => {
+      if (!isValidElement(child)) return child;
+
+      const childProps = child.props as { selected?: boolean; children?: ReactNode };
+
+      // Skip group headers and empty rows (they aren't data rows)
+      if (child.type === TableGroupHeader || child.type === TableEmptyRow) {
+        return child;
+      }
+
+      const isEven = dataRowIndex % 2 === 1;
+      dataRowIndex++;
+
+      if (!isEven || childProps.selected) return child;
+
+      // Apply background to each <td> in the even row
+      const cells = Children.map(childProps.children, (cell) => {
+        if (!isValidElement(cell)) return cell;
+        const cellStyle = (cell.props as { style?: CSSProperties }).style;
+        return cloneElement(cell as React.ReactElement<{ style?: CSSProperties }>, {
+          style: { ...cellStyle, background: 'color-mix(in srgb, var(--color-text) 5%, transparent)' },
+        });
+      });
+      return cloneElement(child as React.ReactElement, {}, cells);
+    });
+
+    return <tbody ref={ref} {...props}>{styledChildren}</tbody>;
   }
 );
 
@@ -240,8 +270,6 @@ export const TableRow: React.ForwardRefExoticComponent<Omit<TableRowProps, 'ref'
         onKeyDown={handleKeyDown}
         style={{
           cursor: onClick ? 'pointer' : undefined,
-          background: selected ? t.colorSurfaceRaised : undefined,
-          transition: 'background 0.1s',
           ...style,
         }}
         {...props}

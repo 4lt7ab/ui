@@ -12,6 +12,10 @@
 - Add callout blocks to Markdown — GitHub-style `> [!NOTE]`, `> [!TIP]`, `> [!IMPORTANT]`, `> [!WARNING]`, `> [!CAUTION]` with themed colors, icons, and tinted backgrounds
 - Add copy-as-markdown button — top-right icon button copies raw markdown source on hover
 - Add GFM strikethrough styling — muted color for `del` elements
+- Add zebra-striped table rows to Markdown and Table components — uses `color-mix(in srgb, var(--color-text) 5%, transparent)` for visible contrast across all themes
+- Fix Table hover highlight — was using invisible `colorSurfaceRaised`, now uses `color-mix` at 8% for clear feedback
+- Move Table row backgrounds from `<tr>` to `<td>` elements for cross-browser reliability
+- Remove dead `transition: 'background 0.1s'` from TableRow inline style
 - Remove unnecessary comments from ShortcutHelpModal
 
 ## v0.2.15

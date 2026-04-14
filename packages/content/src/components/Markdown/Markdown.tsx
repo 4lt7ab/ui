@@ -653,10 +653,6 @@ const markdownCSS = /* css */ `
     border-bottom: none;
   }
 
-  .alttab-markdown tbody tr:hover {
-    background: var(--color-surface-raised);
-  }
-
   /* ── Strong ── */
   .alttab-markdown strong {
     font-weight: 600;
@@ -706,12 +702,42 @@ const markdownCSS = /* css */ `
 `;
 
 // ---------------------------------------------------------------------------
+// MarkdownTbody — zebra-striped table body via inline styles
+// ---------------------------------------------------------------------------
+
+function MarkdownTbody({ children }: { children?: ReactNode }): React.JSX.Element {
+  let rowIndex = 0;
+  const styledChildren = Children.map(children, (child) => {
+    if (!isValidElement(child)) return child;
+    const isEven = rowIndex % 2 === 1;
+    rowIndex++;
+    if (!isEven) return child;
+
+    // Apply background to each <td> in the even row
+    const cells = Children.map(
+      (child as React.ReactElement<{ children?: ReactNode }>).props.children,
+      (cell) => {
+        if (!isValidElement(cell)) return cell;
+        const cellProps = cell.props as { style?: React.CSSProperties };
+        return cloneElement(cell as React.ReactElement<{ style?: React.CSSProperties }>, {
+          style: { ...cellProps.style, background: 'color-mix(in srgb, var(--color-text) 5%, transparent)' },
+        });
+      },
+    );
+    return cloneElement(child as React.ReactElement, {}, cells);
+  });
+
+  return <tbody>{styledChildren}</tbody>;
+}
+
+// ---------------------------------------------------------------------------
 // Component overrides for react-markdown
 // ---------------------------------------------------------------------------
 
 const mdComponents = {
   pre: CodeBlock,
   blockquote: Blockquote,
+  tbody: MarkdownTbody,
   h1: ({ children }: { children?: ReactNode }) => <HeadingAnchor level={1}>{children}</HeadingAnchor>,
   h2: ({ children }: { children?: ReactNode }) => <HeadingAnchor level={2}>{children}</HeadingAnchor>,
   h3: ({ children }: { children?: ReactNode }) => <HeadingAnchor level={3}>{children}</HeadingAnchor>,
