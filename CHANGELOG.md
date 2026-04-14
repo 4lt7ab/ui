@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add `loading` prop to Button — shows spinner, disables interaction, sets `aria-busy`
+- Add `iconOnly` prop to Button — square aspect ratio with equal padding for icon-only use
+
 ## v0.2.12
 
 - Fix `@4lt7ab/ui` dist importing `jsxDEV` from `react/jsx-dev-runtime` instead of `jsx` from `react/jsx-runtime`, causing white-screen crash in production builds of consuming apps

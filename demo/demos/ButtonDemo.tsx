@@ -1,4 +1,4 @@
-import { Button, Stack } from '@4lt7ab/ui';
+import { Button, Icon, Stack } from '@4lt7ab/ui';
 import type { ButtonVariant, ButtonSize } from '@4lt7ab/ui';
 
 const variants: ButtonVariant[] = ['primary', 'secondary', 'destructive', 'ghost'];
@@ -31,6 +31,27 @@ export function ButtonDemo(): React.JSX.Element {
           {variants.map((v) => (
             <Button key={v} variant={v} disabled>{v}</Button>
           ))}
+        </Stack>
+      </Stack>
+
+      <Stack gap="sm">
+        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Loading</h3>
+        <Stack direction="horizontal" gap="sm" wrap align="center">
+          {variants.map((v) => (
+            <Button key={v} variant={v} loading>{v}</Button>
+          ))}
+        </Stack>
+      </Stack>
+
+      <Stack gap="sm">
+        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Icon Only</h3>
+        <Stack direction="horizontal" gap="sm" wrap align="center">
+          {variants.map((v) => (
+            <Button key={v} variant={v} iconOnly aria-label={`${v} action`}>
+              <Icon name="settings" size={18} />
+            </Button>
+          ))}
+          <Button variant="primary" iconOnly loading aria-label="loading action" />
         </Stack>
       </Stack>
 
