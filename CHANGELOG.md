@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Fix Select dropdown positioning — replace native `<select>` dropdown with custom listbox that opens below or above the trigger based on available viewport space
 - Fix ThemeSurface `global` prop not setting `body.style.color` — components using `currentColor` (icons, Card content) rendered black on dark themes
 - Add `color: var(--color-text)` to Card as defense-in-depth for `currentColor` inheritance
 

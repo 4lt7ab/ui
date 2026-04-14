@@ -192,7 +192,7 @@ interface SelectOption {
 	/** Whether this option is disabled. */
 	disabled?: boolean;
 }
-/** A native dropdown select with custom chevron styling. */
+/** A custom dropdown select with viewport-aware positioning. */
 interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "children"> {
 	/** Options to render. Ignored when `children` is provided. */
 	options?: SelectOption[];
