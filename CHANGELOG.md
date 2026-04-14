@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add `ErrorBoundary` component to `@4lt7ab/ui` — themed error boundary with default fallback UI, optional stack trace, retry button, and custom fallback render prop
+
 ## v0.2.12
 
 - Fix `@4lt7ab/ui` dist importing `jsxDEV` from `react/jsx-dev-runtime` instead of `jsx` from `react/jsx-runtime`, causing white-screen crash in production builds of consuming apps

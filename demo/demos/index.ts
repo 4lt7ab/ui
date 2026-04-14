@@ -32,6 +32,7 @@ import { MarginNoteDemo } from './MarginNoteDemo';
 import { SideNoteDemo } from './SideNoteDemo';
 import { DateRangePickerDemo } from './DateRangePickerDemo';
 import { DatePickerDemo } from './DatePickerDemo';
+import { ErrorBoundaryDemo } from './ErrorBoundaryDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -70,6 +71,7 @@ export const demos: DemoEntry[] = [
   { name: 'Modal', category: 'Feedback', source: 'ui', component: ModalDemo },
   { name: 'Overlay', category: 'Feedback', source: 'ui', component: OverlayDemo },
   { name: 'ConfirmDialog', category: 'Feedback', source: 'ui', component: ConfirmDialogDemo },
+  { name: 'ErrorBoundary', category: 'Feedback', source: 'ui', component: ErrorBoundaryDemo },
 
   // Form
   { name: 'Field', category: 'Form', source: 'ui', component: FieldDemo },
@@ -101,4 +103,5 @@ export {
   ProseDemo, ThinkingCycleDemo, LinkCardDemo, TableDemo,
   StatusDotDemo, ThemePickerDemo, EpigraphDemo, PullQuoteDemo,
   MarginNoteDemo, SideNoteDemo, DateRangePickerDemo, DatePickerDemo,
+  ErrorBoundaryDemo,
 };
