@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.14
+
 - Add `SectionLabel` component — uppercase section heading for labeling content groups (fontSizeXs, letterSpacingWide, colorTextSecondary)
 - Add `color` prop to Badge for custom color overrides — enables domain-specific variants without forking the component
 - Add icon font fallback to `Icon` — unregistered names render via a configurable `fontClass` prop (e.g. Material Symbols)
