@@ -13,6 +13,7 @@ export const pipboyTheme: ThemeDefinition = {
     colorTextDisabled: '#1a4a1a',
 
     colorSurface: 'transparent',
+    colorSurfaceSolid: '#0a0a0a',
     colorSurfacePanel: '#0a0a0a',
     colorSurfaceRaised: 'rgba(10, 10, 10, 0.85)',
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.9)',

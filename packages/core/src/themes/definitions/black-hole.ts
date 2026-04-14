@@ -15,6 +15,7 @@ export const blackHoleTheme: ThemeDefinition = {
 
     // ── Surfaces ──
     colorSurface: 'transparent',
+    colorSurfaceSolid: '#08070d',
     colorSurfacePanel: '#08070d',
     colorSurfaceRaised: 'rgba(16, 14, 24, 0.85)',
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.92)',

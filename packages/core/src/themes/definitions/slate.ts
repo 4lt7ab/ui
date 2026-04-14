@@ -15,6 +15,7 @@ export const slateTheme: ThemeDefinition = {
 
     // Surfaces
     colorSurface: '#1a1d24',
+    colorSurfaceSolid: '#1a1d24',
     colorSurfacePanel: '#1a1d24',
     colorSurfaceRaised: '#22262e',
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.7)',

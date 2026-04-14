@@ -15,6 +15,7 @@ export const warmSandTheme: ThemeDefinition = {
 
     // Surfaces
     colorSurface: '#1c1917',
+    colorSurfaceSolid: '#1c1917',
     colorSurfacePanel: '#1c1917',
     colorSurfaceRaised: '#252220',
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.7)',

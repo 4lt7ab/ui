@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add `colorSurfaceSolid` token — opaque counterpart to `colorSurface` for canvas themes where `colorSurface` is transparent; static themes alias to `colorSurface`
+- Card component uses `colorSurfaceSolid` instead of `colorSurface` for readable backgrounds on animated themes
+
 ## v0.2.16
 
 - Decouple `Markdown` from `Prose` — own `.alttab-markdown` CSS namespace, independent styling layer; Prose is no longer imported or required

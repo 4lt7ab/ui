@@ -15,6 +15,7 @@ export const coralTheme: ThemeDefinition = {
 
     // Surfaces
     colorSurface: '#1f1714',
+    colorSurfaceSolid: '#1f1714',
     colorSurfacePanel: '#1f1714',
     colorSurfaceRaised: '#291f1b',
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.7)',

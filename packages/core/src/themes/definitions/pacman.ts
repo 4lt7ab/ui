@@ -13,6 +13,7 @@ export const pacmanTheme: ThemeDefinition = {
     colorTextDisabled: '#333366',
 
     colorSurface: 'transparent',
+    colorSurfaceSolid: '#000000',
     colorSurfacePanel: '#000000',
     colorSurfaceRaised: 'rgba(0, 0, 0, 0.85)',
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.9)',

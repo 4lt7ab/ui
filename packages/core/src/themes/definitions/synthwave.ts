@@ -15,6 +15,7 @@ export const synthwaveTheme: ThemeDefinition = {
 
     // Surfaces — base is transparent so canvas shows through layouts
     colorSurface: 'transparent',
+    colorSurfaceSolid: '#0c081c',
     colorSurfacePanel: '#0c081c',
     colorSurfaceRaised: 'rgba(12, 8, 28, 0.75)',
     colorSurfaceOverlay: 'rgba(6, 2, 15, 0.9)',

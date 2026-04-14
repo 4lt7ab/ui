@@ -13,6 +13,7 @@ export const neuralTheme: ThemeDefinition = {
     colorTextDisabled: '#3a4a5a',
 
     colorSurface: 'transparent',
+    colorSurfaceSolid: '#0a0a1a',
     colorSurfacePanel: '#0a0a1a',
     colorSurfaceRaised: 'rgba(10, 10, 26, 0.85)',
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.9)',

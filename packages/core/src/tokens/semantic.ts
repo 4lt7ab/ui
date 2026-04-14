@@ -30,6 +30,8 @@ export const semantic = {
   colorSurface: 'var(--color-surface)',
   /** Side panel and navigation background. */
   colorSurfacePanel: 'var(--color-surface-panel)',
+  /** Opaque counterpart to colorSurface. */
+  colorSurfaceSolid: 'var(--color-surface-solid)',
   /** Slightly elevated surface for hover states and nested containers. */
   colorSurfaceRaised: 'var(--color-surface-raised)',
   /** Semi-transparent backdrop behind modals and drawers. */

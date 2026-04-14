@@ -40,7 +40,7 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
 
 const variantStyles: Record<CardVariant, React.CSSProperties> = {
   default: {
-    background: t.colorSurface,
+    background: t.colorSurfaceSolid,
     border: `1px solid ${t.colorBorder}`,
     boxShadow: t.shadowSm,
   },
@@ -50,12 +50,12 @@ const variantStyles: Record<CardVariant, React.CSSProperties> = {
     boxShadow: 'none',
   },
   elevated: {
-    background: t.colorSurface,
+    background: t.colorSurfaceSolid,
     border: `1px solid ${t.colorBorder}`,
     boxShadow: t.shadowMd,
   },
   live: {
-    background: t.colorSurface,
+    background: t.colorSurfaceSolid,
     border: `1px solid ${t.colorBorderFocused}`,
     boxShadow: t.shadowSm,
   },

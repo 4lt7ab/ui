@@ -30,6 +30,8 @@ export interface ThemeTokens {
   colorSurface: string;
   /** Background for side panels and navigation. */
   colorSurfacePanel: string;
+  /** Opaque counterpart to colorSurface. Identical on static themes; fully opaque on canvas themes where colorSurface is transparent. */
+  colorSurfaceSolid: string;
   /** Slightly elevated surface for hover states and nested containers. */
   colorSurfaceRaised: string;
   /** Semi-transparent backdrop behind modals and drawers. */

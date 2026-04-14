@@ -15,6 +15,7 @@ export const mossTheme: ThemeDefinition = {
 
     // Surfaces
     colorSurface: '#141a14',
+    colorSurfaceSolid: '#141a14',
     colorSurfacePanel: '#141a14',
     colorSurfaceRaised: '#1c231c',
     colorSurfaceOverlay: 'rgba(0, 0, 0, 0.7)',
