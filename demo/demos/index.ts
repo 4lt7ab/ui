@@ -32,6 +32,7 @@ import { MarginNoteDemo } from './MarginNoteDemo';
 import { SideNoteDemo } from './SideNoteDemo';
 import { DateRangePickerDemo } from './DateRangePickerDemo';
 import { DatePickerDemo } from './DatePickerDemo';
+import { MetadataTableDemo } from './MetadataTableDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -53,6 +54,7 @@ export const demos: DemoEntry[] = [
   { name: 'ExpandableCard', category: 'Layout', source: 'ui', component: ExpandableCardDemo },
   { name: 'PageHeader', category: 'Layout', source: 'ui', component: PageHeaderDemo },
   { name: 'Table', category: 'Layout', source: 'ui', component: TableDemo },
+  { name: 'MetadataTable', category: 'Layout', source: 'ui', component: MetadataTableDemo },
   { name: 'Skeleton', category: 'Layout', source: 'ui', component: SkeletonDemo },
 
   // Action
@@ -101,4 +103,5 @@ export {
   ProseDemo, ThinkingCycleDemo, LinkCardDemo, TableDemo,
   StatusDotDemo, ThemePickerDemo, EpigraphDemo, PullQuoteDemo,
   MarginNoteDemo, SideNoteDemo, DateRangePickerDemo, DatePickerDemo,
+  MetadataTableDemo,
 };

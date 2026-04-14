@@ -489,6 +489,25 @@ Compound table component supporting row selection, hover states, group headers, 
 
 **TableGroupHeader** and **TableEmptyRow** both require a `colSpan` number.
 
+### MetadataTable
+
+Vertical list of label/value pairs with optional section title. Common for detail pages.
+
+```tsx
+<MetadataTable
+  title="User Profile"
+  items={[
+    { label: 'Name', value: 'Ada Lovelace' },
+    { label: 'Role', value: <Badge variant="info">Admin</Badge> },
+  ]}
+/>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `Array<{ label: string; value: ReactNode }>` | required | Label/value pairs to display |
+| `title` | `string` | — | Optional section heading |
+
 ### StatusDot
 
 Colored dot for status indicators.
