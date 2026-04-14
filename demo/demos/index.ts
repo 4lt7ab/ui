@@ -65,7 +65,7 @@ export const demos: DemoEntry[] = [
   { name: 'Button', category: 'Action', source: 'ui', component: ButtonDemo },
   { name: 'Icon', category: 'Action', source: 'ui', component: IconDemo },
   { name: 'IconButton', category: 'Action', source: 'ui', component: IconButtonDemo },
-  { name: 'Icon Font', category: 'Action', source: 'ui', component: IconFontDemo },
+  { name: 'IconFont', category: 'Action', source: 'ui', component: IconFontDemo },
   { name: 'TagChip', category: 'Action', source: 'ui', component: TagChipDemo },
   { name: 'Pagination', category: 'Navigation', source: 'ui', component: PaginationDemo },
 

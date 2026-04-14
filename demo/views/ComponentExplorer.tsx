@@ -77,7 +77,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'Button', source: 'ui', Demo: ButtonDemo },
       { name: 'Icon', source: 'ui', Demo: IconDemo },
       { name: 'IconButton', source: 'ui', Demo: IconButtonDemo },
-      { name: 'Icon Font', source: 'ui', Demo: IconFontDemo },
+      { name: 'IconFont', source: 'ui', Demo: IconFontDemo },
       { name: 'TagChip', source: 'ui', Demo: TagChipDemo },
       { name: 'ThemePicker', source: 'ui', Demo: ThemePickerDemo },
     ],
