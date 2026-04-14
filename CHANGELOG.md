@@ -7,6 +7,8 @@
 - Add `iconOnly` prop to Button — square aspect ratio with equal padding for icon-only use
 - Add `hover` prop to Card for interactive hover state (border highlight + translateY lift)
 - Add `live` variant to Card with pulsing border glow animation (respects prefers-reduced-motion)
+- Add `indicator` ReactNode prop to PageHeader for rendering badges or status dots next to the title
+- Add `prefix` string prop to TagChip for categorized tags like "lang: typescript"
 
 ## v0.2.12
 

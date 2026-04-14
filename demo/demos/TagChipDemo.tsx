@@ -16,6 +16,15 @@ export function TagChipDemo(): React.JSX.Element {
       </Stack>
 
       <Stack gap="sm">
+        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Prefixed tags</h3>
+        <Stack direction="horizontal" gap="xs" wrap>
+          <TagChip prefix="lang" name="typescript" />
+          <TagChip prefix="status" name="active" />
+          <TagChip prefix="env" name="production" />
+        </Stack>
+      </Stack>
+
+      <Stack gap="sm">
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Removable tags</h3>
         <Stack direction="horizontal" gap="xs" wrap>
           {tags.map((tag) => (

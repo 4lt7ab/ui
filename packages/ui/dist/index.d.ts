@@ -118,13 +118,14 @@ declare const Stack: React.ForwardRefExoticComponent<Omit<StackProps, "ref"> & R
 import { HTMLAttributes as HTMLAttributes3, ReactNode as ReactNode3 } from "react";
 type SpacingToken2 = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 /** Visual treatment for the Card surface. */
-type CardVariant = "default" | "flat" | "elevated";
+type CardVariant = "default" | "flat" | "elevated" | "live";
 /** A contained surface for grouping related content. */
 interface CardProps extends HTMLAttributes3<HTMLDivElement> {
 	/** Visual treatment.
 	* - `default` — standard surface with border and small shadow
 	* - `flat` — raised background with border, no shadow
 	* - `elevated` — standard surface with border and medium shadow
+	* - `live` — subtle pulse/glow animation on the border for real-time or active state
 	* @default 'default'
 	*/
 	variant?: CardVariant;
@@ -132,6 +133,10 @@ interface CardProps extends HTMLAttributes3<HTMLDivElement> {
 	* @default 'lg'
 	*/
 	padding?: SpacingToken2;
+	/** Enable interactive hover state with border highlight and lift effect.
+	* @default false
+	*/
+	hover?: boolean;
 	/** Card content. */
 	children: ReactNode3;
 }
@@ -371,6 +376,8 @@ interface PageHeaderProps {
 	title: string;
 	/** Secondary text rendered below the title in muted style. */
 	subtitle?: string;
+	/** Inline indicator rendered next to the title (e.g. Badge or StatusDot). */
+	indicator?: ReactNode8;
 	/** Content aligned to the right of the header (e.g. action buttons). */
 	trailing?: ReactNode8;
 	/** Additional inline styles for the wrapper. */
@@ -388,6 +395,8 @@ import { CSSProperties as CSSProperties11 } from "react";
 interface TagChipProps {
 	/** Tag display text. */
 	name: string;
+	/** Optional prefix rendered before the label in muted color (e.g. "lang" in "lang: typescript"). */
+	prefix?: string;
 	/** When provided, renders a close button that calls this handler on click. */
 	onRemove?: () => void;
 	/** Additional inline styles. */
@@ -475,6 +484,8 @@ declare const ConfirmDialog: React.ForwardRefExoticComponent<Omit<ConfirmDialogP
 import { CSSProperties as CSSProperties14 } from "react";
 /** Semantic color variant for the status dot. */
 type StatusDotVariant = "default" | "success" | "warning" | "error" | "info";
+/** Animation style for the status dot. */
+type StatusDotAnimate = "pulse" | "none";
 /** A small colored circle indicating status. */
 interface StatusDotProps {
 	/** Semantic variant — maps to feedback tokens. */
@@ -483,6 +494,8 @@ interface StatusDotProps {
 	color?: string;
 	/** Dot diameter in pixels. @default 8 */
 	size?: number;
+	/** Animation style. @default 'none' */
+	animate?: StatusDotAnimate;
 	/** Accessible label describing the status. */
 	"aria-label"?: string;
 	style?: CSSProperties14;
@@ -659,4 +672,4 @@ interface DatePickerProps {
 	style?: React.CSSProperties;
 }
 declare const DatePicker: React.ForwardRefExoticComponent<Omit<DatePickerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-export { useFocusTrap, iconRegistry, ThemeSurfaceProps, ThemeSurface, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, SelectProps, SelectOption, Select, RowSkeleton, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, ModalShellProps, ModalShell, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FieldProps, Field, ExpandableCardProps, ExpandableCard, EmptyStateProps, EmptyState, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge };
+export { useFocusTrap, iconRegistry, ThemeSurfaceProps, ThemeSurface, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, SelectProps, SelectOption, Select, RowSkeleton, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, ModalShellProps, ModalShell, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FieldProps, Field, ExpandableCardProps, ExpandableCard, EmptyStateProps, EmptyState, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge };

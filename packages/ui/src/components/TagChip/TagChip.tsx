@@ -7,6 +7,8 @@ import type { CSSProperties } from 'react';
 export interface TagChipProps {
   /** Tag display text. */
   name: string;
+  /** Optional prefix rendered before the label in muted color (e.g. "lang" in "lang: typescript"). */
+  prefix?: string;
   /** When provided, renders a close button that calls this handler on click. */
   onRemove?: () => void;
   /** Additional inline styles. */
@@ -16,6 +18,7 @@ export interface TagChipProps {
 export const TagChip: React.ForwardRefExoticComponent<Omit<TagChipProps, 'ref'> & React.RefAttributes<HTMLSpanElement>> = forwardRef<HTMLSpanElement, TagChipProps>(
   function TagChip({
     name,
+    prefix,
     onRemove,
     style,
   }, ref): React.JSX.Element {
@@ -35,6 +38,7 @@ export const TagChip: React.ForwardRefExoticComponent<Omit<TagChipProps, 'ref'> 
           ...style,
         }}
       >
+        {prefix && <span style={{ color: t.colorTextMuted }}>{prefix}:</span>}
         {name}
         {onRemove && (
           <IconButton
