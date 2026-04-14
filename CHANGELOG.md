@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.16
+
 - Decouple `Markdown` from `Prose` — own `.alttab-markdown` CSS namespace, independent styling layer; Prose is no longer imported or required
 - Enhance Markdown link styles — visible underline at 40% opacity by default, full on hover, focus-visible ring
 - Enhance Markdown inline code — `colorSurfaceRaised` background with border pill, `colorTextSecondary` text, word-break support
