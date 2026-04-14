@@ -1,5 +1,6 @@
 // src/ThemeBackground.tsx
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useTheme } from "../../core/dist/index.js";
 
 // src/backgrounds/synthwave.ts
@@ -921,8 +922,75 @@ function blackHoleBackground(canvas) {
   };
 }
 
+// src/backgrounds/static.ts
+function slateStaticBackground() {
+  return [
+    "background: linear-gradient(",
+    "  160deg,",
+    "  var(--color-surface-page) 0%,",
+    "  var(--color-surface-raised) 40%,",
+    "  color-mix(in srgb, var(--color-action-primary) 6%, var(--color-surface-page)) 70%,",
+    "  var(--color-surface-page) 100%",
+    ");"
+  ].join(`
+`);
+}
+function warmSandStaticBackground() {
+  return [
+    "background: linear-gradient(",
+    "  135deg,",
+    "  var(--color-surface-page) 0%,",
+    "  color-mix(in srgb, var(--color-action-primary) 8%, var(--color-surface-page)) 35%,",
+    "  var(--color-surface-raised) 60%,",
+    "  var(--color-surface-page) 100%",
+    ");"
+  ].join(`
+`);
+}
+function mossStaticBackground() {
+  return [
+    "background:",
+    "  radial-gradient(",
+    "    ellipse at 20% 80%,",
+    "    color-mix(in srgb, var(--color-action-primary) 10%, var(--color-surface-page)) 0%,",
+    "    transparent 60%",
+    "  ),",
+    "  linear-gradient(",
+    "    170deg,",
+    "    var(--color-surface-page) 0%,",
+    "    var(--color-surface-raised) 50%,",
+    "    var(--color-surface-page) 100%",
+    "  );"
+  ].join(`
+`);
+}
+function coralStaticBackground() {
+  return [
+    "background:",
+    "  radial-gradient(",
+    "    ellipse at 80% 20%,",
+    "    color-mix(in srgb, var(--color-action-primary) 10%, var(--color-surface-page)) 0%,",
+    "    transparent 55%",
+    "  ),",
+    "  linear-gradient(",
+    "    200deg,",
+    "    var(--color-surface-page) 0%,",
+    "    var(--color-surface-raised) 45%,",
+    "    var(--color-surface-page) 100%",
+    "  );"
+  ].join(`
+`);
+}
+var staticBackgroundRegistry = {
+  slate: slateStaticBackground,
+  "warm-sand": warmSandStaticBackground,
+  moss: mossStaticBackground,
+  coral: coralStaticBackground
+};
+
 // src/ThemeBackground.tsx
-var backgroundRegistry = {
+import { jsx } from "react/jsx-runtime";
+var canvasBackgroundRegistry = {
   synthwave: synthwaveBackground,
   pipboy: pipboyBackground,
   neural: neuralBackground,
@@ -933,6 +1001,7 @@ function ThemeBackground(_props) {
   const { resolved } = useTheme();
   const bgContainerRef = useRef(null);
   const bgCleanupRef = useRef(null);
+  const [fallbackPortalTarget, setFallbackPortalTarget] = useState(null);
   useEffect(() => {
     if (bgCleanupRef.current) {
       bgCleanupRef.current();
@@ -942,20 +1011,44 @@ function ThemeBackground(_props) {
       bgContainerRef.current.remove();
       bgContainerRef.current = null;
     }
-    const backgroundFn = backgroundRegistry[resolved];
-    if (!backgroundFn || window.innerWidth <= 768 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    setFallbackPortalTarget(null);
+    const isDesktop = window.innerWidth > 768;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!isDesktop || prefersReducedMotion) {
       return;
     }
-    const container = document.createElement("div");
-    container.setAttribute("data-theme-bg", resolved);
-    container.setAttribute("aria-hidden", "true");
-    container.style.cssText = "position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;";
-    document.body.prepend(container);
-    bgContainerRef.current = container;
-    const canvas = document.createElement("canvas");
-    canvas.style.cssText = "width:100%;height:100%;";
-    container.appendChild(canvas);
-    bgCleanupRef.current = backgroundFn(canvas);
+    const canvasBgFn = canvasBackgroundRegistry[resolved];
+    const staticBgFn = staticBackgroundRegistry[resolved];
+    const containerBase = "position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;";
+    if (canvasBgFn) {
+      const container = document.createElement("div");
+      container.setAttribute("data-theme-bg", resolved);
+      container.setAttribute("aria-hidden", "true");
+      container.style.cssText = containerBase;
+      document.body.prepend(container);
+      bgContainerRef.current = container;
+      const canvas = document.createElement("canvas");
+      canvas.style.cssText = "width:100%;height:100%;";
+      container.appendChild(canvas);
+      bgCleanupRef.current = canvasBgFn(canvas);
+    } else if (staticBgFn) {
+      const container = document.createElement("div");
+      container.setAttribute("data-theme-bg", resolved);
+      container.setAttribute("data-theme-bg-type", "static");
+      container.setAttribute("aria-hidden", "true");
+      container.style.cssText = "position:fixed;inset:0;z-index:0;pointer-events:none;" + staticBgFn();
+      document.body.prepend(container);
+      bgContainerRef.current = container;
+    } else if (_props.fallback) {
+      const container = document.createElement("div");
+      container.setAttribute("data-theme-bg", resolved);
+      container.setAttribute("data-theme-bg-type", "fallback");
+      container.setAttribute("aria-hidden", "true");
+      container.style.cssText = containerBase;
+      document.body.prepend(container);
+      bgContainerRef.current = container;
+      setFallbackPortalTarget(container);
+    }
     return () => {
       if (bgCleanupRef.current) {
         bgCleanupRef.current();
@@ -965,15 +1058,27 @@ function ThemeBackground(_props) {
         bgContainerRef.current.remove();
         bgContainerRef.current = null;
       }
+      setFallbackPortalTarget(null);
     };
-  }, [resolved]);
+  }, [resolved, _props.fallback]);
+  if (fallbackPortalTarget && _props.fallback) {
+    const Fallback = _props.fallback;
+    return createPortal(/* @__PURE__ */ jsx(Fallback, {
+      theme: resolved
+    }), fallbackPortalTarget);
+  }
   return null;
 }
 export {
+  warmSandStaticBackground,
   synthwaveBackground,
+  staticBackgroundRegistry,
+  slateStaticBackground,
   pipboyBackground,
   pacmanBackground,
   neuralBackground,
+  mossStaticBackground,
+  coralStaticBackground,
   blackHoleBackground,
   ThemeBackground
 };

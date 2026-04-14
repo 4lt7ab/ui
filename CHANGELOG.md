@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add static CSS backgrounds to ThemeBackground for non-animated themes (slate, warm-sand, moss, coral) — every built-in theme now gets a coherent background
+- Add `fallback` prop to ThemeBackground for consumer-provided backgrounds on unregistered themes
 - Fix Select dropdown positioning — replace native `<select>` dropdown with custom listbox that opens below or above the trigger based on available viewport space
 - Fix ThemeSurface `global` prop not setting `body.style.color` — components using `currentColor` (icons, Card content) rendered black on dark themes
 - Add `color: var(--color-text)` to Card as defense-in-depth for `currentColor` inheritance

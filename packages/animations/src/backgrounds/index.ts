@@ -3,3 +3,4 @@ export * from './pipboy';
 export * from './neural';
 export * from './pacman';
 export * from './black-hole';
+export * from './static';

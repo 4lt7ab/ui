@@ -46,7 +46,34 @@ function App() {
 | `neuralBackground` | neural | Connected node network |
 | `pacmanBackground` | pacman | Retro arcade elements |
 
-Themes without a registered background (`slate`, `warm-sand`, `moss`, `coral`) render no canvas — the theme's CSS background color applies normally.
+Themes without a canvas animation (`slate`, `warm-sand`, `moss`, `coral`) get a static CSS background — a subtle gradient or radial effect using the theme's own color tokens. No configuration needed; `ThemeBackground` detects the theme and picks the right strategy automatically.
+
+### Fallback for Custom Themes
+
+For themes without a built-in background (canvas or static), pass a `fallback` component:
+
+```tsx
+function CustomBackground({ theme }: { theme: string }) {
+  return <div style={{ width: '100%', height: '100%', background: '#111' }} />;
+}
+
+<ThemeBackground fallback={CustomBackground} />
+```
+
+The fallback renders inside a fixed-position container at `z-index: 0`, just like the built-in backgrounds. It only activates for themes that have no registered canvas or static background.
+
+---
+
+## Static Backgrounds
+
+| Function | Theme | Description |
+|----------|-------|-------------|
+| `slateStaticBackground` | slate | Subtle directional gradient with cool blue-gray tint |
+| `warmSandStaticBackground` | warm-sand | Diagonal gradient with earthy warmth |
+| `mossStaticBackground` | moss | Radial green tint like forest light |
+| `coralStaticBackground` | coral | Warm radial glow from the top-right |
+
+Static backgrounds use `var(--...)` theme tokens so they adapt automatically when token values change.
 
 ---
 
