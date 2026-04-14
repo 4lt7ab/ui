@@ -43,6 +43,7 @@ import { TableFiltersDemo } from './TableFiltersDemo';
 import { ChipPickerDemo } from './ChipPickerDemo';
 import { SearchInputDemo } from './SearchInputDemo';
 import { SegmentedControlDemo } from './SegmentedControlDemo';
+import { AlertBannerDemo } from './AlertBannerDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -87,6 +88,7 @@ export const demos: DemoEntry[] = [
   { name: 'ConfirmDialog', category: 'Feedback', source: 'ui', component: ConfirmDialogDemo },
   { name: 'ErrorBoundary', category: 'Feedback', source: 'ui', component: ErrorBoundaryDemo },
   { name: 'Toast', category: 'Feedback', source: 'ui', component: ToastDemo },
+  { name: 'AlertBanner', category: 'Feedback', source: 'ui', component: AlertBannerDemo },
 
   // Form
   { name: 'Field', category: 'Form', source: 'ui', component: FieldDemo },
@@ -135,4 +137,5 @@ export {
   ChipPickerDemo,
   SearchInputDemo,
   SegmentedControlDemo,
+  AlertBannerDemo,
 };

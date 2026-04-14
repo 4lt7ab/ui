@@ -15,6 +15,7 @@ import {
   ChipPickerDemo,
   SearchInputDemo,
   SegmentedControlDemo,
+  AlertBannerDemo,
 } from '../demos';
 
 // ---------------------------------------------------------------------------
@@ -113,6 +114,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'ConfirmDialog', source: 'ui', Demo: ConfirmDialogDemo },
       { name: 'ErrorBoundary', source: 'ui', Demo: ErrorBoundaryDemo },
       { name: 'Toast', source: 'ui', Demo: ToastDemo },
+      { name: 'AlertBanner', source: 'ui', Demo: AlertBannerDemo },
     ],
   },
 ];

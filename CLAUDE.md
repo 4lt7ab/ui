@@ -92,6 +92,7 @@ packages/
 │       │   ├── DatePicker/
 │       │   ├── DateRangePicker/
 │       │   ├── ChipPicker/
+│       │   ├── AlertBanner/
 │       │   ├── MetadataTable/
 │       │   ├── SearchInput/
 │       │   ├── SectionLabel/
