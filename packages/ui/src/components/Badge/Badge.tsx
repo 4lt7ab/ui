@@ -18,6 +18,10 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
    * @default 'default'
    */
   variant?: BadgeVariant;
+  /** Custom CSS color override. When provided, variant styling is ignored.
+   * The color is used directly for text and at low opacity for the background.
+   */
+  color?: string;
 }
 
 const variantStyles: Record<BadgeVariant, React.CSSProperties> = {
@@ -58,16 +62,21 @@ export const Badge: React.ForwardRefExoticComponent<Omit<BadgeProps, 'ref'> & Re
   function Badge({
     children,
     variant = 'default',
+    color,
     style,
     ...rest
   }, ref): React.JSX.Element {
+    const colorStyles: React.CSSProperties | undefined = color
+      ? { background: `color-mix(in srgb, ${color} 14%, transparent)`, color }
+      : undefined;
+
     return (
       <span
         ref={ref}
         {...rest}
         style={{
           ...baseStyles,
-          ...variantStyles[variant],
+          ...(colorStyles ?? variantStyles[variant]),
           ...style,
         }}
       >

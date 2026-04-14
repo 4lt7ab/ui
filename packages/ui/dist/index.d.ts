@@ -222,6 +222,10 @@ interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 	* @default 'default'
 	*/
 	variant?: BadgeVariant;
+	/** Custom CSS color override. When provided, variant styling is ignored.
+	* The color is used directly for text and at low opacity for the background.
+	*/
+	color?: string;
 }
 declare const Badge: React.ForwardRefExoticComponent<Omit<BadgeProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
 import { HTMLAttributes as HTMLAttributes5, ReactNode as ReactNode8 } from "react";

@@ -202,11 +202,13 @@ Status indicator label.
 ```tsx
 <Badge variant="success">Active</Badge>
 <Badge variant="error">Failed</Badge>
+<Badge color="#6366f1">Running</Badge>
 ```
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `variant` | `'default' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | Color variant |
+| `color` | `string` | — | Custom CSS color override. When provided, variant styling is ignored. |
 
 Extends `HTMLAttributes<HTMLSpanElement>`.
 
