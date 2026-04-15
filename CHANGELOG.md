@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add test infrastructure (vitest, testing-library, jsdom) and first 76 tests covering Select, Combobox, ModalShell, useFocusTrap, and dateUtils
+- Add testing conventions and priority list to CLAUDE.md
+
 ## v0.2.22
 
 - Tighten list spacing in Prose and Markdown components — reduce inter-item, list-block, and nested-list margins

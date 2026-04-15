@@ -13,6 +13,8 @@ Four React packages built on a shared theme platform, distributed via GitHub git
 bun install          # install all workspace deps
 bun run build        # build all packages (core first, then ui + content + animations in parallel)
 bun run typecheck    # tsc --noEmit across all packages
+bun run test         # run all tests once (vitest)
+bun run test:watch   # run tests in watch mode
 bun run dev          # start the demo app (Vite)
 ```
 
@@ -182,6 +184,43 @@ Built-in themes: synthwave, slate, warm-sand, moss, coral, pipboy, neural, pacma
 2. Add the `var(--...)` reference to `packages/core/src/tokens/semantic.ts`
 3. Add the value to every theme definition in `packages/core/src/themes/definitions/`
 4. If it maps to a new primitive, add to `packages/core/src/tokens/primitives.ts`
+
+## Testing
+
+```bash
+bun run test             # run all tests once
+bun run test:watch       # run in watch mode
+```
+
+Tests use **vitest** + **@testing-library/react** + **jsdom**. Config lives in `vitest.config.ts` at the repo root.
+
+### Conventions
+
+- **Test files live next to source.** `ComponentName.test.tsx` beside `ComponentName.tsx`. Utility tests use `.test.ts`.
+- **Mock `@4lt7ab/core`** in component tests. Semantic tokens are CSS var references — a Proxy mock works:
+  ```ts
+  vi.mock("@4lt7ab/core", () => ({
+    semantic: new Proxy({}, { get: (_t, prop) => `var(--mock-${String(prop)})` }),
+    useInjectStyles: vi.fn(),
+  }));
+  ```
+- **Test behavior, not styles.** Focus management, keyboard navigation, ARIA attributes, callback invocations, state transitions. Don't assert on inline style objects.
+- **Use `userEvent` over `fireEvent`.** `userEvent.setup()` simulates real browser interaction sequences.
+- **Clean up the DOM** between tests: `beforeEach(() => { document.body.innerHTML = ""; })` for portal-heavy components.
+
+### Priority
+
+Tests are being added incrementally. Prioritize components with the most logic and interaction surface:
+
+1. **High** — ModalShell, Select, Combobox, DatePicker, DateRangePicker, useFocusTrap
+2. **Medium** — ConfirmDialog, FormModal, Toast, SearchInput, Pagination, SegmentedControl, ExpandableCard
+3. **Low** — Presentational components (Badge, Card, Stack, Skeleton, etc.)
+
+Pure utility functions (dateUtils, token helpers) should always have tests.
+
+### Adding tests for a new component
+
+When adding a component, tests are **recommended for components with logic** (keyboard handling, state management, async behavior). Presentational components that only map props to styles don't need tests.
 
 ## Pre-commit Checks
 
