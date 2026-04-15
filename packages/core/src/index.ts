@@ -1,5 +1,6 @@
 // Utilities
 export * from './utils/useInjectStyles';
+export * from './utils/staggerStyle';
 
 // Tokens
 export * from './tokens';
