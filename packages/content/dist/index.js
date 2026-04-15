@@ -248,11 +248,11 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
   .alttab-prose ul,
   .alttab-prose ol {
     padding-left: 1.5rem;
-    margin-block: 1em;
+    margin-block: 0.6em;
   }
 
   .alttab-prose li + li {
-    margin-top: 0.5em;
+    margin-top: 0.15em;
   }
 
   /* ── Tables ── */
@@ -590,11 +590,11 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
   .alttab-markdown ul,
   .alttab-markdown ol {
     padding-left: 1.5rem;
-    margin-block: 1em;
+    margin-block: 0.6em;
   }
 
   .alttab-markdown li + li {
-    margin-top: 0.4em;
+    margin-top: 0.15em;
   }
 
   .alttab-markdown li::marker {
@@ -605,7 +605,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
   .alttab-markdown ol ol,
   .alttab-markdown ul ol,
   .alttab-markdown ol ul {
-    margin-block: 0.4em;
+    margin-block: 0.1em;
   }
 
   /* ── Task lists (GFM) ── */
