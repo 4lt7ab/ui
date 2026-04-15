@@ -2,10 +2,14 @@
 
 ## Unreleased
 
+<<<<<<< HEAD
 - Add focus-visible rings and hover state to IconButton; add `buttonSize` prop (`sm`/`md`/`lg`) for configurable tap-target size
 - Fix Toast and AlertBanner dismiss buttons stripping focus-visible outline (`all: unset` replaced with explicit resets)
 - Add focus-visible indicator to SegmentedControl segments for keyboard navigation
 - Add focus-visible ring to ChipPicker chip buttons
+=======
+- Replace sed-based `@4lt7ab/core` import rewriting with cross-platform Bun script (`scripts/rewrite-core-imports.ts`) — handles ESM, CJS, and `.d.ts` files with verification
+>>>>>>> worktree-agent-a584d18f
 
 ## v0.2.23
 

@@ -174,6 +174,46 @@ for (const pkg of packages) {
   }
 }
 
+// --- Check for unrewritten @4lt7ab/core imports ---
+// Safety net: no dist bundle should contain bare @4lt7ab/core references.
+// The per-package rewrite-core-imports.ts script handles rewriting, but this
+// catches any package that forgot to run it or where rewriting silently failed.
+
+const distFiles = [
+  'packages/ui/dist/index.js',
+  'packages/ui/dist/index.cjs',
+  'packages/ui/dist/index.d.ts',
+  'packages/ui/dist/index.d.cts',
+  'packages/content/dist/index.js',
+  'packages/content/dist/index.cjs',
+  'packages/content/dist/index.d.ts',
+  'packages/content/dist/index.d.cts',
+  'packages/animations/dist/index.js',
+  'packages/animations/dist/index.cjs',
+  'packages/animations/dist/index.d.ts',
+  'packages/animations/dist/index.d.cts',
+];
+
+const unrewritten: string[] = [];
+for (const file of distFiles) {
+  try {
+    const content = readFileSync(file, 'utf-8');
+    if (content.includes('@4lt7ab/core')) {
+      unrewritten.push(file);
+    }
+  } catch {
+    // File may not exist (e.g. .d.cts if not generated) — skip
+  }
+}
+
+if (unrewritten.length > 0) {
+  console.log(`\n✗ Unrewritten @4lt7ab/core imports found in dist bundles:`);
+  for (const f of unrewritten) {
+    console.log(`    - ${f}`);
+  }
+  failed = true;
+}
+
 if (failed) {
   console.log('\nExport verification failed.');
   process.exit(1);
