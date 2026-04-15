@@ -5002,7 +5002,7 @@ export {
   Pagination,
   PageHeader,
   Overlay,
-  ModalShell3 as ModalShell,
+  ModalShell,
   MetadataTable,
   Input,
   IconWarning,

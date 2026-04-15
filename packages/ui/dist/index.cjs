@@ -112,7 +112,7 @@ __export(exports_src, {
   Pagination: () => Pagination,
   PageHeader: () => PageHeader,
   Overlay: () => Overlay,
-  ModalShell: () => import_ModalShell5.ModalShell,
+  ModalShell: () => ModalShell,
   MetadataTable: () => MetadataTable,
   Input: () => Input,
   IconWarning: () => IconWarning,
