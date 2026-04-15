@@ -51,3 +51,4 @@ export * from './components/SegmentedControl';
 export * from './components/AlertBanner';
 export * from './components/TopBar';
 export * from './components/ShortcutHelpModal';
+export * from './components/PillSelect';

@@ -48,6 +48,7 @@ import { AlertBannerDemo } from './AlertBannerDemo';
 import { TopBarDemo } from './TopBarDemo';
 import { ShortcutHelpModalDemo } from './ShortcutHelpModalDemo';
 import { PageShellDemo } from './PageShellDemo';
+import { PillSelectDemo } from './PillSelectDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -108,6 +109,7 @@ export const demos: DemoEntry[] = [
   { name: 'Combobox', category: 'Form', source: 'ui', component: ComboboxDemo },
   { name: 'ChipPicker', category: 'Form', source: 'ui', component: ChipPickerDemo },
   { name: 'SearchInput', category: 'Form', source: 'ui', component: SearchInputDemo },
+  { name: 'PillSelect', category: 'Form', source: 'ui', component: PillSelectDemo },
 
   // Action (additional)
   { name: 'SegmentedControl', category: 'Action', source: 'ui', component: SegmentedControlDemo },
@@ -150,4 +152,5 @@ export {
   TopBarDemo,
   ShortcutHelpModalDemo,
   PageShellDemo,
+  PillSelectDemo,
 };
