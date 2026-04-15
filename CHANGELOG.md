@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Replace sed-based `@4lt7ab/core` import rewriting with cross-platform Bun script (`scripts/rewrite-core-imports.ts`) — handles ESM, CJS, and `.d.ts` files with verification
+
 ## v0.2.23
 
 - Add test infrastructure (vitest, testing-library, jsdom) and first 76 tests covering Select, Combobox, ModalShell, useFocusTrap, and dateUtils

@@ -5,7 +5,7 @@ import { RefObject } from "react";
 * Re-queries focusable elements on each Tab press to handle dynamic content.
 */
 declare function useFocusTrap(ref: RefObject<HTMLElement | null>): void;
-export * from "@4lt7ab/core";
+export * from "../../core/dist/index.js";
 interface ThemePickerProps {
 	/** Optional descriptions for each theme, keyed by theme name. */
 	descriptions?: Record<string, string>;
