@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Fix Toast backgrounds being transparent on some themes — layer translucent type color over opaque `colorSurfaceSolid`
 - Add `xs` pill size variant to Badge — tiny monospace lowercase pill for inline metadata labels
 - Add PillSelect pill-shaped native select component for filter bars with active/inactive state coloring
 - Add PageShell centered max-width scrollable column layout component to `@4lt7ab/ui`

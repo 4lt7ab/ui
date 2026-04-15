@@ -81,6 +81,7 @@ __export(index_exports, {
   PageHeader: () => PageHeader,
   PageShell: () => PageShell,
   Pagination: () => Pagination,
+  PillSelect: () => PillSelect,
   ProgressBar: () => ProgressBar,
   RowSkeleton: () => RowSkeleton,
   SearchInput: () => SearchInput,
@@ -575,11 +576,11 @@ function CompactView() {
   }, [open, focusedIndex]);
   (0, import_react3.useEffect)(() => {
     if (open) {
-      const activeIdx = themeList.findIndex((t42) => t42.name === resolved);
+      const activeIdx = themeList.findIndex((t43) => t43.name === resolved);
       setFocusedIndex(activeIdx >= 0 ? activeIdx : 0);
     }
   }, [open]);
-  const currentTheme = themeList.find((t42) => t42.name === resolved);
+  const currentTheme = themeList.find((t43) => t43.name === resolved);
   return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { ref: containerRef, style: { position: "relative" }, onKeyDown: handleKeyDown, children: [
     /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
       "button",
@@ -621,8 +622,8 @@ function CompactView() {
           zIndex: "var(--z-index-sticky)",
           boxShadow: "var(--shadow-md)"
         },
-        children: themeList.map((t42, idx) => {
-          const isActive = resolved === t42.name;
+        children: themeList.map((t43, idx) => {
+          const isActive = resolved === t43.name;
           const isFocused = focusedIndex === idx;
           const classes = [
             "alttab-tp-menu-item",
@@ -632,12 +633,12 @@ function CompactView() {
           return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
             "button",
             {
-              id: `alttab-tp-item-${t42.name}`,
+              id: `alttab-tp-item-${t43.name}`,
               role: "option",
               "aria-selected": isActive,
               className: classes,
               onClick: () => {
-                setTheme(t42.name);
+                setTheme(t43.name);
                 setOpen(false);
                 triggerRef.current?.focus();
               },
@@ -650,10 +651,10 @@ function CompactView() {
                   background: isActive ? "var(--color-action-primary)" : "var(--color-text-muted)",
                   flexShrink: 0
                 } }),
-                t42.label
+                t43.label
               ]
             },
-            t42.name
+            t43.name
           );
         })
       }
@@ -1555,14 +1556,30 @@ var baseStyles2 = {
   textTransform: "uppercase",
   letterSpacing: import_core10.semantic.letterSpacingWide
 };
+var xsBaseStyles = {
+  display: "inline-block",
+  fontSize: "0.6rem",
+  fontFamily: import_core10.semantic.fontMono,
+  fontWeight: import_core10.semantic.fontWeightMedium,
+  color: import_core10.semantic.colorTextMuted,
+  borderRadius: import_core10.semantic.radiusFull,
+  background: `color-mix(in srgb, ${import_core10.semantic.colorBorder} 40%, transparent)`,
+  padding: `0.0625rem ${import_core10.semantic.spaceXs}`,
+  lineHeight: import_core10.semantic.lineHeightTight,
+  letterSpacing: import_core10.semantic.letterSpacingWide,
+  textTransform: "lowercase"
+};
 var Badge = (0, import_react11.forwardRef)(
   function Badge2({
     children,
     variant = "default",
+    size = "default",
     color,
     style,
     ...rest
   }, ref) {
+    const isXs = size === "xs";
+    const base = isXs ? xsBaseStyles : baseStyles2;
     const colorStyles = color ? { background: `color-mix(in srgb, ${color} 14%, transparent)`, color } : void 0;
     return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
       "span",
@@ -1570,7 +1587,7 @@ var Badge = (0, import_react11.forwardRef)(
         ref,
         ...rest,
         style: {
-          ...baseStyles2,
+          ...base,
           ...colorStyles ?? variantStyles3[variant],
           ...style
         },
@@ -2795,8 +2812,8 @@ function isSameDay(a, b) {
 function isInRange(date, from, to) {
   const d = stripTime(date).getTime();
   const f = stripTime(from).getTime();
-  const t42 = stripTime(to).getTime();
-  return d >= f && d <= t42;
+  const t43 = stripTime(to).getTime();
+  return d >= f && d <= t43;
 }
 function isDateDisabled(date, minDate, maxDate, disabledDates) {
   const d = stripTime(date).getTime();
@@ -3796,7 +3813,8 @@ function ToastMessage({
         alignItems: "center",
         gap: import_core37.semantic.spaceSm,
         padding: `${import_core37.semantic.spaceSm} ${import_core37.semantic.spaceMd}`,
-        background: colors.bg,
+        backgroundColor: import_core37.semantic.colorSurfaceSolid,
+        backgroundImage: `linear-gradient(${colors.bg}, ${colors.bg})`,
         color: colors.fg,
         borderRadius: import_core37.semantic.radiusMd,
         borderLeft: `${import_core37.semantic.borderWidthAccent} solid ${colors.border}`,
@@ -3873,7 +3891,7 @@ function ToastProvider({
 }) {
   const [toasts, setToasts] = (0, import_react31.useState)([]);
   const dismiss = (0, import_react31.useCallback)((id) => {
-    setToasts((prev) => prev.filter((t42) => t42.id !== id));
+    setToasts((prev) => prev.filter((t43) => t43.id !== id));
   }, []);
   const showToast = (0, import_react31.useCallback)(
     (message, typeOrOptions) => {
@@ -5079,3 +5097,81 @@ var ShortcutHelpModal = (0, import_react39.forwardRef)(
     ] }) });
   }
 );
+
+// src/components/PillSelect/PillSelect.tsx
+var import_react40 = require("react");
+var import_core46 = require("../../core/dist/index.cjs");
+var import_jsx_runtime45 = require("react/jsx-runtime");
+function PillSelect({
+  value,
+  options,
+  onChange,
+  ariaLabel,
+  active: activeProp
+}) {
+  const uid = (0, import_react40.useId)();
+  const styleId = `pill-select-${uid.replace(/:/g, "")}`;
+  const isActive = activeProp ?? !!value;
+  (0, import_core46.useInjectStyles)(
+    styleId,
+    `[data-pill-select-id="${styleId}"] select:hover {
+      border-color: ${import_core46.semantic.colorActionPrimary};
+    }`
+  );
+  return /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)(
+    "div",
+    {
+      "data-pill-select-id": styleId,
+      style: {
+        position: "relative",
+        display: "inline-flex",
+        alignItems: "center"
+      },
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+          "select",
+          {
+            value,
+            onChange: (e) => onChange(e.target.value),
+            "aria-label": ariaLabel,
+            style: {
+              appearance: "none",
+              WebkitAppearance: "none",
+              MozAppearance: "none",
+              padding: `2px ${import_core46.semantic.spaceXs}`,
+              paddingRight: "1.5rem",
+              fontSize: import_core46.semantic.fontSizeSm,
+              fontFamily: import_core46.semantic.fontSans,
+              fontWeight: import_core46.semantic.fontWeightMedium,
+              lineHeight: import_core46.semantic.lineHeightTight,
+              color: isActive ? import_core46.semantic.colorActionPrimary : import_core46.semantic.colorTextMuted,
+              background: isActive ? `color-mix(in srgb, ${import_core46.semantic.colorActionPrimary} 10%, transparent)` : "transparent",
+              border: `${import_core46.semantic.borderWidthDefault} solid ${isActive ? import_core46.semantic.colorActionPrimary : import_core46.semantic.colorBorder}`,
+              borderRadius: import_core46.semantic.radiusFull,
+              cursor: "pointer",
+              outline: "none",
+              transition: `background ${import_core46.semantic.transitionFast}, border-color ${import_core46.semantic.transitionFast}, color ${import_core46.semantic.transitionFast}`
+            },
+            children: options.map((opt) => /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("option", { value: opt.value, children: opt.label }, opt.value))
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+          "span",
+          {
+            style: {
+              position: "absolute",
+              right: "6px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              pointerEvents: "none",
+              display: "flex",
+              alignItems: "center",
+              color: isActive ? import_core46.semantic.colorActionPrimary : import_core46.semantic.colorTextMuted
+            },
+            children: /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(Icon, { name: "chevron-down", size: 12 })
+          }
+        )
+      ]
+    }
+  );
+}

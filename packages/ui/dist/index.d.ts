@@ -209,6 +209,8 @@ declare const Select: React.ForwardRefExoticComponent<Omit<SelectProps, "ref"> &
 import { ReactNode as ReactNode7 } from "react";
 /** Semantic color variant for badges. */
 type BadgeVariant = "default" | "success" | "warning" | "error" | "info";
+/** Size variant for badges. */
+type BadgeSize = "default" | "xs";
 /** A small label for status, category, or metadata. Rendered as uppercase pill text. */
 interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 	/** Badge content (typically short text). */
@@ -222,6 +224,12 @@ interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 	* @default 'default'
 	*/
 	variant?: BadgeVariant;
+	/** Size variant.
+	* - `default` — standard badge size with uppercase text
+	* - `xs` — tiny monospace pill for inline metadata
+	* @default 'default'
+	*/
+	size?: BadgeSize;
 	/** Custom CSS color override. When provided, variant styling is ignored.
 	* The color is used directly for text and at low opacity for the background.
 	*/
@@ -1054,4 +1062,26 @@ interface ShortcutHelpModalProps {
 	maxWidth?: number;
 }
 declare const ShortcutHelpModal: React.ForwardRefExoticComponent<Omit<ShortcutHelpModalProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-export { useToast, useFocusTrap, iconRegistry, TopBarProps, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemeSurfaceProps, ThemeSurface, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, ShowToastOptions, ShortcutHelpModalProps, ShortcutHelpModal, ShortcutGroup, ShortcutDef, SelectProps, SelectOption, SelectFilterConfig, Select, SegmentedControlProps, SegmentedControl, Segment, SectionLabelProps, SectionLabel, SearchInputProps, SearchInput, RowSkeleton, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageShellProps, PageShell, PageHeaderProps, PageHeader, OverlayProps, Overlay, NavItem, ModalShellProps, ModalShell, MetadataTableProps, MetadataTable, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FormModalProps, FormModal, FilterConfig, FieldProps, Field, ExpandableCardProps, ExpandableCard, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxProps, ComboboxOption, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge, AlertBannerVariant, AlertBannerProps, AlertBanner };
+/** A single option in a PillSelect. */
+interface PillSelectOption {
+	/** The option value. */
+	value: string;
+	/** The display label. */
+	label: string;
+}
+/** Props for PillSelect. */
+interface PillSelectProps {
+	/** Current selected value. */
+	value: string;
+	/** Available options. */
+	options: PillSelectOption[];
+	/** Called with new value on change. */
+	onChange: (value: string) => void;
+	/** Accessible label for the select. */
+	ariaLabel: string;
+	/** Whether the pill shows active styling. Defaults to !!value. */
+	active?: boolean;
+}
+/** Pill-shaped native select for filter bars with active/inactive state coloring. */
+declare function PillSelect({ value, options, onChange, ariaLabel, active: activeProp }: PillSelectProps): React.JSX.Element;
+export { useToast, useFocusTrap, iconRegistry, TopBarProps, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemeSurfaceProps, ThemeSurface, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, ShowToastOptions, ShortcutHelpModalProps, ShortcutHelpModal, ShortcutGroup, ShortcutDef, SelectProps, SelectOption, SelectFilterConfig, Select, SegmentedControlProps, SegmentedControl, Segment, SectionLabelProps, SectionLabel, SearchInputProps, SearchInput, RowSkeleton, ProgressBarSegment, ProgressBarProps, ProgressBar, PillSelectProps, PillSelectOption, PillSelect, PaginationProps, PaginationLabels, Pagination, PageShellProps, PageShell, PageHeaderProps, PageHeader, OverlayProps, Overlay, NavItem, ModalShellProps, ModalShell, MetadataTableProps, MetadataTable, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FormModalProps, FormModal, FilterConfig, FieldProps, Field, ExpandableCardProps, ExpandableCard, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxProps, ComboboxOption, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeSize, BadgeProps, Badge, AlertBannerVariant, AlertBannerProps, AlertBanner };

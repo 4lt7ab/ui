@@ -461,11 +461,11 @@ function CompactView() {
   }, [open, focusedIndex]);
   useEffect2(() => {
     if (open) {
-      const activeIdx = themeList.findIndex((t42) => t42.name === resolved);
+      const activeIdx = themeList.findIndex((t43) => t43.name === resolved);
       setFocusedIndex(activeIdx >= 0 ? activeIdx : 0);
     }
   }, [open]);
-  const currentTheme = themeList.find((t42) => t42.name === resolved);
+  const currentTheme = themeList.find((t43) => t43.name === resolved);
   return /* @__PURE__ */ jsxs2("div", { ref: containerRef, style: { position: "relative" }, onKeyDown: handleKeyDown, children: [
     /* @__PURE__ */ jsxs2(
       "button",
@@ -507,8 +507,8 @@ function CompactView() {
           zIndex: "var(--z-index-sticky)",
           boxShadow: "var(--shadow-md)"
         },
-        children: themeList.map((t42, idx) => {
-          const isActive = resolved === t42.name;
+        children: themeList.map((t43, idx) => {
+          const isActive = resolved === t43.name;
           const isFocused = focusedIndex === idx;
           const classes = [
             "alttab-tp-menu-item",
@@ -518,12 +518,12 @@ function CompactView() {
           return /* @__PURE__ */ jsxs2(
             "button",
             {
-              id: `alttab-tp-item-${t42.name}`,
+              id: `alttab-tp-item-${t43.name}`,
               role: "option",
               "aria-selected": isActive,
               className: classes,
               onClick: () => {
-                setTheme(t42.name);
+                setTheme(t43.name);
                 setOpen(false);
                 triggerRef.current?.focus();
               },
@@ -536,10 +536,10 @@ function CompactView() {
                   background: isActive ? "var(--color-action-primary)" : "var(--color-text-muted)",
                   flexShrink: 0
                 } }),
-                t42.label
+                t43.label
               ]
             },
-            t42.name
+            t43.name
           );
         })
       }
@@ -1441,14 +1441,30 @@ var baseStyles2 = {
   textTransform: "uppercase",
   letterSpacing: t8.letterSpacingWide
 };
+var xsBaseStyles = {
+  display: "inline-block",
+  fontSize: "0.6rem",
+  fontFamily: t8.fontMono,
+  fontWeight: t8.fontWeightMedium,
+  color: t8.colorTextMuted,
+  borderRadius: t8.radiusFull,
+  background: `color-mix(in srgb, ${t8.colorBorder} 40%, transparent)`,
+  padding: `0.0625rem ${t8.spaceXs}`,
+  lineHeight: t8.lineHeightTight,
+  letterSpacing: t8.letterSpacingWide,
+  textTransform: "lowercase"
+};
 var Badge = forwardRef10(
   function Badge2({
     children,
     variant = "default",
+    size = "default",
     color,
     style,
     ...rest
   }, ref) {
+    const isXs = size === "xs";
+    const base = isXs ? xsBaseStyles : baseStyles2;
     const colorStyles = color ? { background: `color-mix(in srgb, ${color} 14%, transparent)`, color } : void 0;
     return /* @__PURE__ */ jsx11(
       "span",
@@ -1456,7 +1472,7 @@ var Badge = forwardRef10(
         ref,
         ...rest,
         style: {
-          ...baseStyles2,
+          ...base,
           ...colorStyles ?? variantStyles3[variant],
           ...style
         },
@@ -2681,8 +2697,8 @@ function isSameDay(a, b) {
 function isInRange(date, from, to) {
   const d = stripTime(date).getTime();
   const f = stripTime(from).getTime();
-  const t42 = stripTime(to).getTime();
-  return d >= f && d <= t42;
+  const t43 = stripTime(to).getTime();
+  return d >= f && d <= t43;
 }
 function isDateDisabled(date, minDate, maxDate, disabledDates) {
   const d = stripTime(date).getTime();
@@ -3689,7 +3705,8 @@ function ToastMessage({
         alignItems: "center",
         gap: t33.spaceSm,
         padding: `${t33.spaceSm} ${t33.spaceMd}`,
-        background: colors.bg,
+        backgroundColor: t33.colorSurfaceSolid,
+        backgroundImage: `linear-gradient(${colors.bg}, ${colors.bg})`,
         color: colors.fg,
         borderRadius: t33.radiusMd,
         borderLeft: `${t33.borderWidthAccent} solid ${colors.border}`,
@@ -3766,7 +3783,7 @@ function ToastProvider({
 }) {
   const [toasts, setToasts] = useState8([]);
   const dismiss = useCallback6((id) => {
-    setToasts((prev) => prev.filter((t42) => t42.id !== id));
+    setToasts((prev) => prev.filter((t43) => t43.id !== id));
   }, []);
   const showToast = useCallback6(
     (message, typeOrOptions) => {
@@ -4972,6 +4989,84 @@ var ShortcutHelpModal = forwardRef32(
     ] }) });
   }
 );
+
+// src/components/PillSelect/PillSelect.tsx
+import { useId as useId10 } from "react";
+import { semantic as t42, useInjectStyles as useInjectStyles19 } from "../../core/dist/index.js";
+import { jsx as jsx45, jsxs as jsxs29 } from "react/jsx-runtime";
+function PillSelect({
+  value,
+  options,
+  onChange,
+  ariaLabel,
+  active: activeProp
+}) {
+  const uid = useId10();
+  const styleId = `pill-select-${uid.replace(/:/g, "")}`;
+  const isActive = activeProp ?? !!value;
+  useInjectStyles19(
+    styleId,
+    `[data-pill-select-id="${styleId}"] select:hover {
+      border-color: ${t42.colorActionPrimary};
+    }`
+  );
+  return /* @__PURE__ */ jsxs29(
+    "div",
+    {
+      "data-pill-select-id": styleId,
+      style: {
+        position: "relative",
+        display: "inline-flex",
+        alignItems: "center"
+      },
+      children: [
+        /* @__PURE__ */ jsx45(
+          "select",
+          {
+            value,
+            onChange: (e) => onChange(e.target.value),
+            "aria-label": ariaLabel,
+            style: {
+              appearance: "none",
+              WebkitAppearance: "none",
+              MozAppearance: "none",
+              padding: `2px ${t42.spaceXs}`,
+              paddingRight: "1.5rem",
+              fontSize: t42.fontSizeSm,
+              fontFamily: t42.fontSans,
+              fontWeight: t42.fontWeightMedium,
+              lineHeight: t42.lineHeightTight,
+              color: isActive ? t42.colorActionPrimary : t42.colorTextMuted,
+              background: isActive ? `color-mix(in srgb, ${t42.colorActionPrimary} 10%, transparent)` : "transparent",
+              border: `${t42.borderWidthDefault} solid ${isActive ? t42.colorActionPrimary : t42.colorBorder}`,
+              borderRadius: t42.radiusFull,
+              cursor: "pointer",
+              outline: "none",
+              transition: `background ${t42.transitionFast}, border-color ${t42.transitionFast}, color ${t42.transitionFast}`
+            },
+            children: options.map((opt) => /* @__PURE__ */ jsx45("option", { value: opt.value, children: opt.label }, opt.value))
+          }
+        ),
+        /* @__PURE__ */ jsx45(
+          "span",
+          {
+            style: {
+              position: "absolute",
+              right: "6px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              pointerEvents: "none",
+              display: "flex",
+              alignItems: "center",
+              color: isActive ? t42.colorActionPrimary : t42.colorTextMuted
+            },
+            children: /* @__PURE__ */ jsx45(Icon, { name: "chevron-down", size: 12 })
+          }
+        )
+      ]
+    }
+  );
+}
 export {
   AlertBanner,
   Badge,
@@ -5023,6 +5118,7 @@ export {
   PageHeader,
   PageShell,
   Pagination,
+  PillSelect,
   ProgressBar,
   RowSkeleton,
   SearchInput,
