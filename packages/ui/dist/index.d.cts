@@ -426,7 +426,20 @@ interface PageHeaderProps {
 	level?: HeadingLevel;
 }
 declare const PageHeader: React.ForwardRefExoticComponent<Omit<PageHeaderProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { CSSProperties as CSSProperties11 } from "react";
+import { CSSProperties as CSSProperties11, ReactNode as ReactNode11 } from "react";
+interface PageShellProps {
+	children: ReactNode11;
+	/** Maximum width of the content area in pixels. @default 1100 */
+	maxWidth?: number;
+	/** Gap between child elements. @default 'md' */
+	gap?: "sm" | "md" | "lg";
+	/** Whether to add top padding. @default true */
+	topPadding?: boolean;
+	/** Style override. */
+	style?: CSSProperties11;
+}
+declare function PageShell({ children, maxWidth, gap, topPadding, style }: PageShellProps): React.JSX.Element;
+import { CSSProperties as CSSProperties12 } from "react";
 /** A small pill-shaped tag with an optional remove button. */
 interface TagChipProps {
 	/** Tag display text. */
@@ -436,16 +449,16 @@ interface TagChipProps {
 	/** When provided, renders a close button that calls this handler on click. */
 	onRemove?: () => void;
 	/** Additional inline styles. */
-	style?: CSSProperties11;
+	style?: CSSProperties12;
 }
 declare const TagChip: React.ForwardRefExoticComponent<Omit<TagChipProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
-import { CSSProperties as CSSProperties12, ReactNode as ReactNode11 } from "react";
+import { CSSProperties as CSSProperties13, ReactNode as ReactNode12 } from "react";
 /** A Card with a collapsible body. Supports both controlled and uncontrolled open state. */
 interface ExpandableCardProps {
 	/** Header text shown alongside the chevron toggle. */
 	title: string;
 	/** Collapsible body content. */
-	children: ReactNode11;
+	children: ReactNode12;
 	/** Initial open state when uncontrolled.
 	* @default false
 	*/
@@ -459,18 +472,18 @@ interface ExpandableCardProps {
 	*/
 	variant?: CardVariant;
 	/** Additional inline styles for the Card wrapper. */
-	style?: CSSProperties12;
+	style?: CSSProperties13;
 	/** Content rendered in the header row to the right of the title (e.g. action buttons). */
-	headerAction?: ReactNode11;
+	headerAction?: ReactNode12;
 }
 declare const ExpandableCard: React.ForwardRefExoticComponent<Omit<ExpandableCardProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { CSSProperties as CSSProperties13, ReactNode as ReactNode12 } from "react";
+import { CSSProperties as CSSProperties14, ReactNode as ReactNode13 } from "react";
 /** A centered modal panel with backdrop overlay. Closes on Escape and overlay click. */
 interface ModalShellProps {
 	/** Called when the modal should close (Escape key or overlay click). */
 	onClose: () => void;
 	/** Modal body content. */
-	children: ReactNode12;
+	children: ReactNode13;
 	/** Maximum width of the modal panel in pixels.
 	* @default 480
 	*/
@@ -480,7 +493,7 @@ interface ModalShellProps {
 	*/
 	zIndex?: number | string;
 	/** Additional inline styles for the modal panel. */
-	style?: CSSProperties13;
+	style?: CSSProperties14;
 	/** ID of the element that labels this dialog. Used for `aria-labelledby`. */
 	titleId?: string;
 	/** Accessible label for the dialog. Alternative to `titleId`/`aria-labelledby`. */
@@ -489,7 +502,7 @@ interface ModalShellProps {
 	role?: "dialog" | "alertdialog";
 }
 declare const ModalShell: React.ForwardRefExoticComponent<Omit<ModalShellProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode13 } from "react";
+import { ReactNode as ReactNode14 } from "react";
 /** Semantic variant controlling the confirm button style. */
 type ConfirmDialogVariant = "destructive" | "info" | "warning";
 /** A modal confirmation dialog with title, message, and Cancel/Confirm buttons. Supports async confirm handlers with loading state. */
@@ -507,7 +520,7 @@ interface ConfirmDialogProps {
 	/** Called when the user cancels (Cancel button, Escape key, or overlay click). */
 	onCancel: () => void;
 	/** Custom body content rendered between the message and the action buttons. */
-	children?: ReactNode13;
+	children?: ReactNode14;
 	/** Controls the confirm button color variant.
 	* - `destructive` — red destructive button
 	* - `info` — primary accent button
@@ -517,13 +530,13 @@ interface ConfirmDialogProps {
 	variant?: ConfirmDialogVariant;
 }
 declare const ConfirmDialog: React.ForwardRefExoticComponent<Omit<ConfirmDialogProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode14 } from "react";
+import { ReactNode as ReactNode15 } from "react";
 /** A modal wrapper for form submission workflows with title, scrollable body, and cancel/submit footer. */
 interface FormModalProps {
 	/** Modal heading text. */
 	title: string;
 	/** Body content — typically form fields. */
-	children: ReactNode14;
+	children: ReactNode15;
 	/** Called when the submit button is clicked. If it returns a Promise, the submit button shows a loading state until resolved. */
 	onSubmit: () => void | Promise<void>;
 	/** Called when the cancel button is clicked, and also when the modal is dismissed via Escape or overlay click. */
@@ -544,7 +557,7 @@ interface FormModalProps {
 	maxWidth?: number;
 }
 declare const FormModal: React.ForwardRefExoticComponent<Omit<FormModalProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { CSSProperties as CSSProperties14 } from "react";
+import { CSSProperties as CSSProperties15 } from "react";
 /** Semantic color variant for the status dot. */
 type StatusDotVariant = "default" | "success" | "warning" | "error" | "info";
 /** Animation style for the status dot. */
@@ -561,12 +574,12 @@ interface StatusDotProps {
 	animate?: StatusDotAnimate;
 	/** Accessible label describing the status. */
 	"aria-label"?: string;
-	style?: CSSProperties14;
+	style?: CSSProperties15;
 }
 declare const StatusDot: React.ForwardRefExoticComponent<Omit<StatusDotProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
-import { ReactNode as ReactNode15 } from "react";
+import { ReactNode as ReactNode16 } from "react";
 interface ThemeSurfaceProps {
-	children: ReactNode15;
+	children: ReactNode16;
 	/**
 	* When true, applies the page background to document.body.
 	* When false (default), renders a div with the page background color.
@@ -584,7 +597,7 @@ interface ThemeSurfaceProps {
 * Without `global`, renders a styled div with the page background.
 */
 declare const ThemeSurface: React.ForwardRefExoticComponent<Omit<ThemeSurfaceProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { HTMLAttributes as HTMLAttributes6, TdHTMLAttributes, ThHTMLAttributes, ReactNode as ReactNode16 } from "react";
+import { HTMLAttributes as HTMLAttributes6, TdHTMLAttributes, ThHTMLAttributes, ReactNode as ReactNode17 } from "react";
 type SpacingToken3 = "xs" | "sm" | "md" | "lg";
 /** Visual treatment for the table wrapper. */
 type TableVariant = "default" | "flat";
@@ -601,13 +614,13 @@ interface TableProps extends HTMLAttributes6<HTMLDivElement> {
 	*/
 	density?: SpacingToken3;
 	/** Table content (TableHeader, TableBody, etc.). */
-	children: ReactNode16;
+	children: ReactNode17;
 }
 declare const Table: React.ForwardRefExoticComponent<Omit<TableProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /** Table header section. Renders a `<thead>` with a single `<tr>` wrapping the children. */
 interface TableHeaderProps extends HTMLAttributes6<HTMLTableSectionElement> {
 	/** TableHeaderCell elements. */
-	children: ReactNode16;
+	children: ReactNode17;
 }
 declare const TableHeader: React.ForwardRefExoticComponent<Omit<TableHeaderProps, "ref"> & React.RefAttributes<HTMLTableSectionElement>>;
 /** A single column header cell (`<th>`). Renders uppercase, muted, semibold text. */
@@ -619,13 +632,13 @@ interface TableHeaderCellProps extends ThHTMLAttributes<HTMLTableCellElement> {
 	/** Fixed column width. Numbers are treated as pixels; strings are used as-is. */
 	width?: number | string;
 	/** Header label. */
-	children?: ReactNode16;
+	children?: ReactNode17;
 }
 declare const TableHeaderCell: React.ForwardRefExoticComponent<Omit<TableHeaderCellProps, "ref"> & React.RefAttributes<HTMLTableCellElement>>;
 /** Table body section (`<tbody>`). Wraps TableRow elements. */
 interface TableBodyProps extends HTMLAttributes6<HTMLTableSectionElement> {
 	/** TableRow elements. */
-	children: ReactNode16;
+	children: ReactNode17;
 }
 declare const TableBody: React.ForwardRefExoticComponent<Omit<TableBodyProps, "ref"> & React.RefAttributes<HTMLTableSectionElement>>;
 /** A table row (`<tr>`). Supports selection highlighting and hover effects. When `onClick` is provided, the row becomes focusable and responds to Enter/Space. */
@@ -639,7 +652,7 @@ interface TableRowProps extends HTMLAttributes6<HTMLTableRowElement> {
 	*/
 	hoverable?: boolean;
 	/** TableCell elements. */
-	children: ReactNode16;
+	children: ReactNode17;
 }
 declare const TableRow: React.ForwardRefExoticComponent<Omit<TableRowProps, "ref"> & React.RefAttributes<HTMLTableRowElement>>;
 /** A table data cell (`<td>`). */
@@ -659,7 +672,7 @@ interface TableCellProps extends TdHTMLAttributes<HTMLTableCellElement> {
 	/** Fixed column width. Numbers are treated as pixels; strings are used as-is. */
 	width?: number | string;
 	/** Cell content. */
-	children?: ReactNode16;
+	children?: ReactNode17;
 }
 declare const TableCell: React.ForwardRefExoticComponent<Omit<TableCellProps, "ref"> & React.RefAttributes<HTMLTableCellElement>>;
 /** A full-width subheading row for grouping table rows under a shared label. */
@@ -667,7 +680,7 @@ interface TableGroupHeaderProps extends HTMLAttributes6<HTMLTableRowElement> {
 	/** Number of columns the header should span. */
 	colSpan: number;
 	/** Group label text. */
-	children: ReactNode16;
+	children: ReactNode17;
 }
 declare const TableGroupHeader: React.ForwardRefExoticComponent<Omit<TableGroupHeaderProps, "ref"> & React.RefAttributes<HTMLTableRowElement>>;
 /** A centered message row displayed when the table has no data. */
@@ -675,7 +688,7 @@ interface TableEmptyRowProps extends HTMLAttributes6<HTMLTableRowElement> {
 	/** Number of columns the message should span. */
 	colSpan: number;
 	/** Empty state message content. */
-	children: ReactNode16;
+	children: ReactNode17;
 }
 declare const TableEmptyRow: React.ForwardRefExoticComponent<Omit<TableEmptyRowProps, "ref"> & React.RefAttributes<HTMLTableRowElement>>;
 /** A date range with inclusive start and end. */
@@ -735,12 +748,12 @@ interface DatePickerProps {
 	style?: React.CSSProperties;
 }
 declare const DatePicker: React.ForwardRefExoticComponent<Omit<DatePickerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode17 } from "react";
+import { ReactNode as ReactNode18 } from "react";
 interface MetadataTableProps {
 	/** Label/value pairs to display. */
 	items: Array<{
 		label: string;
-		value: ReactNode17;
+		value: ReactNode18;
 	}>;
 	/** Optional section title rendered above the list. */
 	title?: string;
@@ -774,15 +787,15 @@ declare class ErrorBoundary extends React2.Component<ErrorBoundaryProps, ErrorBo
 	resetErrorBoundary: () => void;
 	render(): React2.ReactNode;
 }
-import { ReactNode as ReactNode18 } from "react";
+import { ReactNode as ReactNode19 } from "react";
 /** Props for the SectionLabel component. */
 interface SectionLabelProps extends React.HTMLAttributes<HTMLDivElement> {
 	/** Label content. */
-	children: ReactNode18;
+	children: ReactNode19;
 }
 /** Uppercase section heading for labeling content groups. */
 declare function SectionLabel({ children, style,...rest }: SectionLabelProps): React.JSX.Element;
-import { ReactNode as ReactNode19 } from "react";
+import { ReactNode as ReactNode20 } from "react";
 /** Visual type of a toast notification. */
 type ToastType = "success" | "error" | "info" | "warning";
 /** Configuration for a single toast instance. */
@@ -824,7 +837,7 @@ declare function useToast(): ToastContextValue;
 /** Props for the ToastProvider context component. */
 interface ToastProviderProps {
 	/** Application content. */
-	children: ReactNode19;
+	children: ReactNode20;
 	/** Screen position of the toast stack.
 	* @default 'top-right'
 	*/
@@ -899,7 +912,7 @@ interface TableFiltersProps extends Omit<HTMLAttributes7<HTMLDivElement>, "onCha
 	onChange: (values: Record<string, string>) => void;
 }
 declare function TableFilters({ filters, values, onChange, style,...props }: TableFiltersProps): React.JSX.Element;
-import { CSSProperties as CSSProperties15 } from "react";
+import { CSSProperties as CSSProperties16 } from "react";
 /** A single chip option. */
 interface ChipItem {
 	/** Unique value identifying this chip. */
@@ -918,11 +931,11 @@ interface ChipPickerProps {
 	/** Called with the updated selection array when a chip is toggled. */
 	onChange: (selected: string[]) => void;
 	/** Additional inline styles for the root container. */
-	style?: CSSProperties15;
+	style?: CSSProperties16;
 }
 /** Multi-select toggle chip group with optional category grouping. */
 declare function ChipPicker({ items, selected, onChange, style }: ChipPickerProps): React.JSX.Element;
-import { InputHTMLAttributes as InputHTMLAttributes3, ReactNode as ReactNode20 } from "react";
+import { InputHTMLAttributes as InputHTMLAttributes3, ReactNode as ReactNode21 } from "react";
 /** A text input with built-in debounce, search icon, and optional trailing slot. */
 interface SearchInputProps extends Omit<InputHTMLAttributes3<HTMLInputElement>, "onChange"> {
 	/** Current search value (controlled). */
@@ -934,7 +947,7 @@ interface SearchInputProps extends Omit<InputHTMLAttributes3<HTMLInputElement>, 
 	*/
 	debounceMs?: number;
 	/** Optional content rendered inside the input on the right side (toggle, clear button, etc.). */
-	trailing?: ReactNode20;
+	trailing?: ReactNode21;
 }
 declare const SearchInput: React.ForwardRefExoticComponent<Omit<SearchInputProps, "ref"> & React.RefAttributes<HTMLInputElement>>;
 /** A single segment definition. */
@@ -960,7 +973,7 @@ interface SegmentedControlProps {
 	size?: "sm" | "md";
 }
 declare function SegmentedControl({ segments, value, onChange, size }: SegmentedControlProps): React.JSX.Element;
-import { CSSProperties as CSSProperties16, ReactNode as ReactNode21 } from "react";
+import { CSSProperties as CSSProperties17, ReactNode as ReactNode22 } from "react";
 /** Severity variant controlling banner color. */
 type AlertBannerVariant = "info" | "warning" | "error" | "success";
 /** Props for the AlertBanner component. */
@@ -968,22 +981,22 @@ interface AlertBannerProps {
 	/** Severity variant controlling color. */
 	variant: AlertBannerVariant;
 	/** Message content. */
-	children: ReactNode21;
+	children: ReactNode22;
 	/** If provided, shows a dismiss button and is called on dismiss. */
 	onDismiss?: () => void;
 	/** Milliseconds before auto-dismissing (calls onDismiss). */
 	autoDismiss?: number;
 	/** Optional leading icon. Defaults to a variant-appropriate icon. */
-	icon?: ReactNode21;
+	icon?: ReactNode22;
 	/** Additional inline styles. */
-	style?: CSSProperties16;
+	style?: CSSProperties17;
 }
 /**
 * Full-width dismissable notification banner with severity variants.
 * Slides in from the top with a configurable auto-dismiss timer.
 */
 declare const AlertBanner: React.ForwardRefExoticComponent<Omit<AlertBannerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { HTMLAttributes as HTMLAttributes8, ReactNode as ReactNode22 } from "react";
+import { HTMLAttributes as HTMLAttributes8, ReactNode as ReactNode23 } from "react";
 /** A single navigation entry in the TopBar. */
 interface NavItem {
 	/** Display label. */
@@ -991,12 +1004,12 @@ interface NavItem {
 	/** Route path — matched against `activePath` to determine active state. */
 	path: string;
 	/** Optional leading icon (any ReactNode). */
-	icon?: ReactNode22;
+	icon?: ReactNode23;
 }
 /** App-level navigation header with title, nav items, and trailing slot. */
 interface TopBarProps extends Omit<HTMLAttributes8<HTMLElement>, "title"> {
 	/** Logo or app title — rendered in the leading slot. */
-	title: ReactNode22;
+	title: ReactNode23;
 	/** Navigation items displayed as horizontal buttons. */
 	items?: NavItem[];
 	/** The currently active path. Compared against each item's `path`. */
@@ -1004,7 +1017,7 @@ interface TopBarProps extends Omit<HTMLAttributes8<HTMLElement>, "title"> {
 	/** Called when a nav item is clicked. Consumer handles routing. */
 	onNavigate?: (path: string) => void;
 	/** Content rendered in the trailing slot (e.g. ThemePicker, avatar). */
-	trailing?: ReactNode22;
+	trailing?: ReactNode23;
 	/** Sticks to the top of the viewport on scroll.
 	* @default false
 	*/
@@ -1041,4 +1054,4 @@ interface ShortcutHelpModalProps {
 	maxWidth?: number;
 }
 declare const ShortcutHelpModal: React.ForwardRefExoticComponent<Omit<ShortcutHelpModalProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-export { useToast, useFocusTrap, iconRegistry, TopBarProps, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemeSurfaceProps, ThemeSurface, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, ShowToastOptions, ShortcutHelpModalProps, ShortcutHelpModal, ShortcutGroup, ShortcutDef, SelectProps, SelectOption, SelectFilterConfig, Select, SegmentedControlProps, SegmentedControl, Segment, SectionLabelProps, SectionLabel, SearchInputProps, SearchInput, RowSkeleton, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, NavItem, ModalShellProps, ModalShell, MetadataTableProps, MetadataTable, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FormModalProps, FormModal, FilterConfig, FieldProps, Field, ExpandableCardProps, ExpandableCard, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxProps, ComboboxOption, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge, AlertBannerVariant, AlertBannerProps, AlertBanner };
+export { useToast, useFocusTrap, iconRegistry, TopBarProps, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemeSurfaceProps, ThemeSurface, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, ShowToastOptions, ShortcutHelpModalProps, ShortcutHelpModal, ShortcutGroup, ShortcutDef, SelectProps, SelectOption, SelectFilterConfig, Select, SegmentedControlProps, SegmentedControl, Segment, SectionLabelProps, SectionLabel, SearchInputProps, SearchInput, RowSkeleton, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageShellProps, PageShell, PageHeaderProps, PageHeader, OverlayProps, Overlay, NavItem, ModalShellProps, ModalShell, MetadataTableProps, MetadataTable, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FormModalProps, FormModal, FilterConfig, FieldProps, Field, ExpandableCardProps, ExpandableCard, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxProps, ComboboxOption, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge, AlertBannerVariant, AlertBannerProps, AlertBanner };
