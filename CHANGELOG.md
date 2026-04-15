@@ -16,6 +16,7 @@
 - Fix scanline z-index in synthwave and pipboy themes (was 9999/1000, now 1)
 - Add `staggerStyle` animation helper to `@4lt7ab/core` for staggered fadeInUp entrance animations
 - Add TextSection click-to-edit markdown component to `@4lt7ab/content` — three-state (editing/content/empty) with keyboard shortcuts (Cmd+Enter to save, Escape to cancel)
+- Fix Select component not firing onChange in controlled mode when using custom dropdown (options prop)
 
 ## v0.2.23
 

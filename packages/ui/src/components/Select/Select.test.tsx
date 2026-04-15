@@ -1,3 +1,4 @@
+import React from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -260,6 +261,69 @@ describe("Select", () => {
 
     await user.keyboard("{Tab}");
     expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+  });
+
+  // -- Controlled mode ---------------------------------------------------------
+
+  it("fires onChange with correct value in controlled mode (click)", async () => {
+    const onChange = vi.fn();
+    const user = userEvent.setup();
+
+    function Controlled() {
+      const [value, setValue] = React.useState("");
+      return (
+        <Select
+          value={value}
+          onChange={(e) => {
+            onChange(e.target.value);
+            setValue(e.target.value);
+          }}
+          options={OPTIONS}
+          placeholder="Pick one"
+          aria-label="Test"
+        />
+      );
+    }
+
+    render(<Controlled />);
+    expect(screen.getByRole("combobox")).toHaveTextContent("Pick one");
+
+    await user.click(screen.getByRole("combobox"));
+    await user.click(screen.getByRole("option", { name: "Bravo" }));
+
+    expect(onChange).toHaveBeenCalledWith("b");
+    expect(screen.getByRole("combobox")).toHaveTextContent("Bravo");
+  });
+
+  it("fires onChange with correct value in controlled mode (keyboard)", async () => {
+    const onChange = vi.fn();
+    const user = userEvent.setup();
+
+    function Controlled() {
+      const [value, setValue] = React.useState("");
+      return (
+        <Select
+          value={value}
+          onChange={(e) => {
+            onChange(e.target.value);
+            setValue(e.target.value);
+          }}
+          options={OPTIONS}
+          placeholder="Pick one"
+          aria-label="Test"
+        />
+      );
+    }
+
+    render(<Controlled />);
+
+    screen.getByRole("combobox").focus();
+    await user.keyboard("{ArrowDown}"); // open, focus Alpha
+    await user.keyboard("{ArrowDown}"); // focus Bravo
+    await user.keyboard("{Enter}");     // select Bravo
+
+    expect(onChange).toHaveBeenCalledWith("b");
+    expect(screen.getByRole("combobox")).toHaveTextContent("Bravo");
   });
 
   // -- ARIA attributes --------------------------------------------------------
