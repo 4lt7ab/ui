@@ -583,11 +583,11 @@ const markdownCSS = /* css */ `
   .alttab-markdown ul,
   .alttab-markdown ol {
     padding-left: 1.5rem;
-    margin-block: 1em;
+    margin-block: 0.6em;
   }
 
   .alttab-markdown li + li {
-    margin-top: 0.4em;
+    margin-top: 0.15em;
   }
 
   .alttab-markdown li::marker {
@@ -598,7 +598,7 @@ const markdownCSS = /* css */ `
   .alttab-markdown ol ol,
   .alttab-markdown ul ol,
   .alttab-markdown ol ul {
-    margin-block: 0.4em;
+    margin-block: 0.1em;
   }
 
   /* ── Task lists (GFM) ── */

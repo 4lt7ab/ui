@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Tighten list spacing in Prose and Markdown components — reduce inter-item, list-block, and nested-list margins
+
 ## v0.2.21
 
 - Fix pre-commit jsx-runtime check failing when esbuild orders non-JSX modules first in the bundle

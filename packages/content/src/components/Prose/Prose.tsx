@@ -265,11 +265,11 @@ const proseCSS = /* css */ `
   .alttab-prose ul,
   .alttab-prose ol {
     padding-left: 1.5rem;
-    margin-block: 1em;
+    margin-block: 0.6em;
   }
 
   .alttab-prose li + li {
-    margin-top: 0.5em;
+    margin-top: 0.15em;
   }
 
   /* ── Tables ── */
