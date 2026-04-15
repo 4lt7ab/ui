@@ -4,6 +4,22 @@
 * Styles persist after unmount — they're inert when no matching elements exist.
 */
 declare function useInjectStyles(id: string, css: string): void;
+import { CSSProperties } from "react";
+interface StaggerOptions {
+	/** Delay between each item in ms. @default 30 */
+	delayMs?: number;
+	/** Maximum total delay in ms (caps the stagger). @default 300 */
+	maxMs?: number;
+	/** Animation duration in seconds. @default 0.3 */
+	duration?: number;
+}
+/**
+* Returns CSSProperties for a staggered fadeInUp entrance animation.
+* Spread onto a list item's style prop: `style={{ ...staggerStyle(i) }}`
+*
+* Requires ThemeProvider to be mounted (it injects the fadeInUp keyframe).
+*/
+declare function staggerStyle(index: number, options?: StaggerOptions): CSSProperties;
 /**
 * Primitive tokens — raw design values with no semantic meaning.
 * These are the palette. Components never reference these directly.
@@ -543,4 +559,4 @@ declare const pipboyTheme: ThemeDefinition;
 declare const neuralTheme: ThemeDefinition;
 declare const pacmanTheme: ThemeDefinition;
 declare const blackHoleTheme: ThemeDefinition;
-export { warmSandTheme, useTheme, useInjectStyles, typography, tokenToCssProperty, synthwaveTheme, spacing, slateTheme, shadows, semantic, radii, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, coralTheme, colors, blackHoleTheme, Typography, ThemeTokens, ThemeProviderProps, ThemeProvider, ThemeDefinition, ThemeContextValue, Theme, Spacing, Shadows, SemanticTokens, ResolvedTheme, Radii, KEYFRAMES, Colors };
+export { warmSandTheme, useTheme, useInjectStyles, typography, tokenToCssProperty, synthwaveTheme, staggerStyle, spacing, slateTheme, shadows, semantic, radii, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, coralTheme, colors, blackHoleTheme, Typography, ThemeTokens, ThemeProviderProps, ThemeProvider, ThemeDefinition, ThemeContextValue, Theme, StaggerOptions, Spacing, Shadows, SemanticTokens, ResolvedTheme, Radii, KEYFRAMES, Colors };

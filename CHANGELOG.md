@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add PageShell centered max-width scrollable column layout component to `@4lt7ab/ui`
 - Add focus-visible rings and hover state to IconButton; add `buttonSize` prop (`sm`/`md`/`lg`) for configurable tap-target size
 - Fix Toast and AlertBanner dismiss buttons stripping focus-visible outline (`all: unset` replaced with explicit resets)
 - Add focus-visible indicator to SegmentedControl segments for keyboard navigation
@@ -11,6 +12,7 @@
 - Add transition, border-width, and z-index semantic tokens to `@4lt7ab/core`
 - Migrate all components to use new tokens instead of hardcoded values
 - Fix scanline z-index in synthwave and pipboy themes (was 9999/1000, now 1)
+- Add `staggerStyle` animation helper to `@4lt7ab/core` for staggered fadeInUp entrance animations
 
 ## v0.2.23
 
