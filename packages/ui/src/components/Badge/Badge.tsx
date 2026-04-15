@@ -5,6 +5,9 @@ import type { ReactNode } from 'react';
 /** Semantic color variant for badges. */
 export type BadgeVariant = 'default' | 'success' | 'warning' | 'error' | 'info';
 
+/** Size variant for badges. */
+export type BadgeSize = 'default' | 'xs';
+
 /** A small label for status, category, or metadata. Rendered as uppercase pill text. */
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** Badge content (typically short text). */
@@ -18,6 +21,12 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
    * @default 'default'
    */
   variant?: BadgeVariant;
+  /** Size variant.
+   * - `default` — standard badge size with uppercase text
+   * - `xs` — tiny monospace pill for inline metadata
+   * @default 'default'
+   */
+  size?: BadgeSize;
   /** Custom CSS color override. When provided, variant styling is ignored.
    * The color is used directly for text and at low opacity for the background.
    */
@@ -58,14 +67,32 @@ const baseStyles: React.CSSProperties = {
   letterSpacing: t.letterSpacingWide,
 };
 
+const xsBaseStyles: React.CSSProperties = {
+  display: 'inline-block',
+  fontSize: '0.6rem',
+  fontFamily: t.fontMono,
+  fontWeight: t.fontWeightMedium,
+  color: t.colorTextMuted,
+  borderRadius: t.radiusFull,
+  background: `color-mix(in srgb, ${t.colorBorder} 40%, transparent)`,
+  padding: `0.0625rem ${t.spaceXs}`,
+  lineHeight: t.lineHeightTight,
+  letterSpacing: t.letterSpacingWide,
+  textTransform: 'lowercase',
+};
+
 export const Badge: React.ForwardRefExoticComponent<Omit<BadgeProps, 'ref'> & React.RefAttributes<HTMLSpanElement>> = forwardRef<HTMLSpanElement, BadgeProps>(
   function Badge({
     children,
     variant = 'default',
+    size = 'default',
     color,
     style,
     ...rest
   }, ref): React.JSX.Element {
+    const isXs = size === 'xs';
+    const base = isXs ? xsBaseStyles : baseStyles;
+
     const colorStyles: React.CSSProperties | undefined = color
       ? { background: `color-mix(in srgb, ${color} 14%, transparent)`, color }
       : undefined;
@@ -75,7 +102,7 @@ export const Badge: React.ForwardRefExoticComponent<Omit<BadgeProps, 'ref'> & Re
         ref={ref}
         {...rest}
         style={{
-          ...baseStyles,
+          ...base,
           ...(colorStyles ?? variantStyles[variant]),
           ...style,
         }}

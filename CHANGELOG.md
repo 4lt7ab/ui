@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add `xs` pill size variant to Badge — tiny monospace lowercase pill for inline metadata labels
+
 ## v0.2.23
 
 - Add test infrastructure (vitest, testing-library, jsdom) and first 76 tests covering Select, Combobox, ModalShell, useFocusTrap, and dateUtils
