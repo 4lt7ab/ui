@@ -47,6 +47,7 @@ import { SegmentedControlDemo } from './SegmentedControlDemo';
 import { AlertBannerDemo } from './AlertBannerDemo';
 import { TopBarDemo } from './TopBarDemo';
 import { ShortcutHelpModalDemo } from './ShortcutHelpModalDemo';
+import { PageShellDemo } from './PageShellDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -67,6 +68,7 @@ export const demos: DemoEntry[] = [
   { name: 'Card', category: 'Layout', source: 'ui', component: CardDemo },
   { name: 'ExpandableCard', category: 'Layout', source: 'ui', component: ExpandableCardDemo },
   { name: 'PageHeader', category: 'Layout', source: 'ui', component: PageHeaderDemo },
+  { name: 'PageShell', category: 'Layout', source: 'ui', component: PageShellDemo },
   { name: 'Table', category: 'Layout', source: 'ui', component: TableDemo },
   { name: 'TableFilters', category: 'Layout', source: 'ui', component: TableFiltersDemo },
   { name: 'MetadataTable', category: 'Layout', source: 'ui', component: MetadataTableDemo },
@@ -147,4 +149,5 @@ export {
   FormModalDemo,
   TopBarDemo,
   ShortcutHelpModalDemo,
+  PageShellDemo,
 };

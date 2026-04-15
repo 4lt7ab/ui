@@ -27,6 +27,7 @@ export * from './components/ProgressBar';
 export * from './components/EmptyState';
 export * from './components/Pagination';
 export * from './components/PageHeader';
+export * from './components/PageShell';
 export * from './components/TagChip';
 export * from './components/ExpandableCard';
 export { ModalShell } from './components/ModalShell';

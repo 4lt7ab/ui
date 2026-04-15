@@ -18,6 +18,7 @@ import {
   AlertBannerDemo,
   TopBarDemo,
   ShortcutHelpModalDemo,
+  PageShellDemo,
 } from '../demos';
 
 // ---------------------------------------------------------------------------
@@ -53,6 +54,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'ExpandableCard', source: 'ui', Demo: ExpandableCardDemo },
       { name: 'TopBar', source: 'ui', Demo: TopBarDemo },
       { name: 'PageHeader', source: 'ui', Demo: PageHeaderDemo },
+      { name: 'PageShell', source: 'ui', Demo: PageShellDemo },
       { name: 'MetadataTable', source: 'ui', Demo: MetadataTableDemo },
       { name: 'SectionLabel', source: 'ui', Demo: SectionLabelDemo },
     ],
