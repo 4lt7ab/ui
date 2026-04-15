@@ -115,6 +115,7 @@ packages/
 │       │   ├── SideNote/
 │       │   ├── Epigraph/
 │       │   ├── LinkCard/
+│       │   ├── TextSection/
 │       │   └── ThinkingCycle/
 │       └── index.ts
 ├── animations/

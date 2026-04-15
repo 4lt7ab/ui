@@ -119,6 +119,34 @@ interface LinkCardProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "t
 * Hover lifts and accent-borders. Good for project links, post previews, etc.
 */
 declare const LinkCard: React.ForwardRefExoticComponent<Omit<LinkCardProps, "ref"> & React.RefAttributes<HTMLAnchorElement>>;
+interface TextSectionProps {
+	/** Current content (markdown string). Empty/null = empty state. */
+	content?: string | null;
+	/** Whether the section is in editing mode. */
+	editing: boolean;
+	/** Current value in the textarea during editing. */
+	editValue: string;
+	/** Called when user clicks content or empty state to start editing. */
+	onStartEdit: () => void;
+	/** Called with new textarea value on change. */
+	onEditChange: (value: string) => void;
+	/** Called when user saves (button or Cmd+Enter). */
+	onSave: () => void;
+	/** Called when user cancels (button or Escape). */
+	onCancel: () => void;
+	/** Accessible label for the section (e.g. "Summary", "Context"). */
+	fieldLabel?: string;
+	/** Number of textarea rows. @default 4 */
+	rows?: number;
+	/** Placeholder text for empty state. @default "Click to add content..." */
+	placeholder?: string;
+}
+/**
+* A three-state editable text section that couples Markdown rendering
+* with textarea editing. Click content or empty state to start editing;
+* save with a button or Cmd/Ctrl+Enter; cancel with a button or Escape.
+*/
+declare function TextSection({ content, editing, editValue, onStartEdit, onEditChange, onSave, onCancel, fieldLabel, rows, placeholder }: TextSectionProps): React.JSX.Element;
 interface ThinkingCycleProps {
 	/** Words to cycle through. Needs at least 2. */
 	words: string[];
@@ -141,4 +169,4 @@ interface ThinkingCycleProps {
 * Usage: Building with AI tools is <ThinkingCycle words={['powerful', 'wild']} />.
 */
 declare const ThinkingCycle: React.ForwardRefExoticComponent<Omit<ThinkingCycleProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
-export { ThinkingCycleProps, ThinkingCycle, SideNoteProps, SideNote, PullQuoteProps, PullQuote, ProseProps, Prose, PROSE_H2_SIZE, PROSE_H1_SIZE, PROSE_CODE_SIZE, PROSE_BODY_SIZE, PROSE_BLOCKQUOTE_SIZE, MarkdownProps, Markdown, MarginNoteProps, MarginNote, MIX_SUBTLE, MIX_HOVER, MIX_BADGE, LinkCardProps, LinkCard, EpigraphProps, Epigraph, ContainerWidth, ContainerProps, Container, BREAKPOINT_WIDE, BREAKPOINT_PROSE, BREAKPOINT_MARGIN_NOTES };
+export { ThinkingCycleProps, ThinkingCycle, TextSectionProps, TextSection, SideNoteProps, SideNote, PullQuoteProps, PullQuote, ProseProps, Prose, PROSE_H2_SIZE, PROSE_H1_SIZE, PROSE_CODE_SIZE, PROSE_BODY_SIZE, PROSE_BLOCKQUOTE_SIZE, MarkdownProps, Markdown, MarginNoteProps, MarginNote, MIX_SUBTLE, MIX_HOVER, MIX_BADGE, LinkCardProps, LinkCard, EpigraphProps, Epigraph, ContainerWidth, ContainerProps, Container, BREAKPOINT_WIDE, BREAKPOINT_PROSE, BREAKPOINT_MARGIN_NOTES };

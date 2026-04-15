@@ -184,6 +184,37 @@ Clickable card-style link with title and description. Supports external links.
 
 Extends `AnchorHTMLAttributes<HTMLAnchorElement>` (except `title`).
 
+### TextSection
+
+Three-state click-to-edit markdown block. Renders content through the Markdown component, switches to a textarea for editing, and shows a placeholder when empty.
+
+```tsx
+<TextSection
+  content={content}
+  editing={editing}
+  editValue={editValue}
+  onStartEdit={() => { setEditValue(content ?? ''); setEditing(true); }}
+  onEditChange={setEditValue}
+  onSave={() => { setContent(editValue || null); setEditing(false); }}
+  onCancel={() => setEditing(false)}
+  fieldLabel="Summary"
+  rows={6}
+/>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `content` | `string \| null` | — | Current markdown content. Empty/null = empty state |
+| `editing` | `boolean` | *required* | Whether the section is in editing mode |
+| `editValue` | `string` | *required* | Current textarea value during editing |
+| `onStartEdit` | `() => void` | *required* | Called when user clicks content or empty state |
+| `onEditChange` | `(value: string) => void` | *required* | Called on textarea change |
+| `onSave` | `() => void` | *required* | Called on save (button or Cmd/Ctrl+Enter) |
+| `onCancel` | `() => void` | *required* | Called on cancel (button or Escape) |
+| `fieldLabel` | `string` | — | Accessible label for the section |
+| `rows` | `number` | `4` | Number of textarea rows |
+| `placeholder` | `string` | `'Click to add content...'` | Placeholder for empty state |
+
 ### ThinkingCycle
 
 Animated word scramble effect that cycles through a list of words with per-character animation.

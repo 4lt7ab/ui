@@ -18,6 +18,7 @@ import {
   AlertBannerDemo,
   TopBarDemo,
   ShortcutHelpModalDemo,
+  TextSectionDemo,
 } from '../demos';
 
 // ---------------------------------------------------------------------------
@@ -67,6 +68,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'MarginNote', source: 'content', Demo: MarginNoteDemo },
       { name: 'SideNote', source: 'content', Demo: SideNoteDemo },
       { name: 'ThinkingCycle', source: 'content', Demo: ThinkingCycleDemo },
+      { name: 'TextSection', source: 'content', Demo: TextSectionDemo },
       { name: 'LinkCard', source: 'content', Demo: LinkCardDemo },
     ],
   },
