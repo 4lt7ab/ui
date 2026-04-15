@@ -278,6 +278,28 @@ declare const semantic: {
 	readonly focusRingWidth: "var(--focus-ring-width)";
 	/** Offset between element and focus ring. */
 	readonly focusRingOffset: "var(--focus-ring-offset)";
+	/** Fast transition for option hovers. */
+	readonly transitionFast: "var(--transition-fast)";
+	/** Base transition for form inputs, buttons, most interactions. */
+	readonly transitionBase: "var(--transition-base)";
+	/** Slow transition for modals, toasts, expanding cards. */
+	readonly transitionSlow: "var(--transition-slow)";
+	/** Default border width. */
+	readonly borderWidthDefault: "var(--border-width-default)";
+	/** Thick border width for emphasis. */
+	readonly borderWidthThick: "var(--border-width-thick)";
+	/** Accent border width for strong visual indicators. */
+	readonly borderWidthAccent: "var(--border-width-accent)";
+	/** Z-index for dropdowns and popovers. */
+	readonly zIndexDropdown: "var(--z-index-dropdown)";
+	/** Z-index for sticky headers and floating controls. */
+	readonly zIndexSticky: "var(--z-index-sticky)";
+	/** Z-index for modal overlays and dialogs. */
+	readonly zIndexModal: "var(--z-index-modal)";
+	/** Z-index for toast notifications. */
+	readonly zIndexToast: "var(--z-index-toast)";
+	/** Z-index ceiling for elements that must always be on top. */
+	readonly zIndexMax: "var(--z-index-max)";
 };
 type SemanticTokens = typeof semantic;
 import { ReactNode } from "react";
@@ -425,6 +447,28 @@ interface ThemeTokens {
 	focusRingWidth: string;
 	/** Offset between the element and the focus ring. */
 	focusRingOffset: string;
+	/** Fast transition for option hovers (100ms ease). */
+	transitionFast: string;
+	/** Base transition for form inputs, buttons, most interactions (150ms ease). */
+	transitionBase: string;
+	/** Slow transition for modals, toasts, expanding cards (250ms ease). */
+	transitionSlow: string;
+	/** Default border width (1px). */
+	borderWidthDefault: string;
+	/** Thick border width for emphasis (2px). */
+	borderWidthThick: string;
+	/** Accent border width for strong visual indicators (3px). */
+	borderWidthAccent: string;
+	/** Z-index for dropdowns and popovers (50). */
+	zIndexDropdown: string;
+	/** Z-index for sticky headers and floating controls (100). */
+	zIndexSticky: string;
+	/** Z-index for modal overlays and dialogs (200). */
+	zIndexModal: string;
+	/** Z-index for toast notifications (500). */
+	zIndexToast: string;
+	/** Z-index ceiling for elements that must always be on top (9999). */
+	zIndexMax: string;
 }
 /** A named theme definition. */
 interface ThemeDefinition {

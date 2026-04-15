@@ -66,7 +66,7 @@ export const ExpandableCard: React.ForwardRefExoticComponent<Omit<ExpandableCard
             padding: `${t.spaceSm} ${t.spaceMd}`,
             cursor: 'pointer',
             borderRadius: t.radiusMd,
-            transition: 'background 150ms ease',
+            transition: `background ${t.transitionBase}`,
             background: 'none',
             border: 'none',
             color: 'inherit',
@@ -83,7 +83,7 @@ export const ExpandableCard: React.ForwardRefExoticComponent<Omit<ExpandableCard
               height: 20,
               lineHeight: 1,
               color: 'inherit',
-              transition: 'transform 200ms ease',
+              transition: `transform ${t.transitionSlow}`,
               transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)',
             }}
           >
@@ -110,7 +110,7 @@ export const ExpandableCard: React.ForwardRefExoticComponent<Omit<ExpandableCard
         style={{
           display: 'grid',
           gridTemplateRows: isOpen ? '1fr' : '0fr',
-          transition: 'grid-template-rows 200ms ease',
+          transition: `grid-template-rows ${t.transitionSlow}`,
         }}
       >
         <div style={{ overflow: 'hidden' }}>

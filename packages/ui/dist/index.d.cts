@@ -285,9 +285,9 @@ interface OverlayProps {
 	/** Called when the overlay is clicked (typically to close the parent modal). */
 	onClick?: () => void;
 	/** CSS z-index for stacking control.
-	* @default 100
+	* @default 'var(--z-index-sticky)'
 	*/
-	zIndex?: number;
+	zIndex?: number | string;
 	/** Additional inline styles. */
 	style?: CSSProperties5;
 }
@@ -467,9 +467,9 @@ interface ModalShellProps {
 	*/
 	maxWidth?: number;
 	/** Base z-index for the overlay. The panel renders at `zIndex + 1`.
-	* @default 200
+	* @default 'var(--z-index-modal)'
 	*/
-	zIndex?: number;
+	zIndex?: number | string;
 	/** Additional inline styles for the modal panel. */
 	style?: CSSProperties13;
 	/** ID of the element that labels this dialog. Used for `aria-labelledby`. */

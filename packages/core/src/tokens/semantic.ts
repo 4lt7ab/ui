@@ -184,6 +184,37 @@ export const semantic = {
   focusRingWidth: 'var(--focus-ring-width)',
   /** Offset between element and focus ring. */
   focusRingOffset: 'var(--focus-ring-offset)',
+
+  // ── Transitions ──
+
+  /** Fast transition for option hovers. */
+  transitionFast: 'var(--transition-fast)',
+  /** Base transition for form inputs, buttons, most interactions. */
+  transitionBase: 'var(--transition-base)',
+  /** Slow transition for modals, toasts, expanding cards. */
+  transitionSlow: 'var(--transition-slow)',
+
+  // ── Border widths ──
+
+  /** Default border width. */
+  borderWidthDefault: 'var(--border-width-default)',
+  /** Thick border width for emphasis. */
+  borderWidthThick: 'var(--border-width-thick)',
+  /** Accent border width for strong visual indicators. */
+  borderWidthAccent: 'var(--border-width-accent)',
+
+  // ── Z-index ──
+
+  /** Z-index for dropdowns and popovers. */
+  zIndexDropdown: 'var(--z-index-dropdown)',
+  /** Z-index for sticky headers and floating controls. */
+  zIndexSticky: 'var(--z-index-sticky)',
+  /** Z-index for modal overlays and dialogs. */
+  zIndexModal: 'var(--z-index-modal)',
+  /** Z-index for toast notifications. */
+  zIndexToast: 'var(--z-index-toast)',
+  /** Z-index ceiling for elements that must always be on top. */
+  zIndexMax: 'var(--z-index-max)',
 } as const;
 
 export type SemanticTokens = typeof semantic;

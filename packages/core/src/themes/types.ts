@@ -184,6 +184,37 @@ export interface ThemeTokens {
   focusRingWidth: string;
   /** Offset between the element and the focus ring. */
   focusRingOffset: string;
+
+  // ── Transitions ──
+
+  /** Fast transition for option hovers (100ms ease). */
+  transitionFast: string;
+  /** Base transition for form inputs, buttons, most interactions (150ms ease). */
+  transitionBase: string;
+  /** Slow transition for modals, toasts, expanding cards (250ms ease). */
+  transitionSlow: string;
+
+  // ── Border widths ──
+
+  /** Default border width (1px). */
+  borderWidthDefault: string;
+  /** Thick border width for emphasis (2px). */
+  borderWidthThick: string;
+  /** Accent border width for strong visual indicators (3px). */
+  borderWidthAccent: string;
+
+  // ── Z-index ──
+
+  /** Z-index for dropdowns and popovers (50). */
+  zIndexDropdown: string;
+  /** Z-index for sticky headers and floating controls (100). */
+  zIndexSticky: string;
+  /** Z-index for modal overlays and dialogs (200). */
+  zIndexModal: string;
+  /** Z-index for toast notifications (500). */
+  zIndexToast: string;
+  /** Z-index ceiling for elements that must always be on top (9999). */
+  zIndexMax: string;
 }
 
 /** A named theme definition. */

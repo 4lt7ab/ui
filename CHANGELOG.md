@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add transition, border-width, and z-index semantic tokens to `@4lt7ab/core`
+- Migrate all components to use new tokens instead of hardcoded values
+- Fix scanline z-index in synthwave and pipboy themes (was 9999/1000, now 1)
+
 ## v0.2.23
 
 - Add test infrastructure (vitest, testing-library, jsdom) and first 76 tests covering Select, Combobox, ModalShell, useFocusTrap, and dateUtils

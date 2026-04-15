@@ -1,4 +1,4 @@
-import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d={prose:"680px",wide:"900px"},aJ=o(function({width:Q="prose",maxWidth:$,padding:X="1.5rem",children:z,style:U,...V},K){return l("div",{ref:K,style:{boxSizing:"border-box",width:"100%",maxWidth:$??d[Q],marginInline:"auto",paddingInline:X,overflow:"visible",...U},...V,children:z})});import{forwardRef as i}from"react";import{useInjectStyles as t}from "../../core/dist/index.js";import{jsx as s}from"react/jsx-runtime";var r="alttab-prose-styles",n=`
+import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d={prose:"680px",wide:"900px"},aJ=o(function({width:Q="prose",maxWidth:$,padding:X="1.5rem",children:z,style:U,...V},K){return l("div",{ref:K,style:{boxSizing:"border-box",width:"100%",maxWidth:$??d[Q],marginInline:"auto",paddingInline:X,overflow:"visible",...U},...V,children:z})});import{forwardRef as i}from"react";import{useInjectStyles as r}from "../../core/dist/index.js";import{jsx as s}from"react/jsx-runtime";var t="alttab-prose-styles",n=`
   /* ── Typography ── */
   .alttab-prose {
     font-size: 1.0625rem;
@@ -84,7 +84,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     text-decoration: underline;
     text-underline-offset: 3px;
     text-decoration-color: transparent;
-    transition: text-decoration-color 0.15s ease;
+    transition: text-decoration-color var(--transition-base);
   }
 
   .alttab-prose a:hover {
@@ -103,7 +103,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
   /* ── Code blocks ── */
   .alttab-prose pre {
     background: var(--color-surface-page);
-    border: 1px solid var(--color-border);
+    border: var(--border-width-default) solid var(--color-border);
     border-radius: var(--radius-md);
     padding: 1rem 1.25rem;
     margin-block: 1.5rem;
@@ -123,7 +123,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
 
   /* ── Blockquotes ── */
   .alttab-prose blockquote {
-    border-left: 3px solid var(--color-action-primary);
+    border-left: var(--border-width-accent) solid var(--color-action-primary);
     padding-left: 1.5rem;
     margin-block: 1.5rem;
     margin-inline: 0;
@@ -146,7 +146,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
   /* ── Pull quotes ── */
   .alttab-prose [data-pull-quote] {
     border-left: none;
-    border-block: 1px solid var(--color-border);
+    border-block: var(--border-width-default) solid var(--color-border);
     padding-left: 0;
     padding-block: 1.5rem;
     margin-block: 2.25rem;
@@ -203,7 +203,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     color: var(--color-text-muted);
     margin-block: 0.75rem;
     padding-left: 0.75rem;
-    border-left: 2px solid var(--color-border);
+    border-left: var(--border-width-thick) solid var(--color-border);
   }
 
   /* ── Side notes (right) ── */
@@ -214,7 +214,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     color: var(--color-text-muted);
     margin-block: 0.75rem;
     padding-right: 0.75rem;
-    border-right: 2px solid var(--color-border);
+    border-right: var(--border-width-thick) solid var(--color-border);
     text-align: right;
   }
 
@@ -267,13 +267,13 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     text-align: left;
     font-weight: 600;
     padding: 0.5rem 0.75rem;
-    border-bottom: 2px solid var(--color-border);
+    border-bottom: var(--border-width-thick) solid var(--color-border);
     color: var(--color-text);
   }
 
   .alttab-prose td {
     padding: 0.5rem 0.75rem;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: var(--border-width-default) solid var(--color-border);
     color: var(--color-text-secondary);
   }
 
@@ -285,7 +285,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
   .alttab-prose strong {
     font-weight: 600;
   }
-`,iJ=i(function({children:Q,style:$,...X},z){return t(r,n),s("div",{ref:z,className:"alttab-prose",style:$,...X,children:Q})});import{useState as C,useCallback as S,useRef as g,Children as M,cloneElement as T,isValidElement as I}from"react";import e from"react-markdown";import JJ from"remark-gfm";import{semantic as O,useInjectStyles as p}from "../../core/dist/index.js";import{jsx as Z,jsxs as G}from"react/jsx-runtime";function b(J){if(typeof J==="string")return J;if(typeof J==="number")return String(J);if(Array.isArray(J))return J.map(b).join("");if(J&&typeof J==="object"&&"props"in J)return b(J.props.children);return""}function QJ(J){return J.toLowerCase().replace(/[^\w\s-]/g,"").replace(/[\s_]+/g,"-").replace(/^-+|-+$/g,"")}var m={width:14,height:14,fill:"none",stroke:"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round"};function j(){return G("svg",{viewBox:"0 0 24 24",...m,children:[Z("rect",{x:"9",y:"9",width:"13",height:"13",rx:"2",ry:"2"}),Z("path",{d:"M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"})]})}function u(){return Z("svg",{viewBox:"0 0 24 24",...m,children:Z("path",{d:"M20 6L9 17l-5-5"})})}function ZJ(){return G("svg",{viewBox:"0 0 24 24",width:"18",height:"18",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round",children:[Z("path",{d:"M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"}),Z("path",{d:"M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"})]})}var A={width:18,height:18,fill:"none",stroke:"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round"};function $J(){return G("svg",{viewBox:"0 0 24 24",...A,children:[Z("circle",{cx:"12",cy:"12",r:"10"}),Z("path",{d:"M12 16v-4"}),Z("path",{d:"M12 8h.01"})]})}function XJ(){return Z("svg",{viewBox:"0 0 24 24",...A,children:Z("polygon",{points:"13 2 3 14 12 14 11 22 21 10 12 10 13 2"})})}function zJ(){return G("svg",{viewBox:"0 0 24 24",...A,children:[Z("path",{d:"M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"}),Z("path",{d:"M12 8v3"}),Z("path",{d:"M12 14h.01"})]})}function KJ(){return G("svg",{viewBox:"0 0 24 24",...A,children:[Z("path",{d:"M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"}),Z("path",{d:"M12 9v4"}),Z("path",{d:"M12 17h.01"})]})}function UJ(){return G("svg",{viewBox:"0 0 24 24",...A,children:[Z("polygon",{points:"7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"}),Z("path",{d:"M15 9l-6 6"}),Z("path",{d:"M9 9l6 6"})]})}var VJ="alttab-markdown-codeblock",qJ=`
+`,iJ=i(function({children:Q,style:$,...X},z){return r(t,n),s("div",{ref:z,className:"alttab-prose",style:$,...X,children:Q})});import{useState as C,useCallback as S,useRef as g,Children as M,cloneElement as T,isValidElement as I}from"react";import e from"react-markdown";import JJ from"remark-gfm";import{semantic as Y,useInjectStyles as p}from "../../core/dist/index.js";import{jsx as Z,jsxs as W}from"react/jsx-runtime";function b(J){if(typeof J==="string")return J;if(typeof J==="number")return String(J);if(Array.isArray(J))return J.map(b).join("");if(J&&typeof J==="object"&&"props"in J)return b(J.props.children);return""}function QJ(J){return J.toLowerCase().replace(/[^\w\s-]/g,"").replace(/[\s_]+/g,"-").replace(/^-+|-+$/g,"")}var m={width:14,height:14,fill:"none",stroke:"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round"};function j(){return W("svg",{viewBox:"0 0 24 24",...m,children:[Z("rect",{x:"9",y:"9",width:"13",height:"13",rx:"2",ry:"2"}),Z("path",{d:"M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"})]})}function u(){return Z("svg",{viewBox:"0 0 24 24",...m,children:Z("path",{d:"M20 6L9 17l-5-5"})})}function ZJ(){return W("svg",{viewBox:"0 0 24 24",width:"18",height:"18",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round",children:[Z("path",{d:"M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"}),Z("path",{d:"M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"})]})}var A={width:18,height:18,fill:"none",stroke:"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round"};function $J(){return W("svg",{viewBox:"0 0 24 24",...A,children:[Z("circle",{cx:"12",cy:"12",r:"10"}),Z("path",{d:"M12 16v-4"}),Z("path",{d:"M12 8h.01"})]})}function XJ(){return Z("svg",{viewBox:"0 0 24 24",...A,children:Z("polygon",{points:"13 2 3 14 12 14 11 22 21 10 12 10 13 2"})})}function zJ(){return W("svg",{viewBox:"0 0 24 24",...A,children:[Z("path",{d:"M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"}),Z("path",{d:"M12 8v3"}),Z("path",{d:"M12 14h.01"})]})}function KJ(){return W("svg",{viewBox:"0 0 24 24",...A,children:[Z("path",{d:"M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"}),Z("path",{d:"M12 9v4"}),Z("path",{d:"M12 17h.01"})]})}function UJ(){return W("svg",{viewBox:"0 0 24 24",...A,children:[Z("polygon",{points:"7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"}),Z("path",{d:"M15 9l-6 6"}),Z("path",{d:"M9 9l6 6"})]})}var VJ="alttab-markdown-codeblock",qJ=`
   .alttab-codeblock {
     position: relative;
   }
@@ -298,27 +298,27 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     justify-content: center;
     width: 28px;
     height: 28px;
-    border: 1px solid ${O.colorBorder};
-    border-radius: ${O.radiusSm};
-    background: ${O.colorSurface};
-    color: ${O.colorTextMuted};
+    border: ${Y.borderWidthDefault} solid ${Y.colorBorder};
+    border-radius: ${Y.radiusSm};
+    background: ${Y.colorSurface};
+    color: ${Y.colorTextMuted};
     cursor: pointer;
     opacity: 0;
-    transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    transition: opacity ${Y.transitionBase}, color ${Y.transitionBase}, border-color ${Y.transitionBase};
   }
   .alttab-codeblock:hover .alttab-codeblock-copy {
     opacity: 1;
   }
   .alttab-codeblock-copy:hover {
-    color: ${O.colorText};
-    border-color: ${O.colorTextMuted};
+    color: ${Y.colorText};
+    border-color: ${Y.colorTextMuted};
   }
   .alttab-codeblock-copy[data-copied] {
     opacity: 1;
-    color: ${O.colorSuccess};
-    border-color: ${O.colorSuccess};
+    color: ${Y.colorSuccess};
+    border-color: ${Y.colorSuccess};
   }
-`;function BJ({children:J}){p(VJ,qJ);let[Q,$]=C(!1),X=g(null),z=S(()=>{let U="",V=(K)=>{if(typeof K==="string"){U+=K;return}if(Array.isArray(K)){K.forEach(V);return}if(K&&typeof K==="object"&&"props"in K)V(K.props.children)};if(V(J),navigator.clipboard.writeText(U.replace(/\n$/,"")),$(!0),X.current)clearTimeout(X.current);X.current=setTimeout(()=>$(!1),1500)},[J]);return G("div",{className:"alttab-codeblock",children:[Z("button",{type:"button",className:"alttab-codeblock-copy",onClick:z,"aria-label":"Copy code",...Q?{"data-copied":""}:{},children:Q?Z(u,{}):Z(j,{})}),Z("pre",{children:J})]})}function H({level:J,children:Q}){let $=`h${J}`,X=b(Q),z=QJ(X);return G($,{id:z,children:[Q,Z("a",{href:`#${z}`,className:"alttab-md-anchor","aria-label":`Link to "${X}"`,children:Z(ZJ,{})})]})}var FJ=/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*/,YJ={NOTE:{label:"Note",icon:$J,attr:"note"},TIP:{label:"Tip",icon:XJ,attr:"tip"},IMPORTANT:{label:"Important",icon:zJ,attr:"important"},WARNING:{label:"Warning",icon:KJ,attr:"warning"},CAUTION:{label:"Caution",icon:UJ,attr:"caution"}};function GJ(J){let Q=M.toArray(J),$=Q.findIndex(I);if($===-1)return null;let X=Q[$],z=M.toArray(X.props.children),U=z[0];if(typeof U!=="string")return null;let V=U.match(FJ);if(!V)return null;let K=V[1],W=U.slice(V[0].length);if(W||z.length>1){let E=W?[W,...z.slice(1)]:z.slice(1),D=T(X,{},...E);return{type:K,content:[...Q.slice(0,$),D,...Q.slice($+1)]}}return{type:K,content:Q.slice($+1)}}function WJ({children:J}){let Q=GJ(J);if(Q){let $=YJ[Q.type],X=$.icon;return G("div",{className:"alttab-callout","data-callout":$.attr,children:[G("div",{className:"alttab-callout-title",children:[Z(X,{}),Z("span",{children:$.label})]}),Z("div",{className:"alttab-callout-body",children:Q.content})]})}return Z("blockquote",{children:J})}var NJ="alttab-markdown-styles",PJ=`
+`;function BJ({children:J}){p(VJ,qJ);let[Q,$]=C(!1),X=g(null),z=S(()=>{let U="",V=(K)=>{if(typeof K==="string"){U+=K;return}if(Array.isArray(K)){K.forEach(V);return}if(K&&typeof K==="object"&&"props"in K)V(K.props.children)};if(V(J),navigator.clipboard.writeText(U.replace(/\n$/,"")),$(!0),X.current)clearTimeout(X.current);X.current=setTimeout(()=>$(!1),1500)},[J]);return W("div",{className:"alttab-codeblock",children:[Z("button",{type:"button",className:"alttab-codeblock-copy",onClick:z,"aria-label":"Copy code",...Q?{"data-copied":""}:{},children:Q?Z(u,{}):Z(j,{})}),Z("pre",{children:J})]})}function H({level:J,children:Q}){let $=`h${J}`,X=b(Q),z=QJ(X);return W($,{id:z,children:[Q,Z("a",{href:`#${z}`,className:"alttab-md-anchor","aria-label":`Link to "${X}"`,children:Z(ZJ,{})})]})}var FJ=/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*/,YJ={NOTE:{label:"Note",icon:$J,attr:"note"},TIP:{label:"Tip",icon:XJ,attr:"tip"},IMPORTANT:{label:"Important",icon:zJ,attr:"important"},WARNING:{label:"Warning",icon:KJ,attr:"warning"},CAUTION:{label:"Caution",icon:UJ,attr:"caution"}};function GJ(J){let Q=M.toArray(J),$=Q.findIndex(I);if($===-1)return null;let X=Q[$],z=M.toArray(X.props.children),U=z[0];if(typeof U!=="string")return null;let V=U.match(FJ);if(!V)return null;let K=V[1],N=U.slice(V[0].length);if(N||z.length>1){let E=N?[N,...z.slice(1)]:z.slice(1),D=T(X,{},...E);return{type:K,content:[...Q.slice(0,$),D,...Q.slice($+1)]}}return{type:K,content:Q.slice($+1)}}function WJ({children:J}){let Q=GJ(J);if(Q){let $=YJ[Q.type],X=$.icon;return W("div",{className:"alttab-callout","data-callout":$.attr,children:[W("div",{className:"alttab-callout-title",children:[Z(X,{}),Z("span",{children:$.label})]}),Z("div",{className:"alttab-callout-body",children:Q.content})]})}return Z("blockquote",{children:J})}var NJ="alttab-markdown-styles",PJ=`
   /* ── Base ── */
   .alttab-markdown {
     position: relative;
@@ -390,7 +390,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     align-items: center;
     margin-left: 0.35em;
     opacity: 0;
-    transition: opacity 0.15s ease, color 0.15s ease;
+    transition: opacity var(--transition-base), color var(--transition-base);
     color: var(--color-text-muted);
     text-decoration: none;
     vertical-align: middle;
@@ -431,7 +431,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     text-underline-offset: 3px;
     text-decoration-thickness: 1px;
     text-decoration-color: color-mix(in srgb, var(--color-text-link) 40%, transparent);
-    transition: text-decoration-color 0.15s ease, color 0.15s ease;
+    transition: text-decoration-color var(--transition-base), color var(--transition-base);
   }
 
   .alttab-markdown a:hover {
@@ -449,7 +449,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     font-size: 0.85em;
     font-family: var(--font-mono);
     background: var(--color-surface-raised);
-    border: 1px solid var(--color-border);
+    border: var(--border-width-default) solid var(--color-border);
     padding: 0.125em 0.375em;
     border-radius: var(--radius-sm);
     color: var(--color-text-secondary);
@@ -460,8 +460,8 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
   /* ── Code blocks ── */
   .alttab-markdown pre {
     background: var(--color-surface-page);
-    border: 1px solid var(--color-border);
-    border-left: 3px solid var(--color-action-primary);
+    border: var(--border-width-default) solid var(--color-border);
+    border-left: var(--border-width-accent) solid var(--color-action-primary);
     border-radius: var(--radius-md);
     padding: 1rem 1.25rem;
     margin-block: 1.5rem;
@@ -483,7 +483,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
 
   /* ── Blockquotes ── */
   .alttab-markdown blockquote {
-    border-left: 3px solid var(--color-action-primary);
+    border-left: var(--border-width-accent) solid var(--color-action-primary);
     padding-left: 1.5rem;
     margin-block: 1.5rem;
     margin-inline: 0;
@@ -499,8 +499,8 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     margin-block: 1.5rem;
     padding: 1rem 1.25rem;
     border-radius: var(--radius-md);
-    border: 1px solid color-mix(in srgb, var(--callout-color) 25%, var(--color-border));
-    border-left: 3px solid var(--callout-color);
+    border: var(--border-width-default) solid color-mix(in srgb, var(--callout-color) 25%, var(--color-border));
+    border-left: var(--border-width-accent) solid var(--callout-color);
     background: var(--callout-bg);
   }
 
@@ -563,7 +563,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     font-size: 0.85em;
     font-family: var(--font-mono);
     background: var(--color-surface-raised);
-    border: 1px solid var(--color-border);
+    border: var(--border-width-default) solid var(--color-border);
     padding: 0.125em 0.375em;
     border-radius: var(--radius-sm);
     color: var(--color-text-secondary);
@@ -633,7 +633,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     border-spacing: 0;
     margin-block: 1.5rem;
     font-size: 0.9375rem;
-    border: 1px solid var(--color-border);
+    border: var(--border-width-default) solid var(--color-border);
     border-radius: var(--radius-md);
     overflow: hidden;
   }
@@ -643,7 +643,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     font-weight: 600;
     padding: 0.625rem 0.875rem;
     background: var(--color-surface-raised);
-    border-bottom: 2px solid var(--color-border);
+    border-bottom: var(--border-width-thick) solid var(--color-border);
     color: var(--color-text);
     font-size: 0.8125rem;
     text-transform: uppercase;
@@ -652,7 +652,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
 
   .alttab-markdown td {
     padding: 0.5rem 0.875rem;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: var(--border-width-default) solid var(--color-border);
     color: var(--color-text-secondary);
   }
 
@@ -682,13 +682,13 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     justify-content: center;
     width: 28px;
     height: 28px;
-    border: 1px solid var(--color-border);
+    border: var(--border-width-default) solid var(--color-border);
     border-radius: var(--radius-sm);
     background: var(--color-surface);
     color: var(--color-text-muted);
     cursor: pointer;
     opacity: 0;
-    transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    transition: opacity var(--transition-base), color var(--transition-base), border-color var(--transition-base);
     z-index: 1;
   }
 
@@ -706,10 +706,10 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     color: var(--color-success);
     border-color: var(--color-success);
   }
-`;function OJ({children:J}){let Q=0,$=M.map(J,(X)=>{if(!I(X))return X;let z=Q%2===1;if(Q++,!z)return X;let U=M.map(X.props.children,(V)=>{if(!I(V))return V;let K=V.props;return T(V,{style:{...K.style,background:"color-mix(in srgb, var(--color-text) 5%, transparent)"}})});return T(X,{},U)});return Z("tbody",{children:$})}var DJ={pre:BJ,blockquote:WJ,tbody:OJ,h1:({children:J})=>Z(H,{level:1,children:J}),h2:({children:J})=>Z(H,{level:2,children:J}),h3:({children:J})=>Z(H,{level:3,children:J}),h4:({children:J})=>Z(H,{level:4,children:J}),h5:({children:J})=>Z(H,{level:5,children:J}),h6:({children:J})=>Z(H,{level:6,children:J})};function HJ({children:J,className:Q,...$}){p(NJ,PJ);let[X,z]=C(!1),U=g(null),V=S(()=>{if(navigator.clipboard.writeText(J),z(!0),U.current)clearTimeout(U.current);U.current=setTimeout(()=>z(!1),1500)},[J]);return G("div",{className:Q?`alttab-markdown ${Q}`:"alttab-markdown",...$,children:[Z("button",{type:"button",className:"alttab-md-copy-source",onClick:V,"aria-label":"Copy markdown source",title:"Copy markdown",...X?{"data-copied":""}:{},children:X?Z(u,{}):Z(j,{})}),Z(e,{remarkPlugins:[JJ],components:DJ,children:J})]})}import{forwardRef as LJ}from"react";import{jsx as f}from"react/jsx-runtime";var KQ=LJ(function({children:Q},$){return f("blockquote",{ref:$,"data-pull-quote":"",children:f("p",{children:Q})})});import{forwardRef as _J}from"react";import{jsx as AJ}from"react/jsx-runtime";var BQ=_J(function({children:Q},$){return AJ("small",{ref:$,"data-margin-note":"",children:Q})});import{forwardRef as vJ}from"react";import{jsx as EJ}from"react/jsx-runtime";var WQ=vJ(function({children:Q},$){return EJ("small",{ref:$,"data-side-note":"",children:Q})});import{forwardRef as MJ}from"react";import{useInjectStyles as TJ}from "../../core/dist/index.js";import{jsx as x,jsxs as kJ}from"react/jsx-runtime";var IJ="alttab-epigraph",bJ=`
+`;function OJ({children:J}){let Q=0,$=M.map(J,(X)=>{if(!I(X))return X;let z=Q%2===1;if(Q++,!z)return X;let U=M.map(X.props.children,(V)=>{if(!I(V))return V;let K=V.props;return T(V,{style:{...K.style,background:"color-mix(in srgb, var(--color-text) 5%, transparent)"}})});return T(X,{},U)});return Z("tbody",{children:$})}var DJ={pre:BJ,blockquote:WJ,tbody:OJ,h1:({children:J})=>Z(H,{level:1,children:J}),h2:({children:J})=>Z(H,{level:2,children:J}),h3:({children:J})=>Z(H,{level:3,children:J}),h4:({children:J})=>Z(H,{level:4,children:J}),h5:({children:J})=>Z(H,{level:5,children:J}),h6:({children:J})=>Z(H,{level:6,children:J})};function HJ({children:J,className:Q,...$}){p(NJ,PJ);let[X,z]=C(!1),U=g(null),V=S(()=>{if(navigator.clipboard.writeText(J),z(!0),U.current)clearTimeout(U.current);U.current=setTimeout(()=>z(!1),1500)},[J]);return W("div",{className:Q?`alttab-markdown ${Q}`:"alttab-markdown",...$,children:[Z("button",{type:"button",className:"alttab-md-copy-source",onClick:V,"aria-label":"Copy markdown source",title:"Copy markdown",...X?{"data-copied":""}:{},children:X?Z(u,{}):Z(j,{})}),Z(e,{remarkPlugins:[JJ],components:DJ,children:J})]})}import{forwardRef as LJ}from"react";import{jsx as f}from"react/jsx-runtime";var KQ=LJ(function({children:Q},$){return f("blockquote",{ref:$,"data-pull-quote":"",children:f("p",{children:Q})})});import{forwardRef as _J}from"react";import{jsx as AJ}from"react/jsx-runtime";var BQ=_J(function({children:Q},$){return AJ("small",{ref:$,"data-margin-note":"",children:Q})});import{forwardRef as vJ}from"react";import{jsx as EJ}from"react/jsx-runtime";var WQ=vJ(function({children:Q},$){return EJ("small",{ref:$,"data-side-note":"",children:Q})});import{forwardRef as MJ}from"react";import{useInjectStyles as TJ}from "../../core/dist/index.js";import{jsx as x,jsxs as kJ}from"react/jsx-runtime";var IJ="alttab-epigraph",bJ=`
   .alttab-epigraph {
     border: none;
-    border-block: 1px solid var(--color-border);
+    border-block: var(--border-width-default) solid var(--color-border);
     padding-block: 3.5rem;
     margin-bottom: 2.25rem;
     margin-inline: 0;
@@ -738,12 +738,12 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
   .alttab-link-card {
     display: block;
     background: var(--color-surface);
-    border: 2px solid var(--color-border);
+    border: var(--border-width-thick) solid var(--color-border);
     border-radius: 8px;
     padding: 1.5rem;
     text-decoration: none;
     color: inherit;
-    transition: border-color 0.15s ease, transform 0.15s ease;
+    transition: border-color var(--transition-base), transform var(--transition-base);
   }
 
   .alttab-link-card:hover {
@@ -794,4 +794,4 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
       animation: none;
     }
   }
-`;function c(){return a[Math.random()*a.length|0]}var kQ=gJ(function({words:Q,holdMs:$=2000,scrambleTicks:X=4,tickMs:z=50,staggerMs:U=30},V){jJ(uJ,fJ);let K=v(null);mJ(V,()=>K.current);let W=v(0),E=v([]),D=v(null),L=v(null),_=k(()=>{let q=K.current;if(!q)return;let Y=q.innerHTML;q.style.width="";let B=[];for(let N of Q)q.textContent=N,B.push(Math.ceil(q.getBoundingClientRect().width));q.innerHTML=Y||"",E.current=B,q.style.width=B[W.current]+"px"},[Q]),y=k((q)=>{let Y=K.current;if(!Y)return;Y.innerHTML="";for(let B=0;B<q.length;B++){let N=document.createElement("span");N.className="alttab-char",N.textContent=q[B],N.style.animationDelay=`${B*U}ms`,Y.appendChild(N)}},[U]),R=k((q,Y)=>{let B=K.current;if(!B)return;if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){B.textContent=q,Y();return}B.innerHTML="";let w=[];for(let P=0;P<q.length;P++){let F=document.createElement("span");F.className="alttab-char",F.style.animationDelay=`${P*U}ms`,F.textContent=q[P]===" "?" ":c(),B.appendChild(F),w.push({span:F,final:q[P],ticks:0,maxTicks:X+P*2})}L.current=setInterval(()=>{let P=!0;for(let F of w)if(F.ticks>=F.maxTicks)F.span.textContent=F.final;else P=!1,F.ticks++,F.span.textContent=F.final===" "?" ":c();if(P)clearInterval(L.current),L.current=null,Y()},z)},[X,z,U]);return pJ(()=>{if(Q.length<2)return;_(),document.fonts.ready.then(_);let q=()=>_();document.fonts.addEventListener("loadingdone",q);let Y=new MutationObserver(()=>requestAnimationFrame(_));Y.observe(document.documentElement,{attributes:!0,attributeFilter:["data-theme"]}),W.current=0,y(Q[0]);function B(){W.current=(W.current+1)%Q.length;let N=K.current;if(N)N.style.width=E.current[W.current]+"px";R(Q[W.current],()=>{D.current=setTimeout(B,$)})}return D.current=setTimeout(B,$),()=>{if(D.current)clearTimeout(D.current);if(L.current)clearInterval(L.current);document.fonts.removeEventListener("loadingdone",q),Y.disconnect()}},[Q,$,_,y,R]),xJ("span",{ref:K,className:"alttab-thinking"})});export{kQ as ThinkingCycle,WQ as SideNote,KQ as PullQuote,iJ as Prose,HJ as Markdown,BQ as MarginNote,EQ as LinkCard,HQ as Epigraph,aJ as Container};
+`;function c(){return a[Math.random()*a.length|0]}var kQ=gJ(function({words:Q,holdMs:$=2000,scrambleTicks:X=4,tickMs:z=50,staggerMs:U=30},V){jJ(uJ,fJ);let K=v(null);mJ(V,()=>K.current);let N=v(0),E=v([]),D=v(null),L=v(null),_=k(()=>{let q=K.current;if(!q)return;let G=q.innerHTML;q.style.width="";let B=[];for(let P of Q)q.textContent=P,B.push(Math.ceil(q.getBoundingClientRect().width));q.innerHTML=G||"",E.current=B,q.style.width=B[N.current]+"px"},[Q]),y=k((q)=>{let G=K.current;if(!G)return;G.innerHTML="";for(let B=0;B<q.length;B++){let P=document.createElement("span");P.className="alttab-char",P.textContent=q[B],P.style.animationDelay=`${B*U}ms`,G.appendChild(P)}},[U]),R=k((q,G)=>{let B=K.current;if(!B)return;if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){B.textContent=q,G();return}B.innerHTML="";let w=[];for(let O=0;O<q.length;O++){let F=document.createElement("span");F.className="alttab-char",F.style.animationDelay=`${O*U}ms`,F.textContent=q[O]===" "?" ":c(),B.appendChild(F),w.push({span:F,final:q[O],ticks:0,maxTicks:X+O*2})}L.current=setInterval(()=>{let O=!0;for(let F of w)if(F.ticks>=F.maxTicks)F.span.textContent=F.final;else O=!1,F.ticks++,F.span.textContent=F.final===" "?" ":c();if(O)clearInterval(L.current),L.current=null,G()},z)},[X,z,U]);return pJ(()=>{if(Q.length<2)return;_(),document.fonts.ready.then(_);let q=()=>_();document.fonts.addEventListener("loadingdone",q);let G=new MutationObserver(()=>requestAnimationFrame(_));G.observe(document.documentElement,{attributes:!0,attributeFilter:["data-theme"]}),N.current=0,y(Q[0]);function B(){N.current=(N.current+1)%Q.length;let P=K.current;if(P)P.style.width=E.current[N.current]+"px";R(Q[N.current],()=>{D.current=setTimeout(B,$)})}return D.current=setTimeout(B,$),()=>{if(D.current)clearTimeout(D.current);if(L.current)clearInterval(L.current);document.fonts.removeEventListener("loadingdone",q),G.disconnect()}},[Q,$,_,y,R]),xJ("span",{ref:K,className:"alttab-thinking"})});export{kQ as ThinkingCycle,WQ as SideNote,KQ as PullQuote,iJ as Prose,HJ as Markdown,BQ as MarginNote,EQ as LinkCard,HQ as Epigraph,aJ as Container};

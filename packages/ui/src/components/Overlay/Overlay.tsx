@@ -7,9 +7,9 @@ export interface OverlayProps {
   /** Called when the overlay is clicked (typically to close the parent modal). */
   onClick?: () => void;
   /** CSS z-index for stacking control.
-   * @default 100
+   * @default 'var(--z-index-sticky)'
    */
-  zIndex?: number;
+  zIndex?: number | string;
   /** Additional inline styles. */
   style?: CSSProperties;
 }
@@ -17,7 +17,7 @@ export interface OverlayProps {
 export const Overlay: React.ForwardRefExoticComponent<Omit<OverlayProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, OverlayProps>(
   function Overlay({
     onClick,
-    zIndex = 100,
+    zIndex = t.zIndexSticky,
     style,
   }, ref): React.JSX.Element {
     return (

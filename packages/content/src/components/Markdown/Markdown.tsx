@@ -151,13 +151,13 @@ const CODE_BLOCK_CSS = `
     justify-content: center;
     width: 28px;
     height: 28px;
-    border: 1px solid ${t.colorBorder};
+    border: ${t.borderWidthDefault} solid ${t.colorBorder};
     border-radius: ${t.radiusSm};
     background: ${t.colorSurface};
     color: ${t.colorTextMuted};
     cursor: pointer;
     opacity: 0;
-    transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    transition: opacity ${t.transitionBase}, color ${t.transitionBase}, border-color ${t.transitionBase};
   }
   .alttab-codeblock:hover .alttab-codeblock-copy {
     opacity: 1;
@@ -383,7 +383,7 @@ const markdownCSS = /* css */ `
     align-items: center;
     margin-left: 0.35em;
     opacity: 0;
-    transition: opacity 0.15s ease, color 0.15s ease;
+    transition: opacity var(--transition-base), color var(--transition-base);
     color: var(--color-text-muted);
     text-decoration: none;
     vertical-align: middle;
@@ -424,7 +424,7 @@ const markdownCSS = /* css */ `
     text-underline-offset: 3px;
     text-decoration-thickness: 1px;
     text-decoration-color: color-mix(in srgb, var(--color-text-link) 40%, transparent);
-    transition: text-decoration-color 0.15s ease, color 0.15s ease;
+    transition: text-decoration-color var(--transition-base), color var(--transition-base);
   }
 
   .alttab-markdown a:hover {
@@ -442,7 +442,7 @@ const markdownCSS = /* css */ `
     font-size: 0.85em;
     font-family: var(--font-mono);
     background: var(--color-surface-raised);
-    border: 1px solid var(--color-border);
+    border: var(--border-width-default) solid var(--color-border);
     padding: 0.125em 0.375em;
     border-radius: var(--radius-sm);
     color: var(--color-text-secondary);
@@ -453,8 +453,8 @@ const markdownCSS = /* css */ `
   /* ── Code blocks ── */
   .alttab-markdown pre {
     background: var(--color-surface-page);
-    border: 1px solid var(--color-border);
-    border-left: 3px solid var(--color-action-primary);
+    border: var(--border-width-default) solid var(--color-border);
+    border-left: var(--border-width-accent) solid var(--color-action-primary);
     border-radius: var(--radius-md);
     padding: 1rem 1.25rem;
     margin-block: 1.5rem;
@@ -476,7 +476,7 @@ const markdownCSS = /* css */ `
 
   /* ── Blockquotes ── */
   .alttab-markdown blockquote {
-    border-left: 3px solid var(--color-action-primary);
+    border-left: var(--border-width-accent) solid var(--color-action-primary);
     padding-left: 1.5rem;
     margin-block: 1.5rem;
     margin-inline: 0;
@@ -492,8 +492,8 @@ const markdownCSS = /* css */ `
     margin-block: 1.5rem;
     padding: 1rem 1.25rem;
     border-radius: var(--radius-md);
-    border: 1px solid color-mix(in srgb, var(--callout-color) 25%, var(--color-border));
-    border-left: 3px solid var(--callout-color);
+    border: var(--border-width-default) solid color-mix(in srgb, var(--callout-color) 25%, var(--color-border));
+    border-left: var(--border-width-accent) solid var(--callout-color);
     background: var(--callout-bg);
   }
 
@@ -556,7 +556,7 @@ const markdownCSS = /* css */ `
     font-size: 0.85em;
     font-family: var(--font-mono);
     background: var(--color-surface-raised);
-    border: 1px solid var(--color-border);
+    border: var(--border-width-default) solid var(--color-border);
     padding: 0.125em 0.375em;
     border-radius: var(--radius-sm);
     color: var(--color-text-secondary);
@@ -626,7 +626,7 @@ const markdownCSS = /* css */ `
     border-spacing: 0;
     margin-block: 1.5rem;
     font-size: 0.9375rem;
-    border: 1px solid var(--color-border);
+    border: var(--border-width-default) solid var(--color-border);
     border-radius: var(--radius-md);
     overflow: hidden;
   }
@@ -636,7 +636,7 @@ const markdownCSS = /* css */ `
     font-weight: 600;
     padding: 0.625rem 0.875rem;
     background: var(--color-surface-raised);
-    border-bottom: 2px solid var(--color-border);
+    border-bottom: var(--border-width-thick) solid var(--color-border);
     color: var(--color-text);
     font-size: 0.8125rem;
     text-transform: uppercase;
@@ -645,7 +645,7 @@ const markdownCSS = /* css */ `
 
   .alttab-markdown td {
     padding: 0.5rem 0.875rem;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: var(--border-width-default) solid var(--color-border);
     color: var(--color-text-secondary);
   }
 
@@ -675,13 +675,13 @@ const markdownCSS = /* css */ `
     justify-content: center;
     width: 28px;
     height: 28px;
-    border: 1px solid var(--color-border);
+    border: var(--border-width-default) solid var(--color-border);
     border-radius: var(--radius-sm);
     background: var(--color-surface);
     color: var(--color-text-muted);
     cursor: pointer;
     opacity: 0;
-    transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    transition: opacity var(--transition-base), color var(--transition-base), border-color var(--transition-base);
     z-index: 1;
   }
 

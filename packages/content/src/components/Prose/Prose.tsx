@@ -101,7 +101,7 @@ const proseCSS = /* css */ `
     text-decoration: underline;
     text-underline-offset: 3px;
     text-decoration-color: transparent;
-    transition: text-decoration-color 0.15s ease;
+    transition: text-decoration-color var(--transition-base);
   }
 
   .alttab-prose a:hover {
@@ -120,7 +120,7 @@ const proseCSS = /* css */ `
   /* ── Code blocks ── */
   .alttab-prose pre {
     background: var(--color-surface-page);
-    border: 1px solid var(--color-border);
+    border: var(--border-width-default) solid var(--color-border);
     border-radius: var(--radius-md);
     padding: 1rem 1.25rem;
     margin-block: 1.5rem;
@@ -140,7 +140,7 @@ const proseCSS = /* css */ `
 
   /* ── Blockquotes ── */
   .alttab-prose blockquote {
-    border-left: 3px solid var(--color-action-primary);
+    border-left: var(--border-width-accent) solid var(--color-action-primary);
     padding-left: 1.5rem;
     margin-block: 1.5rem;
     margin-inline: 0;
@@ -163,7 +163,7 @@ const proseCSS = /* css */ `
   /* ── Pull quotes ── */
   .alttab-prose [data-pull-quote] {
     border-left: none;
-    border-block: 1px solid var(--color-border);
+    border-block: var(--border-width-default) solid var(--color-border);
     padding-left: 0;
     padding-block: 1.5rem;
     margin-block: 2.25rem;
@@ -220,7 +220,7 @@ const proseCSS = /* css */ `
     color: var(--color-text-muted);
     margin-block: 0.75rem;
     padding-left: 0.75rem;
-    border-left: 2px solid var(--color-border);
+    border-left: var(--border-width-thick) solid var(--color-border);
   }
 
   /* ── Side notes (right) ── */
@@ -231,7 +231,7 @@ const proseCSS = /* css */ `
     color: var(--color-text-muted);
     margin-block: 0.75rem;
     padding-right: 0.75rem;
-    border-right: 2px solid var(--color-border);
+    border-right: var(--border-width-thick) solid var(--color-border);
     text-align: right;
   }
 
@@ -284,13 +284,13 @@ const proseCSS = /* css */ `
     text-align: left;
     font-weight: 600;
     padding: 0.5rem 0.75rem;
-    border-bottom: 2px solid var(--color-border);
+    border-bottom: var(--border-width-thick) solid var(--color-border);
     color: var(--color-text);
   }
 
   .alttab-prose td {
     padding: 0.5rem 0.75rem;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: var(--border-width-default) solid var(--color-border);
     color: var(--color-text-secondary);
   }
 

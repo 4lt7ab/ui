@@ -85,10 +85,10 @@ export function ChipPicker({
     lineHeight: t.lineHeightTight,
     color: isSelected ? t.colorActionPrimary : t.colorText,
     background: isSelected ? t.colorActionSecondary : 'transparent',
-    border: `1px solid ${isSelected ? t.colorActionPrimary : t.colorBorder}`,
+    border: `${t.borderWidthDefault} solid ${isSelected ? t.colorActionPrimary : t.colorBorder}`,
     borderRadius: t.radiusFull,
     cursor: 'pointer',
-    transition: 'background 100ms ease, border-color 100ms ease, color 100ms ease',
+    transition: `background ${t.transitionFast}, border-color ${t.transitionFast}, color ${t.transitionFast}`,
     outline: 'none',
   });
 

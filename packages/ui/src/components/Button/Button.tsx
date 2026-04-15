@@ -46,7 +46,7 @@ const variantStyles: Record<ButtonVariant, React.CSSProperties> = {
   secondary: {
     background: t.colorActionSecondary,
     color: t.colorText,
-    border: `1px solid ${t.colorBorder}`,
+    border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
   },
   destructive: {
     background: t.colorActionDestructive,
@@ -56,7 +56,7 @@ const variantStyles: Record<ButtonVariant, React.CSSProperties> = {
   ghost: {
     background: 'transparent',
     color: t.colorText,
-    border: '1px solid transparent',
+    border: `${t.borderWidthDefault} solid transparent`,
   },
 };
 
@@ -87,7 +87,7 @@ const baseStyles: React.CSSProperties = {
   fontFamily: t.fontSans,
   fontWeight: t.fontWeightMedium,
   cursor: 'pointer',
-  transition: 'background 150ms ease, border-color 150ms ease, opacity 150ms ease',
+  transition: `background ${t.transitionBase}, border-color ${t.transitionBase}, opacity ${t.transitionBase}`,
 };
 
 const SPINNER_STYLES_ID = 'alttab-button-spinner';
@@ -99,7 +99,7 @@ const spinnerCSS = /* css */ `
     display: inline-block;
     width: 1em;
     height: 1em;
-    border: 2px solid currentColor;
+    border: ${t.borderWidthThick} solid currentColor;
     border-right-color: transparent;
     border-radius: 50%;
     animation: alttab-btn-spin 600ms linear infinite;

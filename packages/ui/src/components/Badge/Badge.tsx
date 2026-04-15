@@ -26,7 +26,7 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 const variantStyles: Record<BadgeVariant, React.CSSProperties> = {
   default: {
-    border: `1px solid ${t.colorBorder}`,
+    border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
     color: t.colorTextSecondary,
   },
   success: {
