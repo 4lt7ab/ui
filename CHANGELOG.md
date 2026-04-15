@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.23
+
 - Add test infrastructure (vitest, testing-library, jsdom) and first 76 tests covering Select, Combobox, ModalShell, useFocusTrap, and dateUtils
 - Add testing conventions and priority list to CLAUDE.md
 
