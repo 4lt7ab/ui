@@ -219,17 +219,17 @@ export const Select: React.ForwardRefExoticComponent<
       if (!isControlled) {
         setInternalValue(opt.value);
       }
-      // Fire onChange with a synthetic-ish event on the hidden select
+      // Call onChange directly — dispatching a native event on the hidden
+      // <select> doesn't work because React's event delegation picks up
+      // the noop onChange handler on that element instead of the consumer's.
       if (onChange && hiddenSelectRef.current) {
         const nativeSelect = hiddenSelectRef.current;
-        // Set value so the event target has the correct value
         const nativeSetter = Object.getOwnPropertyDescriptor(
           HTMLSelectElement.prototype,
           'value',
         )?.set;
         nativeSetter?.call(nativeSelect, opt.value);
-        const event = new Event('change', { bubbles: true });
-        nativeSelect.dispatchEvent(event);
+        onChange({ target: nativeSelect } as React.ChangeEvent<HTMLSelectElement>);
       }
       closeMenu();
       triggerRef.current?.focus();

@@ -1252,8 +1252,7 @@ var Select = (0, import_react10.forwardRef)(function Select2({
           "value"
         )?.set;
         nativeSetter?.call(nativeSelect, opt.value);
-        const event = new Event("change", { bubbles: true });
-        nativeSelect.dispatchEvent(event);
+        onChange({ target: nativeSelect });
       }
       closeMenu();
       triggerRef.current?.focus();
