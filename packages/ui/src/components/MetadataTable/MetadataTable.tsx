@@ -30,7 +30,7 @@ const rowStyles: React.CSSProperties = {
   flexDirection: 'column',
   gap: t.spaceXs,
   padding: `${t.spaceSm} 0`,
-  borderBottom: `1px solid ${t.colorBorder}`,
+  borderBottom: `${t.borderWidthDefault} solid ${t.colorBorder}`,
 };
 
 const labelStyles: React.CSSProperties = {

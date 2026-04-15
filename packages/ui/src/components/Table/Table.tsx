@@ -65,7 +65,7 @@ const TABLE_STYLES_CSS = `
 
 const wrapperVariants: Record<TableVariant, CSSProperties> = {
   default: {
-    border: `1px solid ${t.colorBorder}`,
+    border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
     borderRadius: t.radiusLg,
     boxShadow: t.shadowSm,
   },
@@ -164,7 +164,7 @@ export const TableHeaderCell: React.ForwardRefExoticComponent<Omit<TableHeaderCe
         color: t.colorTextMuted,
         textTransform: 'uppercase',
         letterSpacing: t.letterSpacingWide,
-        borderBottom: `2px solid ${t.colorBorder}`,
+        borderBottom: `${t.borderWidthThick} solid ${t.colorBorder}`,
         whiteSpace: 'nowrap',
         width: typeof width === 'number' ? `${width}px` : width,
         ...style,
@@ -319,7 +319,7 @@ export const TableCell: React.ForwardRefExoticComponent<Omit<TableCellProps, 're
         ref={ref}
         style={{
         padding: `${t.spaceSm} ${t.spaceMd}`,
-        borderBottom: `1px solid ${t.colorBorder}`,
+        borderBottom: `${t.borderWidthDefault} solid ${t.colorBorder}`,
         verticalAlign: 'middle',
         textAlign: align,
         color: muted ? t.colorTextMuted : undefined,
@@ -368,7 +368,7 @@ export const TableGroupHeader: React.ForwardRefExoticComponent<Omit<TableGroupHe
         style={{
           padding: `${t.spaceXs} ${t.spaceMd}`,
           background: t.colorSurfaceRaised,
-          borderBottom: `1px solid ${t.colorBorder}`,
+          borderBottom: `${t.borderWidthDefault} solid ${t.colorBorder}`,
           fontSize: t.fontSizeXs,
           fontWeight: t.fontWeightBold,
           letterSpacing: t.letterSpacingWide,

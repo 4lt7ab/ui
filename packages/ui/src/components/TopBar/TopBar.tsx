@@ -55,7 +55,7 @@ const TOPBAR_CSS = `
     right: 0;
     height: 2px;
     background: transparent;
-    transition: background 0.15s ease;
+    transition: background ${t.transitionBase};
   }
   .topbar-nav-item:hover::after {
     background: ${t.colorBorder};
@@ -86,7 +86,7 @@ export const TopBar: React.ForwardRefExoticComponent<Omit<TopBarProps, 'ref'> & 
     useInjectStyles(TOPBAR_STYLES_ID, TOPBAR_CSS);
 
     const stickyStyle: CSSProperties = sticky
-      ? { position: 'sticky', top: 0, zIndex: 100 }
+      ? { position: 'sticky', top: 0, zIndex: t.zIndexSticky }
       : {};
 
     return (
@@ -98,7 +98,7 @@ export const TopBar: React.ForwardRefExoticComponent<Omit<TopBarProps, 'ref'> & 
           height: 48,
           padding: `0 ${t.spaceMd}`,
           background: t.colorSurface,
-          borderBottom: `1px solid ${t.colorBorder}`,
+          borderBottom: `${t.borderWidthDefault} solid ${t.colorBorder}`,
           fontFamily: t.fontSans,
           ...stickyStyle,
           ...style,
@@ -158,7 +158,7 @@ export const TopBar: React.ForwardRefExoticComponent<Omit<TopBarProps, 'ref'> & 
                     fontWeight: isActive ? t.fontWeightSemibold : t.fontWeightNormal,
                     cursor: 'pointer',
                     whiteSpace: 'nowrap',
-                    transition: 'color 0.15s ease',
+                    transition: `color ${t.transitionBase}`,
                     boxSizing: 'border-box',
                   }}
                 >

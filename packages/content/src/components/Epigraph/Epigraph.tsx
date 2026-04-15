@@ -14,7 +14,7 @@ const STYLES_ID = 'alttab-epigraph';
 const epigraphCSS = /* css */ `
   .alttab-epigraph {
     border: none;
-    border-block: 1px solid var(--color-border);
+    border-block: var(--border-width-default) solid var(--color-border);
     padding-block: 3.5rem;
     margin-bottom: 2.25rem;
     margin-inline: 0;

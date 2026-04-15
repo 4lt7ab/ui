@@ -284,12 +284,12 @@ var gridCSS = (
 
   .alttab-theme-card {
     background: var(--color-surface);
-    border: 2px solid var(--color-border);
+    border: var(--border-width-thick) solid var(--color-border);
     border-radius: 8px;
     padding: 1.5rem;
     text-align: left;
     cursor: pointer;
-    transition: border-color 0.15s ease, transform 0.15s ease;
+    transition: border-color var(--transition-base), transform var(--transition-base);
     font-family: inherit;
     color: inherit;
   }
@@ -331,10 +331,10 @@ var compactCSS = (
     font-family: var(--font-mono);
     color: var(--color-text-secondary);
     background: var(--color-surface-raised);
-    border: 1px solid var(--color-border);
+    border: var(--border-width-default) solid var(--color-border);
     border-radius: var(--radius-md);
     cursor: pointer;
-    transition: border-color 0.15s ease;
+    transition: border-color var(--transition-base);
   }
 
   .alttab-tp-trigger:hover {
@@ -500,11 +500,11 @@ function CompactView() {
           left: 0,
           marginTop: "0.25rem",
           background: "var(--color-surface-panel)",
-          border: "1px solid var(--color-border)",
+          border: "var(--border-width-default) solid var(--color-border)",
           borderRadius: "var(--radius-md)",
           padding: "0.25rem",
           minWidth: "10rem",
-          zIndex: 100,
+          zIndex: "var(--z-index-sticky)",
           boxShadow: "var(--shadow-md)"
         },
         children: themeList.map((t41, idx) => {
@@ -568,7 +568,7 @@ var variantStyles = {
   secondary: {
     background: t.colorActionSecondary,
     color: t.colorText,
-    border: `1px solid ${t.colorBorder}`
+    border: `${t.borderWidthDefault} solid ${t.colorBorder}`
   },
   destructive: {
     background: t.colorActionDestructive,
@@ -578,7 +578,7 @@ var variantStyles = {
   ghost: {
     background: "transparent",
     color: t.colorText,
-    border: "1px solid transparent"
+    border: `${t.borderWidthDefault} solid transparent`
   }
 };
 var sizeStyles = {
@@ -607,7 +607,7 @@ var baseStyles = {
   fontFamily: t.fontSans,
   fontWeight: t.fontWeightMedium,
   cursor: "pointer",
-  transition: "background 150ms ease, border-color 150ms ease, opacity 150ms ease"
+  transition: `background ${t.transitionBase}, border-color ${t.transitionBase}, opacity ${t.transitionBase}`
 };
 var SPINNER_STYLES_ID = "alttab-button-spinner";
 var spinnerCSS = (
@@ -620,7 +620,7 @@ var spinnerCSS = (
     display: inline-block;
     width: 1em;
     height: 1em;
-    border: 2px solid currentColor;
+    border: ${t.borderWidthThick} solid currentColor;
     border-right-color: transparent;
     border-radius: 50%;
     animation: alttab-btn-spin 600ms linear infinite;
@@ -724,22 +724,22 @@ var paddingMap = {
 var variantStyles2 = {
   default: {
     background: t3.colorSurfaceSolid,
-    border: `1px solid ${t3.colorBorder}`,
+    border: `${t3.borderWidthDefault} solid ${t3.colorBorder}`,
     boxShadow: t3.shadowSm
   },
   flat: {
     background: t3.colorSurfaceRaised,
-    border: `1px solid ${t3.colorBorder}`,
+    border: `${t3.borderWidthDefault} solid ${t3.colorBorder}`,
     boxShadow: "none"
   },
   elevated: {
     background: t3.colorSurfaceSolid,
-    border: `1px solid ${t3.colorBorder}`,
+    border: `${t3.borderWidthDefault} solid ${t3.colorBorder}`,
     boxShadow: t3.shadowMd
   },
   live: {
     background: t3.colorSurfaceSolid,
-    border: `1px solid ${t3.colorBorderFocused}`,
+    border: `${t3.borderWidthDefault} solid ${t3.colorBorderFocused}`,
     boxShadow: t3.shadowSm
   }
 };
@@ -747,7 +747,7 @@ var HOVER_STYLES_ID = "4lt7ab-card-hover";
 var HOVER_STYLES_CSS = `
 [data-card-hover] {
   cursor: pointer;
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: transform ${t3.transitionSlow}, border-color ${t3.transitionSlow}, box-shadow ${t3.transitionSlow};
 }
 [data-card-hover]:hover {
   transform: translateY(-2px);
@@ -889,10 +889,10 @@ var baseStyle = {
   fontFamily: t5.fontSans,
   color: t5.colorText,
   background: t5.colorSurfaceInput,
-  border: `1px solid ${t5.colorBorder}`,
+  border: `${t5.borderWidthDefault} solid ${t5.colorBorder}`,
   borderRadius: t5.radiusMd,
   outline: "none",
-  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  transition: `border-color ${t5.transitionBase}, box-shadow ${t5.transitionBase}`,
   boxSizing: "border-box"
 };
 var errorBorderStyle = {
@@ -941,10 +941,10 @@ var baseStyle2 = {
   fontFamily: t6.fontSans,
   color: t6.colorText,
   background: t6.colorSurfaceInput,
-  border: `1px solid ${t6.colorBorder}`,
+  border: `${t6.borderWidthDefault} solid ${t6.colorBorder}`,
   borderRadius: t6.radiusMd,
   outline: "none",
-  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  transition: `border-color ${t6.transitionBase}, box-shadow ${t6.transitionBase}`,
   boxSizing: "border-box",
   resize: "vertical",
   minHeight: "5rem"
@@ -1296,10 +1296,10 @@ var Select = forwardRef9(function Select2({
         style: {
           ...menuStyle,
           background: t7.colorSurfacePanel,
-          border: `1px solid ${t7.colorBorder}`,
+          border: `${t7.borderWidthDefault} solid ${t7.colorBorder}`,
           borderRadius: t7.radiusMd,
           padding: t7.spaceXs,
-          zIndex: 100,
+          zIndex: t7.zIndexSticky,
           boxShadow: t7.shadowMd,
           maxHeight: "16rem",
           overflowY: "auto",
@@ -1350,10 +1350,10 @@ var triggerBaseStyle = {
   fontFamily: t7.fontSans,
   color: t7.colorText,
   background: t7.colorSurfaceInput,
-  border: `1px solid ${t7.colorBorder}`,
+  border: `${t7.borderWidthDefault} solid ${t7.colorBorder}`,
   borderRadius: t7.radiusMd,
   outline: "none",
-  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  transition: `border-color ${t7.transitionBase}, box-shadow ${t7.transitionBase}`,
   boxSizing: "border-box",
   cursor: "pointer",
   textAlign: "left",
@@ -1392,7 +1392,7 @@ function ChevronSVG({ rotated }) {
       fill: "none",
       xmlns: "http://www.w3.org/2000/svg",
       style: {
-        transition: "transform 150ms ease",
+        transition: `transform ${t7.transitionBase}`,
         transform: rotated ? "rotate(180deg)" : "none"
       },
       children: /* @__PURE__ */ jsx10(
@@ -1412,7 +1412,7 @@ import { semantic as t8 } from "../../core/dist/index.js";
 import { jsx as jsx11 } from "react/jsx-runtime";
 var variantStyles3 = {
   default: {
-    border: `1px solid ${t8.colorBorder}`,
+    border: `${t8.borderWidthDefault} solid ${t8.colorBorder}`,
     color: t8.colorTextSecondary
   },
   success: {
@@ -1468,29 +1468,51 @@ var Badge = forwardRef10(
 );
 
 // src/components/IconButton/IconButton.tsx
-import { forwardRef as forwardRef11 } from "react";
-import { semantic as t9 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef11, useId as useId2 } from "react";
+import { semantic as t9, useInjectStyles as useInjectStyles5 } from "../../core/dist/index.js";
 import { jsx as jsx12, jsxs as jsxs5 } from "react/jsx-runtime";
+var buttonSizeMap = {
+  sm: 28,
+  md: 36,
+  lg: 44
+};
 var IconButton = forwardRef11(
   function IconButton2({
     icon,
     size = 24,
+    buttonSize = "md",
     badge,
     fontClass,
     style,
+    className,
     ...props
   }, ref) {
+    const uid = useId2();
+    const styleId = `icon-btn-${uid.replace(/:/g, "")}`;
+    useInjectStyles5(
+      styleId,
+      `[data-icon-btn-id="${styleId}"]:hover:not(:disabled) {
+        background: color-mix(in srgb, currentColor 8%, transparent);
+      }
+      [data-icon-btn-id="${styleId}"]:focus-visible {
+        outline: ${t9.focusRingWidth} solid ${t9.focusRingColor};
+        outline-offset: ${t9.focusRingOffset};
+      }`
+    );
+    const dim = buttonSizeMap[buttonSize];
     return /* @__PURE__ */ jsxs5(
       "button",
       {
         ref,
+        "data-icon-btn-id": styleId,
+        className,
         style: {
           position: "relative",
           display: "inline-flex",
           alignItems: "center",
           justifyContent: "center",
-          width: 36,
-          height: 36,
+          width: dim,
+          height: dim,
           borderRadius: t9.radiusFull,
           background: "transparent",
           border: "none",
@@ -1513,7 +1535,7 @@ var IconButton = forwardRef11(
                 height: 8,
                 borderRadius: t9.radiusFull,
                 background: t9.colorError,
-                border: `2px solid ${t9.colorSurface}`
+                border: `${t9.borderWidthThick} solid ${t9.colorSurface}`
               }
             }
           )
@@ -1530,7 +1552,7 @@ import { jsx as jsx13 } from "react/jsx-runtime";
 var Overlay = forwardRef12(
   function Overlay2({
     onClick,
-    zIndex = 100,
+    zIndex = t10.zIndexSticky,
     style
   }, ref) {
     return /* @__PURE__ */ jsx13(
@@ -1587,7 +1609,7 @@ var CardSkeleton = forwardRef13(
         "aria-hidden": "true",
         style: {
           borderRadius: t11.radiusLg,
-          border: `1px solid ${t11.colorBorder}`,
+          border: `${t11.borderWidthDefault} solid ${t11.colorBorder}`,
           padding: t11.spaceLg,
           display: "flex",
           flexDirection: "column",
@@ -1903,7 +1925,7 @@ var TagChip = forwardRef18(
 
 // src/components/ExpandableCard/ExpandableCard.tsx
 import { semantic as t17 } from "../../core/dist/index.js";
-import { forwardRef as forwardRef19, useState as useState3, useId as useId2 } from "react";
+import { forwardRef as forwardRef19, useState as useState3, useId as useId3 } from "react";
 import { jsx as jsx20, jsxs as jsxs11 } from "react/jsx-runtime";
 var ExpandableCard = forwardRef19(
   function ExpandableCard2({
@@ -1918,7 +1940,7 @@ var ExpandableCard = forwardRef19(
   }, ref) {
     const [internalOpen, setInternalOpen] = useState3(defaultOpen);
     const isOpen = controlledOpen !== void 0 ? controlledOpen : internalOpen;
-    const panelId = useId2();
+    const panelId = useId3();
     const handleToggle = () => {
       const next = !isOpen;
       if (controlledOpen === void 0) {
@@ -1942,7 +1964,7 @@ var ExpandableCard = forwardRef19(
               padding: `${t17.spaceSm} ${t17.spaceMd}`,
               cursor: "pointer",
               borderRadius: t17.radiusMd,
-              transition: "background 150ms ease",
+              transition: `background ${t17.transitionBase}`,
               background: "none",
               border: "none",
               color: "inherit",
@@ -1961,7 +1983,7 @@ var ExpandableCard = forwardRef19(
                     height: 20,
                     lineHeight: 1,
                     color: "inherit",
-                    transition: "transform 200ms ease",
+                    transition: `transform ${t17.transitionSlow}`,
                     transform: isOpen ? "rotate(90deg)" : "rotate(0deg)"
                   },
                   children: /* @__PURE__ */ jsx20(IconChevronRight, { size: 20 })
@@ -1992,7 +2014,7 @@ var ExpandableCard = forwardRef19(
           style: {
             display: "grid",
             gridTemplateRows: isOpen ? "1fr" : "0fr",
-            transition: "grid-template-rows 200ms ease"
+            transition: `grid-template-rows ${t17.transitionSlow}`
           },
           children: /* @__PURE__ */ jsx20("div", { style: { overflow: "hidden" }, children: /* @__PURE__ */ jsx20("div", { style: { padding: `${t17.spaceSm} ${t17.spaceMd} ${t17.spaceMd}` }, children }) })
         }
@@ -2002,7 +2024,7 @@ var ExpandableCard = forwardRef19(
 );
 
 // src/components/ModalShell/ModalShell.tsx
-import { forwardRef as forwardRef20, useEffect as useEffect4, useId as useId3, useRef as useRef3 } from "react";
+import { forwardRef as forwardRef20, useEffect as useEffect4, useId as useId4, useRef as useRef3 } from "react";
 import { createPortal } from "react-dom";
 import { semantic as t18 } from "../../core/dist/index.js";
 import { Fragment, jsx as jsx21, jsxs as jsxs12 } from "react/jsx-runtime";
@@ -2031,13 +2053,13 @@ var ModalShell = forwardRef20(
     onClose,
     children,
     maxWidth = 480,
-    zIndex = 200,
+    zIndex = t18.zIndexModal,
     style,
     titleId,
     "aria-label": ariaLabel,
     role = "dialog"
   }, ref) {
-    const generatedId = useId3();
+    const generatedId = useId4();
     const resolvedLabelId = titleId ?? generatedId;
     const internalRef = useRef3(null);
     const setRefs = (node) => {
@@ -2085,7 +2107,7 @@ var ModalShell = forwardRef20(
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              zIndex: zIndex + 1,
+              zIndex: typeof zIndex === "number" ? zIndex + 1 : `calc(${zIndex} + 1)`,
               pointerEvents: "none"
             },
             children: /* @__PURE__ */ jsx21(
@@ -2102,7 +2124,7 @@ var ModalShell = forwardRef20(
                   color: t18.colorText,
                   borderRadius: t18.radiusLg,
                   boxShadow: t18.shadowLg,
-                  border: `1px solid ${t18.colorBorder}`,
+                  border: `${t18.borderWidthDefault} solid ${t18.colorBorder}`,
                   padding: t18.spaceXl,
                   maxWidth,
                   width: "100%",
@@ -2122,7 +2144,7 @@ var ModalShell = forwardRef20(
 );
 
 // src/components/ConfirmDialog/ConfirmDialog.tsx
-import { forwardRef as forwardRef21, useId as useId4, useState as useState4 } from "react";
+import { forwardRef as forwardRef21, useId as useId5, useState as useState4 } from "react";
 import { semantic as t19 } from "../../core/dist/index.js";
 import { jsx as jsx22, jsxs as jsxs13 } from "react/jsx-runtime";
 var variantButtonMap = {
@@ -2141,7 +2163,7 @@ var ConfirmDialog = forwardRef21(
     variant = "destructive"
   }, ref) {
     const [loading, setLoading] = useState4(false);
-    const titleId = useId4();
+    const titleId = useId5();
     const handleConfirm = async () => {
       setLoading(true);
       try {
@@ -2181,7 +2203,7 @@ var ConfirmDialog = forwardRef21(
 );
 
 // src/components/FormModal/FormModal.tsx
-import { forwardRef as forwardRef22, useId as useId5, useState as useState5 } from "react";
+import { forwardRef as forwardRef22, useId as useId6, useState as useState5 } from "react";
 import { semantic as t20 } from "../../core/dist/index.js";
 import { jsx as jsx23, jsxs as jsxs14 } from "react/jsx-runtime";
 var FormModal = forwardRef22(
@@ -2196,7 +2218,7 @@ var FormModal = forwardRef22(
     maxWidth
   }, ref) {
     const [internalLoading, setInternalLoading] = useState5(false);
-    const titleId = useId5();
+    const titleId = useId6();
     const isLoading = externalLoading || internalLoading;
     const handleSubmit = async () => {
       setInternalLoading(true);
@@ -2235,7 +2257,7 @@ var FormModal = forwardRef22(
 
 // src/components/StatusDot/StatusDot.tsx
 import { forwardRef as forwardRef23 } from "react";
-import { semantic as t21, useInjectStyles as useInjectStyles5 } from "../../core/dist/index.js";
+import { semantic as t21, useInjectStyles as useInjectStyles6 } from "../../core/dist/index.js";
 import { jsx as jsx24 } from "react/jsx-runtime";
 var variantColors = {
   default: t21.colorTextMuted,
@@ -2271,7 +2293,7 @@ var StatusDot = forwardRef23(
   }, ref) {
     const resolvedColor = color ?? variantColors[variant];
     const isPulsing = animate === "pulse";
-    useInjectStyles5(PULSE_STYLES_ID, PULSE_STYLES_CSS);
+    useInjectStyles6(PULSE_STYLES_ID, PULSE_STYLES_CSS);
     return /* @__PURE__ */ jsx24(
       "span",
       {
@@ -2340,7 +2362,7 @@ var ThemeSurface = forwardRef24(
 // src/components/Table/Table.tsx
 import { forwardRef as forwardRef25, Children, isValidElement as isValidElement2, cloneElement as cloneElement2 } from "react";
 import { semantic as t23 } from "../../core/dist/index.js";
-import { useInjectStyles as useInjectStyles6 } from "../../core/dist/index.js";
+import { useInjectStyles as useInjectStyles7 } from "../../core/dist/index.js";
 import { jsx as jsx26 } from "react/jsx-runtime";
 var spaceMap = {
   xs: t23.spaceXs,
@@ -2373,7 +2395,7 @@ var TABLE_STYLES_CSS = `
 `;
 var wrapperVariants = {
   default: {
-    border: `1px solid ${t23.colorBorder}`,
+    border: `${t23.borderWidthDefault} solid ${t23.colorBorder}`,
     borderRadius: t23.radiusLg,
     boxShadow: t23.shadowSm
   },
@@ -2387,7 +2409,7 @@ var Table = forwardRef25(
     style,
     ...props
   }, ref) {
-    useInjectStyles6(TABLE_STYLES_ID, TABLE_STYLES_CSS);
+    useInjectStyles7(TABLE_STYLES_ID, TABLE_STYLES_CSS);
     return /* @__PURE__ */ jsx26(
       "div",
       {
@@ -2441,7 +2463,7 @@ var TableHeaderCell = forwardRef25(
           color: t23.colorTextMuted,
           textTransform: "uppercase",
           letterSpacing: t23.letterSpacingWide,
-          borderBottom: `2px solid ${t23.colorBorder}`,
+          borderBottom: `${t23.borderWidthThick} solid ${t23.colorBorder}`,
           whiteSpace: "nowrap",
           width: typeof width === "number" ? `${width}px` : width,
           ...style
@@ -2528,7 +2550,7 @@ var TableCell = forwardRef25(
         ref,
         style: {
           padding: `${t23.spaceSm} ${t23.spaceMd}`,
-          borderBottom: `1px solid ${t23.colorBorder}`,
+          borderBottom: `${t23.borderWidthDefault} solid ${t23.colorBorder}`,
           verticalAlign: "middle",
           textAlign: align,
           color: muted ? t23.colorTextMuted : void 0,
@@ -2561,7 +2583,7 @@ var TableGroupHeader = forwardRef25(
         style: {
           padding: `${t23.spaceXs} ${t23.spaceMd}`,
           background: t23.colorSurfaceRaised,
-          borderBottom: `1px solid ${t23.colorBorder}`,
+          borderBottom: `${t23.borderWidthDefault} solid ${t23.colorBorder}`,
           fontSize: t23.fontSizeXs,
           fontWeight: t23.fontWeightBold,
           letterSpacing: t23.letterSpacingWide,
@@ -2601,7 +2623,7 @@ var TableEmptyRow = forwardRef25(
 
 // src/components/DateRangePicker/DateRangePicker.tsx
 import { forwardRef as forwardRef26, useState as useState6, useRef as useRef6, useCallback as useCallback4, useEffect as useEffect6 } from "react";
-import { semantic as t27, useInjectStyles as useInjectStyles7 } from "../../core/dist/index.js";
+import { semantic as t27, useInjectStyles as useInjectStyles8 } from "../../core/dist/index.js";
 
 // src/components/DateRangePicker/CalendarHeader.tsx
 import { semantic as t24 } from "../../core/dist/index.js";
@@ -2772,7 +2794,7 @@ function DayCell({
   const cellStyle = {
     ...baseCellStyle,
     ...isOutsideMonth ? { color: t25.colorTextMuted, opacity: 0.5 } : {},
-    ...isToday && !isEndpoint ? { border: `1px solid ${t25.colorActionPrimary}` } : {},
+    ...isToday && !isEndpoint ? { border: `${t25.borderWidthDefault} solid ${t25.colorActionPrimary}` } : {},
     ...inRange && !isEndpoint ? { background: `color-mix(in srgb, ${t25.colorActionPrimary} 15%, transparent)` } : {},
     ...isEndpoint ? { background: t25.colorActionPrimary, color: t25.colorTextInverse } : {},
     ...isDisabled ? {
@@ -2938,10 +2960,10 @@ var triggerBaseStyle2 = {
   fontFamily: t27.fontSans,
   color: t27.colorText,
   background: t27.colorSurfaceInput,
-  border: `1px solid ${t27.colorBorder}`,
+  border: `${t27.borderWidthDefault} solid ${t27.colorBorder}`,
   borderRadius: t27.radiusMd,
   outline: "none",
-  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  transition: `border-color ${t27.transitionBase}, box-shadow ${t27.transitionBase}`,
   boxSizing: "border-box",
   cursor: "pointer",
   textAlign: "left"
@@ -2958,10 +2980,10 @@ var popoverStyle = {
   position: "absolute",
   top: "100%",
   left: 0,
-  zIndex: 50,
+  zIndex: t27.zIndexDropdown,
   marginTop: t27.spaceXs,
   background: t27.colorSurfacePanel,
-  border: `1px solid ${t27.colorBorder}`,
+  border: `${t27.borderWidthDefault} solid ${t27.colorBorder}`,
   borderRadius: t27.radiusLg,
   boxShadow: t27.shadowMd,
   padding: t27.spaceMd,
@@ -2983,7 +3005,7 @@ var DateRangePicker = forwardRef26(
     disabled,
     style
   }, ref) {
-    useInjectStyles7(SCOPE, injectedCSS);
+    useInjectStyles8(SCOPE, injectedCSS);
     const [open, setOpen] = useState6(false);
     const [selectionStart, setSelectionStart] = useState6(null);
     const containerRef = useRef6(null);
@@ -3145,7 +3167,7 @@ var DateRangePicker = forwardRef26(
 
 // src/components/DatePicker/DatePicker.tsx
 import { forwardRef as forwardRef27, useState as useState7, useRef as useRef7, useCallback as useCallback5, useEffect as useEffect7 } from "react";
-import { semantic as t28, useInjectStyles as useInjectStyles8 } from "../../core/dist/index.js";
+import { semantic as t28, useInjectStyles as useInjectStyles9 } from "../../core/dist/index.js";
 import { jsx as jsx31, jsxs as jsxs18 } from "react/jsx-runtime";
 var SCOPE2 = "alttab-dp";
 var injectedCSS2 = (
@@ -3181,10 +3203,10 @@ var triggerBaseStyle3 = {
   fontFamily: t28.fontSans,
   color: t28.colorText,
   background: t28.colorSurfaceInput,
-  border: `1px solid ${t28.colorBorder}`,
+  border: `${t28.borderWidthDefault} solid ${t28.colorBorder}`,
   borderRadius: t28.radiusMd,
   outline: "none",
-  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  transition: `border-color ${t28.transitionBase}, box-shadow ${t28.transitionBase}`,
   boxSizing: "border-box",
   cursor: "pointer",
   textAlign: "left"
@@ -3201,10 +3223,10 @@ var popoverStyle2 = {
   position: "absolute",
   top: "100%",
   left: 0,
-  zIndex: 50,
+  zIndex: t28.zIndexDropdown,
   marginTop: t28.spaceXs,
   background: t28.colorSurfacePanel,
-  border: `1px solid ${t28.colorBorder}`,
+  border: `${t28.borderWidthDefault} solid ${t28.colorBorder}`,
   borderRadius: t28.radiusLg,
   boxShadow: t28.shadowMd,
   padding: t28.spaceMd,
@@ -3226,7 +3248,7 @@ var DatePicker = forwardRef27(
     disabled,
     style
   }, ref) {
-    useInjectStyles8(SCOPE2, injectedCSS2);
+    useInjectStyles9(SCOPE2, injectedCSS2);
     const [open, setOpen] = useState7(false);
     const containerRef = useRef7(null);
     const initialDate = value ?? /* @__PURE__ */ new Date();
@@ -3394,7 +3416,7 @@ var rowStyles = {
   flexDirection: "column",
   gap: t29.spaceXs,
   padding: `${t29.spaceSm} 0`,
-  borderBottom: `1px solid ${t29.colorBorder}`
+  borderBottom: `${t29.borderWidthDefault} solid ${t29.colorBorder}`
 };
 var labelStyles = {
   fontSize: t29.fontSizeXs,
@@ -3561,7 +3583,7 @@ import {
   useState as useState8
 } from "react";
 import { createPortal as createPortal2 } from "react-dom";
-import { semantic as t32, useInjectStyles as useInjectStyles9 } from "../../core/dist/index.js";
+import { semantic as t32, useInjectStyles as useInjectStyles10 } from "../../core/dist/index.js";
 import { jsx as jsx35, jsxs as jsxs21 } from "react/jsx-runtime";
 var ToastContext = createContext2(null);
 function useToast() {
@@ -3630,7 +3652,7 @@ function ToastMessage({
         background: colors.bg,
         color: colors.fg,
         borderRadius: t32.radiusMd,
-        borderLeft: `3px solid ${colors.border}`,
+        borderLeft: `${t32.borderWidthAccent} solid ${colors.border}`,
         boxShadow: t32.shadowMd,
         fontSize: t32.fontSizeSm,
         fontFamily: t32.fontSans,
@@ -3650,7 +3672,11 @@ function ToastMessage({
             onClick: () => setExiting(true),
             "aria-label": "Dismiss",
             style: {
-              all: "unset",
+              background: "none",
+              border: "none",
+              padding: 0,
+              margin: 0,
+              font: "inherit",
               cursor: "pointer",
               flexShrink: 0,
               display: "flex",
@@ -3676,11 +3702,11 @@ function ToastContainer({
   onDismiss,
   position
 }) {
-  useInjectStyles9(STYLE_ID, toastCSS);
+  useInjectStyles10(STYLE_ID, toastCSS);
   if (toasts.length === 0) return null;
   const positionStyles = {
     position: "fixed",
-    zIndex: 9999,
+    zIndex: t32.zIndexToast,
     display: "flex",
     flexDirection: "column",
     gap: t32.spaceSm,
@@ -3723,7 +3749,7 @@ function ToastProvider({
 
 // src/components/Combobox/Combobox.tsx
 import { forwardRef as forwardRef28, useState as useState9, useEffect as useEffect9, useRef as useRef9, useCallback as useCallback7, useMemo } from "react";
-import { semantic as t33, useInjectStyles as useInjectStyles10 } from "../../core/dist/index.js";
+import { semantic as t33, useInjectStyles as useInjectStyles11 } from "../../core/dist/index.js";
 import { jsx as jsx36, jsxs as jsxs22 } from "react/jsx-runtime";
 var COMBOBOX_STYLES_ID = "alttab-combobox";
 var comboboxCSS = (
@@ -3777,7 +3803,7 @@ var Combobox = forwardRef28(function Combobox2({
   "aria-labelledby": ariaLabelledBy,
   ...props
 }, ref) {
-  useInjectStyles10(COMBOBOX_STYLES_ID, comboboxCSS);
+  useInjectStyles11(COMBOBOX_STYLES_ID, comboboxCSS);
   const [open, setOpen] = useState9(false);
   const [focusedIndex, setFocusedIndex] = useState9(-1);
   const [dropDirection, setDropDirection] = useState9("down");
@@ -3968,10 +3994,10 @@ var Combobox = forwardRef28(function Combobox2({
             style: {
               ...menuStyle,
               background: t33.colorSurfacePanel,
-              border: `1px solid ${t33.colorBorder}`,
+              border: `${t33.borderWidthDefault} solid ${t33.colorBorder}`,
               borderRadius: t33.radiusMd,
               padding: t33.spaceXs,
-              zIndex: 100,
+              zIndex: t33.zIndexSticky,
               boxShadow: t33.shadowMd,
               maxHeight: "16rem",
               overflowY: "auto",
@@ -4020,10 +4046,10 @@ var inputBaseStyle = {
   fontFamily: t33.fontSans,
   color: t33.colorText,
   background: t33.colorSurfaceInput,
-  border: `1px solid ${t33.colorBorder}`,
+  border: `${t33.borderWidthDefault} solid ${t33.colorBorder}`,
   borderRadius: t33.radiusMd,
   outline: "none",
-  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  transition: `border-color ${t33.transitionBase}, box-shadow ${t33.transitionBase}`,
   boxSizing: "border-box"
 };
 var errorBorderStyle4 = {
@@ -4148,8 +4174,8 @@ function TableFilters({
 }
 
 // src/components/ChipPicker/ChipPicker.tsx
-import { useId as useId7 } from "react";
-import { semantic as t35, useInjectStyles as useInjectStyles11 } from "../../core/dist/index.js";
+import { useId as useId8 } from "react";
+import { semantic as t35, useInjectStyles as useInjectStyles12 } from "../../core/dist/index.js";
 import { jsx as jsx38, jsxs as jsxs23 } from "react/jsx-runtime";
 function ChipPicker({
   items,
@@ -4157,15 +4183,19 @@ function ChipPicker({
   onChange,
   style
 }) {
-  const uid = useId7();
+  const uid = useId8();
   const styleId = `chip-picker-${uid.replace(/:/g, "")}`;
-  useInjectStyles11(
+  useInjectStyles12(
     styleId,
     `[data-chip-picker-id="${styleId}"] button:hover {
       background: ${t35.colorSurfaceRaised} !important;
     }
     [data-chip-picker-id="${styleId}"] button[aria-pressed="true"]:hover {
       background: ${t35.colorActionSecondaryHover} !important;
+    }
+    [data-chip-picker-id="${styleId}"] button:focus-visible {
+      outline: ${t35.focusRingWidth} solid ${t35.focusRingColor};
+      outline-offset: ${t35.focusRingOffset};
     }`
   );
   const toggle = (value) => {
@@ -4202,10 +4232,10 @@ function ChipPicker({
     lineHeight: t35.lineHeightTight,
     color: isSelected ? t35.colorActionPrimary : t35.colorText,
     background: isSelected ? t35.colorActionSecondary : "transparent",
-    border: `1px solid ${isSelected ? t35.colorActionPrimary : t35.colorBorder}`,
+    border: `${t35.borderWidthDefault} solid ${isSelected ? t35.colorActionPrimary : t35.colorBorder}`,
     borderRadius: t35.radiusFull,
     cursor: "pointer",
-    transition: "background 100ms ease, border-color 100ms ease, color 100ms ease",
+    transition: `background ${t35.transitionFast}, border-color ${t35.transitionFast}, color ${t35.transitionFast}`,
     outline: "none"
   });
   const renderChips = (chips) => /* @__PURE__ */ jsx38(
@@ -4252,7 +4282,7 @@ function ChipPicker({
 
 // src/components/SearchInput/SearchInput.tsx
 import { forwardRef as forwardRef29, useState as useState11, useEffect as useEffect11, useRef as useRef11, useCallback as useCallback9 } from "react";
-import { semantic as t36, useInjectStyles as useInjectStyles12 } from "../../core/dist/index.js";
+import { semantic as t36, useInjectStyles as useInjectStyles13 } from "../../core/dist/index.js";
 import { jsx as jsx39, jsxs as jsxs24 } from "react/jsx-runtime";
 var STYLE_ID2 = "4lt7ab-search-input";
 var hoverFocusCSS = `
@@ -4277,9 +4307,9 @@ var wrapperStyle5 = {
   fontFamily: t36.fontSans,
   color: t36.colorText,
   background: t36.colorSurfaceInput,
-  border: `1px solid ${t36.colorBorder}`,
+  border: `${t36.borderWidthDefault} solid ${t36.colorBorder}`,
   borderRadius: t36.radiusMd,
-  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  transition: `border-color ${t36.transitionBase}, box-shadow ${t36.transitionBase}`,
   boxSizing: "border-box"
 };
 var inputStyle = {
@@ -4310,7 +4340,7 @@ var SearchInput = forwardRef29(
     placeholder = "Search\u2026",
     ...props
   }, ref) {
-    useInjectStyles12(STYLE_ID2, hoverFocusCSS);
+    useInjectStyles13(STYLE_ID2, hoverFocusCSS);
     const [localValue, setLocalValue] = useState11(value);
     const timerRef = useRef11(null);
     const onSearchRef = useRef11(onSearch);
@@ -4364,12 +4394,18 @@ var SearchInput = forwardRef29(
 
 // src/components/SegmentedControl/SegmentedControl.tsx
 import { useRef as useRef12, useLayoutEffect, useState as useState12, useCallback as useCallback10 } from "react";
-import { semantic as t37, useInjectStyles as useInjectStyles13 } from "../../core/dist/index.js";
+import { semantic as t37, useInjectStyles as useInjectStyles14 } from "../../core/dist/index.js";
 import { jsx as jsx40, jsxs as jsxs25 } from "react/jsx-runtime";
 var STYLE_ID3 = "4lt7ab-segmented-control";
 var hoverCSS = `
   .segmented-ctrl-btn:hover:not([aria-pressed="true"]) {
     color: ${t37.colorText};
+  }
+  .segmented-ctrl-btn:focus-visible {
+    outline: ${t37.focusRingWidth} solid ${t37.focusRingColor};
+    outline-offset: ${t37.focusRingOffset};
+    border-radius: ${t37.radiusFull};
+    z-index: 2;
   }
   @media (prefers-reduced-motion: reduce) {
     .segmented-ctrl-indicator {
@@ -4387,7 +4423,7 @@ function SegmentedControl({
   onChange,
   size = "md"
 }) {
-  useInjectStyles13(STYLE_ID3, hoverCSS);
+  useInjectStyles14(STYLE_ID3, hoverCSS);
   const containerRef = useRef12(null);
   const [indicator, setIndicator] = useState12(null);
   const s = sizes[size];
@@ -4426,7 +4462,7 @@ function SegmentedControl({
         height: s.height,
         background: t37.colorSurfaceInput,
         borderRadius: t37.radiusFull,
-        border: `1px solid ${t37.colorBorder}`,
+        border: `${t37.borderWidthDefault} solid ${t37.colorBorder}`,
         padding: 2,
         boxSizing: "border-box"
       },
@@ -4443,7 +4479,7 @@ function SegmentedControl({
               height: s.height - 6,
               borderRadius: t37.radiusFull,
               background: t37.colorActionPrimary,
-              transition: "left 200ms ease, width 200ms ease",
+              transition: `left ${t37.transitionSlow}, width ${t37.transitionSlow}`,
               pointerEvents: "none"
             }
           }
@@ -4476,7 +4512,7 @@ function SegmentedControl({
                 fontFamily: t37.fontSans,
                 fontWeight: isActive ? t37.fontWeightSemibold : t37.fontWeightNormal,
                 cursor: "pointer",
-                transition: "color 150ms ease",
+                transition: `color ${t37.transitionBase}`,
                 whiteSpace: "nowrap",
                 lineHeight: 1
               },
@@ -4495,7 +4531,7 @@ function SegmentedControl({
 
 // src/components/AlertBanner/AlertBanner.tsx
 import { forwardRef as forwardRef30, useEffect as useEffect12, useRef as useRef13 } from "react";
-import { semantic as t38, useInjectStyles as useInjectStyles14 } from "../../core/dist/index.js";
+import { semantic as t38, useInjectStyles as useInjectStyles15 } from "../../core/dist/index.js";
 import { jsx as jsx41, jsxs as jsxs26 } from "react/jsx-runtime";
 var STYLE_ID4 = "4lt7ab-alert-banner";
 var alertBannerCSS = `
@@ -4527,7 +4563,7 @@ var defaultIcons = {
 };
 var AlertBanner = forwardRef30(
   function AlertBanner2({ variant, children, onDismiss, autoDismiss, icon, style }, ref) {
-    useInjectStyles14(STYLE_ID4, alertBannerCSS);
+    useInjectStyles15(STYLE_ID4, alertBannerCSS);
     const timerRef = useRef13(null);
     useEffect12(() => {
       if (autoDismiss && onDismiss) {
@@ -4552,7 +4588,7 @@ var AlertBanner = forwardRef30(
           padding: `${t38.spaceSm} ${t38.spaceMd}`,
           background: colors.bg,
           color: colors.fg,
-          borderBottom: `2px solid ${colors.border}`,
+          borderBottom: `${t38.borderWidthThick} solid ${colors.border}`,
           fontFamily: t38.fontSans,
           fontSize: t38.fontSizeSm,
           fontWeight: t38.fontWeightMedium,
@@ -4571,7 +4607,11 @@ var AlertBanner = forwardRef30(
               onClick: onDismiss,
               "aria-label": "Dismiss",
               style: {
-                all: "unset",
+                background: "none",
+                border: "none",
+                padding: 0,
+                margin: 0,
+                font: "inherit",
                 cursor: "pointer",
                 flexShrink: 0,
                 display: "flex",
@@ -4596,7 +4636,7 @@ var AlertBanner = forwardRef30(
 
 // src/components/TopBar/TopBar.tsx
 import { forwardRef as forwardRef31 } from "react";
-import { semantic as t39, useInjectStyles as useInjectStyles15 } from "../../core/dist/index.js";
+import { semantic as t39, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
 import { jsx as jsx42, jsxs as jsxs27 } from "react/jsx-runtime";
 var TOPBAR_STYLES_ID = "4lt7ab-topbar";
 var TOPBAR_CSS = `
@@ -4611,7 +4651,7 @@ var TOPBAR_CSS = `
     right: 0;
     height: 2px;
     background: transparent;
-    transition: background 0.15s ease;
+    transition: background ${t39.transitionBase};
   }
   .topbar-nav-item:hover::after {
     background: ${t39.colorBorder};
@@ -4634,8 +4674,8 @@ var TopBar = forwardRef31(
     style,
     ...props
   }, ref) {
-    useInjectStyles15(TOPBAR_STYLES_ID, TOPBAR_CSS);
-    const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: 100 } : {};
+    useInjectStyles16(TOPBAR_STYLES_ID, TOPBAR_CSS);
+    const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: t39.zIndexSticky } : {};
     return /* @__PURE__ */ jsxs27(
       "header",
       {
@@ -4646,7 +4686,7 @@ var TopBar = forwardRef31(
           height: 48,
           padding: `0 ${t39.spaceMd}`,
           background: t39.colorSurface,
-          borderBottom: `1px solid ${t39.colorBorder}`,
+          borderBottom: `${t39.borderWidthDefault} solid ${t39.colorBorder}`,
           fontFamily: t39.fontSans,
           ...stickyStyle,
           ...style
@@ -4704,7 +4744,7 @@ var TopBar = forwardRef31(
                       fontWeight: isActive ? t39.fontWeightSemibold : t39.fontWeightNormal,
                       cursor: "pointer",
                       whiteSpace: "nowrap",
-                      transition: "color 0.15s ease",
+                      transition: `color ${t39.transitionBase}`,
                       boxSizing: "border-box"
                     },
                     children: [
@@ -4737,8 +4777,8 @@ var TopBar = forwardRef31(
 );
 
 // src/components/ShortcutHelpModal/ShortcutHelpModal.tsx
-import { forwardRef as forwardRef32, useId as useId8 } from "react";
-import { semantic as t40, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef32, useId as useId9 } from "react";
+import { semantic as t40, useInjectStyles as useInjectStyles17 } from "../../core/dist/index.js";
 import { jsx as jsx43, jsxs as jsxs28 } from "react/jsx-runtime";
 var SHORTCUT_HELP_STYLES_ID = "4lt7ab-shortcut-help";
 var SHORTCUT_HELP_CSS = `
@@ -4754,8 +4794,8 @@ var ShortcutHelpModal = forwardRef32(
     title = "Keyboard Shortcuts",
     maxWidth = 520
   }, ref) {
-    const titleId = useId8();
-    useInjectStyles16(SHORTCUT_HELP_STYLES_ID, SHORTCUT_HELP_CSS);
+    const titleId = useId9();
+    useInjectStyles17(SHORTCUT_HELP_STYLES_ID, SHORTCUT_HELP_CSS);
     return /* @__PURE__ */ jsx43(ModalShell, { ref, onClose, maxWidth, titleId, children: /* @__PURE__ */ jsxs28("div", { "data-shortcut-help": true, children: [
       /* @__PURE__ */ jsxs28(
         "div",
@@ -4819,7 +4859,7 @@ var ShortcutHelpModal = forwardRef32(
                   alignItems: "center",
                   justifyContent: "space-between",
                   padding: `${t40.spaceXs} 0`,
-                  borderBottom: `1px solid ${t40.colorBorder}`
+                  borderBottom: `${t40.borderWidthDefault} solid ${t40.colorBorder}`
                 },
                 children: [
                   /* @__PURE__ */ jsx43(
@@ -4871,10 +4911,10 @@ var ShortcutHelpModal = forwardRef32(
                               lineHeight: 1,
                               color: t40.colorTextSecondary,
                               background: t40.colorSurfaceInput,
-                              border: `1px solid ${t40.colorBorder}`,
+                              border: `${t40.borderWidthDefault} solid ${t40.colorBorder}`,
                               borderRadius: t40.radiusSm,
                               boxShadow: `0 1px 0 ${t40.colorBorder}`,
-                              transition: "background 150ms ease, border-color 150ms ease"
+                              transition: `background ${t40.transitionBase}, border-color ${t40.transitionBase}`
                             },
                             children: key
                           }

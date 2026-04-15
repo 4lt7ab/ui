@@ -51,7 +51,7 @@ export const CardSkeleton: React.ForwardRefExoticComponent<Omit<{ style?: CSSPro
         aria-hidden="true"
         style={{
           borderRadius: t.radiusLg,
-          border: `1px solid ${t.colorBorder}`,
+          border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
           padding: t.spaceLg,
           display: 'flex',
           flexDirection: 'column',

@@ -339,10 +339,10 @@ export const Combobox: React.ForwardRefExoticComponent<
           style={{
             ...menuStyle,
             background: t.colorSurfacePanel,
-            border: `1px solid ${t.colorBorder}`,
+            border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
             borderRadius: t.radiusMd,
             padding: t.spaceXs,
-            zIndex: 100,
+            zIndex: t.zIndexSticky,
             boxShadow: t.shadowMd,
             maxHeight: '16rem',
             overflowY: 'auto',
@@ -404,10 +404,10 @@ const inputBaseStyle: React.CSSProperties = {
   fontFamily: t.fontSans,
   color: t.colorText,
   background: t.colorSurfaceInput,
-  border: `1px solid ${t.colorBorder}`,
+  border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
   borderRadius: t.radiusMd,
   outline: 'none',
-  transition: 'border-color 150ms ease, box-shadow 150ms ease',
+  transition: `border-color ${t.transitionBase}, box-shadow ${t.transitionBase}`,
   boxSizing: 'border-box' as const,
 };
 

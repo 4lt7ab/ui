@@ -155,7 +155,7 @@ function ToastMessage({
         background: colors.bg,
         color: colors.fg,
         borderRadius: t.radiusMd,
-        borderLeft: `3px solid ${colors.border}`,
+        borderLeft: `${t.borderWidthAccent} solid ${colors.border}`,
         boxShadow: t.shadowMd,
         fontSize: t.fontSizeSm,
         fontFamily: t.fontSans,
@@ -219,7 +219,7 @@ function ToastContainer({
 
   const positionStyles: React.CSSProperties = {
     position: 'fixed',
-    zIndex: 9999,
+    zIndex: t.zIndexToast,
     display: 'flex',
     flexDirection: 'column',
     gap: t.spaceSm,

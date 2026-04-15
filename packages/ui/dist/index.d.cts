@@ -260,6 +260,8 @@ interface IconProps extends Omit<HTMLAttributes5<HTMLSpanElement>, "children"> {
 }
 declare const Icon: React.ForwardRefExoticComponent<Omit<IconProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
 import { ButtonHTMLAttributes as ButtonHTMLAttributes2 } from "react";
+/** Controls the tap-target size of the icon button. */
+type IconButtonSize = "sm" | "md" | "lg";
 /** A circular icon-only button. Requires `aria-label` for accessibility. */
 interface IconButtonProps extends ButtonHTMLAttributes2<HTMLButtonElement> {
 	/** Icon to render — built-in registry name or any icon-font name when `fontClass` is set. */
@@ -268,6 +270,13 @@ interface IconButtonProps extends ButtonHTMLAttributes2<HTMLButtonElement> {
 	* @default 24
 	*/
 	size?: number;
+	/** Tap-target size of the button.
+	* - `sm` — 28px
+	* - `md` — 36px (default)
+	* - `lg` — 44px
+	* @default 'md'
+	*/
+	buttonSize?: IconButtonSize;
 	/** Shows a small red notification dot in the top-right corner.
 	* @default false
 	*/
@@ -285,9 +294,9 @@ interface OverlayProps {
 	/** Called when the overlay is clicked (typically to close the parent modal). */
 	onClick?: () => void;
 	/** CSS z-index for stacking control.
-	* @default 100
+	* @default 'var(--z-index-sticky)'
 	*/
-	zIndex?: number;
+	zIndex?: number | string;
 	/** Additional inline styles. */
 	style?: CSSProperties5;
 }
@@ -467,9 +476,9 @@ interface ModalShellProps {
 	*/
 	maxWidth?: number;
 	/** Base z-index for the overlay. The panel renders at `zIndex + 1`.
-	* @default 200
+	* @default 'var(--z-index-modal)'
 	*/
-	zIndex?: number;
+	zIndex?: number | string;
 	/** Additional inline styles for the modal panel. */
 	style?: CSSProperties13;
 	/** ID of the element that labels this dialog. Used for `aria-labelledby`. */
@@ -1032,4 +1041,4 @@ interface ShortcutHelpModalProps {
 	maxWidth?: number;
 }
 declare const ShortcutHelpModal: React.ForwardRefExoticComponent<Omit<ShortcutHelpModalProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-export { useToast, useFocusTrap, iconRegistry, TopBarProps, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemeSurfaceProps, ThemeSurface, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, ShowToastOptions, ShortcutHelpModalProps, ShortcutHelpModal, ShortcutGroup, ShortcutDef, SelectProps, SelectOption, SelectFilterConfig, Select, SegmentedControlProps, SegmentedControl, Segment, SectionLabelProps, SectionLabel, SearchInputProps, SearchInput, RowSkeleton, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, NavItem, ModalShellProps, ModalShell, MetadataTableProps, MetadataTable, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FormModalProps, FormModal, FilterConfig, FieldProps, Field, ExpandableCardProps, ExpandableCard, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxProps, ComboboxOption, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge, AlertBannerVariant, AlertBannerProps, AlertBanner };
+export { useToast, useFocusTrap, iconRegistry, TopBarProps, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemeSurfaceProps, ThemeSurface, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, StatusDotVariant, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SkeletonProps, Skeleton, ShowToastOptions, ShortcutHelpModalProps, ShortcutHelpModal, ShortcutGroup, ShortcutDef, SelectProps, SelectOption, SelectFilterConfig, Select, SegmentedControlProps, SegmentedControl, Segment, SectionLabelProps, SectionLabel, SearchInputProps, SearchInput, RowSkeleton, ProgressBarSegment, ProgressBarProps, ProgressBar, PaginationProps, PaginationLabels, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, NavItem, ModalShellProps, ModalShell, MetadataTableProps, MetadataTable, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, FormModalProps, FormModal, FilterConfig, FieldProps, Field, ExpandableCardProps, ExpandableCard, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxProps, ComboboxOption, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BadgeVariant, BadgeProps, Badge, AlertBannerVariant, AlertBannerProps, AlertBanner };

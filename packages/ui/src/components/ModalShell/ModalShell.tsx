@@ -41,9 +41,9 @@ export interface ModalShellProps {
    */
   maxWidth?: number;
   /** Base z-index for the overlay. The panel renders at `zIndex + 1`.
-   * @default 200
+   * @default 'var(--z-index-modal)'
    */
-  zIndex?: number;
+  zIndex?: number | string;
   /** Additional inline styles for the modal panel. */
   style?: CSSProperties;
   /** ID of the element that labels this dialog. Used for `aria-labelledby`. */
@@ -59,7 +59,7 @@ export const ModalShell: React.ForwardRefExoticComponent<Omit<ModalShellProps, '
     onClose,
     children,
     maxWidth = 480,
-    zIndex = 200,
+    zIndex = t.zIndexModal,
     style,
     titleId,
     'aria-label': ariaLabel,
@@ -123,7 +123,7 @@ export const ModalShell: React.ForwardRefExoticComponent<Omit<ModalShellProps, '
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            zIndex: zIndex + 1,
+            zIndex: typeof zIndex === 'number' ? zIndex + 1 : `calc(${zIndex} + 1)`,
             pointerEvents: 'none',
           }}
         >
@@ -139,7 +139,7 @@ export const ModalShell: React.ForwardRefExoticComponent<Omit<ModalShellProps, '
               color: t.colorText,
               borderRadius: t.radiusLg,
               boxShadow: t.shadowLg,
-              border: `1px solid ${t.colorBorder}`,
+              border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
               padding: t.spaceXl,
               maxWidth,
               width: '100%',

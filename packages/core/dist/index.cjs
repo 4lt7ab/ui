@@ -269,7 +269,18 @@ var semantic = {
   letterSpacingWide: "var(--letter-spacing-wide)",
   focusRingColor: "var(--focus-ring-color)",
   focusRingWidth: "var(--focus-ring-width)",
-  focusRingOffset: "var(--focus-ring-offset)"
+  focusRingOffset: "var(--focus-ring-offset)",
+  transitionFast: "var(--transition-fast)",
+  transitionBase: "var(--transition-base)",
+  transitionSlow: "var(--transition-slow)",
+  borderWidthDefault: "var(--border-width-default)",
+  borderWidthThick: "var(--border-width-thick)",
+  borderWidthAccent: "var(--border-width-accent)",
+  zIndexDropdown: "var(--z-index-dropdown)",
+  zIndexSticky: "var(--z-index-sticky)",
+  zIndexModal: "var(--z-index-modal)",
+  zIndexToast: "var(--z-index-toast)",
+  zIndexMax: "var(--z-index-max)"
 };
 // src/themes/ThemeProvider.tsx
 var import_react2 = require("react");
@@ -351,7 +362,18 @@ var synthwaveTheme = {
     letterSpacingWide: "0.025em",
     focusRingColor: "#ff2d95",
     focusRingWidth: "2px",
-    focusRingOffset: "2px"
+    focusRingOffset: "2px",
+    transitionFast: "100ms ease",
+    transitionBase: "150ms ease",
+    transitionSlow: "250ms ease",
+    borderWidthDefault: "1px",
+    borderWidthThick: "2px",
+    borderWidthAccent: "3px",
+    zIndexDropdown: "50",
+    zIndexSticky: "100",
+    zIndexModal: "200",
+    zIndexToast: "500",
+    zIndexMax: "9999"
   },
   css: `
     /* Base background */
@@ -373,7 +395,7 @@ var synthwaveTheme = {
       position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: 9999;
+      z-index: 1;
       background: repeating-linear-gradient(
         transparent 0px,
         transparent 2px,
@@ -455,7 +477,18 @@ var slateTheme = {
     letterSpacingWide: "0.025em",
     focusRingColor: "#7ba3d4",
     focusRingWidth: "2px",
-    focusRingOffset: "2px"
+    focusRingOffset: "2px",
+    transitionFast: "100ms ease",
+    transitionBase: "150ms ease",
+    transitionSlow: "250ms ease",
+    borderWidthDefault: "1px",
+    borderWidthThick: "2px",
+    borderWidthAccent: "3px",
+    zIndexDropdown: "50",
+    zIndexSticky: "100",
+    zIndexModal: "200",
+    zIndexToast: "500",
+    zIndexMax: "9999"
   }
 };
 // src/themes/definitions/warm-sand.ts
@@ -530,7 +563,18 @@ var warmSandTheme = {
     letterSpacingWide: "0.025em",
     focusRingColor: "#d4804f",
     focusRingWidth: "2px",
-    focusRingOffset: "2px"
+    focusRingOffset: "2px",
+    transitionFast: "100ms ease",
+    transitionBase: "150ms ease",
+    transitionSlow: "250ms ease",
+    borderWidthDefault: "1px",
+    borderWidthThick: "2px",
+    borderWidthAccent: "3px",
+    zIndexDropdown: "50",
+    zIndexSticky: "100",
+    zIndexModal: "200",
+    zIndexToast: "500",
+    zIndexMax: "9999"
   }
 };
 // src/themes/definitions/moss.ts
@@ -605,7 +649,18 @@ var mossTheme = {
     letterSpacingWide: "0.025em",
     focusRingColor: "#82c090",
     focusRingWidth: "2px",
-    focusRingOffset: "2px"
+    focusRingOffset: "2px",
+    transitionFast: "100ms ease",
+    transitionBase: "150ms ease",
+    transitionSlow: "250ms ease",
+    borderWidthDefault: "1px",
+    borderWidthThick: "2px",
+    borderWidthAccent: "3px",
+    zIndexDropdown: "50",
+    zIndexSticky: "100",
+    zIndexModal: "200",
+    zIndexToast: "500",
+    zIndexMax: "9999"
   }
 };
 // src/themes/definitions/coral.ts
@@ -680,7 +735,18 @@ var coralTheme = {
     letterSpacingWide: "0.025em",
     focusRingColor: "#f49878",
     focusRingWidth: "2px",
-    focusRingOffset: "2px"
+    focusRingOffset: "2px",
+    transitionFast: "100ms ease",
+    transitionBase: "150ms ease",
+    transitionSlow: "250ms ease",
+    borderWidthDefault: "1px",
+    borderWidthThick: "2px",
+    borderWidthAccent: "3px",
+    zIndexDropdown: "50",
+    zIndexSticky: "100",
+    zIndexModal: "200",
+    zIndexToast: "500",
+    zIndexMax: "9999"
   }
 };
 // src/themes/definitions/pipboy.ts
@@ -755,7 +821,18 @@ var pipboyTheme = {
     letterSpacingWide: "0.025em",
     focusRingColor: "#33ff33",
     focusRingWidth: "2px",
-    focusRingOffset: "2px"
+    focusRingOffset: "2px",
+    transitionFast: "100ms ease",
+    transitionBase: "150ms ease",
+    transitionSlow: "250ms ease",
+    borderWidthDefault: "1px",
+    borderWidthThick: "2px",
+    borderWidthAccent: "3px",
+    zIndexDropdown: "50",
+    zIndexSticky: "100",
+    zIndexModal: "200",
+    zIndexToast: "500",
+    zIndexMax: "9999"
   },
   css: `
     /* Base background for canvas to render on top of */
@@ -788,7 +865,7 @@ var pipboyTheme = {
         rgba(0, 0, 0, 0.15) 4px
       );
       pointer-events: none;
-      z-index: 1000;
+      z-index: 1;
     }
   `
 };
@@ -864,7 +941,18 @@ var neuralTheme = {
     letterSpacingWide: "0.025em",
     focusRingColor: "#38bdf8",
     focusRingWidth: "2px",
-    focusRingOffset: "2px"
+    focusRingOffset: "2px",
+    transitionFast: "100ms ease",
+    transitionBase: "150ms ease",
+    transitionSlow: "250ms ease",
+    borderWidthDefault: "1px",
+    borderWidthThick: "2px",
+    borderWidthAccent: "3px",
+    zIndexDropdown: "50",
+    zIndexSticky: "100",
+    zIndexModal: "200",
+    zIndexToast: "500",
+    zIndexMax: "9999"
   },
   css: `
     [data-theme="neural"] body,
@@ -945,7 +1033,18 @@ var pacmanTheme = {
     letterSpacingWide: "0.025em",
     focusRingColor: "#ffff00",
     focusRingWidth: "2px",
-    focusRingOffset: "2px"
+    focusRingOffset: "2px",
+    transitionFast: "100ms ease",
+    transitionBase: "150ms ease",
+    transitionSlow: "250ms ease",
+    borderWidthDefault: "1px",
+    borderWidthThick: "2px",
+    borderWidthAccent: "3px",
+    zIndexDropdown: "50",
+    zIndexSticky: "100",
+    zIndexModal: "200",
+    zIndexToast: "500",
+    zIndexMax: "9999"
   },
   css: `
     [data-theme="pacman"] body,
@@ -1053,7 +1152,18 @@ var blackHoleTheme = {
     letterSpacingWide: "0.025em",
     focusRingColor: "#a78bfa",
     focusRingWidth: "2px",
-    focusRingOffset: "2px"
+    focusRingOffset: "2px",
+    transitionFast: "100ms ease",
+    transitionBase: "150ms ease",
+    transitionSlow: "250ms ease",
+    borderWidthDefault: "1px",
+    borderWidthThick: "2px",
+    borderWidthAccent: "3px",
+    zIndexDropdown: "50",
+    zIndexSticky: "100",
+    zIndexModal: "200",
+    zIndexToast: "500",
+    zIndexMax: "9999"
   },
   css: `
     [data-theme="black-hole"] body,

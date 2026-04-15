@@ -57,7 +57,7 @@ export function DayCell({
     ...baseCellStyle,
     ...(isOutsideMonth ? { color: t.colorTextMuted, opacity: 0.5 } : {}),
     ...(isToday && !isEndpoint
-      ? { border: `1px solid ${t.colorActionPrimary}` }
+      ? { border: `${t.borderWidthDefault} solid ${t.colorActionPrimary}` }
       : {}),
     ...(inRange && !isEndpoint
       ? { background: `color-mix(in srgb, ${t.colorActionPrimary} 15%, transparent)` }

@@ -99,7 +99,7 @@ export const IconButton: React.ForwardRefExoticComponent<Omit<IconButtonProps, '
               height: 8,
               borderRadius: t.radiusFull,
               background: t.colorError,
-              border: `2px solid ${t.colorSurface}`,
+              border: `${t.borderWidthThick} solid ${t.colorSurface}`,
             }}
           />
         )}

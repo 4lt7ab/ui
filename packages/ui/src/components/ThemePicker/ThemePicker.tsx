@@ -25,12 +25,12 @@ const gridCSS = /* css */ `
 
   .alttab-theme-card {
     background: var(--color-surface);
-    border: 2px solid var(--color-border);
+    border: var(--border-width-thick) solid var(--color-border);
     border-radius: 8px;
     padding: 1.5rem;
     text-align: left;
     cursor: pointer;
-    transition: border-color 0.15s ease, transform 0.15s ease;
+    transition: border-color var(--transition-base), transform var(--transition-base);
     font-family: inherit;
     color: inherit;
   }
@@ -75,10 +75,10 @@ const compactCSS = /* css */ `
     font-family: var(--font-mono);
     color: var(--color-text-secondary);
     background: var(--color-surface-raised);
-    border: 1px solid var(--color-border);
+    border: var(--border-width-default) solid var(--color-border);
     border-radius: var(--radius-md);
     cursor: pointer;
-    transition: border-color 0.15s ease;
+    transition: border-color var(--transition-base);
   }
 
   .alttab-tp-trigger:hover {
@@ -267,11 +267,11 @@ function CompactView(): React.JSX.Element {
             left: 0,
             marginTop: '0.25rem',
             background: 'var(--color-surface-panel)',
-            border: '1px solid var(--color-border)',
+            border: 'var(--border-width-default) solid var(--color-border)',
             borderRadius: 'var(--radius-md)',
             padding: '0.25rem',
             minWidth: '10rem',
-            zIndex: 100,
+            zIndex: 'var(--z-index-sticky)',
             boxShadow: 'var(--shadow-md)',
           }}
         >

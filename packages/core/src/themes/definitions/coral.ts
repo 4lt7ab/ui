@@ -99,5 +99,22 @@ export const coralTheme: ThemeDefinition = {
     focusRingColor: '#f49878',
     focusRingWidth: '2px',
     focusRingOffset: '2px',
+
+    // Transitions
+    transitionFast: '100ms ease',
+    transitionBase: '150ms ease',
+    transitionSlow: '250ms ease',
+
+    // Border widths
+    borderWidthDefault: '1px',
+    borderWidthThick: '2px',
+    borderWidthAccent: '3px',
+
+    // Z-index
+    zIndexDropdown: '50',
+    zIndexSticky: '100',
+    zIndexModal: '200',
+    zIndexToast: '500',
+    zIndexMax: '9999',
   },
 };

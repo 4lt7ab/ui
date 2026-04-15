@@ -102,7 +102,7 @@ export function SegmentedControl({
         height: s.height,
         background: t.colorSurfaceInput,
         borderRadius: t.radiusFull,
-        border: `1px solid ${t.colorBorder}`,
+        border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
         padding: 2,
         boxSizing: 'border-box',
       }}
@@ -119,7 +119,7 @@ export function SegmentedControl({
             height: s.height - 6,
             borderRadius: t.radiusFull,
             background: t.colorActionPrimary,
-            transition: 'left 200ms ease, width 200ms ease',
+            transition: `left ${t.transitionSlow}, width ${t.transitionSlow}`,
             pointerEvents: 'none',
           }}
         />
@@ -155,7 +155,7 @@ export function SegmentedControl({
               fontFamily: t.fontSans,
               fontWeight: isActive ? t.fontWeightSemibold : t.fontWeightNormal,
               cursor: 'pointer',
-              transition: 'color 150ms ease',
+              transition: `color ${t.transitionBase}`,
               whiteSpace: 'nowrap',
               lineHeight: 1,
             }}

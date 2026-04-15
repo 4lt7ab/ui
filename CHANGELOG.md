@@ -8,6 +8,9 @@
 - Add focus-visible ring to ChipPicker chip buttons
 - Replace sed-based `@4lt7ab/core` import rewriting with cross-platform Bun script (`scripts/rewrite-core-imports.ts`) — handles ESM, CJS, and `.d.ts` files with verification
 - Extract shared prose/markdown constants (breakpoints, typography scale, color-mix ratios) into `packages/content/src/constants.ts` and export from `@4lt7ab/content` barrel
+- Add transition, border-width, and z-index semantic tokens to `@4lt7ab/core`
+- Migrate all components to use new tokens instead of hardcoded values
+- Fix scanline z-index in synthwave and pipboy themes (was 9999/1000, now 1)
 
 ## v0.2.23
 

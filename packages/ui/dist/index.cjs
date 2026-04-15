@@ -397,12 +397,12 @@ var gridCSS = (
 
   .alttab-theme-card {
     background: var(--color-surface);
-    border: 2px solid var(--color-border);
+    border: var(--border-width-thick) solid var(--color-border);
     border-radius: 8px;
     padding: 1.5rem;
     text-align: left;
     cursor: pointer;
-    transition: border-color 0.15s ease, transform 0.15s ease;
+    transition: border-color var(--transition-base), transform var(--transition-base);
     font-family: inherit;
     color: inherit;
   }
@@ -444,10 +444,10 @@ var compactCSS = (
     font-family: var(--font-mono);
     color: var(--color-text-secondary);
     background: var(--color-surface-raised);
-    border: 1px solid var(--color-border);
+    border: var(--border-width-default) solid var(--color-border);
     border-radius: var(--radius-md);
     cursor: pointer;
-    transition: border-color 0.15s ease;
+    transition: border-color var(--transition-base);
   }
 
   .alttab-tp-trigger:hover {
@@ -613,11 +613,11 @@ function CompactView() {
           left: 0,
           marginTop: "0.25rem",
           background: "var(--color-surface-panel)",
-          border: "1px solid var(--color-border)",
+          border: "var(--border-width-default) solid var(--color-border)",
           borderRadius: "var(--radius-md)",
           padding: "0.25rem",
           minWidth: "10rem",
-          zIndex: 100,
+          zIndex: "var(--z-index-sticky)",
           boxShadow: "var(--shadow-md)"
         },
         children: themeList.map((t41, idx) => {
@@ -681,7 +681,7 @@ var variantStyles = {
   secondary: {
     background: import_core3.semantic.colorActionSecondary,
     color: import_core3.semantic.colorText,
-    border: `1px solid ${import_core3.semantic.colorBorder}`
+    border: `${import_core3.semantic.borderWidthDefault} solid ${import_core3.semantic.colorBorder}`
   },
   destructive: {
     background: import_core3.semantic.colorActionDestructive,
@@ -691,7 +691,7 @@ var variantStyles = {
   ghost: {
     background: "transparent",
     color: import_core3.semantic.colorText,
-    border: "1px solid transparent"
+    border: `${import_core3.semantic.borderWidthDefault} solid transparent`
   }
 };
 var sizeStyles = {
@@ -720,7 +720,7 @@ var baseStyles = {
   fontFamily: import_core3.semantic.fontSans,
   fontWeight: import_core3.semantic.fontWeightMedium,
   cursor: "pointer",
-  transition: "background 150ms ease, border-color 150ms ease, opacity 150ms ease"
+  transition: `background ${import_core3.semantic.transitionBase}, border-color ${import_core3.semantic.transitionBase}, opacity ${import_core3.semantic.transitionBase}`
 };
 var SPINNER_STYLES_ID = "alttab-button-spinner";
 var spinnerCSS = (
@@ -733,7 +733,7 @@ var spinnerCSS = (
     display: inline-block;
     width: 1em;
     height: 1em;
-    border: 2px solid currentColor;
+    border: ${import_core3.semantic.borderWidthThick} solid currentColor;
     border-right-color: transparent;
     border-radius: 50%;
     animation: alttab-btn-spin 600ms linear infinite;
@@ -837,22 +837,22 @@ var paddingMap = {
 var variantStyles2 = {
   default: {
     background: import_core5.semantic.colorSurfaceSolid,
-    border: `1px solid ${import_core5.semantic.colorBorder}`,
+    border: `${import_core5.semantic.borderWidthDefault} solid ${import_core5.semantic.colorBorder}`,
     boxShadow: import_core5.semantic.shadowSm
   },
   flat: {
     background: import_core5.semantic.colorSurfaceRaised,
-    border: `1px solid ${import_core5.semantic.colorBorder}`,
+    border: `${import_core5.semantic.borderWidthDefault} solid ${import_core5.semantic.colorBorder}`,
     boxShadow: "none"
   },
   elevated: {
     background: import_core5.semantic.colorSurfaceSolid,
-    border: `1px solid ${import_core5.semantic.colorBorder}`,
+    border: `${import_core5.semantic.borderWidthDefault} solid ${import_core5.semantic.colorBorder}`,
     boxShadow: import_core5.semantic.shadowMd
   },
   live: {
     background: import_core5.semantic.colorSurfaceSolid,
-    border: `1px solid ${import_core5.semantic.colorBorderFocused}`,
+    border: `${import_core5.semantic.borderWidthDefault} solid ${import_core5.semantic.colorBorderFocused}`,
     boxShadow: import_core5.semantic.shadowSm
   }
 };
@@ -860,7 +860,7 @@ var HOVER_STYLES_ID = "4lt7ab-card-hover";
 var HOVER_STYLES_CSS = `
 [data-card-hover] {
   cursor: pointer;
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: transform ${import_core5.semantic.transitionSlow}, border-color ${import_core5.semantic.transitionSlow}, box-shadow ${import_core5.semantic.transitionSlow};
 }
 [data-card-hover]:hover {
   transform: translateY(-2px);
@@ -1002,10 +1002,10 @@ var baseStyle = {
   fontFamily: import_core7.semantic.fontSans,
   color: import_core7.semantic.colorText,
   background: import_core7.semantic.colorSurfaceInput,
-  border: `1px solid ${import_core7.semantic.colorBorder}`,
+  border: `${import_core7.semantic.borderWidthDefault} solid ${import_core7.semantic.colorBorder}`,
   borderRadius: import_core7.semantic.radiusMd,
   outline: "none",
-  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  transition: `border-color ${import_core7.semantic.transitionBase}, box-shadow ${import_core7.semantic.transitionBase}`,
   boxSizing: "border-box"
 };
 var errorBorderStyle = {
@@ -1054,10 +1054,10 @@ var baseStyle2 = {
   fontFamily: import_core8.semantic.fontSans,
   color: import_core8.semantic.colorText,
   background: import_core8.semantic.colorSurfaceInput,
-  border: `1px solid ${import_core8.semantic.colorBorder}`,
+  border: `${import_core8.semantic.borderWidthDefault} solid ${import_core8.semantic.colorBorder}`,
   borderRadius: import_core8.semantic.radiusMd,
   outline: "none",
-  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  transition: `border-color ${import_core8.semantic.transitionBase}, box-shadow ${import_core8.semantic.transitionBase}`,
   boxSizing: "border-box",
   resize: "vertical",
   minHeight: "5rem"
@@ -1409,10 +1409,10 @@ var Select = (0, import_react10.forwardRef)(function Select2({
         style: {
           ...menuStyle,
           background: import_core9.semantic.colorSurfacePanel,
-          border: `1px solid ${import_core9.semantic.colorBorder}`,
+          border: `${import_core9.semantic.borderWidthDefault} solid ${import_core9.semantic.colorBorder}`,
           borderRadius: import_core9.semantic.radiusMd,
           padding: import_core9.semantic.spaceXs,
-          zIndex: 100,
+          zIndex: import_core9.semantic.zIndexSticky,
           boxShadow: import_core9.semantic.shadowMd,
           maxHeight: "16rem",
           overflowY: "auto",
@@ -1463,10 +1463,10 @@ var triggerBaseStyle = {
   fontFamily: import_core9.semantic.fontSans,
   color: import_core9.semantic.colorText,
   background: import_core9.semantic.colorSurfaceInput,
-  border: `1px solid ${import_core9.semantic.colorBorder}`,
+  border: `${import_core9.semantic.borderWidthDefault} solid ${import_core9.semantic.colorBorder}`,
   borderRadius: import_core9.semantic.radiusMd,
   outline: "none",
-  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  transition: `border-color ${import_core9.semantic.transitionBase}, box-shadow ${import_core9.semantic.transitionBase}`,
   boxSizing: "border-box",
   cursor: "pointer",
   textAlign: "left",
@@ -1505,7 +1505,7 @@ function ChevronSVG({ rotated }) {
       fill: "none",
       xmlns: "http://www.w3.org/2000/svg",
       style: {
-        transition: "transform 150ms ease",
+        transition: `transform ${import_core9.semantic.transitionBase}`,
         transform: rotated ? "rotate(180deg)" : "none"
       },
       children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
@@ -1525,7 +1525,7 @@ var import_core10 = require("../../core/dist/index.cjs");
 var import_jsx_runtime11 = require("react/jsx-runtime");
 var variantStyles3 = {
   default: {
-    border: `1px solid ${import_core10.semantic.colorBorder}`,
+    border: `${import_core10.semantic.borderWidthDefault} solid ${import_core10.semantic.colorBorder}`,
     color: import_core10.semantic.colorTextSecondary
   },
   success: {
@@ -1584,26 +1584,48 @@ var Badge = (0, import_react11.forwardRef)(
 var import_react12 = require("react");
 var import_core11 = require("../../core/dist/index.cjs");
 var import_jsx_runtime12 = require("react/jsx-runtime");
+var buttonSizeMap = {
+  sm: 28,
+  md: 36,
+  lg: 44
+};
 var IconButton = (0, import_react12.forwardRef)(
   function IconButton2({
     icon,
     size = 24,
+    buttonSize = "md",
     badge,
     fontClass,
     style,
+    className,
     ...props
   }, ref) {
+    const uid = (0, import_react12.useId)();
+    const styleId = `icon-btn-${uid.replace(/:/g, "")}`;
+    (0, import_core11.useInjectStyles)(
+      styleId,
+      `[data-icon-btn-id="${styleId}"]:hover:not(:disabled) {
+        background: color-mix(in srgb, currentColor 8%, transparent);
+      }
+      [data-icon-btn-id="${styleId}"]:focus-visible {
+        outline: ${import_core11.semantic.focusRingWidth} solid ${import_core11.semantic.focusRingColor};
+        outline-offset: ${import_core11.semantic.focusRingOffset};
+      }`
+    );
+    const dim = buttonSizeMap[buttonSize];
     return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(
       "button",
       {
         ref,
+        "data-icon-btn-id": styleId,
+        className,
         style: {
           position: "relative",
           display: "inline-flex",
           alignItems: "center",
           justifyContent: "center",
-          width: 36,
-          height: 36,
+          width: dim,
+          height: dim,
           borderRadius: import_core11.semantic.radiusFull,
           background: "transparent",
           border: "none",
@@ -1626,7 +1648,7 @@ var IconButton = (0, import_react12.forwardRef)(
                 height: 8,
                 borderRadius: import_core11.semantic.radiusFull,
                 background: import_core11.semantic.colorError,
-                border: `2px solid ${import_core11.semantic.colorSurface}`
+                border: `${import_core11.semantic.borderWidthThick} solid ${import_core11.semantic.colorSurface}`
               }
             }
           )
@@ -1643,7 +1665,7 @@ var import_jsx_runtime13 = require("react/jsx-runtime");
 var Overlay = (0, import_react13.forwardRef)(
   function Overlay2({
     onClick,
-    zIndex = 100,
+    zIndex = import_core12.semantic.zIndexSticky,
     style
   }, ref) {
     return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
@@ -1700,7 +1722,7 @@ var CardSkeleton = (0, import_react14.forwardRef)(
         "aria-hidden": "true",
         style: {
           borderRadius: import_core13.semantic.radiusLg,
-          border: `1px solid ${import_core13.semantic.colorBorder}`,
+          border: `${import_core13.semantic.borderWidthDefault} solid ${import_core13.semantic.colorBorder}`,
           padding: import_core13.semantic.spaceLg,
           display: "flex",
           flexDirection: "column",
@@ -2055,7 +2077,7 @@ var ExpandableCard = (0, import_react20.forwardRef)(
               padding: `${import_core19.semantic.spaceSm} ${import_core19.semantic.spaceMd}`,
               cursor: "pointer",
               borderRadius: import_core19.semantic.radiusMd,
-              transition: "background 150ms ease",
+              transition: `background ${import_core19.semantic.transitionBase}`,
               background: "none",
               border: "none",
               color: "inherit",
@@ -2074,7 +2096,7 @@ var ExpandableCard = (0, import_react20.forwardRef)(
                     height: 20,
                     lineHeight: 1,
                     color: "inherit",
-                    transition: "transform 200ms ease",
+                    transition: `transform ${import_core19.semantic.transitionSlow}`,
                     transform: isOpen ? "rotate(90deg)" : "rotate(0deg)"
                   },
                   children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(IconChevronRight, { size: 20 })
@@ -2105,7 +2127,7 @@ var ExpandableCard = (0, import_react20.forwardRef)(
           style: {
             display: "grid",
             gridTemplateRows: isOpen ? "1fr" : "0fr",
-            transition: "grid-template-rows 200ms ease"
+            transition: `grid-template-rows ${import_core19.semantic.transitionSlow}`
           },
           children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("div", { style: { overflow: "hidden" }, children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("div", { style: { padding: `${import_core19.semantic.spaceSm} ${import_core19.semantic.spaceMd} ${import_core19.semantic.spaceMd}` }, children }) })
         }
@@ -2144,7 +2166,7 @@ var ModalShell = (0, import_react21.forwardRef)(
     onClose,
     children,
     maxWidth = 480,
-    zIndex = 200,
+    zIndex = import_core20.semantic.zIndexModal,
     style,
     titleId,
     "aria-label": ariaLabel,
@@ -2198,7 +2220,7 @@ var ModalShell = (0, import_react21.forwardRef)(
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              zIndex: zIndex + 1,
+              zIndex: typeof zIndex === "number" ? zIndex + 1 : `calc(${zIndex} + 1)`,
               pointerEvents: "none"
             },
             children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
@@ -2215,7 +2237,7 @@ var ModalShell = (0, import_react21.forwardRef)(
                   color: import_core20.semantic.colorText,
                   borderRadius: import_core20.semantic.radiusLg,
                   boxShadow: import_core20.semantic.shadowLg,
-                  border: `1px solid ${import_core20.semantic.colorBorder}`,
+                  border: `${import_core20.semantic.borderWidthDefault} solid ${import_core20.semantic.colorBorder}`,
                   padding: import_core20.semantic.spaceXl,
                   maxWidth,
                   width: "100%",
@@ -2486,7 +2508,7 @@ var TABLE_STYLES_CSS = `
 `;
 var wrapperVariants = {
   default: {
-    border: `1px solid ${import_core26.semantic.colorBorder}`,
+    border: `${import_core26.semantic.borderWidthDefault} solid ${import_core26.semantic.colorBorder}`,
     borderRadius: import_core26.semantic.radiusLg,
     boxShadow: import_core26.semantic.shadowSm
   },
@@ -2554,7 +2576,7 @@ var TableHeaderCell = (0, import_react26.forwardRef)(
           color: import_core26.semantic.colorTextMuted,
           textTransform: "uppercase",
           letterSpacing: import_core26.semantic.letterSpacingWide,
-          borderBottom: `2px solid ${import_core26.semantic.colorBorder}`,
+          borderBottom: `${import_core26.semantic.borderWidthThick} solid ${import_core26.semantic.colorBorder}`,
           whiteSpace: "nowrap",
           width: typeof width === "number" ? `${width}px` : width,
           ...style
@@ -2641,7 +2663,7 @@ var TableCell = (0, import_react26.forwardRef)(
         ref,
         style: {
           padding: `${import_core26.semantic.spaceSm} ${import_core26.semantic.spaceMd}`,
-          borderBottom: `1px solid ${import_core26.semantic.colorBorder}`,
+          borderBottom: `${import_core26.semantic.borderWidthDefault} solid ${import_core26.semantic.colorBorder}`,
           verticalAlign: "middle",
           textAlign: align,
           color: muted ? import_core26.semantic.colorTextMuted : void 0,
@@ -2674,7 +2696,7 @@ var TableGroupHeader = (0, import_react26.forwardRef)(
         style: {
           padding: `${import_core26.semantic.spaceXs} ${import_core26.semantic.spaceMd}`,
           background: import_core26.semantic.colorSurfaceRaised,
-          borderBottom: `1px solid ${import_core26.semantic.colorBorder}`,
+          borderBottom: `${import_core26.semantic.borderWidthDefault} solid ${import_core26.semantic.colorBorder}`,
           fontSize: import_core26.semantic.fontSizeXs,
           fontWeight: import_core26.semantic.fontWeightBold,
           letterSpacing: import_core26.semantic.letterSpacingWide,
@@ -2885,7 +2907,7 @@ function DayCell({
   const cellStyle = {
     ...baseCellStyle,
     ...isOutsideMonth ? { color: import_core29.semantic.colorTextMuted, opacity: 0.5 } : {},
-    ...isToday && !isEndpoint ? { border: `1px solid ${import_core29.semantic.colorActionPrimary}` } : {},
+    ...isToday && !isEndpoint ? { border: `${import_core29.semantic.borderWidthDefault} solid ${import_core29.semantic.colorActionPrimary}` } : {},
     ...inRange && !isEndpoint ? { background: `color-mix(in srgb, ${import_core29.semantic.colorActionPrimary} 15%, transparent)` } : {},
     ...isEndpoint ? { background: import_core29.semantic.colorActionPrimary, color: import_core29.semantic.colorTextInverse } : {},
     ...isDisabled ? {
@@ -3051,10 +3073,10 @@ var triggerBaseStyle2 = {
   fontFamily: import_core31.semantic.fontSans,
   color: import_core31.semantic.colorText,
   background: import_core31.semantic.colorSurfaceInput,
-  border: `1px solid ${import_core31.semantic.colorBorder}`,
+  border: `${import_core31.semantic.borderWidthDefault} solid ${import_core31.semantic.colorBorder}`,
   borderRadius: import_core31.semantic.radiusMd,
   outline: "none",
-  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  transition: `border-color ${import_core31.semantic.transitionBase}, box-shadow ${import_core31.semantic.transitionBase}`,
   boxSizing: "border-box",
   cursor: "pointer",
   textAlign: "left"
@@ -3071,10 +3093,10 @@ var popoverStyle = {
   position: "absolute",
   top: "100%",
   left: 0,
-  zIndex: 50,
+  zIndex: import_core31.semantic.zIndexDropdown,
   marginTop: import_core31.semantic.spaceXs,
   background: import_core31.semantic.colorSurfacePanel,
-  border: `1px solid ${import_core31.semantic.colorBorder}`,
+  border: `${import_core31.semantic.borderWidthDefault} solid ${import_core31.semantic.colorBorder}`,
   borderRadius: import_core31.semantic.radiusLg,
   boxShadow: import_core31.semantic.shadowMd,
   padding: import_core31.semantic.spaceMd,
@@ -3294,10 +3316,10 @@ var triggerBaseStyle3 = {
   fontFamily: import_core32.semantic.fontSans,
   color: import_core32.semantic.colorText,
   background: import_core32.semantic.colorSurfaceInput,
-  border: `1px solid ${import_core32.semantic.colorBorder}`,
+  border: `${import_core32.semantic.borderWidthDefault} solid ${import_core32.semantic.colorBorder}`,
   borderRadius: import_core32.semantic.radiusMd,
   outline: "none",
-  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  transition: `border-color ${import_core32.semantic.transitionBase}, box-shadow ${import_core32.semantic.transitionBase}`,
   boxSizing: "border-box",
   cursor: "pointer",
   textAlign: "left"
@@ -3314,10 +3336,10 @@ var popoverStyle2 = {
   position: "absolute",
   top: "100%",
   left: 0,
-  zIndex: 50,
+  zIndex: import_core32.semantic.zIndexDropdown,
   marginTop: import_core32.semantic.spaceXs,
   background: import_core32.semantic.colorSurfacePanel,
-  border: `1px solid ${import_core32.semantic.colorBorder}`,
+  border: `${import_core32.semantic.borderWidthDefault} solid ${import_core32.semantic.colorBorder}`,
   borderRadius: import_core32.semantic.radiusLg,
   boxShadow: import_core32.semantic.shadowMd,
   padding: import_core32.semantic.spaceMd,
@@ -3507,7 +3529,7 @@ var rowStyles = {
   flexDirection: "column",
   gap: import_core33.semantic.spaceXs,
   padding: `${import_core33.semantic.spaceSm} 0`,
-  borderBottom: `1px solid ${import_core33.semantic.colorBorder}`
+  borderBottom: `${import_core33.semantic.borderWidthDefault} solid ${import_core33.semantic.colorBorder}`
 };
 var labelStyles = {
   fontSize: import_core33.semantic.fontSizeXs,
@@ -3736,7 +3758,7 @@ function ToastMessage({
         background: colors.bg,
         color: colors.fg,
         borderRadius: import_core36.semantic.radiusMd,
-        borderLeft: `3px solid ${colors.border}`,
+        borderLeft: `${import_core36.semantic.borderWidthAccent} solid ${colors.border}`,
         boxShadow: import_core36.semantic.shadowMd,
         fontSize: import_core36.semantic.fontSizeSm,
         fontFamily: import_core36.semantic.fontSans,
@@ -3756,7 +3778,11 @@ function ToastMessage({
             onClick: () => setExiting(true),
             "aria-label": "Dismiss",
             style: {
-              all: "unset",
+              background: "none",
+              border: "none",
+              padding: 0,
+              margin: 0,
+              font: "inherit",
               cursor: "pointer",
               flexShrink: 0,
               display: "flex",
@@ -3786,7 +3812,7 @@ function ToastContainer({
   if (toasts.length === 0) return null;
   const positionStyles = {
     position: "fixed",
-    zIndex: 9999,
+    zIndex: import_core36.semantic.zIndexToast,
     display: "flex",
     flexDirection: "column",
     gap: import_core36.semantic.spaceSm,
@@ -4074,10 +4100,10 @@ var Combobox = (0, import_react32.forwardRef)(function Combobox2({
             style: {
               ...menuStyle,
               background: import_core37.semantic.colorSurfacePanel,
-              border: `1px solid ${import_core37.semantic.colorBorder}`,
+              border: `${import_core37.semantic.borderWidthDefault} solid ${import_core37.semantic.colorBorder}`,
               borderRadius: import_core37.semantic.radiusMd,
               padding: import_core37.semantic.spaceXs,
-              zIndex: 100,
+              zIndex: import_core37.semantic.zIndexSticky,
               boxShadow: import_core37.semantic.shadowMd,
               maxHeight: "16rem",
               overflowY: "auto",
@@ -4126,10 +4152,10 @@ var inputBaseStyle = {
   fontFamily: import_core37.semantic.fontSans,
   color: import_core37.semantic.colorText,
   background: import_core37.semantic.colorSurfaceInput,
-  border: `1px solid ${import_core37.semantic.colorBorder}`,
+  border: `${import_core37.semantic.borderWidthDefault} solid ${import_core37.semantic.colorBorder}`,
   borderRadius: import_core37.semantic.radiusMd,
   outline: "none",
-  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  transition: `border-color ${import_core37.semantic.transitionBase}, box-shadow ${import_core37.semantic.transitionBase}`,
   boxSizing: "border-box"
 };
 var errorBorderStyle4 = {
@@ -4272,6 +4298,10 @@ function ChipPicker({
     }
     [data-chip-picker-id="${styleId}"] button[aria-pressed="true"]:hover {
       background: ${import_core39.semantic.colorActionSecondaryHover} !important;
+    }
+    [data-chip-picker-id="${styleId}"] button:focus-visible {
+      outline: ${import_core39.semantic.focusRingWidth} solid ${import_core39.semantic.focusRingColor};
+      outline-offset: ${import_core39.semantic.focusRingOffset};
     }`
   );
   const toggle = (value) => {
@@ -4308,10 +4338,10 @@ function ChipPicker({
     lineHeight: import_core39.semantic.lineHeightTight,
     color: isSelected ? import_core39.semantic.colorActionPrimary : import_core39.semantic.colorText,
     background: isSelected ? import_core39.semantic.colorActionSecondary : "transparent",
-    border: `1px solid ${isSelected ? import_core39.semantic.colorActionPrimary : import_core39.semantic.colorBorder}`,
+    border: `${import_core39.semantic.borderWidthDefault} solid ${isSelected ? import_core39.semantic.colorActionPrimary : import_core39.semantic.colorBorder}`,
     borderRadius: import_core39.semantic.radiusFull,
     cursor: "pointer",
-    transition: "background 100ms ease, border-color 100ms ease, color 100ms ease",
+    transition: `background ${import_core39.semantic.transitionFast}, border-color ${import_core39.semantic.transitionFast}, color ${import_core39.semantic.transitionFast}`,
     outline: "none"
   });
   const renderChips = (chips) => /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
@@ -4383,9 +4413,9 @@ var wrapperStyle5 = {
   fontFamily: import_core40.semantic.fontSans,
   color: import_core40.semantic.colorText,
   background: import_core40.semantic.colorSurfaceInput,
-  border: `1px solid ${import_core40.semantic.colorBorder}`,
+  border: `${import_core40.semantic.borderWidthDefault} solid ${import_core40.semantic.colorBorder}`,
   borderRadius: import_core40.semantic.radiusMd,
-  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  transition: `border-color ${import_core40.semantic.transitionBase}, box-shadow ${import_core40.semantic.transitionBase}`,
   boxSizing: "border-box"
 };
 var inputStyle = {
@@ -4477,6 +4507,12 @@ var hoverCSS = `
   .segmented-ctrl-btn:hover:not([aria-pressed="true"]) {
     color: ${import_core41.semantic.colorText};
   }
+  .segmented-ctrl-btn:focus-visible {
+    outline: ${import_core41.semantic.focusRingWidth} solid ${import_core41.semantic.focusRingColor};
+    outline-offset: ${import_core41.semantic.focusRingOffset};
+    border-radius: ${import_core41.semantic.radiusFull};
+    z-index: 2;
+  }
   @media (prefers-reduced-motion: reduce) {
     .segmented-ctrl-indicator {
       transition: none !important;
@@ -4532,7 +4568,7 @@ function SegmentedControl({
         height: s.height,
         background: import_core41.semantic.colorSurfaceInput,
         borderRadius: import_core41.semantic.radiusFull,
-        border: `1px solid ${import_core41.semantic.colorBorder}`,
+        border: `${import_core41.semantic.borderWidthDefault} solid ${import_core41.semantic.colorBorder}`,
         padding: 2,
         boxSizing: "border-box"
       },
@@ -4549,7 +4585,7 @@ function SegmentedControl({
               height: s.height - 6,
               borderRadius: import_core41.semantic.radiusFull,
               background: import_core41.semantic.colorActionPrimary,
-              transition: "left 200ms ease, width 200ms ease",
+              transition: `left ${import_core41.semantic.transitionSlow}, width ${import_core41.semantic.transitionSlow}`,
               pointerEvents: "none"
             }
           }
@@ -4582,7 +4618,7 @@ function SegmentedControl({
                 fontFamily: import_core41.semantic.fontSans,
                 fontWeight: isActive ? import_core41.semantic.fontWeightSemibold : import_core41.semantic.fontWeightNormal,
                 cursor: "pointer",
-                transition: "color 150ms ease",
+                transition: `color ${import_core41.semantic.transitionBase}`,
                 whiteSpace: "nowrap",
                 lineHeight: 1
               },
@@ -4658,7 +4694,7 @@ var AlertBanner = (0, import_react37.forwardRef)(
           padding: `${import_core42.semantic.spaceSm} ${import_core42.semantic.spaceMd}`,
           background: colors.bg,
           color: colors.fg,
-          borderBottom: `2px solid ${colors.border}`,
+          borderBottom: `${import_core42.semantic.borderWidthThick} solid ${colors.border}`,
           fontFamily: import_core42.semantic.fontSans,
           fontSize: import_core42.semantic.fontSizeSm,
           fontWeight: import_core42.semantic.fontWeightMedium,
@@ -4677,7 +4713,11 @@ var AlertBanner = (0, import_react37.forwardRef)(
               onClick: onDismiss,
               "aria-label": "Dismiss",
               style: {
-                all: "unset",
+                background: "none",
+                border: "none",
+                padding: 0,
+                margin: 0,
+                font: "inherit",
                 cursor: "pointer",
                 flexShrink: 0,
                 display: "flex",
@@ -4717,7 +4757,7 @@ var TOPBAR_CSS = `
     right: 0;
     height: 2px;
     background: transparent;
-    transition: background 0.15s ease;
+    transition: background ${import_core43.semantic.transitionBase};
   }
   .topbar-nav-item:hover::after {
     background: ${import_core43.semantic.colorBorder};
@@ -4741,7 +4781,7 @@ var TopBar = (0, import_react38.forwardRef)(
     ...props
   }, ref) {
     (0, import_core43.useInjectStyles)(TOPBAR_STYLES_ID, TOPBAR_CSS);
-    const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: 100 } : {};
+    const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: import_core43.semantic.zIndexSticky } : {};
     return /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)(
       "header",
       {
@@ -4752,7 +4792,7 @@ var TopBar = (0, import_react38.forwardRef)(
           height: 48,
           padding: `0 ${import_core43.semantic.spaceMd}`,
           background: import_core43.semantic.colorSurface,
-          borderBottom: `1px solid ${import_core43.semantic.colorBorder}`,
+          borderBottom: `${import_core43.semantic.borderWidthDefault} solid ${import_core43.semantic.colorBorder}`,
           fontFamily: import_core43.semantic.fontSans,
           ...stickyStyle,
           ...style
@@ -4810,7 +4850,7 @@ var TopBar = (0, import_react38.forwardRef)(
                       fontWeight: isActive ? import_core43.semantic.fontWeightSemibold : import_core43.semantic.fontWeightNormal,
                       cursor: "pointer",
                       whiteSpace: "nowrap",
-                      transition: "color 0.15s ease",
+                      transition: `color ${import_core43.semantic.transitionBase}`,
                       boxSizing: "border-box"
                     },
                     children: [
@@ -4925,7 +4965,7 @@ var ShortcutHelpModal = (0, import_react39.forwardRef)(
                   alignItems: "center",
                   justifyContent: "space-between",
                   padding: `${import_core44.semantic.spaceXs} 0`,
-                  borderBottom: `1px solid ${import_core44.semantic.colorBorder}`
+                  borderBottom: `${import_core44.semantic.borderWidthDefault} solid ${import_core44.semantic.colorBorder}`
                 },
                 children: [
                   /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
@@ -4977,10 +5017,10 @@ var ShortcutHelpModal = (0, import_react39.forwardRef)(
                               lineHeight: 1,
                               color: import_core44.semantic.colorTextSecondary,
                               background: import_core44.semantic.colorSurfaceInput,
-                              border: `1px solid ${import_core44.semantic.colorBorder}`,
+                              border: `${import_core44.semantic.borderWidthDefault} solid ${import_core44.semantic.colorBorder}`,
                               borderRadius: import_core44.semantic.radiusSm,
                               boxShadow: `0 1px 0 ${import_core44.semantic.colorBorder}`,
-                              transition: "background 150ms ease, border-color 150ms ease"
+                              transition: `background ${import_core44.semantic.transitionBase}, border-color ${import_core44.semantic.transitionBase}`
                             },
                             children: key
                           }

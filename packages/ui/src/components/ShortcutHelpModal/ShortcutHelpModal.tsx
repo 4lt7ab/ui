@@ -110,7 +110,7 @@ export const ShortcutHelpModal: React.ForwardRefExoticComponent<Omit<ShortcutHel
                         alignItems: 'center',
                         justifyContent: 'space-between',
                         padding: `${t.spaceXs} 0`,
-                        borderBottom: `1px solid ${t.colorBorder}`,
+                        borderBottom: `${t.borderWidthDefault} solid ${t.colorBorder}`,
                       }}
                     >
                       <span
@@ -158,10 +158,10 @@ export const ShortcutHelpModal: React.ForwardRefExoticComponent<Omit<ShortcutHel
                                 lineHeight: 1,
                                 color: t.colorTextSecondary,
                                 background: t.colorSurfaceInput,
-                                border: `1px solid ${t.colorBorder}`,
+                                border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
                                 borderRadius: t.radiusSm,
                                 boxShadow: `0 1px 0 ${t.colorBorder}`,
-                                transition: 'background 150ms ease, border-color 150ms ease',
+                                transition: `background ${t.transitionBase}, border-color ${t.transitionBase}`,
                               }}
                             >
                               {key}

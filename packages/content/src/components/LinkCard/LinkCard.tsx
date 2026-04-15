@@ -17,12 +17,12 @@ const linkCardCSS = /* css */ `
   .alttab-link-card {
     display: block;
     background: var(--color-surface);
-    border: 2px solid var(--color-border);
+    border: var(--border-width-thick) solid var(--color-border);
     border-radius: 8px;
     padding: 1.5rem;
     text-decoration: none;
     color: inherit;
-    transition: border-color 0.15s ease, transform 0.15s ease;
+    transition: border-color var(--transition-base), transform var(--transition-base);
   }
 
   .alttab-link-card:hover {
