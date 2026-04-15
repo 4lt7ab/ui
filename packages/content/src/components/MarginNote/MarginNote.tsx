@@ -6,7 +6,7 @@ export interface MarginNoteProps {
 }
 
 /**
- * Side annotation that appears inline on mobile and in the left margin on wide screens (>=1100px).
+ * Side annotation that appears inline on mobile and in the left margin on wide screens (>=BREAKPOINT_MARGIN_NOTES).
  * Must be used inside <Prose> for styling and positioning.
  */
 export const MarginNote: React.ForwardRefExoticComponent<Omit<MarginNoteProps, 'ref'> & React.RefAttributes<HTMLElement>> = forwardRef<HTMLElement, MarginNoteProps>(

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Extract shared prose/markdown constants (breakpoints, typography scale, color-mix ratios) into `packages/content/src/constants.ts` and export from `@4lt7ab/content` barrel
+
 ## v0.2.23
 
 - Add test infrastructure (vitest, testing-library, jsdom) and first 76 tests covering Select, Combobox, ModalShell, useFocusTrap, and dateUtils

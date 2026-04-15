@@ -1,7 +1,7 @@
-import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d={prose:"680px",wide:"900px"},aJ=o(function({width:Q="prose",maxWidth:$,padding:X="1.5rem",children:z,style:U,...V},K){return l("div",{ref:K,style:{boxSizing:"border-box",width:"100%",maxWidth:$??d[Q],marginInline:"auto",paddingInline:X,overflow:"visible",...U},...V,children:z})});import{forwardRef as i}from"react";import{useInjectStyles as t}from "../../core/dist/index.js";import{jsx as s}from"react/jsx-runtime";var r="alttab-prose-styles",n=`
+var _="680px",S="900px",m="1100px",b="1.0625rem",k="clamp(2rem, 5vw, 2.75rem)",j="1.35em",rJ="0.875rem",tJ="1.25rem",u="5%",nJ="8%",sJ="14%";import{forwardRef as s}from"react";import{jsx as JJ}from"react/jsx-runtime";var e={prose:_,wide:S},$Q=s(function({width:Q="prose",maxWidth:X,padding:z="1.5rem",children:V,style:Z,...q},U){return JJ("div",{ref:U,style:{boxSizing:"border-box",width:"100%",maxWidth:X??e[Q],marginInline:"auto",paddingInline:z,overflow:"visible",...Z},...q,children:V})});import{forwardRef as QJ}from"react";import{useInjectStyles as $J}from "../../core/dist/index.js";import{jsx as VJ}from"react/jsx-runtime";var XJ="alttab-prose-styles",zJ=`
   /* ── Typography ── */
   .alttab-prose {
-    font-size: 1.0625rem;
+    font-size: ${b};
     line-height: 1.75;
     color: var(--color-text);
     -webkit-font-smoothing: antialiased;
@@ -10,7 +10,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
   /* Lead paragraph — serif, larger */
   .alttab-prose > p:first-child {
     font-family: var(--font-serif);
-    font-size: 1.35em;
+    font-size: ${j};
     line-height: 1.45;
     letter-spacing: -0.01em;
     margin-bottom: 1.5rem;
@@ -26,7 +26,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     font-family: var(--font-serif);
     font-weight: 600;
     line-height: 1.25;
-    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-size: ${k};
     color: var(--color-text);
     margin-bottom: 0.75rem;
   }
@@ -189,7 +189,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     margin-inline: -2.25rem;
   }
 
-  @media (max-width: 680px) {
+  @media (max-width: ${_}) {
     .alttab-prose .figure--wide {
       margin-inline: -1.5rem;
     }
@@ -218,7 +218,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     text-align: right;
   }
 
-  @media (min-width: 1100px) {
+  @media (min-width: ${m}) {
     .alttab-prose {
       position: relative;
       overflow: visible;
@@ -285,7 +285,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
   .alttab-prose strong {
     font-weight: 600;
   }
-`,iJ=i(function({children:Q,style:$,...X},z){return t(r,n),s("div",{ref:z,className:"alttab-prose",style:$,...X,children:Q})});import{useState as C,useCallback as S,useRef as g,Children as M,cloneElement as T,isValidElement as I}from"react";import e from"react-markdown";import JJ from"remark-gfm";import{semantic as O,useInjectStyles as p}from "../../core/dist/index.js";import{jsx as Z,jsxs as G}from"react/jsx-runtime";function b(J){if(typeof J==="string")return J;if(typeof J==="number")return String(J);if(Array.isArray(J))return J.map(b).join("");if(J&&typeof J==="object"&&"props"in J)return b(J.props.children);return""}function QJ(J){return J.toLowerCase().replace(/[^\w\s-]/g,"").replace(/[\s_]+/g,"-").replace(/^-+|-+$/g,"")}var m={width:14,height:14,fill:"none",stroke:"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round"};function j(){return G("svg",{viewBox:"0 0 24 24",...m,children:[Z("rect",{x:"9",y:"9",width:"13",height:"13",rx:"2",ry:"2"}),Z("path",{d:"M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"})]})}function u(){return Z("svg",{viewBox:"0 0 24 24",...m,children:Z("path",{d:"M20 6L9 17l-5-5"})})}function ZJ(){return G("svg",{viewBox:"0 0 24 24",width:"18",height:"18",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round",children:[Z("path",{d:"M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"}),Z("path",{d:"M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"})]})}var A={width:18,height:18,fill:"none",stroke:"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round"};function $J(){return G("svg",{viewBox:"0 0 24 24",...A,children:[Z("circle",{cx:"12",cy:"12",r:"10"}),Z("path",{d:"M12 16v-4"}),Z("path",{d:"M12 8h.01"})]})}function XJ(){return Z("svg",{viewBox:"0 0 24 24",...A,children:Z("polygon",{points:"13 2 3 14 12 14 11 22 21 10 12 10 13 2"})})}function zJ(){return G("svg",{viewBox:"0 0 24 24",...A,children:[Z("path",{d:"M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"}),Z("path",{d:"M12 8v3"}),Z("path",{d:"M12 14h.01"})]})}function KJ(){return G("svg",{viewBox:"0 0 24 24",...A,children:[Z("path",{d:"M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"}),Z("path",{d:"M12 9v4"}),Z("path",{d:"M12 17h.01"})]})}function UJ(){return G("svg",{viewBox:"0 0 24 24",...A,children:[Z("polygon",{points:"7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"}),Z("path",{d:"M15 9l-6 6"}),Z("path",{d:"M9 9l6 6"})]})}var VJ="alttab-markdown-codeblock",qJ=`
+`,WQ=QJ(function({children:Q,style:X,...z},V){return $J(XJ,zJ),VJ("div",{ref:V,className:"alttab-prose",style:X,...z,children:Q})});import{useState as f,useCallback as x,useRef as h,Children as y,cloneElement as E,isValidElement as w}from"react";import UJ from"react-markdown";import ZJ from"remark-gfm";import{semantic as L,useInjectStyles as o}from "../../core/dist/index.js";import{jsx as $,jsxs as G}from"react/jsx-runtime";function C(J){if(typeof J==="string")return J;if(typeof J==="number")return String(J);if(Array.isArray(J))return J.map(C).join("");if(J&&typeof J==="object"&&"props"in J)return C(J.props.children);return""}function qJ(J){return J.toLowerCase().replace(/[^\w\s-]/g,"").replace(/[\s_]+/g,"-").replace(/^-+|-+$/g,"")}var a={width:14,height:14,fill:"none",stroke:"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round"};function c(){return G("svg",{viewBox:"0 0 24 24",...a,children:[$("rect",{x:"9",y:"9",width:"13",height:"13",rx:"2",ry:"2"}),$("path",{d:"M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"})]})}function d(){return $("svg",{viewBox:"0 0 24 24",...a,children:$("path",{d:"M20 6L9 17l-5-5"})})}function FJ(){return G("svg",{viewBox:"0 0 24 24",width:"18",height:"18",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round",children:[$("path",{d:"M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"}),$("path",{d:"M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"})]})}var O={width:18,height:18,fill:"none",stroke:"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round"};function WJ(){return G("svg",{viewBox:"0 0 24 24",...O,children:[$("circle",{cx:"12",cy:"12",r:"10"}),$("path",{d:"M12 16v-4"}),$("path",{d:"M12 8h.01"})]})}function YJ(){return $("svg",{viewBox:"0 0 24 24",...O,children:$("polygon",{points:"13 2 3 14 12 14 11 22 21 10 12 10 13 2"})})}function KJ(){return G("svg",{viewBox:"0 0 24 24",...O,children:[$("path",{d:"M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"}),$("path",{d:"M12 8v3"}),$("path",{d:"M12 14h.01"})]})}function GJ(){return G("svg",{viewBox:"0 0 24 24",...O,children:[$("path",{d:"M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"}),$("path",{d:"M12 9v4"}),$("path",{d:"M12 17h.01"})]})}function DJ(){return G("svg",{viewBox:"0 0 24 24",...O,children:[$("polygon",{points:"7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"}),$("path",{d:"M15 9l-6 6"}),$("path",{d:"M9 9l6 6"})]})}var BJ="alttab-markdown-codeblock",HJ=`
   .alttab-codeblock {
     position: relative;
   }
@@ -298,10 +298,10 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     justify-content: center;
     width: 28px;
     height: 28px;
-    border: 1px solid ${O.colorBorder};
-    border-radius: ${O.radiusSm};
-    background: ${O.colorSurface};
-    color: ${O.colorTextMuted};
+    border: 1px solid ${L.colorBorder};
+    border-radius: ${L.radiusSm};
+    background: ${L.colorSurface};
+    color: ${L.colorTextMuted};
     cursor: pointer;
     opacity: 0;
     transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
@@ -310,19 +310,19 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     opacity: 1;
   }
   .alttab-codeblock-copy:hover {
-    color: ${O.colorText};
-    border-color: ${O.colorTextMuted};
+    color: ${L.colorText};
+    border-color: ${L.colorTextMuted};
   }
   .alttab-codeblock-copy[data-copied] {
     opacity: 1;
-    color: ${O.colorSuccess};
-    border-color: ${O.colorSuccess};
+    color: ${L.colorSuccess};
+    border-color: ${L.colorSuccess};
   }
-`;function BJ({children:J}){p(VJ,qJ);let[Q,$]=C(!1),X=g(null),z=S(()=>{let U="",V=(K)=>{if(typeof K==="string"){U+=K;return}if(Array.isArray(K)){K.forEach(V);return}if(K&&typeof K==="object"&&"props"in K)V(K.props.children)};if(V(J),navigator.clipboard.writeText(U.replace(/\n$/,"")),$(!0),X.current)clearTimeout(X.current);X.current=setTimeout(()=>$(!1),1500)},[J]);return G("div",{className:"alttab-codeblock",children:[Z("button",{type:"button",className:"alttab-codeblock-copy",onClick:z,"aria-label":"Copy code",...Q?{"data-copied":""}:{},children:Q?Z(u,{}):Z(j,{})}),Z("pre",{children:J})]})}function H({level:J,children:Q}){let $=`h${J}`,X=b(Q),z=QJ(X);return G($,{id:z,children:[Q,Z("a",{href:`#${z}`,className:"alttab-md-anchor","aria-label":`Link to "${X}"`,children:Z(ZJ,{})})]})}var FJ=/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*/,YJ={NOTE:{label:"Note",icon:$J,attr:"note"},TIP:{label:"Tip",icon:XJ,attr:"tip"},IMPORTANT:{label:"Important",icon:zJ,attr:"important"},WARNING:{label:"Warning",icon:KJ,attr:"warning"},CAUTION:{label:"Caution",icon:UJ,attr:"caution"}};function GJ(J){let Q=M.toArray(J),$=Q.findIndex(I);if($===-1)return null;let X=Q[$],z=M.toArray(X.props.children),U=z[0];if(typeof U!=="string")return null;let V=U.match(FJ);if(!V)return null;let K=V[1],W=U.slice(V[0].length);if(W||z.length>1){let E=W?[W,...z.slice(1)]:z.slice(1),D=T(X,{},...E);return{type:K,content:[...Q.slice(0,$),D,...Q.slice($+1)]}}return{type:K,content:Q.slice($+1)}}function WJ({children:J}){let Q=GJ(J);if(Q){let $=YJ[Q.type],X=$.icon;return G("div",{className:"alttab-callout","data-callout":$.attr,children:[G("div",{className:"alttab-callout-title",children:[Z(X,{}),Z("span",{children:$.label})]}),Z("div",{className:"alttab-callout-body",children:Q.content})]})}return Z("blockquote",{children:J})}var NJ="alttab-markdown-styles",PJ=`
+`;function LJ({children:J}){o(BJ,HJ);let[Q,X]=f(!1),z=h(null),V=x(()=>{let Z="",q=(U)=>{if(typeof U==="string"){Z+=U;return}if(Array.isArray(U)){U.forEach(q);return}if(U&&typeof U==="object"&&"props"in U)q(U.props.children)};if(q(J),navigator.clipboard.writeText(Z.replace(/\n$/,"")),X(!0),z.current)clearTimeout(z.current);z.current=setTimeout(()=>X(!1),1500)},[J]);return G("div",{className:"alttab-codeblock",children:[$("button",{type:"button",className:"alttab-codeblock-copy",onClick:V,"aria-label":"Copy code",...Q?{"data-copied":""}:{},children:Q?$(d,{}):$(c,{})}),$("pre",{children:J})]})}function v({level:J,children:Q}){let X=`h${J}`,z=C(Q),V=qJ(z);return G(X,{id:V,children:[Q,$("a",{href:`#${V}`,className:"alttab-md-anchor","aria-label":`Link to "${z}"`,children:$(FJ,{})})]})}var NJ=/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*/,vJ={NOTE:{label:"Note",icon:WJ,attr:"note"},TIP:{label:"Tip",icon:YJ,attr:"tip"},IMPORTANT:{label:"Important",icon:KJ,attr:"important"},WARNING:{label:"Warning",icon:GJ,attr:"warning"},CAUTION:{label:"Caution",icon:DJ,attr:"caution"}};function PJ(J){let Q=y.toArray(J),X=Q.findIndex(w);if(X===-1)return null;let z=Q[X],V=y.toArray(z.props.children),Z=V[0];if(typeof Z!=="string")return null;let q=Z.match(NJ);if(!q)return null;let U=q[1],D=Z.slice(q[0].length);if(D||V.length>1){let T=D?[D,...V.slice(1)]:V.slice(1),N=E(z,{},...T);return{type:U,content:[...Q.slice(0,X),N,...Q.slice(X+1)]}}return{type:U,content:Q.slice(X+1)}}function AJ({children:J}){let Q=PJ(J);if(Q){let X=vJ[Q.type],z=X.icon;return G("div",{className:"alttab-callout","data-callout":X.attr,children:[G("div",{className:"alttab-callout-title",children:[$(z,{}),$("span",{children:X.label})]}),$("div",{className:"alttab-callout-body",children:Q.content})]})}return $("blockquote",{children:J})}var OJ="alttab-markdown-styles",MJ=`
   /* ── Base ── */
   .alttab-markdown {
     position: relative;
-    font-size: 1.0625rem;
+    font-size: ${b};
     line-height: 1.75;
     color: var(--color-text);
     -webkit-font-smoothing: antialiased;
@@ -347,7 +347,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     font-family: var(--font-serif);
     font-weight: 600;
     line-height: 1.25;
-    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-size: ${k};
     color: var(--color-text);
     margin-bottom: 0.75rem;
   }
@@ -706,7 +706,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     color: var(--color-success);
     border-color: var(--color-success);
   }
-`;function OJ({children:J}){let Q=0,$=M.map(J,(X)=>{if(!I(X))return X;let z=Q%2===1;if(Q++,!z)return X;let U=M.map(X.props.children,(V)=>{if(!I(V))return V;let K=V.props;return T(V,{style:{...K.style,background:"color-mix(in srgb, var(--color-text) 5%, transparent)"}})});return T(X,{},U)});return Z("tbody",{children:$})}var DJ={pre:BJ,blockquote:WJ,tbody:OJ,h1:({children:J})=>Z(H,{level:1,children:J}),h2:({children:J})=>Z(H,{level:2,children:J}),h3:({children:J})=>Z(H,{level:3,children:J}),h4:({children:J})=>Z(H,{level:4,children:J}),h5:({children:J})=>Z(H,{level:5,children:J}),h6:({children:J})=>Z(H,{level:6,children:J})};function HJ({children:J,className:Q,...$}){p(NJ,PJ);let[X,z]=C(!1),U=g(null),V=S(()=>{if(navigator.clipboard.writeText(J),z(!0),U.current)clearTimeout(U.current);U.current=setTimeout(()=>z(!1),1500)},[J]);return G("div",{className:Q?`alttab-markdown ${Q}`:"alttab-markdown",...$,children:[Z("button",{type:"button",className:"alttab-md-copy-source",onClick:V,"aria-label":"Copy markdown source",title:"Copy markdown",...X?{"data-copied":""}:{},children:X?Z(u,{}):Z(j,{})}),Z(e,{remarkPlugins:[JJ],components:DJ,children:J})]})}import{forwardRef as LJ}from"react";import{jsx as f}from"react/jsx-runtime";var KQ=LJ(function({children:Q},$){return f("blockquote",{ref:$,"data-pull-quote":"",children:f("p",{children:Q})})});import{forwardRef as _J}from"react";import{jsx as AJ}from"react/jsx-runtime";var BQ=_J(function({children:Q},$){return AJ("small",{ref:$,"data-margin-note":"",children:Q})});import{forwardRef as vJ}from"react";import{jsx as EJ}from"react/jsx-runtime";var WQ=vJ(function({children:Q},$){return EJ("small",{ref:$,"data-side-note":"",children:Q})});import{forwardRef as MJ}from"react";import{useInjectStyles as TJ}from "../../core/dist/index.js";import{jsx as x,jsxs as kJ}from"react/jsx-runtime";var IJ="alttab-epigraph",bJ=`
+`;function TJ({children:J}){let Q=0,X=y.map(J,(z)=>{if(!w(z))return z;let V=Q%2===1;if(Q++,!V)return z;let Z=y.map(z.props.children,(q)=>{if(!w(q))return q;let U=q.props;return E(q,{style:{...U.style,background:`color-mix(in srgb, var(--color-text) ${u}, transparent)`}})});return E(z,{},Z)});return $("tbody",{children:X})}var _J={pre:LJ,blockquote:AJ,tbody:TJ,h1:({children:J})=>$(v,{level:1,children:J}),h2:({children:J})=>$(v,{level:2,children:J}),h3:({children:J})=>$(v,{level:3,children:J}),h4:({children:J})=>$(v,{level:4,children:J}),h5:({children:J})=>$(v,{level:5,children:J}),h6:({children:J})=>$(v,{level:6,children:J})};function bJ({children:J,className:Q,...X}){o(OJ,MJ);let[z,V]=f(!1),Z=h(null),q=x(()=>{if(navigator.clipboard.writeText(J),V(!0),Z.current)clearTimeout(Z.current);Z.current=setTimeout(()=>V(!1),1500)},[J]);return G("div",{className:Q?`alttab-markdown ${Q}`:"alttab-markdown",...X,children:[$("button",{type:"button",className:"alttab-md-copy-source",onClick:q,"aria-label":"Copy markdown source",title:"Copy markdown",...z?{"data-copied":""}:{},children:z?$(d,{}):$(c,{})}),$(UJ,{remarkPlugins:[ZJ],components:_J,children:J})]})}import{forwardRef as kJ}from"react";import{jsx as l}from"react/jsx-runtime";var TQ=kJ(function({children:Q},X){return l("blockquote",{ref:X,"data-pull-quote":"",children:l("p",{children:Q})})});import{forwardRef as yJ}from"react";import{jsx as EJ}from"react/jsx-runtime";var yQ=yJ(function({children:Q},X){return EJ("small",{ref:X,"data-margin-note":"",children:Q})});import{forwardRef as wJ}from"react";import{jsx as CJ}from"react/jsx-runtime";var IQ=wJ(function({children:Q},X){return CJ("small",{ref:X,"data-side-note":"",children:Q})});import{forwardRef as IJ}from"react";import{useInjectStyles as pJ}from "../../core/dist/index.js";import{jsx as i,jsxs as SJ}from"react/jsx-runtime";var gJ="alttab-epigraph",RJ=`
   .alttab-epigraph {
     border: none;
     border-block: 1px solid var(--color-border);
@@ -734,7 +734,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     font-style: normal;
     color: var(--color-text-muted);
   }
-`,HQ=MJ(function({children:Q,cite:$},X){return TJ(IJ,bJ),kJ("blockquote",{ref:X,className:"alttab-epigraph",children:[x("p",{children:Q}),$&&x("footer",{children:$})]})});import{forwardRef as yJ}from"react";import{useInjectStyles as RJ}from "../../core/dist/index.js";import{jsx as h,jsxs as SJ}from"react/jsx-runtime";var wJ="alttab-link-card",CJ=`
+`,mQ=IJ(function({children:Q,cite:X},z){return pJ(gJ,RJ),SJ("blockquote",{ref:z,className:"alttab-epigraph",children:[i("p",{children:Q}),X&&i("footer",{children:X})]})});import{forwardRef as mJ}from"react";import{useInjectStyles as jJ}from "../../core/dist/index.js";import{jsx as r,jsxs as xJ}from"react/jsx-runtime";var uJ="alttab-link-card",fJ=`
   .alttab-link-card {
     display: block;
     background: var(--color-surface);
@@ -765,7 +765,7 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
     font-size: 0.875rem;
     color: var(--color-text-muted);
   }
-`,EQ=yJ(function({title:Q,description:$,external:X,children:z,...U},V){return RJ(wJ,CJ),SJ("a",{ref:V,className:"alttab-link-card",...X?{target:"_blank",rel:"noopener noreferrer"}:{},...U,children:[h("span",{className:"alttab-link-card__title",children:Q}),$&&h("span",{className:"alttab-link-card__desc",children:$}),z]})});import{forwardRef as gJ,useEffect as pJ,useRef as v,useCallback as k,useImperativeHandle as mJ}from"react";import{useInjectStyles as jJ}from "../../core/dist/index.js";import{jsx as xJ}from"react/jsx-runtime";var a="abcdefghijklmnopqrstuvwxyz!?*~+#",uJ="alttab-thinking-cycle",fJ=`
+`,hQ=mJ(function({title:Q,description:X,external:z,children:V,...Z},q){return jJ(uJ,fJ),xJ("a",{ref:q,className:"alttab-link-card",...z?{target:"_blank",rel:"noopener noreferrer"}:{},...Z,children:[r("span",{className:"alttab-link-card__title",children:Q}),X&&r("span",{className:"alttab-link-card__desc",children:X}),V]})});import{forwardRef as hJ,useEffect as oJ,useRef as M,useCallback as I,useImperativeHandle as aJ}from"react";import{useInjectStyles as cJ}from "../../core/dist/index.js";import{jsx as iJ}from"react/jsx-runtime";var t="abcdefghijklmnopqrstuvwxyz!?*~+#",dJ="alttab-thinking-cycle",lJ=`
   .alttab-thinking {
     display: inline-block;
     color: var(--color-text-link);
@@ -794,4 +794,4 @@ import{forwardRef as o}from"react";import{jsx as l}from"react/jsx-runtime";var d
       animation: none;
     }
   }
-`;function c(){return a[Math.random()*a.length|0]}var kQ=gJ(function({words:Q,holdMs:$=2000,scrambleTicks:X=4,tickMs:z=50,staggerMs:U=30},V){jJ(uJ,fJ);let K=v(null);mJ(V,()=>K.current);let W=v(0),E=v([]),D=v(null),L=v(null),_=k(()=>{let q=K.current;if(!q)return;let Y=q.innerHTML;q.style.width="";let B=[];for(let N of Q)q.textContent=N,B.push(Math.ceil(q.getBoundingClientRect().width));q.innerHTML=Y||"",E.current=B,q.style.width=B[W.current]+"px"},[Q]),y=k((q)=>{let Y=K.current;if(!Y)return;Y.innerHTML="";for(let B=0;B<q.length;B++){let N=document.createElement("span");N.className="alttab-char",N.textContent=q[B],N.style.animationDelay=`${B*U}ms`,Y.appendChild(N)}},[U]),R=k((q,Y)=>{let B=K.current;if(!B)return;if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){B.textContent=q,Y();return}B.innerHTML="";let w=[];for(let P=0;P<q.length;P++){let F=document.createElement("span");F.className="alttab-char",F.style.animationDelay=`${P*U}ms`,F.textContent=q[P]===" "?" ":c(),B.appendChild(F),w.push({span:F,final:q[P],ticks:0,maxTicks:X+P*2})}L.current=setInterval(()=>{let P=!0;for(let F of w)if(F.ticks>=F.maxTicks)F.span.textContent=F.final;else P=!1,F.ticks++,F.span.textContent=F.final===" "?" ":c();if(P)clearInterval(L.current),L.current=null,Y()},z)},[X,z,U]);return pJ(()=>{if(Q.length<2)return;_(),document.fonts.ready.then(_);let q=()=>_();document.fonts.addEventListener("loadingdone",q);let Y=new MutationObserver(()=>requestAnimationFrame(_));Y.observe(document.documentElement,{attributes:!0,attributeFilter:["data-theme"]}),W.current=0,y(Q[0]);function B(){W.current=(W.current+1)%Q.length;let N=K.current;if(N)N.style.width=E.current[W.current]+"px";R(Q[W.current],()=>{D.current=setTimeout(B,$)})}return D.current=setTimeout(B,$),()=>{if(D.current)clearTimeout(D.current);if(L.current)clearInterval(L.current);document.fonts.removeEventListener("loadingdone",q),Y.disconnect()}},[Q,$,_,y,R]),xJ("span",{ref:K,className:"alttab-thinking"})});export{kQ as ThinkingCycle,WQ as SideNote,KQ as PullQuote,iJ as Prose,HJ as Markdown,BQ as MarginNote,EQ as LinkCard,HQ as Epigraph,aJ as Container};
+`;function n(){return t[Math.random()*t.length|0]}var lQ=hJ(function({words:Q,holdMs:X=2000,scrambleTicks:z=4,tickMs:V=50,staggerMs:Z=30},q){cJ(dJ,lJ);let U=M(null);aJ(q,()=>U.current);let D=M(0),T=M([]),N=M(null),P=M(null),A=I(()=>{let F=U.current;if(!F)return;let K=F.innerHTML;F.style.width="";let W=[];for(let B of Q)F.textContent=B,W.push(Math.ceil(F.getBoundingClientRect().width));F.innerHTML=K||"",T.current=W,F.style.width=W[D.current]+"px"},[Q]),p=I((F)=>{let K=U.current;if(!K)return;K.innerHTML="";for(let W=0;W<F.length;W++){let B=document.createElement("span");B.className="alttab-char",B.textContent=F[W],B.style.animationDelay=`${W*Z}ms`,K.appendChild(B)}},[Z]),g=I((F,K)=>{let W=U.current;if(!W)return;if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){W.textContent=F,K();return}W.innerHTML="";let R=[];for(let H=0;H<F.length;H++){let Y=document.createElement("span");Y.className="alttab-char",Y.style.animationDelay=`${H*Z}ms`,Y.textContent=F[H]===" "?" ":n(),W.appendChild(Y),R.push({span:Y,final:F[H],ticks:0,maxTicks:z+H*2})}P.current=setInterval(()=>{let H=!0;for(let Y of R)if(Y.ticks>=Y.maxTicks)Y.span.textContent=Y.final;else H=!1,Y.ticks++,Y.span.textContent=Y.final===" "?" ":n();if(H)clearInterval(P.current),P.current=null,K()},V)},[z,V,Z]);return oJ(()=>{if(Q.length<2)return;A(),document.fonts.ready.then(A);let F=()=>A();document.fonts.addEventListener("loadingdone",F);let K=new MutationObserver(()=>requestAnimationFrame(A));K.observe(document.documentElement,{attributes:!0,attributeFilter:["data-theme"]}),D.current=0,p(Q[0]);function W(){D.current=(D.current+1)%Q.length;let B=U.current;if(B)B.style.width=T.current[D.current]+"px";g(Q[D.current],()=>{N.current=setTimeout(W,X)})}return N.current=setTimeout(W,X),()=>{if(N.current)clearTimeout(N.current);if(P.current)clearInterval(P.current);document.fonts.removeEventListener("loadingdone",F),K.disconnect()}},[Q,X,A,p,g]),iJ("span",{ref:U,className:"alttab-thinking"})});export{lQ as ThinkingCycle,IQ as SideNote,TQ as PullQuote,WQ as Prose,j as PROSE_H2_SIZE,k as PROSE_H1_SIZE,rJ as PROSE_CODE_SIZE,b as PROSE_BODY_SIZE,tJ as PROSE_BLOCKQUOTE_SIZE,bJ as Markdown,yQ as MarginNote,u as MIX_SUBTLE,nJ as MIX_HOVER,sJ as MIX_BADGE,hQ as LinkCard,mQ as Epigraph,$Q as Container,S as BREAKPOINT_WIDE,_ as BREAKPOINT_PROSE,m as BREAKPOINT_MARGIN_NOTES};

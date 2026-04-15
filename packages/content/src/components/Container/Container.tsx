@@ -1,12 +1,13 @@
 import { forwardRef } from 'react';
 import type { HTMLAttributes, ReactNode } from 'react';
+import { BREAKPOINT_PROSE, BREAKPOINT_WIDE } from '../../constants';
 
 /** Named width preset for the Container. */
 export type ContainerWidth = 'prose' | 'wide';
 
 const widthMap: Record<ContainerWidth, string> = {
-  prose: '680px',
-  wide: '900px',
+  prose: BREAKPOINT_PROSE,
+  wide: BREAKPOINT_WIDE,
 };
 
 /** A centered content wrapper with max-width constraint. */
