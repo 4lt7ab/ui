@@ -18,7 +18,7 @@ bun run dev          # start the demo app (Vite)
 
 Build order matters: all packages depend on `@4lt7ab/core`, so the root build script runs core first, then ui, content, and animations in parallel. After building, `scripts/verify-exports.ts` runs automatically to confirm every source barrel export has a real definition in the compiled bundle. This catches silent bundler bugs (e.g. bunup dropping modules without error).
 
-**Note:** `@4lt7ab/ui` uses `bun build` for JS output instead of bunup due to a bunup v0.16.31 bug that silently drops certain components. bunup still runs first to generate `.d.ts` files, then `bun build` overwrites the JS bundles. **Do NOT use `--production` or any `--minify-*` flags** with `bun build` for the ui package — bun v1.3.11's minifier silently drops variable bindings, causing exports to reference undefined identifiers. Consumers handle their own minification at the application bundler layer.
+**Note:** `@4lt7ab/ui` uses esbuild for JS output instead of bunup due to a bunup v0.16.31 bug that silently drops certain components. bunup still runs first to generate `.d.ts` files, then `scripts/build-ui.ts` runs esbuild to produce the JS bundles (ESM + CJS) and rewrites `@4lt7ab/core` imports to relative paths. This replaced an earlier `bun build` approach which had its own bugs (always emitted dev JSX, name-mangled forwardRef exports). The demo app is a separate workspace (`demo/`) with its own dependencies, isolated from the library build.
 
 ## Architecture
 
@@ -125,8 +125,9 @@ packages/
 │       │   └── pacman.ts
 │       └── index.ts
 scripts/
+├── build-ui.ts                  # esbuild bundler for @4lt7ab/ui (replaces bun build + sed hacks)
 ├── verify-exports.ts            # post-build: confirms all source exports exist in dist bundles
-demo/                            # Vite demo app
+demo/                            # Vite demo app (separate workspace with own deps)
 ```
 
 ## Conventions
@@ -181,6 +182,16 @@ Built-in themes: synthwave, slate, warm-sand, moss, coral, pipboy, neural, pacma
 2. Add the `var(--...)` reference to `packages/core/src/tokens/semantic.ts`
 3. Add the value to every theme definition in `packages/core/src/themes/definitions/`
 4. If it maps to a new primitive, add to `packages/core/src/tokens/primitives.ts`
+
+## Pre-commit Checks
+
+A git pre-commit hook (`scripts/pre-commit`) runs automatically on every commit. It typechecks, builds, verifies all exports, then spot-checks the `@4lt7ab/ui` dist for known bundler regressions:
+
+1. Zero `jsxDEV` references (dev JSX crashes consumers at runtime)
+2. No `ModalShell` name-mangling (bun's `forwardRef` export collision bug)
+3. Production `react/jsx-runtime` import (not `react/jsx-dev-runtime`)
+
+The hook is installed automatically via `bun install` (the `prepare` script sets `core.hooksPath`). To skip for WIP commits: `git commit --no-verify`.
 
 ## Changelog
 

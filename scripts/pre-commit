@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "pre-commit: typecheck + build"
+bun run typecheck && bun run build
+
+echo "pre-commit: checking ui dist for bundler regressions"
+
+# Dev JSX crashes consumers at runtime
+count=$(grep -c "jsxDEV" packages/ui/dist/index.js || true)
+if [ "$count" -ne 0 ]; then
+  echo "FAIL: packages/ui/dist/index.js contains $count jsxDEV references (expected 0)"
+  exit 1
+fi
+
+# ModalShell name-mangling breaks the export
+if grep -qE "ModalShell[0-9]+ as ModalShell" packages/ui/dist/index.js; then
+  echo "FAIL: packages/ui/dist/index.js has mangled ModalShell export"
+  exit 1
+fi
+
+# Must use production JSX runtime
+if ! head -5 packages/ui/dist/index.js | grep -q "jsx-runtime"; then
+  echo "FAIL: packages/ui/dist/index.js not using react/jsx-runtime"
+  exit 1
+fi
+
+echo "pre-commit: all checks passed"

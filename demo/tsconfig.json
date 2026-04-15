@@ -1,0 +1,13 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "paths": {
+      "@4lt7ab/core": ["../packages/core/src"],
+      "@4lt7ab/ui": ["../packages/ui/src"],
+      "@4lt7ab/content": ["../packages/content/src"],
+      "@4lt7ab/animations": ["../packages/animations/src"]
+    }
+  },
+  "include": ["."]
+}

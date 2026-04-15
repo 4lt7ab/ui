@@ -13,5 +13,6 @@ export default defineConfig({
       '@4lt7ab/content': path.resolve(__dirname, '../packages/content/src'),
       '@4lt7ab/animations': path.resolve(__dirname, '../packages/animations/src'),
     },
+    dedupe: ['react', 'react-dom'],
   },
 });

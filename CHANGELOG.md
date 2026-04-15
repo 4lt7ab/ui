@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Replace `bun build` with esbuild for `@4lt7ab/ui` JS bundles — fixes `jsxDEV is not a function` (dev JSX in dist), ModalShell name-mangling, and removes all sed post-processing hacks
+- Separate demo app into its own workspace with isolated dependencies — vite, react, react-dom no longer in root devDependencies
+
 ## v0.2.19
 
 - Fix `ModalShell` export broken by bun bundler name-mangling (`ModalShell3 as ModalShell` referencing undefined variable); add post-build sed fixup to correct mangled ModalShell references in both ESM and CJS bundles
