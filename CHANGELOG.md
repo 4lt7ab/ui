@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Add focus-visible rings and hover state to IconButton; add `buttonSize` prop (`sm`/`md`/`lg`) for configurable tap-target size
+- Fix Toast and AlertBanner dismiss buttons stripping focus-visible outline (`all: unset` replaced with explicit resets)
+- Add focus-visible indicator to SegmentedControl segments for keyboard navigation
+- Add focus-visible ring to ChipPicker chip buttons
+
 ## v0.2.23
 
 - Add test infrastructure (vitest, testing-library, jsdom) and first 76 tests covering Select, Combobox, ModalShell, useFocusTrap, and dateUtils

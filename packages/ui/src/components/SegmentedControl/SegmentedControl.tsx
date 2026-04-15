@@ -33,6 +33,12 @@ const hoverCSS = `
   .segmented-ctrl-btn:hover:not([aria-pressed="true"]) {
     color: ${t.colorText};
   }
+  .segmented-ctrl-btn:focus-visible {
+    outline: ${t.focusRingWidth} solid ${t.focusRingColor};
+    outline-offset: ${t.focusRingOffset};
+    border-radius: ${t.radiusFull};
+    z-index: 2;
+  }
   @media (prefers-reduced-motion: reduce) {
     .segmented-ctrl-indicator {
       transition: none !important;

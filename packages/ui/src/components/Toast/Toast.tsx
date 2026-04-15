@@ -175,7 +175,11 @@ function ToastMessage({
         onClick={() => setExiting(true)}
         aria-label="Dismiss"
         style={{
-          all: 'unset',
+          background: 'none',
+          border: 'none',
+          padding: 0,
+          margin: 0,
+          font: 'inherit',
           cursor: 'pointer',
           flexShrink: 0,
           display: 'flex',

@@ -42,6 +42,10 @@ export function ChipPicker({
     }
     [data-chip-picker-id="${styleId}"] button[aria-pressed="true"]:hover {
       background: ${t.colorActionSecondaryHover} !important;
+    }
+    [data-chip-picker-id="${styleId}"] button:focus-visible {
+      outline: ${t.focusRingWidth} solid ${t.focusRingColor};
+      outline-offset: ${t.focusRingOffset};
     }`,
   );
 
@@ -89,7 +93,6 @@ export function ChipPicker({
     borderRadius: t.radiusFull,
     cursor: 'pointer',
     transition: 'background 100ms ease, border-color 100ms ease, color 100ms ease',
-    outline: 'none',
   });
 
   const renderChips = (chips: ChipItem[]): React.JSX.Element => (

@@ -133,7 +133,11 @@ export const AlertBanner: React.ForwardRefExoticComponent<Omit<AlertBannerProps,
             onClick={onDismiss}
             aria-label="Dismiss"
             style={{
-              all: 'unset',
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              margin: 0,
+              font: 'inherit',
               cursor: 'pointer',
               flexShrink: 0,
               display: 'flex',
