@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## v0.2.20
+
+## v0.2.20
+
 - Replace `bun build` with esbuild for `@4lt7ab/ui` JS bundles — fixes `jsxDEV is not a function` (dev JSX in dist), ModalShell name-mangling, and removes all sed post-processing hacks
 - Separate demo app into its own workspace with isolated dependencies — vite, react, react-dom no longer in root devDependencies
 
