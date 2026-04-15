@@ -1,4 +1,462 @@
-import{useEffect as Y6}from"react";var V6=["a[href]","button:not(:disabled)","input:not(:disabled)","select:not(:disabled)","textarea:not(:disabled)",'[tabindex]:not([tabindex="-1"])'].join(", ");function _6(J){return Array.from(J.querySelectorAll(V6))}function n2(J){Y6(()=>{let X=J.current;if(!X)return;let $=(P)=>{if(P.key!=="Tab")return;let Q=_6(X);if(Q.length===0){P.preventDefault();return}let Z=Q[0],N=Q[Q.length-1];if(P.shiftKey){if(document.activeElement===Z||!X.contains(document.activeElement))P.preventDefault(),N.focus()}else if(document.activeElement===N||!X.contains(document.activeElement))P.preventDefault(),Z.focus()};return document.addEventListener("keydown",$),()=>document.removeEventListener("keydown",$)},[J])}export*from "../../core/dist/index.js";import{forwardRef as O6,useState as z0,useEffect as L2,useRef as E2,useCallback as L6}from"react";import{useTheme as M0}from "../../core/dist/index.js";import{useInjectStyles as Y0}from "../../core/dist/index.js";import{forwardRef as B6,createContext as k6,useContext as F6}from"react";import{jsx as M,jsxs as q1}from"react/jsx-runtime";function S(J,X){return{width:J,height:J,viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round",style:X}}function r2({size:J=24,style:X}={}){return M("svg",{...S(J,X),children:M("path",{d:"M18 6L6 18M6 6l12 12"})})}function Q2({size:J=24,style:X}={}){return M("svg",{...S(J,X),children:M("path",{d:"M9 18l6-6-6-6"})})}function d2({size:J=24,style:X}={}){return M("svg",{...S(J,X),children:M("path",{d:"M6 9l6 6 6-6"})})}function i2({size:J=24,style:X}={}){return M("svg",{...S(J,X),children:M("path",{d:"M15 18l-6-6 6-6"})})}function l2({size:J=24,style:X}={}){return M("svg",{...S(J,X),children:M("path",{d:"M18 15l-6-6-6 6"})})}function a2({size:J=24,style:X}={}){return M("svg",{...S(J,X),children:M("path",{d:"M20 6L9 17l-5-5"})})}function Z2({size:J=24,style:X}={}){return q1("svg",{...S(J,X),children:[M("path",{d:"M22 11.08V12a10 10 0 11-5.93-9.14"}),M("path",{d:"M22 4L12 14.01l-3-3"})]})}function N2({size:J=24,style:X}={}){return q1("svg",{...S(J,X),children:[M("path",{d:"M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"}),M("line",{x1:"12",y1:"9",x2:"12",y2:"13"}),M("line",{x1:"12",y1:"17",x2:"12.01",y2:"17"})]})}function H2({size:J=24,style:X}={}){return q1("svg",{...S(J,X),children:[M("circle",{cx:"12",cy:"12",r:"10"}),M("path",{d:"M15 9l-6 6M9 9l6 6"})]})}function q2({size:J=24,style:X}={}){return q1("svg",{...S(J,X),children:[M("circle",{cx:"12",cy:"12",r:"10"}),M("line",{x1:"12",y1:"16",x2:"12",y2:"12"}),M("line",{x1:"12",y1:"8",x2:"12.01",y2:"8"})]})}function s2({size:J=24,style:X}={}){return q1("svg",{...S(J,X),children:[M("circle",{cx:"11",cy:"11",r:"8"}),M("path",{d:"M21 21l-4.35-4.35"})]})}function t2({size:J=24,style:X}={}){return M("svg",{...S(J,X),children:M("path",{d:"M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"})})}function e2({size:J=24,style:X}={}){return q1("svg",{...S(J,X),children:[M("circle",{cx:"12",cy:"12",r:"3"}),M("path",{d:"M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"})]})}function X0({size:J=24,style:X}={}){return M("svg",{...S(J,X),children:M("path",{d:"M12 5v14M5 12h14"})})}function J0({size:J=24,style:X}={}){return M("svg",{...S(J,X),children:M("path",{d:"M5 12h14"})})}function P0({size:J=24,style:X}={}){return q1("svg",{...S(J,X),children:[M("path",{d:"M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"}),M("path",{d:"M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"})]})}function $0({size:J=24,style:X}={}){return M("svg",{...S(J,X),children:M("path",{d:"M19 12H5M12 19l-7-7 7-7"})})}function Q0({size:J=24,style:X}={}){return M("svg",{...S(J,X),children:M("path",{d:"M5 12h14M12 5l7 7-7 7"})})}function Z0({size:J=24,style:X}={}){return M("svg",{...S(J,X),children:M("path",{d:"M3 12h18M3 6h18M3 18h18"})})}function N0({size:J=24,style:X}={}){return q1("svg",{...S(J,X),children:[M("path",{d:"M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"}),M("circle",{cx:"12",cy:"12",r:"3"})]})}function H0({size:J=24,style:X}={}){return q1("svg",{...S(J,X),children:[M("path",{d:"M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"}),M("path",{d:"M1 1l22 22"})]})}function q0({size:J=24,style:X}={}){return q1("svg",{...S(J,X),children:[M("rect",{x:"9",y:"9",width:"13",height:"13",rx:"2",ry:"2"}),M("path",{d:"M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"})]})}function W0({size:J=24,style:X}={}){return M("svg",{...S(J,X),children:M("path",{d:"M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"})})}function U0({size:J=24,style:X}={}){return q1("svg",{...S(J,X),children:[M("circle",{cx:"12",cy:"12",r:"1"}),M("circle",{cx:"12",cy:"5",r:"1"}),M("circle",{cx:"12",cy:"19",r:"1"})]})}function G0({size:J=24,style:X}={}){return M("svg",{...S(J,X),children:M("path",{d:"M22 3H2l8 9.46V19l4 2v-8.54L22 3z"})})}var K0={close:r2,"chevron-right":Q2,"chevron-down":d2,"chevron-left":i2,"chevron-up":l2,check:a2,"check-circle":Z2,warning:N2,error:H2,info:q2,search:s2,trash:t2,settings:e2,plus:X0,minus:J0,edit:P0,"arrow-left":$0,"arrow-right":Q0,menu:Z0,eye:N0,"eye-off":H0,copy:q0,"external-link":W0,"more-vertical":U0,filter:G0};import{jsx as W2}from"react/jsx-runtime";var A0=k6(void 0);function T6({fontClass:J,children:X}){return W2(A0.Provider,{value:J,children:X})}var W1=B6(function({name:X,size:$=24,fontClass:P,style:Q,"aria-label":Z,...N},H){let W=F6(A0),q=K0[X],G=!Z,z=P??W;if(!q&&z)return W2("span",{ref:H,role:G?void 0:"img","aria-hidden":G||void 0,"aria-label":Z,className:z,style:{display:"inline-flex",alignItems:"center",justifyContent:"center",minWidth:$,minHeight:$,fontSize:$,lineHeight:1,color:"inherit",fontStyle:"normal",...Q},...N,children:X});return W2("span",{ref:H,role:G?void 0:"img","aria-hidden":G||void 0,"aria-label":Z,style:{display:"inline-flex",alignItems:"center",justifyContent:"center",width:$,height:$,lineHeight:1,color:"inherit",...Q},...N,children:q?W2(q,{size:$}):null})});import{jsx as U1,jsxs as U2}from"react/jsx-runtime";var E6="alttab-theme-picker",I6=`
+// src/utils/useFocusTrap.ts
+import { useEffect } from "react";
+var FOCUSABLE_SELECTOR = [
+  "a[href]",
+  "button:not(:disabled)",
+  "input:not(:disabled)",
+  "select:not(:disabled)",
+  "textarea:not(:disabled)",
+  '[tabindex]:not([tabindex="-1"])'
+].join(", ");
+function getFocusableElements(container) {
+  return Array.from(container.querySelectorAll(FOCUSABLE_SELECTOR));
+}
+function useFocusTrap(ref) {
+  useEffect(() => {
+    const container = ref.current;
+    if (!container)
+      return;
+    const handleKeyDown = (e) => {
+      if (e.key !== "Tab")
+        return;
+      const focusable = getFocusableElements(container);
+      if (focusable.length === 0) {
+        e.preventDefault();
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first || !container.contains(document.activeElement)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last || !container.contains(document.activeElement)) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [ref]);
+}
+
+// src/index.ts
+export * from "../../core/dist/index.js";
+
+// src/components/ThemePicker/ThemePicker.tsx
+import { forwardRef as forwardRef2, useState, useEffect as useEffect2, useRef, useCallback } from "react";
+import { useTheme } from "../../core/dist/index.js";
+import { useInjectStyles } from "../../core/dist/index.js";
+
+// src/components/Icon/Icon.tsx
+import { forwardRef, createContext, useContext } from "react";
+
+// src/icons/icons.tsx
+import { jsxDEV } from "react/jsx-dev-runtime";
+function svgProps(size, style) {
+  return {
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 2,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    style
+  };
+}
+function IconClose({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsxDEV("path", {
+      d: "M18 6L6 18M6 6l12 12"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconChevronRight({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsxDEV("path", {
+      d: "M9 18l6-6-6-6"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconChevronDown({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsxDEV("path", {
+      d: "M6 9l6 6 6-6"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconChevronLeft({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsxDEV("path", {
+      d: "M15 18l-6-6 6-6"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconChevronUp({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsxDEV("path", {
+      d: "M18 15l-6-6-6 6"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconCheck({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsxDEV("path", {
+      d: "M20 6L9 17l-5-5"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconCheckCircle({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsxDEV("path", {
+        d: "M22 11.08V12a10 10 0 11-5.93-9.14"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("path", {
+        d: "M22 4L12 14.01l-3-3"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconWarning({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsxDEV("path", {
+        d: "M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("line", {
+        x1: "12",
+        y1: "9",
+        x2: "12",
+        y2: "13"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("line", {
+        x1: "12",
+        y1: "17",
+        x2: "12.01",
+        y2: "17"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconError({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsxDEV("circle", {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("path", {
+        d: "M15 9l-6 6M9 9l6 6"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconInfo({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsxDEV("circle", {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("line", {
+        x1: "12",
+        y1: "16",
+        x2: "12",
+        y2: "12"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("line", {
+        x1: "12",
+        y1: "8",
+        x2: "12.01",
+        y2: "8"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconSearch({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsxDEV("circle", {
+        cx: "11",
+        cy: "11",
+        r: "8"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("path", {
+        d: "M21 21l-4.35-4.35"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconTrash({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsxDEV("path", {
+      d: "M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconSettings({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsxDEV("circle", {
+        cx: "12",
+        cy: "12",
+        r: "3"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("path", {
+        d: "M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconPlus({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsxDEV("path", {
+      d: "M12 5v14M5 12h14"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconMinus({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsxDEV("path", {
+      d: "M5 12h14"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconEdit({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsxDEV("path", {
+        d: "M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("path", {
+        d: "M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconArrowLeft({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsxDEV("path", {
+      d: "M19 12H5M12 19l-7-7 7-7"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconArrowRight({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsxDEV("path", {
+      d: "M5 12h14M12 5l7 7-7 7"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconMenu({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsxDEV("path", {
+      d: "M3 12h18M3 6h18M3 18h18"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconEye({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsxDEV("path", {
+        d: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("circle", {
+        cx: "12",
+        cy: "12",
+        r: "3"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconEyeOff({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsxDEV("path", {
+        d: "M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("path", {
+        d: "M1 1l22 22"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconCopy({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsxDEV("rect", {
+        x: "9",
+        y: "9",
+        width: "13",
+        height: "13",
+        rx: "2",
+        ry: "2"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("path", {
+        d: "M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconExternalLink({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsxDEV("path", {
+      d: "M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconMoreVertical({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsxDEV("circle", {
+        cx: "12",
+        cy: "12",
+        r: "1"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("circle", {
+        cx: "12",
+        cy: "5",
+        r: "1"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV("circle", {
+        cx: "12",
+        cy: "19",
+        r: "1"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconFilter({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsxDEV("path", {
+      d: "M22 3H2l8 9.46V19l4 2v-8.54L22 3z"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+// src/icons/index.ts
+var iconRegistry = {
+  close: IconClose,
+  "chevron-right": IconChevronRight,
+  "chevron-down": IconChevronDown,
+  "chevron-left": IconChevronLeft,
+  "chevron-up": IconChevronUp,
+  check: IconCheck,
+  "check-circle": IconCheckCircle,
+  warning: IconWarning,
+  error: IconError,
+  info: IconInfo,
+  search: IconSearch,
+  trash: IconTrash,
+  settings: IconSettings,
+  plus: IconPlus,
+  minus: IconMinus,
+  edit: IconEdit,
+  "arrow-left": IconArrowLeft,
+  "arrow-right": IconArrowRight,
+  menu: IconMenu,
+  eye: IconEye,
+  "eye-off": IconEyeOff,
+  copy: IconCopy,
+  "external-link": IconExternalLink,
+  "more-vertical": IconMoreVertical,
+  filter: IconFilter
+};
+
+// src/components/Icon/Icon.tsx
+import { jsxDEV as jsxDEV2 } from "react/jsx-dev-runtime";
+var IconFontContext = createContext(undefined);
+function IconFontProvider({ fontClass, children }) {
+  return /* @__PURE__ */ jsxDEV2(IconFontContext.Provider, {
+    value: fontClass,
+    children
+  }, undefined, false, undefined, this);
+}
+var Icon = forwardRef(function Icon2({ name, size = 24, fontClass, style, "aria-label": ariaLabel, ...props }, ref) {
+  const contextFontClass = useContext(IconFontContext);
+  const IconComponent = iconRegistry[name];
+  const isDecorative = !ariaLabel;
+  const resolvedFontClass = fontClass ?? contextFontClass;
+  if (!IconComponent && resolvedFontClass) {
+    return /* @__PURE__ */ jsxDEV2("span", {
+      ref,
+      role: isDecorative ? undefined : "img",
+      "aria-hidden": isDecorative || undefined,
+      "aria-label": ariaLabel,
+      className: resolvedFontClass,
+      style: {
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        minWidth: size,
+        minHeight: size,
+        fontSize: size,
+        lineHeight: 1,
+        color: "inherit",
+        fontStyle: "normal",
+        ...style
+      },
+      ...props,
+      children: name
+    }, undefined, false, undefined, this);
+  }
+  return /* @__PURE__ */ jsxDEV2("span", {
+    ref,
+    role: isDecorative ? undefined : "img",
+    "aria-hidden": isDecorative || undefined,
+    "aria-label": ariaLabel,
+    style: {
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: size,
+      height: size,
+      lineHeight: 1,
+      color: "inherit",
+      ...style
+    },
+    ...props,
+    children: IconComponent ? /* @__PURE__ */ jsxDEV2(IconComponent, {
+      size
+    }, undefined, false, undefined, this) : null
+  }, undefined, false, undefined, this);
+});
+// src/components/ThemePicker/ThemePicker.tsx
+import { jsxDEV as jsxDEV3 } from "react/jsx-dev-runtime";
+var GRID_STYLES_ID = "alttab-theme-picker";
+var gridCSS = `
   .alttab-theme-picker {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -39,7 +497,9 @@ import{useEffect as Y6}from"react";var V6=["a[href]","button:not(:disabled)","in
     font-size: 0.875rem;
     color: var(--color-text-muted);
   }
-`,R6="alttab-theme-picker-compact",w6=`
+`;
+var COMPACT_STYLES_ID = "alttab-theme-picker-compact";
+var compactCSS = `
   .alttab-tp-trigger {
     display: flex;
     align-items: center;
@@ -88,7 +548,262 @@ import{useEffect as Y6}from"react";var V6=["a[href]","button:not(:disabled)","in
     color: var(--color-text);
     background: var(--color-surface-raised);
   }
-`;function D6({descriptions:J}){Y0(E6,I6);let{resolved:X,themes:$,setTheme:P}=M0();return U1("div",{className:"alttab-theme-picker",children:Array.from($.values()).map((Q)=>{let Z=X===Q.name;return U2("button",{className:`alttab-theme-card${Z?" alttab-theme-card--active":""}`,onClick:()=>P(Q.name),children:[U1("span",{className:"alttab-theme-card__name",children:Q.label}),J[Q.name]&&U1("span",{className:"alttab-theme-card__desc",children:J[Q.name]})]},Q.name)})})}function C6(){Y0(R6,w6);let{resolved:J,themes:X,setTheme:$}=M0(),[P,Q]=z0(!1),[Z,N]=z0(-1),H=E2(null),W=E2(null),q=E2(null),G=Array.from(X.values());L2(()=>{if(!P)return;function U(A){if(H.current&&!H.current.contains(A.target))Q(!1)}return document.addEventListener("mousedown",U),()=>document.removeEventListener("mousedown",U)},[P]);let z=L6((U)=>{if(U.key==="Escape"){Q(!1),q.current?.focus();return}if(!P){if(U.key==="ArrowDown"||U.key==="Enter"||U.key===" ")U.preventDefault(),Q(!0),N(0);return}switch(U.key){case"ArrowDown":U.preventDefault(),N((A)=>(A+1)%G.length);break;case"ArrowUp":U.preventDefault(),N((A)=>(A-1+G.length)%G.length);break;case"Enter":case" ":if(U.preventDefault(),Z>=0&&Z<G.length)$(G[Z].name),Q(!1),q.current?.focus();break;case"Home":U.preventDefault(),N(0);break;case"End":U.preventDefault(),N(G.length-1);break}},[P,Z,G,$]);L2(()=>{if(!P||Z<0)return;let U=W.current;if(!U)return;U.querySelectorAll('[role="option"]')[Z]?.scrollIntoView({block:"nearest"})},[P,Z]),L2(()=>{if(P){let U=G.findIndex((A)=>A.name===J);N(U>=0?U:0)}},[P]);let K=G.find((U)=>U.name===J);return U2("div",{ref:H,style:{position:"relative"},onKeyDown:z,children:[U2("button",{ref:q,className:"alttab-tp-trigger",onClick:()=>Q((U)=>!U),"aria-haspopup":"listbox","aria-expanded":P,children:[U1("span",{style:{width:8,height:8,borderRadius:"50%",background:"var(--color-action-primary)",flexShrink:0}}),K?.label??J,U1(W1,{name:P?"chevron-up":"chevron-down",size:12})]}),P&&U1("div",{ref:W,role:"listbox","aria-activedescendant":Z>=0?`alttab-tp-item-${G[Z]?.name}`:void 0,style:{position:"absolute",top:"100%",left:0,marginTop:"0.25rem",background:"var(--color-surface-panel)",border:"1px solid var(--color-border)",borderRadius:"var(--radius-md)",padding:"0.25rem",minWidth:"10rem",zIndex:100,boxShadow:"var(--shadow-md)"},children:G.map((U,A)=>{let _=J===U.name,V=["alttab-tp-menu-item",_?"alttab-tp-menu-item--active":"",Z===A&&!_?"alttab-tp-menu-item--focused":""].filter(Boolean).join(" ");return U2("button",{id:`alttab-tp-item-${U.name}`,role:"option","aria-selected":_,className:V,onClick:()=>{$(U.name),Q(!1),q.current?.focus()},onMouseEnter:()=>N(A),children:[U1("span",{style:{width:6,height:6,borderRadius:"50%",background:_?"var(--color-action-primary)":"var(--color-text-muted)",flexShrink:0}}),U.label]},U.name)})})]})}var cX=O6(function({descriptions:X={},variant:$="grid"},P){if($==="compact")return U1("div",{ref:P,style:{display:"inline-block"},children:U1(C6,{})});return U1("div",{ref:P,children:U1(D6,{descriptions:X})})});import{forwardRef as v6}from"react";import{semantic as D,useInjectStyles as m6}from "../../core/dist/index.js";import{jsx as V0}from"react/jsx-runtime";var S6={primary:{background:D.colorActionPrimary,color:D.colorTextInverse,border:"none"},secondary:{background:D.colorActionSecondary,color:D.colorText,border:`1px solid ${D.colorBorder}`},destructive:{background:D.colorActionDestructive,color:D.colorTextInverse,border:"none"},ghost:{background:"transparent",color:D.colorText,border:"1px solid transparent"}},y6={sm:{padding:`${D.spaceXs} ${D.spaceSm}`,fontSize:D.fontSizeSm,lineHeight:D.lineHeightTight},md:{padding:`${D.spaceSm} ${D.spaceMd}`,fontSize:D.fontSizeSm,lineHeight:D.lineHeightTight},lg:{padding:`${D.spaceSm} ${D.spaceLg}`,fontSize:D.fontSizeBase,lineHeight:D.lineHeightBase}},p6={display:"inline-flex",alignItems:"center",justifyContent:"center",gap:D.spaceSm,borderRadius:D.radiusMd,fontFamily:D.fontSans,fontWeight:D.fontWeightMedium,cursor:"pointer",transition:"background 150ms ease, border-color 150ms ease, opacity 150ms ease"},g6="alttab-button-spinner",b6=`
+`;
+function GridView({ descriptions }) {
+  useInjectStyles(GRID_STYLES_ID, gridCSS);
+  const { resolved, themes, setTheme } = useTheme();
+  return /* @__PURE__ */ jsxDEV3("div", {
+    className: "alttab-theme-picker",
+    children: Array.from(themes.values()).map((def) => {
+      const isActive = resolved === def.name;
+      return /* @__PURE__ */ jsxDEV3("button", {
+        className: `alttab-theme-card${isActive ? " alttab-theme-card--active" : ""}`,
+        onClick: () => setTheme(def.name),
+        children: [
+          /* @__PURE__ */ jsxDEV3("span", {
+            className: "alttab-theme-card__name",
+            children: def.label
+          }, undefined, false, undefined, this),
+          descriptions[def.name] && /* @__PURE__ */ jsxDEV3("span", {
+            className: "alttab-theme-card__desc",
+            children: descriptions[def.name]
+          }, undefined, false, undefined, this)
+        ]
+      }, def.name, true, undefined, this);
+    })
+  }, undefined, false, undefined, this);
+}
+function CompactView() {
+  useInjectStyles(COMPACT_STYLES_ID, compactCSS);
+  const { resolved, themes, setTheme } = useTheme();
+  const [open, setOpen] = useState(false);
+  const [focusedIndex, setFocusedIndex] = useState(-1);
+  const containerRef = useRef(null);
+  const menuRef = useRef(null);
+  const triggerRef = useRef(null);
+  const themeList = Array.from(themes.values());
+  useEffect2(() => {
+    if (!open)
+      return;
+    function handleMouseDown(e) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [open]);
+  const handleKeyDown = useCallback((e) => {
+    if (e.key === "Escape") {
+      setOpen(false);
+      triggerRef.current?.focus();
+      return;
+    }
+    if (!open) {
+      if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        setOpen(true);
+        setFocusedIndex(0);
+      }
+      return;
+    }
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault();
+        setFocusedIndex((i) => (i + 1) % themeList.length);
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        setFocusedIndex((i) => (i - 1 + themeList.length) % themeList.length);
+        break;
+      case "Enter":
+      case " ":
+        e.preventDefault();
+        if (focusedIndex >= 0 && focusedIndex < themeList.length) {
+          setTheme(themeList[focusedIndex].name);
+          setOpen(false);
+          triggerRef.current?.focus();
+        }
+        break;
+      case "Home":
+        e.preventDefault();
+        setFocusedIndex(0);
+        break;
+      case "End":
+        e.preventDefault();
+        setFocusedIndex(themeList.length - 1);
+        break;
+    }
+  }, [open, focusedIndex, themeList, setTheme]);
+  useEffect2(() => {
+    if (!open || focusedIndex < 0)
+      return;
+    const menu = menuRef.current;
+    if (!menu)
+      return;
+    const items = menu.querySelectorAll('[role="option"]');
+    items[focusedIndex]?.scrollIntoView({ block: "nearest" });
+  }, [open, focusedIndex]);
+  useEffect2(() => {
+    if (open) {
+      const activeIdx = themeList.findIndex((t) => t.name === resolved);
+      setFocusedIndex(activeIdx >= 0 ? activeIdx : 0);
+    }
+  }, [open]);
+  const currentTheme = themeList.find((t) => t.name === resolved);
+  return /* @__PURE__ */ jsxDEV3("div", {
+    ref: containerRef,
+    style: { position: "relative" },
+    onKeyDown: handleKeyDown,
+    children: [
+      /* @__PURE__ */ jsxDEV3("button", {
+        ref: triggerRef,
+        className: "alttab-tp-trigger",
+        onClick: () => setOpen((o) => !o),
+        "aria-haspopup": "listbox",
+        "aria-expanded": open,
+        children: [
+          /* @__PURE__ */ jsxDEV3("span", {
+            style: {
+              width: 8,
+              height: 8,
+              borderRadius: "50%",
+              background: "var(--color-action-primary)",
+              flexShrink: 0
+            }
+          }, undefined, false, undefined, this),
+          currentTheme?.label ?? resolved,
+          /* @__PURE__ */ jsxDEV3(Icon, {
+            name: open ? "chevron-up" : "chevron-down",
+            size: 12
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this),
+      open && /* @__PURE__ */ jsxDEV3("div", {
+        ref: menuRef,
+        role: "listbox",
+        "aria-activedescendant": focusedIndex >= 0 ? `alttab-tp-item-${themeList[focusedIndex]?.name}` : undefined,
+        style: {
+          position: "absolute",
+          top: "100%",
+          left: 0,
+          marginTop: "0.25rem",
+          background: "var(--color-surface-panel)",
+          border: "1px solid var(--color-border)",
+          borderRadius: "var(--radius-md)",
+          padding: "0.25rem",
+          minWidth: "10rem",
+          zIndex: 100,
+          boxShadow: "var(--shadow-md)"
+        },
+        children: themeList.map((t, idx) => {
+          const isActive = resolved === t.name;
+          const isFocused = focusedIndex === idx;
+          const classes = [
+            "alttab-tp-menu-item",
+            isActive ? "alttab-tp-menu-item--active" : "",
+            isFocused && !isActive ? "alttab-tp-menu-item--focused" : ""
+          ].filter(Boolean).join(" ");
+          return /* @__PURE__ */ jsxDEV3("button", {
+            id: `alttab-tp-item-${t.name}`,
+            role: "option",
+            "aria-selected": isActive,
+            className: classes,
+            onClick: () => {
+              setTheme(t.name);
+              setOpen(false);
+              triggerRef.current?.focus();
+            },
+            onMouseEnter: () => setFocusedIndex(idx),
+            children: [
+              /* @__PURE__ */ jsxDEV3("span", {
+                style: {
+                  width: 6,
+                  height: 6,
+                  borderRadius: "50%",
+                  background: isActive ? "var(--color-action-primary)" : "var(--color-text-muted)",
+                  flexShrink: 0
+                }
+              }, undefined, false, undefined, this),
+              t.label
+            ]
+          }, t.name, true, undefined, this);
+        })
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+var ThemePicker = forwardRef2(function ThemePicker2({ descriptions = {}, variant = "grid" }, ref) {
+  if (variant === "compact") {
+    return /* @__PURE__ */ jsxDEV3("div", {
+      ref,
+      style: { display: "inline-block" },
+      children: /* @__PURE__ */ jsxDEV3(CompactView, {}, undefined, false, undefined, this)
+    }, undefined, false, undefined, this);
+  }
+  return /* @__PURE__ */ jsxDEV3("div", {
+    ref,
+    children: /* @__PURE__ */ jsxDEV3(GridView, {
+      descriptions
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+});
+// src/components/Button/Button.tsx
+import { forwardRef as forwardRef3 } from "react";
+import { semantic as t, useInjectStyles as useInjectStyles2 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV4 } from "react/jsx-dev-runtime";
+var variantStyles = {
+  primary: {
+    background: t.colorActionPrimary,
+    color: t.colorTextInverse,
+    border: "none"
+  },
+  secondary: {
+    background: t.colorActionSecondary,
+    color: t.colorText,
+    border: `1px solid ${t.colorBorder}`
+  },
+  destructive: {
+    background: t.colorActionDestructive,
+    color: t.colorTextInverse,
+    border: "none"
+  },
+  ghost: {
+    background: "transparent",
+    color: t.colorText,
+    border: "1px solid transparent"
+  }
+};
+var sizeStyles = {
+  sm: {
+    padding: `${t.spaceXs} ${t.spaceSm}`,
+    fontSize: t.fontSizeSm,
+    lineHeight: t.lineHeightTight
+  },
+  md: {
+    padding: `${t.spaceSm} ${t.spaceMd}`,
+    fontSize: t.fontSizeSm,
+    lineHeight: t.lineHeightTight
+  },
+  lg: {
+    padding: `${t.spaceSm} ${t.spaceLg}`,
+    fontSize: t.fontSizeBase,
+    lineHeight: t.lineHeightBase
+  }
+};
+var baseStyles = {
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: t.spaceSm,
+  borderRadius: t.radiusMd,
+  fontFamily: t.fontSans,
+  fontWeight: t.fontWeightMedium,
+  cursor: "pointer",
+  transition: "background 150ms ease, border-color 150ms ease, opacity 150ms ease"
+};
+var SPINNER_STYLES_ID = "alttab-button-spinner";
+var spinnerCSS = `
   @keyframes alttab-btn-spin {
     to { transform: rotate(360deg); }
   }
@@ -101,20 +816,130 @@ import{useEffect as Y6}from"react";var V6=["a[href]","button:not(:disabled)","in
     border-radius: 50%;
     animation: alttab-btn-spin 600ms linear infinite;
   }
-`,h6={sm:D.spaceXs,md:D.spaceSm,lg:D.spaceSm},G1=v6(function({variant:X="primary",size:$="md",loading:P=!1,iconOnly:Q=!1,children:Z,style:N,disabled:H,...W},q){m6(g6,b6);let G=H||P;return V0("button",{ref:q,"aria-busy":P||void 0,style:{...p6,...S6[X],...y6[$],...Q?{padding:h6[$],aspectRatio:"1",minWidth:0}:{},...G?{opacity:0.5,cursor:"not-allowed"}:{},...N},disabled:G,...W,children:P?V0("span",{className:"alttab-btn-spinner"}):Z})});import{forwardRef as x6}from"react";import{semantic as S1}from "../../core/dist/index.js";import{jsx as f6}from"react/jsx-runtime";var j6={xs:S1.spaceXs,sm:S1.spaceSm,md:S1.spaceMd,lg:S1.spaceLg,xl:S1.spaceXl,"2xl":S1.space2xl},_0=x6(function({direction:X="vertical",gap:$="md",align:P,justify:Q,wrap:Z,children:N,style:H,...W},q){return f6("div",{ref:q,style:{display:"flex",flexDirection:X==="vertical"?"column":"row",gap:j6[$],alignItems:P,justifyContent:Q,flexWrap:Z?"wrap":void 0,...H},...W,children:N})});import{forwardRef as u6}from"react";import{semantic as y,useInjectStyles as B0}from "../../core/dist/index.js";import{jsx as l6}from"react/jsx-runtime";var c6={xs:y.spaceXs,sm:y.spaceSm,md:y.spaceMd,lg:y.spaceLg,xl:y.spaceXl,"2xl":y.space2xl},o6={default:{background:y.colorSurfaceSolid,border:`1px solid ${y.colorBorder}`,boxShadow:y.shadowSm},flat:{background:y.colorSurfaceRaised,border:`1px solid ${y.colorBorder}`,boxShadow:"none"},elevated:{background:y.colorSurfaceSolid,border:`1px solid ${y.colorBorder}`,boxShadow:y.shadowMd},live:{background:y.colorSurfaceSolid,border:`1px solid ${y.colorBorderFocused}`,boxShadow:y.shadowSm}},n6="4lt7ab-card-hover",r6=`
+`;
+var iconOnlyPadding = {
+  sm: t.spaceXs,
+  md: t.spaceSm,
+  lg: t.spaceSm
+};
+var Button = forwardRef3(function Button2({
+  variant = "primary",
+  size = "md",
+  loading = false,
+  iconOnly = false,
+  children,
+  style,
+  disabled,
+  ...props
+}, ref) {
+  useInjectStyles2(SPINNER_STYLES_ID, spinnerCSS);
+  const isDisabled = disabled || loading;
+  return /* @__PURE__ */ jsxDEV4("button", {
+    ref,
+    "aria-busy": loading || undefined,
+    style: {
+      ...baseStyles,
+      ...variantStyles[variant],
+      ...sizeStyles[size],
+      ...iconOnly ? { padding: iconOnlyPadding[size], aspectRatio: "1", minWidth: 0 } : {},
+      ...isDisabled ? { opacity: 0.5, cursor: "not-allowed" } : {},
+      ...style
+    },
+    disabled: isDisabled,
+    ...props,
+    children: loading ? /* @__PURE__ */ jsxDEV4("span", {
+      className: "alttab-btn-spinner"
+    }, undefined, false, undefined, this) : children
+  }, undefined, false, undefined, this);
+});
+// src/components/Stack/Stack.tsx
+import { forwardRef as forwardRef4 } from "react";
+import { semantic as t2 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV5 } from "react/jsx-dev-runtime";
+var gapMap = {
+  xs: t2.spaceXs,
+  sm: t2.spaceSm,
+  md: t2.spaceMd,
+  lg: t2.spaceLg,
+  xl: t2.spaceXl,
+  "2xl": t2.space2xl
+};
+var Stack = forwardRef4(function Stack2({
+  direction = "vertical",
+  gap = "md",
+  align,
+  justify,
+  wrap,
+  children,
+  style,
+  ...props
+}, ref) {
+  return /* @__PURE__ */ jsxDEV5("div", {
+    ref,
+    style: {
+      display: "flex",
+      flexDirection: direction === "vertical" ? "column" : "row",
+      gap: gapMap[gap],
+      alignItems: align,
+      justifyContent: justify,
+      flexWrap: wrap ? "wrap" : undefined,
+      ...style
+    },
+    ...props,
+    children
+  }, undefined, false, undefined, this);
+});
+// src/components/Card/Card.tsx
+import { forwardRef as forwardRef5 } from "react";
+import { semantic as t3, useInjectStyles as useInjectStyles3 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV6 } from "react/jsx-dev-runtime";
+var paddingMap = {
+  xs: t3.spaceXs,
+  sm: t3.spaceSm,
+  md: t3.spaceMd,
+  lg: t3.spaceLg,
+  xl: t3.spaceXl,
+  "2xl": t3.space2xl
+};
+var variantStyles2 = {
+  default: {
+    background: t3.colorSurfaceSolid,
+    border: `1px solid ${t3.colorBorder}`,
+    boxShadow: t3.shadowSm
+  },
+  flat: {
+    background: t3.colorSurfaceRaised,
+    border: `1px solid ${t3.colorBorder}`,
+    boxShadow: "none"
+  },
+  elevated: {
+    background: t3.colorSurfaceSolid,
+    border: `1px solid ${t3.colorBorder}`,
+    boxShadow: t3.shadowMd
+  },
+  live: {
+    background: t3.colorSurfaceSolid,
+    border: `1px solid ${t3.colorBorderFocused}`,
+    boxShadow: t3.shadowSm
+  }
+};
+var HOVER_STYLES_ID = "4lt7ab-card-hover";
+var HOVER_STYLES_CSS = `
 [data-card-hover] {
   cursor: pointer;
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 [data-card-hover]:hover {
   transform: translateY(-2px);
-  border-color: ${y.colorBorderFocused};
-  box-shadow: ${y.shadowMd};
+  border-color: ${t3.colorBorderFocused};
+  box-shadow: ${t3.shadowMd};
 }
-`,d6="4lt7ab-card-live",i6=`
+`;
+var LIVE_STYLES_ID = "4lt7ab-card-live";
+var LIVE_STYLES_CSS = `
 @keyframes card-live-pulse {
-  0%, 100% { border-color: ${y.colorBorderFocused}; box-shadow: ${y.shadowSm}; }
-  50% { border-color: ${y.colorActionPrimary}; box-shadow: 0 0 8px ${y.colorActionPrimary}; }
+  0%, 100% { border-color: ${t3.colorBorderFocused}; box-shadow: ${t3.shadowSm}; }
+  50% { border-color: ${t3.colorActionPrimary}; box-shadow: 0 0 8px ${t3.colorActionPrimary}; }
 }
 [data-card-live] {
   animation: card-live-pulse 2.5s ease-in-out infinite;
@@ -124,7 +949,219 @@ import{useEffect as Y6}from"react";var V6=["a[href]","button:not(:disabled)","in
     animation: none;
   }
 }
-`,y1=u6(function({variant:X="default",padding:$="lg",hover:P=!1,children:Q,style:Z,...N},H){return B0(n6,r6),B0(d6,i6),l6("div",{ref:H,"data-card-hover":P||void 0,"data-card-live":X==="live"||void 0,style:{borderRadius:y.radiusLg,padding:c6[$],color:y.colorText,...o6[X],...Z},...N,children:Q})});import{semantic as s}from "../../core/dist/index.js";import{forwardRef as a6,useId as s6,isValidElement as t6,cloneElement as e6}from"react";import{jsx as I2,jsxs as k0}from"react/jsx-runtime";var X4={display:"block",fontSize:s.fontSizeSm,fontWeight:s.fontWeightMedium,lineHeight:s.lineHeightTight,color:s.colorText,fontFamily:s.fontSans},J4={color:s.colorError,marginLeft:"0.125rem"},P4={fontSize:s.fontSizeXs,lineHeight:s.lineHeightTight,color:s.colorTextMuted,fontFamily:s.fontSans,margin:0},$4={fontSize:s.fontSizeXs,lineHeight:s.lineHeightTight,color:s.colorError,fontFamily:s.fontSans,margin:0},N5=a6(function({label:X,htmlFor:$,error:P,help:Q,required:Z,disabled:N,children:H,style:W,...q},G){let z=s6(),K=Q?`${z}-help`:void 0,U=P?`${z}-error`:void 0,A=[U,K].filter(Boolean).join(" ")||void 0,_=t6(H)?e6(H,{"aria-describedby":A}):H;return k0("div",{ref:G,style:{display:"flex",flexDirection:"column",gap:s.spaceXs,opacity:N?0.6:void 0,...W},...q,children:[k0("label",{htmlFor:$,style:X4,children:[X,Z&&I2("span",{style:J4,"aria-hidden":"true",children:"*"})]}),_,P&&I2("p",{id:U,role:"alert",style:$4,children:P}),!P&&Q&&I2("p",{id:K,style:P4,children:Q})]})});import{forwardRef as Q4}from"react";import{semantic as J1}from "../../core/dist/index.js";import{jsx as q4}from"react/jsx-runtime";var Z4={display:"block",width:"100%",padding:`${J1.spaceSm} ${J1.spaceMd}`,fontSize:J1.fontSizeSm,lineHeight:J1.lineHeightTight,fontFamily:J1.fontSans,color:J1.colorText,background:J1.colorSurfaceInput,border:`1px solid ${J1.colorBorder}`,borderRadius:J1.radiusMd,outline:"none",transition:"border-color 150ms ease, box-shadow 150ms ease",boxSizing:"border-box"},N4={borderColor:J1.colorBorderError},H4={background:J1.colorSurfaceDisabled,color:J1.colorTextDisabled,cursor:"not-allowed"},F0=Q4(function({hasError:X,disabled:$,style:P,...Q},Z){return q4("input",{ref:Z,"aria-invalid":X||void 0,style:{...Z4,...X?N4:{},...$?H4:{},...P},disabled:$,...Q})});import{forwardRef as W4}from"react";import{semantic as P1}from "../../core/dist/index.js";import{jsx as A4}from"react/jsx-runtime";var U4={display:"block",width:"100%",padding:`${P1.spaceSm} ${P1.spaceMd}`,fontSize:P1.fontSizeSm,lineHeight:P1.lineHeightBase,fontFamily:P1.fontSans,color:P1.colorText,background:P1.colorSurfaceInput,border:`1px solid ${P1.colorBorder}`,borderRadius:P1.radiusMd,outline:"none",transition:"border-color 150ms ease, box-shadow 150ms ease",boxSizing:"border-box",resize:"vertical",minHeight:"5rem"},G4={borderColor:P1.colorBorderError},K4={background:P1.colorSurfaceDisabled,color:P1.colorTextDisabled,cursor:"not-allowed",resize:"none"},M5=W4(function({hasError:X,disabled:$,style:P,...Q},Z){return A4("textarea",{ref:Z,"aria-invalid":X||void 0,style:{...U4,...X?G4:{},...$?K4:{},...P},disabled:$,...Q})});import{forwardRef as z4,useState as G2,useEffect as R2,useRef as K2,useCallback as o1}from"react";import{semantic as m,useInjectStyles as M4}from "../../core/dist/index.js";import{jsx as $1,jsxs as A2}from"react/jsx-runtime";var Y4="alttab-select",V4=`
+`;
+var Card = forwardRef5(function Card2({
+  variant = "default",
+  padding = "lg",
+  hover = false,
+  children,
+  style,
+  ...props
+}, ref) {
+  useInjectStyles3(HOVER_STYLES_ID, HOVER_STYLES_CSS);
+  useInjectStyles3(LIVE_STYLES_ID, LIVE_STYLES_CSS);
+  return /* @__PURE__ */ jsxDEV6("div", {
+    ref,
+    "data-card-hover": hover || undefined,
+    "data-card-live": variant === "live" || undefined,
+    style: {
+      borderRadius: t3.radiusLg,
+      padding: paddingMap[padding],
+      color: t3.colorText,
+      ...variantStyles2[variant],
+      ...style
+    },
+    ...props,
+    children
+  }, undefined, false, undefined, this);
+});
+// src/components/Field/Field.tsx
+import { semantic as t4 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef6, useId, isValidElement, cloneElement } from "react";
+import { jsxDEV as jsxDEV7 } from "react/jsx-dev-runtime";
+var labelStyle = {
+  display: "block",
+  fontSize: t4.fontSizeSm,
+  fontWeight: t4.fontWeightMedium,
+  lineHeight: t4.lineHeightTight,
+  color: t4.colorText,
+  fontFamily: t4.fontSans
+};
+var requiredStyle = {
+  color: t4.colorError,
+  marginLeft: "0.125rem"
+};
+var helpStyle = {
+  fontSize: t4.fontSizeXs,
+  lineHeight: t4.lineHeightTight,
+  color: t4.colorTextMuted,
+  fontFamily: t4.fontSans,
+  margin: 0
+};
+var errorStyle = {
+  fontSize: t4.fontSizeXs,
+  lineHeight: t4.lineHeightTight,
+  color: t4.colorError,
+  fontFamily: t4.fontSans,
+  margin: 0
+};
+var Field = forwardRef6(function Field2({
+  label,
+  htmlFor,
+  error,
+  help,
+  required,
+  disabled,
+  children,
+  style,
+  ...props
+}, ref) {
+  const autoId = useId();
+  const helpId = help ? `${autoId}-help` : undefined;
+  const errorId = error ? `${autoId}-error` : undefined;
+  const describedBy = [errorId, helpId].filter(Boolean).join(" ") || undefined;
+  const enhancedChildren = isValidElement(children) ? cloneElement(children, {
+    "aria-describedby": describedBy
+  }) : children;
+  return /* @__PURE__ */ jsxDEV7("div", {
+    ref,
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: t4.spaceXs,
+      opacity: disabled ? 0.6 : undefined,
+      ...style
+    },
+    ...props,
+    children: [
+      /* @__PURE__ */ jsxDEV7("label", {
+        htmlFor,
+        style: labelStyle,
+        children: [
+          label,
+          required && /* @__PURE__ */ jsxDEV7("span", {
+            style: requiredStyle,
+            "aria-hidden": "true",
+            children: "*"
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this),
+      enhancedChildren,
+      error && /* @__PURE__ */ jsxDEV7("p", {
+        id: errorId,
+        role: "alert",
+        style: errorStyle,
+        children: error
+      }, undefined, false, undefined, this),
+      !error && help && /* @__PURE__ */ jsxDEV7("p", {
+        id: helpId,
+        style: helpStyle,
+        children: help
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/Input/Input.tsx
+import { forwardRef as forwardRef7 } from "react";
+import { semantic as t5 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV8 } from "react/jsx-dev-runtime";
+var baseStyle = {
+  display: "block",
+  width: "100%",
+  padding: `${t5.spaceSm} ${t5.spaceMd}`,
+  fontSize: t5.fontSizeSm,
+  lineHeight: t5.lineHeightTight,
+  fontFamily: t5.fontSans,
+  color: t5.colorText,
+  background: t5.colorSurfaceInput,
+  border: `1px solid ${t5.colorBorder}`,
+  borderRadius: t5.radiusMd,
+  outline: "none",
+  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  boxSizing: "border-box"
+};
+var errorBorderStyle = {
+  borderColor: t5.colorBorderError
+};
+var disabledStyle = {
+  background: t5.colorSurfaceDisabled,
+  color: t5.colorTextDisabled,
+  cursor: "not-allowed"
+};
+var Input = forwardRef7(function Input2({
+  hasError,
+  disabled,
+  style,
+  ...props
+}, ref) {
+  return /* @__PURE__ */ jsxDEV8("input", {
+    ref,
+    "aria-invalid": hasError || undefined,
+    style: {
+      ...baseStyle,
+      ...hasError ? errorBorderStyle : {},
+      ...disabled ? disabledStyle : {},
+      ...style
+    },
+    disabled,
+    ...props
+  }, undefined, false, undefined, this);
+});
+// src/components/Textarea/Textarea.tsx
+import { forwardRef as forwardRef8 } from "react";
+import { semantic as t6 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV9 } from "react/jsx-dev-runtime";
+var baseStyle2 = {
+  display: "block",
+  width: "100%",
+  padding: `${t6.spaceSm} ${t6.spaceMd}`,
+  fontSize: t6.fontSizeSm,
+  lineHeight: t6.lineHeightBase,
+  fontFamily: t6.fontSans,
+  color: t6.colorText,
+  background: t6.colorSurfaceInput,
+  border: `1px solid ${t6.colorBorder}`,
+  borderRadius: t6.radiusMd,
+  outline: "none",
+  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  boxSizing: "border-box",
+  resize: "vertical",
+  minHeight: "5rem"
+};
+var errorBorderStyle2 = {
+  borderColor: t6.colorBorderError
+};
+var disabledStyle2 = {
+  background: t6.colorSurfaceDisabled,
+  color: t6.colorTextDisabled,
+  cursor: "not-allowed",
+  resize: "none"
+};
+var Textarea = forwardRef8(function Textarea2({
+  hasError,
+  disabled,
+  style,
+  ...props
+}, ref) {
+  return /* @__PURE__ */ jsxDEV9("textarea", {
+    ref,
+    "aria-invalid": hasError || undefined,
+    style: {
+      ...baseStyle2,
+      ...hasError ? errorBorderStyle2 : {},
+      ...disabled ? disabledStyle2 : {},
+      ...style
+    },
+    disabled,
+    ...props
+  }, undefined, false, undefined, this);
+});
+// src/components/Select/Select.tsx
+import { forwardRef as forwardRef9, useState as useState2, useEffect as useEffect3, useRef as useRef2, useCallback as useCallback2 } from "react";
+import { semantic as t7, useInjectStyles as useInjectStyles4 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV10 } from "react/jsx-dev-runtime";
+var SELECT_STYLES_ID = "alttab-select";
+var selectCSS = `
   .alttab-select-option {
     display: block;
     width: 100%;
@@ -163,7 +1200,1213 @@ import{useEffect as Y6}from"react";var V6=["a[href]","button:not(:disabled)","in
     border-color: var(--color-border-focused);
     box-shadow: 0 0 0 var(--focus-ring-width) var(--focus-ring-color);
   }
-`;function _4(J){return J??[]}function B4(J,X){return J.find(($)=>$.value===X)?.label}var w0=z4(function({options:X,children:$,placeholder:P,hasError:Q,disabled:Z,style:N,value:H,defaultValue:W,onChange:q,name:G,id:z,"aria-label":K,"aria-labelledby":U,...A},_){M4(Y4,V4);let Y=_4(X),[V,E]=G2(!1),[L,h]=G2(-1),[a,H1]=G2(()=>W??""),g=H!==void 0,X1=g?H:a,t=K2(null),o=K2(null),T=K2(null),b=K2(null),[u1,v1]=G2("down");if(R2(()=>{if(!_)return;if(typeof _==="function")_(b.current);else _.current=b.current},[_]),$)return A2("div",{style:T0,children:[A2("select",{ref:b,"aria-invalid":Q||void 0,"aria-label":K,"aria-labelledby":U,name:G,id:z,value:H,defaultValue:W,onChange:q,disabled:Z,style:{...O0,...Q?E0:{},...Z?I0:{},...N},...A,children:[P&&$1("option",{value:"",disabled:!0,children:P}),$]}),$1("span",{"aria-hidden":!0,style:L0,children:$1(R0,{})})]});let O=o1(()=>{let k=o.current;if(!k)return;let w=k.getBoundingClientRect(),d=window.innerHeight-w.bottom,A1=w.top,O2=Math.min(Y.length*32+8,256);v1(d>=O2?"down":A1>d?"up":"down")},[Y.length]),c=o1(()=>{if(Z)return;O(),E(!0);let k=Y.findIndex((w)=>w.value===X1);h(k>=0?k:0)},[Z,O,Y,X1]),B=o1(()=>{E(!1),h(-1)},[]),f=o1((k)=>{if(k.disabled)return;if(!g)H1(k.value);if(q&&b.current){let w=b.current;Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype,"value")?.set?.call(w,k.value);let A1=new Event("change",{bubbles:!0});w.dispatchEvent(A1)}B(),o.current?.focus()},[g,q,B]);R2(()=>{if(!V)return;function k(w){if(t.current&&!t.current.contains(w.target))B()}return document.addEventListener("mousedown",k),()=>document.removeEventListener("mousedown",k)},[V,B]),R2(()=>{if(!V||L<0)return;let k=T.current;if(!k)return;k.querySelectorAll('[role="option"]')[L]?.scrollIntoView({block:"nearest"})},[V,L]);let m1=o1((k)=>{if(k.key==="Escape"){B(),o.current?.focus();return}if(!V){if(k.key==="ArrowDown"||k.key==="ArrowUp"||k.key==="Enter"||k.key===" ")k.preventDefault(),c();return}let w=Y.map((d,A1)=>d.disabled?-1:A1).filter((d)=>d>=0);switch(k.key){case"ArrowDown":{k.preventDefault();let d=w.indexOf(L),A1=d<w.length-1?w[d+1]:w[0];h(A1);break}case"ArrowUp":{k.preventDefault();let d=w.indexOf(L),A1=d>0?w[d-1]:w[w.length-1];h(A1);break}case"Enter":case" ":if(k.preventDefault(),L>=0&&L<Y.length)f(Y[L]);break;case"Home":if(k.preventDefault(),w.length>0)h(w[0]);break;case"End":if(k.preventDefault(),w.length>0)h(w[w.length-1]);break;case"Tab":B();break}},[V,c,B,L,Y,f]),B1=B4(Y,X1),c1=!B1&&!!P,o2=z?`${z}-listbox`:void 0,M6=u1==="down"?{position:"absolute",top:"100%",left:0,right:0,marginTop:m.spaceXs}:{position:"absolute",bottom:"100%",left:0,right:0,marginBottom:m.spaceXs};return A2("div",{ref:t,style:T0,onKeyDown:m1,children:[A2("select",{ref:b,name:G,value:X1,onChange:()=>{},disabled:Z,tabIndex:-1,"aria-hidden":!0,style:{position:"absolute",width:0,height:0,overflow:"hidden",opacity:0,pointerEvents:"none"},...A,children:[P&&$1("option",{value:"",disabled:!0,children:P}),Y.map((k)=>$1("option",{value:k.value,disabled:k.disabled,children:k.label},k.value))]}),$1("button",{ref:o,type:"button",className:"alttab-select-trigger",role:"combobox","aria-expanded":V,"aria-haspopup":"listbox","aria-controls":o2,"aria-invalid":Q||void 0,"aria-label":K,"aria-labelledby":U,"aria-activedescendant":V&&L>=0?`alttab-select-opt-${Y[L]?.value}`:void 0,disabled:Z,onClick:()=>V?B():c(),style:{...O0,...Q?E0:{},...Z?I0:{},...c1?k4:{},...N},children:B1??P??" "}),$1("span",{"aria-hidden":!0,style:L0,children:$1(R0,{rotated:V})}),V&&$1("div",{ref:T,id:o2,role:"listbox",style:{...M6,background:m.colorSurfacePanel,border:`1px solid ${m.colorBorder}`,borderRadius:m.radiusMd,padding:m.spaceXs,zIndex:100,boxShadow:m.shadowMd,maxHeight:"16rem",overflowY:"auto",boxSizing:"border-box"},children:Y.map((k,w)=>{let d=k.value===X1,O2=["alttab-select-option",d?"alttab-select-option--selected":"",L===w?"alttab-select-option--focused":"",k.disabled?"alttab-select-option--disabled":""].filter(Boolean).join(" ");return $1("button",{id:`alttab-select-opt-${k.value}`,type:"button",role:"option","aria-selected":d,"aria-disabled":k.disabled||void 0,className:O2,onClick:()=>f(k),onMouseEnter:()=>{if(!k.disabled)h(w)},children:k.label},k.value)})})]})}),T0={position:"relative",display:"block",width:"100%"},O0={display:"block",width:"100%",padding:`${m.spaceSm} ${m.spaceMd}`,fontSize:m.fontSizeSm,lineHeight:m.lineHeightTight,fontFamily:m.fontSans,color:m.colorText,background:m.colorSurfaceInput,border:`1px solid ${m.colorBorder}`,borderRadius:m.radiusMd,outline:"none",transition:"border-color 150ms ease, box-shadow 150ms ease",boxSizing:"border-box",cursor:"pointer",textAlign:"left",paddingRight:m.space2xl},L0={position:"absolute",right:m.spaceSm,top:m.spaceSm,pointerEvents:"none",color:m.colorTextSecondary,display:"flex",alignItems:"center",justifyContent:"center",height:`calc(${m.fontSizeSm} * ${m.lineHeightTight})`},E0={borderColor:m.colorBorderError},I0={background:m.colorSurfaceDisabled,color:m.colorTextDisabled,cursor:"not-allowed"},k4={color:m.colorTextPlaceholder};function R0({rotated:J}){return $1("svg",{width:"12",height:"12",viewBox:"0 0 12 12",fill:"none",xmlns:"http://www.w3.org/2000/svg",style:{transition:"transform 150ms ease",transform:J?"rotate(180deg)":"none"},children:$1("path",{d:"M2.22 4.47a.75.75 0 0 1 1.06 0L6 7.19l2.72-2.72a.75.75 0 1 1 1.06 1.06L6 9.31 2.22 5.53a.75.75 0 0 1 0-1.06z",fill:"currentColor"})})}import{forwardRef as F4}from"react";import{semantic as n}from "../../core/dist/index.js";import{jsx as L4}from"react/jsx-runtime";var T4={default:{border:`1px solid ${n.colorBorder}`,color:n.colorTextSecondary},success:{background:n.colorSuccessBg,color:n.colorSuccess},warning:{background:n.colorWarningBg,color:n.colorWarning},error:{background:n.colorErrorBg,color:n.colorError},info:{background:n.colorInfoBg,color:n.colorInfo}},O4={display:"inline-block",padding:`${n.spaceXs} ${n.spaceSm}`,borderRadius:n.radiusFull,fontSize:n.fontSizeXs,fontWeight:n.fontWeightSemibold,fontFamily:n.fontSans,textTransform:"uppercase",letterSpacing:n.letterSpacingWide},L5=F4(function({children:X,variant:$="default",color:P,style:Q,...Z},N){let H=P?{background:`color-mix(in srgb, ${P} 14%, transparent)`,color:P}:void 0;return L4("span",{ref:N,...Z,style:{...O4,...H??T4[$],...Q},children:X})});import{forwardRef as E4}from"react";import{semantic as n1}from "../../core/dist/index.js";import{jsx as D0,jsxs as I4}from"react/jsx-runtime";var k1=E4(function({icon:X,size:$=24,badge:P,fontClass:Q,style:Z,...N},H){return I4("button",{ref:H,style:{position:"relative",display:"inline-flex",alignItems:"center",justifyContent:"center",width:36,height:36,borderRadius:n1.radiusFull,background:"transparent",border:"none",color:n1.colorTextMuted,cursor:"pointer",padding:0,...Z},...N,children:[D0(W1,{name:X,size:$,fontClass:Q}),P&&D0("span",{style:{position:"absolute",top:2,right:2,width:8,height:8,borderRadius:n1.radiusFull,background:n1.colorError,border:`2px solid ${n1.colorSurface}`}})]})});import{forwardRef as R4}from"react";import{semantic as w4}from "../../core/dist/index.js";import{jsx as D4}from"react/jsx-runtime";var C0=R4(function({onClick:X,zIndex:$=100,style:P},Q){return D4("div",{ref:Q,role:"presentation",onClick:X,style:{position:"fixed",inset:0,background:w4.colorSurfaceOverlay,zIndex:$,...P}})});import{forwardRef as D2}from"react";import{semantic as z1}from "../../core/dist/index.js";import{jsx as F1,jsxs as w2}from"react/jsx-runtime";var p1=D2(function({width:X="100%",height:$=16,borderRadius:P=z1.radiusMd,style:Q},Z){return F1("div",{ref:Z,"aria-hidden":"true",style:{width:X,height:$,borderRadius:P,background:z1.colorSurfaceRaised,...Q}})}),h5=D2(function({style:X},$){return w2("div",{ref:$,"aria-hidden":"true",style:{borderRadius:z1.radiusLg,border:`1px solid ${z1.colorBorder}`,padding:z1.spaceLg,display:"flex",flexDirection:"column",gap:z1.spaceSm,...X},children:[F1(p1,{width:"60%",height:20}),F1(p1,{width:"100%",height:14}),F1(p1,{width:"80%",height:14})]})}),x5=D2(function({style:X},$){return w2("div",{ref:$,"aria-hidden":"true",style:{display:"flex",alignItems:"center",gap:z1.spaceSm,padding:`${z1.spaceSm} 0`,...X},children:[F1(p1,{width:32,height:32,borderRadius:z1.radiusFull}),w2("div",{style:{flex:1,display:"flex",flexDirection:"column",gap:z1.spaceXs},children:[F1(p1,{width:"40%",height:14}),F1(p1,{width:"70%",height:12})]})]})});import{forwardRef as C4}from"react";import{semantic as v4}from "../../core/dist/index.js";import{jsx as v0}from"react/jsx-runtime";var o5=C4(function({segments:X,height:$=6,"aria-label":P,style:Q},Z){let N=X.reduce((H,W)=>H+W.value,0);return v0("div",{ref:Z,role:"progressbar","aria-valuenow":N,"aria-valuemin":0,"aria-valuemax":100,"aria-label":P,style:{width:"100%",height:$,borderRadius:$/2,overflow:"hidden",display:"flex",background:v4.colorSurfaceRaised,...Q},children:X.map((H,W)=>{let q=N>0?H.value/N*100:0;return v0("div",{title:H.label?`${H.label}: ${H.value}`:String(H.value),style:{width:`${q}%`,height:"100%",background:H.color}},W)})})});import{forwardRef as m4}from"react";import{semantic as g1}from "../../core/dist/index.js";import{jsx as r1,jsxs as S4}from"react/jsx-runtime";var t5=m4(function({icon:X,message:$,variant:P="plain",style:Q,children:Z,action:N},H){let W=S4(_0,{align:"center",gap:"sm",style:{padding:g1.spaceXl,...Q},children:[r1(W1,{name:X,size:32,style:{color:g1.colorTextMuted}}),r1("span",{style:{color:g1.colorTextSecondary,fontSize:g1.fontSizeSm,textAlign:"center",fontFamily:g1.fontSans},children:$}),Z,N&&r1("div",{style:{marginTop:g1.spaceSm},children:N})]});if(P==="card")return r1(y1,{ref:H,variant:"flat",children:W});return r1("div",{ref:H,children:W})});import{forwardRef as y4}from"react";import{semantic as z2}from "../../core/dist/index.js";import{jsx as m0,jsxs as S0}from"react/jsx-runtime";var p4={previous:"Previous",next:"Next",pageOf:(J,X)=>`Page ${J} of ${X}`},QJ=y4(function({page:X,totalPages:$,total:P,onPageChange:Q,labels:Z,className:N,style:H},W){let q={...p4,...Z};return S0("div",{ref:W,className:N,style:{display:"flex",alignItems:"center",justifyContent:"center",gap:z2.spaceSm,...H},children:[m0(G1,{variant:"ghost",size:"sm",disabled:X<=1,onClick:()=>Q(X-1),children:q.previous}),S0("span",{style:{color:z2.colorTextMuted,fontSize:z2.fontSizeSm,fontFamily:z2.fontSans},children:[q.pageOf(X,$)," (",P," total)"]}),m0(G1,{variant:"ghost",size:"sm",disabled:X>=$,onClick:()=>Q(X+1),children:q.next})]})});import{createElement as g4,forwardRef as b4}from"react";import{semantic as b1}from "../../core/dist/index.js";import{jsx as y0,jsxs as C2}from"react/jsx-runtime";var WJ=b4(function({title:X,subtitle:$,indicator:P,trailing:Q,style:Z,className:N,level:H=2},W){let q=g4(`h${H}`,{style:{margin:0,fontFamily:b1.fontSans,fontWeight:b1.fontWeightBold,color:b1.colorText}},X);return C2("div",{ref:W,className:N,style:{display:"flex",justifyContent:"space-between",alignItems:"flex-end",...Z},children:[C2("div",{children:[C2("div",{style:{display:"flex",alignItems:"center",gap:b1.spaceSm},children:[q,P]}),$&&y0("span",{style:{color:b1.colorTextMuted,fontSize:b1.fontSizeSm},children:$})]}),Q&&y0("div",{children:Q})]})});import{forwardRef as h4}from"react";import{semantic as Y1}from "../../core/dist/index.js";import{jsx as x4,jsxs as p0}from"react/jsx-runtime";var MJ=h4(function({name:X,prefix:$,onRemove:P,style:Q},Z){return p0("span",{ref:Z,style:{display:"inline-flex",alignItems:"center",gap:Y1.spaceXs,fontSize:Y1.fontSizeXs,color:Y1.colorActionPrimary,background:Y1.colorSurfaceRaised,borderRadius:Y1.radiusFull,padding:"2px 8px",fontFamily:Y1.fontSans,...Q},children:[$&&p0("span",{style:{color:Y1.colorTextMuted},children:[$,":"]}),X,P&&x4(k1,{icon:"close",size:12,onClick:P,"aria-label":`Remove ${X}`,style:{width:18,height:18,color:Y1.colorActionPrimary}})]})});import{semantic as Q1}from "../../core/dist/index.js";import{forwardRef as j4,useState as f4,useId as u4}from"react";import{jsx as T1,jsxs as v2}from"react/jsx-runtime";var TJ=j4(function({title:X,children:$,defaultOpen:P=!1,open:Q,onToggle:Z,variant:N="default",style:H,headerAction:W},q){let[G,z]=f4(P),K=Q!==void 0?Q:G,U=u4();return v2(y1,{ref:q,variant:N,padding:"xs",style:H,children:[v2("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between"},children:[v2("button",{type:"button",onClick:()=>{let _=!K;if(Q===void 0)z(_);Z?.(_)},"aria-expanded":K,"aria-controls":U,style:{display:"flex",alignItems:"center",gap:Q1.spaceSm,padding:`${Q1.spaceSm} ${Q1.spaceMd}`,cursor:"pointer",borderRadius:Q1.radiusMd,transition:"background 150ms ease",background:"none",border:"none",color:"inherit",font:"inherit",flex:1},children:[T1("span",{style:{display:"inline-flex",alignItems:"center",justifyContent:"center",width:20,height:20,lineHeight:1,color:"inherit",transition:"transform 200ms ease",transform:K?"rotate(90deg)":"rotate(0deg)"},children:T1(Q2,{size:20})}),T1("span",{style:{fontWeight:Q1.fontWeightSemibold,fontFamily:Q1.fontSans,color:Q1.colorText,fontSize:Q1.fontSizeSm},children:X})]}),W&&T1("div",{style:{padding:`0 ${Q1.spaceMd}`},children:W})]}),T1("div",{id:U,role:"region",style:{display:"grid",gridTemplateRows:K?"1fr":"0fr",transition:"grid-template-rows 200ms ease"},children:T1("div",{style:{overflow:"hidden"},children:T1("div",{style:{padding:`${Q1.spaceSm} ${Q1.spaceMd} ${Q1.spaceMd}`},children:$})})})]})});import{forwardRef as a4,useId as s4,useState as t4}from"react";import{semantic as E1}from "../../core/dist/index.js";import{forwardRef as c4,useEffect as g0,useId as o4,useRef as n4}from"react";import{createPortal as r4}from"react-dom";import{semantic as K1}from "../../core/dist/index.js";import{jsx as m2,jsxs as l4,Fragment as i4}from"react/jsx-runtime";var O1=Object.freeze({margin:0,fontWeight:K1.fontWeightSemibold,fontFamily:K1.fontSans,color:K1.colorText,fontSize:K1.fontSizeLg}),d1=Object.freeze({display:"flex",justifyContent:"flex-end",gap:K1.spaceSm}),d4=["a[href]","button:not(:disabled)","input:not(:disabled)","select:not(:disabled)","textarea:not(:disabled)",'[tabindex]:not([tabindex="-1"])'].join(", "),L1=c4(function({onClose:X,children:$,maxWidth:P=480,zIndex:Q=200,style:Z,titleId:N,"aria-label":H,role:W="dialog"},q){let G=o4(),z=N??G,K=n4(null),U=(A)=>{if(K.current=A,typeof q==="function")q(A);else if(q)q.current=A};return n2(K),g0(()=>{let A=document.activeElement,_=K.current;if(_){let Y=_.querySelector(d4);if(Y)Y.focus();else _.focus()}return()=>{A?.focus()}},[]),g0(()=>{let A=(_)=>{if(_.key==="Escape")X()};return document.addEventListener("keydown",A),()=>document.removeEventListener("keydown",A)},[X]),r4(l4(i4,{children:[m2(C0,{onClick:X,zIndex:Q}),m2("div",{style:{position:"fixed",inset:0,display:"flex",alignItems:"center",justifyContent:"center",zIndex:Q+1,pointerEvents:"none"},children:m2("div",{ref:U,role:W,"aria-modal":"true","aria-labelledby":H?void 0:z,"aria-label":H,tabIndex:-1,style:{background:K1.colorSurface,color:K1.colorText,borderRadius:K1.radiusLg,boxShadow:K1.shadowLg,border:`1px solid ${K1.colorBorder}`,padding:K1.spaceXl,maxWidth:P,width:"100%",pointerEvents:"auto",outline:"none",...Z},children:$})})]}),document.body)});import{jsx as i1,jsxs as b0}from"react/jsx-runtime";var e4={destructive:"destructive",info:"primary",warning:"primary"},hJ=a4(function({title:X,message:$,confirmLabel:P="Confirm",onConfirm:Q,onCancel:Z,children:N,variant:H="destructive"},W){let[q,G]=t4(!1),z=s4(),K=async()=>{G(!0);try{await Q()}finally{G(!1)}};return b0(L1,{ref:W,onClose:Z,role:"alertdialog",titleId:z,children:[i1("h2",{id:z,style:O1,children:X}),i1("p",{style:{margin:`${E1.spaceSm} 0 ${N?"0":E1.spaceLg}`,color:E1.colorTextMuted,fontSize:E1.fontSizeSm,fontFamily:E1.fontSans},children:$}),N&&i1("div",{style:{margin:`${E1.spaceSm} 0 ${E1.spaceLg}`},children:N}),b0("div",{style:d1,children:[i1(G1,{variant:"ghost",onClick:Z,disabled:q,autoFocus:!0,children:"Cancel"}),i1(G1,{variant:e4[H],onClick:K,disabled:q,children:q?"Loading...":P})]})]})});import{forwardRef as X3,useId as J3,useState as P3}from"react";import{semantic as h0}from "../../core/dist/index.js";import{jsx as M2,jsxs as x0}from"react/jsx-runtime";var nJ=X3(function({title:X,children:$,onSubmit:P,onCancel:Q,submitLabel:Z="Submit",cancelLabel:N="Cancel",loading:H,maxWidth:W},q){let[G,z]=P3(!1),K=J3(),U=H||G,A=async()=>{z(!0);try{await P()}finally{z(!1)}};return x0(L1,{ref:q,onClose:Q,titleId:K,maxWidth:W,children:[M2("h2",{id:K,style:O1,children:X}),M2("div",{style:{margin:`${h0.spaceMd} 0 ${h0.spaceLg}`,overflowY:"auto"},children:$}),x0("div",{style:d1,children:[M2(G1,{variant:"ghost",onClick:Q,children:N}),M2(G1,{variant:"primary",onClick:A,loading:U,children:Z})]})]})});import{forwardRef as $3}from"react";import{semantic as h1,useInjectStyles as Q3}from "../../core/dist/index.js";import{jsx as q3}from"react/jsx-runtime";var Z3={default:h1.colorTextMuted,success:h1.colorSuccess,warning:h1.colorWarning,error:h1.colorError,info:h1.colorInfo},N3="4lt7ab-status-dot-pulse",H3=`
+`;
+function getOptions(options) {
+  return options ?? [];
+}
+function findLabel(options, value) {
+  return options.find((o) => o.value === value)?.label;
+}
+var Select = forwardRef9(function Select2({
+  options,
+  children,
+  placeholder,
+  hasError,
+  disabled,
+  style,
+  value: controlledValue,
+  defaultValue,
+  onChange,
+  name,
+  id,
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
+  ...props
+}, ref) {
+  useInjectStyles4(SELECT_STYLES_ID, selectCSS);
+  const optionList = getOptions(options);
+  const [open, setOpen] = useState2(false);
+  const [focusedIndex, setFocusedIndex] = useState2(-1);
+  const [internalValue, setInternalValue] = useState2(() => defaultValue ?? "");
+  const isControlled = controlledValue !== undefined;
+  const currentValue = isControlled ? controlledValue : internalValue;
+  const containerRef = useRef2(null);
+  const triggerRef = useRef2(null);
+  const menuRef = useRef2(null);
+  const hiddenSelectRef = useRef2(null);
+  const [dropDirection, setDropDirection] = useState2("down");
+  useEffect3(() => {
+    if (!ref)
+      return;
+    if (typeof ref === "function") {
+      ref(hiddenSelectRef.current);
+    } else {
+      ref.current = hiddenSelectRef.current;
+    }
+  }, [ref]);
+  if (children) {
+    return /* @__PURE__ */ jsxDEV10("div", {
+      style: wrapperStyle,
+      children: [
+        /* @__PURE__ */ jsxDEV10("select", {
+          ref: hiddenSelectRef,
+          "aria-invalid": hasError || undefined,
+          "aria-label": ariaLabel,
+          "aria-labelledby": ariaLabelledBy,
+          name,
+          id,
+          value: controlledValue,
+          defaultValue,
+          onChange,
+          disabled,
+          style: {
+            ...triggerBaseStyle,
+            ...hasError ? errorBorderStyle3 : {},
+            ...disabled ? disabledStyle3 : {},
+            ...style
+          },
+          ...props,
+          children: [
+            placeholder && /* @__PURE__ */ jsxDEV10("option", {
+              value: "",
+              disabled: true,
+              children: placeholder
+            }, undefined, false, undefined, this),
+            children
+          ]
+        }, undefined, true, undefined, this),
+        /* @__PURE__ */ jsxDEV10("span", {
+          "aria-hidden": true,
+          style: chevronStyle,
+          children: /* @__PURE__ */ jsxDEV10(ChevronSVG, {}, undefined, false, undefined, this)
+        }, undefined, false, undefined, this)
+      ]
+    }, undefined, true, undefined, this);
+  }
+  const calculateDirection = useCallback2(() => {
+    const trigger = triggerRef.current;
+    if (!trigger)
+      return;
+    const rect = trigger.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const spaceAbove = rect.top;
+    const estimatedHeight = Math.min(optionList.length * 32 + 8, 256);
+    setDropDirection(spaceBelow >= estimatedHeight ? "down" : spaceAbove > spaceBelow ? "up" : "down");
+  }, [optionList.length]);
+  const openMenu = useCallback2(() => {
+    if (disabled)
+      return;
+    calculateDirection();
+    setOpen(true);
+    const activeIdx = optionList.findIndex((o) => o.value === currentValue);
+    setFocusedIndex(activeIdx >= 0 ? activeIdx : 0);
+  }, [disabled, calculateDirection, optionList, currentValue]);
+  const closeMenu = useCallback2(() => {
+    setOpen(false);
+    setFocusedIndex(-1);
+  }, []);
+  const selectOption = useCallback2((opt) => {
+    if (opt.disabled)
+      return;
+    if (!isControlled) {
+      setInternalValue(opt.value);
+    }
+    if (onChange && hiddenSelectRef.current) {
+      const nativeSelect = hiddenSelectRef.current;
+      const nativeSetter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, "value")?.set;
+      nativeSetter?.call(nativeSelect, opt.value);
+      const event = new Event("change", { bubbles: true });
+      nativeSelect.dispatchEvent(event);
+    }
+    closeMenu();
+    triggerRef.current?.focus();
+  }, [isControlled, onChange, closeMenu]);
+  useEffect3(() => {
+    if (!open)
+      return;
+    function handleMouseDown(e) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        closeMenu();
+      }
+    }
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [open, closeMenu]);
+  useEffect3(() => {
+    if (!open || focusedIndex < 0)
+      return;
+    const menu = menuRef.current;
+    if (!menu)
+      return;
+    const items = menu.querySelectorAll('[role="option"]');
+    items[focusedIndex]?.scrollIntoView({ block: "nearest" });
+  }, [open, focusedIndex]);
+  const handleKeyDown = useCallback2((e) => {
+    if (e.key === "Escape") {
+      closeMenu();
+      triggerRef.current?.focus();
+      return;
+    }
+    if (!open) {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp" || e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openMenu();
+      }
+      return;
+    }
+    const enabledIndices = optionList.map((o, i) => o.disabled ? -1 : i).filter((i) => i >= 0);
+    switch (e.key) {
+      case "ArrowDown": {
+        e.preventDefault();
+        const currentPos = enabledIndices.indexOf(focusedIndex);
+        const next = currentPos < enabledIndices.length - 1 ? enabledIndices[currentPos + 1] : enabledIndices[0];
+        setFocusedIndex(next);
+        break;
+      }
+      case "ArrowUp": {
+        e.preventDefault();
+        const currentPos = enabledIndices.indexOf(focusedIndex);
+        const prev = currentPos > 0 ? enabledIndices[currentPos - 1] : enabledIndices[enabledIndices.length - 1];
+        setFocusedIndex(prev);
+        break;
+      }
+      case "Enter":
+      case " ":
+        e.preventDefault();
+        if (focusedIndex >= 0 && focusedIndex < optionList.length) {
+          selectOption(optionList[focusedIndex]);
+        }
+        break;
+      case "Home":
+        e.preventDefault();
+        if (enabledIndices.length > 0)
+          setFocusedIndex(enabledIndices[0]);
+        break;
+      case "End":
+        e.preventDefault();
+        if (enabledIndices.length > 0)
+          setFocusedIndex(enabledIndices[enabledIndices.length - 1]);
+        break;
+      case "Tab":
+        closeMenu();
+        break;
+    }
+  }, [open, openMenu, closeMenu, focusedIndex, optionList, selectOption]);
+  const displayLabel = findLabel(optionList, currentValue);
+  const showPlaceholder = !displayLabel && !!placeholder;
+  const listboxId = id ? `${id}-listbox` : undefined;
+  const menuStyle = dropDirection === "down" ? {
+    position: "absolute",
+    top: "100%",
+    left: 0,
+    right: 0,
+    marginTop: t7.spaceXs
+  } : {
+    position: "absolute",
+    bottom: "100%",
+    left: 0,
+    right: 0,
+    marginBottom: t7.spaceXs
+  };
+  return /* @__PURE__ */ jsxDEV10("div", {
+    ref: containerRef,
+    style: wrapperStyle,
+    onKeyDown: handleKeyDown,
+    children: [
+      /* @__PURE__ */ jsxDEV10("select", {
+        ref: hiddenSelectRef,
+        name,
+        value: currentValue,
+        onChange: () => {},
+        disabled,
+        tabIndex: -1,
+        "aria-hidden": true,
+        style: {
+          position: "absolute",
+          width: 0,
+          height: 0,
+          overflow: "hidden",
+          opacity: 0,
+          pointerEvents: "none"
+        },
+        ...props,
+        children: [
+          placeholder && /* @__PURE__ */ jsxDEV10("option", {
+            value: "",
+            disabled: true,
+            children: placeholder
+          }, undefined, false, undefined, this),
+          optionList.map((opt) => /* @__PURE__ */ jsxDEV10("option", {
+            value: opt.value,
+            disabled: opt.disabled,
+            children: opt.label
+          }, opt.value, false, undefined, this))
+        ]
+      }, undefined, true, undefined, this),
+      /* @__PURE__ */ jsxDEV10("button", {
+        ref: triggerRef,
+        type: "button",
+        className: "alttab-select-trigger",
+        role: "combobox",
+        "aria-expanded": open,
+        "aria-haspopup": "listbox",
+        "aria-controls": listboxId,
+        "aria-invalid": hasError || undefined,
+        "aria-label": ariaLabel,
+        "aria-labelledby": ariaLabelledBy,
+        "aria-activedescendant": open && focusedIndex >= 0 ? `alttab-select-opt-${optionList[focusedIndex]?.value}` : undefined,
+        disabled,
+        onClick: () => open ? closeMenu() : openMenu(),
+        style: {
+          ...triggerBaseStyle,
+          ...hasError ? errorBorderStyle3 : {},
+          ...disabled ? disabledStyle3 : {},
+          ...showPlaceholder ? placeholderStyle : {},
+          ...style
+        },
+        children: displayLabel ?? placeholder ?? " "
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV10("span", {
+        "aria-hidden": true,
+        style: chevronStyle,
+        children: /* @__PURE__ */ jsxDEV10(ChevronSVG, {
+          rotated: open
+        }, undefined, false, undefined, this)
+      }, undefined, false, undefined, this),
+      open && /* @__PURE__ */ jsxDEV10("div", {
+        ref: menuRef,
+        id: listboxId,
+        role: "listbox",
+        style: {
+          ...menuStyle,
+          background: t7.colorSurfacePanel,
+          border: `1px solid ${t7.colorBorder}`,
+          borderRadius: t7.radiusMd,
+          padding: t7.spaceXs,
+          zIndex: 100,
+          boxShadow: t7.shadowMd,
+          maxHeight: "16rem",
+          overflowY: "auto",
+          boxSizing: "border-box"
+        },
+        children: optionList.map((opt, idx) => {
+          const isSelected = opt.value === currentValue;
+          const isFocused = focusedIndex === idx;
+          const classes = [
+            "alttab-select-option",
+            isSelected ? "alttab-select-option--selected" : "",
+            isFocused ? "alttab-select-option--focused" : "",
+            opt.disabled ? "alttab-select-option--disabled" : ""
+          ].filter(Boolean).join(" ");
+          return /* @__PURE__ */ jsxDEV10("button", {
+            id: `alttab-select-opt-${opt.value}`,
+            type: "button",
+            role: "option",
+            "aria-selected": isSelected,
+            "aria-disabled": opt.disabled || undefined,
+            className: classes,
+            onClick: () => selectOption(opt),
+            onMouseEnter: () => {
+              if (!opt.disabled)
+                setFocusedIndex(idx);
+            },
+            children: opt.label
+          }, opt.value, false, undefined, this);
+        })
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+var wrapperStyle = {
+  position: "relative",
+  display: "block",
+  width: "100%"
+};
+var triggerBaseStyle = {
+  display: "block",
+  width: "100%",
+  padding: `${t7.spaceSm} ${t7.spaceMd}`,
+  fontSize: t7.fontSizeSm,
+  lineHeight: t7.lineHeightTight,
+  fontFamily: t7.fontSans,
+  color: t7.colorText,
+  background: t7.colorSurfaceInput,
+  border: `1px solid ${t7.colorBorder}`,
+  borderRadius: t7.radiusMd,
+  outline: "none",
+  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  boxSizing: "border-box",
+  cursor: "pointer",
+  textAlign: "left",
+  paddingRight: t7.space2xl
+};
+var chevronStyle = {
+  position: "absolute",
+  right: t7.spaceSm,
+  top: t7.spaceSm,
+  pointerEvents: "none",
+  color: t7.colorTextSecondary,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  height: `calc(${t7.fontSizeSm} * ${t7.lineHeightTight})`
+};
+var errorBorderStyle3 = {
+  borderColor: t7.colorBorderError
+};
+var disabledStyle3 = {
+  background: t7.colorSurfaceDisabled,
+  color: t7.colorTextDisabled,
+  cursor: "not-allowed"
+};
+var placeholderStyle = {
+  color: t7.colorTextPlaceholder
+};
+function ChevronSVG({ rotated }) {
+  return /* @__PURE__ */ jsxDEV10("svg", {
+    width: "12",
+    height: "12",
+    viewBox: "0 0 12 12",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    style: {
+      transition: "transform 150ms ease",
+      transform: rotated ? "rotate(180deg)" : "none"
+    },
+    children: /* @__PURE__ */ jsxDEV10("path", {
+      d: "M2.22 4.47a.75.75 0 0 1 1.06 0L6 7.19l2.72-2.72a.75.75 0 1 1 1.06 1.06L6 9.31 2.22 5.53a.75.75 0 0 1 0-1.06z",
+      fill: "currentColor"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+// src/components/Badge/Badge.tsx
+import { forwardRef as forwardRef10 } from "react";
+import { semantic as t8 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV11 } from "react/jsx-dev-runtime";
+var variantStyles3 = {
+  default: {
+    border: `1px solid ${t8.colorBorder}`,
+    color: t8.colorTextSecondary
+  },
+  success: {
+    background: t8.colorSuccessBg,
+    color: t8.colorSuccess
+  },
+  warning: {
+    background: t8.colorWarningBg,
+    color: t8.colorWarning
+  },
+  error: {
+    background: t8.colorErrorBg,
+    color: t8.colorError
+  },
+  info: {
+    background: t8.colorInfoBg,
+    color: t8.colorInfo
+  }
+};
+var baseStyles2 = {
+  display: "inline-block",
+  padding: `${t8.spaceXs} ${t8.spaceSm}`,
+  borderRadius: t8.radiusFull,
+  fontSize: t8.fontSizeXs,
+  fontWeight: t8.fontWeightSemibold,
+  fontFamily: t8.fontSans,
+  textTransform: "uppercase",
+  letterSpacing: t8.letterSpacingWide
+};
+var Badge = forwardRef10(function Badge2({
+  children,
+  variant = "default",
+  color,
+  style,
+  ...rest
+}, ref) {
+  const colorStyles = color ? { background: `color-mix(in srgb, ${color} 14%, transparent)`, color } : undefined;
+  return /* @__PURE__ */ jsxDEV11("span", {
+    ref,
+    ...rest,
+    style: {
+      ...baseStyles2,
+      ...colorStyles ?? variantStyles3[variant],
+      ...style
+    },
+    children
+  }, undefined, false, undefined, this);
+});
+// src/components/IconButton/IconButton.tsx
+import { forwardRef as forwardRef11 } from "react";
+import { semantic as t9 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV12 } from "react/jsx-dev-runtime";
+var IconButton = forwardRef11(function IconButton2({
+  icon,
+  size = 24,
+  badge,
+  fontClass,
+  style,
+  ...props
+}, ref) {
+  return /* @__PURE__ */ jsxDEV12("button", {
+    ref,
+    style: {
+      position: "relative",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: 36,
+      height: 36,
+      borderRadius: t9.radiusFull,
+      background: "transparent",
+      border: "none",
+      color: t9.colorTextMuted,
+      cursor: "pointer",
+      padding: 0,
+      ...style
+    },
+    ...props,
+    children: [
+      /* @__PURE__ */ jsxDEV12(Icon, {
+        name: icon,
+        size,
+        fontClass
+      }, undefined, false, undefined, this),
+      badge && /* @__PURE__ */ jsxDEV12("span", {
+        style: {
+          position: "absolute",
+          top: 2,
+          right: 2,
+          width: 8,
+          height: 8,
+          borderRadius: t9.radiusFull,
+          background: t9.colorError,
+          border: `2px solid ${t9.colorSurface}`
+        }
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/Overlay/Overlay.tsx
+import { forwardRef as forwardRef12 } from "react";
+import { semantic as t10 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV13 } from "react/jsx-dev-runtime";
+var Overlay = forwardRef12(function Overlay2({
+  onClick,
+  zIndex = 100,
+  style
+}, ref) {
+  return /* @__PURE__ */ jsxDEV13("div", {
+    ref,
+    role: "presentation",
+    onClick,
+    style: {
+      position: "fixed",
+      inset: 0,
+      background: t10.colorSurfaceOverlay,
+      zIndex,
+      ...style
+    }
+  }, undefined, false, undefined, this);
+});
+// src/components/Skeleton/Skeleton.tsx
+import { forwardRef as forwardRef13 } from "react";
+import { semantic as t11 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV14 } from "react/jsx-dev-runtime";
+var Skeleton = forwardRef13(function Skeleton2({
+  width = "100%",
+  height = 16,
+  borderRadius = t11.radiusMd,
+  style
+}, ref) {
+  return /* @__PURE__ */ jsxDEV14("div", {
+    ref,
+    "aria-hidden": "true",
+    style: {
+      width,
+      height,
+      borderRadius,
+      background: t11.colorSurfaceRaised,
+      ...style
+    }
+  }, undefined, false, undefined, this);
+});
+var CardSkeleton = forwardRef13(function CardSkeleton2({ style }, ref) {
+  return /* @__PURE__ */ jsxDEV14("div", {
+    ref,
+    "aria-hidden": "true",
+    style: {
+      borderRadius: t11.radiusLg,
+      border: `1px solid ${t11.colorBorder}`,
+      padding: t11.spaceLg,
+      display: "flex",
+      flexDirection: "column",
+      gap: t11.spaceSm,
+      ...style
+    },
+    children: [
+      /* @__PURE__ */ jsxDEV14(Skeleton, {
+        width: "60%",
+        height: 20
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV14(Skeleton, {
+        width: "100%",
+        height: 14
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV14(Skeleton, {
+        width: "80%",
+        height: 14
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+var RowSkeleton = forwardRef13(function RowSkeleton2({ style }, ref) {
+  return /* @__PURE__ */ jsxDEV14("div", {
+    ref,
+    "aria-hidden": "true",
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: t11.spaceSm,
+      padding: `${t11.spaceSm} 0`,
+      ...style
+    },
+    children: [
+      /* @__PURE__ */ jsxDEV14(Skeleton, {
+        width: 32,
+        height: 32,
+        borderRadius: t11.radiusFull
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV14("div", {
+        style: { flex: 1, display: "flex", flexDirection: "column", gap: t11.spaceXs },
+        children: [
+          /* @__PURE__ */ jsxDEV14(Skeleton, {
+            width: "40%",
+            height: 14
+          }, undefined, false, undefined, this),
+          /* @__PURE__ */ jsxDEV14(Skeleton, {
+            width: "70%",
+            height: 12
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/ProgressBar/ProgressBar.tsx
+import { forwardRef as forwardRef14 } from "react";
+import { semantic as t12 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV15 } from "react/jsx-dev-runtime";
+var ProgressBar = forwardRef14(function ProgressBar2({
+  segments,
+  height = 6,
+  "aria-label": ariaLabel,
+  style
+}, ref) {
+  const total = segments.reduce((sum, s) => sum + s.value, 0);
+  return /* @__PURE__ */ jsxDEV15("div", {
+    ref,
+    role: "progressbar",
+    "aria-valuenow": total,
+    "aria-valuemin": 0,
+    "aria-valuemax": 100,
+    "aria-label": ariaLabel,
+    style: {
+      width: "100%",
+      height,
+      borderRadius: height / 2,
+      overflow: "hidden",
+      display: "flex",
+      background: t12.colorSurfaceRaised,
+      ...style
+    },
+    children: segments.map((segment, i) => {
+      const pct = total > 0 ? segment.value / total * 100 : 0;
+      return /* @__PURE__ */ jsxDEV15("div", {
+        title: segment.label ? `${segment.label}: ${segment.value}` : String(segment.value),
+        style: {
+          width: `${pct}%`,
+          height: "100%",
+          background: segment.color
+        }
+      }, i, false, undefined, this);
+    })
+  }, undefined, false, undefined, this);
+});
+// src/components/EmptyState/EmptyState.tsx
+import { forwardRef as forwardRef15 } from "react";
+import { semantic as t13 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV16 } from "react/jsx-dev-runtime";
+var EmptyState = forwardRef15(function EmptyState2({
+  icon,
+  message,
+  variant = "plain",
+  style,
+  children,
+  action
+}, ref) {
+  const content = /* @__PURE__ */ jsxDEV16(Stack, {
+    align: "center",
+    gap: "sm",
+    style: { padding: t13.spaceXl, ...style },
+    children: [
+      /* @__PURE__ */ jsxDEV16(Icon, {
+        name: icon,
+        size: 32,
+        style: { color: t13.colorTextMuted }
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV16("span", {
+        style: {
+          color: t13.colorTextSecondary,
+          fontSize: t13.fontSizeSm,
+          textAlign: "center",
+          fontFamily: t13.fontSans
+        },
+        children: message
+      }, undefined, false, undefined, this),
+      children,
+      action && /* @__PURE__ */ jsxDEV16("div", {
+        style: { marginTop: t13.spaceSm },
+        children: action
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+  if (variant === "card") {
+    return /* @__PURE__ */ jsxDEV16(Card, {
+      ref,
+      variant: "flat",
+      children: content
+    }, undefined, false, undefined, this);
+  }
+  return /* @__PURE__ */ jsxDEV16("div", {
+    ref,
+    children: content
+  }, undefined, false, undefined, this);
+});
+// src/components/Pagination/Pagination.tsx
+import { forwardRef as forwardRef16 } from "react";
+import { semantic as t14 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV17 } from "react/jsx-dev-runtime";
+var defaultLabels = {
+  previous: "Previous",
+  next: "Next",
+  pageOf: (page, total) => `Page ${page} of ${total}`
+};
+var Pagination = forwardRef16(function Pagination2({
+  page,
+  totalPages,
+  total,
+  onPageChange,
+  labels,
+  className,
+  style
+}, ref) {
+  const resolvedLabels = { ...defaultLabels, ...labels };
+  return /* @__PURE__ */ jsxDEV17("div", {
+    ref,
+    className,
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: t14.spaceSm,
+      ...style
+    },
+    children: [
+      /* @__PURE__ */ jsxDEV17(Button, {
+        variant: "ghost",
+        size: "sm",
+        disabled: page <= 1,
+        onClick: () => onPageChange(page - 1),
+        children: resolvedLabels.previous
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV17("span", {
+        style: {
+          color: t14.colorTextMuted,
+          fontSize: t14.fontSizeSm,
+          fontFamily: t14.fontSans
+        },
+        children: [
+          resolvedLabels.pageOf(page, totalPages),
+          " (",
+          total,
+          " total)"
+        ]
+      }, undefined, true, undefined, this),
+      /* @__PURE__ */ jsxDEV17(Button, {
+        variant: "ghost",
+        size: "sm",
+        disabled: page >= totalPages,
+        onClick: () => onPageChange(page + 1),
+        children: resolvedLabels.next
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/PageHeader/PageHeader.tsx
+import { createElement, forwardRef as forwardRef17 } from "react";
+import { semantic as t15 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV18 } from "react/jsx-dev-runtime";
+var PageHeader = forwardRef17(function PageHeader2({
+  title,
+  subtitle,
+  indicator,
+  trailing,
+  style,
+  className,
+  level = 2
+}, ref) {
+  const heading = createElement(`h${level}`, {
+    style: {
+      margin: 0,
+      fontFamily: t15.fontSans,
+      fontWeight: t15.fontWeightBold,
+      color: t15.colorText
+    }
+  }, title);
+  return /* @__PURE__ */ jsxDEV18("div", {
+    ref,
+    className,
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "flex-end",
+      ...style
+    },
+    children: [
+      /* @__PURE__ */ jsxDEV18("div", {
+        children: [
+          /* @__PURE__ */ jsxDEV18("div", {
+            style: { display: "flex", alignItems: "center", gap: t15.spaceSm },
+            children: [
+              heading,
+              indicator
+            ]
+          }, undefined, true, undefined, this),
+          subtitle && /* @__PURE__ */ jsxDEV18("span", {
+            style: {
+              color: t15.colorTextMuted,
+              fontSize: t15.fontSizeSm
+            },
+            children: subtitle
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this),
+      trailing && /* @__PURE__ */ jsxDEV18("div", {
+        children: trailing
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/TagChip/TagChip.tsx
+import { forwardRef as forwardRef18 } from "react";
+import { semantic as t16 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV19 } from "react/jsx-dev-runtime";
+var TagChip = forwardRef18(function TagChip2({
+  name,
+  prefix,
+  onRemove,
+  style
+}, ref) {
+  return /* @__PURE__ */ jsxDEV19("span", {
+    ref,
+    style: {
+      display: "inline-flex",
+      alignItems: "center",
+      gap: t16.spaceXs,
+      fontSize: t16.fontSizeXs,
+      color: t16.colorActionPrimary,
+      background: t16.colorSurfaceRaised,
+      borderRadius: t16.radiusFull,
+      padding: "2px 8px",
+      fontFamily: t16.fontSans,
+      ...style
+    },
+    children: [
+      prefix && /* @__PURE__ */ jsxDEV19("span", {
+        style: { color: t16.colorTextMuted },
+        children: [
+          prefix,
+          ":"
+        ]
+      }, undefined, true, undefined, this),
+      name,
+      onRemove && /* @__PURE__ */ jsxDEV19(IconButton, {
+        icon: "close",
+        size: 12,
+        onClick: onRemove,
+        "aria-label": `Remove ${name}`,
+        style: { width: 18, height: 18, color: t16.colorActionPrimary }
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/ExpandableCard/ExpandableCard.tsx
+import { semantic as t17 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef19, useState as useState3, useId as useId2 } from "react";
+import { jsxDEV as jsxDEV20 } from "react/jsx-dev-runtime";
+var ExpandableCard = forwardRef19(function ExpandableCard2({
+  title,
+  children,
+  defaultOpen = false,
+  open: controlledOpen,
+  onToggle,
+  variant = "default",
+  style,
+  headerAction
+}, ref) {
+  const [internalOpen, setInternalOpen] = useState3(defaultOpen);
+  const isOpen = controlledOpen !== undefined ? controlledOpen : internalOpen;
+  const panelId = useId2();
+  const handleToggle = () => {
+    const next = !isOpen;
+    if (controlledOpen === undefined) {
+      setInternalOpen(next);
+    }
+    onToggle?.(next);
+  };
+  return /* @__PURE__ */ jsxDEV20(Card, {
+    ref,
+    variant,
+    padding: "xs",
+    style,
+    children: [
+      /* @__PURE__ */ jsxDEV20("div", {
+        style: { display: "flex", alignItems: "center", justifyContent: "space-between" },
+        children: [
+          /* @__PURE__ */ jsxDEV20("button", {
+            type: "button",
+            onClick: handleToggle,
+            "aria-expanded": isOpen,
+            "aria-controls": panelId,
+            style: {
+              display: "flex",
+              alignItems: "center",
+              gap: t17.spaceSm,
+              padding: `${t17.spaceSm} ${t17.spaceMd}`,
+              cursor: "pointer",
+              borderRadius: t17.radiusMd,
+              transition: "background 150ms ease",
+              background: "none",
+              border: "none",
+              color: "inherit",
+              font: "inherit",
+              flex: 1
+            },
+            children: [
+              /* @__PURE__ */ jsxDEV20("span", {
+                style: {
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 20,
+                  height: 20,
+                  lineHeight: 1,
+                  color: "inherit",
+                  transition: "transform 200ms ease",
+                  transform: isOpen ? "rotate(90deg)" : "rotate(0deg)"
+                },
+                children: /* @__PURE__ */ jsxDEV20(IconChevronRight, {
+                  size: 20
+                }, undefined, false, undefined, this)
+              }, undefined, false, undefined, this),
+              /* @__PURE__ */ jsxDEV20("span", {
+                style: {
+                  fontWeight: t17.fontWeightSemibold,
+                  fontFamily: t17.fontSans,
+                  color: t17.colorText,
+                  fontSize: t17.fontSizeSm
+                },
+                children: title
+              }, undefined, false, undefined, this)
+            ]
+          }, undefined, true, undefined, this),
+          headerAction && /* @__PURE__ */ jsxDEV20("div", {
+            style: { padding: `0 ${t17.spaceMd}` },
+            children: headerAction
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this),
+      /* @__PURE__ */ jsxDEV20("div", {
+        id: panelId,
+        role: "region",
+        style: {
+          display: "grid",
+          gridTemplateRows: isOpen ? "1fr" : "0fr",
+          transition: "grid-template-rows 200ms ease"
+        },
+        children: /* @__PURE__ */ jsxDEV20("div", {
+          style: { overflow: "hidden" },
+          children: /* @__PURE__ */ jsxDEV20("div", {
+            style: { padding: `${t17.spaceSm} ${t17.spaceMd} ${t17.spaceMd}` },
+            children
+          }, undefined, false, undefined, this)
+        }, undefined, false, undefined, this)
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/ConfirmDialog/ConfirmDialog.tsx
+import { forwardRef as forwardRef21, useId as useId4, useState as useState4 } from "react";
+import { semantic as t19 } from "../../core/dist/index.js";
+
+// src/components/ModalShell/ModalShell.tsx
+import { forwardRef as forwardRef20, useEffect as useEffect4, useId as useId3, useRef as useRef3 } from "react";
+import { createPortal } from "react-dom";
+import { semantic as t18 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV21, Fragment } from "react/jsx-dev-runtime";
+var modalHeadingStyle = Object.freeze({
+  margin: 0,
+  fontWeight: t18.fontWeightSemibold,
+  fontFamily: t18.fontSans,
+  color: t18.colorText,
+  fontSize: t18.fontSizeLg
+});
+var modalFooterStyle = Object.freeze({
+  display: "flex",
+  justifyContent: "flex-end",
+  gap: t18.spaceSm
+});
+var FOCUSABLE_SELECTOR2 = [
+  "a[href]",
+  "button:not(:disabled)",
+  "input:not(:disabled)",
+  "select:not(:disabled)",
+  "textarea:not(:disabled)",
+  '[tabindex]:not([tabindex="-1"])'
+].join(", ");
+var ModalShell = forwardRef20(function ModalShell2({
+  onClose,
+  children,
+  maxWidth = 480,
+  zIndex = 200,
+  style,
+  titleId,
+  "aria-label": ariaLabel,
+  role = "dialog"
+}, ref) {
+  const generatedId = useId3();
+  const resolvedLabelId = titleId ?? generatedId;
+  const internalRef = useRef3(null);
+  const setRefs = (node) => {
+    internalRef.current = node;
+    if (typeof ref === "function") {
+      ref(node);
+    } else if (ref) {
+      ref.current = node;
+    }
+  };
+  useFocusTrap(internalRef);
+  useEffect4(() => {
+    const previouslyFocused = document.activeElement;
+    const container = internalRef.current;
+    if (container) {
+      const firstFocusable = container.querySelector(FOCUSABLE_SELECTOR2);
+      if (firstFocusable) {
+        firstFocusable.focus();
+      } else {
+        container.focus();
+      }
+    }
+    return () => {
+      previouslyFocused?.focus();
+    };
+  }, []);
+  useEffect4(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
+  return createPortal(/* @__PURE__ */ jsxDEV21(Fragment, {
+    children: [
+      /* @__PURE__ */ jsxDEV21(Overlay, {
+        onClick: onClose,
+        zIndex
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV21("div", {
+        style: {
+          position: "fixed",
+          inset: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: zIndex + 1,
+          pointerEvents: "none"
+        },
+        children: /* @__PURE__ */ jsxDEV21("div", {
+          ref: setRefs,
+          role,
+          "aria-modal": "true",
+          "aria-labelledby": ariaLabel ? undefined : resolvedLabelId,
+          "aria-label": ariaLabel,
+          tabIndex: -1,
+          style: {
+            background: t18.colorSurface,
+            color: t18.colorText,
+            borderRadius: t18.radiusLg,
+            boxShadow: t18.shadowLg,
+            border: `1px solid ${t18.colorBorder}`,
+            padding: t18.spaceXl,
+            maxWidth,
+            width: "100%",
+            pointerEvents: "auto",
+            outline: "none",
+            ...style
+          },
+          children
+        }, undefined, false, undefined, this)
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this), document.body);
+});
+// src/components/ConfirmDialog/ConfirmDialog.tsx
+import { jsxDEV as jsxDEV22 } from "react/jsx-dev-runtime";
+var variantButtonMap = {
+  destructive: "destructive",
+  info: "primary",
+  warning: "primary"
+};
+var ConfirmDialog = forwardRef21(function ConfirmDialog2({
+  title,
+  message,
+  confirmLabel = "Confirm",
+  onConfirm,
+  onCancel,
+  children,
+  variant = "destructive"
+}, ref) {
+  const [loading, setLoading] = useState4(false);
+  const titleId = useId4();
+  const handleConfirm = async () => {
+    setLoading(true);
+    try {
+      await onConfirm();
+    } finally {
+      setLoading(false);
+    }
+  };
+  return /* @__PURE__ */ jsxDEV22(ModalShell, {
+    ref,
+    onClose: onCancel,
+    role: "alertdialog",
+    titleId,
+    children: [
+      /* @__PURE__ */ jsxDEV22("h2", {
+        id: titleId,
+        style: modalHeadingStyle,
+        children: title
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV22("p", {
+        style: {
+          margin: `${t19.spaceSm} 0 ${children ? "0" : t19.spaceLg}`,
+          color: t19.colorTextMuted,
+          fontSize: t19.fontSizeSm,
+          fontFamily: t19.fontSans
+        },
+        children: message
+      }, undefined, false, undefined, this),
+      children && /* @__PURE__ */ jsxDEV22("div", {
+        style: { margin: `${t19.spaceSm} 0 ${t19.spaceLg}` },
+        children
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV22("div", {
+        style: modalFooterStyle,
+        children: [
+          /* @__PURE__ */ jsxDEV22(Button, {
+            variant: "ghost",
+            onClick: onCancel,
+            disabled: loading,
+            autoFocus: true,
+            children: "Cancel"
+          }, undefined, false, undefined, this),
+          /* @__PURE__ */ jsxDEV22(Button, {
+            variant: variantButtonMap[variant],
+            onClick: handleConfirm,
+            disabled: loading,
+            children: loading ? "Loading..." : confirmLabel
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/FormModal/FormModal.tsx
+import { forwardRef as forwardRef22, useId as useId5, useState as useState5 } from "react";
+import { semantic as t20 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV23 } from "react/jsx-dev-runtime";
+var FormModal = forwardRef22(function FormModal2({
+  title,
+  children,
+  onSubmit,
+  onCancel,
+  submitLabel = "Submit",
+  cancelLabel = "Cancel",
+  loading: externalLoading,
+  maxWidth
+}, ref) {
+  const [internalLoading, setInternalLoading] = useState5(false);
+  const titleId = useId5();
+  const isLoading = externalLoading || internalLoading;
+  const handleSubmit = async () => {
+    setInternalLoading(true);
+    try {
+      await onSubmit();
+    } finally {
+      setInternalLoading(false);
+    }
+  };
+  return /* @__PURE__ */ jsxDEV23(ModalShell, {
+    ref,
+    onClose: onCancel,
+    titleId,
+    maxWidth,
+    children: [
+      /* @__PURE__ */ jsxDEV23("h2", {
+        id: titleId,
+        style: modalHeadingStyle,
+        children: title
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV23("div", {
+        style: {
+          margin: `${t20.spaceMd} 0 ${t20.spaceLg}`,
+          overflowY: "auto"
+        },
+        children
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV23("div", {
+        style: modalFooterStyle,
+        children: [
+          /* @__PURE__ */ jsxDEV23(Button, {
+            variant: "ghost",
+            onClick: onCancel,
+            children: cancelLabel
+          }, undefined, false, undefined, this),
+          /* @__PURE__ */ jsxDEV23(Button, {
+            variant: "primary",
+            onClick: handleSubmit,
+            loading: isLoading,
+            children: submitLabel
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/StatusDot/StatusDot.tsx
+import { forwardRef as forwardRef23 } from "react";
+import { semantic as t21, useInjectStyles as useInjectStyles5 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV24 } from "react/jsx-dev-runtime";
+var variantColors = {
+  default: t21.colorTextMuted,
+  success: t21.colorSuccess,
+  warning: t21.colorWarning,
+  error: t21.colorError,
+  info: t21.colorInfo
+};
+var PULSE_STYLES_ID = "4lt7ab-status-dot-pulse";
+var PULSE_STYLES_CSS = `
 @keyframes statusDotPulse {
   0% { box-shadow: 0 0 0 0 var(--status-dot-color); opacity: 1; }
   70% { box-shadow: 0 0 0 6px var(--status-dot-color); opacity: 0; }
@@ -177,13 +2420,94 @@ import{useEffect as Y6}from"react";var V6=["a[href]","button:not(:disabled)","in
     animation: none;
   }
 }
-`,aJ=$3(function({variant:X="default",color:$,size:P=8,animate:Q="none","aria-label":Z,style:N},H){let W=$??Z3[X],q=Q==="pulse";return Q3(N3,H3),q3("span",{ref:H,role:Z?"img":void 0,"aria-label":Z,"aria-hidden":Z?void 0:!0,"data-status-dot-pulse":q||void 0,style:{display:"inline-block",width:P,height:P,borderRadius:h1.radiusFull,background:W,flexShrink:0,...q?{"--status-dot-color":W}:void 0,...N}})});import{forwardRef as W3,useEffect as U3,useRef as j0}from"react";import{semantic as G3}from "../../core/dist/index.js";import{useTheme as K3}from "../../core/dist/index.js";import{jsx as f0,Fragment as A3}from"react/jsx-runtime";var P7=W3(function({children:X,global:$=!1,style:P},Q){let{resolved:Z}=K3(),N=j0(""),H=j0("");if(U3(()=>{if(!$)return;return N.current=document.body.style.backgroundColor,H.current=document.body.style.color,document.body.style.backgroundColor="var(--color-surface-page)",document.body.style.color="var(--color-text)",()=>{document.body.style.backgroundColor=N.current,document.body.style.color=H.current}},[$,Z]),$)return f0(A3,{children:X});return f0("div",{ref:Q,style:{background:G3.colorSurfacePage,...P},children:X})});import{forwardRef as V1,Children as u0,isValidElement as c0,cloneElement as o0}from"react";import{semantic as F}from "../../core/dist/index.js";import{useInjectStyles as z3}from "../../core/dist/index.js";import{jsx as Z1}from"react/jsx-runtime";var q7={xs:F.spaceXs,sm:F.spaceSm,md:F.spaceMd,lg:F.spaceLg},M3="4lt7ab-table-row",Y3=`
+`;
+var StatusDot = forwardRef23(function StatusDot2({
+  variant = "default",
+  color,
+  size = 8,
+  animate = "none",
+  "aria-label": ariaLabel,
+  style
+}, ref) {
+  const resolvedColor = color ?? variantColors[variant];
+  const isPulsing = animate === "pulse";
+  useInjectStyles5(PULSE_STYLES_ID, PULSE_STYLES_CSS);
+  return /* @__PURE__ */ jsxDEV24("span", {
+    ref,
+    role: ariaLabel ? "img" : undefined,
+    "aria-label": ariaLabel,
+    "aria-hidden": ariaLabel ? undefined : true,
+    "data-status-dot-pulse": isPulsing || undefined,
+    style: {
+      display: "inline-block",
+      width: size,
+      height: size,
+      borderRadius: t21.radiusFull,
+      background: resolvedColor,
+      flexShrink: 0,
+      ...isPulsing ? { "--status-dot-color": resolvedColor } : undefined,
+      ...style
+    }
+  }, undefined, false, undefined, this);
+});
+// src/components/ThemeSurface/ThemeSurface.tsx
+import { forwardRef as forwardRef24, useEffect as useEffect5, useRef as useRef4 } from "react";
+import { semantic as t22 } from "../../core/dist/index.js";
+import { useTheme as useTheme2 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV25, Fragment as Fragment2 } from "react/jsx-dev-runtime";
+var ThemeSurface = forwardRef24(function ThemeSurface2({
+  children,
+  global = false,
+  style
+}, ref) {
+  const { resolved } = useTheme2();
+  const prevBodyBgRef = useRef4("");
+  const prevBodyColorRef = useRef4("");
+  useEffect5(() => {
+    if (!global)
+      return;
+    prevBodyBgRef.current = document.body.style.backgroundColor;
+    prevBodyColorRef.current = document.body.style.color;
+    document.body.style.backgroundColor = "var(--color-surface-page)";
+    document.body.style.color = "var(--color-text)";
+    return () => {
+      document.body.style.backgroundColor = prevBodyBgRef.current;
+      document.body.style.color = prevBodyColorRef.current;
+    };
+  }, [global, resolved]);
+  if (global) {
+    return /* @__PURE__ */ jsxDEV25(Fragment2, {
+      children
+    }, undefined, false, undefined, this);
+  }
+  return /* @__PURE__ */ jsxDEV25("div", {
+    ref,
+    style: {
+      background: t22.colorSurfacePage,
+      ...style
+    },
+    children
+  }, undefined, false, undefined, this);
+});
+// src/components/Table/Table.tsx
+import { forwardRef as forwardRef25, Children, isValidElement as isValidElement2, cloneElement as cloneElement2 } from "react";
+import { semantic as t23 } from "../../core/dist/index.js";
+import { useInjectStyles as useInjectStyles6 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV26 } from "react/jsx-dev-runtime";
+var spaceMap = {
+  xs: t23.spaceXs,
+  sm: t23.spaceSm,
+  md: t23.spaceMd,
+  lg: t23.spaceLg
+};
+var TABLE_STYLES_ID = "4lt7ab-table-row";
+var TABLE_STYLES_CSS = `
 [data-table-row-hoverable]:hover > td {
-  background: color-mix(in srgb, ${F.colorText} 8%, transparent);
+  background: color-mix(in srgb, ${t23.colorText} 8%, transparent);
 }
 [data-table-row-selected] > td {
-  background: ${F.colorSurfaceRaised};
-  border-bottom-color: ${F.colorSurfaceRaised};
+  background: ${t23.colorSurfaceRaised};
+  border-bottom-color: ${t23.colorSurfaceRaised};
 }
 [data-table-row-selected] > td:first-child {
   position: relative;
@@ -195,40 +2519,1214 @@ import{useEffect as Y6}from"react";var V6=["a[href]","button:not(:disabled)","in
   top: 0;
   bottom: 0;
   width: 3px;
-  background: ${F.colorActionPrimary};
+  background: ${t23.colorActionPrimary};
   pointer-events: none;
 }
-`,V3={default:{border:`1px solid ${F.colorBorder}`,borderRadius:F.radiusLg,boxShadow:F.shadowSm},flat:{}},W7=V1(function({variant:X="default",density:$="md",children:P,style:Q,...Z},N){return z3(M3,Y3),Z1("div",{ref:N,style:{overflowX:"auto",...V3[X],...Q},...Z,children:Z1("table",{"data-table-density":$,style:{width:"100%",borderCollapse:"collapse",fontSize:F.fontSizeSm,fontFamily:F.fontSans,color:F.colorText},children:P})})}),U7=V1(function({children:X,style:$,...P},Q){return Z1("thead",{ref:Q,style:$,...P,children:Z1("tr",{children:X})})}),G7=V1(function({align:X="left",width:$,children:P,style:Q,...Z},N){return Z1("th",{ref:N,style:{padding:`${F.spaceSm} ${F.spaceMd}`,textAlign:X,fontWeight:F.fontWeightSemibold,fontSize:F.fontSizeXs,color:F.colorTextMuted,textTransform:"uppercase",letterSpacing:F.letterSpacingWide,borderBottom:`2px solid ${F.colorBorder}`,whiteSpace:"nowrap",width:typeof $==="number"?`${$}px`:$,...Q},...Z,children:P})}),K7=V1(function({children:X,...$},P){let Q=0,Z=u0.map(X,(N)=>{if(!c0(N))return N;let H=N.props;if(N.type===_3||N.type===B3)return N;let W=Q%2===1;if(Q++,!W||H.selected)return N;let q=u0.map(H.children,(G)=>{if(!c0(G))return G;let z=G.props.style;return o0(G,{style:{...z,background:"color-mix(in srgb, var(--color-text) 5%, transparent)"}})});return o0(N,{},q)});return Z1("tbody",{ref:P,...$,children:Z})}),A7=V1(function({selected:X=!1,hoverable:$=!1,children:P,style:Q,onClick:Z,onKeyDown:N,...H},W){return Z1("tr",{ref:W,"data-table-row-hoverable":$||void 0,"data-table-row-selected":X||void 0,tabIndex:Z?0:void 0,onClick:Z,onKeyDown:Z?(G)=>{if(G.key==="Enter"||G.key===" ")G.preventDefault(),Z(G);N?.(G)}:N,style:{cursor:Z?"pointer":void 0,...Q},...H,children:P})}),z7=V1(function({align:X="left",truncate:$=!1,muted:P=!1,width:Q,children:Z,style:N,...H},W){return Z1("td",{ref:W,style:{padding:`${F.spaceSm} ${F.spaceMd}`,borderBottom:`1px solid ${F.colorBorder}`,verticalAlign:"middle",textAlign:X,color:P?F.colorTextMuted:void 0,width:typeof Q==="number"?`${Q}px`:Q,...$?{maxWidth:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}:{},...N},...H,children:Z})}),_3=V1(function({colSpan:X,children:$,style:P,...Q},Z){return Z1("tr",{ref:Z,style:{cursor:"default",...P},...Q,children:Z1("td",{colSpan:X,style:{padding:`${F.spaceXs} ${F.spaceMd}`,background:F.colorSurfaceRaised,borderBottom:`1px solid ${F.colorBorder}`,fontSize:F.fontSizeXs,fontWeight:F.fontWeightBold,letterSpacing:F.letterSpacingWide,textTransform:"uppercase",color:F.colorTextMuted,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"},children:$})})}),B3=V1(function({colSpan:X,children:$,style:P,...Q},Z){return Z1("tr",{ref:Z,style:P,...Q,children:Z1("td",{colSpan:X,style:{padding:`${F.spaceXl} ${F.spaceMd}`,textAlign:"center",color:F.colorTextMuted,fontSize:F.fontSizeSm},children:$})})});import{forwardRef as C3,useState as t1,useRef as v3,useCallback as e1,useEffect as y2}from"react";import{semantic as C,useInjectStyles as m3}from "../../core/dist/index.js";import{semantic as a1}from "../../core/dist/index.js";function k3(J,X){return new Date(J,X+1,0).getDate()}function F3(J,X){return new Date(J,X,1).getDay()}function I1(J,X){return J.getFullYear()===X.getFullYear()&&J.getMonth()===X.getMonth()&&J.getDate()===X.getDate()}function n0(J,X,$){let P=x1(J).getTime(),Q=x1(X).getTime(),Z=x1($).getTime();return P>=Q&&P<=Z}function S2(J,X,$,P){let Q=x1(J).getTime();if(X&&Q<x1(X).getTime())return!0;if($&&Q>x1($).getTime())return!0;if(P){for(let Z of P)if(I1(J,Z))return!0}return!1}function l1(J){let X=J.getFullYear(),$=String(J.getMonth()+1).padStart(2,"0"),P=String(J.getDate()).padStart(2,"0");return`${X}-${$}-${P}`}function x1(J){return new Date(J.getFullYear(),J.getMonth(),J.getDate())}var r0=["January","February","March","April","May","June","July","August","September","October","November","December"],d0=["Su","Mo","Tu","We","Th","Fr","Sa"];function i0(J,X){let $=F3(J,X),P=[];for(let Z=$-1;Z>=0;Z--){let N=new Date(J,X,-Z);P.push(N)}let Q=k3(J,X);for(let Z=1;Z<=Q;Z++)P.push(new Date(J,X,Z));while(P.length<42){let Z=P.length-$-Q+1;P.push(new Date(J,X+1,Z))}return P}import{jsx as l0,jsxs as a0}from"react/jsx-runtime";var T3={display:"flex",alignItems:"center",justifyContent:"space-between",padding:`${a1.spaceXs} 0`},O3={fontSize:a1.fontSizeSm,fontWeight:a1.fontWeightSemibold,fontFamily:a1.fontSans,color:a1.colorText,margin:0,userSelect:"none"};function Y2({year:J,month:X,onPrev:$,onNext:P}){return a0("div",{style:T3,children:[l0(k1,{icon:"chevron-left","aria-label":"Previous month",size:16,onClick:$,style:{width:28,height:28}}),a0("span",{style:O3,children:[r0[X]," ",J]}),l0(k1,{icon:"chevron-right","aria-label":"Next month",size:16,onClick:P,style:{width:28,height:28}})]})}import{useCallback as E3,useRef as I3}from"react";import{semantic as s1}from "../../core/dist/index.js";import{semantic as N1}from "../../core/dist/index.js";import{jsx as s0}from"react/jsx-runtime";var L3={display:"flex",alignItems:"center",justifyContent:"center",width:N1.spaceXl,height:N1.spaceXl,border:"none",borderRadius:N1.radiusSm,fontSize:N1.fontSizeSm,fontFamily:N1.fontSans,cursor:"pointer",background:"transparent",color:N1.colorText,padding:0,transition:"background 120ms ease, color 120ms ease",outline:"none",boxSizing:"border-box"};function t0({date:J,currentMonth:X,today:$,rangeStart:P,rangeEnd:Q,isInRange:Z,isDisabled:N,scopeClass:H,onSelect:W,onKeyDown:q,tabIndex:G}){let z=J.getMonth()!==X,K=I1(J,$),U=P!==null&&I1(J,P),A=Q!==null&&I1(J,Q),_=U||A,Y={...L3,...z?{color:N1.colorTextMuted,opacity:0.5}:{},...K&&!_?{border:`1px solid ${N1.colorActionPrimary}`}:{},...Z&&!_?{background:`color-mix(in srgb, ${N1.colorActionPrimary} 15%, transparent)`}:{},..._?{background:N1.colorActionPrimary,color:N1.colorTextInverse}:{},...N?{color:N1.colorTextDisabled,pointerEvents:"none",cursor:"default",opacity:0.5}:{}},V=[H+"-day",...N?[]:[H+"-day--enabled"]].join(" ");return s0("td",{role:"gridcell",style:{padding:0},children:s0("button",{type:"button",className:V,style:Y,tabIndex:G,"aria-selected":_||Z&&!N||void 0,"aria-disabled":N||void 0,onClick:()=>{if(!N)W(J)},onKeyDown:(E)=>q(E,J),children:J.getDate()})})}import{jsx as j1,jsxs as D3}from"react/jsx-runtime";var R3={borderCollapse:"collapse",width:"100%",tableLayout:"fixed"},w3={fontSize:s1.fontSizeXs,fontFamily:s1.fontSans,fontWeight:s1.fontWeightMedium,color:s1.colorTextMuted,textAlign:"center",padding:`${s1.spaceXs} 0`,userSelect:"none"};function V2({year:J,month:X,rangeStart:$,rangeEnd:P,minDate:Q,maxDate:Z,disabledDates:N,scopeClass:H,focusedDate:W,onSelect:q,onFocusedDateChange:G}){let z=I3(new Date).current,K=i0(J,X),U=[];for(let V=0;V<6;V++)U.push(K.slice(V*7,V*7+7));let A=E3((V,E)=>{let L=null;switch(V.key){case"ArrowLeft":L=new Date(E.getFullYear(),E.getMonth(),E.getDate()-1);break;case"ArrowRight":L=new Date(E.getFullYear(),E.getMonth(),E.getDate()+1);break;case"ArrowUp":L=new Date(E.getFullYear(),E.getMonth(),E.getDate()-7);break;case"ArrowDown":L=new Date(E.getFullYear(),E.getMonth(),E.getDate()+7);break;case"Enter":case" ":if(V.preventDefault(),!S2(E,Q,Z,N))q(E);return;default:return}if(V.preventDefault(),L)G(L)},[Q,Z,N,q,G]),_=$&&P?$.getTime()<=P.getTime()?$:P:$,Y=$&&P?$.getTime()<=P.getTime()?P:$:P;return D3("table",{style:R3,role:"grid","aria-label":"Calendar",children:[j1("thead",{children:j1("tr",{children:d0.map((V)=>j1("th",{scope:"col",style:w3,children:V},V))})}),j1("tbody",{children:U.map((V,E)=>j1("tr",{children:V.map((L)=>{let h=`${L.getFullYear()}-${L.getMonth()}-${L.getDate()}`,a=S2(L,Q,Z,N),H1=_!==null&&Y!==null&&n0(L,_,Y),g=I1(L,W);return j1(t0,{date:L,currentMonth:X,today:z,rangeStart:_??null,rangeEnd:Y??null,isInRange:H1,isDisabled:a,scopeClass:H,onSelect:q,onKeyDown:A,tabIndex:g?0:-1},h)})},E))})]})}import{jsx as _2,jsxs as e0}from"react/jsx-runtime";var R1="alttab-drp",S3=`
-  .${R1}-day--enabled:hover {
-    background: ${C.colorSurfaceRaised} !important;
+`;
+var wrapperVariants = {
+  default: {
+    border: `1px solid ${t23.colorBorder}`,
+    borderRadius: t23.radiusLg,
+    boxShadow: t23.shadowSm
+  },
+  flat: {}
+};
+var Table = forwardRef25(function Table2({
+  variant = "default",
+  density = "md",
+  children,
+  style,
+  ...props
+}, ref) {
+  useInjectStyles6(TABLE_STYLES_ID, TABLE_STYLES_CSS);
+  return /* @__PURE__ */ jsxDEV26("div", {
+    ref,
+    style: {
+      overflowX: "auto",
+      ...wrapperVariants[variant],
+      ...style
+    },
+    ...props,
+    children: /* @__PURE__ */ jsxDEV26("table", {
+      "data-table-density": density,
+      style: {
+        width: "100%",
+        borderCollapse: "collapse",
+        fontSize: t23.fontSizeSm,
+        fontFamily: t23.fontSans,
+        color: t23.colorText
+      },
+      children
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+});
+var TableHeader = forwardRef25(function TableHeader2({ children, style, ...props }, ref) {
+  return /* @__PURE__ */ jsxDEV26("thead", {
+    ref,
+    style,
+    ...props,
+    children: /* @__PURE__ */ jsxDEV26("tr", {
+      children
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+});
+var TableHeaderCell = forwardRef25(function TableHeaderCell2({
+  align = "left",
+  width,
+  children,
+  style,
+  ...props
+}, ref) {
+  return /* @__PURE__ */ jsxDEV26("th", {
+    ref,
+    style: {
+      padding: `${t23.spaceSm} ${t23.spaceMd}`,
+      textAlign: align,
+      fontWeight: t23.fontWeightSemibold,
+      fontSize: t23.fontSizeXs,
+      color: t23.colorTextMuted,
+      textTransform: "uppercase",
+      letterSpacing: t23.letterSpacingWide,
+      borderBottom: `2px solid ${t23.colorBorder}`,
+      whiteSpace: "nowrap",
+      width: typeof width === "number" ? `${width}px` : width,
+      ...style
+    },
+    ...props,
+    children
+  }, undefined, false, undefined, this);
+});
+var TableBody = forwardRef25(function TableBody2({ children, ...props }, ref) {
+  let dataRowIndex = 0;
+  const styledChildren = Children.map(children, (child) => {
+    if (!isValidElement2(child))
+      return child;
+    const childProps = child.props;
+    if (child.type === TableGroupHeader || child.type === TableEmptyRow) {
+      return child;
+    }
+    const isEven = dataRowIndex % 2 === 1;
+    dataRowIndex++;
+    if (!isEven || childProps.selected)
+      return child;
+    const cells = Children.map(childProps.children, (cell) => {
+      if (!isValidElement2(cell))
+        return cell;
+      const cellStyle = cell.props.style;
+      return cloneElement2(cell, {
+        style: { ...cellStyle, background: "color-mix(in srgb, var(--color-text) 5%, transparent)" }
+      });
+    });
+    return cloneElement2(child, {}, cells);
+  });
+  return /* @__PURE__ */ jsxDEV26("tbody", {
+    ref,
+    ...props,
+    children: styledChildren
+  }, undefined, false, undefined, this);
+});
+var TableRow = forwardRef25(function TableRow2({
+  selected = false,
+  hoverable = false,
+  children,
+  style,
+  onClick,
+  onKeyDown,
+  ...props
+}, ref) {
+  const handleKeyDown = onClick ? (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onClick(e);
+    }
+    onKeyDown?.(e);
+  } : onKeyDown;
+  return /* @__PURE__ */ jsxDEV26("tr", {
+    ref,
+    "data-table-row-hoverable": hoverable || undefined,
+    "data-table-row-selected": selected || undefined,
+    tabIndex: onClick ? 0 : undefined,
+    onClick,
+    onKeyDown: handleKeyDown,
+    style: {
+      cursor: onClick ? "pointer" : undefined,
+      ...style
+    },
+    ...props,
+    children
+  }, undefined, false, undefined, this);
+});
+var TableCell = forwardRef25(function TableCell2({
+  align = "left",
+  truncate = false,
+  muted = false,
+  width,
+  children,
+  style,
+  ...props
+}, ref) {
+  return /* @__PURE__ */ jsxDEV26("td", {
+    ref,
+    style: {
+      padding: `${t23.spaceSm} ${t23.spaceMd}`,
+      borderBottom: `1px solid ${t23.colorBorder}`,
+      verticalAlign: "middle",
+      textAlign: align,
+      color: muted ? t23.colorTextMuted : undefined,
+      width: typeof width === "number" ? `${width}px` : width,
+      ...truncate ? {
+        maxWidth: 0,
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap"
+      } : {},
+      ...style
+    },
+    ...props,
+    children
+  }, undefined, false, undefined, this);
+});
+var TableGroupHeader = forwardRef25(function TableGroupHeader2({
+  colSpan,
+  children,
+  style,
+  ...props
+}, ref) {
+  return /* @__PURE__ */ jsxDEV26("tr", {
+    ref,
+    style: { cursor: "default", ...style },
+    ...props,
+    children: /* @__PURE__ */ jsxDEV26("td", {
+      colSpan,
+      style: {
+        padding: `${t23.spaceXs} ${t23.spaceMd}`,
+        background: t23.colorSurfaceRaised,
+        borderBottom: `1px solid ${t23.colorBorder}`,
+        fontSize: t23.fontSizeXs,
+        fontWeight: t23.fontWeightBold,
+        letterSpacing: t23.letterSpacingWide,
+        textTransform: "uppercase",
+        color: t23.colorTextMuted,
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap"
+      },
+      children
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+});
+var TableEmptyRow = forwardRef25(function TableEmptyRow2({
+  colSpan,
+  children,
+  style,
+  ...props
+}, ref) {
+  return /* @__PURE__ */ jsxDEV26("tr", {
+    ref,
+    style,
+    ...props,
+    children: /* @__PURE__ */ jsxDEV26("td", {
+      colSpan,
+      style: {
+        padding: `${t23.spaceXl} ${t23.spaceMd}`,
+        textAlign: "center",
+        color: t23.colorTextMuted,
+        fontSize: t23.fontSizeSm
+      },
+      children
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+});
+// src/components/DateRangePicker/DateRangePicker.tsx
+import { forwardRef as forwardRef26, useState as useState6, useRef as useRef6, useCallback as useCallback4, useEffect as useEffect6 } from "react";
+import { semantic as t27, useInjectStyles as useInjectStyles7 } from "../../core/dist/index.js";
+
+// src/components/DateRangePicker/CalendarHeader.tsx
+import { semantic as t24 } from "../../core/dist/index.js";
+
+// src/components/DateRangePicker/dateUtils.ts
+function getDaysInMonth(year, month) {
+  return new Date(year, month + 1, 0).getDate();
+}
+function getFirstDayOfMonth(year, month) {
+  return new Date(year, month, 1).getDay();
+}
+function isSameDay(a, b) {
+  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+}
+function isInRange(date, from, to) {
+  const d = stripTime(date).getTime();
+  const f = stripTime(from).getTime();
+  const t24 = stripTime(to).getTime();
+  return d >= f && d <= t24;
+}
+function isDateDisabled(date, minDate, maxDate, disabledDates) {
+  const d = stripTime(date).getTime();
+  if (minDate && d < stripTime(minDate).getTime())
+    return true;
+  if (maxDate && d > stripTime(maxDate).getTime())
+    return true;
+  if (disabledDates) {
+    for (const dd of disabledDates) {
+      if (isSameDay(date, dd))
+        return true;
+    }
   }
-  .${R1}-day--enabled:focus-visible {
-    outline: ${C.focusRingWidth} solid ${C.focusRingColor};
-    outline-offset: ${C.focusRingOffset};
+  return false;
+}
+function formatDate(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+function stripTime(d) {
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+var MONTH_NAMES = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+];
+var WEEKDAY_LABELS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+function buildCalendarGrid(year, month) {
+  const firstDay = getFirstDayOfMonth(year, month);
+  const grid = [];
+  for (let i = firstDay - 1;i >= 0; i--) {
+    const d = new Date(year, month, -i);
+    grid.push(d);
   }
-  .${R1}-trigger:focus-visible {
-    border-color: ${C.colorBorderFocused};
-    box-shadow: 0 0 0 ${C.focusRingWidth} ${C.focusRingColor};
+  const daysInMonth = getDaysInMonth(year, month);
+  for (let d = 1;d <= daysInMonth; d++) {
+    grid.push(new Date(year, month, d));
   }
-  .${R1}-trigger:hover:not(:disabled) {
-    border-color: ${C.colorBorderFocused};
+  while (grid.length < 42) {
+    const overflow = grid.length - firstDay - daysInMonth + 1;
+    grid.push(new Date(year, month + 1, overflow));
   }
-`,y3={position:"relative",display:"inline-block",width:"100%"},p3={display:"block",width:"100%",padding:`${C.spaceSm} ${C.spaceMd}`,fontSize:C.fontSizeSm,lineHeight:C.lineHeightTight,fontFamily:C.fontSans,color:C.colorText,background:C.colorSurfaceInput,border:`1px solid ${C.colorBorder}`,borderRadius:C.radiusMd,outline:"none",transition:"border-color 150ms ease, box-shadow 150ms ease",boxSizing:"border-box",cursor:"pointer",textAlign:"left"},g3={borderColor:C.colorBorderError},b3={background:C.colorSurfaceDisabled,color:C.colorTextDisabled,cursor:"not-allowed"},h3={position:"absolute",top:"100%",left:0,zIndex:50,marginTop:C.spaceXs,background:C.colorSurfacePanel,border:`1px solid ${C.colorBorder}`,borderRadius:C.radiusLg,boxShadow:C.shadowMd,padding:C.spaceMd,minWidth:290,boxSizing:"border-box"},x3={color:C.colorTextPlaceholder},j3=C3(function({value:X,onChange:$,minDate:P,maxDate:Q,disabledDates:Z,placeholder:N="Select date range",hasError:H,disabled:W,style:q},G){m3(R1,S3);let[z,K]=t1(!1),[U,A]=t1(null),_=v3(null),Y=X?.from??new Date,[V,E]=t1(Y.getFullYear()),[L,h]=t1(Y.getMonth()),[a,H1]=t1(X?.from??new Date),g=e1((O)=>{H1(O),E(O.getFullYear()),h(O.getMonth())},[]);y2(()=>{if(!z)return;let O=_.current;if(!O)return;O.querySelector('button[tabindex="0"]')?.focus()},[a,z]),y2(()=>{if(!z)return;function O(c){if(_.current&&!_.current.contains(c.target))K(!1),A(null)}return document.addEventListener("mousedown",O),()=>document.removeEventListener("mousedown",O)},[z]),y2(()=>{if(!z)return;function O(c){if(c.key==="Escape")K(!1),A(null)}return document.addEventListener("keydown",O),()=>document.removeEventListener("keydown",O)},[z]);let X1=e1(()=>{if(W)return;K((O)=>{if(!O){let c=X?.from??new Date;E(c.getFullYear()),h(c.getMonth()),H1(X?.from??new Date),A(null)}return!O})},[W,X]),t=e1(()=>{h((O)=>{if(O===0)return E((c)=>c-1),11;return O-1})},[]),o=e1(()=>{h((O)=>{if(O===11)return E((c)=>c+1),0;return O+1})},[]),T=e1((O)=>{if(U===null)A(O);else{let c=U.getTime()<=O.getTime()?U:O,B=U.getTime()<=O.getTime()?O:U;$({from:c,to:B}),A(null),K(!1)}},[U,$]),b;if(X)b=`${l1(X.from)} – ${l1(X.to)}`;else b=_2("span",{style:x3,children:N});let u1=U??X?.from??null,v1=U?null:X?.to??null;return e0("div",{ref:(O)=>{if(_.current=O,typeof G==="function")G(O);else if(G)G.current=O},style:{...y3,...q},children:[_2("button",{type:"button",className:`${R1}-trigger`,style:{...p3,...H?g3:{},...W?b3:{}},onClick:X1,disabled:W,"aria-haspopup":"dialog","aria-expanded":z,"aria-invalid":H||void 0,children:b}),z&&e0("div",{style:h3,role:"dialog","aria-label":"Date range picker",children:[_2(Y2,{year:V,month:L,onPrev:t,onNext:o}),_2(V2,{year:V,month:L,rangeStart:u1,rangeEnd:v1,minDate:P,maxDate:Q,disabledDates:Z,scopeClass:R1,focusedDate:a,onSelect:T,onFocusedDateChange:g})]})]})});import{forwardRef as f3,useState as B2,useRef as u3,useCallback as X2,useEffect as p2}from"react";import{semantic as v,useInjectStyles as c3}from "../../core/dist/index.js";import{jsx as k2,jsxs as X6}from"react/jsx-runtime";var w1="alttab-dp",o3=`
-  .${w1}-day--enabled:hover {
-    background: ${v.colorSurfaceRaised} !important;
+  return grid;
+}
+
+// src/components/DateRangePicker/CalendarHeader.tsx
+import { jsxDEV as jsxDEV27 } from "react/jsx-dev-runtime";
+var headerStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  padding: `${t24.spaceXs} 0`
+};
+var titleStyle = {
+  fontSize: t24.fontSizeSm,
+  fontWeight: t24.fontWeightSemibold,
+  fontFamily: t24.fontSans,
+  color: t24.colorText,
+  margin: 0,
+  userSelect: "none"
+};
+function CalendarHeader({
+  year,
+  month,
+  onPrev,
+  onNext
+}) {
+  return /* @__PURE__ */ jsxDEV27("div", {
+    style: headerStyle,
+    children: [
+      /* @__PURE__ */ jsxDEV27(IconButton, {
+        icon: "chevron-left",
+        "aria-label": "Previous month",
+        size: 16,
+        onClick: onPrev,
+        style: { width: 28, height: 28 }
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV27("span", {
+        style: titleStyle,
+        children: [
+          MONTH_NAMES[month],
+          " ",
+          year
+        ]
+      }, undefined, true, undefined, this),
+      /* @__PURE__ */ jsxDEV27(IconButton, {
+        icon: "chevron-right",
+        "aria-label": "Next month",
+        size: 16,
+        onClick: onNext,
+        style: { width: 28, height: 28 }
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+
+// src/components/DateRangePicker/CalendarGrid.tsx
+import { useCallback as useCallback3, useRef as useRef5 } from "react";
+import { semantic as t26 } from "../../core/dist/index.js";
+
+// src/components/DateRangePicker/DayCell.tsx
+import { semantic as t25 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV28 } from "react/jsx-dev-runtime";
+var baseCellStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: t25.spaceXl,
+  height: t25.spaceXl,
+  border: "none",
+  borderRadius: t25.radiusSm,
+  fontSize: t25.fontSizeSm,
+  fontFamily: t25.fontSans,
+  cursor: "pointer",
+  background: "transparent",
+  color: t25.colorText,
+  padding: 0,
+  transition: "background 120ms ease, color 120ms ease",
+  outline: "none",
+  boxSizing: "border-box"
+};
+function DayCell({
+  date,
+  currentMonth,
+  today,
+  rangeStart,
+  rangeEnd,
+  isInRange: inRange,
+  isDisabled,
+  scopeClass,
+  onSelect,
+  onKeyDown,
+  tabIndex
+}) {
+  const isOutsideMonth = date.getMonth() !== currentMonth;
+  const isToday = isSameDay(date, today);
+  const isStart = rangeStart !== null && isSameDay(date, rangeStart);
+  const isEnd = rangeEnd !== null && isSameDay(date, rangeEnd);
+  const isEndpoint = isStart || isEnd;
+  const cellStyle = {
+    ...baseCellStyle,
+    ...isOutsideMonth ? { color: t25.colorTextMuted, opacity: 0.5 } : {},
+    ...isToday && !isEndpoint ? { border: `1px solid ${t25.colorActionPrimary}` } : {},
+    ...inRange && !isEndpoint ? { background: `color-mix(in srgb, ${t25.colorActionPrimary} 15%, transparent)` } : {},
+    ...isEndpoint ? { background: t25.colorActionPrimary, color: t25.colorTextInverse } : {},
+    ...isDisabled ? {
+      color: t25.colorTextDisabled,
+      pointerEvents: "none",
+      cursor: "default",
+      opacity: 0.5
+    } : {}
+  };
+  const classNames = [
+    scopeClass + "-day",
+    ...isDisabled ? [] : [scopeClass + "-day--enabled"]
+  ].join(" ");
+  return /* @__PURE__ */ jsxDEV28("td", {
+    role: "gridcell",
+    style: { padding: 0 },
+    children: /* @__PURE__ */ jsxDEV28("button", {
+      type: "button",
+      className: classNames,
+      style: cellStyle,
+      tabIndex,
+      "aria-selected": isEndpoint || inRange && !isDisabled || undefined,
+      "aria-disabled": isDisabled || undefined,
+      onClick: () => {
+        if (!isDisabled)
+          onSelect(date);
+      },
+      onKeyDown: (e) => onKeyDown(e, date),
+      children: date.getDate()
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+
+// src/components/DateRangePicker/CalendarGrid.tsx
+import { jsxDEV as jsxDEV29 } from "react/jsx-dev-runtime";
+var tableStyle = {
+  borderCollapse: "collapse",
+  width: "100%",
+  tableLayout: "fixed"
+};
+var weekdayHeaderStyle = {
+  fontSize: t26.fontSizeXs,
+  fontFamily: t26.fontSans,
+  fontWeight: t26.fontWeightMedium,
+  color: t26.colorTextMuted,
+  textAlign: "center",
+  padding: `${t26.spaceXs} 0`,
+  userSelect: "none"
+};
+function CalendarGrid({
+  year,
+  month,
+  rangeStart,
+  rangeEnd,
+  minDate,
+  maxDate,
+  disabledDates,
+  scopeClass,
+  focusedDate,
+  onSelect,
+  onFocusedDateChange
+}) {
+  const today = useRef5(new Date).current;
+  const grid = buildCalendarGrid(year, month);
+  const rows = [];
+  for (let r = 0;r < 6; r++) {
+    rows.push(grid.slice(r * 7, r * 7 + 7));
   }
-  .${w1}-day--enabled:focus-visible {
-    outline: ${v.focusRingWidth} solid ${v.focusRingColor};
-    outline-offset: ${v.focusRingOffset};
+  const handleKeyDown = useCallback3((e, date) => {
+    let next = null;
+    switch (e.key) {
+      case "ArrowLeft":
+        next = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1);
+        break;
+      case "ArrowRight":
+        next = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
+        break;
+      case "ArrowUp":
+        next = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 7);
+        break;
+      case "ArrowDown":
+        next = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 7);
+        break;
+      case "Enter":
+      case " ":
+        e.preventDefault();
+        if (!isDateDisabled(date, minDate, maxDate, disabledDates)) {
+          onSelect(date);
+        }
+        return;
+      default:
+        return;
+    }
+    e.preventDefault();
+    if (next) {
+      onFocusedDateChange(next);
+    }
+  }, [minDate, maxDate, disabledDates, onSelect, onFocusedDateChange]);
+  const sortedStart = rangeStart && rangeEnd ? rangeStart.getTime() <= rangeEnd.getTime() ? rangeStart : rangeEnd : rangeStart;
+  const sortedEnd = rangeStart && rangeEnd ? rangeStart.getTime() <= rangeEnd.getTime() ? rangeEnd : rangeStart : rangeEnd;
+  return /* @__PURE__ */ jsxDEV29("table", {
+    style: tableStyle,
+    role: "grid",
+    "aria-label": "Calendar",
+    children: [
+      /* @__PURE__ */ jsxDEV29("thead", {
+        children: /* @__PURE__ */ jsxDEV29("tr", {
+          children: WEEKDAY_LABELS.map((label) => /* @__PURE__ */ jsxDEV29("th", {
+            scope: "col",
+            style: weekdayHeaderStyle,
+            children: label
+          }, label, false, undefined, this))
+        }, undefined, false, undefined, this)
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV29("tbody", {
+        children: rows.map((row, ri) => /* @__PURE__ */ jsxDEV29("tr", {
+          children: row.map((date) => {
+            const key = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+            const disabled = isDateDisabled(date, minDate, maxDate, disabledDates);
+            const inRange = sortedStart !== null && sortedEnd !== null && isInRange(date, sortedStart, sortedEnd);
+            const isFocused = isSameDay(date, focusedDate);
+            return /* @__PURE__ */ jsxDEV29(DayCell, {
+              date,
+              currentMonth: month,
+              today,
+              rangeStart: sortedStart ?? null,
+              rangeEnd: sortedEnd ?? null,
+              isInRange: inRange,
+              isDisabled: disabled,
+              scopeClass,
+              onSelect,
+              onKeyDown: handleKeyDown,
+              tabIndex: isFocused ? 0 : -1
+            }, key, false, undefined, this);
+          })
+        }, ri, false, undefined, this))
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+
+// src/components/DateRangePicker/DateRangePicker.tsx
+import { jsxDEV as jsxDEV30 } from "react/jsx-dev-runtime";
+var SCOPE = "alttab-drp";
+var injectedCSS = `
+  .${SCOPE}-day--enabled:hover {
+    background: ${t27.colorSurfaceRaised} !important;
   }
-  .${w1}-trigger:focus-visible {
-    border-color: ${v.colorBorderFocused};
-    box-shadow: 0 0 0 ${v.focusRingWidth} ${v.focusRingColor};
+  .${SCOPE}-day--enabled:focus-visible {
+    outline: ${t27.focusRingWidth} solid ${t27.focusRingColor};
+    outline-offset: ${t27.focusRingOffset};
   }
-  .${w1}-trigger:hover:not(:disabled) {
-    border-color: ${v.colorBorderFocused};
+  .${SCOPE}-trigger:focus-visible {
+    border-color: ${t27.colorBorderFocused};
+    box-shadow: 0 0 0 ${t27.focusRingWidth} ${t27.focusRingColor};
   }
-`,n3={position:"relative",display:"inline-block",width:"100%"},r3={display:"block",width:"100%",padding:`${v.spaceSm} ${v.spaceMd}`,fontSize:v.fontSizeSm,lineHeight:v.lineHeightTight,fontFamily:v.fontSans,color:v.colorText,background:v.colorSurfaceInput,border:`1px solid ${v.colorBorder}`,borderRadius:v.radiusMd,outline:"none",transition:"border-color 150ms ease, box-shadow 150ms ease",boxSizing:"border-box",cursor:"pointer",textAlign:"left"},d3={borderColor:v.colorBorderError},i3={background:v.colorSurfaceDisabled,color:v.colorTextDisabled,cursor:"not-allowed"},l3={position:"absolute",top:"100%",left:0,zIndex:50,marginTop:v.spaceXs,background:v.colorSurfacePanel,border:`1px solid ${v.colorBorder}`,borderRadius:v.radiusLg,boxShadow:v.shadowMd,padding:v.spaceMd,minWidth:290,boxSizing:"border-box"},a3={color:v.colorTextPlaceholder},s3=f3(function({value:X,onChange:$,minDate:P,maxDate:Q,disabledDates:Z,placeholder:N="Select date",hasError:H,disabled:W,style:q},G){c3(w1,o3);let[z,K]=B2(!1),U=u3(null),A=X??new Date,[_,Y]=B2(A.getFullYear()),[V,E]=B2(A.getMonth()),[L,h]=B2(X??new Date),a=X2((T)=>{h(T),Y(T.getFullYear()),E(T.getMonth())},[]);p2(()=>{if(!z)return;let T=U.current;if(!T)return;T.querySelector('button[tabindex="0"]')?.focus()},[L,z]),p2(()=>{if(!z)return;function T(b){if(U.current&&!U.current.contains(b.target))K(!1)}return document.addEventListener("mousedown",T),()=>document.removeEventListener("mousedown",T)},[z]),p2(()=>{if(!z)return;function T(b){if(b.key==="Escape")K(!1)}return document.addEventListener("keydown",T),()=>document.removeEventListener("keydown",T)},[z]);let H1=X2(()=>{if(W)return;K((T)=>{if(!T){let b=X??new Date;Y(b.getFullYear()),E(b.getMonth()),h(X??new Date)}return!T})},[W,X]),g=X2(()=>{E((T)=>{if(T===0)return Y((b)=>b-1),11;return T-1})},[]),X1=X2(()=>{E((T)=>{if(T===11)return Y((b)=>b+1),0;return T+1})},[]),t=X2((T)=>{$(T),K(!1)},[$]),o;if(X)o=l1(X);else o=k2("span",{style:a3,children:N});return X6("div",{ref:(T)=>{if(U.current=T,typeof G==="function")G(T);else if(G)G.current=T},style:{...n3,...q},children:[k2("button",{type:"button",className:`${w1}-trigger`,style:{...r3,...H?d3:{},...W?i3:{}},onClick:H1,disabled:W,"aria-haspopup":"dialog","aria-expanded":z,"aria-invalid":H||void 0,children:o}),z&&X6("div",{style:l3,role:"dialog","aria-label":"Date picker",children:[k2(Y2,{year:_,month:V,onPrev:g,onNext:X1}),k2(V2,{year:_,month:V,rangeStart:X??null,rangeEnd:null,minDate:P,maxDate:Q,disabledDates:Z,scopeClass:w1,focusedDate:L,onSelect:t,onFocusedDateChange:a})]})]})});import{semantic as r}from "../../core/dist/index.js";import{jsx as F2,jsxs as P6}from"react/jsx-runtime";var t3={margin:0,marginBottom:r.spaceMd,fontSize:r.fontSizeLg,fontWeight:r.fontWeightSemibold,fontFamily:r.fontSans,color:r.colorText},e3={margin:0,padding:0,display:"flex",flexDirection:"column",gap:r.spaceSm},J6={display:"flex",flexDirection:"column",gap:r.spaceXs,padding:`${r.spaceSm} 0`,borderBottom:`1px solid ${r.colorBorder}`},X9={fontSize:r.fontSizeXs,fontWeight:r.fontWeightSemibold,fontFamily:r.fontSans,color:r.colorTextMuted,textTransform:"uppercase",letterSpacing:r.letterSpacingWide},J9={fontSize:r.fontSizeSm,fontFamily:r.fontSans,color:r.colorText};function t7({items:J,title:X}){return P6("div",{children:[X&&F2("h3",{style:t3,children:X}),F2("dl",{style:e3,children:J.map(($,P)=>P6("div",{style:P===J.length-1?{...J6,borderBottom:"none"}:J6,children:[F2("dt",{style:X9,children:$.label}),F2("dd",{style:{...J9,margin:0},children:$.value})]},P))})]})}import P9 from"react";import{semantic as p}from "../../core/dist/index.js";import{jsx as _1,jsxs as $6}from"react/jsx-runtime";class $9 extends P9.Component{constructor(J){super(J);this.state={error:null,showStack:!1}}static getDerivedStateFromError(J){return{error:J}}componentDidCatch(J,X){this.props.onError?.(J,X)}resetErrorBoundary=()=>{this.setState({error:null,showStack:!1})};render(){let{error:J,showStack:X}=this.state,{children:$,fallback:P}=this.props;if(J===null)return $;if(P)return P({error:J,resetErrorBoundary:this.resetErrorBoundary});return _1(y1,{style:{borderColor:p.colorError,borderWidth:"2px"},padding:"lg",children:$6("div",{style:{display:"flex",flexDirection:"column",gap:p.spaceMd},children:[_1("div",{style:{display:"flex",alignItems:"center",gap:p.spaceSm},children:_1("span",{style:{fontSize:p.fontSizeLg,color:p.colorError,fontWeight:p.fontWeightSemibold,fontFamily:p.fontSans},children:"Something went wrong"})}),_1("p",{style:{margin:0,fontFamily:p.fontMono,fontSize:p.fontSizeSm,lineHeight:p.lineHeightBase,color:p.colorText,background:p.colorSurfaceRaised,padding:p.spaceSm,borderRadius:p.radiusMd,wordBreak:"break-word"},children:J.message}),J.stack&&$6("div",{children:[_1("button",{type:"button",onClick:()=>this.setState({showStack:!X}),style:{background:"none",border:"none",padding:0,fontFamily:p.fontSans,fontSize:p.fontSizeSm,color:p.colorTextMuted,cursor:"pointer",textDecoration:"underline"},children:X?"Hide stack trace":"Show stack trace"}),X&&_1("pre",{style:{marginTop:p.spaceSm,fontFamily:p.fontMono,fontSize:p.fontSizeXs,lineHeight:p.lineHeightBase,color:p.colorTextSecondary,background:p.colorSurfaceRaised,padding:p.spaceSm,borderRadius:p.radiusMd,overflow:"auto",maxHeight:"200px",whiteSpace:"pre-wrap",wordBreak:"break-all"},children:J.stack})]}),_1("div",{children:_1(G1,{variant:"secondary",size:"sm",onClick:this.resetErrorBoundary,children:"Try again"})})]})})}}import{semantic as J2}from "../../core/dist/index.js";import{jsx as Z9}from"react/jsx-runtime";var Q9={display:"block",fontSize:J2.fontSizeXs,fontWeight:J2.fontWeightSemibold,fontFamily:J2.fontSans,color:J2.colorTextSecondary,textTransform:"uppercase",letterSpacing:J2.letterSpacingWide};function Q6({children:J,style:X,...$}){return Z9("div",{...$,style:{...Q9,...X},children:J})}import{createContext as N9,useCallback as Z6,useContext as H9,useEffect as q9,useRef as W9,useState as N6}from"react";import{createPortal as U9}from"react-dom";import{semantic as R,useInjectStyles as G9}from "../../core/dist/index.js";import{jsx as P2,jsxs as q6}from"react/jsx-runtime";var H6=N9(null);function K9(){let J=H9(H6);if(!J)throw Error("useToast must be used within a <ToastProvider>");return J}var A9="4lt7ab-toast-animations",z9=`
+  .${SCOPE}-trigger:hover:not(:disabled) {
+    border-color: ${t27.colorBorderFocused};
+  }
+`;
+var wrapperStyle2 = {
+  position: "relative",
+  display: "inline-block",
+  width: "100%"
+};
+var triggerBaseStyle2 = {
+  display: "block",
+  width: "100%",
+  padding: `${t27.spaceSm} ${t27.spaceMd}`,
+  fontSize: t27.fontSizeSm,
+  lineHeight: t27.lineHeightTight,
+  fontFamily: t27.fontSans,
+  color: t27.colorText,
+  background: t27.colorSurfaceInput,
+  border: `1px solid ${t27.colorBorder}`,
+  borderRadius: t27.radiusMd,
+  outline: "none",
+  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  boxSizing: "border-box",
+  cursor: "pointer",
+  textAlign: "left"
+};
+var triggerErrorStyle = {
+  borderColor: t27.colorBorderError
+};
+var triggerDisabledStyle = {
+  background: t27.colorSurfaceDisabled,
+  color: t27.colorTextDisabled,
+  cursor: "not-allowed"
+};
+var popoverStyle = {
+  position: "absolute",
+  top: "100%",
+  left: 0,
+  zIndex: 50,
+  marginTop: t27.spaceXs,
+  background: t27.colorSurfacePanel,
+  border: `1px solid ${t27.colorBorder}`,
+  borderRadius: t27.radiusLg,
+  boxShadow: t27.shadowMd,
+  padding: t27.spaceMd,
+  minWidth: 290,
+  boxSizing: "border-box"
+};
+var placeholderStyle2 = {
+  color: t27.colorTextPlaceholder
+};
+var DateRangePicker = forwardRef26(function DateRangePicker2({
+  value,
+  onChange,
+  minDate,
+  maxDate,
+  disabledDates,
+  placeholder = "Select date range",
+  hasError,
+  disabled,
+  style
+}, ref) {
+  useInjectStyles7(SCOPE, injectedCSS);
+  const [open, setOpen] = useState6(false);
+  const [selectionStart, setSelectionStart] = useState6(null);
+  const containerRef = useRef6(null);
+  const initialDate = value?.from ?? new Date;
+  const [viewYear, setViewYear] = useState6(initialDate.getFullYear());
+  const [viewMonth, setViewMonth] = useState6(initialDate.getMonth());
+  const [focusedDate, setFocusedDate] = useState6(value?.from ?? new Date);
+  const handleFocusedDateChange = useCallback4((date) => {
+    setFocusedDate(date);
+    setViewYear(date.getFullYear());
+    setViewMonth(date.getMonth());
+  }, []);
+  useEffect6(() => {
+    if (!open)
+      return;
+    const container = containerRef.current;
+    if (!container)
+      return;
+    const btn = container.querySelector('button[tabindex="0"]');
+    btn?.focus();
+  }, [focusedDate, open]);
+  useEffect6(() => {
+    if (!open)
+      return;
+    function handleMouseDown(e) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setOpen(false);
+        setSelectionStart(null);
+      }
+    }
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [open]);
+  useEffect6(() => {
+    if (!open)
+      return;
+    function handleKey(e) {
+      if (e.key === "Escape") {
+        setOpen(false);
+        setSelectionStart(null);
+      }
+    }
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [open]);
+  const handleToggle = useCallback4(() => {
+    if (disabled)
+      return;
+    setOpen((prev) => {
+      if (!prev) {
+        const base = value?.from ?? new Date;
+        setViewYear(base.getFullYear());
+        setViewMonth(base.getMonth());
+        setFocusedDate(value?.from ?? new Date);
+        setSelectionStart(null);
+      }
+      return !prev;
+    });
+  }, [disabled, value]);
+  const handlePrevMonth = useCallback4(() => {
+    setViewMonth((m) => {
+      if (m === 0) {
+        setViewYear((y) => y - 1);
+        return 11;
+      }
+      return m - 1;
+    });
+  }, []);
+  const handleNextMonth = useCallback4(() => {
+    setViewMonth((m) => {
+      if (m === 11) {
+        setViewYear((y) => y + 1);
+        return 0;
+      }
+      return m + 1;
+    });
+  }, []);
+  const handleDaySelect = useCallback4((date) => {
+    if (selectionStart === null) {
+      setSelectionStart(date);
+    } else {
+      const from = selectionStart.getTime() <= date.getTime() ? selectionStart : date;
+      const to = selectionStart.getTime() <= date.getTime() ? date : selectionStart;
+      onChange({ from, to });
+      setSelectionStart(null);
+      setOpen(false);
+    }
+  }, [selectionStart, onChange]);
+  let displayText;
+  if (value) {
+    displayText = `${formatDate(value.from)} – ${formatDate(value.to)}`;
+  } else {
+    displayText = /* @__PURE__ */ jsxDEV30("span", {
+      style: placeholderStyle2,
+      children: placeholder
+    }, undefined, false, undefined, this);
+  }
+  const calendarStart = selectionStart ?? value?.from ?? null;
+  const calendarEnd = selectionStart ? null : value?.to ?? null;
+  return /* @__PURE__ */ jsxDEV30("div", {
+    ref: (node) => {
+      containerRef.current = node;
+      if (typeof ref === "function")
+        ref(node);
+      else if (ref)
+        ref.current = node;
+    },
+    style: { ...wrapperStyle2, ...style },
+    children: [
+      /* @__PURE__ */ jsxDEV30("button", {
+        type: "button",
+        className: `${SCOPE}-trigger`,
+        style: {
+          ...triggerBaseStyle2,
+          ...hasError ? triggerErrorStyle : {},
+          ...disabled ? triggerDisabledStyle : {}
+        },
+        onClick: handleToggle,
+        disabled,
+        "aria-haspopup": "dialog",
+        "aria-expanded": open,
+        "aria-invalid": hasError || undefined,
+        children: displayText
+      }, undefined, false, undefined, this),
+      open && /* @__PURE__ */ jsxDEV30("div", {
+        style: popoverStyle,
+        role: "dialog",
+        "aria-label": "Date range picker",
+        children: [
+          /* @__PURE__ */ jsxDEV30(CalendarHeader, {
+            year: viewYear,
+            month: viewMonth,
+            onPrev: handlePrevMonth,
+            onNext: handleNextMonth
+          }, undefined, false, undefined, this),
+          /* @__PURE__ */ jsxDEV30(CalendarGrid, {
+            year: viewYear,
+            month: viewMonth,
+            rangeStart: calendarStart,
+            rangeEnd: calendarEnd,
+            minDate,
+            maxDate,
+            disabledDates,
+            scopeClass: SCOPE,
+            focusedDate,
+            onSelect: handleDaySelect,
+            onFocusedDateChange: handleFocusedDateChange
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/DatePicker/DatePicker.tsx
+import { forwardRef as forwardRef27, useState as useState7, useRef as useRef7, useCallback as useCallback5, useEffect as useEffect7 } from "react";
+import { semantic as t28, useInjectStyles as useInjectStyles8 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV31 } from "react/jsx-dev-runtime";
+var SCOPE2 = "alttab-dp";
+var injectedCSS2 = `
+  .${SCOPE2}-day--enabled:hover {
+    background: ${t28.colorSurfaceRaised} !important;
+  }
+  .${SCOPE2}-day--enabled:focus-visible {
+    outline: ${t28.focusRingWidth} solid ${t28.focusRingColor};
+    outline-offset: ${t28.focusRingOffset};
+  }
+  .${SCOPE2}-trigger:focus-visible {
+    border-color: ${t28.colorBorderFocused};
+    box-shadow: 0 0 0 ${t28.focusRingWidth} ${t28.focusRingColor};
+  }
+  .${SCOPE2}-trigger:hover:not(:disabled) {
+    border-color: ${t28.colorBorderFocused};
+  }
+`;
+var wrapperStyle3 = {
+  position: "relative",
+  display: "inline-block",
+  width: "100%"
+};
+var triggerBaseStyle3 = {
+  display: "block",
+  width: "100%",
+  padding: `${t28.spaceSm} ${t28.spaceMd}`,
+  fontSize: t28.fontSizeSm,
+  lineHeight: t28.lineHeightTight,
+  fontFamily: t28.fontSans,
+  color: t28.colorText,
+  background: t28.colorSurfaceInput,
+  border: `1px solid ${t28.colorBorder}`,
+  borderRadius: t28.radiusMd,
+  outline: "none",
+  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  boxSizing: "border-box",
+  cursor: "pointer",
+  textAlign: "left"
+};
+var triggerErrorStyle2 = {
+  borderColor: t28.colorBorderError
+};
+var triggerDisabledStyle2 = {
+  background: t28.colorSurfaceDisabled,
+  color: t28.colorTextDisabled,
+  cursor: "not-allowed"
+};
+var popoverStyle2 = {
+  position: "absolute",
+  top: "100%",
+  left: 0,
+  zIndex: 50,
+  marginTop: t28.spaceXs,
+  background: t28.colorSurfacePanel,
+  border: `1px solid ${t28.colorBorder}`,
+  borderRadius: t28.radiusLg,
+  boxShadow: t28.shadowMd,
+  padding: t28.spaceMd,
+  minWidth: 290,
+  boxSizing: "border-box"
+};
+var placeholderStyle3 = {
+  color: t28.colorTextPlaceholder
+};
+var DatePicker = forwardRef27(function DatePicker2({
+  value,
+  onChange,
+  minDate,
+  maxDate,
+  disabledDates,
+  placeholder = "Select date",
+  hasError,
+  disabled,
+  style
+}, ref) {
+  useInjectStyles8(SCOPE2, injectedCSS2);
+  const [open, setOpen] = useState7(false);
+  const containerRef = useRef7(null);
+  const initialDate = value ?? new Date;
+  const [viewYear, setViewYear] = useState7(initialDate.getFullYear());
+  const [viewMonth, setViewMonth] = useState7(initialDate.getMonth());
+  const [focusedDate, setFocusedDate] = useState7(value ?? new Date);
+  const handleFocusedDateChange = useCallback5((date) => {
+    setFocusedDate(date);
+    setViewYear(date.getFullYear());
+    setViewMonth(date.getMonth());
+  }, []);
+  useEffect7(() => {
+    if (!open)
+      return;
+    const container = containerRef.current;
+    if (!container)
+      return;
+    const btn = container.querySelector('button[tabindex="0"]');
+    btn?.focus();
+  }, [focusedDate, open]);
+  useEffect7(() => {
+    if (!open)
+      return;
+    function handleMouseDown(e) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [open]);
+  useEffect7(() => {
+    if (!open)
+      return;
+    function handleKey(e) {
+      if (e.key === "Escape") {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [open]);
+  const handleToggle = useCallback5(() => {
+    if (disabled)
+      return;
+    setOpen((prev) => {
+      if (!prev) {
+        const base = value ?? new Date;
+        setViewYear(base.getFullYear());
+        setViewMonth(base.getMonth());
+        setFocusedDate(value ?? new Date);
+      }
+      return !prev;
+    });
+  }, [disabled, value]);
+  const handlePrevMonth = useCallback5(() => {
+    setViewMonth((m) => {
+      if (m === 0) {
+        setViewYear((y) => y - 1);
+        return 11;
+      }
+      return m - 1;
+    });
+  }, []);
+  const handleNextMonth = useCallback5(() => {
+    setViewMonth((m) => {
+      if (m === 11) {
+        setViewYear((y) => y + 1);
+        return 0;
+      }
+      return m + 1;
+    });
+  }, []);
+  const handleDaySelect = useCallback5((date) => {
+    onChange(date);
+    setOpen(false);
+  }, [onChange]);
+  let displayText;
+  if (value) {
+    displayText = formatDate(value);
+  } else {
+    displayText = /* @__PURE__ */ jsxDEV31("span", {
+      style: placeholderStyle3,
+      children: placeholder
+    }, undefined, false, undefined, this);
+  }
+  return /* @__PURE__ */ jsxDEV31("div", {
+    ref: (node) => {
+      containerRef.current = node;
+      if (typeof ref === "function")
+        ref(node);
+      else if (ref)
+        ref.current = node;
+    },
+    style: { ...wrapperStyle3, ...style },
+    children: [
+      /* @__PURE__ */ jsxDEV31("button", {
+        type: "button",
+        className: `${SCOPE2}-trigger`,
+        style: {
+          ...triggerBaseStyle3,
+          ...hasError ? triggerErrorStyle2 : {},
+          ...disabled ? triggerDisabledStyle2 : {}
+        },
+        onClick: handleToggle,
+        disabled,
+        "aria-haspopup": "dialog",
+        "aria-expanded": open,
+        "aria-invalid": hasError || undefined,
+        children: displayText
+      }, undefined, false, undefined, this),
+      open && /* @__PURE__ */ jsxDEV31("div", {
+        style: popoverStyle2,
+        role: "dialog",
+        "aria-label": "Date picker",
+        children: [
+          /* @__PURE__ */ jsxDEV31(CalendarHeader, {
+            year: viewYear,
+            month: viewMonth,
+            onPrev: handlePrevMonth,
+            onNext: handleNextMonth
+          }, undefined, false, undefined, this),
+          /* @__PURE__ */ jsxDEV31(CalendarGrid, {
+            year: viewYear,
+            month: viewMonth,
+            rangeStart: value ?? null,
+            rangeEnd: null,
+            minDate,
+            maxDate,
+            disabledDates,
+            scopeClass: SCOPE2,
+            focusedDate,
+            onSelect: handleDaySelect,
+            onFocusedDateChange: handleFocusedDateChange
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/MetadataTable/MetadataTable.tsx
+import { semantic as t29 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV32 } from "react/jsx-dev-runtime";
+var titleStyles = {
+  margin: 0,
+  marginBottom: t29.spaceMd,
+  fontSize: t29.fontSizeLg,
+  fontWeight: t29.fontWeightSemibold,
+  fontFamily: t29.fontSans,
+  color: t29.colorText
+};
+var listStyles = {
+  margin: 0,
+  padding: 0,
+  display: "flex",
+  flexDirection: "column",
+  gap: t29.spaceSm
+};
+var rowStyles = {
+  display: "flex",
+  flexDirection: "column",
+  gap: t29.spaceXs,
+  padding: `${t29.spaceSm} 0`,
+  borderBottom: `1px solid ${t29.colorBorder}`
+};
+var labelStyles = {
+  fontSize: t29.fontSizeXs,
+  fontWeight: t29.fontWeightSemibold,
+  fontFamily: t29.fontSans,
+  color: t29.colorTextMuted,
+  textTransform: "uppercase",
+  letterSpacing: t29.letterSpacingWide
+};
+var valueStyles = {
+  fontSize: t29.fontSizeSm,
+  fontFamily: t29.fontSans,
+  color: t29.colorText
+};
+function MetadataTable({ items, title }) {
+  return /* @__PURE__ */ jsxDEV32("div", {
+    children: [
+      title && /* @__PURE__ */ jsxDEV32("h3", {
+        style: titleStyles,
+        children: title
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV32("dl", {
+        style: listStyles,
+        children: items.map((item, i) => /* @__PURE__ */ jsxDEV32("div", {
+          style: i === items.length - 1 ? { ...rowStyles, borderBottom: "none" } : rowStyles,
+          children: [
+            /* @__PURE__ */ jsxDEV32("dt", {
+              style: labelStyles,
+              children: item.label
+            }, undefined, false, undefined, this),
+            /* @__PURE__ */ jsxDEV32("dd", {
+              style: { ...valueStyles, margin: 0 },
+              children: item.value
+            }, undefined, false, undefined, this)
+          ]
+        }, i, true, undefined, this))
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+// src/components/ErrorBoundary/ErrorBoundary.tsx
+import React from "react";
+import { semantic as t30 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV33 } from "react/jsx-dev-runtime";
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: null, showStack: false };
+  }
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+  componentDidCatch(error, errorInfo) {
+    this.props.onError?.(error, errorInfo);
+  }
+  resetErrorBoundary = () => {
+    this.setState({ error: null, showStack: false });
+  };
+  render() {
+    const { error, showStack } = this.state;
+    const { children, fallback } = this.props;
+    if (error === null) {
+      return children;
+    }
+    if (fallback) {
+      return fallback({ error, resetErrorBoundary: this.resetErrorBoundary });
+    }
+    return /* @__PURE__ */ jsxDEV33(Card, {
+      style: {
+        borderColor: t30.colorError,
+        borderWidth: "2px"
+      },
+      padding: "lg",
+      children: /* @__PURE__ */ jsxDEV33("div", {
+        style: { display: "flex", flexDirection: "column", gap: t30.spaceMd },
+        children: [
+          /* @__PURE__ */ jsxDEV33("div", {
+            style: { display: "flex", alignItems: "center", gap: t30.spaceSm },
+            children: /* @__PURE__ */ jsxDEV33("span", {
+              style: {
+                fontSize: t30.fontSizeLg,
+                color: t30.colorError,
+                fontWeight: t30.fontWeightSemibold,
+                fontFamily: t30.fontSans
+              },
+              children: "Something went wrong"
+            }, undefined, false, undefined, this)
+          }, undefined, false, undefined, this),
+          /* @__PURE__ */ jsxDEV33("p", {
+            style: {
+              margin: 0,
+              fontFamily: t30.fontMono,
+              fontSize: t30.fontSizeSm,
+              lineHeight: t30.lineHeightBase,
+              color: t30.colorText,
+              background: t30.colorSurfaceRaised,
+              padding: t30.spaceSm,
+              borderRadius: t30.radiusMd,
+              wordBreak: "break-word"
+            },
+            children: error.message
+          }, undefined, false, undefined, this),
+          error.stack && /* @__PURE__ */ jsxDEV33("div", {
+            children: [
+              /* @__PURE__ */ jsxDEV33("button", {
+                type: "button",
+                onClick: () => this.setState({ showStack: !showStack }),
+                style: {
+                  background: "none",
+                  border: "none",
+                  padding: 0,
+                  fontFamily: t30.fontSans,
+                  fontSize: t30.fontSizeSm,
+                  color: t30.colorTextMuted,
+                  cursor: "pointer",
+                  textDecoration: "underline"
+                },
+                children: showStack ? "Hide stack trace" : "Show stack trace"
+              }, undefined, false, undefined, this),
+              showStack && /* @__PURE__ */ jsxDEV33("pre", {
+                style: {
+                  marginTop: t30.spaceSm,
+                  fontFamily: t30.fontMono,
+                  fontSize: t30.fontSizeXs,
+                  lineHeight: t30.lineHeightBase,
+                  color: t30.colorTextSecondary,
+                  background: t30.colorSurfaceRaised,
+                  padding: t30.spaceSm,
+                  borderRadius: t30.radiusMd,
+                  overflow: "auto",
+                  maxHeight: "200px",
+                  whiteSpace: "pre-wrap",
+                  wordBreak: "break-all"
+                },
+                children: error.stack
+              }, undefined, false, undefined, this)
+            ]
+          }, undefined, true, undefined, this),
+          /* @__PURE__ */ jsxDEV33("div", {
+            children: /* @__PURE__ */ jsxDEV33(Button, {
+              variant: "secondary",
+              size: "sm",
+              onClick: this.resetErrorBoundary,
+              children: "Try again"
+            }, undefined, false, undefined, this)
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this)
+    }, undefined, false, undefined, this);
+  }
+}
+// src/components/SectionLabel/SectionLabel.tsx
+import { semantic as t31 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV34 } from "react/jsx-dev-runtime";
+var baseStyles3 = {
+  display: "block",
+  fontSize: t31.fontSizeXs,
+  fontWeight: t31.fontWeightSemibold,
+  fontFamily: t31.fontSans,
+  color: t31.colorTextSecondary,
+  textTransform: "uppercase",
+  letterSpacing: t31.letterSpacingWide
+};
+function SectionLabel({
+  children,
+  style,
+  ...rest
+}) {
+  return /* @__PURE__ */ jsxDEV34("div", {
+    ...rest,
+    style: { ...baseStyles3, ...style },
+    children
+  }, undefined, false, undefined, this);
+}
+// src/components/Toast/Toast.tsx
+import {
+  createContext as createContext2,
+  useCallback as useCallback6,
+  useContext as useContext2,
+  useEffect as useEffect8,
+  useRef as useRef8,
+  useState as useState8
+} from "react";
+import { createPortal as createPortal2 } from "react-dom";
+import { semantic as t32, useInjectStyles as useInjectStyles9 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV35 } from "react/jsx-dev-runtime";
+var ToastContext = createContext2(null);
+function useToast() {
+  const ctx = useContext2(ToastContext);
+  if (!ctx) {
+    throw new Error("useToast must be used within a <ToastProvider>");
+  }
+  return ctx;
+}
+var STYLE_ID = "4lt7ab-toast-animations";
+var toastCSS = `
 @keyframes toast-slide-in {
   from { opacity: 0; transform: translateX(100%); }
   to   { opacity: 1; transform: translateX(0); }
@@ -247,7 +3745,148 @@ import{useEffect as Y6}from"react";var V6=["a[href]","button:not(:disabled)","in
     to   { opacity: 0; }
   }
 }
-`,M9={success:{bg:R.colorSuccessBg,fg:R.colorSuccess,border:R.colorSuccess},error:{bg:R.colorErrorBg,fg:R.colorError,border:R.colorError},info:{bg:R.colorInfoBg,fg:R.colorInfo,border:R.colorInfo},warning:{bg:R.colorWarningBg,fg:R.colorWarning,border:R.colorWarning}};function Y9({item:J,onDismiss:X}){let[$,P]=N6(!1),Q=W9(null);q9(()=>{return Q.current=setTimeout(()=>{P(!0)},J.duration),()=>{if(Q.current)clearTimeout(Q.current)}},[J.duration]);let Z=()=>{if($)X(J.id)},N=M9[J.type];return q6("div",{role:"status",style:{display:"flex",alignItems:"center",gap:R.spaceSm,padding:`${R.spaceSm} ${R.spaceMd}`,background:N.bg,color:N.fg,borderRadius:R.radiusMd,borderLeft:`3px solid ${N.border}`,boxShadow:R.shadowMd,fontSize:R.fontSizeSm,fontFamily:R.fontSans,fontWeight:R.fontWeightMedium,lineHeight:R.lineHeightBase,pointerEvents:"auto",animation:$?"toast-fade-out 200ms ease forwards":"toast-slide-in 250ms ease",maxWidth:"24rem",wordBreak:"break-word"},onAnimationEnd:Z,children:[P2("span",{style:{flex:1},children:J.message}),P2("button",{onClick:()=>P(!0),"aria-label":"Dismiss",style:{all:"unset",cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",width:"1.25rem",height:"1.25rem",borderRadius:R.radiusSm,color:N.fg,opacity:0.7,fontSize:R.fontSizeSm,lineHeight:1},children:"×"})]})}function V9({toasts:J,onDismiss:X,position:$}){if(G9(A9,z9),J.length===0)return null;let P={position:"fixed",zIndex:9999,display:"flex",flexDirection:"column",gap:R.spaceSm,pointerEvents:"none",...$.startsWith("top")?{top:R.spaceLg}:{bottom:R.spaceLg},...$.endsWith("right")?{right:R.spaceLg}:{left:R.spaceLg}};return U9(P2("div",{"aria-live":"polite",style:P,children:J.map((Q)=>P2(Y9,{item:Q,onDismiss:X},Q.id))}),document.body)}var _9=0;function B9({children:J,position:X="top-right"}){let[$,P]=N6([]),Q=Z6((N)=>{P((H)=>H.filter((W)=>W.id!==N))},[]),Z=Z6((N,H)=>{let W=typeof H==="string"?{type:H}:H??{},q={id:`toast-${++_9}`,message:N,type:W.type??"info",duration:W.duration??4000};P((G)=>[...G,q])},[]);return q6(H6.Provider,{value:{showToast:Z},children:[J,P2(V9,{toasts:$,onDismiss:Q,position:X})]})}import{forwardRef as k9,useState as g2,useEffect as b2,useRef as h2,useCallback as f1,useMemo as F9}from"react";import{semantic as u,useInjectStyles as T9}from "../../core/dist/index.js";import{jsx as x2,jsxs as C9}from"react/jsx-runtime";var O9="alttab-combobox",L9=`
+`;
+var typeColors = {
+  success: { bg: t32.colorSuccessBg, fg: t32.colorSuccess, border: t32.colorSuccess },
+  error: { bg: t32.colorErrorBg, fg: t32.colorError, border: t32.colorError },
+  info: { bg: t32.colorInfoBg, fg: t32.colorInfo, border: t32.colorInfo },
+  warning: { bg: t32.colorWarningBg, fg: t32.colorWarning, border: t32.colorWarning }
+};
+function ToastMessage({
+  item,
+  onDismiss
+}) {
+  const [exiting, setExiting] = useState8(false);
+  const timerRef = useRef8(null);
+  useEffect8(() => {
+    timerRef.current = setTimeout(() => {
+      setExiting(true);
+    }, item.duration);
+    return () => {
+      if (timerRef.current)
+        clearTimeout(timerRef.current);
+    };
+  }, [item.duration]);
+  const handleAnimationEnd = () => {
+    if (exiting) {
+      onDismiss(item.id);
+    }
+  };
+  const colors = typeColors[item.type];
+  return /* @__PURE__ */ jsxDEV35("div", {
+    role: "status",
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: t32.spaceSm,
+      padding: `${t32.spaceSm} ${t32.spaceMd}`,
+      background: colors.bg,
+      color: colors.fg,
+      borderRadius: t32.radiusMd,
+      borderLeft: `3px solid ${colors.border}`,
+      boxShadow: t32.shadowMd,
+      fontSize: t32.fontSizeSm,
+      fontFamily: t32.fontSans,
+      fontWeight: t32.fontWeightMedium,
+      lineHeight: t32.lineHeightBase,
+      pointerEvents: "auto",
+      animation: exiting ? "toast-fade-out 200ms ease forwards" : "toast-slide-in 250ms ease",
+      maxWidth: "24rem",
+      wordBreak: "break-word"
+    },
+    onAnimationEnd: handleAnimationEnd,
+    children: [
+      /* @__PURE__ */ jsxDEV35("span", {
+        style: { flex: 1 },
+        children: item.message
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV35("button", {
+        onClick: () => setExiting(true),
+        "aria-label": "Dismiss",
+        style: {
+          all: "unset",
+          cursor: "pointer",
+          flexShrink: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "1.25rem",
+          height: "1.25rem",
+          borderRadius: t32.radiusSm,
+          color: colors.fg,
+          opacity: 0.7,
+          fontSize: t32.fontSizeSm,
+          lineHeight: 1
+        },
+        children: "×"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function ToastContainer({
+  toasts,
+  onDismiss,
+  position
+}) {
+  useInjectStyles9(STYLE_ID, toastCSS);
+  if (toasts.length === 0)
+    return null;
+  const positionStyles = {
+    position: "fixed",
+    zIndex: 9999,
+    display: "flex",
+    flexDirection: "column",
+    gap: t32.spaceSm,
+    pointerEvents: "none",
+    ...position.startsWith("top") ? { top: t32.spaceLg } : { bottom: t32.spaceLg },
+    ...position.endsWith("right") ? { right: t32.spaceLg } : { left: t32.spaceLg }
+  };
+  return createPortal2(/* @__PURE__ */ jsxDEV35("div", {
+    "aria-live": "polite",
+    style: positionStyles,
+    children: toasts.map((item) => /* @__PURE__ */ jsxDEV35(ToastMessage, {
+      item,
+      onDismiss
+    }, item.id, false, undefined, this))
+  }, undefined, false, undefined, this), document.body);
+}
+var toastCounter = 0;
+function ToastProvider({
+  children,
+  position = "top-right"
+}) {
+  const [toasts, setToasts] = useState8([]);
+  const dismiss = useCallback6((id) => {
+    setToasts((prev) => prev.filter((t33) => t33.id !== id));
+  }, []);
+  const showToast = useCallback6((message, typeOrOptions) => {
+    const opts = typeof typeOrOptions === "string" ? { type: typeOrOptions } : typeOrOptions ?? {};
+    const item = {
+      id: `toast-${++toastCounter}`,
+      message,
+      type: opts.type ?? "info",
+      duration: opts.duration ?? 4000
+    };
+    setToasts((prev) => [...prev, item]);
+  }, []);
+  return /* @__PURE__ */ jsxDEV35(ToastContext.Provider, {
+    value: { showToast },
+    children: [
+      children,
+      /* @__PURE__ */ jsxDEV35(ToastContainer, {
+        toasts,
+        onDismiss: dismiss,
+        position
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+// src/components/Combobox/Combobox.tsx
+import { forwardRef as forwardRef28, useState as useState9, useEffect as useEffect9, useRef as useRef9, useCallback as useCallback7, useMemo } from "react";
+import { semantic as t33, useInjectStyles as useInjectStyles10 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV36 } from "react/jsx-dev-runtime";
+var COMBOBOX_STYLES_ID = "alttab-combobox";
+var comboboxCSS = `
   .alttab-combobox-option {
     display: block;
     width: 100%;
@@ -280,31 +3919,693 @@ import{useEffect as Y6}from"react";var V6=["a[href]","button:not(:disabled)","in
       transition: none;
     }
   }
-`,E9=k9(function({options:X,value:$,onChange:P,onSelect:Q,placeholder:Z,disabled:N,hasError:H,style:W,id:q,"aria-label":G,"aria-labelledby":z,...K},U){T9(O9,L9);let[A,_]=g2(!1),[Y,V]=g2(-1),[E,L]=g2("down"),h=h2(null),a=h2(null),H1=h2(null);b2(()=>{if(!U)return;if(typeof U==="function")U(a.current);else U.current=a.current},[U]);let g=F9(()=>{if(!$)return X;let B=$.toLowerCase();return X.filter((f)=>f.label.toLowerCase().includes(B))},[X,$]),X1=f1(()=>{let B=a.current;if(!B)return;let f=B.getBoundingClientRect(),m1=window.innerHeight-f.bottom,B1=f.top,c1=Math.min(g.length*32+8,256);L(m1>=c1?"down":B1>m1?"up":"down")},[g.length]),t=f1(()=>{if(N)return;X1(),_(!0),V(-1)},[N,X1]),o=f1(()=>{_(!1),V(-1)},[]),T=f1((B)=>{P(B.value),Q?.(B),o(),a.current?.focus()},[P,Q,o]);b2(()=>{if(!A)return;function B(f){if(h.current&&!h.current.contains(f.target))o()}return document.addEventListener("mousedown",B),()=>document.removeEventListener("mousedown",B)},[A,o]),b2(()=>{if(!A||Y<0)return;let B=H1.current;if(!B)return;B.querySelectorAll('[role="option"]')[Y]?.scrollIntoView({block:"nearest"})},[A,Y]);let b=f1((B)=>{if(B.key==="Escape"){o(),a.current?.focus();return}if(!A){if(B.key==="ArrowDown"||B.key==="ArrowUp")B.preventDefault(),t();return}switch(B.key){case"ArrowDown":{B.preventDefault(),V((f)=>f<g.length-1?f+1:0);break}case"ArrowUp":{B.preventDefault(),V((f)=>f>0?f-1:g.length-1);break}case"Enter":if(Y>=0&&Y<g.length)B.preventDefault(),T(g[Y]);break;case"Home":if(B.preventDefault(),g.length>0)V(0);break;case"End":if(B.preventDefault(),g.length>0)V(g.length-1);break;case"Tab":o();break}},[A,t,o,Y,g,T]),u1=f1((B)=>{if(P(B.target.value),!A)t();V(-1)},[P,A,t]),v1=q?`${q}-listbox`:"alttab-combobox-listbox",O=A&&Y>=0?`alttab-combobox-opt-${g[Y]?.value}`:void 0,c=E==="down"?{position:"absolute",top:"100%",left:0,right:0,marginTop:u.spaceXs}:{position:"absolute",bottom:"100%",left:0,right:0,marginBottom:u.spaceXs};return C9("div",{ref:h,style:I9,onKeyDown:b,children:[x2("input",{ref:a,type:"text",role:"combobox",className:"alttab-combobox-input","aria-expanded":A,"aria-haspopup":"listbox","aria-controls":v1,"aria-activedescendant":O,"aria-autocomplete":"list","aria-invalid":H||void 0,"aria-label":G,"aria-labelledby":z,autoComplete:"off",id:q,value:$,placeholder:Z,disabled:N,onChange:u1,onFocus:()=>{if(!N&&g.length>0)t()},style:{...R9,...H?w9:{},...N?D9:{},...W},...K}),A&&g.length>0&&x2("div",{ref:H1,id:v1,role:"listbox",style:{...c,background:u.colorSurfacePanel,border:`1px solid ${u.colorBorder}`,borderRadius:u.radiusMd,padding:u.spaceXs,zIndex:100,boxShadow:u.shadowMd,maxHeight:"16rem",overflowY:"auto",boxSizing:"border-box"},children:g.map((B,f)=>{let m1=Y===f,B1=B.value===$,c1=["alttab-combobox-option",m1?"alttab-combobox-option--focused":""].filter(Boolean).join(" ");return x2("button",{id:`alttab-combobox-opt-${B.value}`,type:"button",role:"option","aria-selected":B1,className:c1,onClick:()=>T(B),onMouseEnter:()=>V(f),style:B1?{fontWeight:u.fontWeightSemibold}:void 0,children:B.label},B.value)})})]})}),I9={position:"relative",display:"block",width:"100%"},R9={display:"block",width:"100%",padding:`${u.spaceSm} ${u.spaceMd}`,fontSize:u.fontSizeSm,lineHeight:u.lineHeightTight,fontFamily:u.fontSans,color:u.colorText,background:u.colorSurfaceInput,border:`1px solid ${u.colorBorder}`,borderRadius:u.radiusMd,outline:"none",transition:"border-color 150ms ease, box-shadow 150ms ease",boxSizing:"border-box"},w9={borderColor:u.colorBorderError},D9={background:u.colorSurfaceDisabled,color:u.colorTextDisabled,cursor:"not-allowed"};import{useState as v9,useEffect as W6,useRef as m9,useCallback as j2}from"react";import{semantic as S9}from "../../core/dist/index.js";import{jsx as D1}from"react/jsx-runtime";function y9({config:J,value:X,onCommit:$}){let P=J.debounceMs??300,[Q,Z]=v9(X),N=m9(null);W6(()=>{Z(X)},[X]);let H=j2((W)=>{let q=W.target.value;if(Z(q),N.current)clearTimeout(N.current);N.current=setTimeout(()=>{$(J.key,q)},P)},[J.key,P,$]);return W6(()=>{return()=>{if(N.current)clearTimeout(N.current)}},[]),D1("div",{style:{minWidth:"10rem",flex:"1 1 10rem"},children:D1(F0,{value:Q,onChange:H,placeholder:J.placeholder})})}function p9({config:J,value:X,onCommit:$}){let P=j2((Q)=>{$(J.key,Q.target.value)},[J.key,$]);return D1("div",{style:{minWidth:"8rem",flex:"0 1 12rem"},children:D1(w0,{value:X,onChange:P,options:J.options,placeholder:J.placeholder})})}function g9({filters:J,values:X,onChange:$,style:P,...Q}){let Z=j2((N,H)=>{$({...X,[N]:H})},[X,$]);return D1("div",{style:{display:"flex",flexWrap:"wrap",gap:S9.spaceSm,alignItems:"flex-start",...P},...Q,children:J.map((N)=>{let H=X[N.key]??"";if(N.type==="text")return D1(y9,{config:N,value:H,onCommit:Z},N.key);return D1(p9,{config:N,value:H,onCommit:Z},N.key)})})}import{useId as b9}from"react";import{semantic as i,useInjectStyles as h9}from "../../core/dist/index.js";import{jsx as T2,jsxs as j9}from"react/jsx-runtime";function x9({items:J,selected:X,onChange:$,style:P}){let Z=`chip-picker-${b9().replace(/:/g,"")}`;h9(Z,`[data-chip-picker-id="${Z}"] button:hover {
-      background: ${i.colorSurfaceRaised} !important;
+`;
+var Combobox = forwardRef28(function Combobox2({
+  options,
+  value,
+  onChange,
+  onSelect,
+  placeholder,
+  disabled,
+  hasError,
+  style,
+  id,
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
+  ...props
+}, ref) {
+  useInjectStyles10(COMBOBOX_STYLES_ID, comboboxCSS);
+  const [open, setOpen] = useState9(false);
+  const [focusedIndex, setFocusedIndex] = useState9(-1);
+  const [dropDirection, setDropDirection] = useState9("down");
+  const containerRef = useRef9(null);
+  const inputRef = useRef9(null);
+  const menuRef = useRef9(null);
+  useEffect9(() => {
+    if (!ref)
+      return;
+    if (typeof ref === "function") {
+      ref(inputRef.current);
+    } else {
+      ref.current = inputRef.current;
     }
-    [data-chip-picker-id="${Z}"] button[aria-pressed="true"]:hover {
-      background: ${i.colorActionSecondaryHover} !important;
-    }`);let N=(K)=>{if(X.includes(K))$(X.filter((U)=>U!==K));else $([...X,K])},H=[],W=new Map;for(let K of J){let U=K.group??null,A=W.get(U);if(!A)A=[],W.set(U,A),H.push({label:U,chips:A});A.push(K)}let q=H.findIndex((K)=>K.label===null);if(q>0){let[K]=H.splice(q,1);H.unshift(K)}let G=(K)=>({display:"inline-flex",alignItems:"center",padding:"4px 12px",fontSize:i.fontSizeSm,fontFamily:i.fontSans,fontWeight:i.fontWeightMedium,lineHeight:i.lineHeightTight,color:K?i.colorActionPrimary:i.colorText,background:K?i.colorActionSecondary:"transparent",border:`1px solid ${K?i.colorActionPrimary:i.colorBorder}`,borderRadius:i.radiusFull,cursor:"pointer",transition:"background 100ms ease, border-color 100ms ease, color 100ms ease",outline:"none"}),z=(K)=>T2("div",{style:{display:"flex",flexWrap:"wrap",gap:i.spaceSm},children:K.map((U)=>{let A=X.includes(U.value);return T2("button",{type:"button","aria-pressed":A,onClick:()=>N(U.value),style:G(A),children:U.label},U.value)})});return T2("div",{"data-chip-picker-id":Z,style:{display:"flex",flexDirection:"column",gap:i.spaceMd,...P},children:H.map((K,U)=>j9("div",{style:{display:"flex",flexDirection:"column",gap:i.spaceSm},children:[K.label!==null&&T2(Q6,{style:U>0?{marginTop:i.spaceXs}:void 0,children:K.label}),z(K.chips)]},K.label??"__ungrouped"))})}import{forwardRef as f9,useState as u9,useEffect as U6,useRef as G6,useCallback as c9}from"react";import{semantic as l,useInjectStyles as o9}from "../../core/dist/index.js";import{jsx as f2,jsxs as s9}from"react/jsx-runtime";var n9="4lt7ab-search-input",r9=`
+  }, [ref]);
+  const filtered = useMemo(() => {
+    if (!value)
+      return options;
+    const lower = value.toLowerCase();
+    return options.filter((o) => o.label.toLowerCase().includes(lower));
+  }, [options, value]);
+  const calculateDirection = useCallback7(() => {
+    const input = inputRef.current;
+    if (!input)
+      return;
+    const rect = input.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const spaceAbove = rect.top;
+    const estimatedHeight = Math.min(filtered.length * 32 + 8, 256);
+    setDropDirection(spaceBelow >= estimatedHeight ? "down" : spaceAbove > spaceBelow ? "up" : "down");
+  }, [filtered.length]);
+  const openMenu = useCallback7(() => {
+    if (disabled)
+      return;
+    calculateDirection();
+    setOpen(true);
+    setFocusedIndex(-1);
+  }, [disabled, calculateDirection]);
+  const closeMenu = useCallback7(() => {
+    setOpen(false);
+    setFocusedIndex(-1);
+  }, []);
+  const selectOption = useCallback7((opt) => {
+    onChange(opt.value);
+    onSelect?.(opt);
+    closeMenu();
+    inputRef.current?.focus();
+  }, [onChange, onSelect, closeMenu]);
+  useEffect9(() => {
+    if (!open)
+      return;
+    function handleMouseDown(e) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        closeMenu();
+      }
+    }
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [open, closeMenu]);
+  useEffect9(() => {
+    if (!open || focusedIndex < 0)
+      return;
+    const menu = menuRef.current;
+    if (!menu)
+      return;
+    const items = menu.querySelectorAll('[role="option"]');
+    items[focusedIndex]?.scrollIntoView({ block: "nearest" });
+  }, [open, focusedIndex]);
+  const handleKeyDown = useCallback7((e) => {
+    if (e.key === "Escape") {
+      closeMenu();
+      inputRef.current?.focus();
+      return;
+    }
+    if (!open) {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        openMenu();
+      }
+      return;
+    }
+    switch (e.key) {
+      case "ArrowDown": {
+        e.preventDefault();
+        setFocusedIndex((prev) => prev < filtered.length - 1 ? prev + 1 : 0);
+        break;
+      }
+      case "ArrowUp": {
+        e.preventDefault();
+        setFocusedIndex((prev) => prev > 0 ? prev - 1 : filtered.length - 1);
+        break;
+      }
+      case "Enter":
+        if (focusedIndex >= 0 && focusedIndex < filtered.length) {
+          e.preventDefault();
+          selectOption(filtered[focusedIndex]);
+        }
+        break;
+      case "Home":
+        e.preventDefault();
+        if (filtered.length > 0)
+          setFocusedIndex(0);
+        break;
+      case "End":
+        e.preventDefault();
+        if (filtered.length > 0)
+          setFocusedIndex(filtered.length - 1);
+        break;
+      case "Tab":
+        closeMenu();
+        break;
+    }
+  }, [open, openMenu, closeMenu, focusedIndex, filtered, selectOption]);
+  const handleInputChange = useCallback7((e) => {
+    onChange(e.target.value);
+    if (!open) {
+      openMenu();
+    }
+    setFocusedIndex(-1);
+  }, [onChange, open, openMenu]);
+  const listboxId = id ? `${id}-listbox` : "alttab-combobox-listbox";
+  const activedescendant = open && focusedIndex >= 0 ? `alttab-combobox-opt-${filtered[focusedIndex]?.value}` : undefined;
+  const menuStyle = dropDirection === "down" ? {
+    position: "absolute",
+    top: "100%",
+    left: 0,
+    right: 0,
+    marginTop: t33.spaceXs
+  } : {
+    position: "absolute",
+    bottom: "100%",
+    left: 0,
+    right: 0,
+    marginBottom: t33.spaceXs
+  };
+  return /* @__PURE__ */ jsxDEV36("div", {
+    ref: containerRef,
+    style: wrapperStyle4,
+    onKeyDown: handleKeyDown,
+    children: [
+      /* @__PURE__ */ jsxDEV36("input", {
+        ref: inputRef,
+        type: "text",
+        role: "combobox",
+        className: "alttab-combobox-input",
+        "aria-expanded": open,
+        "aria-haspopup": "listbox",
+        "aria-controls": listboxId,
+        "aria-activedescendant": activedescendant,
+        "aria-autocomplete": "list",
+        "aria-invalid": hasError || undefined,
+        "aria-label": ariaLabel,
+        "aria-labelledby": ariaLabelledBy,
+        autoComplete: "off",
+        id,
+        value,
+        placeholder,
+        disabled,
+        onChange: handleInputChange,
+        onFocus: () => {
+          if (!disabled && filtered.length > 0)
+            openMenu();
+        },
+        style: {
+          ...inputBaseStyle,
+          ...hasError ? errorBorderStyle4 : {},
+          ...disabled ? disabledStyle4 : {},
+          ...style
+        },
+        ...props
+      }, undefined, false, undefined, this),
+      open && filtered.length > 0 && /* @__PURE__ */ jsxDEV36("div", {
+        ref: menuRef,
+        id: listboxId,
+        role: "listbox",
+        style: {
+          ...menuStyle,
+          background: t33.colorSurfacePanel,
+          border: `1px solid ${t33.colorBorder}`,
+          borderRadius: t33.radiusMd,
+          padding: t33.spaceXs,
+          zIndex: 100,
+          boxShadow: t33.shadowMd,
+          maxHeight: "16rem",
+          overflowY: "auto",
+          boxSizing: "border-box"
+        },
+        children: filtered.map((opt, idx) => {
+          const isFocused = focusedIndex === idx;
+          const isMatch = opt.value === value;
+          const classes = [
+            "alttab-combobox-option",
+            isFocused ? "alttab-combobox-option--focused" : ""
+          ].filter(Boolean).join(" ");
+          return /* @__PURE__ */ jsxDEV36("button", {
+            id: `alttab-combobox-opt-${opt.value}`,
+            type: "button",
+            role: "option",
+            "aria-selected": isMatch,
+            className: classes,
+            onClick: () => selectOption(opt),
+            onMouseEnter: () => setFocusedIndex(idx),
+            style: isMatch ? { fontWeight: t33.fontWeightSemibold } : undefined,
+            children: opt.label
+          }, opt.value, false, undefined, this);
+        })
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+var wrapperStyle4 = {
+  position: "relative",
+  display: "block",
+  width: "100%"
+};
+var inputBaseStyle = {
+  display: "block",
+  width: "100%",
+  padding: `${t33.spaceSm} ${t33.spaceMd}`,
+  fontSize: t33.fontSizeSm,
+  lineHeight: t33.lineHeightTight,
+  fontFamily: t33.fontSans,
+  color: t33.colorText,
+  background: t33.colorSurfaceInput,
+  border: `1px solid ${t33.colorBorder}`,
+  borderRadius: t33.radiusMd,
+  outline: "none",
+  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  boxSizing: "border-box"
+};
+var errorBorderStyle4 = {
+  borderColor: t33.colorBorderError
+};
+var disabledStyle4 = {
+  background: t33.colorSurfaceDisabled,
+  color: t33.colorTextDisabled,
+  cursor: "not-allowed"
+};
+// src/components/TableFilters/TableFilters.tsx
+import { useState as useState10, useEffect as useEffect10, useRef as useRef10, useCallback as useCallback8 } from "react";
+import { semantic as t34 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV37 } from "react/jsx-dev-runtime";
+function DebouncedTextFilter({
+  config,
+  value,
+  onCommit
+}) {
+  const delay = config.debounceMs ?? 300;
+  const [local, setLocal] = useState10(value);
+  const timerRef = useRef10(null);
+  useEffect10(() => {
+    setLocal(value);
+  }, [value]);
+  const handleChange = useCallback8((e) => {
+    const next = e.target.value;
+    setLocal(next);
+    if (timerRef.current)
+      clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      onCommit(config.key, next);
+    }, delay);
+  }, [config.key, delay, onCommit]);
+  useEffect10(() => {
+    return () => {
+      if (timerRef.current)
+        clearTimeout(timerRef.current);
+    };
+  }, []);
+  return /* @__PURE__ */ jsxDEV37("div", {
+    style: { minWidth: "10rem", flex: "1 1 10rem" },
+    children: /* @__PURE__ */ jsxDEV37(Input, {
+      value: local,
+      onChange: handleChange,
+      placeholder: config.placeholder
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function SelectFilter({
+  config,
+  value,
+  onCommit
+}) {
+  const handleChange = useCallback8((e) => {
+    onCommit(config.key, e.target.value);
+  }, [config.key, onCommit]);
+  return /* @__PURE__ */ jsxDEV37("div", {
+    style: { minWidth: "8rem", flex: "0 1 12rem" },
+    children: /* @__PURE__ */ jsxDEV37(Select, {
+      value,
+      onChange: handleChange,
+      options: config.options,
+      placeholder: config.placeholder
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function TableFilters({
+  filters,
+  values,
+  onChange,
+  style,
+  ...props
+}) {
+  const handleCommit = useCallback8((key, value) => {
+    onChange({ ...values, [key]: value });
+  }, [values, onChange]);
+  return /* @__PURE__ */ jsxDEV37("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: t34.spaceSm,
+      alignItems: "flex-start",
+      ...style
+    },
+    ...props,
+    children: filters.map((filter) => {
+      const val = values[filter.key] ?? "";
+      if (filter.type === "text") {
+        return /* @__PURE__ */ jsxDEV37(DebouncedTextFilter, {
+          config: filter,
+          value: val,
+          onCommit: handleCommit
+        }, filter.key, false, undefined, this);
+      }
+      return /* @__PURE__ */ jsxDEV37(SelectFilter, {
+        config: filter,
+        value: val,
+        onCommit: handleCommit
+      }, filter.key, false, undefined, this);
+    })
+  }, undefined, false, undefined, this);
+}
+// src/components/ChipPicker/ChipPicker.tsx
+import { useId as useId7 } from "react";
+import { semantic as t35, useInjectStyles as useInjectStyles11 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV38 } from "react/jsx-dev-runtime";
+function ChipPicker({
+  items,
+  selected,
+  onChange,
+  style
+}) {
+  const uid = useId7();
+  const styleId = `chip-picker-${uid.replace(/:/g, "")}`;
+  useInjectStyles11(styleId, `[data-chip-picker-id="${styleId}"] button:hover {
+      background: ${t35.colorSurfaceRaised} !important;
+    }
+    [data-chip-picker-id="${styleId}"] button[aria-pressed="true"]:hover {
+      background: ${t35.colorActionSecondaryHover} !important;
+    }`);
+  const toggle = (value) => {
+    if (selected.includes(value)) {
+      onChange(selected.filter((v) => v !== value));
+    } else {
+      onChange([...selected, value]);
+    }
+  };
+  const groups = [];
+  const groupMap = new Map;
+  for (const item of items) {
+    const key = item.group ?? null;
+    let arr = groupMap.get(key);
+    if (!arr) {
+      arr = [];
+      groupMap.set(key, arr);
+      groups.push({ label: key, chips: arr });
+    }
+    arr.push(item);
+  }
+  const ungroupedIdx = groups.findIndex((g) => g.label === null);
+  if (ungroupedIdx > 0) {
+    const [ungrouped] = groups.splice(ungroupedIdx, 1);
+    groups.unshift(ungrouped);
+  }
+  const chipStyle = (isSelected) => ({
+    display: "inline-flex",
+    alignItems: "center",
+    padding: `4px 12px`,
+    fontSize: t35.fontSizeSm,
+    fontFamily: t35.fontSans,
+    fontWeight: t35.fontWeightMedium,
+    lineHeight: t35.lineHeightTight,
+    color: isSelected ? t35.colorActionPrimary : t35.colorText,
+    background: isSelected ? t35.colorActionSecondary : "transparent",
+    border: `1px solid ${isSelected ? t35.colorActionPrimary : t35.colorBorder}`,
+    borderRadius: t35.radiusFull,
+    cursor: "pointer",
+    transition: "background 100ms ease, border-color 100ms ease, color 100ms ease",
+    outline: "none"
+  });
+  const renderChips = (chips) => /* @__PURE__ */ jsxDEV38("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: t35.spaceSm
+    },
+    children: chips.map((item) => {
+      const isSelected = selected.includes(item.value);
+      return /* @__PURE__ */ jsxDEV38("button", {
+        type: "button",
+        "aria-pressed": isSelected,
+        onClick: () => toggle(item.value),
+        style: chipStyle(isSelected),
+        children: item.label
+      }, item.value, false, undefined, this);
+    })
+  }, undefined, false, undefined, this);
+  return /* @__PURE__ */ jsxDEV38("div", {
+    "data-chip-picker-id": styleId,
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: t35.spaceMd,
+      ...style
+    },
+    children: groups.map((group, i) => /* @__PURE__ */ jsxDEV38("div", {
+      style: { display: "flex", flexDirection: "column", gap: t35.spaceSm },
+      children: [
+        group.label !== null && /* @__PURE__ */ jsxDEV38(SectionLabel, {
+          style: i > 0 ? { marginTop: t35.spaceXs } : undefined,
+          children: group.label
+        }, undefined, false, undefined, this),
+        renderChips(group.chips)
+      ]
+    }, group.label ?? "__ungrouped", true, undefined, this))
+  }, undefined, false, undefined, this);
+}
+// src/components/SearchInput/SearchInput.tsx
+import { forwardRef as forwardRef29, useState as useState11, useEffect as useEffect11, useRef as useRef11, useCallback as useCallback9 } from "react";
+import { semantic as t36, useInjectStyles as useInjectStyles12 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV39 } from "react/jsx-dev-runtime";
+var STYLE_ID2 = "4lt7ab-search-input";
+var hoverFocusCSS = `
   .search-input-wrapper:focus-within {
-    border-color: ${l.colorBorderFocused};
-    box-shadow: 0 0 0 ${l.focusRingWidth} ${l.focusRingColor};
+    border-color: ${t36.colorBorderFocused};
+    box-shadow: 0 0 0 ${t36.focusRingWidth} ${t36.focusRingColor};
   }
   @media (prefers-reduced-motion: reduce) {
     .search-input-wrapper {
       transition: none !important;
     }
   }
-`,d9={display:"flex",alignItems:"center",gap:l.spaceXs,width:"100%",padding:`${l.spaceSm} ${l.spaceMd}`,fontSize:l.fontSizeSm,lineHeight:l.lineHeightTight,fontFamily:l.fontSans,color:l.colorText,background:l.colorSurfaceInput,border:`1px solid ${l.colorBorder}`,borderRadius:l.radiusMd,transition:"border-color 150ms ease, box-shadow 150ms ease",boxSizing:"border-box"},i9={flex:1,minWidth:0,border:"none",outline:"none",background:"transparent",color:"inherit",fontSize:"inherit",lineHeight:"inherit",fontFamily:"inherit",padding:0},l9={background:l.colorSurfaceDisabled,color:l.colorTextDisabled,cursor:"not-allowed"},a9=f9(function({value:X,onSearch:$,debounceMs:P=300,trailing:Q,disabled:Z,style:N,placeholder:H="Search…",...W},q){o9(n9,r9);let[G,z]=u9(X),K=G6(null),U=G6($);U.current=$,U6(()=>{z(X)},[X]);let A=c9((_)=>{let Y=_.target.value;if(z(Y),K.current)clearTimeout(K.current);K.current=setTimeout(()=>{U.current(Y)},P)},[P]);return U6(()=>{return()=>{if(K.current)clearTimeout(K.current)}},[]),s9("div",{className:"search-input-wrapper",style:{...d9,...Z?l9:{},...N},children:[f2(W1,{name:"search",size:16,style:{color:l.colorTextMuted,flexShrink:0}}),f2("input",{ref:q,type:"text",value:G,onChange:A,placeholder:H,disabled:Z,style:i9,...W}),Q&&f2("div",{style:{flexShrink:0,display:"flex",alignItems:"center"},children:Q})]})});import{useRef as t9,useLayoutEffect as K6,useState as e9,useCallback as XX}from"react";import{semantic as e,useInjectStyles as JX}from "../../core/dist/index.js";import{jsx as u2,jsxs as A6}from"react/jsx-runtime";var PX="4lt7ab-segmented-control",$X=`
+`;
+var wrapperStyle5 = {
+  display: "flex",
+  alignItems: "center",
+  gap: t36.spaceXs,
+  width: "100%",
+  padding: `${t36.spaceSm} ${t36.spaceMd}`,
+  fontSize: t36.fontSizeSm,
+  lineHeight: t36.lineHeightTight,
+  fontFamily: t36.fontSans,
+  color: t36.colorText,
+  background: t36.colorSurfaceInput,
+  border: `1px solid ${t36.colorBorder}`,
+  borderRadius: t36.radiusMd,
+  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  boxSizing: "border-box"
+};
+var inputStyle = {
+  flex: 1,
+  minWidth: 0,
+  border: "none",
+  outline: "none",
+  background: "transparent",
+  color: "inherit",
+  fontSize: "inherit",
+  lineHeight: "inherit",
+  fontFamily: "inherit",
+  padding: 0
+};
+var disabledWrapperStyle = {
+  background: t36.colorSurfaceDisabled,
+  color: t36.colorTextDisabled,
+  cursor: "not-allowed"
+};
+var SearchInput = forwardRef29(function SearchInput2({
+  value,
+  onSearch,
+  debounceMs = 300,
+  trailing,
+  disabled,
+  style,
+  placeholder = "Search…",
+  ...props
+}, ref) {
+  useInjectStyles12(STYLE_ID2, hoverFocusCSS);
+  const [localValue, setLocalValue] = useState11(value);
+  const timerRef = useRef11(null);
+  const onSearchRef = useRef11(onSearch);
+  onSearchRef.current = onSearch;
+  useEffect11(() => {
+    setLocalValue(value);
+  }, [value]);
+  const handleChange = useCallback9((e) => {
+    const next = e.target.value;
+    setLocalValue(next);
+    if (timerRef.current)
+      clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      onSearchRef.current(next);
+    }, debounceMs);
+  }, [debounceMs]);
+  useEffect11(() => {
+    return () => {
+      if (timerRef.current)
+        clearTimeout(timerRef.current);
+    };
+  }, []);
+  return /* @__PURE__ */ jsxDEV39("div", {
+    className: "search-input-wrapper",
+    style: {
+      ...wrapperStyle5,
+      ...disabled ? disabledWrapperStyle : {},
+      ...style
+    },
+    children: [
+      /* @__PURE__ */ jsxDEV39(Icon, {
+        name: "search",
+        size: 16,
+        style: { color: t36.colorTextMuted, flexShrink: 0 }
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV39("input", {
+        ref,
+        type: "text",
+        value: localValue,
+        onChange: handleChange,
+        placeholder,
+        disabled,
+        style: inputStyle,
+        ...props
+      }, undefined, false, undefined, this),
+      trailing && /* @__PURE__ */ jsxDEV39("div", {
+        style: { flexShrink: 0, display: "flex", alignItems: "center" },
+        children: trailing
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/SegmentedControl/SegmentedControl.tsx
+import { useRef as useRef12, useLayoutEffect, useState as useState12, useCallback as useCallback10 } from "react";
+import { semantic as t37, useInjectStyles as useInjectStyles13 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV40 } from "react/jsx-dev-runtime";
+var STYLE_ID3 = "4lt7ab-segmented-control";
+var hoverCSS = `
   .segmented-ctrl-btn:hover:not([aria-pressed="true"]) {
-    color: ${e.colorText};
+    color: ${t37.colorText};
   }
   @media (prefers-reduced-motion: reduce) {
     .segmented-ctrl-indicator {
       transition: none !important;
     }
   }
-`,QX={sm:{height:28,px:8,fontSize:"var(--font-size-xs)",iconSize:14},md:{height:32,px:12,fontSize:"var(--font-size-sm)",iconSize:16}};function ZX({segments:J,value:X,onChange:$,size:P="md"}){JX(PX,$X);let Q=t9(null),[Z,N]=e9(null),H=QX[P],W=XX(()=>{let q=Q.current;if(!q)return;let G=q.querySelector('[aria-pressed="true"]');if(!G){N(null);return}let z=q.getBoundingClientRect(),K=G.getBoundingClientRect();N({left:K.left-z.left,width:K.width})},[]);return K6(()=>{W()},[X,J,W]),K6(()=>{let q=new ResizeObserver(()=>W());if(Q.current)q.observe(Q.current);return()=>q.disconnect()},[W]),A6("div",{ref:Q,role:"group",style:{position:"relative",display:"inline-flex",alignItems:"center",height:H.height,background:e.colorSurfaceInput,borderRadius:e.radiusFull,border:`1px solid ${e.colorBorder}`,padding:2,boxSizing:"border-box"},children:[Z&&u2("div",{className:"segmented-ctrl-indicator",style:{position:"absolute",top:2,left:Z.left,width:Z.width,height:H.height-6,borderRadius:e.radiusFull,background:e.colorActionPrimary,transition:"left 200ms ease, width 200ms ease",pointerEvents:"none"}}),J.map((q)=>{let G=q.value===X,z=!!q.icon,K=z&&!q.label;return A6("button",{type:"button",className:"segmented-ctrl-btn","aria-pressed":G,onClick:()=>$(q.value),style:{position:"relative",zIndex:1,display:"inline-flex",alignItems:"center",justifyContent:"center",gap:e.spaceXs,height:H.height-6,padding:K?`0 ${H.px-2}px`:`0 ${H.px}px`,border:"none",borderRadius:e.radiusFull,background:"transparent",color:G?e.colorTextInverse:e.colorTextMuted,fontSize:H.fontSize,fontFamily:e.fontSans,fontWeight:G?e.fontWeightSemibold:e.fontWeightNormal,cursor:"pointer",transition:"color 150ms ease",whiteSpace:"nowrap",lineHeight:1},children:[z&&u2(W1,{name:q.icon,size:H.iconSize}),q.label&&u2("span",{children:q.label})]},q.value)})]})}import{forwardRef as NX,useEffect as HX,useRef as qX}from"react";import{semantic as x,useInjectStyles as WX}from "../../core/dist/index.js";import{jsx as C1,jsxs as MX}from"react/jsx-runtime";var UX="4lt7ab-alert-banner",GX=`
+`;
+var sizes = {
+  sm: { height: 28, px: 8, fontSize: "var(--font-size-xs)", iconSize: 14 },
+  md: { height: 32, px: 12, fontSize: "var(--font-size-sm)", iconSize: 16 }
+};
+function SegmentedControl({
+  segments,
+  value,
+  onChange,
+  size = "md"
+}) {
+  useInjectStyles13(STYLE_ID3, hoverCSS);
+  const containerRef = useRef12(null);
+  const [indicator, setIndicator] = useState12(null);
+  const s = sizes[size];
+  const updateIndicator = useCallback10(() => {
+    const container = containerRef.current;
+    if (!container)
+      return;
+    const activeBtn = container.querySelector('[aria-pressed="true"]');
+    if (!activeBtn) {
+      setIndicator(null);
+      return;
+    }
+    const containerRect = container.getBoundingClientRect();
+    const btnRect = activeBtn.getBoundingClientRect();
+    setIndicator({
+      left: btnRect.left - containerRect.left,
+      width: btnRect.width
+    });
+  }, []);
+  useLayoutEffect(() => {
+    updateIndicator();
+  }, [value, segments, updateIndicator]);
+  useLayoutEffect(() => {
+    const observer = new ResizeObserver(() => updateIndicator());
+    if (containerRef.current)
+      observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [updateIndicator]);
+  return /* @__PURE__ */ jsxDEV40("div", {
+    ref: containerRef,
+    role: "group",
+    style: {
+      position: "relative",
+      display: "inline-flex",
+      alignItems: "center",
+      height: s.height,
+      background: t37.colorSurfaceInput,
+      borderRadius: t37.radiusFull,
+      border: `1px solid ${t37.colorBorder}`,
+      padding: 2,
+      boxSizing: "border-box"
+    },
+    children: [
+      indicator && /* @__PURE__ */ jsxDEV40("div", {
+        className: "segmented-ctrl-indicator",
+        style: {
+          position: "absolute",
+          top: 2,
+          left: indicator.left,
+          width: indicator.width,
+          height: s.height - 6,
+          borderRadius: t37.radiusFull,
+          background: t37.colorActionPrimary,
+          transition: "left 200ms ease, width 200ms ease",
+          pointerEvents: "none"
+        }
+      }, undefined, false, undefined, this),
+      segments.map((seg) => {
+        const isActive = seg.value === value;
+        const hasIcon = !!seg.icon;
+        const iconOnly = hasIcon && !seg.label;
+        return /* @__PURE__ */ jsxDEV40("button", {
+          type: "button",
+          className: "segmented-ctrl-btn",
+          "aria-pressed": isActive,
+          onClick: () => onChange(seg.value),
+          style: {
+            position: "relative",
+            zIndex: 1,
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: t37.spaceXs,
+            height: s.height - 6,
+            padding: iconOnly ? `0 ${s.px - 2}px` : `0 ${s.px}px`,
+            border: "none",
+            borderRadius: t37.radiusFull,
+            background: "transparent",
+            color: isActive ? t37.colorTextInverse : t37.colorTextMuted,
+            fontSize: s.fontSize,
+            fontFamily: t37.fontSans,
+            fontWeight: isActive ? t37.fontWeightSemibold : t37.fontWeightNormal,
+            cursor: "pointer",
+            transition: "color 150ms ease",
+            whiteSpace: "nowrap",
+            lineHeight: 1
+          },
+          children: [
+            hasIcon && /* @__PURE__ */ jsxDEV40(Icon, {
+              name: seg.icon,
+              size: s.iconSize
+            }, undefined, false, undefined, this),
+            seg.label && /* @__PURE__ */ jsxDEV40("span", {
+              children: seg.label
+            }, undefined, false, undefined, this)
+          ]
+        }, seg.value, true, undefined, this);
+      })
+    ]
+  }, undefined, true, undefined, this);
+}
+// src/components/AlertBanner/AlertBanner.tsx
+import { forwardRef as forwardRef30, useEffect as useEffect12, useRef as useRef13 } from "react";
+import { semantic as t38, useInjectStyles as useInjectStyles14 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV41 } from "react/jsx-dev-runtime";
+var STYLE_ID4 = "4lt7ab-alert-banner";
+var alertBannerCSS = `
 @keyframes alert-banner-slide-in {
   from { opacity: 0; transform: translateY(-100%); }
   to   { opacity: 1; transform: translateY(0); }
@@ -318,7 +4619,100 @@ import{useEffect as Y6}from"react";var V6=["a[href]","button:not(:disabled)","in
 .alert-banner-dismiss:hover {
   opacity: 1 !important;
 }
-`,KX={info:{bg:x.colorInfoBg,fg:x.colorInfo,border:x.colorInfo},warning:{bg:x.colorWarningBg,fg:x.colorWarning,border:x.colorWarning},error:{bg:x.colorErrorBg,fg:x.colorError,border:x.colorError},success:{bg:x.colorSuccessBg,fg:x.colorSuccess,border:x.colorSuccess}},AX={info:C1(q2,{size:20}),warning:C1(N2,{size:20}),error:C1(H2,{size:20}),success:C1(Z2,{size:20})},zX=NX(function({variant:X,children:$,onDismiss:P,autoDismiss:Q,icon:Z,style:N},H){WX(UX,GX);let W=qX(null);HX(()=>{if(Q&&P)return W.current=setTimeout(P,Q),()=>{if(W.current)clearTimeout(W.current)}},[Q,P]);let q=KX[X],G=Z!==void 0?Z:AX[X];return MX("div",{ref:H,role:"alert",style:{display:"flex",alignItems:"center",gap:x.spaceSm,width:"100%",padding:`${x.spaceSm} ${x.spaceMd}`,background:q.bg,color:q.fg,borderBottom:`2px solid ${q.border}`,fontFamily:x.fontSans,fontSize:x.fontSizeSm,fontWeight:x.fontWeightMedium,lineHeight:x.lineHeightBase,boxSizing:"border-box",animation:"alert-banner-slide-in 250ms ease",...N},children:[G&&C1("span",{style:{flexShrink:0,display:"flex",alignItems:"center"},children:G}),C1("span",{style:{flex:1},children:$}),P&&C1("button",{className:"alert-banner-dismiss",onClick:P,"aria-label":"Dismiss",style:{all:"unset",cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",width:"1.5rem",height:"1.5rem",borderRadius:x.radiusSm,color:q.fg,opacity:0.7,fontSize:x.fontSizeLg,lineHeight:1},children:"×"})]})});import{forwardRef as YX}from"react";import{semantic as j,useInjectStyles as VX}from "../../core/dist/index.js";import{jsx as c2,jsxs as z6}from"react/jsx-runtime";var _X="4lt7ab-topbar",BX=`
+`;
+var variantColors2 = {
+  info: { bg: t38.colorInfoBg, fg: t38.colorInfo, border: t38.colorInfo },
+  warning: { bg: t38.colorWarningBg, fg: t38.colorWarning, border: t38.colorWarning },
+  error: { bg: t38.colorErrorBg, fg: t38.colorError, border: t38.colorError },
+  success: { bg: t38.colorSuccessBg, fg: t38.colorSuccess, border: t38.colorSuccess }
+};
+var defaultIcons = {
+  info: /* @__PURE__ */ jsxDEV41(IconInfo, {
+    size: 20
+  }, undefined, false, undefined, this),
+  warning: /* @__PURE__ */ jsxDEV41(IconWarning, {
+    size: 20
+  }, undefined, false, undefined, this),
+  error: /* @__PURE__ */ jsxDEV41(IconError, {
+    size: 20
+  }, undefined, false, undefined, this),
+  success: /* @__PURE__ */ jsxDEV41(IconCheckCircle, {
+    size: 20
+  }, undefined, false, undefined, this)
+};
+var AlertBanner = forwardRef30(function AlertBanner2({ variant, children, onDismiss, autoDismiss, icon, style }, ref) {
+  useInjectStyles14(STYLE_ID4, alertBannerCSS);
+  const timerRef = useRef13(null);
+  useEffect12(() => {
+    if (autoDismiss && onDismiss) {
+      timerRef.current = setTimeout(onDismiss, autoDismiss);
+      return () => {
+        if (timerRef.current)
+          clearTimeout(timerRef.current);
+      };
+    }
+  }, [autoDismiss, onDismiss]);
+  const colors = variantColors2[variant];
+  const resolvedIcon = icon !== undefined ? icon : defaultIcons[variant];
+  return /* @__PURE__ */ jsxDEV41("div", {
+    ref,
+    role: "alert",
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: t38.spaceSm,
+      width: "100%",
+      padding: `${t38.spaceSm} ${t38.spaceMd}`,
+      background: colors.bg,
+      color: colors.fg,
+      borderBottom: `2px solid ${colors.border}`,
+      fontFamily: t38.fontSans,
+      fontSize: t38.fontSizeSm,
+      fontWeight: t38.fontWeightMedium,
+      lineHeight: t38.lineHeightBase,
+      boxSizing: "border-box",
+      animation: "alert-banner-slide-in 250ms ease",
+      ...style
+    },
+    children: [
+      resolvedIcon && /* @__PURE__ */ jsxDEV41("span", {
+        style: { flexShrink: 0, display: "flex", alignItems: "center" },
+        children: resolvedIcon
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsxDEV41("span", {
+        style: { flex: 1 },
+        children
+      }, undefined, false, undefined, this),
+      onDismiss && /* @__PURE__ */ jsxDEV41("button", {
+        className: "alert-banner-dismiss",
+        onClick: onDismiss,
+        "aria-label": "Dismiss",
+        style: {
+          all: "unset",
+          cursor: "pointer",
+          flexShrink: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "1.5rem",
+          height: "1.5rem",
+          borderRadius: t38.radiusSm,
+          color: colors.fg,
+          opacity: 0.7,
+          fontSize: t38.fontSizeLg,
+          lineHeight: 1
+        },
+        children: "×"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/TopBar/TopBar.tsx
+import { forwardRef as forwardRef31 } from "react";
+import { semantic as t39, useInjectStyles as useInjectStyles15 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV42 } from "react/jsx-dev-runtime";
+var TOPBAR_STYLES_ID = "4lt7ab-topbar";
+var TOPBAR_CSS = `
   .topbar-nav-item {
     position: relative;
   }
@@ -333,17 +4727,325 @@ import{useEffect as Y6}from"react";var V6=["a[href]","button:not(:disabled)","in
     transition: background 0.15s ease;
   }
   .topbar-nav-item:hover::after {
-    background: ${j.colorBorder};
+    background: ${t39.colorBorder};
   }
   .topbar-nav-item[data-active]::after {
-    background: ${j.colorActionPrimary};
+    background: ${t39.colorActionPrimary};
   }
   .topbar-nav-item:hover {
-    color: ${j.colorText};
+    color: ${t39.colorText};
   }
-`,kX=YX(function({title:X,items:$=[],activePath:P,onNavigate:Q,trailing:Z,sticky:N=!1,style:H,...W},q){VX(_X,BX);let G=N?{position:"sticky",top:0,zIndex:100}:{};return z6("header",{ref:q,style:{display:"flex",alignItems:"center",height:48,padding:`0 ${j.spaceMd}`,background:j.colorSurface,borderBottom:`1px solid ${j.colorBorder}`,fontFamily:j.fontSans,...G,...H},...W,children:[c2("div",{style:{display:"flex",alignItems:"center",fontWeight:j.fontWeightBold,fontSize:j.fontSizeSm,color:j.colorText,marginRight:j.spaceLg,whiteSpace:"nowrap",flexShrink:0},children:X}),$.length>0&&c2("nav",{style:{display:"flex",alignItems:"center",gap:j.spaceXs,height:"100%",flex:1,minWidth:0},children:$.map((z)=>{let K=P===z.path;return z6("button",{type:"button",className:"topbar-nav-item",onClick:()=>Q?.(z.path),"aria-current":K?"page":void 0,"data-active":K||void 0,style:{display:"inline-flex",alignItems:"center",gap:j.spaceXs,height:"100%",padding:`0 ${j.spaceSm}`,border:"none",background:"transparent",color:K?j.colorActionPrimary:j.colorTextMuted,fontSize:j.fontSizeSm,fontFamily:j.fontSans,fontWeight:K?j.fontWeightSemibold:j.fontWeightNormal,cursor:"pointer",whiteSpace:"nowrap",transition:"color 0.15s ease",boxSizing:"border-box"},children:[z.icon,z.label]},z.path)})}),Z&&c2("div",{style:{display:"flex",alignItems:"center",gap:j.spaceSm,marginLeft:"auto",flexShrink:0},children:Z})]})});import{forwardRef as FX,useId as TX}from"react";import{semantic as I,useInjectStyles as OX}from "../../core/dist/index.js";import{jsx as M1,jsxs as $2}from"react/jsx-runtime";var LX="4lt7ab-shortcut-help",EX=`
+`;
+var TopBar = forwardRef31(function TopBar2({
+  title,
+  items = [],
+  activePath,
+  onNavigate,
+  trailing,
+  sticky = false,
+  style,
+  ...props
+}, ref) {
+  useInjectStyles15(TOPBAR_STYLES_ID, TOPBAR_CSS);
+  const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: 100 } : {};
+  return /* @__PURE__ */ jsxDEV42("header", {
+    ref,
+    style: {
+      display: "flex",
+      alignItems: "center",
+      height: 48,
+      padding: `0 ${t39.spaceMd}`,
+      background: t39.colorSurface,
+      borderBottom: `1px solid ${t39.colorBorder}`,
+      fontFamily: t39.fontSans,
+      ...stickyStyle,
+      ...style
+    },
+    ...props,
+    children: [
+      /* @__PURE__ */ jsxDEV42("div", {
+        style: {
+          display: "flex",
+          alignItems: "center",
+          fontWeight: t39.fontWeightBold,
+          fontSize: t39.fontSizeSm,
+          color: t39.colorText,
+          marginRight: t39.spaceLg,
+          whiteSpace: "nowrap",
+          flexShrink: 0
+        },
+        children: title
+      }, undefined, false, undefined, this),
+      items.length > 0 && /* @__PURE__ */ jsxDEV42("nav", {
+        style: {
+          display: "flex",
+          alignItems: "center",
+          gap: t39.spaceXs,
+          height: "100%",
+          flex: 1,
+          minWidth: 0
+        },
+        children: items.map((item) => {
+          const isActive = activePath === item.path;
+          return /* @__PURE__ */ jsxDEV42("button", {
+            type: "button",
+            className: "topbar-nav-item",
+            onClick: () => onNavigate?.(item.path),
+            "aria-current": isActive ? "page" : undefined,
+            "data-active": isActive || undefined,
+            style: {
+              display: "inline-flex",
+              alignItems: "center",
+              gap: t39.spaceXs,
+              height: "100%",
+              padding: `0 ${t39.spaceSm}`,
+              border: "none",
+              background: "transparent",
+              color: isActive ? t39.colorActionPrimary : t39.colorTextMuted,
+              fontSize: t39.fontSizeSm,
+              fontFamily: t39.fontSans,
+              fontWeight: isActive ? t39.fontWeightSemibold : t39.fontWeightNormal,
+              cursor: "pointer",
+              whiteSpace: "nowrap",
+              transition: "color 0.15s ease",
+              boxSizing: "border-box"
+            },
+            children: [
+              item.icon,
+              item.label
+            ]
+          }, item.path, true, undefined, this);
+        })
+      }, undefined, false, undefined, this),
+      trailing && /* @__PURE__ */ jsxDEV42("div", {
+        style: {
+          display: "flex",
+          alignItems: "center",
+          gap: t39.spaceSm,
+          marginLeft: "auto",
+          flexShrink: 0
+        },
+        children: trailing
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/ShortcutHelpModal/ShortcutHelpModal.tsx
+import { forwardRef as forwardRef32, useId as useId8 } from "react";
+import { semantic as t40, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
+import { jsxDEV as jsxDEV43 } from "react/jsx-dev-runtime";
+var SHORTCUT_HELP_STYLES_ID = "4lt7ab-shortcut-help";
+var SHORTCUT_HELP_CSS = `
   [data-shortcut-help] kbd:hover {
-    background: ${I.colorSurfaceRaised} !important;
-    border-color: ${I.colorBorderFocused} !important;
+    background: ${t40.colorSurfaceRaised} !important;
+    border-color: ${t40.colorBorderFocused} !important;
   }
-`,Y8=FX(function({shortcuts:X,onClose:$,title:P="Keyboard Shortcuts",maxWidth:Q=520},Z){let N=TX();return OX(LX,EX),M1(L1,{ref:Z,onClose:$,maxWidth:Q,titleId:N,children:$2("div",{"data-shortcut-help":!0,children:[$2("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:I.spaceLg},children:[M1("h2",{id:N,style:O1,children:P}),M1(k1,{icon:"close","aria-label":"Close",onClick:$,style:{marginRight:`calc(-1 * ${I.spaceXs})`,marginTop:`calc(-1 * ${I.spaceXs})`}})]}),M1("div",{style:{display:"flex",flexDirection:"column",gap:I.spaceLg},children:X.map((H)=>$2("div",{children:[M1("h3",{style:{margin:0,marginBottom:I.spaceSm,fontWeight:I.fontWeightMedium,fontFamily:I.fontSans,color:I.colorTextMuted,fontSize:I.fontSizeXs,textTransform:"uppercase",letterSpacing:I.letterSpacingWide},children:H.group}),M1("div",{style:{display:"flex",flexDirection:"column"},children:H.shortcuts.map((W)=>$2("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",padding:`${I.spaceXs} 0`,borderBottom:`1px solid ${I.colorBorder}`},children:[M1("span",{style:{fontFamily:I.fontSans,fontSize:I.fontSizeSm,color:I.colorText},children:W.description}),M1("span",{style:{display:"inline-flex",alignItems:"center",gap:I.spaceXs,flexShrink:0,marginLeft:I.spaceMd},children:W.keys.map((q,G)=>$2("span",{style:{display:"inline-flex",alignItems:"center",gap:I.spaceXs},children:[G>0&&M1("span",{style:{fontSize:I.fontSizeXs,color:I.colorTextMuted,fontFamily:I.fontSans},children:"+"}),M1("kbd",{style:{display:"inline-flex",alignItems:"center",justifyContent:"center",minWidth:24,height:24,padding:`0 ${I.spaceXs}`,fontFamily:I.fontMono,fontSize:I.fontSizeXs,fontWeight:I.fontWeightMedium,lineHeight:1,color:I.colorTextSecondary,background:I.colorSurfaceInput,border:`1px solid ${I.colorBorder}`,borderRadius:I.radiusSm,boxShadow:`0 1px 0 ${I.colorBorder}`,transition:"background 150ms ease, border-color 150ms ease"},children:q})]},`${q}-${G}`))})]},W.description))})]},H.group))})]})})});export{K9 as useToast,n2 as useFocusTrap,K0 as iconRegistry,kX as TopBar,B9 as ToastProvider,P7 as ThemeSurface,cX as ThemePicker,M5 as Textarea,MJ as TagChip,A7 as TableRow,G7 as TableHeaderCell,U7 as TableHeader,_3 as TableGroupHeader,g9 as TableFilters,B3 as TableEmptyRow,z7 as TableCell,K7 as TableBody,W7 as Table,aJ as StatusDot,_0 as Stack,p1 as Skeleton,Y8 as ShortcutHelpModal,w0 as Select,ZX as SegmentedControl,Q6 as SectionLabel,a9 as SearchInput,x5 as RowSkeleton,o5 as ProgressBar,QJ as Pagination,WJ as PageHeader,C0 as Overlay,c8 as ModalShell,t7 as MetadataTable,F0 as Input,N2 as IconWarning,t2 as IconTrash,e2 as IconSettings,s2 as IconSearch,X0 as IconPlus,U0 as IconMoreVertical,J0 as IconMinus,Z0 as IconMenu,q2 as IconInfo,T6 as IconFontProvider,G0 as IconFilter,H0 as IconEyeOff,N0 as IconEye,W0 as IconExternalLink,H2 as IconError,P0 as IconEdit,q0 as IconCopy,r2 as IconClose,l2 as IconChevronUp,Q2 as IconChevronRight,i2 as IconChevronLeft,d2 as IconChevronDown,Z2 as IconCheckCircle,a2 as IconCheck,k1 as IconButton,Q0 as IconArrowRight,$0 as IconArrowLeft,W1 as Icon,nJ as FormModal,N5 as Field,TJ as ExpandableCard,$9 as ErrorBoundary,t5 as EmptyState,j3 as DateRangePicker,s3 as DatePicker,hJ as ConfirmDialog,E9 as Combobox,x9 as ChipPicker,h5 as CardSkeleton,y1 as Card,G1 as Button,L5 as Badge,zX as AlertBanner};
+`;
+var ShortcutHelpModal = forwardRef32(function ShortcutHelpModal2({
+  shortcuts,
+  onClose,
+  title = "Keyboard Shortcuts",
+  maxWidth = 520
+}, ref) {
+  const titleId = useId8();
+  useInjectStyles16(SHORTCUT_HELP_STYLES_ID, SHORTCUT_HELP_CSS);
+  return /* @__PURE__ */ jsxDEV43(ModalShell, {
+    ref,
+    onClose,
+    maxWidth,
+    titleId,
+    children: /* @__PURE__ */ jsxDEV43("div", {
+      "data-shortcut-help": true,
+      children: [
+        /* @__PURE__ */ jsxDEV43("div", {
+          style: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: t40.spaceLg
+          },
+          children: [
+            /* @__PURE__ */ jsxDEV43("h2", {
+              id: titleId,
+              style: modalHeadingStyle,
+              children: title
+            }, undefined, false, undefined, this),
+            /* @__PURE__ */ jsxDEV43(IconButton, {
+              icon: "close",
+              "aria-label": "Close",
+              onClick: onClose,
+              style: { marginRight: `calc(-1 * ${t40.spaceXs})`, marginTop: `calc(-1 * ${t40.spaceXs})` }
+            }, undefined, false, undefined, this)
+          ]
+        }, undefined, true, undefined, this),
+        /* @__PURE__ */ jsxDEV43("div", {
+          style: { display: "flex", flexDirection: "column", gap: t40.spaceLg },
+          children: shortcuts.map((group) => /* @__PURE__ */ jsxDEV43("div", {
+            children: [
+              /* @__PURE__ */ jsxDEV43("h3", {
+                style: {
+                  margin: 0,
+                  marginBottom: t40.spaceSm,
+                  fontWeight: t40.fontWeightMedium,
+                  fontFamily: t40.fontSans,
+                  color: t40.colorTextMuted,
+                  fontSize: t40.fontSizeXs,
+                  textTransform: "uppercase",
+                  letterSpacing: t40.letterSpacingWide
+                },
+                children: group.group
+              }, undefined, false, undefined, this),
+              /* @__PURE__ */ jsxDEV43("div", {
+                style: {
+                  display: "flex",
+                  flexDirection: "column"
+                },
+                children: group.shortcuts.map((shortcut) => /* @__PURE__ */ jsxDEV43("div", {
+                  style: {
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: `${t40.spaceXs} 0`,
+                    borderBottom: `1px solid ${t40.colorBorder}`
+                  },
+                  children: [
+                    /* @__PURE__ */ jsxDEV43("span", {
+                      style: {
+                        fontFamily: t40.fontSans,
+                        fontSize: t40.fontSizeSm,
+                        color: t40.colorText
+                      },
+                      children: shortcut.description
+                    }, undefined, false, undefined, this),
+                    /* @__PURE__ */ jsxDEV43("span", {
+                      style: {
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: t40.spaceXs,
+                        flexShrink: 0,
+                        marginLeft: t40.spaceMd
+                      },
+                      children: shortcut.keys.map((key, i) => /* @__PURE__ */ jsxDEV43("span", {
+                        style: { display: "inline-flex", alignItems: "center", gap: t40.spaceXs },
+                        children: [
+                          i > 0 && /* @__PURE__ */ jsxDEV43("span", {
+                            style: {
+                              fontSize: t40.fontSizeXs,
+                              color: t40.colorTextMuted,
+                              fontFamily: t40.fontSans
+                            },
+                            children: "+"
+                          }, undefined, false, undefined, this),
+                          /* @__PURE__ */ jsxDEV43("kbd", {
+                            style: {
+                              display: "inline-flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              minWidth: 24,
+                              height: 24,
+                              padding: `0 ${t40.spaceXs}`,
+                              fontFamily: t40.fontMono,
+                              fontSize: t40.fontSizeXs,
+                              fontWeight: t40.fontWeightMedium,
+                              lineHeight: 1,
+                              color: t40.colorTextSecondary,
+                              background: t40.colorSurfaceInput,
+                              border: `1px solid ${t40.colorBorder}`,
+                              borderRadius: t40.radiusSm,
+                              boxShadow: `0 1px 0 ${t40.colorBorder}`,
+                              transition: "background 150ms ease, border-color 150ms ease"
+                            },
+                            children: key
+                          }, undefined, false, undefined, this)
+                        ]
+                      }, `${key}-${i}`, true, undefined, this))
+                    }, undefined, false, undefined, this)
+                  ]
+                }, shortcut.description, true, undefined, this))
+              }, undefined, false, undefined, this)
+            ]
+          }, group.group, true, undefined, this))
+        }, undefined, false, undefined, this)
+      ]
+    }, undefined, true, undefined, this)
+  }, undefined, false, undefined, this);
+});
+export {
+  useToast,
+  useFocusTrap,
+  iconRegistry,
+  TopBar,
+  ToastProvider,
+  ThemeSurface,
+  ThemePicker,
+  Textarea,
+  TagChip,
+  TableRow,
+  TableHeaderCell,
+  TableHeader,
+  TableGroupHeader,
+  TableFilters,
+  TableEmptyRow,
+  TableCell,
+  TableBody,
+  Table,
+  StatusDot,
+  Stack,
+  Skeleton,
+  ShortcutHelpModal,
+  Select,
+  SegmentedControl,
+  SectionLabel,
+  SearchInput,
+  RowSkeleton,
+  ProgressBar,
+  Pagination,
+  PageHeader,
+  Overlay,
+  ModalShell3 as ModalShell,
+  MetadataTable,
+  Input,
+  IconWarning,
+  IconTrash,
+  IconSettings,
+  IconSearch,
+  IconPlus,
+  IconMoreVertical,
+  IconMinus,
+  IconMenu,
+  IconInfo,
+  IconFontProvider,
+  IconFilter,
+  IconEyeOff,
+  IconEye,
+  IconExternalLink,
+  IconError,
+  IconEdit,
+  IconCopy,
+  IconClose,
+  IconChevronUp,
+  IconChevronRight,
+  IconChevronLeft,
+  IconChevronDown,
+  IconCheckCircle,
+  IconCheck,
+  IconButton,
+  IconArrowRight,
+  IconArrowLeft,
+  Icon,
+  FormModal,
+  Field,
+  ExpandableCard,
+  ErrorBoundary,
+  EmptyState,
+  DateRangePicker,
+  DatePicker,
+  ConfirmDialog,
+  Combobox,
+  ChipPicker,
+  CardSkeleton,
+  Card,
+  Button,
+  Badge,
+  AlertBanner
+};

@@ -1,4 +1,673 @@
-var X3=Object.create;var{getPrototypeOf:J3,defineProperty:s1,getOwnPropertyNames:L0,getOwnPropertyDescriptor:P3}=Object,u2=Object.prototype.hasOwnProperty;function c2(J){return this[J]}var B=(J,X,P)=>{var $=L0(X);for(let Q of $)if(!u2.call(J,Q)&&Q!=="default")s1(J,Q,{get:c2.bind(X,Q),enumerable:!0});if(P){for(let Q of $)if(!u2.call(P,Q)&&Q!=="default")s1(P,Q,{get:c2.bind(X,Q),enumerable:!0});return P}},$3,Q3,Z3=(J,X,P)=>{var $=J!=null&&typeof J==="object";if($){var Q=X?$3??=new WeakMap:Q3??=new WeakMap,Z=Q.get(J);if(Z)return Z}P=J!=null?X3(J3(J)):{};let N=X||!J||!J.__esModule?s1(P,"default",{value:J,enumerable:!0}):P;for(let H of L0(J))if(!u2.call(N,H))s1(N,H,{get:c2.bind(J,H),enumerable:!0});if($)Q.set(J,N);return N},N3=(J)=>{var X=(i0??=new WeakMap).get(J),P;if(X)return X;if(X=s1({},"__esModule",{value:!0}),J&&typeof J==="object"||typeof J==="function"){for(var $ of L0(J))if(!u2.call(X,$))s1(X,$,{get:c2.bind(J,$),enumerable:!(P=P3(J,$))||P.enumerable})}return i0.set(J,X),X},i0;var H3=(J)=>J;function q3(J,X){this[J]=H3.bind(null,X)}var O=(J,X)=>{for(var P in X)s1(J,P,{get:X[P],enumerable:!0,configurable:!0,set:q3.bind(X,P)})};var Y={};O(Y,{useToast:()=>x0,useFocusTrap:()=>o2,iconRegistry:()=>G0,TopBar:()=>n0,ToastProvider:()=>h0,ThemeSurface:()=>A4,ThemePicker:()=>X6,Textarea:()=>Y6,TagChip:()=>t6,TableRow:()=>k4,TableHeaderCell:()=>_4,TableHeader:()=>V4,TableGroupHeader:()=>v0,TableFilters:()=>f0,TableEmptyRow:()=>m0,TableCell:()=>F4,TableBody:()=>B4,Table:()=>Y4,StatusDot:()=>q4,Stack:()=>K0,Skeleton:()=>f1,ShortcutHelpModal:()=>a4,Select:()=>z0,SegmentedControl:()=>o0,SectionLabel:()=>F0,SearchInput:()=>c0,RowSkeleton:()=>b6,ProgressBar:()=>f6,Pagination:()=>d6,PageHeader:()=>l6,Overlay:()=>M0,ModalShell:()=>t4.ModalShell,MetadataTable:()=>v4,Input:()=>A0,IconWarning:()=>Y2,IconTrash:()=>s2,IconSettings:()=>t2,IconSearch:()=>a2,IconPlus:()=>e2,IconMoreVertical:()=>W0,IconMinus:()=>X0,IconMenu:()=>Q0,IconInfo:()=>_2,IconFontProvider:()=>E0,IconFilter:()=>U0,IconEyeOff:()=>N0,IconEye:()=>Z0,IconExternalLink:()=>q0,IconError:()=>V2,IconEdit:()=>J0,IconCopy:()=>H0,IconClose:()=>r2,IconChevronUp:()=>i2,IconChevronRight:()=>z2,IconChevronLeft:()=>d2,IconChevronDown:()=>n2,IconCheckCircle:()=>M2,IconCheck:()=>l2,IconButton:()=>v1,IconArrowRight:()=>$0,IconArrowLeft:()=>P0,Icon:()=>A1,FormModal:()=>Z4,Field:()=>U6,ExpandableCard:()=>X4,ErrorBoundary:()=>b0,EmptyState:()=>o6,DateRangePicker:()=>y0,DatePicker:()=>g0,ConfirmDialog:()=>$4,Combobox:()=>j0,ChipPicker:()=>u0,CardSkeleton:()=>g6,Card:()=>h1,Button:()=>z1,Badge:()=>R6,AlertBanner:()=>r0});module.exports=N3(Y);var a0={};O(a0,{useFocusTrap:()=>o2});var l0=require("react"),W3=["a[href]","button:not(:disabled)","input:not(:disabled)","select:not(:disabled)","textarea:not(:disabled)",'[tabindex]:not([tabindex="-1"])'].join(", ");function U3(J){return Array.from(J.querySelectorAll(W3))}function o2(J){l0.useEffect(()=>{let X=J.current;if(!X)return;let P=($)=>{if($.key!=="Tab")return;let Q=U3(X);if(Q.length===0){$.preventDefault();return}let Z=Q[0],N=Q[Q.length-1];if($.shiftKey){if(document.activeElement===Z||!X.contains(document.activeElement))$.preventDefault(),N.focus()}else if(document.activeElement===N||!X.contains(document.activeElement))$.preventDefault(),Z.focus()};return document.addEventListener("keydown",P),()=>document.removeEventListener("keydown",P)},[J])}B(Y,require("../../core/dist/index.cjs"),module.exports);var J6={};O(J6,{ThemePicker:()=>X6});var U1=require("react"),I0=require("../../core/dist/index.cjs"),R0=require("../../core/dist/index.cjs");var e0={};O(e0,{IconFontProvider:()=>E0,Icon:()=>A1});var B2=require("react");var s0={};O(s0,{iconRegistry:()=>G0,IconWarning:()=>Y2,IconTrash:()=>s2,IconSettings:()=>t2,IconSearch:()=>a2,IconPlus:()=>e2,IconMoreVertical:()=>W0,IconMinus:()=>X0,IconMenu:()=>Q0,IconInfo:()=>_2,IconFilter:()=>U0,IconEyeOff:()=>N0,IconEye:()=>Z0,IconExternalLink:()=>q0,IconError:()=>V2,IconEdit:()=>J0,IconCopy:()=>H0,IconClose:()=>r2,IconChevronUp:()=>i2,IconChevronRight:()=>z2,IconChevronLeft:()=>d2,IconChevronDown:()=>n2,IconCheckCircle:()=>M2,IconCheck:()=>l2,IconArrowRight:()=>$0,IconArrowLeft:()=>P0});var A=require("react/jsx-runtime");function x(J,X){return{width:J,height:J,viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round",style:X}}function r2({size:J=24,style:X}={}){return A.jsx("svg",{...x(J,X),children:A.jsx("path",{d:"M18 6L6 18M6 6l12 12"})})}function z2({size:J=24,style:X}={}){return A.jsx("svg",{...x(J,X),children:A.jsx("path",{d:"M9 18l6-6-6-6"})})}function n2({size:J=24,style:X}={}){return A.jsx("svg",{...x(J,X),children:A.jsx("path",{d:"M6 9l6 6 6-6"})})}function d2({size:J=24,style:X}={}){return A.jsx("svg",{...x(J,X),children:A.jsx("path",{d:"M15 18l-6-6 6-6"})})}function i2({size:J=24,style:X}={}){return A.jsx("svg",{...x(J,X),children:A.jsx("path",{d:"M18 15l-6-6-6 6"})})}function l2({size:J=24,style:X}={}){return A.jsx("svg",{...x(J,X),children:A.jsx("path",{d:"M20 6L9 17l-5-5"})})}function M2({size:J=24,style:X}={}){return A.jsxs("svg",{...x(J,X),children:[A.jsx("path",{d:"M22 11.08V12a10 10 0 11-5.93-9.14"}),A.jsx("path",{d:"M22 4L12 14.01l-3-3"})]})}function Y2({size:J=24,style:X}={}){return A.jsxs("svg",{...x(J,X),children:[A.jsx("path",{d:"M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"}),A.jsx("line",{x1:"12",y1:"9",x2:"12",y2:"13"}),A.jsx("line",{x1:"12",y1:"17",x2:"12.01",y2:"17"})]})}function V2({size:J=24,style:X}={}){return A.jsxs("svg",{...x(J,X),children:[A.jsx("circle",{cx:"12",cy:"12",r:"10"}),A.jsx("path",{d:"M15 9l-6 6M9 9l6 6"})]})}function _2({size:J=24,style:X}={}){return A.jsxs("svg",{...x(J,X),children:[A.jsx("circle",{cx:"12",cy:"12",r:"10"}),A.jsx("line",{x1:"12",y1:"16",x2:"12",y2:"12"}),A.jsx("line",{x1:"12",y1:"8",x2:"12.01",y2:"8"})]})}function a2({size:J=24,style:X}={}){return A.jsxs("svg",{...x(J,X),children:[A.jsx("circle",{cx:"11",cy:"11",r:"8"}),A.jsx("path",{d:"M21 21l-4.35-4.35"})]})}function s2({size:J=24,style:X}={}){return A.jsx("svg",{...x(J,X),children:A.jsx("path",{d:"M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"})})}function t2({size:J=24,style:X}={}){return A.jsxs("svg",{...x(J,X),children:[A.jsx("circle",{cx:"12",cy:"12",r:"3"}),A.jsx("path",{d:"M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"})]})}function e2({size:J=24,style:X}={}){return A.jsx("svg",{...x(J,X),children:A.jsx("path",{d:"M12 5v14M5 12h14"})})}function X0({size:J=24,style:X}={}){return A.jsx("svg",{...x(J,X),children:A.jsx("path",{d:"M5 12h14"})})}function J0({size:J=24,style:X}={}){return A.jsxs("svg",{...x(J,X),children:[A.jsx("path",{d:"M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"}),A.jsx("path",{d:"M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"})]})}function P0({size:J=24,style:X}={}){return A.jsx("svg",{...x(J,X),children:A.jsx("path",{d:"M19 12H5M12 19l-7-7 7-7"})})}function $0({size:J=24,style:X}={}){return A.jsx("svg",{...x(J,X),children:A.jsx("path",{d:"M5 12h14M12 5l7 7-7 7"})})}function Q0({size:J=24,style:X}={}){return A.jsx("svg",{...x(J,X),children:A.jsx("path",{d:"M3 12h18M3 6h18M3 18h18"})})}function Z0({size:J=24,style:X}={}){return A.jsxs("svg",{...x(J,X),children:[A.jsx("path",{d:"M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"}),A.jsx("circle",{cx:"12",cy:"12",r:"3"})]})}function N0({size:J=24,style:X}={}){return A.jsxs("svg",{...x(J,X),children:[A.jsx("path",{d:"M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"}),A.jsx("path",{d:"M1 1l22 22"})]})}function H0({size:J=24,style:X}={}){return A.jsxs("svg",{...x(J,X),children:[A.jsx("rect",{x:"9",y:"9",width:"13",height:"13",rx:"2",ry:"2"}),A.jsx("path",{d:"M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"})]})}function q0({size:J=24,style:X}={}){return A.jsx("svg",{...x(J,X),children:A.jsx("path",{d:"M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"})})}function W0({size:J=24,style:X}={}){return A.jsxs("svg",{...x(J,X),children:[A.jsx("circle",{cx:"12",cy:"12",r:"1"}),A.jsx("circle",{cx:"12",cy:"5",r:"1"}),A.jsx("circle",{cx:"12",cy:"19",r:"1"})]})}function U0({size:J=24,style:X}={}){return A.jsx("svg",{...x(J,X),children:A.jsx("path",{d:"M22 3H2l8 9.46V19l4 2v-8.54L22 3z"})})}var G0={close:r2,"chevron-right":z2,"chevron-down":n2,"chevron-left":d2,"chevron-up":i2,check:l2,"check-circle":M2,warning:Y2,error:V2,info:_2,search:a2,trash:s2,settings:t2,plus:e2,minus:X0,edit:J0,"arrow-left":P0,"arrow-right":$0,menu:Q0,eye:Z0,"eye-off":N0,copy:H0,"external-link":q0,"more-vertical":W0,filter:U0};var y2=require("react/jsx-runtime"),t0=B2.createContext(void 0);function E0({fontClass:J,children:X}){return y2.jsx(t0.Provider,{value:J,children:X})}var A1=B2.forwardRef(function({name:X,size:P=24,fontClass:$,style:Q,"aria-label":Z,...N},H){let W=B2.useContext(t0),q=G0[X],G=!Z,M=$??W;if(!q&&M)return y2.jsx("span",{ref:H,role:G?void 0:"img","aria-hidden":G||void 0,"aria-label":Z,className:M,style:{display:"inline-flex",alignItems:"center",justifyContent:"center",minWidth:P,minHeight:P,fontSize:P,lineHeight:1,color:"inherit",fontStyle:"normal",...Q},...N,children:X});return y2.jsx("span",{ref:H,role:G?void 0:"img","aria-hidden":G||void 0,"aria-label":Z,style:{display:"inline-flex",alignItems:"center",justifyContent:"center",width:P,height:P,lineHeight:1,color:"inherit",...Q},...N,children:q?y2.jsx(q,{size:P}):null})});var Q1=require("react/jsx-runtime"),G3="alttab-theme-picker",K3=`
+var __create = Object.create;
+var __getProtoOf = Object.getPrototypeOf;
+var __defProp = Object.defineProperty;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+function __accessProp(key) {
+  return this[key];
+}
+var __reExport = (target, mod, secondTarget) => {
+  var keys = __getOwnPropNames(mod);
+  for (let key of keys)
+    if (!__hasOwnProp.call(target, key) && key !== "default")
+      __defProp(target, key, {
+        get: __accessProp.bind(mod, key),
+        enumerable: true
+      });
+  if (secondTarget) {
+    for (let key of keys)
+      if (!__hasOwnProp.call(secondTarget, key) && key !== "default")
+        __defProp(secondTarget, key, {
+          get: __accessProp.bind(mod, key),
+          enumerable: true
+        });
+    return secondTarget;
+  }
+};
+var __toESMCache_node;
+var __toESMCache_esm;
+var __toESM = (mod, isNodeMode, target) => {
+  var canCache = mod != null && typeof mod === "object";
+  if (canCache) {
+    var cache = isNodeMode ? __toESMCache_node ??= new WeakMap : __toESMCache_esm ??= new WeakMap;
+    var cached = cache.get(mod);
+    if (cached)
+      return cached;
+  }
+  target = mod != null ? __create(__getProtoOf(mod)) : {};
+  const to = isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target;
+  for (let key of __getOwnPropNames(mod))
+    if (!__hasOwnProp.call(to, key))
+      __defProp(to, key, {
+        get: __accessProp.bind(mod, key),
+        enumerable: true
+      });
+  if (canCache)
+    cache.set(mod, to);
+  return to;
+};
+var __toCommonJS = (from) => {
+  var entry = (__moduleCache ??= new WeakMap).get(from), desc;
+  if (entry)
+    return entry;
+  entry = __defProp({}, "__esModule", { value: true });
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (var key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(entry, key))
+        __defProp(entry, key, {
+          get: __accessProp.bind(from, key),
+          enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable
+        });
+  }
+  __moduleCache.set(from, entry);
+  return entry;
+};
+var __moduleCache;
+var __returnValue = (v) => v;
+function __exportSetter(name, newValue) {
+  this[name] = __returnValue.bind(null, newValue);
+}
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, {
+      get: all[name],
+      enumerable: true,
+      configurable: true,
+      set: __exportSetter.bind(all, name)
+    });
+};
+
+// src/index.ts
+var exports_src = {};
+__export(exports_src, {
+  useToast: () => useToast,
+  useFocusTrap: () => useFocusTrap,
+  iconRegistry: () => iconRegistry,
+  TopBar: () => TopBar,
+  ToastProvider: () => ToastProvider,
+  ThemeSurface: () => ThemeSurface,
+  ThemePicker: () => ThemePicker,
+  Textarea: () => Textarea,
+  TagChip: () => TagChip,
+  TableRow: () => TableRow,
+  TableHeaderCell: () => TableHeaderCell,
+  TableHeader: () => TableHeader,
+  TableGroupHeader: () => TableGroupHeader,
+  TableFilters: () => TableFilters,
+  TableEmptyRow: () => TableEmptyRow,
+  TableCell: () => TableCell,
+  TableBody: () => TableBody,
+  Table: () => Table,
+  StatusDot: () => StatusDot,
+  Stack: () => Stack,
+  Skeleton: () => Skeleton,
+  ShortcutHelpModal: () => ShortcutHelpModal,
+  Select: () => Select,
+  SegmentedControl: () => SegmentedControl,
+  SectionLabel: () => SectionLabel,
+  SearchInput: () => SearchInput,
+  RowSkeleton: () => RowSkeleton,
+  ProgressBar: () => ProgressBar,
+  Pagination: () => Pagination,
+  PageHeader: () => PageHeader,
+  Overlay: () => Overlay,
+  ModalShell: () => import_ModalShell5.ModalShell,
+  MetadataTable: () => MetadataTable,
+  Input: () => Input,
+  IconWarning: () => IconWarning,
+  IconTrash: () => IconTrash,
+  IconSettings: () => IconSettings,
+  IconSearch: () => IconSearch,
+  IconPlus: () => IconPlus,
+  IconMoreVertical: () => IconMoreVertical,
+  IconMinus: () => IconMinus,
+  IconMenu: () => IconMenu,
+  IconInfo: () => IconInfo,
+  IconFontProvider: () => IconFontProvider,
+  IconFilter: () => IconFilter,
+  IconEyeOff: () => IconEyeOff,
+  IconEye: () => IconEye,
+  IconExternalLink: () => IconExternalLink,
+  IconError: () => IconError,
+  IconEdit: () => IconEdit,
+  IconCopy: () => IconCopy,
+  IconClose: () => IconClose,
+  IconChevronUp: () => IconChevronUp,
+  IconChevronRight: () => IconChevronRight,
+  IconChevronLeft: () => IconChevronLeft,
+  IconChevronDown: () => IconChevronDown,
+  IconCheckCircle: () => IconCheckCircle,
+  IconCheck: () => IconCheck,
+  IconButton: () => IconButton,
+  IconArrowRight: () => IconArrowRight,
+  IconArrowLeft: () => IconArrowLeft,
+  Icon: () => Icon,
+  FormModal: () => FormModal,
+  Field: () => Field,
+  ExpandableCard: () => ExpandableCard,
+  ErrorBoundary: () => ErrorBoundary,
+  EmptyState: () => EmptyState,
+  DateRangePicker: () => DateRangePicker,
+  DatePicker: () => DatePicker,
+  ConfirmDialog: () => ConfirmDialog,
+  Combobox: () => Combobox,
+  ChipPicker: () => ChipPicker,
+  CardSkeleton: () => CardSkeleton,
+  Card: () => Card,
+  Button: () => Button,
+  Badge: () => Badge,
+  AlertBanner: () => AlertBanner
+});
+module.exports = __toCommonJS(exports_src);
+
+// src/utils/useFocusTrap.ts
+var exports_useFocusTrap = {};
+__export(exports_useFocusTrap, {
+  useFocusTrap: () => useFocusTrap
+});
+var import_react = require("react");
+var FOCUSABLE_SELECTOR = [
+  "a[href]",
+  "button:not(:disabled)",
+  "input:not(:disabled)",
+  "select:not(:disabled)",
+  "textarea:not(:disabled)",
+  '[tabindex]:not([tabindex="-1"])'
+].join(", ");
+function getFocusableElements(container) {
+  return Array.from(container.querySelectorAll(FOCUSABLE_SELECTOR));
+}
+function useFocusTrap(ref) {
+  import_react.useEffect(() => {
+    const container = ref.current;
+    if (!container)
+      return;
+    const handleKeyDown = (e) => {
+      if (e.key !== "Tab")
+        return;
+      const focusable = getFocusableElements(container);
+      if (focusable.length === 0) {
+        e.preventDefault();
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first || !container.contains(document.activeElement)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last || !container.contains(document.activeElement)) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [ref]);
+}
+
+// src/index.ts
+__reExport(exports_src, require("../../core/dist/index.cjs"), module.exports);
+
+// src/components/ThemePicker/index.ts
+var exports_ThemePicker = {};
+__export(exports_ThemePicker, {
+  ThemePicker: () => ThemePicker
+});
+
+// src/components/ThemePicker/ThemePicker.tsx
+var import_react3 = require("react");
+var import_core = require("../../core/dist/index.cjs");
+var import_core2 = require("../../core/dist/index.cjs");
+
+// src/components/Icon/index.ts
+var exports_Icon = {};
+__export(exports_Icon, {
+  IconFontProvider: () => IconFontProvider,
+  Icon: () => Icon
+});
+
+// src/components/Icon/Icon.tsx
+var import_react2 = require("react");
+
+// src/icons/index.ts
+var exports_icons = {};
+__export(exports_icons, {
+  iconRegistry: () => iconRegistry,
+  IconWarning: () => IconWarning,
+  IconTrash: () => IconTrash,
+  IconSettings: () => IconSettings,
+  IconSearch: () => IconSearch,
+  IconPlus: () => IconPlus,
+  IconMoreVertical: () => IconMoreVertical,
+  IconMinus: () => IconMinus,
+  IconMenu: () => IconMenu,
+  IconInfo: () => IconInfo,
+  IconFilter: () => IconFilter,
+  IconEyeOff: () => IconEyeOff,
+  IconEye: () => IconEye,
+  IconExternalLink: () => IconExternalLink,
+  IconError: () => IconError,
+  IconEdit: () => IconEdit,
+  IconCopy: () => IconCopy,
+  IconClose: () => IconClose,
+  IconChevronUp: () => IconChevronUp,
+  IconChevronRight: () => IconChevronRight,
+  IconChevronLeft: () => IconChevronLeft,
+  IconChevronDown: () => IconChevronDown,
+  IconCheckCircle: () => IconCheckCircle,
+  IconCheck: () => IconCheck,
+  IconArrowRight: () => IconArrowRight,
+  IconArrowLeft: () => IconArrowLeft
+});
+
+// src/icons/icons.tsx
+var jsx_dev_runtime = require("react/jsx-dev-runtime");
+function svgProps(size, style) {
+  return {
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 2,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    style
+  };
+}
+function IconClose({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+      d: "M18 6L6 18M6 6l12 12"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconChevronRight({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+      d: "M9 18l6-6-6-6"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconChevronDown({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+      d: "M6 9l6 6 6-6"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconChevronLeft({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+      d: "M15 18l-6-6 6-6"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconChevronUp({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+      d: "M18 15l-6-6-6 6"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconCheck({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+      d: "M20 6L9 17l-5-5"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconCheckCircle({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+        d: "M22 11.08V12a10 10 0 11-5.93-9.14"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+        d: "M22 4L12 14.01l-3-3"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconWarning({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+        d: "M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("line", {
+        x1: "12",
+        y1: "9",
+        x2: "12",
+        y2: "13"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("line", {
+        x1: "12",
+        y1: "17",
+        x2: "12.01",
+        y2: "17"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconError({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("circle", {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+        d: "M15 9l-6 6M9 9l6 6"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconInfo({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("circle", {
+        cx: "12",
+        cy: "12",
+        r: "10"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("line", {
+        x1: "12",
+        y1: "16",
+        x2: "12",
+        y2: "12"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("line", {
+        x1: "12",
+        y1: "8",
+        x2: "12.01",
+        y2: "8"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconSearch({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("circle", {
+        cx: "11",
+        cy: "11",
+        r: "8"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+        d: "M21 21l-4.35-4.35"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconTrash({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+      d: "M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconSettings({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("circle", {
+        cx: "12",
+        cy: "12",
+        r: "3"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+        d: "M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconPlus({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+      d: "M12 5v14M5 12h14"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconMinus({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+      d: "M5 12h14"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconEdit({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+        d: "M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+        d: "M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconArrowLeft({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+      d: "M19 12H5M12 19l-7-7 7-7"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconArrowRight({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+      d: "M5 12h14M12 5l7 7-7 7"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconMenu({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+      d: "M3 12h18M3 6h18M3 18h18"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconEye({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+        d: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("circle", {
+        cx: "12",
+        cy: "12",
+        r: "3"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconEyeOff({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+        d: "M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+        d: "M1 1l22 22"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconCopy({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("rect", {
+        x: "9",
+        y: "9",
+        width: "13",
+        height: "13",
+        rx: "2",
+        ry: "2"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+        d: "M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconExternalLink({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+      d: "M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function IconMoreVertical({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("circle", {
+        cx: "12",
+        cy: "12",
+        r: "1"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("circle", {
+        cx: "12",
+        cy: "5",
+        r: "1"
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime.jsxDEV("circle", {
+        cx: "12",
+        cy: "19",
+        r: "1"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function IconFilter({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV("svg", {
+    ...svgProps(size, style),
+    children: /* @__PURE__ */ jsx_dev_runtime.jsxDEV("path", {
+      d: "M22 3H2l8 9.46V19l4 2v-8.54L22 3z"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+// src/icons/index.ts
+var iconRegistry = {
+  close: IconClose,
+  "chevron-right": IconChevronRight,
+  "chevron-down": IconChevronDown,
+  "chevron-left": IconChevronLeft,
+  "chevron-up": IconChevronUp,
+  check: IconCheck,
+  "check-circle": IconCheckCircle,
+  warning: IconWarning,
+  error: IconError,
+  info: IconInfo,
+  search: IconSearch,
+  trash: IconTrash,
+  settings: IconSettings,
+  plus: IconPlus,
+  minus: IconMinus,
+  edit: IconEdit,
+  "arrow-left": IconArrowLeft,
+  "arrow-right": IconArrowRight,
+  menu: IconMenu,
+  eye: IconEye,
+  "eye-off": IconEyeOff,
+  copy: IconCopy,
+  "external-link": IconExternalLink,
+  "more-vertical": IconMoreVertical,
+  filter: IconFilter
+};
+
+// src/components/Icon/Icon.tsx
+var jsx_dev_runtime2 = require("react/jsx-dev-runtime");
+var IconFontContext = import_react2.createContext(undefined);
+function IconFontProvider({ fontClass, children }) {
+  return /* @__PURE__ */ jsx_dev_runtime2.jsxDEV(IconFontContext.Provider, {
+    value: fontClass,
+    children
+  }, undefined, false, undefined, this);
+}
+var Icon = import_react2.forwardRef(function Icon2({ name, size = 24, fontClass, style, "aria-label": ariaLabel, ...props }, ref) {
+  const contextFontClass = import_react2.useContext(IconFontContext);
+  const IconComponent = iconRegistry[name];
+  const isDecorative = !ariaLabel;
+  const resolvedFontClass = fontClass ?? contextFontClass;
+  if (!IconComponent && resolvedFontClass) {
+    return /* @__PURE__ */ jsx_dev_runtime2.jsxDEV("span", {
+      ref,
+      role: isDecorative ? undefined : "img",
+      "aria-hidden": isDecorative || undefined,
+      "aria-label": ariaLabel,
+      className: resolvedFontClass,
+      style: {
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        minWidth: size,
+        minHeight: size,
+        fontSize: size,
+        lineHeight: 1,
+        color: "inherit",
+        fontStyle: "normal",
+        ...style
+      },
+      ...props,
+      children: name
+    }, undefined, false, undefined, this);
+  }
+  return /* @__PURE__ */ jsx_dev_runtime2.jsxDEV("span", {
+    ref,
+    role: isDecorative ? undefined : "img",
+    "aria-hidden": isDecorative || undefined,
+    "aria-label": ariaLabel,
+    style: {
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: size,
+      height: size,
+      lineHeight: 1,
+      color: "inherit",
+      ...style
+    },
+    ...props,
+    children: IconComponent ? /* @__PURE__ */ jsx_dev_runtime2.jsxDEV(IconComponent, {
+      size
+    }, undefined, false, undefined, this) : null
+  }, undefined, false, undefined, this);
+});
+// src/components/ThemePicker/ThemePicker.tsx
+var jsx_dev_runtime3 = require("react/jsx-dev-runtime");
+var GRID_STYLES_ID = "alttab-theme-picker";
+var gridCSS = `
   .alttab-theme-picker {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -39,7 +708,9 @@ var X3=Object.create;var{getPrototypeOf:J3,defineProperty:s1,getOwnPropertyNames
     font-size: 0.875rem;
     color: var(--color-text-muted);
   }
-`,A3="alttab-theme-picker-compact",z3=`
+`;
+var COMPACT_STYLES_ID = "alttab-theme-picker-compact";
+var compactCSS = `
   .alttab-tp-trigger {
     display: flex;
     align-items: center;
@@ -88,7 +759,268 @@ var X3=Object.create;var{getPrototypeOf:J3,defineProperty:s1,getOwnPropertyNames
     color: var(--color-text);
     background: var(--color-surface-raised);
   }
-`;function M3({descriptions:J}){R0.useInjectStyles(G3,K3);let{resolved:X,themes:P,setTheme:$}=I0.useTheme();return Q1.jsx("div",{className:"alttab-theme-picker",children:Array.from(P.values()).map((Q)=>{let Z=X===Q.name;return Q1.jsxs("button",{className:`alttab-theme-card${Z?" alttab-theme-card--active":""}`,onClick:()=>$(Q.name),children:[Q1.jsx("span",{className:"alttab-theme-card__name",children:Q.label}),J[Q.name]&&Q1.jsx("span",{className:"alttab-theme-card__desc",children:J[Q.name]})]},Q.name)})})}function Y3(){R0.useInjectStyles(A3,z3);let{resolved:J,themes:X,setTheme:P}=I0.useTheme(),[$,Q]=U1.useState(!1),[Z,N]=U1.useState(-1),H=U1.useRef(null),W=U1.useRef(null),q=U1.useRef(null),G=Array.from(X.values());U1.useEffect(()=>{if(!$)return;function U(z){if(H.current&&!H.current.contains(z.target))Q(!1)}return document.addEventListener("mousedown",U),()=>document.removeEventListener("mousedown",U)},[$]);let M=U1.useCallback((U)=>{if(U.key==="Escape"){Q(!1),q.current?.focus();return}if(!$){if(U.key==="ArrowDown"||U.key==="Enter"||U.key===" ")U.preventDefault(),Q(!0),N(0);return}switch(U.key){case"ArrowDown":U.preventDefault(),N((z)=>(z+1)%G.length);break;case"ArrowUp":U.preventDefault(),N((z)=>(z-1+G.length)%G.length);break;case"Enter":case" ":if(U.preventDefault(),Z>=0&&Z<G.length)P(G[Z].name),Q(!1),q.current?.focus();break;case"Home":U.preventDefault(),N(0);break;case"End":U.preventDefault(),N(G.length-1);break}},[$,Z,G,P]);U1.useEffect(()=>{if(!$||Z<0)return;let U=W.current;if(!U)return;U.querySelectorAll('[role="option"]')[Z]?.scrollIntoView({block:"nearest"})},[$,Z]),U1.useEffect(()=>{if($){let U=G.findIndex((z)=>z.name===J);N(U>=0?U:0)}},[$]);let K=G.find((U)=>U.name===J);return Q1.jsxs("div",{ref:H,style:{position:"relative"},onKeyDown:M,children:[Q1.jsxs("button",{ref:q,className:"alttab-tp-trigger",onClick:()=>Q((U)=>!U),"aria-haspopup":"listbox","aria-expanded":$,children:[Q1.jsx("span",{style:{width:8,height:8,borderRadius:"50%",background:"var(--color-action-primary)",flexShrink:0}}),K?.label??J,Q1.jsx(A1,{name:$?"chevron-up":"chevron-down",size:12})]}),$&&Q1.jsx("div",{ref:W,role:"listbox","aria-activedescendant":Z>=0?`alttab-tp-item-${G[Z]?.name}`:void 0,style:{position:"absolute",top:"100%",left:0,marginTop:"0.25rem",background:"var(--color-surface-panel)",border:"1px solid var(--color-border)",borderRadius:"var(--radius-md)",padding:"0.25rem",minWidth:"10rem",zIndex:100,boxShadow:"var(--shadow-md)"},children:G.map((U,z)=>{let k=J===U.name,_=["alttab-tp-menu-item",k?"alttab-tp-menu-item--active":"",Z===z&&!k?"alttab-tp-menu-item--focused":""].filter(Boolean).join(" ");return Q1.jsxs("button",{id:`alttab-tp-item-${U.name}`,role:"option","aria-selected":k,className:_,onClick:()=>{P(U.name),Q(!1),q.current?.focus()},onMouseEnter:()=>N(z),children:[Q1.jsx("span",{style:{width:6,height:6,borderRadius:"50%",background:k?"var(--color-action-primary)":"var(--color-text-muted)",flexShrink:0}}),U.label]},U.name)})})]})}var X6=U1.forwardRef(function({descriptions:X={},variant:P="grid"},$){if(P==="compact")return Q1.jsx("div",{ref:$,style:{display:"inline-block"},children:Q1.jsx(Y3,{})});return Q1.jsx("div",{ref:$,children:Q1.jsx(M3,{descriptions:X})})});var $6={};O($6,{Button:()=>z1});var P6=require("react"),v=require("../../core/dist/index.cjs"),w0=require("react/jsx-runtime"),V3={primary:{background:v.semantic.colorActionPrimary,color:v.semantic.colorTextInverse,border:"none"},secondary:{background:v.semantic.colorActionSecondary,color:v.semantic.colorText,border:`1px solid ${v.semantic.colorBorder}`},destructive:{background:v.semantic.colorActionDestructive,color:v.semantic.colorTextInverse,border:"none"},ghost:{background:"transparent",color:v.semantic.colorText,border:"1px solid transparent"}},_3={sm:{padding:`${v.semantic.spaceXs} ${v.semantic.spaceSm}`,fontSize:v.semantic.fontSizeSm,lineHeight:v.semantic.lineHeightTight},md:{padding:`${v.semantic.spaceSm} ${v.semantic.spaceMd}`,fontSize:v.semantic.fontSizeSm,lineHeight:v.semantic.lineHeightTight},lg:{padding:`${v.semantic.spaceSm} ${v.semantic.spaceLg}`,fontSize:v.semantic.fontSizeBase,lineHeight:v.semantic.lineHeightBase}},B3={display:"inline-flex",alignItems:"center",justifyContent:"center",gap:v.semantic.spaceSm,borderRadius:v.semantic.radiusMd,fontFamily:v.semantic.fontSans,fontWeight:v.semantic.fontWeightMedium,cursor:"pointer",transition:"background 150ms ease, border-color 150ms ease, opacity 150ms ease"},k3="alttab-button-spinner",F3=`
+`;
+function GridView({ descriptions }) {
+  import_core2.useInjectStyles(GRID_STYLES_ID, gridCSS);
+  const { resolved, themes, setTheme } = import_core.useTheme();
+  return /* @__PURE__ */ jsx_dev_runtime3.jsxDEV("div", {
+    className: "alttab-theme-picker",
+    children: Array.from(themes.values()).map((def) => {
+      const isActive = resolved === def.name;
+      return /* @__PURE__ */ jsx_dev_runtime3.jsxDEV("button", {
+        className: `alttab-theme-card${isActive ? " alttab-theme-card--active" : ""}`,
+        onClick: () => setTheme(def.name),
+        children: [
+          /* @__PURE__ */ jsx_dev_runtime3.jsxDEV("span", {
+            className: "alttab-theme-card__name",
+            children: def.label
+          }, undefined, false, undefined, this),
+          descriptions[def.name] && /* @__PURE__ */ jsx_dev_runtime3.jsxDEV("span", {
+            className: "alttab-theme-card__desc",
+            children: descriptions[def.name]
+          }, undefined, false, undefined, this)
+        ]
+      }, def.name, true, undefined, this);
+    })
+  }, undefined, false, undefined, this);
+}
+function CompactView() {
+  import_core2.useInjectStyles(COMPACT_STYLES_ID, compactCSS);
+  const { resolved, themes, setTheme } = import_core.useTheme();
+  const [open, setOpen] = import_react3.useState(false);
+  const [focusedIndex, setFocusedIndex] = import_react3.useState(-1);
+  const containerRef = import_react3.useRef(null);
+  const menuRef = import_react3.useRef(null);
+  const triggerRef = import_react3.useRef(null);
+  const themeList = Array.from(themes.values());
+  import_react3.useEffect(() => {
+    if (!open)
+      return;
+    function handleMouseDown(e) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [open]);
+  const handleKeyDown = import_react3.useCallback((e) => {
+    if (e.key === "Escape") {
+      setOpen(false);
+      triggerRef.current?.focus();
+      return;
+    }
+    if (!open) {
+      if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        setOpen(true);
+        setFocusedIndex(0);
+      }
+      return;
+    }
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault();
+        setFocusedIndex((i) => (i + 1) % themeList.length);
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        setFocusedIndex((i) => (i - 1 + themeList.length) % themeList.length);
+        break;
+      case "Enter":
+      case " ":
+        e.preventDefault();
+        if (focusedIndex >= 0 && focusedIndex < themeList.length) {
+          setTheme(themeList[focusedIndex].name);
+          setOpen(false);
+          triggerRef.current?.focus();
+        }
+        break;
+      case "Home":
+        e.preventDefault();
+        setFocusedIndex(0);
+        break;
+      case "End":
+        e.preventDefault();
+        setFocusedIndex(themeList.length - 1);
+        break;
+    }
+  }, [open, focusedIndex, themeList, setTheme]);
+  import_react3.useEffect(() => {
+    if (!open || focusedIndex < 0)
+      return;
+    const menu = menuRef.current;
+    if (!menu)
+      return;
+    const items = menu.querySelectorAll('[role="option"]');
+    items[focusedIndex]?.scrollIntoView({ block: "nearest" });
+  }, [open, focusedIndex]);
+  import_react3.useEffect(() => {
+    if (open) {
+      const activeIdx = themeList.findIndex((t) => t.name === resolved);
+      setFocusedIndex(activeIdx >= 0 ? activeIdx : 0);
+    }
+  }, [open]);
+  const currentTheme = themeList.find((t) => t.name === resolved);
+  return /* @__PURE__ */ jsx_dev_runtime3.jsxDEV("div", {
+    ref: containerRef,
+    style: { position: "relative" },
+    onKeyDown: handleKeyDown,
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime3.jsxDEV("button", {
+        ref: triggerRef,
+        className: "alttab-tp-trigger",
+        onClick: () => setOpen((o) => !o),
+        "aria-haspopup": "listbox",
+        "aria-expanded": open,
+        children: [
+          /* @__PURE__ */ jsx_dev_runtime3.jsxDEV("span", {
+            style: {
+              width: 8,
+              height: 8,
+              borderRadius: "50%",
+              background: "var(--color-action-primary)",
+              flexShrink: 0
+            }
+          }, undefined, false, undefined, this),
+          currentTheme?.label ?? resolved,
+          /* @__PURE__ */ jsx_dev_runtime3.jsxDEV(Icon, {
+            name: open ? "chevron-up" : "chevron-down",
+            size: 12
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this),
+      open && /* @__PURE__ */ jsx_dev_runtime3.jsxDEV("div", {
+        ref: menuRef,
+        role: "listbox",
+        "aria-activedescendant": focusedIndex >= 0 ? `alttab-tp-item-${themeList[focusedIndex]?.name}` : undefined,
+        style: {
+          position: "absolute",
+          top: "100%",
+          left: 0,
+          marginTop: "0.25rem",
+          background: "var(--color-surface-panel)",
+          border: "1px solid var(--color-border)",
+          borderRadius: "var(--radius-md)",
+          padding: "0.25rem",
+          minWidth: "10rem",
+          zIndex: 100,
+          boxShadow: "var(--shadow-md)"
+        },
+        children: themeList.map((t, idx) => {
+          const isActive = resolved === t.name;
+          const isFocused = focusedIndex === idx;
+          const classes = [
+            "alttab-tp-menu-item",
+            isActive ? "alttab-tp-menu-item--active" : "",
+            isFocused && !isActive ? "alttab-tp-menu-item--focused" : ""
+          ].filter(Boolean).join(" ");
+          return /* @__PURE__ */ jsx_dev_runtime3.jsxDEV("button", {
+            id: `alttab-tp-item-${t.name}`,
+            role: "option",
+            "aria-selected": isActive,
+            className: classes,
+            onClick: () => {
+              setTheme(t.name);
+              setOpen(false);
+              triggerRef.current?.focus();
+            },
+            onMouseEnter: () => setFocusedIndex(idx),
+            children: [
+              /* @__PURE__ */ jsx_dev_runtime3.jsxDEV("span", {
+                style: {
+                  width: 6,
+                  height: 6,
+                  borderRadius: "50%",
+                  background: isActive ? "var(--color-action-primary)" : "var(--color-text-muted)",
+                  flexShrink: 0
+                }
+              }, undefined, false, undefined, this),
+              t.label
+            ]
+          }, t.name, true, undefined, this);
+        })
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+var ThemePicker = import_react3.forwardRef(function ThemePicker2({ descriptions = {}, variant = "grid" }, ref) {
+  if (variant === "compact") {
+    return /* @__PURE__ */ jsx_dev_runtime3.jsxDEV("div", {
+      ref,
+      style: { display: "inline-block" },
+      children: /* @__PURE__ */ jsx_dev_runtime3.jsxDEV(CompactView, {}, undefined, false, undefined, this)
+    }, undefined, false, undefined, this);
+  }
+  return /* @__PURE__ */ jsx_dev_runtime3.jsxDEV("div", {
+    ref,
+    children: /* @__PURE__ */ jsx_dev_runtime3.jsxDEV(GridView, {
+      descriptions
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+});
+// src/components/Button/index.ts
+var exports_Button = {};
+__export(exports_Button, {
+  Button: () => Button
+});
+
+// src/components/Button/Button.tsx
+var import_react4 = require("react");
+var import_core3 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime4 = require("react/jsx-dev-runtime");
+var variantStyles = {
+  primary: {
+    background: import_core3.semantic.colorActionPrimary,
+    color: import_core3.semantic.colorTextInverse,
+    border: "none"
+  },
+  secondary: {
+    background: import_core3.semantic.colorActionSecondary,
+    color: import_core3.semantic.colorText,
+    border: `1px solid ${import_core3.semantic.colorBorder}`
+  },
+  destructive: {
+    background: import_core3.semantic.colorActionDestructive,
+    color: import_core3.semantic.colorTextInverse,
+    border: "none"
+  },
+  ghost: {
+    background: "transparent",
+    color: import_core3.semantic.colorText,
+    border: "1px solid transparent"
+  }
+};
+var sizeStyles = {
+  sm: {
+    padding: `${import_core3.semantic.spaceXs} ${import_core3.semantic.spaceSm}`,
+    fontSize: import_core3.semantic.fontSizeSm,
+    lineHeight: import_core3.semantic.lineHeightTight
+  },
+  md: {
+    padding: `${import_core3.semantic.spaceSm} ${import_core3.semantic.spaceMd}`,
+    fontSize: import_core3.semantic.fontSizeSm,
+    lineHeight: import_core3.semantic.lineHeightTight
+  },
+  lg: {
+    padding: `${import_core3.semantic.spaceSm} ${import_core3.semantic.spaceLg}`,
+    fontSize: import_core3.semantic.fontSizeBase,
+    lineHeight: import_core3.semantic.lineHeightBase
+  }
+};
+var baseStyles = {
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: import_core3.semantic.spaceSm,
+  borderRadius: import_core3.semantic.radiusMd,
+  fontFamily: import_core3.semantic.fontSans,
+  fontWeight: import_core3.semantic.fontWeightMedium,
+  cursor: "pointer",
+  transition: "background 150ms ease, border-color 150ms ease, opacity 150ms ease"
+};
+var SPINNER_STYLES_ID = "alttab-button-spinner";
+var spinnerCSS = `
   @keyframes alttab-btn-spin {
     to { transform: rotate(360deg); }
   }
@@ -101,20 +1033,142 @@ var X3=Object.create;var{getPrototypeOf:J3,defineProperty:s1,getOwnPropertyNames
     border-radius: 50%;
     animation: alttab-btn-spin 600ms linear infinite;
   }
-`,T3={sm:v.semantic.spaceXs,md:v.semantic.spaceSm,lg:v.semantic.spaceSm},z1=P6.forwardRef(function({variant:X="primary",size:P="md",loading:$=!1,iconOnly:Q=!1,children:Z,style:N,disabled:H,...W},q){v.useInjectStyles(k3,F3);let G=H||$;return w0.jsx("button",{ref:q,"aria-busy":$||void 0,style:{...B3,...V3[X],..._3[P],...Q?{padding:T3[P],aspectRatio:"1",minWidth:0}:{},...G?{opacity:0.5,cursor:"not-allowed"}:{},...N},disabled:G,...W,children:$?w0.jsx("span",{className:"alttab-btn-spinner"}):Z})});var N6={};O(N6,{Stack:()=>K0});var Q6=require("react"),t1=require("../../core/dist/index.cjs"),Z6=require("react/jsx-runtime"),O3={xs:t1.semantic.spaceXs,sm:t1.semantic.spaceSm,md:t1.semantic.spaceMd,lg:t1.semantic.spaceLg,xl:t1.semantic.spaceXl,"2xl":t1.semantic.space2xl},K0=Q6.forwardRef(function({direction:X="vertical",gap:P="md",align:$,justify:Q,wrap:Z,children:N,style:H,...W},q){return Z6.jsx("div",{ref:q,style:{display:"flex",flexDirection:X==="vertical"?"column":"row",gap:O3[P],alignItems:$,justifyContent:Q,flexWrap:Z?"wrap":void 0,...H},...W,children:N})});var W6={};O(W6,{Card:()=>h1});var H6=require("react"),S=require("../../core/dist/index.cjs"),q6=require("react/jsx-runtime"),L3={xs:S.semantic.spaceXs,sm:S.semantic.spaceSm,md:S.semantic.spaceMd,lg:S.semantic.spaceLg,xl:S.semantic.spaceXl,"2xl":S.semantic.space2xl},E3={default:{background:S.semantic.colorSurfaceSolid,border:`1px solid ${S.semantic.colorBorder}`,boxShadow:S.semantic.shadowSm},flat:{background:S.semantic.colorSurfaceRaised,border:`1px solid ${S.semantic.colorBorder}`,boxShadow:"none"},elevated:{background:S.semantic.colorSurfaceSolid,border:`1px solid ${S.semantic.colorBorder}`,boxShadow:S.semantic.shadowMd},live:{background:S.semantic.colorSurfaceSolid,border:`1px solid ${S.semantic.colorBorderFocused}`,boxShadow:S.semantic.shadowSm}},I3="4lt7ab-card-hover",R3=`
+`;
+var iconOnlyPadding = {
+  sm: import_core3.semantic.spaceXs,
+  md: import_core3.semantic.spaceSm,
+  lg: import_core3.semantic.spaceSm
+};
+var Button = import_react4.forwardRef(function Button2({
+  variant = "primary",
+  size = "md",
+  loading = false,
+  iconOnly = false,
+  children,
+  style,
+  disabled,
+  ...props
+}, ref) {
+  import_core3.useInjectStyles(SPINNER_STYLES_ID, spinnerCSS);
+  const isDisabled = disabled || loading;
+  return /* @__PURE__ */ jsx_dev_runtime4.jsxDEV("button", {
+    ref,
+    "aria-busy": loading || undefined,
+    style: {
+      ...baseStyles,
+      ...variantStyles[variant],
+      ...sizeStyles[size],
+      ...iconOnly ? { padding: iconOnlyPadding[size], aspectRatio: "1", minWidth: 0 } : {},
+      ...isDisabled ? { opacity: 0.5, cursor: "not-allowed" } : {},
+      ...style
+    },
+    disabled: isDisabled,
+    ...props,
+    children: loading ? /* @__PURE__ */ jsx_dev_runtime4.jsxDEV("span", {
+      className: "alttab-btn-spinner"
+    }, undefined, false, undefined, this) : children
+  }, undefined, false, undefined, this);
+});
+// src/components/Stack/index.ts
+var exports_Stack = {};
+__export(exports_Stack, {
+  Stack: () => Stack
+});
+
+// src/components/Stack/Stack.tsx
+var import_react5 = require("react");
+var import_core4 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime5 = require("react/jsx-dev-runtime");
+var gapMap = {
+  xs: import_core4.semantic.spaceXs,
+  sm: import_core4.semantic.spaceSm,
+  md: import_core4.semantic.spaceMd,
+  lg: import_core4.semantic.spaceLg,
+  xl: import_core4.semantic.spaceXl,
+  "2xl": import_core4.semantic.space2xl
+};
+var Stack = import_react5.forwardRef(function Stack2({
+  direction = "vertical",
+  gap = "md",
+  align,
+  justify,
+  wrap,
+  children,
+  style,
+  ...props
+}, ref) {
+  return /* @__PURE__ */ jsx_dev_runtime5.jsxDEV("div", {
+    ref,
+    style: {
+      display: "flex",
+      flexDirection: direction === "vertical" ? "column" : "row",
+      gap: gapMap[gap],
+      alignItems: align,
+      justifyContent: justify,
+      flexWrap: wrap ? "wrap" : undefined,
+      ...style
+    },
+    ...props,
+    children
+  }, undefined, false, undefined, this);
+});
+// src/components/Card/index.ts
+var exports_Card = {};
+__export(exports_Card, {
+  Card: () => Card
+});
+
+// src/components/Card/Card.tsx
+var import_react6 = require("react");
+var import_core5 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime6 = require("react/jsx-dev-runtime");
+var paddingMap = {
+  xs: import_core5.semantic.spaceXs,
+  sm: import_core5.semantic.spaceSm,
+  md: import_core5.semantic.spaceMd,
+  lg: import_core5.semantic.spaceLg,
+  xl: import_core5.semantic.spaceXl,
+  "2xl": import_core5.semantic.space2xl
+};
+var variantStyles2 = {
+  default: {
+    background: import_core5.semantic.colorSurfaceSolid,
+    border: `1px solid ${import_core5.semantic.colorBorder}`,
+    boxShadow: import_core5.semantic.shadowSm
+  },
+  flat: {
+    background: import_core5.semantic.colorSurfaceRaised,
+    border: `1px solid ${import_core5.semantic.colorBorder}`,
+    boxShadow: "none"
+  },
+  elevated: {
+    background: import_core5.semantic.colorSurfaceSolid,
+    border: `1px solid ${import_core5.semantic.colorBorder}`,
+    boxShadow: import_core5.semantic.shadowMd
+  },
+  live: {
+    background: import_core5.semantic.colorSurfaceSolid,
+    border: `1px solid ${import_core5.semantic.colorBorderFocused}`,
+    boxShadow: import_core5.semantic.shadowSm
+  }
+};
+var HOVER_STYLES_ID = "4lt7ab-card-hover";
+var HOVER_STYLES_CSS = `
 [data-card-hover] {
   cursor: pointer;
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 [data-card-hover]:hover {
   transform: translateY(-2px);
-  border-color: ${S.semantic.colorBorderFocused};
-  box-shadow: ${S.semantic.shadowMd};
+  border-color: ${import_core5.semantic.colorBorderFocused};
+  box-shadow: ${import_core5.semantic.shadowMd};
 }
-`,w3="4lt7ab-card-live",D3=`
+`;
+var LIVE_STYLES_ID = "4lt7ab-card-live";
+var LIVE_STYLES_CSS = `
 @keyframes card-live-pulse {
-  0%, 100% { border-color: ${S.semantic.colorBorderFocused}; box-shadow: ${S.semantic.shadowSm}; }
-  50% { border-color: ${S.semantic.colorActionPrimary}; box-shadow: 0 0 8px ${S.semantic.colorActionPrimary}; }
+  0%, 100% { border-color: ${import_core5.semantic.colorBorderFocused}; box-shadow: ${import_core5.semantic.shadowSm}; }
+  50% { border-color: ${import_core5.semantic.colorActionPrimary}; box-shadow: 0 0 8px ${import_core5.semantic.colorActionPrimary}; }
 }
 [data-card-live] {
   animation: card-live-pulse 2.5s ease-in-out infinite;
@@ -124,7 +1178,243 @@ var X3=Object.create;var{getPrototypeOf:J3,defineProperty:s1,getOwnPropertyNames
     animation: none;
   }
 }
-`,h1=H6.forwardRef(function({variant:X="default",padding:P="lg",hover:$=!1,children:Q,style:Z,...N},H){return S.useInjectStyles(I3,R3),S.useInjectStyles(w3,D3),q6.jsx("div",{ref:H,"data-card-hover":$||void 0,"data-card-live":X==="live"||void 0,style:{borderRadius:S.semantic.radiusLg,padding:L3[P],color:S.semantic.colorText,...E3[X],...Z},...N,children:Q})});var G6={};O(G6,{Field:()=>U6});var H1=require("../../core/dist/index.cjs"),j1=require("react"),e1=require("react/jsx-runtime"),C3={display:"block",fontSize:H1.semantic.fontSizeSm,fontWeight:H1.semantic.fontWeightMedium,lineHeight:H1.semantic.lineHeightTight,color:H1.semantic.colorText,fontFamily:H1.semantic.fontSans},v3={color:H1.semantic.colorError,marginLeft:"0.125rem"},m3={fontSize:H1.semantic.fontSizeXs,lineHeight:H1.semantic.lineHeightTight,color:H1.semantic.colorTextMuted,fontFamily:H1.semantic.fontSans,margin:0},p3={fontSize:H1.semantic.fontSizeXs,lineHeight:H1.semantic.lineHeightTight,color:H1.semantic.colorError,fontFamily:H1.semantic.fontSans,margin:0},U6=j1.forwardRef(function({label:X,htmlFor:P,error:$,help:Q,required:Z,disabled:N,children:H,style:W,...q},G){let M=j1.useId(),K=Q?`${M}-help`:void 0,U=$?`${M}-error`:void 0,z=[U,K].filter(Boolean).join(" ")||void 0,k=j1.isValidElement(H)?j1.cloneElement(H,{"aria-describedby":z}):H;return e1.jsxs("div",{ref:G,style:{display:"flex",flexDirection:"column",gap:H1.semantic.spaceXs,opacity:N?0.6:void 0,...W},...q,children:[e1.jsxs("label",{htmlFor:P,style:C3,children:[X,Z&&e1.jsx("span",{style:v3,"aria-hidden":"true",children:"*"})]}),k,$&&e1.jsx("p",{id:U,role:"alert",style:p3,children:$}),!$&&Q&&e1.jsx("p",{id:K,style:m3,children:Q})]})});var z6={};O(z6,{Input:()=>A0});var K6=require("react"),M1=require("../../core/dist/index.cjs"),A6=require("react/jsx-runtime"),S3={display:"block",width:"100%",padding:`${M1.semantic.spaceSm} ${M1.semantic.spaceMd}`,fontSize:M1.semantic.fontSizeSm,lineHeight:M1.semantic.lineHeightTight,fontFamily:M1.semantic.fontSans,color:M1.semantic.colorText,background:M1.semantic.colorSurfaceInput,border:`1px solid ${M1.semantic.colorBorder}`,borderRadius:M1.semantic.radiusMd,outline:"none",transition:"border-color 150ms ease, box-shadow 150ms ease",boxSizing:"border-box"},y3={borderColor:M1.semantic.colorBorderError},g3={background:M1.semantic.colorSurfaceDisabled,color:M1.semantic.colorTextDisabled,cursor:"not-allowed"},A0=K6.forwardRef(function({hasError:X,disabled:P,style:$,...Q},Z){return A6.jsx("input",{ref:Z,"aria-invalid":X||void 0,style:{...S3,...X?y3:{},...P?g3:{},...$},disabled:P,...Q})});var _6={};O(_6,{Textarea:()=>Y6});var M6=require("react"),Y1=require("../../core/dist/index.cjs"),V6=require("react/jsx-runtime"),b3={display:"block",width:"100%",padding:`${Y1.semantic.spaceSm} ${Y1.semantic.spaceMd}`,fontSize:Y1.semantic.fontSizeSm,lineHeight:Y1.semantic.lineHeightBase,fontFamily:Y1.semantic.fontSans,color:Y1.semantic.colorText,background:Y1.semantic.colorSurfaceInput,border:`1px solid ${Y1.semantic.colorBorder}`,borderRadius:Y1.semantic.radiusMd,outline:"none",transition:"border-color 150ms ease, box-shadow 150ms ease",boxSizing:"border-box",resize:"vertical",minHeight:"5rem"},x3={borderColor:Y1.semantic.colorBorderError},h3={background:Y1.semantic.colorSurfaceDisabled,color:Y1.semantic.colorTextDisabled,cursor:"not-allowed",resize:"none"},Y6=M6.forwardRef(function({hasError:X,disabled:P,style:$,...Q},Z){return V6.jsx("textarea",{ref:Z,"aria-invalid":X||void 0,style:{...b3,...X?x3:{},...P?h3:{},...$},disabled:P,...Q})});var E6={};O(E6,{Select:()=>z0});var r=require("react"),y=require("../../core/dist/index.cjs"),X1=require("react/jsx-runtime"),j3="alttab-select",f3=`
+`;
+var Card = import_react6.forwardRef(function Card2({
+  variant = "default",
+  padding = "lg",
+  hover = false,
+  children,
+  style,
+  ...props
+}, ref) {
+  import_core5.useInjectStyles(HOVER_STYLES_ID, HOVER_STYLES_CSS);
+  import_core5.useInjectStyles(LIVE_STYLES_ID, LIVE_STYLES_CSS);
+  return /* @__PURE__ */ jsx_dev_runtime6.jsxDEV("div", {
+    ref,
+    "data-card-hover": hover || undefined,
+    "data-card-live": variant === "live" || undefined,
+    style: {
+      borderRadius: import_core5.semantic.radiusLg,
+      padding: paddingMap[padding],
+      color: import_core5.semantic.colorText,
+      ...variantStyles2[variant],
+      ...style
+    },
+    ...props,
+    children
+  }, undefined, false, undefined, this);
+});
+// src/components/Field/index.ts
+var exports_Field = {};
+__export(exports_Field, {
+  Field: () => Field
+});
+
+// src/components/Field/Field.tsx
+var import_core6 = require("../../core/dist/index.cjs");
+var import_react7 = require("react");
+var jsx_dev_runtime7 = require("react/jsx-dev-runtime");
+var labelStyle = {
+  display: "block",
+  fontSize: import_core6.semantic.fontSizeSm,
+  fontWeight: import_core6.semantic.fontWeightMedium,
+  lineHeight: import_core6.semantic.lineHeightTight,
+  color: import_core6.semantic.colorText,
+  fontFamily: import_core6.semantic.fontSans
+};
+var requiredStyle = {
+  color: import_core6.semantic.colorError,
+  marginLeft: "0.125rem"
+};
+var helpStyle = {
+  fontSize: import_core6.semantic.fontSizeXs,
+  lineHeight: import_core6.semantic.lineHeightTight,
+  color: import_core6.semantic.colorTextMuted,
+  fontFamily: import_core6.semantic.fontSans,
+  margin: 0
+};
+var errorStyle = {
+  fontSize: import_core6.semantic.fontSizeXs,
+  lineHeight: import_core6.semantic.lineHeightTight,
+  color: import_core6.semantic.colorError,
+  fontFamily: import_core6.semantic.fontSans,
+  margin: 0
+};
+var Field = import_react7.forwardRef(function Field2({
+  label,
+  htmlFor,
+  error,
+  help,
+  required,
+  disabled,
+  children,
+  style,
+  ...props
+}, ref) {
+  const autoId = import_react7.useId();
+  const helpId = help ? `${autoId}-help` : undefined;
+  const errorId = error ? `${autoId}-error` : undefined;
+  const describedBy = [errorId, helpId].filter(Boolean).join(" ") || undefined;
+  const enhancedChildren = import_react7.isValidElement(children) ? import_react7.cloneElement(children, {
+    "aria-describedby": describedBy
+  }) : children;
+  return /* @__PURE__ */ jsx_dev_runtime7.jsxDEV("div", {
+    ref,
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: import_core6.semantic.spaceXs,
+      opacity: disabled ? 0.6 : undefined,
+      ...style
+    },
+    ...props,
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime7.jsxDEV("label", {
+        htmlFor,
+        style: labelStyle,
+        children: [
+          label,
+          required && /* @__PURE__ */ jsx_dev_runtime7.jsxDEV("span", {
+            style: requiredStyle,
+            "aria-hidden": "true",
+            children: "*"
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this),
+      enhancedChildren,
+      error && /* @__PURE__ */ jsx_dev_runtime7.jsxDEV("p", {
+        id: errorId,
+        role: "alert",
+        style: errorStyle,
+        children: error
+      }, undefined, false, undefined, this),
+      !error && help && /* @__PURE__ */ jsx_dev_runtime7.jsxDEV("p", {
+        id: helpId,
+        style: helpStyle,
+        children: help
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/Input/index.ts
+var exports_Input = {};
+__export(exports_Input, {
+  Input: () => Input
+});
+
+// src/components/Input/Input.tsx
+var import_react8 = require("react");
+var import_core7 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime8 = require("react/jsx-dev-runtime");
+var baseStyle = {
+  display: "block",
+  width: "100%",
+  padding: `${import_core7.semantic.spaceSm} ${import_core7.semantic.spaceMd}`,
+  fontSize: import_core7.semantic.fontSizeSm,
+  lineHeight: import_core7.semantic.lineHeightTight,
+  fontFamily: import_core7.semantic.fontSans,
+  color: import_core7.semantic.colorText,
+  background: import_core7.semantic.colorSurfaceInput,
+  border: `1px solid ${import_core7.semantic.colorBorder}`,
+  borderRadius: import_core7.semantic.radiusMd,
+  outline: "none",
+  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  boxSizing: "border-box"
+};
+var errorBorderStyle = {
+  borderColor: import_core7.semantic.colorBorderError
+};
+var disabledStyle = {
+  background: import_core7.semantic.colorSurfaceDisabled,
+  color: import_core7.semantic.colorTextDisabled,
+  cursor: "not-allowed"
+};
+var Input = import_react8.forwardRef(function Input2({
+  hasError,
+  disabled,
+  style,
+  ...props
+}, ref) {
+  return /* @__PURE__ */ jsx_dev_runtime8.jsxDEV("input", {
+    ref,
+    "aria-invalid": hasError || undefined,
+    style: {
+      ...baseStyle,
+      ...hasError ? errorBorderStyle : {},
+      ...disabled ? disabledStyle : {},
+      ...style
+    },
+    disabled,
+    ...props
+  }, undefined, false, undefined, this);
+});
+// src/components/Textarea/index.ts
+var exports_Textarea = {};
+__export(exports_Textarea, {
+  Textarea: () => Textarea
+});
+
+// src/components/Textarea/Textarea.tsx
+var import_react9 = require("react");
+var import_core8 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime9 = require("react/jsx-dev-runtime");
+var baseStyle2 = {
+  display: "block",
+  width: "100%",
+  padding: `${import_core8.semantic.spaceSm} ${import_core8.semantic.spaceMd}`,
+  fontSize: import_core8.semantic.fontSizeSm,
+  lineHeight: import_core8.semantic.lineHeightBase,
+  fontFamily: import_core8.semantic.fontSans,
+  color: import_core8.semantic.colorText,
+  background: import_core8.semantic.colorSurfaceInput,
+  border: `1px solid ${import_core8.semantic.colorBorder}`,
+  borderRadius: import_core8.semantic.radiusMd,
+  outline: "none",
+  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  boxSizing: "border-box",
+  resize: "vertical",
+  minHeight: "5rem"
+};
+var errorBorderStyle2 = {
+  borderColor: import_core8.semantic.colorBorderError
+};
+var disabledStyle2 = {
+  background: import_core8.semantic.colorSurfaceDisabled,
+  color: import_core8.semantic.colorTextDisabled,
+  cursor: "not-allowed",
+  resize: "none"
+};
+var Textarea = import_react9.forwardRef(function Textarea2({
+  hasError,
+  disabled,
+  style,
+  ...props
+}, ref) {
+  return /* @__PURE__ */ jsx_dev_runtime9.jsxDEV("textarea", {
+    ref,
+    "aria-invalid": hasError || undefined,
+    style: {
+      ...baseStyle2,
+      ...hasError ? errorBorderStyle2 : {},
+      ...disabled ? disabledStyle2 : {},
+      ...style
+    },
+    disabled,
+    ...props
+  }, undefined, false, undefined, this);
+});
+// src/components/Select/index.ts
+var exports_Select = {};
+__export(exports_Select, {
+  Select: () => Select
+});
+
+// src/components/Select/Select.tsx
+var import_react10 = require("react");
+var import_core9 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime10 = require("react/jsx-dev-runtime");
+var SELECT_STYLES_ID = "alttab-select";
+var selectCSS = `
   .alttab-select-option {
     display: block;
     width: 100%;
@@ -163,7 +1453,1293 @@ var X3=Object.create;var{getPrototypeOf:J3,defineProperty:s1,getOwnPropertyNames
     border-color: var(--color-border-focused);
     box-shadow: 0 0 0 var(--focus-ring-width) var(--focus-ring-color);
   }
-`;function u3(J){return J??[]}function c3(J,X){return J.find((P)=>P.value===X)?.label}var z0=r.forwardRef(function({options:X,children:P,placeholder:$,hasError:Q,disabled:Z,style:N,value:H,defaultValue:W,onChange:q,name:G,id:M,"aria-label":K,"aria-labelledby":U,...z},k){y.useInjectStyles(j3,f3);let V=u3(X),[_,D]=r.useState(!1),[R,n]=r.useState(-1),[W1,I1]=r.useState(()=>W??""),h=H!==void 0,k1=h?H:W1,K1=r.useRef(null),e=r.useRef(null),E=r.useRef(null),j=r.useRef(null),[p2,K2]=r.useState("down");if(r.useEffect(()=>{if(!k)return;if(typeof k==="function")k(j.current);else k.current=j.current},[k]),P)return X1.jsxs("div",{style:B6,children:[X1.jsxs("select",{ref:j,"aria-invalid":Q||void 0,"aria-label":K,"aria-labelledby":U,name:G,id:M,value:H,defaultValue:W,onChange:q,disabled:Z,style:{...k6,...Q?T6:{},...Z?O6:{},...N},...z,children:[$&&X1.jsx("option",{value:"",disabled:!0,children:$}),P]}),X1.jsx("span",{"aria-hidden":!0,style:F6,children:X1.jsx(L6,{})})]});let I=r.useCallback(()=>{let T=e.current;if(!T)return;let g=T.getBoundingClientRect(),N1=window.innerHeight-g.bottom,D1=g.top,O0=Math.min(V.length*32+8,256);K2(N1>=O0?"down":D1>N1?"up":"down")},[V.length]),l=r.useCallback(()=>{if(Z)return;I(),D(!0);let T=V.findIndex((g)=>g.value===k1);n(T>=0?T:0)},[Z,I,V,k1]),F=r.useCallback(()=>{D(!1),n(-1)},[]),d=r.useCallback((T)=>{if(T.disabled)return;if(!h)I1(T.value);if(q&&j.current){let g=j.current;Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype,"value")?.set?.call(g,T.value);let D1=new Event("change",{bubbles:!0});g.dispatchEvent(D1)}F(),e.current?.focus()},[h,q,F]);r.useEffect(()=>{if(!_)return;function T(g){if(K1.current&&!K1.current.contains(g.target))F()}return document.addEventListener("mousedown",T),()=>document.removeEventListener("mousedown",T)},[_,F]),r.useEffect(()=>{if(!_||R<0)return;let T=E.current;if(!T)return;T.querySelectorAll('[role="option"]')[R]?.scrollIntoView({block:"nearest"})},[_,R]);let A2=r.useCallback((T)=>{if(T.key==="Escape"){F(),e.current?.focus();return}if(!_){if(T.key==="ArrowDown"||T.key==="ArrowUp"||T.key==="Enter"||T.key===" ")T.preventDefault(),l();return}let g=V.map((N1,D1)=>N1.disabled?-1:D1).filter((N1)=>N1>=0);switch(T.key){case"ArrowDown":{T.preventDefault();let N1=g.indexOf(R),D1=N1<g.length-1?g[N1+1]:g[0];n(D1);break}case"ArrowUp":{T.preventDefault();let N1=g.indexOf(R),D1=N1>0?g[N1-1]:g[g.length-1];n(D1);break}case"Enter":case" ":if(T.preventDefault(),R>=0&&R<V.length)d(V[R]);break;case"Home":if(T.preventDefault(),g.length>0)n(g[0]);break;case"End":if(T.preventDefault(),g.length>0)n(g[g.length-1]);break;case"Tab":F();break}},[_,l,F,R,V,d]),a1=c3(V,k1),S2=!a1&&!!$,d0=M?`${M}-listbox`:void 0,e4=p2==="down"?{position:"absolute",top:"100%",left:0,right:0,marginTop:y.semantic.spaceXs}:{position:"absolute",bottom:"100%",left:0,right:0,marginBottom:y.semantic.spaceXs};return X1.jsxs("div",{ref:K1,style:B6,onKeyDown:A2,children:[X1.jsxs("select",{ref:j,name:G,value:k1,onChange:()=>{},disabled:Z,tabIndex:-1,"aria-hidden":!0,style:{position:"absolute",width:0,height:0,overflow:"hidden",opacity:0,pointerEvents:"none"},...z,children:[$&&X1.jsx("option",{value:"",disabled:!0,children:$}),V.map((T)=>X1.jsx("option",{value:T.value,disabled:T.disabled,children:T.label},T.value))]}),X1.jsx("button",{ref:e,type:"button",className:"alttab-select-trigger",role:"combobox","aria-expanded":_,"aria-haspopup":"listbox","aria-controls":d0,"aria-invalid":Q||void 0,"aria-label":K,"aria-labelledby":U,"aria-activedescendant":_&&R>=0?`alttab-select-opt-${V[R]?.value}`:void 0,disabled:Z,onClick:()=>_?F():l(),style:{...k6,...Q?T6:{},...Z?O6:{},...S2?o3:{},...N},children:a1??$??" "}),X1.jsx("span",{"aria-hidden":!0,style:F6,children:X1.jsx(L6,{rotated:_})}),_&&X1.jsx("div",{ref:E,id:d0,role:"listbox",style:{...e4,background:y.semantic.colorSurfacePanel,border:`1px solid ${y.semantic.colorBorder}`,borderRadius:y.semantic.radiusMd,padding:y.semantic.spaceXs,zIndex:100,boxShadow:y.semantic.shadowMd,maxHeight:"16rem",overflowY:"auto",boxSizing:"border-box"},children:V.map((T,g)=>{let N1=T.value===k1,O0=["alttab-select-option",N1?"alttab-select-option--selected":"",R===g?"alttab-select-option--focused":"",T.disabled?"alttab-select-option--disabled":""].filter(Boolean).join(" ");return X1.jsx("button",{id:`alttab-select-opt-${T.value}`,type:"button",role:"option","aria-selected":N1,"aria-disabled":T.disabled||void 0,className:O0,onClick:()=>d(T),onMouseEnter:()=>{if(!T.disabled)n(g)},children:T.label},T.value)})})]})}),B6={position:"relative",display:"block",width:"100%"},k6={display:"block",width:"100%",padding:`${y.semantic.spaceSm} ${y.semantic.spaceMd}`,fontSize:y.semantic.fontSizeSm,lineHeight:y.semantic.lineHeightTight,fontFamily:y.semantic.fontSans,color:y.semantic.colorText,background:y.semantic.colorSurfaceInput,border:`1px solid ${y.semantic.colorBorder}`,borderRadius:y.semantic.radiusMd,outline:"none",transition:"border-color 150ms ease, box-shadow 150ms ease",boxSizing:"border-box",cursor:"pointer",textAlign:"left",paddingRight:y.semantic.space2xl},F6={position:"absolute",right:y.semantic.spaceSm,top:y.semantic.spaceSm,pointerEvents:"none",color:y.semantic.colorTextSecondary,display:"flex",alignItems:"center",justifyContent:"center",height:`calc(${y.semantic.fontSizeSm} * ${y.semantic.lineHeightTight})`},T6={borderColor:y.semantic.colorBorderError},O6={background:y.semantic.colorSurfaceDisabled,color:y.semantic.colorTextDisabled,cursor:"not-allowed"},o3={color:y.semantic.colorTextPlaceholder};function L6({rotated:J}){return X1.jsx("svg",{width:"12",height:"12",viewBox:"0 0 12 12",fill:"none",xmlns:"http://www.w3.org/2000/svg",style:{transition:"transform 150ms ease",transform:J?"rotate(180deg)":"none"},children:X1.jsx("path",{d:"M2.22 4.47a.75.75 0 0 1 1.06 0L6 7.19l2.72-2.72a.75.75 0 1 1 1.06 1.06L6 9.31 2.22 5.53a.75.75 0 0 1 0-1.06z",fill:"currentColor"})})}var D6={};O(D6,{Badge:()=>R6});var I6=require("react"),J1=require("../../core/dist/index.cjs"),w6=require("react/jsx-runtime"),r3={default:{border:`1px solid ${J1.semantic.colorBorder}`,color:J1.semantic.colorTextSecondary},success:{background:J1.semantic.colorSuccessBg,color:J1.semantic.colorSuccess},warning:{background:J1.semantic.colorWarningBg,color:J1.semantic.colorWarning},error:{background:J1.semantic.colorErrorBg,color:J1.semantic.colorError},info:{background:J1.semantic.colorInfoBg,color:J1.semantic.colorInfo}},n3={display:"inline-block",padding:`${J1.semantic.spaceXs} ${J1.semantic.spaceSm}`,borderRadius:J1.semantic.radiusFull,fontSize:J1.semantic.fontSizeXs,fontWeight:J1.semantic.fontWeightSemibold,fontFamily:J1.semantic.fontSans,textTransform:"uppercase",letterSpacing:J1.semantic.letterSpacingWide},R6=I6.forwardRef(function({children:X,variant:P="default",color:$,style:Q,...Z},N){let H=$?{background:`color-mix(in srgb, ${$} 14%, transparent)`,color:$}:void 0;return w6.jsx("span",{ref:N,...Z,style:{...n3,...H??r3[P],...Q},children:X})});var v6={};O(v6,{IconButton:()=>v1});var C6=require("react"),k2=require("../../core/dist/index.cjs");var g2=require("react/jsx-runtime"),v1=C6.forwardRef(function({icon:X,size:P=24,badge:$,fontClass:Q,style:Z,...N},H){return g2.jsxs("button",{ref:H,style:{position:"relative",display:"inline-flex",alignItems:"center",justifyContent:"center",width:36,height:36,borderRadius:k2.semantic.radiusFull,background:"transparent",border:"none",color:k2.semantic.colorTextMuted,cursor:"pointer",padding:0,...Z},...N,children:[g2.jsx(A1,{name:X,size:P,fontClass:Q}),$&&g2.jsx("span",{style:{position:"absolute",top:2,right:2,width:8,height:8,borderRadius:k2.semantic.radiusFull,background:k2.semantic.colorError,border:`2px solid ${k2.semantic.colorSurface}`}})]})});var y6={};O(y6,{Overlay:()=>M0});var m6=require("react"),p6=require("../../core/dist/index.cjs"),S6=require("react/jsx-runtime"),M0=m6.forwardRef(function({onClick:X,zIndex:P=100,style:$},Q){return S6.jsx("div",{ref:Q,role:"presentation",onClick:X,style:{position:"fixed",inset:0,background:p6.semantic.colorSurfaceOverlay,zIndex:P,...$}})});var x6={};O(x6,{Skeleton:()=>f1,RowSkeleton:()=>b6,CardSkeleton:()=>g6});var Y0=require("react"),R1=require("../../core/dist/index.cjs"),F1=require("react/jsx-runtime"),f1=Y0.forwardRef(function({width:X="100%",height:P=16,borderRadius:$=R1.semantic.radiusMd,style:Q},Z){return F1.jsx("div",{ref:Z,"aria-hidden":"true",style:{width:X,height:P,borderRadius:$,background:R1.semantic.colorSurfaceRaised,...Q}})}),g6=Y0.forwardRef(function({style:X},P){return F1.jsxs("div",{ref:P,"aria-hidden":"true",style:{borderRadius:R1.semantic.radiusLg,border:`1px solid ${R1.semantic.colorBorder}`,padding:R1.semantic.spaceLg,display:"flex",flexDirection:"column",gap:R1.semantic.spaceSm,...X},children:[F1.jsx(f1,{width:"60%",height:20}),F1.jsx(f1,{width:"100%",height:14}),F1.jsx(f1,{width:"80%",height:14})]})}),b6=Y0.forwardRef(function({style:X},P){return F1.jsxs("div",{ref:P,"aria-hidden":"true",style:{display:"flex",alignItems:"center",gap:R1.semantic.spaceSm,padding:`${R1.semantic.spaceSm} 0`,...X},children:[F1.jsx(f1,{width:32,height:32,borderRadius:R1.semantic.radiusFull}),F1.jsxs("div",{style:{flex:1,display:"flex",flexDirection:"column",gap:R1.semantic.spaceXs},children:[F1.jsx(f1,{width:"40%",height:14}),F1.jsx(f1,{width:"70%",height:12})]})]})});var u6={};O(u6,{ProgressBar:()=>f6});var h6=require("react"),j6=require("../../core/dist/index.cjs"),D0=require("react/jsx-runtime"),f6=h6.forwardRef(function({segments:X,height:P=6,"aria-label":$,style:Q},Z){let N=X.reduce((H,W)=>H+W.value,0);return D0.jsx("div",{ref:Z,role:"progressbar","aria-valuenow":N,"aria-valuemin":0,"aria-valuemax":100,"aria-label":$,style:{width:"100%",height:P,borderRadius:P/2,overflow:"hidden",display:"flex",background:j6.semantic.colorSurfaceRaised,...Q},children:X.map((H,W)=>{let q=N>0?H.value/N*100:0;return D0.jsx("div",{title:H.label?`${H.label}: ${H.value}`:String(H.value),style:{width:`${q}%`,height:"100%",background:H.color}},W)})})});var r6={};O(r6,{EmptyState:()=>o6});var c6=require("react"),X2=require("../../core/dist/index.cjs");var u1=require("react/jsx-runtime"),o6=c6.forwardRef(function({icon:X,message:P,variant:$="plain",style:Q,children:Z,action:N},H){let W=u1.jsxs(K0,{align:"center",gap:"sm",style:{padding:X2.semantic.spaceXl,...Q},children:[u1.jsx(A1,{name:X,size:32,style:{color:X2.semantic.colorTextMuted}}),u1.jsx("span",{style:{color:X2.semantic.colorTextSecondary,fontSize:X2.semantic.fontSizeSm,textAlign:"center",fontFamily:X2.semantic.fontSans},children:P}),Z,N&&u1.jsx("div",{style:{marginTop:X2.semantic.spaceSm},children:N})]});if($==="card")return u1.jsx(h1,{ref:H,variant:"flat",children:W});return u1.jsx("div",{ref:H,children:W})});var i6={};O(i6,{Pagination:()=>d6});var n6=require("react"),b2=require("../../core/dist/index.cjs");var F2=require("react/jsx-runtime"),d3={previous:"Previous",next:"Next",pageOf:(J,X)=>`Page ${J} of ${X}`},d6=n6.forwardRef(function({page:X,totalPages:P,total:$,onPageChange:Q,labels:Z,className:N,style:H},W){let q={...d3,...Z};return F2.jsxs("div",{ref:W,className:N,style:{display:"flex",alignItems:"center",justifyContent:"center",gap:b2.semantic.spaceSm,...H},children:[F2.jsx(z1,{variant:"ghost",size:"sm",disabled:X<=1,onClick:()=>Q(X-1),children:q.previous}),F2.jsxs("span",{style:{color:b2.semantic.colorTextMuted,fontSize:b2.semantic.fontSizeSm,fontFamily:b2.semantic.fontSans},children:[q.pageOf(X,P)," (",$," total)"]}),F2.jsx(z1,{variant:"ghost",size:"sm",disabled:X>=P,onClick:()=>Q(X+1),children:q.next})]})});var a6={};O(a6,{PageHeader:()=>l6});var V0=require("react"),J2=require("../../core/dist/index.cjs"),P2=require("react/jsx-runtime"),l6=V0.forwardRef(function({title:X,subtitle:P,indicator:$,trailing:Q,style:Z,className:N,level:H=2},W){let q=V0.createElement(`h${H}`,{style:{margin:0,fontFamily:J2.semantic.fontSans,fontWeight:J2.semantic.fontWeightBold,color:J2.semantic.colorText}},X);return P2.jsxs("div",{ref:W,className:N,style:{display:"flex",justifyContent:"space-between",alignItems:"flex-end",...Z},children:[P2.jsxs("div",{children:[P2.jsxs("div",{style:{display:"flex",alignItems:"center",gap:J2.semantic.spaceSm},children:[q,$]}),P&&P2.jsx("span",{style:{color:J2.semantic.colorTextMuted,fontSize:J2.semantic.fontSizeSm},children:P})]}),Q&&P2.jsx("div",{children:Q})]})});var e6={};O(e6,{TagChip:()=>t6});var s6=require("react"),m1=require("../../core/dist/index.cjs");var x2=require("react/jsx-runtime"),t6=s6.forwardRef(function({name:X,prefix:P,onRemove:$,style:Q},Z){return x2.jsxs("span",{ref:Z,style:{display:"inline-flex",alignItems:"center",gap:m1.semantic.spaceXs,fontSize:m1.semantic.fontSizeXs,color:m1.semantic.colorActionPrimary,background:m1.semantic.colorSurfaceRaised,borderRadius:m1.semantic.radiusFull,padding:"2px 8px",fontFamily:m1.semantic.fontSans,...Q},children:[P&&x2.jsxs("span",{style:{color:m1.semantic.colorTextMuted},children:[P,":"]}),X,$&&x2.jsx(v1,{icon:"close",size:12,onClick:$,"aria-label":`Remove ${X}`,style:{width:18,height:18,color:m1.semantic.colorActionPrimary}})]})});var J4={};O(J4,{ExpandableCard:()=>X4});var V1=require("../../core/dist/index.cjs");var T2=require("react"),T1=require("react/jsx-runtime"),X4=T2.forwardRef(function({title:X,children:P,defaultOpen:$=!1,open:Q,onToggle:Z,variant:N="default",style:H,headerAction:W},q){let[G,M]=T2.useState($),K=Q!==void 0?Q:G,U=T2.useId();return T1.jsxs(h1,{ref:q,variant:N,padding:"xs",style:H,children:[T1.jsxs("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between"},children:[T1.jsxs("button",{type:"button",onClick:()=>{let k=!K;if(Q===void 0)M(k);Z?.(k)},"aria-expanded":K,"aria-controls":U,style:{display:"flex",alignItems:"center",gap:V1.semantic.spaceSm,padding:`${V1.semantic.spaceSm} ${V1.semantic.spaceMd}`,cursor:"pointer",borderRadius:V1.semantic.radiusMd,transition:"background 150ms ease",background:"none",border:"none",color:"inherit",font:"inherit",flex:1},children:[T1.jsx("span",{style:{display:"inline-flex",alignItems:"center",justifyContent:"center",width:20,height:20,lineHeight:1,color:"inherit",transition:"transform 200ms ease",transform:K?"rotate(90deg)":"rotate(0deg)"},children:T1.jsx(z2,{size:20})}),T1.jsx("span",{style:{fontWeight:V1.semantic.fontWeightSemibold,fontFamily:V1.semantic.fontSans,color:V1.semantic.colorText,fontSize:V1.semantic.fontSizeSm},children:X})]}),W&&T1.jsx("div",{style:{padding:`0 ${V1.semantic.spaceMd}`},children:W})]}),T1.jsx("div",{id:U,role:"region",style:{display:"grid",gridTemplateRows:K?"1fr":"0fr",transition:"grid-template-rows 200ms ease"},children:T1.jsx("div",{style:{overflow:"hidden"},children:T1.jsx("div",{style:{padding:`${V1.semantic.spaceSm} ${V1.semantic.spaceMd} ${V1.semantic.spaceMd}`},children:P})})})]})});var Q4={};O(Q4,{ConfirmDialog:()=>$4});var O2=require("react"),o1=require("../../core/dist/index.cjs");var p1=require("react"),P4=require("react-dom"),O1=require("../../core/dist/index.cjs");var c1=require("react/jsx-runtime"),$2=Object.freeze({margin:0,fontWeight:O1.semantic.fontWeightSemibold,fontFamily:O1.semantic.fontSans,color:O1.semantic.colorText,fontSize:O1.semantic.fontSizeLg}),h2=Object.freeze({display:"flex",justifyContent:"flex-end",gap:O1.semantic.spaceSm}),i3=["a[href]","button:not(:disabled)","input:not(:disabled)","select:not(:disabled)","textarea:not(:disabled)",'[tabindex]:not([tabindex="-1"])'].join(", "),Q2=p1.forwardRef(function({onClose:X,children:P,maxWidth:$=480,zIndex:Q=200,style:Z,titleId:N,"aria-label":H,role:W="dialog"},q){let G=p1.useId(),M=N??G,K=p1.useRef(null),U=(z)=>{if(K.current=z,typeof q==="function")q(z);else if(q)q.current=z};return o2(K),p1.useEffect(()=>{let z=document.activeElement,k=K.current;if(k){let V=k.querySelector(i3);if(V)V.focus();else k.focus()}return()=>{z?.focus()}},[]),p1.useEffect(()=>{let z=(k)=>{if(k.key==="Escape")X()};return document.addEventListener("keydown",z),()=>document.removeEventListener("keydown",z)},[X]),P4.createPortal(c1.jsxs(c1.Fragment,{children:[c1.jsx(M0,{onClick:X,zIndex:Q}),c1.jsx("div",{style:{position:"fixed",inset:0,display:"flex",alignItems:"center",justifyContent:"center",zIndex:Q+1,pointerEvents:"none"},children:c1.jsx("div",{ref:U,role:W,"aria-modal":"true","aria-labelledby":H?void 0:M,"aria-label":H,tabIndex:-1,style:{background:O1.semantic.colorSurface,color:O1.semantic.colorText,borderRadius:O1.semantic.radiusLg,boxShadow:O1.semantic.shadowLg,border:`1px solid ${O1.semantic.colorBorder}`,padding:O1.semantic.spaceXl,maxWidth:$,width:"100%",pointerEvents:"auto",outline:"none",...Z},children:P})})]}),document.body)});var S1=require("react/jsx-runtime"),l3={destructive:"destructive",info:"primary",warning:"primary"},$4=O2.forwardRef(function({title:X,message:P,confirmLabel:$="Confirm",onConfirm:Q,onCancel:Z,children:N,variant:H="destructive"},W){let[q,G]=O2.useState(!1),M=O2.useId(),K=async()=>{G(!0);try{await Q()}finally{G(!1)}};return S1.jsxs(Q2,{ref:W,onClose:Z,role:"alertdialog",titleId:M,children:[S1.jsx("h2",{id:M,style:$2,children:X}),S1.jsx("p",{style:{margin:`${o1.semantic.spaceSm} 0 ${N?"0":o1.semantic.spaceLg}`,color:o1.semantic.colorTextMuted,fontSize:o1.semantic.fontSizeSm,fontFamily:o1.semantic.fontSans},children:P}),N&&S1.jsx("div",{style:{margin:`${o1.semantic.spaceSm} 0 ${o1.semantic.spaceLg}`},children:N}),S1.jsxs("div",{style:h2,children:[S1.jsx(z1,{variant:"ghost",onClick:Z,disabled:q,autoFocus:!0,children:"Cancel"}),S1.jsx(z1,{variant:l3[H],onClick:K,disabled:q,children:q?"Loading...":$})]})]})});var N4={};O(N4,{FormModal:()=>Z4});var L2=require("react"),C0=require("../../core/dist/index.cjs");var r1=require("react/jsx-runtime"),Z4=L2.forwardRef(function({title:X,children:P,onSubmit:$,onCancel:Q,submitLabel:Z="Submit",cancelLabel:N="Cancel",loading:H,maxWidth:W},q){let[G,M]=L2.useState(!1),K=L2.useId(),U=H||G,z=async()=>{M(!0);try{await $()}finally{M(!1)}};return r1.jsxs(Q2,{ref:q,onClose:Q,titleId:K,maxWidth:W,children:[r1.jsx("h2",{id:K,style:$2,children:X}),r1.jsx("div",{style:{margin:`${C0.semantic.spaceMd} 0 ${C0.semantic.spaceLg}`,overflowY:"auto"},children:P}),r1.jsxs("div",{style:h2,children:[r1.jsx(z1,{variant:"ghost",onClick:Q,children:N}),r1.jsx(z1,{variant:"primary",onClick:z,loading:U,children:Z})]})]})});var U4={};O(U4,{StatusDot:()=>q4});var H4=require("react"),y1=require("../../core/dist/index.cjs"),W4=require("react/jsx-runtime"),a3={default:y1.semantic.colorTextMuted,success:y1.semantic.colorSuccess,warning:y1.semantic.colorWarning,error:y1.semantic.colorError,info:y1.semantic.colorInfo},s3="4lt7ab-status-dot-pulse",t3=`
+`;
+function getOptions(options) {
+  return options ?? [];
+}
+function findLabel(options, value) {
+  return options.find((o) => o.value === value)?.label;
+}
+var Select = import_react10.forwardRef(function Select2({
+  options,
+  children,
+  placeholder,
+  hasError,
+  disabled,
+  style,
+  value: controlledValue,
+  defaultValue,
+  onChange,
+  name,
+  id,
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
+  ...props
+}, ref) {
+  import_core9.useInjectStyles(SELECT_STYLES_ID, selectCSS);
+  const optionList = getOptions(options);
+  const [open, setOpen] = import_react10.useState(false);
+  const [focusedIndex, setFocusedIndex] = import_react10.useState(-1);
+  const [internalValue, setInternalValue] = import_react10.useState(() => defaultValue ?? "");
+  const isControlled = controlledValue !== undefined;
+  const currentValue = isControlled ? controlledValue : internalValue;
+  const containerRef = import_react10.useRef(null);
+  const triggerRef = import_react10.useRef(null);
+  const menuRef = import_react10.useRef(null);
+  const hiddenSelectRef = import_react10.useRef(null);
+  const [dropDirection, setDropDirection] = import_react10.useState("down");
+  import_react10.useEffect(() => {
+    if (!ref)
+      return;
+    if (typeof ref === "function") {
+      ref(hiddenSelectRef.current);
+    } else {
+      ref.current = hiddenSelectRef.current;
+    }
+  }, [ref]);
+  if (children) {
+    return /* @__PURE__ */ jsx_dev_runtime10.jsxDEV("div", {
+      style: wrapperStyle,
+      children: [
+        /* @__PURE__ */ jsx_dev_runtime10.jsxDEV("select", {
+          ref: hiddenSelectRef,
+          "aria-invalid": hasError || undefined,
+          "aria-label": ariaLabel,
+          "aria-labelledby": ariaLabelledBy,
+          name,
+          id,
+          value: controlledValue,
+          defaultValue,
+          onChange,
+          disabled,
+          style: {
+            ...triggerBaseStyle,
+            ...hasError ? errorBorderStyle3 : {},
+            ...disabled ? disabledStyle3 : {},
+            ...style
+          },
+          ...props,
+          children: [
+            placeholder && /* @__PURE__ */ jsx_dev_runtime10.jsxDEV("option", {
+              value: "",
+              disabled: true,
+              children: placeholder
+            }, undefined, false, undefined, this),
+            children
+          ]
+        }, undefined, true, undefined, this),
+        /* @__PURE__ */ jsx_dev_runtime10.jsxDEV("span", {
+          "aria-hidden": true,
+          style: chevronStyle,
+          children: /* @__PURE__ */ jsx_dev_runtime10.jsxDEV(ChevronSVG, {}, undefined, false, undefined, this)
+        }, undefined, false, undefined, this)
+      ]
+    }, undefined, true, undefined, this);
+  }
+  const calculateDirection = import_react10.useCallback(() => {
+    const trigger = triggerRef.current;
+    if (!trigger)
+      return;
+    const rect = trigger.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const spaceAbove = rect.top;
+    const estimatedHeight = Math.min(optionList.length * 32 + 8, 256);
+    setDropDirection(spaceBelow >= estimatedHeight ? "down" : spaceAbove > spaceBelow ? "up" : "down");
+  }, [optionList.length]);
+  const openMenu = import_react10.useCallback(() => {
+    if (disabled)
+      return;
+    calculateDirection();
+    setOpen(true);
+    const activeIdx = optionList.findIndex((o) => o.value === currentValue);
+    setFocusedIndex(activeIdx >= 0 ? activeIdx : 0);
+  }, [disabled, calculateDirection, optionList, currentValue]);
+  const closeMenu = import_react10.useCallback(() => {
+    setOpen(false);
+    setFocusedIndex(-1);
+  }, []);
+  const selectOption = import_react10.useCallback((opt) => {
+    if (opt.disabled)
+      return;
+    if (!isControlled) {
+      setInternalValue(opt.value);
+    }
+    if (onChange && hiddenSelectRef.current) {
+      const nativeSelect = hiddenSelectRef.current;
+      const nativeSetter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, "value")?.set;
+      nativeSetter?.call(nativeSelect, opt.value);
+      const event = new Event("change", { bubbles: true });
+      nativeSelect.dispatchEvent(event);
+    }
+    closeMenu();
+    triggerRef.current?.focus();
+  }, [isControlled, onChange, closeMenu]);
+  import_react10.useEffect(() => {
+    if (!open)
+      return;
+    function handleMouseDown(e) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        closeMenu();
+      }
+    }
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [open, closeMenu]);
+  import_react10.useEffect(() => {
+    if (!open || focusedIndex < 0)
+      return;
+    const menu = menuRef.current;
+    if (!menu)
+      return;
+    const items = menu.querySelectorAll('[role="option"]');
+    items[focusedIndex]?.scrollIntoView({ block: "nearest" });
+  }, [open, focusedIndex]);
+  const handleKeyDown = import_react10.useCallback((e) => {
+    if (e.key === "Escape") {
+      closeMenu();
+      triggerRef.current?.focus();
+      return;
+    }
+    if (!open) {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp" || e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openMenu();
+      }
+      return;
+    }
+    const enabledIndices = optionList.map((o, i) => o.disabled ? -1 : i).filter((i) => i >= 0);
+    switch (e.key) {
+      case "ArrowDown": {
+        e.preventDefault();
+        const currentPos = enabledIndices.indexOf(focusedIndex);
+        const next = currentPos < enabledIndices.length - 1 ? enabledIndices[currentPos + 1] : enabledIndices[0];
+        setFocusedIndex(next);
+        break;
+      }
+      case "ArrowUp": {
+        e.preventDefault();
+        const currentPos = enabledIndices.indexOf(focusedIndex);
+        const prev = currentPos > 0 ? enabledIndices[currentPos - 1] : enabledIndices[enabledIndices.length - 1];
+        setFocusedIndex(prev);
+        break;
+      }
+      case "Enter":
+      case " ":
+        e.preventDefault();
+        if (focusedIndex >= 0 && focusedIndex < optionList.length) {
+          selectOption(optionList[focusedIndex]);
+        }
+        break;
+      case "Home":
+        e.preventDefault();
+        if (enabledIndices.length > 0)
+          setFocusedIndex(enabledIndices[0]);
+        break;
+      case "End":
+        e.preventDefault();
+        if (enabledIndices.length > 0)
+          setFocusedIndex(enabledIndices[enabledIndices.length - 1]);
+        break;
+      case "Tab":
+        closeMenu();
+        break;
+    }
+  }, [open, openMenu, closeMenu, focusedIndex, optionList, selectOption]);
+  const displayLabel = findLabel(optionList, currentValue);
+  const showPlaceholder = !displayLabel && !!placeholder;
+  const listboxId = id ? `${id}-listbox` : undefined;
+  const menuStyle = dropDirection === "down" ? {
+    position: "absolute",
+    top: "100%",
+    left: 0,
+    right: 0,
+    marginTop: import_core9.semantic.spaceXs
+  } : {
+    position: "absolute",
+    bottom: "100%",
+    left: 0,
+    right: 0,
+    marginBottom: import_core9.semantic.spaceXs
+  };
+  return /* @__PURE__ */ jsx_dev_runtime10.jsxDEV("div", {
+    ref: containerRef,
+    style: wrapperStyle,
+    onKeyDown: handleKeyDown,
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime10.jsxDEV("select", {
+        ref: hiddenSelectRef,
+        name,
+        value: currentValue,
+        onChange: () => {},
+        disabled,
+        tabIndex: -1,
+        "aria-hidden": true,
+        style: {
+          position: "absolute",
+          width: 0,
+          height: 0,
+          overflow: "hidden",
+          opacity: 0,
+          pointerEvents: "none"
+        },
+        ...props,
+        children: [
+          placeholder && /* @__PURE__ */ jsx_dev_runtime10.jsxDEV("option", {
+            value: "",
+            disabled: true,
+            children: placeholder
+          }, undefined, false, undefined, this),
+          optionList.map((opt) => /* @__PURE__ */ jsx_dev_runtime10.jsxDEV("option", {
+            value: opt.value,
+            disabled: opt.disabled,
+            children: opt.label
+          }, opt.value, false, undefined, this))
+        ]
+      }, undefined, true, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime10.jsxDEV("button", {
+        ref: triggerRef,
+        type: "button",
+        className: "alttab-select-trigger",
+        role: "combobox",
+        "aria-expanded": open,
+        "aria-haspopup": "listbox",
+        "aria-controls": listboxId,
+        "aria-invalid": hasError || undefined,
+        "aria-label": ariaLabel,
+        "aria-labelledby": ariaLabelledBy,
+        "aria-activedescendant": open && focusedIndex >= 0 ? `alttab-select-opt-${optionList[focusedIndex]?.value}` : undefined,
+        disabled,
+        onClick: () => open ? closeMenu() : openMenu(),
+        style: {
+          ...triggerBaseStyle,
+          ...hasError ? errorBorderStyle3 : {},
+          ...disabled ? disabledStyle3 : {},
+          ...showPlaceholder ? placeholderStyle : {},
+          ...style
+        },
+        children: displayLabel ?? placeholder ?? " "
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime10.jsxDEV("span", {
+        "aria-hidden": true,
+        style: chevronStyle,
+        children: /* @__PURE__ */ jsx_dev_runtime10.jsxDEV(ChevronSVG, {
+          rotated: open
+        }, undefined, false, undefined, this)
+      }, undefined, false, undefined, this),
+      open && /* @__PURE__ */ jsx_dev_runtime10.jsxDEV("div", {
+        ref: menuRef,
+        id: listboxId,
+        role: "listbox",
+        style: {
+          ...menuStyle,
+          background: import_core9.semantic.colorSurfacePanel,
+          border: `1px solid ${import_core9.semantic.colorBorder}`,
+          borderRadius: import_core9.semantic.radiusMd,
+          padding: import_core9.semantic.spaceXs,
+          zIndex: 100,
+          boxShadow: import_core9.semantic.shadowMd,
+          maxHeight: "16rem",
+          overflowY: "auto",
+          boxSizing: "border-box"
+        },
+        children: optionList.map((opt, idx) => {
+          const isSelected = opt.value === currentValue;
+          const isFocused = focusedIndex === idx;
+          const classes = [
+            "alttab-select-option",
+            isSelected ? "alttab-select-option--selected" : "",
+            isFocused ? "alttab-select-option--focused" : "",
+            opt.disabled ? "alttab-select-option--disabled" : ""
+          ].filter(Boolean).join(" ");
+          return /* @__PURE__ */ jsx_dev_runtime10.jsxDEV("button", {
+            id: `alttab-select-opt-${opt.value}`,
+            type: "button",
+            role: "option",
+            "aria-selected": isSelected,
+            "aria-disabled": opt.disabled || undefined,
+            className: classes,
+            onClick: () => selectOption(opt),
+            onMouseEnter: () => {
+              if (!opt.disabled)
+                setFocusedIndex(idx);
+            },
+            children: opt.label
+          }, opt.value, false, undefined, this);
+        })
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+var wrapperStyle = {
+  position: "relative",
+  display: "block",
+  width: "100%"
+};
+var triggerBaseStyle = {
+  display: "block",
+  width: "100%",
+  padding: `${import_core9.semantic.spaceSm} ${import_core9.semantic.spaceMd}`,
+  fontSize: import_core9.semantic.fontSizeSm,
+  lineHeight: import_core9.semantic.lineHeightTight,
+  fontFamily: import_core9.semantic.fontSans,
+  color: import_core9.semantic.colorText,
+  background: import_core9.semantic.colorSurfaceInput,
+  border: `1px solid ${import_core9.semantic.colorBorder}`,
+  borderRadius: import_core9.semantic.radiusMd,
+  outline: "none",
+  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  boxSizing: "border-box",
+  cursor: "pointer",
+  textAlign: "left",
+  paddingRight: import_core9.semantic.space2xl
+};
+var chevronStyle = {
+  position: "absolute",
+  right: import_core9.semantic.spaceSm,
+  top: import_core9.semantic.spaceSm,
+  pointerEvents: "none",
+  color: import_core9.semantic.colorTextSecondary,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  height: `calc(${import_core9.semantic.fontSizeSm} * ${import_core9.semantic.lineHeightTight})`
+};
+var errorBorderStyle3 = {
+  borderColor: import_core9.semantic.colorBorderError
+};
+var disabledStyle3 = {
+  background: import_core9.semantic.colorSurfaceDisabled,
+  color: import_core9.semantic.colorTextDisabled,
+  cursor: "not-allowed"
+};
+var placeholderStyle = {
+  color: import_core9.semantic.colorTextPlaceholder
+};
+function ChevronSVG({ rotated }) {
+  return /* @__PURE__ */ jsx_dev_runtime10.jsxDEV("svg", {
+    width: "12",
+    height: "12",
+    viewBox: "0 0 12 12",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    style: {
+      transition: "transform 150ms ease",
+      transform: rotated ? "rotate(180deg)" : "none"
+    },
+    children: /* @__PURE__ */ jsx_dev_runtime10.jsxDEV("path", {
+      d: "M2.22 4.47a.75.75 0 0 1 1.06 0L6 7.19l2.72-2.72a.75.75 0 1 1 1.06 1.06L6 9.31 2.22 5.53a.75.75 0 0 1 0-1.06z",
+      fill: "currentColor"
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+// src/components/Badge/index.ts
+var exports_Badge = {};
+__export(exports_Badge, {
+  Badge: () => Badge
+});
+
+// src/components/Badge/Badge.tsx
+var import_react11 = require("react");
+var import_core10 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime11 = require("react/jsx-dev-runtime");
+var variantStyles3 = {
+  default: {
+    border: `1px solid ${import_core10.semantic.colorBorder}`,
+    color: import_core10.semantic.colorTextSecondary
+  },
+  success: {
+    background: import_core10.semantic.colorSuccessBg,
+    color: import_core10.semantic.colorSuccess
+  },
+  warning: {
+    background: import_core10.semantic.colorWarningBg,
+    color: import_core10.semantic.colorWarning
+  },
+  error: {
+    background: import_core10.semantic.colorErrorBg,
+    color: import_core10.semantic.colorError
+  },
+  info: {
+    background: import_core10.semantic.colorInfoBg,
+    color: import_core10.semantic.colorInfo
+  }
+};
+var baseStyles2 = {
+  display: "inline-block",
+  padding: `${import_core10.semantic.spaceXs} ${import_core10.semantic.spaceSm}`,
+  borderRadius: import_core10.semantic.radiusFull,
+  fontSize: import_core10.semantic.fontSizeXs,
+  fontWeight: import_core10.semantic.fontWeightSemibold,
+  fontFamily: import_core10.semantic.fontSans,
+  textTransform: "uppercase",
+  letterSpacing: import_core10.semantic.letterSpacingWide
+};
+var Badge = import_react11.forwardRef(function Badge2({
+  children,
+  variant = "default",
+  color,
+  style,
+  ...rest
+}, ref) {
+  const colorStyles = color ? { background: `color-mix(in srgb, ${color} 14%, transparent)`, color } : undefined;
+  return /* @__PURE__ */ jsx_dev_runtime11.jsxDEV("span", {
+    ref,
+    ...rest,
+    style: {
+      ...baseStyles2,
+      ...colorStyles ?? variantStyles3[variant],
+      ...style
+    },
+    children
+  }, undefined, false, undefined, this);
+});
+// src/components/IconButton/index.ts
+var exports_IconButton = {};
+__export(exports_IconButton, {
+  IconButton: () => IconButton
+});
+
+// src/components/IconButton/IconButton.tsx
+var import_react12 = require("react");
+var import_core11 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime12 = require("react/jsx-dev-runtime");
+var IconButton = import_react12.forwardRef(function IconButton2({
+  icon,
+  size = 24,
+  badge,
+  fontClass,
+  style,
+  ...props
+}, ref) {
+  return /* @__PURE__ */ jsx_dev_runtime12.jsxDEV("button", {
+    ref,
+    style: {
+      position: "relative",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: 36,
+      height: 36,
+      borderRadius: import_core11.semantic.radiusFull,
+      background: "transparent",
+      border: "none",
+      color: import_core11.semantic.colorTextMuted,
+      cursor: "pointer",
+      padding: 0,
+      ...style
+    },
+    ...props,
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime12.jsxDEV(Icon, {
+        name: icon,
+        size,
+        fontClass
+      }, undefined, false, undefined, this),
+      badge && /* @__PURE__ */ jsx_dev_runtime12.jsxDEV("span", {
+        style: {
+          position: "absolute",
+          top: 2,
+          right: 2,
+          width: 8,
+          height: 8,
+          borderRadius: import_core11.semantic.radiusFull,
+          background: import_core11.semantic.colorError,
+          border: `2px solid ${import_core11.semantic.colorSurface}`
+        }
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/Overlay/index.ts
+var exports_Overlay = {};
+__export(exports_Overlay, {
+  Overlay: () => Overlay
+});
+
+// src/components/Overlay/Overlay.tsx
+var import_react13 = require("react");
+var import_core12 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime13 = require("react/jsx-dev-runtime");
+var Overlay = import_react13.forwardRef(function Overlay2({
+  onClick,
+  zIndex = 100,
+  style
+}, ref) {
+  return /* @__PURE__ */ jsx_dev_runtime13.jsxDEV("div", {
+    ref,
+    role: "presentation",
+    onClick,
+    style: {
+      position: "fixed",
+      inset: 0,
+      background: import_core12.semantic.colorSurfaceOverlay,
+      zIndex,
+      ...style
+    }
+  }, undefined, false, undefined, this);
+});
+// src/components/Skeleton/index.ts
+var exports_Skeleton = {};
+__export(exports_Skeleton, {
+  Skeleton: () => Skeleton,
+  RowSkeleton: () => RowSkeleton,
+  CardSkeleton: () => CardSkeleton
+});
+
+// src/components/Skeleton/Skeleton.tsx
+var import_react14 = require("react");
+var import_core13 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime14 = require("react/jsx-dev-runtime");
+var Skeleton = import_react14.forwardRef(function Skeleton2({
+  width = "100%",
+  height = 16,
+  borderRadius = import_core13.semantic.radiusMd,
+  style
+}, ref) {
+  return /* @__PURE__ */ jsx_dev_runtime14.jsxDEV("div", {
+    ref,
+    "aria-hidden": "true",
+    style: {
+      width,
+      height,
+      borderRadius,
+      background: import_core13.semantic.colorSurfaceRaised,
+      ...style
+    }
+  }, undefined, false, undefined, this);
+});
+var CardSkeleton = import_react14.forwardRef(function CardSkeleton2({ style }, ref) {
+  return /* @__PURE__ */ jsx_dev_runtime14.jsxDEV("div", {
+    ref,
+    "aria-hidden": "true",
+    style: {
+      borderRadius: import_core13.semantic.radiusLg,
+      border: `1px solid ${import_core13.semantic.colorBorder}`,
+      padding: import_core13.semantic.spaceLg,
+      display: "flex",
+      flexDirection: "column",
+      gap: import_core13.semantic.spaceSm,
+      ...style
+    },
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime14.jsxDEV(Skeleton, {
+        width: "60%",
+        height: 20
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime14.jsxDEV(Skeleton, {
+        width: "100%",
+        height: 14
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime14.jsxDEV(Skeleton, {
+        width: "80%",
+        height: 14
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+var RowSkeleton = import_react14.forwardRef(function RowSkeleton2({ style }, ref) {
+  return /* @__PURE__ */ jsx_dev_runtime14.jsxDEV("div", {
+    ref,
+    "aria-hidden": "true",
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: import_core13.semantic.spaceSm,
+      padding: `${import_core13.semantic.spaceSm} 0`,
+      ...style
+    },
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime14.jsxDEV(Skeleton, {
+        width: 32,
+        height: 32,
+        borderRadius: import_core13.semantic.radiusFull
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime14.jsxDEV("div", {
+        style: { flex: 1, display: "flex", flexDirection: "column", gap: import_core13.semantic.spaceXs },
+        children: [
+          /* @__PURE__ */ jsx_dev_runtime14.jsxDEV(Skeleton, {
+            width: "40%",
+            height: 14
+          }, undefined, false, undefined, this),
+          /* @__PURE__ */ jsx_dev_runtime14.jsxDEV(Skeleton, {
+            width: "70%",
+            height: 12
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/ProgressBar/index.ts
+var exports_ProgressBar = {};
+__export(exports_ProgressBar, {
+  ProgressBar: () => ProgressBar
+});
+
+// src/components/ProgressBar/ProgressBar.tsx
+var import_react15 = require("react");
+var import_core14 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime15 = require("react/jsx-dev-runtime");
+var ProgressBar = import_react15.forwardRef(function ProgressBar2({
+  segments,
+  height = 6,
+  "aria-label": ariaLabel,
+  style
+}, ref) {
+  const total = segments.reduce((sum, s) => sum + s.value, 0);
+  return /* @__PURE__ */ jsx_dev_runtime15.jsxDEV("div", {
+    ref,
+    role: "progressbar",
+    "aria-valuenow": total,
+    "aria-valuemin": 0,
+    "aria-valuemax": 100,
+    "aria-label": ariaLabel,
+    style: {
+      width: "100%",
+      height,
+      borderRadius: height / 2,
+      overflow: "hidden",
+      display: "flex",
+      background: import_core14.semantic.colorSurfaceRaised,
+      ...style
+    },
+    children: segments.map((segment, i) => {
+      const pct = total > 0 ? segment.value / total * 100 : 0;
+      return /* @__PURE__ */ jsx_dev_runtime15.jsxDEV("div", {
+        title: segment.label ? `${segment.label}: ${segment.value}` : String(segment.value),
+        style: {
+          width: `${pct}%`,
+          height: "100%",
+          background: segment.color
+        }
+      }, i, false, undefined, this);
+    })
+  }, undefined, false, undefined, this);
+});
+// src/components/EmptyState/index.ts
+var exports_EmptyState = {};
+__export(exports_EmptyState, {
+  EmptyState: () => EmptyState
+});
+
+// src/components/EmptyState/EmptyState.tsx
+var import_react16 = require("react");
+var import_core15 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime16 = require("react/jsx-dev-runtime");
+var EmptyState = import_react16.forwardRef(function EmptyState2({
+  icon,
+  message,
+  variant = "plain",
+  style,
+  children,
+  action
+}, ref) {
+  const content = /* @__PURE__ */ jsx_dev_runtime16.jsxDEV(Stack, {
+    align: "center",
+    gap: "sm",
+    style: { padding: import_core15.semantic.spaceXl, ...style },
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime16.jsxDEV(Icon, {
+        name: icon,
+        size: 32,
+        style: { color: import_core15.semantic.colorTextMuted }
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime16.jsxDEV("span", {
+        style: {
+          color: import_core15.semantic.colorTextSecondary,
+          fontSize: import_core15.semantic.fontSizeSm,
+          textAlign: "center",
+          fontFamily: import_core15.semantic.fontSans
+        },
+        children: message
+      }, undefined, false, undefined, this),
+      children,
+      action && /* @__PURE__ */ jsx_dev_runtime16.jsxDEV("div", {
+        style: { marginTop: import_core15.semantic.spaceSm },
+        children: action
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+  if (variant === "card") {
+    return /* @__PURE__ */ jsx_dev_runtime16.jsxDEV(Card, {
+      ref,
+      variant: "flat",
+      children: content
+    }, undefined, false, undefined, this);
+  }
+  return /* @__PURE__ */ jsx_dev_runtime16.jsxDEV("div", {
+    ref,
+    children: content
+  }, undefined, false, undefined, this);
+});
+// src/components/Pagination/index.ts
+var exports_Pagination = {};
+__export(exports_Pagination, {
+  Pagination: () => Pagination
+});
+
+// src/components/Pagination/Pagination.tsx
+var import_react17 = require("react");
+var import_core16 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime17 = require("react/jsx-dev-runtime");
+var defaultLabels = {
+  previous: "Previous",
+  next: "Next",
+  pageOf: (page, total) => `Page ${page} of ${total}`
+};
+var Pagination = import_react17.forwardRef(function Pagination2({
+  page,
+  totalPages,
+  total,
+  onPageChange,
+  labels,
+  className,
+  style
+}, ref) {
+  const resolvedLabels = { ...defaultLabels, ...labels };
+  return /* @__PURE__ */ jsx_dev_runtime17.jsxDEV("div", {
+    ref,
+    className,
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: import_core16.semantic.spaceSm,
+      ...style
+    },
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime17.jsxDEV(Button, {
+        variant: "ghost",
+        size: "sm",
+        disabled: page <= 1,
+        onClick: () => onPageChange(page - 1),
+        children: resolvedLabels.previous
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime17.jsxDEV("span", {
+        style: {
+          color: import_core16.semantic.colorTextMuted,
+          fontSize: import_core16.semantic.fontSizeSm,
+          fontFamily: import_core16.semantic.fontSans
+        },
+        children: [
+          resolvedLabels.pageOf(page, totalPages),
+          " (",
+          total,
+          " total)"
+        ]
+      }, undefined, true, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime17.jsxDEV(Button, {
+        variant: "ghost",
+        size: "sm",
+        disabled: page >= totalPages,
+        onClick: () => onPageChange(page + 1),
+        children: resolvedLabels.next
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/PageHeader/index.ts
+var exports_PageHeader = {};
+__export(exports_PageHeader, {
+  PageHeader: () => PageHeader
+});
+
+// src/components/PageHeader/PageHeader.tsx
+var import_react18 = require("react");
+var import_core17 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime18 = require("react/jsx-dev-runtime");
+var PageHeader = import_react18.forwardRef(function PageHeader2({
+  title,
+  subtitle,
+  indicator,
+  trailing,
+  style,
+  className,
+  level = 2
+}, ref) {
+  const heading = import_react18.createElement(`h${level}`, {
+    style: {
+      margin: 0,
+      fontFamily: import_core17.semantic.fontSans,
+      fontWeight: import_core17.semantic.fontWeightBold,
+      color: import_core17.semantic.colorText
+    }
+  }, title);
+  return /* @__PURE__ */ jsx_dev_runtime18.jsxDEV("div", {
+    ref,
+    className,
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "flex-end",
+      ...style
+    },
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime18.jsxDEV("div", {
+        children: [
+          /* @__PURE__ */ jsx_dev_runtime18.jsxDEV("div", {
+            style: { display: "flex", alignItems: "center", gap: import_core17.semantic.spaceSm },
+            children: [
+              heading,
+              indicator
+            ]
+          }, undefined, true, undefined, this),
+          subtitle && /* @__PURE__ */ jsx_dev_runtime18.jsxDEV("span", {
+            style: {
+              color: import_core17.semantic.colorTextMuted,
+              fontSize: import_core17.semantic.fontSizeSm
+            },
+            children: subtitle
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this),
+      trailing && /* @__PURE__ */ jsx_dev_runtime18.jsxDEV("div", {
+        children: trailing
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/TagChip/index.ts
+var exports_TagChip = {};
+__export(exports_TagChip, {
+  TagChip: () => TagChip
+});
+
+// src/components/TagChip/TagChip.tsx
+var import_react19 = require("react");
+var import_core18 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime19 = require("react/jsx-dev-runtime");
+var TagChip = import_react19.forwardRef(function TagChip2({
+  name,
+  prefix,
+  onRemove,
+  style
+}, ref) {
+  return /* @__PURE__ */ jsx_dev_runtime19.jsxDEV("span", {
+    ref,
+    style: {
+      display: "inline-flex",
+      alignItems: "center",
+      gap: import_core18.semantic.spaceXs,
+      fontSize: import_core18.semantic.fontSizeXs,
+      color: import_core18.semantic.colorActionPrimary,
+      background: import_core18.semantic.colorSurfaceRaised,
+      borderRadius: import_core18.semantic.radiusFull,
+      padding: "2px 8px",
+      fontFamily: import_core18.semantic.fontSans,
+      ...style
+    },
+    children: [
+      prefix && /* @__PURE__ */ jsx_dev_runtime19.jsxDEV("span", {
+        style: { color: import_core18.semantic.colorTextMuted },
+        children: [
+          prefix,
+          ":"
+        ]
+      }, undefined, true, undefined, this),
+      name,
+      onRemove && /* @__PURE__ */ jsx_dev_runtime19.jsxDEV(IconButton, {
+        icon: "close",
+        size: 12,
+        onClick: onRemove,
+        "aria-label": `Remove ${name}`,
+        style: { width: 18, height: 18, color: import_core18.semantic.colorActionPrimary }
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/ExpandableCard/index.ts
+var exports_ExpandableCard = {};
+__export(exports_ExpandableCard, {
+  ExpandableCard: () => ExpandableCard
+});
+
+// src/components/ExpandableCard/ExpandableCard.tsx
+var import_core19 = require("../../core/dist/index.cjs");
+var import_react20 = require("react");
+var jsx_dev_runtime20 = require("react/jsx-dev-runtime");
+var ExpandableCard = import_react20.forwardRef(function ExpandableCard2({
+  title,
+  children,
+  defaultOpen = false,
+  open: controlledOpen,
+  onToggle,
+  variant = "default",
+  style,
+  headerAction
+}, ref) {
+  const [internalOpen, setInternalOpen] = import_react20.useState(defaultOpen);
+  const isOpen = controlledOpen !== undefined ? controlledOpen : internalOpen;
+  const panelId = import_react20.useId();
+  const handleToggle = () => {
+    const next = !isOpen;
+    if (controlledOpen === undefined) {
+      setInternalOpen(next);
+    }
+    onToggle?.(next);
+  };
+  return /* @__PURE__ */ jsx_dev_runtime20.jsxDEV(Card, {
+    ref,
+    variant,
+    padding: "xs",
+    style,
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime20.jsxDEV("div", {
+        style: { display: "flex", alignItems: "center", justifyContent: "space-between" },
+        children: [
+          /* @__PURE__ */ jsx_dev_runtime20.jsxDEV("button", {
+            type: "button",
+            onClick: handleToggle,
+            "aria-expanded": isOpen,
+            "aria-controls": panelId,
+            style: {
+              display: "flex",
+              alignItems: "center",
+              gap: import_core19.semantic.spaceSm,
+              padding: `${import_core19.semantic.spaceSm} ${import_core19.semantic.spaceMd}`,
+              cursor: "pointer",
+              borderRadius: import_core19.semantic.radiusMd,
+              transition: "background 150ms ease",
+              background: "none",
+              border: "none",
+              color: "inherit",
+              font: "inherit",
+              flex: 1
+            },
+            children: [
+              /* @__PURE__ */ jsx_dev_runtime20.jsxDEV("span", {
+                style: {
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 20,
+                  height: 20,
+                  lineHeight: 1,
+                  color: "inherit",
+                  transition: "transform 200ms ease",
+                  transform: isOpen ? "rotate(90deg)" : "rotate(0deg)"
+                },
+                children: /* @__PURE__ */ jsx_dev_runtime20.jsxDEV(IconChevronRight, {
+                  size: 20
+                }, undefined, false, undefined, this)
+              }, undefined, false, undefined, this),
+              /* @__PURE__ */ jsx_dev_runtime20.jsxDEV("span", {
+                style: {
+                  fontWeight: import_core19.semantic.fontWeightSemibold,
+                  fontFamily: import_core19.semantic.fontSans,
+                  color: import_core19.semantic.colorText,
+                  fontSize: import_core19.semantic.fontSizeSm
+                },
+                children: title
+              }, undefined, false, undefined, this)
+            ]
+          }, undefined, true, undefined, this),
+          headerAction && /* @__PURE__ */ jsx_dev_runtime20.jsxDEV("div", {
+            style: { padding: `0 ${import_core19.semantic.spaceMd}` },
+            children: headerAction
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime20.jsxDEV("div", {
+        id: panelId,
+        role: "region",
+        style: {
+          display: "grid",
+          gridTemplateRows: isOpen ? "1fr" : "0fr",
+          transition: "grid-template-rows 200ms ease"
+        },
+        children: /* @__PURE__ */ jsx_dev_runtime20.jsxDEV("div", {
+          style: { overflow: "hidden" },
+          children: /* @__PURE__ */ jsx_dev_runtime20.jsxDEV("div", {
+            style: { padding: `${import_core19.semantic.spaceSm} ${import_core19.semantic.spaceMd} ${import_core19.semantic.spaceMd}` },
+            children
+          }, undefined, false, undefined, this)
+        }, undefined, false, undefined, this)
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/ConfirmDialog/index.ts
+var exports_ConfirmDialog = {};
+__export(exports_ConfirmDialog, {
+  ConfirmDialog: () => ConfirmDialog
+});
+
+// src/components/ConfirmDialog/ConfirmDialog.tsx
+var import_react22 = require("react");
+var import_core21 = require("../../core/dist/index.cjs");
+
+// src/components/ModalShell/ModalShell.tsx
+var import_react21 = require("react");
+var import_react_dom = require("react-dom");
+var import_core20 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime21 = require("react/jsx-dev-runtime");
+var modalHeadingStyle = Object.freeze({
+  margin: 0,
+  fontWeight: import_core20.semantic.fontWeightSemibold,
+  fontFamily: import_core20.semantic.fontSans,
+  color: import_core20.semantic.colorText,
+  fontSize: import_core20.semantic.fontSizeLg
+});
+var modalFooterStyle = Object.freeze({
+  display: "flex",
+  justifyContent: "flex-end",
+  gap: import_core20.semantic.spaceSm
+});
+var FOCUSABLE_SELECTOR2 = [
+  "a[href]",
+  "button:not(:disabled)",
+  "input:not(:disabled)",
+  "select:not(:disabled)",
+  "textarea:not(:disabled)",
+  '[tabindex]:not([tabindex="-1"])'
+].join(", ");
+var ModalShell = import_react21.forwardRef(function ModalShell2({
+  onClose,
+  children,
+  maxWidth = 480,
+  zIndex = 200,
+  style,
+  titleId,
+  "aria-label": ariaLabel,
+  role = "dialog"
+}, ref) {
+  const generatedId = import_react21.useId();
+  const resolvedLabelId = titleId ?? generatedId;
+  const internalRef = import_react21.useRef(null);
+  const setRefs = (node) => {
+    internalRef.current = node;
+    if (typeof ref === "function") {
+      ref(node);
+    } else if (ref) {
+      ref.current = node;
+    }
+  };
+  useFocusTrap(internalRef);
+  import_react21.useEffect(() => {
+    const previouslyFocused = document.activeElement;
+    const container = internalRef.current;
+    if (container) {
+      const firstFocusable = container.querySelector(FOCUSABLE_SELECTOR2);
+      if (firstFocusable) {
+        firstFocusable.focus();
+      } else {
+        container.focus();
+      }
+    }
+    return () => {
+      previouslyFocused?.focus();
+    };
+  }, []);
+  import_react21.useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
+  return import_react_dom.createPortal(/* @__PURE__ */ jsx_dev_runtime21.jsxDEV(jsx_dev_runtime21.Fragment, {
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime21.jsxDEV(Overlay, {
+        onClick: onClose,
+        zIndex
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime21.jsxDEV("div", {
+        style: {
+          position: "fixed",
+          inset: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: zIndex + 1,
+          pointerEvents: "none"
+        },
+        children: /* @__PURE__ */ jsx_dev_runtime21.jsxDEV("div", {
+          ref: setRefs,
+          role,
+          "aria-modal": "true",
+          "aria-labelledby": ariaLabel ? undefined : resolvedLabelId,
+          "aria-label": ariaLabel,
+          tabIndex: -1,
+          style: {
+            background: import_core20.semantic.colorSurface,
+            color: import_core20.semantic.colorText,
+            borderRadius: import_core20.semantic.radiusLg,
+            boxShadow: import_core20.semantic.shadowLg,
+            border: `1px solid ${import_core20.semantic.colorBorder}`,
+            padding: import_core20.semantic.spaceXl,
+            maxWidth,
+            width: "100%",
+            pointerEvents: "auto",
+            outline: "none",
+            ...style
+          },
+          children
+        }, undefined, false, undefined, this)
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this), document.body);
+});
+// src/components/ConfirmDialog/ConfirmDialog.tsx
+var jsx_dev_runtime22 = require("react/jsx-dev-runtime");
+var variantButtonMap = {
+  destructive: "destructive",
+  info: "primary",
+  warning: "primary"
+};
+var ConfirmDialog = import_react22.forwardRef(function ConfirmDialog2({
+  title,
+  message,
+  confirmLabel = "Confirm",
+  onConfirm,
+  onCancel,
+  children,
+  variant = "destructive"
+}, ref) {
+  const [loading, setLoading] = import_react22.useState(false);
+  const titleId = import_react22.useId();
+  const handleConfirm = async () => {
+    setLoading(true);
+    try {
+      await onConfirm();
+    } finally {
+      setLoading(false);
+    }
+  };
+  return /* @__PURE__ */ jsx_dev_runtime22.jsxDEV(ModalShell, {
+    ref,
+    onClose: onCancel,
+    role: "alertdialog",
+    titleId,
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime22.jsxDEV("h2", {
+        id: titleId,
+        style: modalHeadingStyle,
+        children: title
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime22.jsxDEV("p", {
+        style: {
+          margin: `${import_core21.semantic.spaceSm} 0 ${children ? "0" : import_core21.semantic.spaceLg}`,
+          color: import_core21.semantic.colorTextMuted,
+          fontSize: import_core21.semantic.fontSizeSm,
+          fontFamily: import_core21.semantic.fontSans
+        },
+        children: message
+      }, undefined, false, undefined, this),
+      children && /* @__PURE__ */ jsx_dev_runtime22.jsxDEV("div", {
+        style: { margin: `${import_core21.semantic.spaceSm} 0 ${import_core21.semantic.spaceLg}` },
+        children
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime22.jsxDEV("div", {
+        style: modalFooterStyle,
+        children: [
+          /* @__PURE__ */ jsx_dev_runtime22.jsxDEV(Button, {
+            variant: "ghost",
+            onClick: onCancel,
+            disabled: loading,
+            autoFocus: true,
+            children: "Cancel"
+          }, undefined, false, undefined, this),
+          /* @__PURE__ */ jsx_dev_runtime22.jsxDEV(Button, {
+            variant: variantButtonMap[variant],
+            onClick: handleConfirm,
+            disabled: loading,
+            children: loading ? "Loading..." : confirmLabel
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/FormModal/index.ts
+var exports_FormModal = {};
+__export(exports_FormModal, {
+  FormModal: () => FormModal
+});
+
+// src/components/FormModal/FormModal.tsx
+var import_react23 = require("react");
+var import_core22 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime23 = require("react/jsx-dev-runtime");
+var FormModal = import_react23.forwardRef(function FormModal2({
+  title,
+  children,
+  onSubmit,
+  onCancel,
+  submitLabel = "Submit",
+  cancelLabel = "Cancel",
+  loading: externalLoading,
+  maxWidth
+}, ref) {
+  const [internalLoading, setInternalLoading] = import_react23.useState(false);
+  const titleId = import_react23.useId();
+  const isLoading = externalLoading || internalLoading;
+  const handleSubmit = async () => {
+    setInternalLoading(true);
+    try {
+      await onSubmit();
+    } finally {
+      setInternalLoading(false);
+    }
+  };
+  return /* @__PURE__ */ jsx_dev_runtime23.jsxDEV(ModalShell, {
+    ref,
+    onClose: onCancel,
+    titleId,
+    maxWidth,
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime23.jsxDEV("h2", {
+        id: titleId,
+        style: modalHeadingStyle,
+        children: title
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime23.jsxDEV("div", {
+        style: {
+          margin: `${import_core22.semantic.spaceMd} 0 ${import_core22.semantic.spaceLg}`,
+          overflowY: "auto"
+        },
+        children
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime23.jsxDEV("div", {
+        style: modalFooterStyle,
+        children: [
+          /* @__PURE__ */ jsx_dev_runtime23.jsxDEV(Button, {
+            variant: "ghost",
+            onClick: onCancel,
+            children: cancelLabel
+          }, undefined, false, undefined, this),
+          /* @__PURE__ */ jsx_dev_runtime23.jsxDEV(Button, {
+            variant: "primary",
+            onClick: handleSubmit,
+            loading: isLoading,
+            children: submitLabel
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/StatusDot/index.ts
+var exports_StatusDot = {};
+__export(exports_StatusDot, {
+  StatusDot: () => StatusDot
+});
+
+// src/components/StatusDot/StatusDot.tsx
+var import_react24 = require("react");
+var import_core23 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime24 = require("react/jsx-dev-runtime");
+var variantColors = {
+  default: import_core23.semantic.colorTextMuted,
+  success: import_core23.semantic.colorSuccess,
+  warning: import_core23.semantic.colorWarning,
+  error: import_core23.semantic.colorError,
+  info: import_core23.semantic.colorInfo
+};
+var PULSE_STYLES_ID = "4lt7ab-status-dot-pulse";
+var PULSE_STYLES_CSS = `
 @keyframes statusDotPulse {
   0% { box-shadow: 0 0 0 0 var(--status-dot-color); opacity: 1; }
   70% { box-shadow: 0 0 0 6px var(--status-dot-color); opacity: 0; }
@@ -177,13 +2753,113 @@ var X3=Object.create;var{getPrototypeOf:J3,defineProperty:s1,getOwnPropertyNames
     animation: none;
   }
 }
-`,q4=H4.forwardRef(function({variant:X="default",color:P,size:$=8,animate:Q="none","aria-label":Z,style:N},H){let W=P??a3[X],q=Q==="pulse";return y1.useInjectStyles(s3,t3),W4.jsx("span",{ref:H,role:Z?"img":void 0,"aria-label":Z,"aria-hidden":Z?void 0:!0,"data-status-dot-pulse":q||void 0,style:{display:"inline-block",width:$,height:$,borderRadius:y1.semantic.radiusFull,background:W,flexShrink:0,...q?{"--status-dot-color":W}:void 0,...N}})});var z4={};O(z4,{ThemeSurface:()=>A4});var Z2=require("react"),G4=require("../../core/dist/index.cjs"),K4=require("../../core/dist/index.cjs"),j2=require("react/jsx-runtime"),A4=Z2.forwardRef(function({children:X,global:P=!1,style:$},Q){let{resolved:Z}=K4.useTheme(),N=Z2.useRef(""),H=Z2.useRef("");if(Z2.useEffect(()=>{if(!P)return;return N.current=document.body.style.backgroundColor,H.current=document.body.style.color,document.body.style.backgroundColor="var(--color-surface-page)",document.body.style.color="var(--color-text)",()=>{document.body.style.backgroundColor=N.current,document.body.style.color=H.current}},[P,Z]),P)return j2.jsx(j2.Fragment,{children:X});return j2.jsx("div",{ref:Q,style:{background:G4.semantic.colorSurfacePage,...$},children:X})});var T4={};O(T4,{TableRow:()=>k4,TableHeaderCell:()=>_4,TableHeader:()=>V4,TableGroupHeader:()=>v0,TableEmptyRow:()=>m0,TableCell:()=>F4,TableBody:()=>B4,Table:()=>Y4});var P1=require("react"),L=require("../../core/dist/index.cjs"),M4=require("../../core/dist/index.cjs"),_1=require("react/jsx-runtime"),B5={xs:L.semantic.spaceXs,sm:L.semantic.spaceSm,md:L.semantic.spaceMd,lg:L.semantic.spaceLg},e3="4lt7ab-table-row",X9=`
+`;
+var StatusDot = import_react24.forwardRef(function StatusDot2({
+  variant = "default",
+  color,
+  size = 8,
+  animate = "none",
+  "aria-label": ariaLabel,
+  style
+}, ref) {
+  const resolvedColor = color ?? variantColors[variant];
+  const isPulsing = animate === "pulse";
+  import_core23.useInjectStyles(PULSE_STYLES_ID, PULSE_STYLES_CSS);
+  return /* @__PURE__ */ jsx_dev_runtime24.jsxDEV("span", {
+    ref,
+    role: ariaLabel ? "img" : undefined,
+    "aria-label": ariaLabel,
+    "aria-hidden": ariaLabel ? undefined : true,
+    "data-status-dot-pulse": isPulsing || undefined,
+    style: {
+      display: "inline-block",
+      width: size,
+      height: size,
+      borderRadius: import_core23.semantic.radiusFull,
+      background: resolvedColor,
+      flexShrink: 0,
+      ...isPulsing ? { "--status-dot-color": resolvedColor } : undefined,
+      ...style
+    }
+  }, undefined, false, undefined, this);
+});
+// src/components/ThemeSurface/index.ts
+var exports_ThemeSurface = {};
+__export(exports_ThemeSurface, {
+  ThemeSurface: () => ThemeSurface
+});
+
+// src/components/ThemeSurface/ThemeSurface.tsx
+var import_react25 = require("react");
+var import_core24 = require("../../core/dist/index.cjs");
+var import_core25 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime25 = require("react/jsx-dev-runtime");
+var ThemeSurface = import_react25.forwardRef(function ThemeSurface2({
+  children,
+  global = false,
+  style
+}, ref) {
+  const { resolved } = import_core25.useTheme();
+  const prevBodyBgRef = import_react25.useRef("");
+  const prevBodyColorRef = import_react25.useRef("");
+  import_react25.useEffect(() => {
+    if (!global)
+      return;
+    prevBodyBgRef.current = document.body.style.backgroundColor;
+    prevBodyColorRef.current = document.body.style.color;
+    document.body.style.backgroundColor = "var(--color-surface-page)";
+    document.body.style.color = "var(--color-text)";
+    return () => {
+      document.body.style.backgroundColor = prevBodyBgRef.current;
+      document.body.style.color = prevBodyColorRef.current;
+    };
+  }, [global, resolved]);
+  if (global) {
+    return /* @__PURE__ */ jsx_dev_runtime25.jsxDEV(jsx_dev_runtime25.Fragment, {
+      children
+    }, undefined, false, undefined, this);
+  }
+  return /* @__PURE__ */ jsx_dev_runtime25.jsxDEV("div", {
+    ref,
+    style: {
+      background: import_core24.semantic.colorSurfacePage,
+      ...style
+    },
+    children
+  }, undefined, false, undefined, this);
+});
+// src/components/Table/index.ts
+var exports_Table = {};
+__export(exports_Table, {
+  TableRow: () => TableRow,
+  TableHeaderCell: () => TableHeaderCell,
+  TableHeader: () => TableHeader,
+  TableGroupHeader: () => TableGroupHeader,
+  TableEmptyRow: () => TableEmptyRow,
+  TableCell: () => TableCell,
+  TableBody: () => TableBody,
+  Table: () => Table
+});
+
+// src/components/Table/Table.tsx
+var import_react26 = require("react");
+var import_core26 = require("../../core/dist/index.cjs");
+var import_core27 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime26 = require("react/jsx-dev-runtime");
+var spaceMap = {
+  xs: import_core26.semantic.spaceXs,
+  sm: import_core26.semantic.spaceSm,
+  md: import_core26.semantic.spaceMd,
+  lg: import_core26.semantic.spaceLg
+};
+var TABLE_STYLES_ID = "4lt7ab-table-row";
+var TABLE_STYLES_CSS = `
 [data-table-row-hoverable]:hover > td {
-  background: color-mix(in srgb, ${L.semantic.colorText} 8%, transparent);
+  background: color-mix(in srgb, ${import_core26.semantic.colorText} 8%, transparent);
 }
 [data-table-row-selected] > td {
-  background: ${L.semantic.colorSurfaceRaised};
-  border-bottom-color: ${L.semantic.colorSurfaceRaised};
+  background: ${import_core26.semantic.colorSurfaceRaised};
+  border-bottom-color: ${import_core26.semantic.colorSurfaceRaised};
 }
 [data-table-row-selected] > td:first-child {
   position: relative;
@@ -195,40 +2871,1244 @@ var X3=Object.create;var{getPrototypeOf:J3,defineProperty:s1,getOwnPropertyNames
   top: 0;
   bottom: 0;
   width: 3px;
-  background: ${L.semantic.colorActionPrimary};
+  background: ${import_core26.semantic.colorActionPrimary};
   pointer-events: none;
 }
-`,J9={default:{border:`1px solid ${L.semantic.colorBorder}`,borderRadius:L.semantic.radiusLg,boxShadow:L.semantic.shadowSm},flat:{}},Y4=P1.forwardRef(function({variant:X="default",density:P="md",children:$,style:Q,...Z},N){return M4.useInjectStyles(e3,X9),_1.jsx("div",{ref:N,style:{overflowX:"auto",...J9[X],...Q},...Z,children:_1.jsx("table",{"data-table-density":P,style:{width:"100%",borderCollapse:"collapse",fontSize:L.semantic.fontSizeSm,fontFamily:L.semantic.fontSans,color:L.semantic.colorText},children:$})})}),V4=P1.forwardRef(function({children:X,style:P,...$},Q){return _1.jsx("thead",{ref:Q,style:P,...$,children:_1.jsx("tr",{children:X})})}),_4=P1.forwardRef(function({align:X="left",width:P,children:$,style:Q,...Z},N){return _1.jsx("th",{ref:N,style:{padding:`${L.semantic.spaceSm} ${L.semantic.spaceMd}`,textAlign:X,fontWeight:L.semantic.fontWeightSemibold,fontSize:L.semantic.fontSizeXs,color:L.semantic.colorTextMuted,textTransform:"uppercase",letterSpacing:L.semantic.letterSpacingWide,borderBottom:`2px solid ${L.semantic.colorBorder}`,whiteSpace:"nowrap",width:typeof P==="number"?`${P}px`:P,...Q},...Z,children:$})}),B4=P1.forwardRef(function({children:X,...P},$){let Q=0,Z=P1.Children.map(X,(N)=>{if(!P1.isValidElement(N))return N;let H=N.props;if(N.type===v0||N.type===m0)return N;let W=Q%2===1;if(Q++,!W||H.selected)return N;let q=P1.Children.map(H.children,(G)=>{if(!P1.isValidElement(G))return G;let M=G.props.style;return P1.cloneElement(G,{style:{...M,background:"color-mix(in srgb, var(--color-text) 5%, transparent)"}})});return P1.cloneElement(N,{},q)});return _1.jsx("tbody",{ref:$,...P,children:Z})}),k4=P1.forwardRef(function({selected:X=!1,hoverable:P=!1,children:$,style:Q,onClick:Z,onKeyDown:N,...H},W){return _1.jsx("tr",{ref:W,"data-table-row-hoverable":P||void 0,"data-table-row-selected":X||void 0,tabIndex:Z?0:void 0,onClick:Z,onKeyDown:Z?(G)=>{if(G.key==="Enter"||G.key===" ")G.preventDefault(),Z(G);N?.(G)}:N,style:{cursor:Z?"pointer":void 0,...Q},...H,children:$})}),F4=P1.forwardRef(function({align:X="left",truncate:P=!1,muted:$=!1,width:Q,children:Z,style:N,...H},W){return _1.jsx("td",{ref:W,style:{padding:`${L.semantic.spaceSm} ${L.semantic.spaceMd}`,borderBottom:`1px solid ${L.semantic.colorBorder}`,verticalAlign:"middle",textAlign:X,color:$?L.semantic.colorTextMuted:void 0,width:typeof Q==="number"?`${Q}px`:Q,...P?{maxWidth:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}:{},...N},...H,children:Z})}),v0=P1.forwardRef(function({colSpan:X,children:P,style:$,...Q},Z){return _1.jsx("tr",{ref:Z,style:{cursor:"default",...$},...Q,children:_1.jsx("td",{colSpan:X,style:{padding:`${L.semantic.spaceXs} ${L.semantic.spaceMd}`,background:L.semantic.colorSurfaceRaised,borderBottom:`1px solid ${L.semantic.colorBorder}`,fontSize:L.semantic.fontSizeXs,fontWeight:L.semantic.fontWeightBold,letterSpacing:L.semantic.letterSpacingWide,textTransform:"uppercase",color:L.semantic.colorTextMuted,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"},children:P})})}),m0=P1.forwardRef(function({colSpan:X,children:P,style:$,...Q},Z){return _1.jsx("tr",{ref:Z,style:$,...Q,children:_1.jsx("td",{colSpan:X,style:{padding:`${L.semantic.spaceXl} ${L.semantic.spaceMd}`,textAlign:"center",color:L.semantic.colorTextMuted,fontSize:L.semantic.fontSizeSm},children:P})})});var w4={};O(w4,{DateRangePicker:()=>y0});var i=require("react"),m=require("../../core/dist/index.cjs");var I2=require("../../core/dist/index.cjs");function P9(J,X){return new Date(J,X+1,0).getDate()}function $9(J,X){return new Date(J,X,1).getDay()}function N2(J,X){return J.getFullYear()===X.getFullYear()&&J.getMonth()===X.getMonth()&&J.getDate()===X.getDate()}function O4(J,X,P){let $=E2(J).getTime(),Q=E2(X).getTime(),Z=E2(P).getTime();return $>=Q&&$<=Z}function p0(J,X,P,$){let Q=E2(J).getTime();if(X&&Q<E2(X).getTime())return!0;if(P&&Q>E2(P).getTime())return!0;if($){for(let Z of $)if(N2(J,Z))return!0}return!1}function f2(J){let X=J.getFullYear(),P=String(J.getMonth()+1).padStart(2,"0"),$=String(J.getDate()).padStart(2,"0");return`${X}-${P}-${$}`}function E2(J){return new Date(J.getFullYear(),J.getMonth(),J.getDate())}var L4=["January","February","March","April","May","June","July","August","September","October","November","December"],E4=["Su","Mo","Tu","We","Th","Fr","Sa"];function I4(J,X){let P=$9(J,X),$=[];for(let Z=P-1;Z>=0;Z--){let N=new Date(J,X,-Z);$.push(N)}let Q=P9(J,X);for(let Z=1;Z<=Q;Z++)$.push(new Date(J,X,Z));while($.length<42){let Z=$.length-P-Q+1;$.push(new Date(J,X+1,Z))}return $}var R2=require("react/jsx-runtime"),Q9={display:"flex",alignItems:"center",justifyContent:"space-between",padding:`${I2.semantic.spaceXs} 0`},Z9={fontSize:I2.semantic.fontSizeSm,fontWeight:I2.semantic.fontWeightSemibold,fontFamily:I2.semantic.fontSans,color:I2.semantic.colorText,margin:0,userSelect:"none"};function _0({year:J,month:X,onPrev:P,onNext:$}){return R2.jsxs("div",{style:Q9,children:[R2.jsx(v1,{icon:"chevron-left","aria-label":"Previous month",size:16,onClick:P,style:{width:28,height:28}}),R2.jsxs("span",{style:Z9,children:[L4[X]," ",J]}),R2.jsx(v1,{icon:"chevron-right","aria-label":"Next month",size:16,onClick:$,style:{width:28,height:28}})]})}var B0=require("react"),w2=require("../../core/dist/index.cjs");var B1=require("../../core/dist/index.cjs");var S0=require("react/jsx-runtime"),N9={display:"flex",alignItems:"center",justifyContent:"center",width:B1.semantic.spaceXl,height:B1.semantic.spaceXl,border:"none",borderRadius:B1.semantic.radiusSm,fontSize:B1.semantic.fontSizeSm,fontFamily:B1.semantic.fontSans,cursor:"pointer",background:"transparent",color:B1.semantic.colorText,padding:0,transition:"background 120ms ease, color 120ms ease",outline:"none",boxSizing:"border-box"};function R4({date:J,currentMonth:X,today:P,rangeStart:$,rangeEnd:Q,isInRange:Z,isDisabled:N,scopeClass:H,onSelect:W,onKeyDown:q,tabIndex:G}){let M=J.getMonth()!==X,K=N2(J,P),U=$!==null&&N2(J,$),z=Q!==null&&N2(J,Q),k=U||z,V={...N9,...M?{color:B1.semantic.colorTextMuted,opacity:0.5}:{},...K&&!k?{border:`1px solid ${B1.semantic.colorActionPrimary}`}:{},...Z&&!k?{background:`color-mix(in srgb, ${B1.semantic.colorActionPrimary} 15%, transparent)`}:{},...k?{background:B1.semantic.colorActionPrimary,color:B1.semantic.colorTextInverse}:{},...N?{color:B1.semantic.colorTextDisabled,pointerEvents:"none",cursor:"default",opacity:0.5}:{}},_=[H+"-day",...N?[]:[H+"-day--enabled"]].join(" ");return S0.jsx("td",{role:"gridcell",style:{padding:0},children:S0.jsx("button",{type:"button",className:_,style:V,tabIndex:G,"aria-selected":k||Z&&!N||void 0,"aria-disabled":N||void 0,onClick:()=>{if(!N)W(J)},onKeyDown:(D)=>q(D,J),children:J.getDate()})})}var g1=require("react/jsx-runtime"),H9={borderCollapse:"collapse",width:"100%",tableLayout:"fixed"},q9={fontSize:w2.semantic.fontSizeXs,fontFamily:w2.semantic.fontSans,fontWeight:w2.semantic.fontWeightMedium,color:w2.semantic.colorTextMuted,textAlign:"center",padding:`${w2.semantic.spaceXs} 0`,userSelect:"none"};function k0({year:J,month:X,rangeStart:P,rangeEnd:$,minDate:Q,maxDate:Z,disabledDates:N,scopeClass:H,focusedDate:W,onSelect:q,onFocusedDateChange:G}){let M=B0.useRef(new Date).current,K=I4(J,X),U=[];for(let _=0;_<6;_++)U.push(K.slice(_*7,_*7+7));let z=B0.useCallback((_,D)=>{let R=null;switch(_.key){case"ArrowLeft":R=new Date(D.getFullYear(),D.getMonth(),D.getDate()-1);break;case"ArrowRight":R=new Date(D.getFullYear(),D.getMonth(),D.getDate()+1);break;case"ArrowUp":R=new Date(D.getFullYear(),D.getMonth(),D.getDate()-7);break;case"ArrowDown":R=new Date(D.getFullYear(),D.getMonth(),D.getDate()+7);break;case"Enter":case" ":if(_.preventDefault(),!p0(D,Q,Z,N))q(D);return;default:return}if(_.preventDefault(),R)G(R)},[Q,Z,N,q,G]),k=P&&$?P.getTime()<=$.getTime()?P:$:P,V=P&&$?P.getTime()<=$.getTime()?$:P:$;return g1.jsxs("table",{style:H9,role:"grid","aria-label":"Calendar",children:[g1.jsx("thead",{children:g1.jsx("tr",{children:E4.map((_)=>g1.jsx("th",{scope:"col",style:q9,children:_},_))})}),g1.jsx("tbody",{children:U.map((_,D)=>g1.jsx("tr",{children:_.map((R)=>{let n=`${R.getFullYear()}-${R.getMonth()}-${R.getDate()}`,W1=p0(R,Q,Z,N),I1=k!==null&&V!==null&&O4(R,k,V),h=N2(R,W);return g1.jsx(R4,{date:R,currentMonth:X,today:M,rangeStart:k??null,rangeEnd:V??null,isInRange:I1,isDisabled:W1,scopeClass:H,onSelect:q,onKeyDown:z,tabIndex:h?0:-1},n)})},D))})]})}var n1=require("react/jsx-runtime"),H2="alttab-drp",W9=`
-  .${H2}-day--enabled:hover {
-    background: ${m.semantic.colorSurfaceRaised} !important;
+`;
+var wrapperVariants = {
+  default: {
+    border: `1px solid ${import_core26.semantic.colorBorder}`,
+    borderRadius: import_core26.semantic.radiusLg,
+    boxShadow: import_core26.semantic.shadowSm
+  },
+  flat: {}
+};
+var Table = import_react26.forwardRef(function Table2({
+  variant = "default",
+  density = "md",
+  children,
+  style,
+  ...props
+}, ref) {
+  import_core27.useInjectStyles(TABLE_STYLES_ID, TABLE_STYLES_CSS);
+  return /* @__PURE__ */ jsx_dev_runtime26.jsxDEV("div", {
+    ref,
+    style: {
+      overflowX: "auto",
+      ...wrapperVariants[variant],
+      ...style
+    },
+    ...props,
+    children: /* @__PURE__ */ jsx_dev_runtime26.jsxDEV("table", {
+      "data-table-density": density,
+      style: {
+        width: "100%",
+        borderCollapse: "collapse",
+        fontSize: import_core26.semantic.fontSizeSm,
+        fontFamily: import_core26.semantic.fontSans,
+        color: import_core26.semantic.colorText
+      },
+      children
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+});
+var TableHeader = import_react26.forwardRef(function TableHeader2({ children, style, ...props }, ref) {
+  return /* @__PURE__ */ jsx_dev_runtime26.jsxDEV("thead", {
+    ref,
+    style,
+    ...props,
+    children: /* @__PURE__ */ jsx_dev_runtime26.jsxDEV("tr", {
+      children
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+});
+var TableHeaderCell = import_react26.forwardRef(function TableHeaderCell2({
+  align = "left",
+  width,
+  children,
+  style,
+  ...props
+}, ref) {
+  return /* @__PURE__ */ jsx_dev_runtime26.jsxDEV("th", {
+    ref,
+    style: {
+      padding: `${import_core26.semantic.spaceSm} ${import_core26.semantic.spaceMd}`,
+      textAlign: align,
+      fontWeight: import_core26.semantic.fontWeightSemibold,
+      fontSize: import_core26.semantic.fontSizeXs,
+      color: import_core26.semantic.colorTextMuted,
+      textTransform: "uppercase",
+      letterSpacing: import_core26.semantic.letterSpacingWide,
+      borderBottom: `2px solid ${import_core26.semantic.colorBorder}`,
+      whiteSpace: "nowrap",
+      width: typeof width === "number" ? `${width}px` : width,
+      ...style
+    },
+    ...props,
+    children
+  }, undefined, false, undefined, this);
+});
+var TableBody = import_react26.forwardRef(function TableBody2({ children, ...props }, ref) {
+  let dataRowIndex = 0;
+  const styledChildren = import_react26.Children.map(children, (child) => {
+    if (!import_react26.isValidElement(child))
+      return child;
+    const childProps = child.props;
+    if (child.type === TableGroupHeader || child.type === TableEmptyRow) {
+      return child;
+    }
+    const isEven = dataRowIndex % 2 === 1;
+    dataRowIndex++;
+    if (!isEven || childProps.selected)
+      return child;
+    const cells = import_react26.Children.map(childProps.children, (cell) => {
+      if (!import_react26.isValidElement(cell))
+        return cell;
+      const cellStyle = cell.props.style;
+      return import_react26.cloneElement(cell, {
+        style: { ...cellStyle, background: "color-mix(in srgb, var(--color-text) 5%, transparent)" }
+      });
+    });
+    return import_react26.cloneElement(child, {}, cells);
+  });
+  return /* @__PURE__ */ jsx_dev_runtime26.jsxDEV("tbody", {
+    ref,
+    ...props,
+    children: styledChildren
+  }, undefined, false, undefined, this);
+});
+var TableRow = import_react26.forwardRef(function TableRow2({
+  selected = false,
+  hoverable = false,
+  children,
+  style,
+  onClick,
+  onKeyDown,
+  ...props
+}, ref) {
+  const handleKeyDown = onClick ? (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onClick(e);
+    }
+    onKeyDown?.(e);
+  } : onKeyDown;
+  return /* @__PURE__ */ jsx_dev_runtime26.jsxDEV("tr", {
+    ref,
+    "data-table-row-hoverable": hoverable || undefined,
+    "data-table-row-selected": selected || undefined,
+    tabIndex: onClick ? 0 : undefined,
+    onClick,
+    onKeyDown: handleKeyDown,
+    style: {
+      cursor: onClick ? "pointer" : undefined,
+      ...style
+    },
+    ...props,
+    children
+  }, undefined, false, undefined, this);
+});
+var TableCell = import_react26.forwardRef(function TableCell2({
+  align = "left",
+  truncate = false,
+  muted = false,
+  width,
+  children,
+  style,
+  ...props
+}, ref) {
+  return /* @__PURE__ */ jsx_dev_runtime26.jsxDEV("td", {
+    ref,
+    style: {
+      padding: `${import_core26.semantic.spaceSm} ${import_core26.semantic.spaceMd}`,
+      borderBottom: `1px solid ${import_core26.semantic.colorBorder}`,
+      verticalAlign: "middle",
+      textAlign: align,
+      color: muted ? import_core26.semantic.colorTextMuted : undefined,
+      width: typeof width === "number" ? `${width}px` : width,
+      ...truncate ? {
+        maxWidth: 0,
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap"
+      } : {},
+      ...style
+    },
+    ...props,
+    children
+  }, undefined, false, undefined, this);
+});
+var TableGroupHeader = import_react26.forwardRef(function TableGroupHeader2({
+  colSpan,
+  children,
+  style,
+  ...props
+}, ref) {
+  return /* @__PURE__ */ jsx_dev_runtime26.jsxDEV("tr", {
+    ref,
+    style: { cursor: "default", ...style },
+    ...props,
+    children: /* @__PURE__ */ jsx_dev_runtime26.jsxDEV("td", {
+      colSpan,
+      style: {
+        padding: `${import_core26.semantic.spaceXs} ${import_core26.semantic.spaceMd}`,
+        background: import_core26.semantic.colorSurfaceRaised,
+        borderBottom: `1px solid ${import_core26.semantic.colorBorder}`,
+        fontSize: import_core26.semantic.fontSizeXs,
+        fontWeight: import_core26.semantic.fontWeightBold,
+        letterSpacing: import_core26.semantic.letterSpacingWide,
+        textTransform: "uppercase",
+        color: import_core26.semantic.colorTextMuted,
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap"
+      },
+      children
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+});
+var TableEmptyRow = import_react26.forwardRef(function TableEmptyRow2({
+  colSpan,
+  children,
+  style,
+  ...props
+}, ref) {
+  return /* @__PURE__ */ jsx_dev_runtime26.jsxDEV("tr", {
+    ref,
+    style,
+    ...props,
+    children: /* @__PURE__ */ jsx_dev_runtime26.jsxDEV("td", {
+      colSpan,
+      style: {
+        padding: `${import_core26.semantic.spaceXl} ${import_core26.semantic.spaceMd}`,
+        textAlign: "center",
+        color: import_core26.semantic.colorTextMuted,
+        fontSize: import_core26.semantic.fontSizeSm
+      },
+      children
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+});
+// src/components/DateRangePicker/index.ts
+var exports_DateRangePicker = {};
+__export(exports_DateRangePicker, {
+  DateRangePicker: () => DateRangePicker
+});
+
+// src/components/DateRangePicker/DateRangePicker.tsx
+var import_react28 = require("react");
+var import_core31 = require("../../core/dist/index.cjs");
+
+// src/components/DateRangePicker/CalendarHeader.tsx
+var import_core28 = require("../../core/dist/index.cjs");
+
+// src/components/DateRangePicker/dateUtils.ts
+function getDaysInMonth(year, month) {
+  return new Date(year, month + 1, 0).getDate();
+}
+function getFirstDayOfMonth(year, month) {
+  return new Date(year, month, 1).getDay();
+}
+function isSameDay(a, b) {
+  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+}
+function isInRange(date, from, to) {
+  const d = stripTime(date).getTime();
+  const f = stripTime(from).getTime();
+  const t24 = stripTime(to).getTime();
+  return d >= f && d <= t24;
+}
+function isDateDisabled(date, minDate, maxDate, disabledDates) {
+  const d = stripTime(date).getTime();
+  if (minDate && d < stripTime(minDate).getTime())
+    return true;
+  if (maxDate && d > stripTime(maxDate).getTime())
+    return true;
+  if (disabledDates) {
+    for (const dd of disabledDates) {
+      if (isSameDay(date, dd))
+        return true;
+    }
   }
-  .${H2}-day--enabled:focus-visible {
-    outline: ${m.semantic.focusRingWidth} solid ${m.semantic.focusRingColor};
-    outline-offset: ${m.semantic.focusRingOffset};
+  return false;
+}
+function formatDate(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+function stripTime(d) {
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+var MONTH_NAMES = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+];
+var WEEKDAY_LABELS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+function buildCalendarGrid(year, month) {
+  const firstDay = getFirstDayOfMonth(year, month);
+  const grid = [];
+  for (let i = firstDay - 1;i >= 0; i--) {
+    const d = new Date(year, month, -i);
+    grid.push(d);
   }
-  .${H2}-trigger:focus-visible {
-    border-color: ${m.semantic.colorBorderFocused};
-    box-shadow: 0 0 0 ${m.semantic.focusRingWidth} ${m.semantic.focusRingColor};
+  const daysInMonth = getDaysInMonth(year, month);
+  for (let d = 1;d <= daysInMonth; d++) {
+    grid.push(new Date(year, month, d));
   }
-  .${H2}-trigger:hover:not(:disabled) {
-    border-color: ${m.semantic.colorBorderFocused};
+  while (grid.length < 42) {
+    const overflow = grid.length - firstDay - daysInMonth + 1;
+    grid.push(new Date(year, month + 1, overflow));
   }
-`,U9={position:"relative",display:"inline-block",width:"100%"},G9={display:"block",width:"100%",padding:`${m.semantic.spaceSm} ${m.semantic.spaceMd}`,fontSize:m.semantic.fontSizeSm,lineHeight:m.semantic.lineHeightTight,fontFamily:m.semantic.fontSans,color:m.semantic.colorText,background:m.semantic.colorSurfaceInput,border:`1px solid ${m.semantic.colorBorder}`,borderRadius:m.semantic.radiusMd,outline:"none",transition:"border-color 150ms ease, box-shadow 150ms ease",boxSizing:"border-box",cursor:"pointer",textAlign:"left"},K9={borderColor:m.semantic.colorBorderError},A9={background:m.semantic.colorSurfaceDisabled,color:m.semantic.colorTextDisabled,cursor:"not-allowed"},z9={position:"absolute",top:"100%",left:0,zIndex:50,marginTop:m.semantic.spaceXs,background:m.semantic.colorSurfacePanel,border:`1px solid ${m.semantic.colorBorder}`,borderRadius:m.semantic.radiusLg,boxShadow:m.semantic.shadowMd,padding:m.semantic.spaceMd,minWidth:290,boxSizing:"border-box"},M9={color:m.semantic.colorTextPlaceholder},y0=i.forwardRef(function({value:X,onChange:P,minDate:$,maxDate:Q,disabledDates:Z,placeholder:N="Select date range",hasError:H,disabled:W,style:q},G){m.useInjectStyles(H2,W9);let[M,K]=i.useState(!1),[U,z]=i.useState(null),k=i.useRef(null),V=X?.from??new Date,[_,D]=i.useState(V.getFullYear()),[R,n]=i.useState(V.getMonth()),[W1,I1]=i.useState(X?.from??new Date),h=i.useCallback((I)=>{I1(I),D(I.getFullYear()),n(I.getMonth())},[]);i.useEffect(()=>{if(!M)return;let I=k.current;if(!I)return;I.querySelector('button[tabindex="0"]')?.focus()},[W1,M]),i.useEffect(()=>{if(!M)return;function I(l){if(k.current&&!k.current.contains(l.target))K(!1),z(null)}return document.addEventListener("mousedown",I),()=>document.removeEventListener("mousedown",I)},[M]),i.useEffect(()=>{if(!M)return;function I(l){if(l.key==="Escape")K(!1),z(null)}return document.addEventListener("keydown",I),()=>document.removeEventListener("keydown",I)},[M]);let k1=i.useCallback(()=>{if(W)return;K((I)=>{if(!I){let l=X?.from??new Date;D(l.getFullYear()),n(l.getMonth()),I1(X?.from??new Date),z(null)}return!I})},[W,X]),K1=i.useCallback(()=>{n((I)=>{if(I===0)return D((l)=>l-1),11;return I-1})},[]),e=i.useCallback(()=>{n((I)=>{if(I===11)return D((l)=>l+1),0;return I+1})},[]),E=i.useCallback((I)=>{if(U===null)z(I);else{let l=U.getTime()<=I.getTime()?U:I,F=U.getTime()<=I.getTime()?I:U;P({from:l,to:F}),z(null),K(!1)}},[U,P]),j;if(X)j=`${f2(X.from)} – ${f2(X.to)}`;else j=n1.jsx("span",{style:M9,children:N});let p2=U??X?.from??null,K2=U?null:X?.to??null;return n1.jsxs("div",{ref:(I)=>{if(k.current=I,typeof G==="function")G(I);else if(G)G.current=I},style:{...U9,...q},children:[n1.jsx("button",{type:"button",className:`${H2}-trigger`,style:{...G9,...H?K9:{},...W?A9:{}},onClick:k1,disabled:W,"aria-haspopup":"dialog","aria-expanded":M,"aria-invalid":H||void 0,children:j}),M&&n1.jsxs("div",{style:z9,role:"dialog","aria-label":"Date range picker",children:[n1.jsx(_0,{year:_,month:R,onPrev:K1,onNext:e}),n1.jsx(k0,{year:_,month:R,rangeStart:p2,rangeEnd:K2,minDate:$,maxDate:Q,disabledDates:Z,scopeClass:H2,focusedDate:W1,onSelect:E,onFocusedDateChange:h})]})]})});var D4={};O(D4,{DatePicker:()=>g0});var a=require("react"),p=require("../../core/dist/index.cjs");var d1=require("react/jsx-runtime"),q2="alttab-dp",Y9=`
-  .${q2}-day--enabled:hover {
-    background: ${p.semantic.colorSurfaceRaised} !important;
+  return grid;
+}
+
+// src/components/DateRangePicker/CalendarHeader.tsx
+var jsx_dev_runtime27 = require("react/jsx-dev-runtime");
+var headerStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  padding: `${import_core28.semantic.spaceXs} 0`
+};
+var titleStyle = {
+  fontSize: import_core28.semantic.fontSizeSm,
+  fontWeight: import_core28.semantic.fontWeightSemibold,
+  fontFamily: import_core28.semantic.fontSans,
+  color: import_core28.semantic.colorText,
+  margin: 0,
+  userSelect: "none"
+};
+function CalendarHeader({
+  year,
+  month,
+  onPrev,
+  onNext
+}) {
+  return /* @__PURE__ */ jsx_dev_runtime27.jsxDEV("div", {
+    style: headerStyle,
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime27.jsxDEV(IconButton, {
+        icon: "chevron-left",
+        "aria-label": "Previous month",
+        size: 16,
+        onClick: onPrev,
+        style: { width: 28, height: 28 }
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime27.jsxDEV("span", {
+        style: titleStyle,
+        children: [
+          MONTH_NAMES[month],
+          " ",
+          year
+        ]
+      }, undefined, true, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime27.jsxDEV(IconButton, {
+        icon: "chevron-right",
+        "aria-label": "Next month",
+        size: 16,
+        onClick: onNext,
+        style: { width: 28, height: 28 }
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+
+// src/components/DateRangePicker/CalendarGrid.tsx
+var import_react27 = require("react");
+var import_core30 = require("../../core/dist/index.cjs");
+
+// src/components/DateRangePicker/DayCell.tsx
+var import_core29 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime28 = require("react/jsx-dev-runtime");
+var baseCellStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: import_core29.semantic.spaceXl,
+  height: import_core29.semantic.spaceXl,
+  border: "none",
+  borderRadius: import_core29.semantic.radiusSm,
+  fontSize: import_core29.semantic.fontSizeSm,
+  fontFamily: import_core29.semantic.fontSans,
+  cursor: "pointer",
+  background: "transparent",
+  color: import_core29.semantic.colorText,
+  padding: 0,
+  transition: "background 120ms ease, color 120ms ease",
+  outline: "none",
+  boxSizing: "border-box"
+};
+function DayCell({
+  date,
+  currentMonth,
+  today,
+  rangeStart,
+  rangeEnd,
+  isInRange: inRange,
+  isDisabled,
+  scopeClass,
+  onSelect,
+  onKeyDown,
+  tabIndex
+}) {
+  const isOutsideMonth = date.getMonth() !== currentMonth;
+  const isToday = isSameDay(date, today);
+  const isStart = rangeStart !== null && isSameDay(date, rangeStart);
+  const isEnd = rangeEnd !== null && isSameDay(date, rangeEnd);
+  const isEndpoint = isStart || isEnd;
+  const cellStyle = {
+    ...baseCellStyle,
+    ...isOutsideMonth ? { color: import_core29.semantic.colorTextMuted, opacity: 0.5 } : {},
+    ...isToday && !isEndpoint ? { border: `1px solid ${import_core29.semantic.colorActionPrimary}` } : {},
+    ...inRange && !isEndpoint ? { background: `color-mix(in srgb, ${import_core29.semantic.colorActionPrimary} 15%, transparent)` } : {},
+    ...isEndpoint ? { background: import_core29.semantic.colorActionPrimary, color: import_core29.semantic.colorTextInverse } : {},
+    ...isDisabled ? {
+      color: import_core29.semantic.colorTextDisabled,
+      pointerEvents: "none",
+      cursor: "default",
+      opacity: 0.5
+    } : {}
+  };
+  const classNames = [
+    scopeClass + "-day",
+    ...isDisabled ? [] : [scopeClass + "-day--enabled"]
+  ].join(" ");
+  return /* @__PURE__ */ jsx_dev_runtime28.jsxDEV("td", {
+    role: "gridcell",
+    style: { padding: 0 },
+    children: /* @__PURE__ */ jsx_dev_runtime28.jsxDEV("button", {
+      type: "button",
+      className: classNames,
+      style: cellStyle,
+      tabIndex,
+      "aria-selected": isEndpoint || inRange && !isDisabled || undefined,
+      "aria-disabled": isDisabled || undefined,
+      onClick: () => {
+        if (!isDisabled)
+          onSelect(date);
+      },
+      onKeyDown: (e) => onKeyDown(e, date),
+      children: date.getDate()
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+
+// src/components/DateRangePicker/CalendarGrid.tsx
+var jsx_dev_runtime29 = require("react/jsx-dev-runtime");
+var tableStyle = {
+  borderCollapse: "collapse",
+  width: "100%",
+  tableLayout: "fixed"
+};
+var weekdayHeaderStyle = {
+  fontSize: import_core30.semantic.fontSizeXs,
+  fontFamily: import_core30.semantic.fontSans,
+  fontWeight: import_core30.semantic.fontWeightMedium,
+  color: import_core30.semantic.colorTextMuted,
+  textAlign: "center",
+  padding: `${import_core30.semantic.spaceXs} 0`,
+  userSelect: "none"
+};
+function CalendarGrid({
+  year,
+  month,
+  rangeStart,
+  rangeEnd,
+  minDate,
+  maxDate,
+  disabledDates,
+  scopeClass,
+  focusedDate,
+  onSelect,
+  onFocusedDateChange
+}) {
+  const today = import_react27.useRef(new Date).current;
+  const grid = buildCalendarGrid(year, month);
+  const rows = [];
+  for (let r = 0;r < 6; r++) {
+    rows.push(grid.slice(r * 7, r * 7 + 7));
   }
-  .${q2}-day--enabled:focus-visible {
-    outline: ${p.semantic.focusRingWidth} solid ${p.semantic.focusRingColor};
-    outline-offset: ${p.semantic.focusRingOffset};
+  const handleKeyDown = import_react27.useCallback((e, date) => {
+    let next = null;
+    switch (e.key) {
+      case "ArrowLeft":
+        next = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1);
+        break;
+      case "ArrowRight":
+        next = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
+        break;
+      case "ArrowUp":
+        next = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 7);
+        break;
+      case "ArrowDown":
+        next = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 7);
+        break;
+      case "Enter":
+      case " ":
+        e.preventDefault();
+        if (!isDateDisabled(date, minDate, maxDate, disabledDates)) {
+          onSelect(date);
+        }
+        return;
+      default:
+        return;
+    }
+    e.preventDefault();
+    if (next) {
+      onFocusedDateChange(next);
+    }
+  }, [minDate, maxDate, disabledDates, onSelect, onFocusedDateChange]);
+  const sortedStart = rangeStart && rangeEnd ? rangeStart.getTime() <= rangeEnd.getTime() ? rangeStart : rangeEnd : rangeStart;
+  const sortedEnd = rangeStart && rangeEnd ? rangeStart.getTime() <= rangeEnd.getTime() ? rangeEnd : rangeStart : rangeEnd;
+  return /* @__PURE__ */ jsx_dev_runtime29.jsxDEV("table", {
+    style: tableStyle,
+    role: "grid",
+    "aria-label": "Calendar",
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime29.jsxDEV("thead", {
+        children: /* @__PURE__ */ jsx_dev_runtime29.jsxDEV("tr", {
+          children: WEEKDAY_LABELS.map((label) => /* @__PURE__ */ jsx_dev_runtime29.jsxDEV("th", {
+            scope: "col",
+            style: weekdayHeaderStyle,
+            children: label
+          }, label, false, undefined, this))
+        }, undefined, false, undefined, this)
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime29.jsxDEV("tbody", {
+        children: rows.map((row, ri) => /* @__PURE__ */ jsx_dev_runtime29.jsxDEV("tr", {
+          children: row.map((date) => {
+            const key = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+            const disabled = isDateDisabled(date, minDate, maxDate, disabledDates);
+            const inRange = sortedStart !== null && sortedEnd !== null && isInRange(date, sortedStart, sortedEnd);
+            const isFocused = isSameDay(date, focusedDate);
+            return /* @__PURE__ */ jsx_dev_runtime29.jsxDEV(DayCell, {
+              date,
+              currentMonth: month,
+              today,
+              rangeStart: sortedStart ?? null,
+              rangeEnd: sortedEnd ?? null,
+              isInRange: inRange,
+              isDisabled: disabled,
+              scopeClass,
+              onSelect,
+              onKeyDown: handleKeyDown,
+              tabIndex: isFocused ? 0 : -1
+            }, key, false, undefined, this);
+          })
+        }, ri, false, undefined, this))
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+
+// src/components/DateRangePicker/DateRangePicker.tsx
+var jsx_dev_runtime30 = require("react/jsx-dev-runtime");
+var SCOPE = "alttab-drp";
+var injectedCSS = `
+  .${SCOPE}-day--enabled:hover {
+    background: ${import_core31.semantic.colorSurfaceRaised} !important;
   }
-  .${q2}-trigger:focus-visible {
-    border-color: ${p.semantic.colorBorderFocused};
-    box-shadow: 0 0 0 ${p.semantic.focusRingWidth} ${p.semantic.focusRingColor};
+  .${SCOPE}-day--enabled:focus-visible {
+    outline: ${import_core31.semantic.focusRingWidth} solid ${import_core31.semantic.focusRingColor};
+    outline-offset: ${import_core31.semantic.focusRingOffset};
   }
-  .${q2}-trigger:hover:not(:disabled) {
-    border-color: ${p.semantic.colorBorderFocused};
+  .${SCOPE}-trigger:focus-visible {
+    border-color: ${import_core31.semantic.colorBorderFocused};
+    box-shadow: 0 0 0 ${import_core31.semantic.focusRingWidth} ${import_core31.semantic.focusRingColor};
   }
-`,V9={position:"relative",display:"inline-block",width:"100%"},_9={display:"block",width:"100%",padding:`${p.semantic.spaceSm} ${p.semantic.spaceMd}`,fontSize:p.semantic.fontSizeSm,lineHeight:p.semantic.lineHeightTight,fontFamily:p.semantic.fontSans,color:p.semantic.colorText,background:p.semantic.colorSurfaceInput,border:`1px solid ${p.semantic.colorBorder}`,borderRadius:p.semantic.radiusMd,outline:"none",transition:"border-color 150ms ease, box-shadow 150ms ease",boxSizing:"border-box",cursor:"pointer",textAlign:"left"},B9={borderColor:p.semantic.colorBorderError},k9={background:p.semantic.colorSurfaceDisabled,color:p.semantic.colorTextDisabled,cursor:"not-allowed"},F9={position:"absolute",top:"100%",left:0,zIndex:50,marginTop:p.semantic.spaceXs,background:p.semantic.colorSurfacePanel,border:`1px solid ${p.semantic.colorBorder}`,borderRadius:p.semantic.radiusLg,boxShadow:p.semantic.shadowMd,padding:p.semantic.spaceMd,minWidth:290,boxSizing:"border-box"},T9={color:p.semantic.colorTextPlaceholder},g0=a.forwardRef(function({value:X,onChange:P,minDate:$,maxDate:Q,disabledDates:Z,placeholder:N="Select date",hasError:H,disabled:W,style:q},G){p.useInjectStyles(q2,Y9);let[M,K]=a.useState(!1),U=a.useRef(null),z=X??new Date,[k,V]=a.useState(z.getFullYear()),[_,D]=a.useState(z.getMonth()),[R,n]=a.useState(X??new Date),W1=a.useCallback((E)=>{n(E),V(E.getFullYear()),D(E.getMonth())},[]);a.useEffect(()=>{if(!M)return;let E=U.current;if(!E)return;E.querySelector('button[tabindex="0"]')?.focus()},[R,M]),a.useEffect(()=>{if(!M)return;function E(j){if(U.current&&!U.current.contains(j.target))K(!1)}return document.addEventListener("mousedown",E),()=>document.removeEventListener("mousedown",E)},[M]),a.useEffect(()=>{if(!M)return;function E(j){if(j.key==="Escape")K(!1)}return document.addEventListener("keydown",E),()=>document.removeEventListener("keydown",E)},[M]);let I1=a.useCallback(()=>{if(W)return;K((E)=>{if(!E){let j=X??new Date;V(j.getFullYear()),D(j.getMonth()),n(X??new Date)}return!E})},[W,X]),h=a.useCallback(()=>{D((E)=>{if(E===0)return V((j)=>j-1),11;return E-1})},[]),k1=a.useCallback(()=>{D((E)=>{if(E===11)return V((j)=>j+1),0;return E+1})},[]),K1=a.useCallback((E)=>{P(E),K(!1)},[P]),e;if(X)e=f2(X);else e=d1.jsx("span",{style:T9,children:N});return d1.jsxs("div",{ref:(E)=>{if(U.current=E,typeof G==="function")G(E);else if(G)G.current=E},style:{...V9,...q},children:[d1.jsx("button",{type:"button",className:`${q2}-trigger`,style:{..._9,...H?B9:{},...W?k9:{}},onClick:I1,disabled:W,"aria-haspopup":"dialog","aria-expanded":M,"aria-invalid":H||void 0,children:e}),M&&d1.jsxs("div",{style:F9,role:"dialog","aria-label":"Date picker",children:[d1.jsx(_0,{year:k,month:_,onPrev:h,onNext:k1}),d1.jsx(k0,{year:k,month:_,rangeStart:X??null,rangeEnd:null,minDate:$,maxDate:Q,disabledDates:Z,scopeClass:q2,focusedDate:R,onSelect:K1,onFocusedDateChange:W1})]})]})});var m4={};O(m4,{MetadataTable:()=>v4});var $1=require("../../core/dist/index.cjs"),i1=require("react/jsx-runtime"),O9={margin:0,marginBottom:$1.semantic.spaceMd,fontSize:$1.semantic.fontSizeLg,fontWeight:$1.semantic.fontWeightSemibold,fontFamily:$1.semantic.fontSans,color:$1.semantic.colorText},L9={margin:0,padding:0,display:"flex",flexDirection:"column",gap:$1.semantic.spaceSm},C4={display:"flex",flexDirection:"column",gap:$1.semantic.spaceXs,padding:`${$1.semantic.spaceSm} 0`,borderBottom:`1px solid ${$1.semantic.colorBorder}`},E9={fontSize:$1.semantic.fontSizeXs,fontWeight:$1.semantic.fontWeightSemibold,fontFamily:$1.semantic.fontSans,color:$1.semantic.colorTextMuted,textTransform:"uppercase",letterSpacing:$1.semantic.letterSpacingWide},I9={fontSize:$1.semantic.fontSizeSm,fontFamily:$1.semantic.fontSans,color:$1.semantic.colorText};function v4({items:J,title:X}){return i1.jsxs("div",{children:[X&&i1.jsx("h3",{style:O9,children:X}),i1.jsx("dl",{style:L9,children:J.map((P,$)=>i1.jsxs("div",{style:$===J.length-1?{...C4,borderBottom:"none"}:C4,children:[i1.jsx("dt",{style:E9,children:P.label}),i1.jsx("dd",{style:{...I9,margin:0},children:P.value})]},$))})]})}var S4={};O(S4,{ErrorBoundary:()=>b0});var p4=Z3(require("react")),b=require("../../core/dist/index.cjs");var L1=require("react/jsx-runtime");class b0 extends p4.default.Component{constructor(J){super(J);this.state={error:null,showStack:!1}}static getDerivedStateFromError(J){return{error:J}}componentDidCatch(J,X){this.props.onError?.(J,X)}resetErrorBoundary=()=>{this.setState({error:null,showStack:!1})};render(){let{error:J,showStack:X}=this.state,{children:P,fallback:$}=this.props;if(J===null)return P;if($)return $({error:J,resetErrorBoundary:this.resetErrorBoundary});return L1.jsx(h1,{style:{borderColor:b.semantic.colorError,borderWidth:"2px"},padding:"lg",children:L1.jsxs("div",{style:{display:"flex",flexDirection:"column",gap:b.semantic.spaceMd},children:[L1.jsx("div",{style:{display:"flex",alignItems:"center",gap:b.semantic.spaceSm},children:L1.jsx("span",{style:{fontSize:b.semantic.fontSizeLg,color:b.semantic.colorError,fontWeight:b.semantic.fontWeightSemibold,fontFamily:b.semantic.fontSans},children:"Something went wrong"})}),L1.jsx("p",{style:{margin:0,fontFamily:b.semantic.fontMono,fontSize:b.semantic.fontSizeSm,lineHeight:b.semantic.lineHeightBase,color:b.semantic.colorText,background:b.semantic.colorSurfaceRaised,padding:b.semantic.spaceSm,borderRadius:b.semantic.radiusMd,wordBreak:"break-word"},children:J.message}),J.stack&&L1.jsxs("div",{children:[L1.jsx("button",{type:"button",onClick:()=>this.setState({showStack:!X}),style:{background:"none",border:"none",padding:0,fontFamily:b.semantic.fontSans,fontSize:b.semantic.fontSizeSm,color:b.semantic.colorTextMuted,cursor:"pointer",textDecoration:"underline"},children:X?"Hide stack trace":"Show stack trace"}),X&&L1.jsx("pre",{style:{marginTop:b.semantic.spaceSm,fontFamily:b.semantic.fontMono,fontSize:b.semantic.fontSizeXs,lineHeight:b.semantic.lineHeightBase,color:b.semantic.colorTextSecondary,background:b.semantic.colorSurfaceRaised,padding:b.semantic.spaceSm,borderRadius:b.semantic.radiusMd,overflow:"auto",maxHeight:"200px",whiteSpace:"pre-wrap",wordBreak:"break-all"},children:J.stack})]}),L1.jsx("div",{children:L1.jsx(z1,{variant:"secondary",size:"sm",onClick:this.resetErrorBoundary,children:"Try again"})})]})})}}var g4={};O(g4,{SectionLabel:()=>F0});var D2=require("../../core/dist/index.cjs"),y4=require("react/jsx-runtime"),R9={display:"block",fontSize:D2.semantic.fontSizeXs,fontWeight:D2.semantic.fontWeightSemibold,fontFamily:D2.semantic.fontSans,color:D2.semantic.colorTextSecondary,textTransform:"uppercase",letterSpacing:D2.semantic.letterSpacingWide};function F0({children:J,style:X,...P}){return y4.jsx("div",{...P,style:{...R9,...X},children:J})}var h4={};O(h4,{useToast:()=>x0,ToastProvider:()=>h0});var G1=require("react"),b4=require("react-dom"),C=require("../../core/dist/index.cjs"),b1=require("react/jsx-runtime"),x4=G1.createContext(null);function x0(){let J=G1.useContext(x4);if(!J)throw Error("useToast must be used within a <ToastProvider>");return J}var w9="4lt7ab-toast-animations",D9=`
+  .${SCOPE}-trigger:hover:not(:disabled) {
+    border-color: ${import_core31.semantic.colorBorderFocused};
+  }
+`;
+var wrapperStyle2 = {
+  position: "relative",
+  display: "inline-block",
+  width: "100%"
+};
+var triggerBaseStyle2 = {
+  display: "block",
+  width: "100%",
+  padding: `${import_core31.semantic.spaceSm} ${import_core31.semantic.spaceMd}`,
+  fontSize: import_core31.semantic.fontSizeSm,
+  lineHeight: import_core31.semantic.lineHeightTight,
+  fontFamily: import_core31.semantic.fontSans,
+  color: import_core31.semantic.colorText,
+  background: import_core31.semantic.colorSurfaceInput,
+  border: `1px solid ${import_core31.semantic.colorBorder}`,
+  borderRadius: import_core31.semantic.radiusMd,
+  outline: "none",
+  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  boxSizing: "border-box",
+  cursor: "pointer",
+  textAlign: "left"
+};
+var triggerErrorStyle = {
+  borderColor: import_core31.semantic.colorBorderError
+};
+var triggerDisabledStyle = {
+  background: import_core31.semantic.colorSurfaceDisabled,
+  color: import_core31.semantic.colorTextDisabled,
+  cursor: "not-allowed"
+};
+var popoverStyle = {
+  position: "absolute",
+  top: "100%",
+  left: 0,
+  zIndex: 50,
+  marginTop: import_core31.semantic.spaceXs,
+  background: import_core31.semantic.colorSurfacePanel,
+  border: `1px solid ${import_core31.semantic.colorBorder}`,
+  borderRadius: import_core31.semantic.radiusLg,
+  boxShadow: import_core31.semantic.shadowMd,
+  padding: import_core31.semantic.spaceMd,
+  minWidth: 290,
+  boxSizing: "border-box"
+};
+var placeholderStyle2 = {
+  color: import_core31.semantic.colorTextPlaceholder
+};
+var DateRangePicker = import_react28.forwardRef(function DateRangePicker2({
+  value,
+  onChange,
+  minDate,
+  maxDate,
+  disabledDates,
+  placeholder = "Select date range",
+  hasError,
+  disabled,
+  style
+}, ref) {
+  import_core31.useInjectStyles(SCOPE, injectedCSS);
+  const [open, setOpen] = import_react28.useState(false);
+  const [selectionStart, setSelectionStart] = import_react28.useState(null);
+  const containerRef = import_react28.useRef(null);
+  const initialDate = value?.from ?? new Date;
+  const [viewYear, setViewYear] = import_react28.useState(initialDate.getFullYear());
+  const [viewMonth, setViewMonth] = import_react28.useState(initialDate.getMonth());
+  const [focusedDate, setFocusedDate] = import_react28.useState(value?.from ?? new Date);
+  const handleFocusedDateChange = import_react28.useCallback((date) => {
+    setFocusedDate(date);
+    setViewYear(date.getFullYear());
+    setViewMonth(date.getMonth());
+  }, []);
+  import_react28.useEffect(() => {
+    if (!open)
+      return;
+    const container = containerRef.current;
+    if (!container)
+      return;
+    const btn = container.querySelector('button[tabindex="0"]');
+    btn?.focus();
+  }, [focusedDate, open]);
+  import_react28.useEffect(() => {
+    if (!open)
+      return;
+    function handleMouseDown(e) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setOpen(false);
+        setSelectionStart(null);
+      }
+    }
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [open]);
+  import_react28.useEffect(() => {
+    if (!open)
+      return;
+    function handleKey(e) {
+      if (e.key === "Escape") {
+        setOpen(false);
+        setSelectionStart(null);
+      }
+    }
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [open]);
+  const handleToggle = import_react28.useCallback(() => {
+    if (disabled)
+      return;
+    setOpen((prev) => {
+      if (!prev) {
+        const base = value?.from ?? new Date;
+        setViewYear(base.getFullYear());
+        setViewMonth(base.getMonth());
+        setFocusedDate(value?.from ?? new Date);
+        setSelectionStart(null);
+      }
+      return !prev;
+    });
+  }, [disabled, value]);
+  const handlePrevMonth = import_react28.useCallback(() => {
+    setViewMonth((m) => {
+      if (m === 0) {
+        setViewYear((y) => y - 1);
+        return 11;
+      }
+      return m - 1;
+    });
+  }, []);
+  const handleNextMonth = import_react28.useCallback(() => {
+    setViewMonth((m) => {
+      if (m === 11) {
+        setViewYear((y) => y + 1);
+        return 0;
+      }
+      return m + 1;
+    });
+  }, []);
+  const handleDaySelect = import_react28.useCallback((date) => {
+    if (selectionStart === null) {
+      setSelectionStart(date);
+    } else {
+      const from = selectionStart.getTime() <= date.getTime() ? selectionStart : date;
+      const to = selectionStart.getTime() <= date.getTime() ? date : selectionStart;
+      onChange({ from, to });
+      setSelectionStart(null);
+      setOpen(false);
+    }
+  }, [selectionStart, onChange]);
+  let displayText;
+  if (value) {
+    displayText = `${formatDate(value.from)} – ${formatDate(value.to)}`;
+  } else {
+    displayText = /* @__PURE__ */ jsx_dev_runtime30.jsxDEV("span", {
+      style: placeholderStyle2,
+      children: placeholder
+    }, undefined, false, undefined, this);
+  }
+  const calendarStart = selectionStart ?? value?.from ?? null;
+  const calendarEnd = selectionStart ? null : value?.to ?? null;
+  return /* @__PURE__ */ jsx_dev_runtime30.jsxDEV("div", {
+    ref: (node) => {
+      containerRef.current = node;
+      if (typeof ref === "function")
+        ref(node);
+      else if (ref)
+        ref.current = node;
+    },
+    style: { ...wrapperStyle2, ...style },
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime30.jsxDEV("button", {
+        type: "button",
+        className: `${SCOPE}-trigger`,
+        style: {
+          ...triggerBaseStyle2,
+          ...hasError ? triggerErrorStyle : {},
+          ...disabled ? triggerDisabledStyle : {}
+        },
+        onClick: handleToggle,
+        disabled,
+        "aria-haspopup": "dialog",
+        "aria-expanded": open,
+        "aria-invalid": hasError || undefined,
+        children: displayText
+      }, undefined, false, undefined, this),
+      open && /* @__PURE__ */ jsx_dev_runtime30.jsxDEV("div", {
+        style: popoverStyle,
+        role: "dialog",
+        "aria-label": "Date range picker",
+        children: [
+          /* @__PURE__ */ jsx_dev_runtime30.jsxDEV(CalendarHeader, {
+            year: viewYear,
+            month: viewMonth,
+            onPrev: handlePrevMonth,
+            onNext: handleNextMonth
+          }, undefined, false, undefined, this),
+          /* @__PURE__ */ jsx_dev_runtime30.jsxDEV(CalendarGrid, {
+            year: viewYear,
+            month: viewMonth,
+            rangeStart: calendarStart,
+            rangeEnd: calendarEnd,
+            minDate,
+            maxDate,
+            disabledDates,
+            scopeClass: SCOPE,
+            focusedDate,
+            onSelect: handleDaySelect,
+            onFocusedDateChange: handleFocusedDateChange
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/DatePicker/index.ts
+var exports_DatePicker = {};
+__export(exports_DatePicker, {
+  DatePicker: () => DatePicker
+});
+
+// src/components/DatePicker/DatePicker.tsx
+var import_react29 = require("react");
+var import_core32 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime31 = require("react/jsx-dev-runtime");
+var SCOPE2 = "alttab-dp";
+var injectedCSS2 = `
+  .${SCOPE2}-day--enabled:hover {
+    background: ${import_core32.semantic.colorSurfaceRaised} !important;
+  }
+  .${SCOPE2}-day--enabled:focus-visible {
+    outline: ${import_core32.semantic.focusRingWidth} solid ${import_core32.semantic.focusRingColor};
+    outline-offset: ${import_core32.semantic.focusRingOffset};
+  }
+  .${SCOPE2}-trigger:focus-visible {
+    border-color: ${import_core32.semantic.colorBorderFocused};
+    box-shadow: 0 0 0 ${import_core32.semantic.focusRingWidth} ${import_core32.semantic.focusRingColor};
+  }
+  .${SCOPE2}-trigger:hover:not(:disabled) {
+    border-color: ${import_core32.semantic.colorBorderFocused};
+  }
+`;
+var wrapperStyle3 = {
+  position: "relative",
+  display: "inline-block",
+  width: "100%"
+};
+var triggerBaseStyle3 = {
+  display: "block",
+  width: "100%",
+  padding: `${import_core32.semantic.spaceSm} ${import_core32.semantic.spaceMd}`,
+  fontSize: import_core32.semantic.fontSizeSm,
+  lineHeight: import_core32.semantic.lineHeightTight,
+  fontFamily: import_core32.semantic.fontSans,
+  color: import_core32.semantic.colorText,
+  background: import_core32.semantic.colorSurfaceInput,
+  border: `1px solid ${import_core32.semantic.colorBorder}`,
+  borderRadius: import_core32.semantic.radiusMd,
+  outline: "none",
+  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  boxSizing: "border-box",
+  cursor: "pointer",
+  textAlign: "left"
+};
+var triggerErrorStyle2 = {
+  borderColor: import_core32.semantic.colorBorderError
+};
+var triggerDisabledStyle2 = {
+  background: import_core32.semantic.colorSurfaceDisabled,
+  color: import_core32.semantic.colorTextDisabled,
+  cursor: "not-allowed"
+};
+var popoverStyle2 = {
+  position: "absolute",
+  top: "100%",
+  left: 0,
+  zIndex: 50,
+  marginTop: import_core32.semantic.spaceXs,
+  background: import_core32.semantic.colorSurfacePanel,
+  border: `1px solid ${import_core32.semantic.colorBorder}`,
+  borderRadius: import_core32.semantic.radiusLg,
+  boxShadow: import_core32.semantic.shadowMd,
+  padding: import_core32.semantic.spaceMd,
+  minWidth: 290,
+  boxSizing: "border-box"
+};
+var placeholderStyle3 = {
+  color: import_core32.semantic.colorTextPlaceholder
+};
+var DatePicker = import_react29.forwardRef(function DatePicker2({
+  value,
+  onChange,
+  minDate,
+  maxDate,
+  disabledDates,
+  placeholder = "Select date",
+  hasError,
+  disabled,
+  style
+}, ref) {
+  import_core32.useInjectStyles(SCOPE2, injectedCSS2);
+  const [open, setOpen] = import_react29.useState(false);
+  const containerRef = import_react29.useRef(null);
+  const initialDate = value ?? new Date;
+  const [viewYear, setViewYear] = import_react29.useState(initialDate.getFullYear());
+  const [viewMonth, setViewMonth] = import_react29.useState(initialDate.getMonth());
+  const [focusedDate, setFocusedDate] = import_react29.useState(value ?? new Date);
+  const handleFocusedDateChange = import_react29.useCallback((date) => {
+    setFocusedDate(date);
+    setViewYear(date.getFullYear());
+    setViewMonth(date.getMonth());
+  }, []);
+  import_react29.useEffect(() => {
+    if (!open)
+      return;
+    const container = containerRef.current;
+    if (!container)
+      return;
+    const btn = container.querySelector('button[tabindex="0"]');
+    btn?.focus();
+  }, [focusedDate, open]);
+  import_react29.useEffect(() => {
+    if (!open)
+      return;
+    function handleMouseDown(e) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [open]);
+  import_react29.useEffect(() => {
+    if (!open)
+      return;
+    function handleKey(e) {
+      if (e.key === "Escape") {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [open]);
+  const handleToggle = import_react29.useCallback(() => {
+    if (disabled)
+      return;
+    setOpen((prev) => {
+      if (!prev) {
+        const base = value ?? new Date;
+        setViewYear(base.getFullYear());
+        setViewMonth(base.getMonth());
+        setFocusedDate(value ?? new Date);
+      }
+      return !prev;
+    });
+  }, [disabled, value]);
+  const handlePrevMonth = import_react29.useCallback(() => {
+    setViewMonth((m) => {
+      if (m === 0) {
+        setViewYear((y) => y - 1);
+        return 11;
+      }
+      return m - 1;
+    });
+  }, []);
+  const handleNextMonth = import_react29.useCallback(() => {
+    setViewMonth((m) => {
+      if (m === 11) {
+        setViewYear((y) => y + 1);
+        return 0;
+      }
+      return m + 1;
+    });
+  }, []);
+  const handleDaySelect = import_react29.useCallback((date) => {
+    onChange(date);
+    setOpen(false);
+  }, [onChange]);
+  let displayText;
+  if (value) {
+    displayText = formatDate(value);
+  } else {
+    displayText = /* @__PURE__ */ jsx_dev_runtime31.jsxDEV("span", {
+      style: placeholderStyle3,
+      children: placeholder
+    }, undefined, false, undefined, this);
+  }
+  return /* @__PURE__ */ jsx_dev_runtime31.jsxDEV("div", {
+    ref: (node) => {
+      containerRef.current = node;
+      if (typeof ref === "function")
+        ref(node);
+      else if (ref)
+        ref.current = node;
+    },
+    style: { ...wrapperStyle3, ...style },
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime31.jsxDEV("button", {
+        type: "button",
+        className: `${SCOPE2}-trigger`,
+        style: {
+          ...triggerBaseStyle3,
+          ...hasError ? triggerErrorStyle2 : {},
+          ...disabled ? triggerDisabledStyle2 : {}
+        },
+        onClick: handleToggle,
+        disabled,
+        "aria-haspopup": "dialog",
+        "aria-expanded": open,
+        "aria-invalid": hasError || undefined,
+        children: displayText
+      }, undefined, false, undefined, this),
+      open && /* @__PURE__ */ jsx_dev_runtime31.jsxDEV("div", {
+        style: popoverStyle2,
+        role: "dialog",
+        "aria-label": "Date picker",
+        children: [
+          /* @__PURE__ */ jsx_dev_runtime31.jsxDEV(CalendarHeader, {
+            year: viewYear,
+            month: viewMonth,
+            onPrev: handlePrevMonth,
+            onNext: handleNextMonth
+          }, undefined, false, undefined, this),
+          /* @__PURE__ */ jsx_dev_runtime31.jsxDEV(CalendarGrid, {
+            year: viewYear,
+            month: viewMonth,
+            rangeStart: value ?? null,
+            rangeEnd: null,
+            minDate,
+            maxDate,
+            disabledDates,
+            scopeClass: SCOPE2,
+            focusedDate,
+            onSelect: handleDaySelect,
+            onFocusedDateChange: handleFocusedDateChange
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/MetadataTable/index.ts
+var exports_MetadataTable = {};
+__export(exports_MetadataTable, {
+  MetadataTable: () => MetadataTable
+});
+
+// src/components/MetadataTable/MetadataTable.tsx
+var import_core33 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime32 = require("react/jsx-dev-runtime");
+var titleStyles = {
+  margin: 0,
+  marginBottom: import_core33.semantic.spaceMd,
+  fontSize: import_core33.semantic.fontSizeLg,
+  fontWeight: import_core33.semantic.fontWeightSemibold,
+  fontFamily: import_core33.semantic.fontSans,
+  color: import_core33.semantic.colorText
+};
+var listStyles = {
+  margin: 0,
+  padding: 0,
+  display: "flex",
+  flexDirection: "column",
+  gap: import_core33.semantic.spaceSm
+};
+var rowStyles = {
+  display: "flex",
+  flexDirection: "column",
+  gap: import_core33.semantic.spaceXs,
+  padding: `${import_core33.semantic.spaceSm} 0`,
+  borderBottom: `1px solid ${import_core33.semantic.colorBorder}`
+};
+var labelStyles = {
+  fontSize: import_core33.semantic.fontSizeXs,
+  fontWeight: import_core33.semantic.fontWeightSemibold,
+  fontFamily: import_core33.semantic.fontSans,
+  color: import_core33.semantic.colorTextMuted,
+  textTransform: "uppercase",
+  letterSpacing: import_core33.semantic.letterSpacingWide
+};
+var valueStyles = {
+  fontSize: import_core33.semantic.fontSizeSm,
+  fontFamily: import_core33.semantic.fontSans,
+  color: import_core33.semantic.colorText
+};
+function MetadataTable({ items, title }) {
+  return /* @__PURE__ */ jsx_dev_runtime32.jsxDEV("div", {
+    children: [
+      title && /* @__PURE__ */ jsx_dev_runtime32.jsxDEV("h3", {
+        style: titleStyles,
+        children: title
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime32.jsxDEV("dl", {
+        style: listStyles,
+        children: items.map((item, i) => /* @__PURE__ */ jsx_dev_runtime32.jsxDEV("div", {
+          style: i === items.length - 1 ? { ...rowStyles, borderBottom: "none" } : rowStyles,
+          children: [
+            /* @__PURE__ */ jsx_dev_runtime32.jsxDEV("dt", {
+              style: labelStyles,
+              children: item.label
+            }, undefined, false, undefined, this),
+            /* @__PURE__ */ jsx_dev_runtime32.jsxDEV("dd", {
+              style: { ...valueStyles, margin: 0 },
+              children: item.value
+            }, undefined, false, undefined, this)
+          ]
+        }, i, true, undefined, this))
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+// src/components/ErrorBoundary/index.ts
+var exports_ErrorBoundary = {};
+__export(exports_ErrorBoundary, {
+  ErrorBoundary: () => ErrorBoundary
+});
+
+// src/components/ErrorBoundary/ErrorBoundary.tsx
+var import_react30 = __toESM(require("react"));
+var import_core34 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime33 = require("react/jsx-dev-runtime");
+
+class ErrorBoundary extends import_react30.default.Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: null, showStack: false };
+  }
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+  componentDidCatch(error, errorInfo) {
+    this.props.onError?.(error, errorInfo);
+  }
+  resetErrorBoundary = () => {
+    this.setState({ error: null, showStack: false });
+  };
+  render() {
+    const { error, showStack } = this.state;
+    const { children, fallback } = this.props;
+    if (error === null) {
+      return children;
+    }
+    if (fallback) {
+      return fallback({ error, resetErrorBoundary: this.resetErrorBoundary });
+    }
+    return /* @__PURE__ */ jsx_dev_runtime33.jsxDEV(Card, {
+      style: {
+        borderColor: import_core34.semantic.colorError,
+        borderWidth: "2px"
+      },
+      padding: "lg",
+      children: /* @__PURE__ */ jsx_dev_runtime33.jsxDEV("div", {
+        style: { display: "flex", flexDirection: "column", gap: import_core34.semantic.spaceMd },
+        children: [
+          /* @__PURE__ */ jsx_dev_runtime33.jsxDEV("div", {
+            style: { display: "flex", alignItems: "center", gap: import_core34.semantic.spaceSm },
+            children: /* @__PURE__ */ jsx_dev_runtime33.jsxDEV("span", {
+              style: {
+                fontSize: import_core34.semantic.fontSizeLg,
+                color: import_core34.semantic.colorError,
+                fontWeight: import_core34.semantic.fontWeightSemibold,
+                fontFamily: import_core34.semantic.fontSans
+              },
+              children: "Something went wrong"
+            }, undefined, false, undefined, this)
+          }, undefined, false, undefined, this),
+          /* @__PURE__ */ jsx_dev_runtime33.jsxDEV("p", {
+            style: {
+              margin: 0,
+              fontFamily: import_core34.semantic.fontMono,
+              fontSize: import_core34.semantic.fontSizeSm,
+              lineHeight: import_core34.semantic.lineHeightBase,
+              color: import_core34.semantic.colorText,
+              background: import_core34.semantic.colorSurfaceRaised,
+              padding: import_core34.semantic.spaceSm,
+              borderRadius: import_core34.semantic.radiusMd,
+              wordBreak: "break-word"
+            },
+            children: error.message
+          }, undefined, false, undefined, this),
+          error.stack && /* @__PURE__ */ jsx_dev_runtime33.jsxDEV("div", {
+            children: [
+              /* @__PURE__ */ jsx_dev_runtime33.jsxDEV("button", {
+                type: "button",
+                onClick: () => this.setState({ showStack: !showStack }),
+                style: {
+                  background: "none",
+                  border: "none",
+                  padding: 0,
+                  fontFamily: import_core34.semantic.fontSans,
+                  fontSize: import_core34.semantic.fontSizeSm,
+                  color: import_core34.semantic.colorTextMuted,
+                  cursor: "pointer",
+                  textDecoration: "underline"
+                },
+                children: showStack ? "Hide stack trace" : "Show stack trace"
+              }, undefined, false, undefined, this),
+              showStack && /* @__PURE__ */ jsx_dev_runtime33.jsxDEV("pre", {
+                style: {
+                  marginTop: import_core34.semantic.spaceSm,
+                  fontFamily: import_core34.semantic.fontMono,
+                  fontSize: import_core34.semantic.fontSizeXs,
+                  lineHeight: import_core34.semantic.lineHeightBase,
+                  color: import_core34.semantic.colorTextSecondary,
+                  background: import_core34.semantic.colorSurfaceRaised,
+                  padding: import_core34.semantic.spaceSm,
+                  borderRadius: import_core34.semantic.radiusMd,
+                  overflow: "auto",
+                  maxHeight: "200px",
+                  whiteSpace: "pre-wrap",
+                  wordBreak: "break-all"
+                },
+                children: error.stack
+              }, undefined, false, undefined, this)
+            ]
+          }, undefined, true, undefined, this),
+          /* @__PURE__ */ jsx_dev_runtime33.jsxDEV("div", {
+            children: /* @__PURE__ */ jsx_dev_runtime33.jsxDEV(Button, {
+              variant: "secondary",
+              size: "sm",
+              onClick: this.resetErrorBoundary,
+              children: "Try again"
+            }, undefined, false, undefined, this)
+          }, undefined, false, undefined, this)
+        ]
+      }, undefined, true, undefined, this)
+    }, undefined, false, undefined, this);
+  }
+}
+// src/components/SectionLabel/index.ts
+var exports_SectionLabel = {};
+__export(exports_SectionLabel, {
+  SectionLabel: () => SectionLabel
+});
+
+// src/components/SectionLabel/SectionLabel.tsx
+var import_core35 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime34 = require("react/jsx-dev-runtime");
+var baseStyles3 = {
+  display: "block",
+  fontSize: import_core35.semantic.fontSizeXs,
+  fontWeight: import_core35.semantic.fontWeightSemibold,
+  fontFamily: import_core35.semantic.fontSans,
+  color: import_core35.semantic.colorTextSecondary,
+  textTransform: "uppercase",
+  letterSpacing: import_core35.semantic.letterSpacingWide
+};
+function SectionLabel({
+  children,
+  style,
+  ...rest
+}) {
+  return /* @__PURE__ */ jsx_dev_runtime34.jsxDEV("div", {
+    ...rest,
+    style: { ...baseStyles3, ...style },
+    children
+  }, undefined, false, undefined, this);
+}
+// src/components/Toast/index.ts
+var exports_Toast = {};
+__export(exports_Toast, {
+  useToast: () => useToast,
+  ToastProvider: () => ToastProvider
+});
+
+// src/components/Toast/Toast.tsx
+var import_react31 = require("react");
+var import_react_dom2 = require("react-dom");
+var import_core36 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime35 = require("react/jsx-dev-runtime");
+var ToastContext = import_react31.createContext(null);
+function useToast() {
+  const ctx = import_react31.useContext(ToastContext);
+  if (!ctx) {
+    throw new Error("useToast must be used within a <ToastProvider>");
+  }
+  return ctx;
+}
+var STYLE_ID = "4lt7ab-toast-animations";
+var toastCSS = `
 @keyframes toast-slide-in {
   from { opacity: 0; transform: translateX(100%); }
   to   { opacity: 1; transform: translateX(0); }
@@ -247,7 +4127,154 @@ var X3=Object.create;var{getPrototypeOf:J3,defineProperty:s1,getOwnPropertyNames
     to   { opacity: 0; }
   }
 }
-`,C9={success:{bg:C.semantic.colorSuccessBg,fg:C.semantic.colorSuccess,border:C.semantic.colorSuccess},error:{bg:C.semantic.colorErrorBg,fg:C.semantic.colorError,border:C.semantic.colorError},info:{bg:C.semantic.colorInfoBg,fg:C.semantic.colorInfo,border:C.semantic.colorInfo},warning:{bg:C.semantic.colorWarningBg,fg:C.semantic.colorWarning,border:C.semantic.colorWarning}};function v9({item:J,onDismiss:X}){let[P,$]=G1.useState(!1),Q=G1.useRef(null);G1.useEffect(()=>{return Q.current=setTimeout(()=>{$(!0)},J.duration),()=>{if(Q.current)clearTimeout(Q.current)}},[J.duration]);let Z=()=>{if(P)X(J.id)},N=C9[J.type];return b1.jsxs("div",{role:"status",style:{display:"flex",alignItems:"center",gap:C.semantic.spaceSm,padding:`${C.semantic.spaceSm} ${C.semantic.spaceMd}`,background:N.bg,color:N.fg,borderRadius:C.semantic.radiusMd,borderLeft:`3px solid ${N.border}`,boxShadow:C.semantic.shadowMd,fontSize:C.semantic.fontSizeSm,fontFamily:C.semantic.fontSans,fontWeight:C.semantic.fontWeightMedium,lineHeight:C.semantic.lineHeightBase,pointerEvents:"auto",animation:P?"toast-fade-out 200ms ease forwards":"toast-slide-in 250ms ease",maxWidth:"24rem",wordBreak:"break-word"},onAnimationEnd:Z,children:[b1.jsx("span",{style:{flex:1},children:J.message}),b1.jsx("button",{onClick:()=>$(!0),"aria-label":"Dismiss",style:{all:"unset",cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",width:"1.25rem",height:"1.25rem",borderRadius:C.semantic.radiusSm,color:N.fg,opacity:0.7,fontSize:C.semantic.fontSizeSm,lineHeight:1},children:"×"})]})}function m9({toasts:J,onDismiss:X,position:P}){if(C.useInjectStyles(w9,D9),J.length===0)return null;let $={position:"fixed",zIndex:9999,display:"flex",flexDirection:"column",gap:C.semantic.spaceSm,pointerEvents:"none",...P.startsWith("top")?{top:C.semantic.spaceLg}:{bottom:C.semantic.spaceLg},...P.endsWith("right")?{right:C.semantic.spaceLg}:{left:C.semantic.spaceLg}};return b4.createPortal(b1.jsx("div",{"aria-live":"polite",style:$,children:J.map((Q)=>b1.jsx(v9,{item:Q,onDismiss:X},Q.id))}),document.body)}var p9=0;function h0({children:J,position:X="top-right"}){let[P,$]=G1.useState([]),Q=G1.useCallback((N)=>{$((H)=>H.filter((W)=>W.id!==N))},[]),Z=G1.useCallback((N,H)=>{let W=typeof H==="string"?{type:H}:H??{},q={id:`toast-${++p9}`,message:N,type:W.type??"info",duration:W.duration??4000};$((G)=>[...G,q])},[]);return b1.jsxs(x4.Provider,{value:{showToast:Z},children:[J,b1.jsx(m9,{toasts:P,onDismiss:Q,position:X})]})}var j4={};O(j4,{Combobox:()=>j0});var o=require("react"),c=require("../../core/dist/index.cjs"),C2=require("react/jsx-runtime"),S9="alttab-combobox",y9=`
+`;
+var typeColors = {
+  success: { bg: import_core36.semantic.colorSuccessBg, fg: import_core36.semantic.colorSuccess, border: import_core36.semantic.colorSuccess },
+  error: { bg: import_core36.semantic.colorErrorBg, fg: import_core36.semantic.colorError, border: import_core36.semantic.colorError },
+  info: { bg: import_core36.semantic.colorInfoBg, fg: import_core36.semantic.colorInfo, border: import_core36.semantic.colorInfo },
+  warning: { bg: import_core36.semantic.colorWarningBg, fg: import_core36.semantic.colorWarning, border: import_core36.semantic.colorWarning }
+};
+function ToastMessage({
+  item,
+  onDismiss
+}) {
+  const [exiting, setExiting] = import_react31.useState(false);
+  const timerRef = import_react31.useRef(null);
+  import_react31.useEffect(() => {
+    timerRef.current = setTimeout(() => {
+      setExiting(true);
+    }, item.duration);
+    return () => {
+      if (timerRef.current)
+        clearTimeout(timerRef.current);
+    };
+  }, [item.duration]);
+  const handleAnimationEnd = () => {
+    if (exiting) {
+      onDismiss(item.id);
+    }
+  };
+  const colors = typeColors[item.type];
+  return /* @__PURE__ */ jsx_dev_runtime35.jsxDEV("div", {
+    role: "status",
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: import_core36.semantic.spaceSm,
+      padding: `${import_core36.semantic.spaceSm} ${import_core36.semantic.spaceMd}`,
+      background: colors.bg,
+      color: colors.fg,
+      borderRadius: import_core36.semantic.radiusMd,
+      borderLeft: `3px solid ${colors.border}`,
+      boxShadow: import_core36.semantic.shadowMd,
+      fontSize: import_core36.semantic.fontSizeSm,
+      fontFamily: import_core36.semantic.fontSans,
+      fontWeight: import_core36.semantic.fontWeightMedium,
+      lineHeight: import_core36.semantic.lineHeightBase,
+      pointerEvents: "auto",
+      animation: exiting ? "toast-fade-out 200ms ease forwards" : "toast-slide-in 250ms ease",
+      maxWidth: "24rem",
+      wordBreak: "break-word"
+    },
+    onAnimationEnd: handleAnimationEnd,
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime35.jsxDEV("span", {
+        style: { flex: 1 },
+        children: item.message
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime35.jsxDEV("button", {
+        onClick: () => setExiting(true),
+        "aria-label": "Dismiss",
+        style: {
+          all: "unset",
+          cursor: "pointer",
+          flexShrink: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "1.25rem",
+          height: "1.25rem",
+          borderRadius: import_core36.semantic.radiusSm,
+          color: colors.fg,
+          opacity: 0.7,
+          fontSize: import_core36.semantic.fontSizeSm,
+          lineHeight: 1
+        },
+        children: "×"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+function ToastContainer({
+  toasts,
+  onDismiss,
+  position
+}) {
+  import_core36.useInjectStyles(STYLE_ID, toastCSS);
+  if (toasts.length === 0)
+    return null;
+  const positionStyles = {
+    position: "fixed",
+    zIndex: 9999,
+    display: "flex",
+    flexDirection: "column",
+    gap: import_core36.semantic.spaceSm,
+    pointerEvents: "none",
+    ...position.startsWith("top") ? { top: import_core36.semantic.spaceLg } : { bottom: import_core36.semantic.spaceLg },
+    ...position.endsWith("right") ? { right: import_core36.semantic.spaceLg } : { left: import_core36.semantic.spaceLg }
+  };
+  return import_react_dom2.createPortal(/* @__PURE__ */ jsx_dev_runtime35.jsxDEV("div", {
+    "aria-live": "polite",
+    style: positionStyles,
+    children: toasts.map((item) => /* @__PURE__ */ jsx_dev_runtime35.jsxDEV(ToastMessage, {
+      item,
+      onDismiss
+    }, item.id, false, undefined, this))
+  }, undefined, false, undefined, this), document.body);
+}
+var toastCounter = 0;
+function ToastProvider({
+  children,
+  position = "top-right"
+}) {
+  const [toasts, setToasts] = import_react31.useState([]);
+  const dismiss = import_react31.useCallback((id) => {
+    setToasts((prev) => prev.filter((t33) => t33.id !== id));
+  }, []);
+  const showToast = import_react31.useCallback((message, typeOrOptions) => {
+    const opts = typeof typeOrOptions === "string" ? { type: typeOrOptions } : typeOrOptions ?? {};
+    const item = {
+      id: `toast-${++toastCounter}`,
+      message,
+      type: opts.type ?? "info",
+      duration: opts.duration ?? 4000
+    };
+    setToasts((prev) => [...prev, item]);
+  }, []);
+  return /* @__PURE__ */ jsx_dev_runtime35.jsxDEV(ToastContext.Provider, {
+    value: { showToast },
+    children: [
+      children,
+      /* @__PURE__ */ jsx_dev_runtime35.jsxDEV(ToastContainer, {
+        toasts,
+        onDismiss: dismiss,
+        position
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+}
+// src/components/Combobox/index.ts
+var exports_Combobox = {};
+__export(exports_Combobox, {
+  Combobox: () => Combobox
+});
+
+// src/components/Combobox/Combobox.tsx
+var import_react32 = require("react");
+var import_core37 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime36 = require("react/jsx-dev-runtime");
+var COMBOBOX_STYLES_ID = "alttab-combobox";
+var comboboxCSS = `
   .alttab-combobox-option {
     display: block;
     width: 100%;
@@ -280,31 +4307,723 @@ var X3=Object.create;var{getPrototypeOf:J3,defineProperty:s1,getOwnPropertyNames
       transition: none;
     }
   }
-`,j0=o.forwardRef(function({options:X,value:P,onChange:$,onSelect:Q,placeholder:Z,disabled:N,hasError:H,style:W,id:q,"aria-label":G,"aria-labelledby":M,...K},U){c.useInjectStyles(S9,y9);let[z,k]=o.useState(!1),[V,_]=o.useState(-1),[D,R]=o.useState("down"),n=o.useRef(null),W1=o.useRef(null),I1=o.useRef(null);o.useEffect(()=>{if(!U)return;if(typeof U==="function")U(W1.current);else U.current=W1.current},[U]);let h=o.useMemo(()=>{if(!P)return X;let F=P.toLowerCase();return X.filter((d)=>d.label.toLowerCase().includes(F))},[X,P]),k1=o.useCallback(()=>{let F=W1.current;if(!F)return;let d=F.getBoundingClientRect(),A2=window.innerHeight-d.bottom,a1=d.top,S2=Math.min(h.length*32+8,256);R(A2>=S2?"down":a1>A2?"up":"down")},[h.length]),K1=o.useCallback(()=>{if(N)return;k1(),k(!0),_(-1)},[N,k1]),e=o.useCallback(()=>{k(!1),_(-1)},[]),E=o.useCallback((F)=>{$(F.value),Q?.(F),e(),W1.current?.focus()},[$,Q,e]);o.useEffect(()=>{if(!z)return;function F(d){if(n.current&&!n.current.contains(d.target))e()}return document.addEventListener("mousedown",F),()=>document.removeEventListener("mousedown",F)},[z,e]),o.useEffect(()=>{if(!z||V<0)return;let F=I1.current;if(!F)return;F.querySelectorAll('[role="option"]')[V]?.scrollIntoView({block:"nearest"})},[z,V]);let j=o.useCallback((F)=>{if(F.key==="Escape"){e(),W1.current?.focus();return}if(!z){if(F.key==="ArrowDown"||F.key==="ArrowUp")F.preventDefault(),K1();return}switch(F.key){case"ArrowDown":{F.preventDefault(),_((d)=>d<h.length-1?d+1:0);break}case"ArrowUp":{F.preventDefault(),_((d)=>d>0?d-1:h.length-1);break}case"Enter":if(V>=0&&V<h.length)F.preventDefault(),E(h[V]);break;case"Home":if(F.preventDefault(),h.length>0)_(0);break;case"End":if(F.preventDefault(),h.length>0)_(h.length-1);break;case"Tab":e();break}},[z,K1,e,V,h,E]),p2=o.useCallback((F)=>{if($(F.target.value),!z)K1();_(-1)},[$,z,K1]),K2=q?`${q}-listbox`:"alttab-combobox-listbox",I=z&&V>=0?`alttab-combobox-opt-${h[V]?.value}`:void 0,l=D==="down"?{position:"absolute",top:"100%",left:0,right:0,marginTop:c.semantic.spaceXs}:{position:"absolute",bottom:"100%",left:0,right:0,marginBottom:c.semantic.spaceXs};return C2.jsxs("div",{ref:n,style:g9,onKeyDown:j,children:[C2.jsx("input",{ref:W1,type:"text",role:"combobox",className:"alttab-combobox-input","aria-expanded":z,"aria-haspopup":"listbox","aria-controls":K2,"aria-activedescendant":I,"aria-autocomplete":"list","aria-invalid":H||void 0,"aria-label":G,"aria-labelledby":M,autoComplete:"off",id:q,value:P,placeholder:Z,disabled:N,onChange:p2,onFocus:()=>{if(!N&&h.length>0)K1()},style:{...b9,...H?x9:{},...N?h9:{},...W},...K}),z&&h.length>0&&C2.jsx("div",{ref:I1,id:K2,role:"listbox",style:{...l,background:c.semantic.colorSurfacePanel,border:`1px solid ${c.semantic.colorBorder}`,borderRadius:c.semantic.radiusMd,padding:c.semantic.spaceXs,zIndex:100,boxShadow:c.semantic.shadowMd,maxHeight:"16rem",overflowY:"auto",boxSizing:"border-box"},children:h.map((F,d)=>{let A2=V===d,a1=F.value===P,S2=["alttab-combobox-option",A2?"alttab-combobox-option--focused":""].filter(Boolean).join(" ");return C2.jsx("button",{id:`alttab-combobox-opt-${F.value}`,type:"button",role:"option","aria-selected":a1,className:S2,onClick:()=>E(F),onMouseEnter:()=>_(d),style:a1?{fontWeight:c.semantic.fontWeightSemibold}:void 0,children:F.label},F.value)})})]})}),g9={position:"relative",display:"block",width:"100%"},b9={display:"block",width:"100%",padding:`${c.semantic.spaceSm} ${c.semantic.spaceMd}`,fontSize:c.semantic.fontSizeSm,lineHeight:c.semantic.lineHeightTight,fontFamily:c.semantic.fontSans,color:c.semantic.colorText,background:c.semantic.colorSurfaceInput,border:`1px solid ${c.semantic.colorBorder}`,borderRadius:c.semantic.radiusMd,outline:"none",transition:"border-color 150ms ease, box-shadow 150ms ease",boxSizing:"border-box"},x9={borderColor:c.semantic.colorBorderError},h9={background:c.semantic.colorSurfaceDisabled,color:c.semantic.colorTextDisabled,cursor:"not-allowed"};var u4={};O(u4,{TableFilters:()=>f0});var w1=require("react"),f4=require("../../core/dist/index.cjs");var l1=require("react/jsx-runtime");function j9({config:J,value:X,onCommit:P}){let $=J.debounceMs??300,[Q,Z]=w1.useState(X),N=w1.useRef(null);w1.useEffect(()=>{Z(X)},[X]);let H=w1.useCallback((W)=>{let q=W.target.value;if(Z(q),N.current)clearTimeout(N.current);N.current=setTimeout(()=>{P(J.key,q)},$)},[J.key,$,P]);return w1.useEffect(()=>{return()=>{if(N.current)clearTimeout(N.current)}},[]),l1.jsx("div",{style:{minWidth:"10rem",flex:"1 1 10rem"},children:l1.jsx(A0,{value:Q,onChange:H,placeholder:J.placeholder})})}function f9({config:J,value:X,onCommit:P}){let $=w1.useCallback((Q)=>{P(J.key,Q.target.value)},[J.key,P]);return l1.jsx("div",{style:{minWidth:"8rem",flex:"0 1 12rem"},children:l1.jsx(z0,{value:X,onChange:$,options:J.options,placeholder:J.placeholder})})}function f0({filters:J,values:X,onChange:P,style:$,...Q}){let Z=w1.useCallback((N,H)=>{P({...X,[N]:H})},[X,P]);return l1.jsx("div",{style:{display:"flex",flexWrap:"wrap",gap:f4.semantic.spaceSm,alignItems:"flex-start",...$},...Q,children:J.map((N)=>{let H=X[N.key]??"";if(N.type==="text")return l1.jsx(j9,{config:N,value:H,onCommit:Z},N.key);return l1.jsx(f9,{config:N,value:H,onCommit:Z},N.key)})})}var o4={};O(o4,{ChipPicker:()=>u0});var c4=require("react"),s=require("../../core/dist/index.cjs");var W2=require("react/jsx-runtime");function u0({items:J,selected:X,onChange:P,style:$}){let Z=`chip-picker-${c4.useId().replace(/:/g,"")}`;s.useInjectStyles(Z,`[data-chip-picker-id="${Z}"] button:hover {
-      background: ${s.semantic.colorSurfaceRaised} !important;
+`;
+var Combobox = import_react32.forwardRef(function Combobox2({
+  options,
+  value,
+  onChange,
+  onSelect,
+  placeholder,
+  disabled,
+  hasError,
+  style,
+  id,
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
+  ...props
+}, ref) {
+  import_core37.useInjectStyles(COMBOBOX_STYLES_ID, comboboxCSS);
+  const [open, setOpen] = import_react32.useState(false);
+  const [focusedIndex, setFocusedIndex] = import_react32.useState(-1);
+  const [dropDirection, setDropDirection] = import_react32.useState("down");
+  const containerRef = import_react32.useRef(null);
+  const inputRef = import_react32.useRef(null);
+  const menuRef = import_react32.useRef(null);
+  import_react32.useEffect(() => {
+    if (!ref)
+      return;
+    if (typeof ref === "function") {
+      ref(inputRef.current);
+    } else {
+      ref.current = inputRef.current;
     }
-    [data-chip-picker-id="${Z}"] button[aria-pressed="true"]:hover {
-      background: ${s.semantic.colorActionSecondaryHover} !important;
-    }`);let N=(K)=>{if(X.includes(K))P(X.filter((U)=>U!==K));else P([...X,K])},H=[],W=new Map;for(let K of J){let U=K.group??null,z=W.get(U);if(!z)z=[],W.set(U,z),H.push({label:U,chips:z});z.push(K)}let q=H.findIndex((K)=>K.label===null);if(q>0){let[K]=H.splice(q,1);H.unshift(K)}let G=(K)=>({display:"inline-flex",alignItems:"center",padding:"4px 12px",fontSize:s.semantic.fontSizeSm,fontFamily:s.semantic.fontSans,fontWeight:s.semantic.fontWeightMedium,lineHeight:s.semantic.lineHeightTight,color:K?s.semantic.colorActionPrimary:s.semantic.colorText,background:K?s.semantic.colorActionSecondary:"transparent",border:`1px solid ${K?s.semantic.colorActionPrimary:s.semantic.colorBorder}`,borderRadius:s.semantic.radiusFull,cursor:"pointer",transition:"background 100ms ease, border-color 100ms ease, color 100ms ease",outline:"none"}),M=(K)=>W2.jsx("div",{style:{display:"flex",flexWrap:"wrap",gap:s.semantic.spaceSm},children:K.map((U)=>{let z=X.includes(U.value);return W2.jsx("button",{type:"button","aria-pressed":z,onClick:()=>N(U.value),style:G(z),children:U.label},U.value)})});return W2.jsx("div",{"data-chip-picker-id":Z,style:{display:"flex",flexDirection:"column",gap:s.semantic.spaceMd,...$},children:H.map((K,U)=>W2.jsxs("div",{style:{display:"flex",flexDirection:"column",gap:s.semantic.spaceSm},children:[K.label!==null&&W2.jsx(F0,{style:U>0?{marginTop:s.semantic.spaceXs}:void 0,children:K.label}),M(K.chips)]},K.label??"__ungrouped"))})}var r4={};O(r4,{SearchInput:()=>c0});var E1=require("react"),t=require("../../core/dist/index.cjs");var v2=require("react/jsx-runtime"),u9="4lt7ab-search-input",c9=`
+  }, [ref]);
+  const filtered = import_react32.useMemo(() => {
+    if (!value)
+      return options;
+    const lower = value.toLowerCase();
+    return options.filter((o) => o.label.toLowerCase().includes(lower));
+  }, [options, value]);
+  const calculateDirection = import_react32.useCallback(() => {
+    const input = inputRef.current;
+    if (!input)
+      return;
+    const rect = input.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const spaceAbove = rect.top;
+    const estimatedHeight = Math.min(filtered.length * 32 + 8, 256);
+    setDropDirection(spaceBelow >= estimatedHeight ? "down" : spaceAbove > spaceBelow ? "up" : "down");
+  }, [filtered.length]);
+  const openMenu = import_react32.useCallback(() => {
+    if (disabled)
+      return;
+    calculateDirection();
+    setOpen(true);
+    setFocusedIndex(-1);
+  }, [disabled, calculateDirection]);
+  const closeMenu = import_react32.useCallback(() => {
+    setOpen(false);
+    setFocusedIndex(-1);
+  }, []);
+  const selectOption = import_react32.useCallback((opt) => {
+    onChange(opt.value);
+    onSelect?.(opt);
+    closeMenu();
+    inputRef.current?.focus();
+  }, [onChange, onSelect, closeMenu]);
+  import_react32.useEffect(() => {
+    if (!open)
+      return;
+    function handleMouseDown(e) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        closeMenu();
+      }
+    }
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [open, closeMenu]);
+  import_react32.useEffect(() => {
+    if (!open || focusedIndex < 0)
+      return;
+    const menu = menuRef.current;
+    if (!menu)
+      return;
+    const items = menu.querySelectorAll('[role="option"]');
+    items[focusedIndex]?.scrollIntoView({ block: "nearest" });
+  }, [open, focusedIndex]);
+  const handleKeyDown = import_react32.useCallback((e) => {
+    if (e.key === "Escape") {
+      closeMenu();
+      inputRef.current?.focus();
+      return;
+    }
+    if (!open) {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        openMenu();
+      }
+      return;
+    }
+    switch (e.key) {
+      case "ArrowDown": {
+        e.preventDefault();
+        setFocusedIndex((prev) => prev < filtered.length - 1 ? prev + 1 : 0);
+        break;
+      }
+      case "ArrowUp": {
+        e.preventDefault();
+        setFocusedIndex((prev) => prev > 0 ? prev - 1 : filtered.length - 1);
+        break;
+      }
+      case "Enter":
+        if (focusedIndex >= 0 && focusedIndex < filtered.length) {
+          e.preventDefault();
+          selectOption(filtered[focusedIndex]);
+        }
+        break;
+      case "Home":
+        e.preventDefault();
+        if (filtered.length > 0)
+          setFocusedIndex(0);
+        break;
+      case "End":
+        e.preventDefault();
+        if (filtered.length > 0)
+          setFocusedIndex(filtered.length - 1);
+        break;
+      case "Tab":
+        closeMenu();
+        break;
+    }
+  }, [open, openMenu, closeMenu, focusedIndex, filtered, selectOption]);
+  const handleInputChange = import_react32.useCallback((e) => {
+    onChange(e.target.value);
+    if (!open) {
+      openMenu();
+    }
+    setFocusedIndex(-1);
+  }, [onChange, open, openMenu]);
+  const listboxId = id ? `${id}-listbox` : "alttab-combobox-listbox";
+  const activedescendant = open && focusedIndex >= 0 ? `alttab-combobox-opt-${filtered[focusedIndex]?.value}` : undefined;
+  const menuStyle = dropDirection === "down" ? {
+    position: "absolute",
+    top: "100%",
+    left: 0,
+    right: 0,
+    marginTop: import_core37.semantic.spaceXs
+  } : {
+    position: "absolute",
+    bottom: "100%",
+    left: 0,
+    right: 0,
+    marginBottom: import_core37.semantic.spaceXs
+  };
+  return /* @__PURE__ */ jsx_dev_runtime36.jsxDEV("div", {
+    ref: containerRef,
+    style: wrapperStyle4,
+    onKeyDown: handleKeyDown,
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime36.jsxDEV("input", {
+        ref: inputRef,
+        type: "text",
+        role: "combobox",
+        className: "alttab-combobox-input",
+        "aria-expanded": open,
+        "aria-haspopup": "listbox",
+        "aria-controls": listboxId,
+        "aria-activedescendant": activedescendant,
+        "aria-autocomplete": "list",
+        "aria-invalid": hasError || undefined,
+        "aria-label": ariaLabel,
+        "aria-labelledby": ariaLabelledBy,
+        autoComplete: "off",
+        id,
+        value,
+        placeholder,
+        disabled,
+        onChange: handleInputChange,
+        onFocus: () => {
+          if (!disabled && filtered.length > 0)
+            openMenu();
+        },
+        style: {
+          ...inputBaseStyle,
+          ...hasError ? errorBorderStyle4 : {},
+          ...disabled ? disabledStyle4 : {},
+          ...style
+        },
+        ...props
+      }, undefined, false, undefined, this),
+      open && filtered.length > 0 && /* @__PURE__ */ jsx_dev_runtime36.jsxDEV("div", {
+        ref: menuRef,
+        id: listboxId,
+        role: "listbox",
+        style: {
+          ...menuStyle,
+          background: import_core37.semantic.colorSurfacePanel,
+          border: `1px solid ${import_core37.semantic.colorBorder}`,
+          borderRadius: import_core37.semantic.radiusMd,
+          padding: import_core37.semantic.spaceXs,
+          zIndex: 100,
+          boxShadow: import_core37.semantic.shadowMd,
+          maxHeight: "16rem",
+          overflowY: "auto",
+          boxSizing: "border-box"
+        },
+        children: filtered.map((opt, idx) => {
+          const isFocused = focusedIndex === idx;
+          const isMatch = opt.value === value;
+          const classes = [
+            "alttab-combobox-option",
+            isFocused ? "alttab-combobox-option--focused" : ""
+          ].filter(Boolean).join(" ");
+          return /* @__PURE__ */ jsx_dev_runtime36.jsxDEV("button", {
+            id: `alttab-combobox-opt-${opt.value}`,
+            type: "button",
+            role: "option",
+            "aria-selected": isMatch,
+            className: classes,
+            onClick: () => selectOption(opt),
+            onMouseEnter: () => setFocusedIndex(idx),
+            style: isMatch ? { fontWeight: import_core37.semantic.fontWeightSemibold } : undefined,
+            children: opt.label
+          }, opt.value, false, undefined, this);
+        })
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+var wrapperStyle4 = {
+  position: "relative",
+  display: "block",
+  width: "100%"
+};
+var inputBaseStyle = {
+  display: "block",
+  width: "100%",
+  padding: `${import_core37.semantic.spaceSm} ${import_core37.semantic.spaceMd}`,
+  fontSize: import_core37.semantic.fontSizeSm,
+  lineHeight: import_core37.semantic.lineHeightTight,
+  fontFamily: import_core37.semantic.fontSans,
+  color: import_core37.semantic.colorText,
+  background: import_core37.semantic.colorSurfaceInput,
+  border: `1px solid ${import_core37.semantic.colorBorder}`,
+  borderRadius: import_core37.semantic.radiusMd,
+  outline: "none",
+  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  boxSizing: "border-box"
+};
+var errorBorderStyle4 = {
+  borderColor: import_core37.semantic.colorBorderError
+};
+var disabledStyle4 = {
+  background: import_core37.semantic.colorSurfaceDisabled,
+  color: import_core37.semantic.colorTextDisabled,
+  cursor: "not-allowed"
+};
+// src/components/TableFilters/index.ts
+var exports_TableFilters = {};
+__export(exports_TableFilters, {
+  TableFilters: () => TableFilters
+});
+
+// src/components/TableFilters/TableFilters.tsx
+var import_react33 = require("react");
+var import_core38 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime37 = require("react/jsx-dev-runtime");
+function DebouncedTextFilter({
+  config,
+  value,
+  onCommit
+}) {
+  const delay = config.debounceMs ?? 300;
+  const [local, setLocal] = import_react33.useState(value);
+  const timerRef = import_react33.useRef(null);
+  import_react33.useEffect(() => {
+    setLocal(value);
+  }, [value]);
+  const handleChange = import_react33.useCallback((e) => {
+    const next = e.target.value;
+    setLocal(next);
+    if (timerRef.current)
+      clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      onCommit(config.key, next);
+    }, delay);
+  }, [config.key, delay, onCommit]);
+  import_react33.useEffect(() => {
+    return () => {
+      if (timerRef.current)
+        clearTimeout(timerRef.current);
+    };
+  }, []);
+  return /* @__PURE__ */ jsx_dev_runtime37.jsxDEV("div", {
+    style: { minWidth: "10rem", flex: "1 1 10rem" },
+    children: /* @__PURE__ */ jsx_dev_runtime37.jsxDEV(Input, {
+      value: local,
+      onChange: handleChange,
+      placeholder: config.placeholder
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function SelectFilter({
+  config,
+  value,
+  onCommit
+}) {
+  const handleChange = import_react33.useCallback((e) => {
+    onCommit(config.key, e.target.value);
+  }, [config.key, onCommit]);
+  return /* @__PURE__ */ jsx_dev_runtime37.jsxDEV("div", {
+    style: { minWidth: "8rem", flex: "0 1 12rem" },
+    children: /* @__PURE__ */ jsx_dev_runtime37.jsxDEV(Select, {
+      value,
+      onChange: handleChange,
+      options: config.options,
+      placeholder: config.placeholder
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
+}
+function TableFilters({
+  filters,
+  values,
+  onChange,
+  style,
+  ...props
+}) {
+  const handleCommit = import_react33.useCallback((key, value) => {
+    onChange({ ...values, [key]: value });
+  }, [values, onChange]);
+  return /* @__PURE__ */ jsx_dev_runtime37.jsxDEV("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: import_core38.semantic.spaceSm,
+      alignItems: "flex-start",
+      ...style
+    },
+    ...props,
+    children: filters.map((filter) => {
+      const val = values[filter.key] ?? "";
+      if (filter.type === "text") {
+        return /* @__PURE__ */ jsx_dev_runtime37.jsxDEV(DebouncedTextFilter, {
+          config: filter,
+          value: val,
+          onCommit: handleCommit
+        }, filter.key, false, undefined, this);
+      }
+      return /* @__PURE__ */ jsx_dev_runtime37.jsxDEV(SelectFilter, {
+        config: filter,
+        value: val,
+        onCommit: handleCommit
+      }, filter.key, false, undefined, this);
+    })
+  }, undefined, false, undefined, this);
+}
+// src/components/ChipPicker/index.ts
+var exports_ChipPicker = {};
+__export(exports_ChipPicker, {
+  ChipPicker: () => ChipPicker
+});
+
+// src/components/ChipPicker/ChipPicker.tsx
+var import_react34 = require("react");
+var import_core39 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime38 = require("react/jsx-dev-runtime");
+function ChipPicker({
+  items,
+  selected,
+  onChange,
+  style
+}) {
+  const uid = import_react34.useId();
+  const styleId = `chip-picker-${uid.replace(/:/g, "")}`;
+  import_core39.useInjectStyles(styleId, `[data-chip-picker-id="${styleId}"] button:hover {
+      background: ${import_core39.semantic.colorSurfaceRaised} !important;
+    }
+    [data-chip-picker-id="${styleId}"] button[aria-pressed="true"]:hover {
+      background: ${import_core39.semantic.colorActionSecondaryHover} !important;
+    }`);
+  const toggle = (value) => {
+    if (selected.includes(value)) {
+      onChange(selected.filter((v) => v !== value));
+    } else {
+      onChange([...selected, value]);
+    }
+  };
+  const groups = [];
+  const groupMap = new Map;
+  for (const item of items) {
+    const key = item.group ?? null;
+    let arr = groupMap.get(key);
+    if (!arr) {
+      arr = [];
+      groupMap.set(key, arr);
+      groups.push({ label: key, chips: arr });
+    }
+    arr.push(item);
+  }
+  const ungroupedIdx = groups.findIndex((g) => g.label === null);
+  if (ungroupedIdx > 0) {
+    const [ungrouped] = groups.splice(ungroupedIdx, 1);
+    groups.unshift(ungrouped);
+  }
+  const chipStyle = (isSelected) => ({
+    display: "inline-flex",
+    alignItems: "center",
+    padding: `4px 12px`,
+    fontSize: import_core39.semantic.fontSizeSm,
+    fontFamily: import_core39.semantic.fontSans,
+    fontWeight: import_core39.semantic.fontWeightMedium,
+    lineHeight: import_core39.semantic.lineHeightTight,
+    color: isSelected ? import_core39.semantic.colorActionPrimary : import_core39.semantic.colorText,
+    background: isSelected ? import_core39.semantic.colorActionSecondary : "transparent",
+    border: `1px solid ${isSelected ? import_core39.semantic.colorActionPrimary : import_core39.semantic.colorBorder}`,
+    borderRadius: import_core39.semantic.radiusFull,
+    cursor: "pointer",
+    transition: "background 100ms ease, border-color 100ms ease, color 100ms ease",
+    outline: "none"
+  });
+  const renderChips = (chips) => /* @__PURE__ */ jsx_dev_runtime38.jsxDEV("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: import_core39.semantic.spaceSm
+    },
+    children: chips.map((item) => {
+      const isSelected = selected.includes(item.value);
+      return /* @__PURE__ */ jsx_dev_runtime38.jsxDEV("button", {
+        type: "button",
+        "aria-pressed": isSelected,
+        onClick: () => toggle(item.value),
+        style: chipStyle(isSelected),
+        children: item.label
+      }, item.value, false, undefined, this);
+    })
+  }, undefined, false, undefined, this);
+  return /* @__PURE__ */ jsx_dev_runtime38.jsxDEV("div", {
+    "data-chip-picker-id": styleId,
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: import_core39.semantic.spaceMd,
+      ...style
+    },
+    children: groups.map((group, i) => /* @__PURE__ */ jsx_dev_runtime38.jsxDEV("div", {
+      style: { display: "flex", flexDirection: "column", gap: import_core39.semantic.spaceSm },
+      children: [
+        group.label !== null && /* @__PURE__ */ jsx_dev_runtime38.jsxDEV(SectionLabel, {
+          style: i > 0 ? { marginTop: import_core39.semantic.spaceXs } : undefined,
+          children: group.label
+        }, undefined, false, undefined, this),
+        renderChips(group.chips)
+      ]
+    }, group.label ?? "__ungrouped", true, undefined, this))
+  }, undefined, false, undefined, this);
+}
+// src/components/SearchInput/index.ts
+var exports_SearchInput = {};
+__export(exports_SearchInput, {
+  SearchInput: () => SearchInput
+});
+
+// src/components/SearchInput/SearchInput.tsx
+var import_react35 = require("react");
+var import_core40 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime39 = require("react/jsx-dev-runtime");
+var STYLE_ID2 = "4lt7ab-search-input";
+var hoverFocusCSS = `
   .search-input-wrapper:focus-within {
-    border-color: ${t.semantic.colorBorderFocused};
-    box-shadow: 0 0 0 ${t.semantic.focusRingWidth} ${t.semantic.focusRingColor};
+    border-color: ${import_core40.semantic.colorBorderFocused};
+    box-shadow: 0 0 0 ${import_core40.semantic.focusRingWidth} ${import_core40.semantic.focusRingColor};
   }
   @media (prefers-reduced-motion: reduce) {
     .search-input-wrapper {
       transition: none !important;
     }
   }
-`,o9={display:"flex",alignItems:"center",gap:t.semantic.spaceXs,width:"100%",padding:`${t.semantic.spaceSm} ${t.semantic.spaceMd}`,fontSize:t.semantic.fontSizeSm,lineHeight:t.semantic.lineHeightTight,fontFamily:t.semantic.fontSans,color:t.semantic.colorText,background:t.semantic.colorSurfaceInput,border:`1px solid ${t.semantic.colorBorder}`,borderRadius:t.semantic.radiusMd,transition:"border-color 150ms ease, box-shadow 150ms ease",boxSizing:"border-box"},r9={flex:1,minWidth:0,border:"none",outline:"none",background:"transparent",color:"inherit",fontSize:"inherit",lineHeight:"inherit",fontFamily:"inherit",padding:0},n9={background:t.semantic.colorSurfaceDisabled,color:t.semantic.colorTextDisabled,cursor:"not-allowed"},c0=E1.forwardRef(function({value:X,onSearch:P,debounceMs:$=300,trailing:Q,disabled:Z,style:N,placeholder:H="Search…",...W},q){t.useInjectStyles(u9,c9);let[G,M]=E1.useState(X),K=E1.useRef(null),U=E1.useRef(P);U.current=P,E1.useEffect(()=>{M(X)},[X]);let z=E1.useCallback((k)=>{let V=k.target.value;if(M(V),K.current)clearTimeout(K.current);K.current=setTimeout(()=>{U.current(V)},$)},[$]);return E1.useEffect(()=>{return()=>{if(K.current)clearTimeout(K.current)}},[]),v2.jsxs("div",{className:"search-input-wrapper",style:{...o9,...Z?n9:{},...N},children:[v2.jsx(A1,{name:"search",size:16,style:{color:t.semantic.colorTextMuted,flexShrink:0}}),v2.jsx("input",{ref:q,type:"text",value:G,onChange:z,placeholder:H,disabled:Z,style:r9,...W}),Q&&v2.jsx("div",{style:{flexShrink:0,display:"flex",alignItems:"center"},children:Q})]})});var n4={};O(n4,{SegmentedControl:()=>o0});var x1=require("react"),q1=require("../../core/dist/index.cjs");var U2=require("react/jsx-runtime"),d9="4lt7ab-segmented-control",i9=`
+`;
+var wrapperStyle5 = {
+  display: "flex",
+  alignItems: "center",
+  gap: import_core40.semantic.spaceXs,
+  width: "100%",
+  padding: `${import_core40.semantic.spaceSm} ${import_core40.semantic.spaceMd}`,
+  fontSize: import_core40.semantic.fontSizeSm,
+  lineHeight: import_core40.semantic.lineHeightTight,
+  fontFamily: import_core40.semantic.fontSans,
+  color: import_core40.semantic.colorText,
+  background: import_core40.semantic.colorSurfaceInput,
+  border: `1px solid ${import_core40.semantic.colorBorder}`,
+  borderRadius: import_core40.semantic.radiusMd,
+  transition: "border-color 150ms ease, box-shadow 150ms ease",
+  boxSizing: "border-box"
+};
+var inputStyle = {
+  flex: 1,
+  minWidth: 0,
+  border: "none",
+  outline: "none",
+  background: "transparent",
+  color: "inherit",
+  fontSize: "inherit",
+  lineHeight: "inherit",
+  fontFamily: "inherit",
+  padding: 0
+};
+var disabledWrapperStyle = {
+  background: import_core40.semantic.colorSurfaceDisabled,
+  color: import_core40.semantic.colorTextDisabled,
+  cursor: "not-allowed"
+};
+var SearchInput = import_react35.forwardRef(function SearchInput2({
+  value,
+  onSearch,
+  debounceMs = 300,
+  trailing,
+  disabled,
+  style,
+  placeholder = "Search…",
+  ...props
+}, ref) {
+  import_core40.useInjectStyles(STYLE_ID2, hoverFocusCSS);
+  const [localValue, setLocalValue] = import_react35.useState(value);
+  const timerRef = import_react35.useRef(null);
+  const onSearchRef = import_react35.useRef(onSearch);
+  onSearchRef.current = onSearch;
+  import_react35.useEffect(() => {
+    setLocalValue(value);
+  }, [value]);
+  const handleChange = import_react35.useCallback((e) => {
+    const next = e.target.value;
+    setLocalValue(next);
+    if (timerRef.current)
+      clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      onSearchRef.current(next);
+    }, debounceMs);
+  }, [debounceMs]);
+  import_react35.useEffect(() => {
+    return () => {
+      if (timerRef.current)
+        clearTimeout(timerRef.current);
+    };
+  }, []);
+  return /* @__PURE__ */ jsx_dev_runtime39.jsxDEV("div", {
+    className: "search-input-wrapper",
+    style: {
+      ...wrapperStyle5,
+      ...disabled ? disabledWrapperStyle : {},
+      ...style
+    },
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime39.jsxDEV(Icon, {
+        name: "search",
+        size: 16,
+        style: { color: import_core40.semantic.colorTextMuted, flexShrink: 0 }
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime39.jsxDEV("input", {
+        ref,
+        type: "text",
+        value: localValue,
+        onChange: handleChange,
+        placeholder,
+        disabled,
+        style: inputStyle,
+        ...props
+      }, undefined, false, undefined, this),
+      trailing && /* @__PURE__ */ jsx_dev_runtime39.jsxDEV("div", {
+        style: { flexShrink: 0, display: "flex", alignItems: "center" },
+        children: trailing
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/SegmentedControl/index.ts
+var exports_SegmentedControl = {};
+__export(exports_SegmentedControl, {
+  SegmentedControl: () => SegmentedControl
+});
+
+// src/components/SegmentedControl/SegmentedControl.tsx
+var import_react36 = require("react");
+var import_core41 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime40 = require("react/jsx-dev-runtime");
+var STYLE_ID3 = "4lt7ab-segmented-control";
+var hoverCSS = `
   .segmented-ctrl-btn:hover:not([aria-pressed="true"]) {
-    color: ${q1.semantic.colorText};
+    color: ${import_core41.semantic.colorText};
   }
   @media (prefers-reduced-motion: reduce) {
     .segmented-ctrl-indicator {
       transition: none !important;
     }
   }
-`,l9={sm:{height:28,px:8,fontSize:"var(--font-size-xs)",iconSize:14},md:{height:32,px:12,fontSize:"var(--font-size-sm)",iconSize:16}};function o0({segments:J,value:X,onChange:P,size:$="md"}){q1.useInjectStyles(d9,i9);let Q=x1.useRef(null),[Z,N]=x1.useState(null),H=l9[$],W=x1.useCallback(()=>{let q=Q.current;if(!q)return;let G=q.querySelector('[aria-pressed="true"]');if(!G){N(null);return}let M=q.getBoundingClientRect(),K=G.getBoundingClientRect();N({left:K.left-M.left,width:K.width})},[]);return x1.useLayoutEffect(()=>{W()},[X,J,W]),x1.useLayoutEffect(()=>{let q=new ResizeObserver(()=>W());if(Q.current)q.observe(Q.current);return()=>q.disconnect()},[W]),U2.jsxs("div",{ref:Q,role:"group",style:{position:"relative",display:"inline-flex",alignItems:"center",height:H.height,background:q1.semantic.colorSurfaceInput,borderRadius:q1.semantic.radiusFull,border:`1px solid ${q1.semantic.colorBorder}`,padding:2,boxSizing:"border-box"},children:[Z&&U2.jsx("div",{className:"segmented-ctrl-indicator",style:{position:"absolute",top:2,left:Z.left,width:Z.width,height:H.height-6,borderRadius:q1.semantic.radiusFull,background:q1.semantic.colorActionPrimary,transition:"left 200ms ease, width 200ms ease",pointerEvents:"none"}}),J.map((q)=>{let G=q.value===X,M=!!q.icon,K=M&&!q.label;return U2.jsxs("button",{type:"button",className:"segmented-ctrl-btn","aria-pressed":G,onClick:()=>P(q.value),style:{position:"relative",zIndex:1,display:"inline-flex",alignItems:"center",justifyContent:"center",gap:q1.semantic.spaceXs,height:H.height-6,padding:K?`0 ${H.px-2}px`:`0 ${H.px}px`,border:"none",borderRadius:q1.semantic.radiusFull,background:"transparent",color:G?q1.semantic.colorTextInverse:q1.semantic.colorTextMuted,fontSize:H.fontSize,fontFamily:q1.semantic.fontSans,fontWeight:G?q1.semantic.fontWeightSemibold:q1.semantic.fontWeightNormal,cursor:"pointer",transition:"color 150ms ease",whiteSpace:"nowrap",lineHeight:1},children:[M&&U2.jsx(A1,{name:q.icon,size:H.iconSize}),q.label&&U2.jsx("span",{children:q.label})]},q.value)})]})}var d4={};O(d4,{AlertBanner:()=>r0});var m2=require("react"),f=require("../../core/dist/index.cjs");var C1=require("react/jsx-runtime"),a9="4lt7ab-alert-banner",s9=`
+`;
+var sizes = {
+  sm: { height: 28, px: 8, fontSize: "var(--font-size-xs)", iconSize: 14 },
+  md: { height: 32, px: 12, fontSize: "var(--font-size-sm)", iconSize: 16 }
+};
+function SegmentedControl({
+  segments,
+  value,
+  onChange,
+  size = "md"
+}) {
+  import_core41.useInjectStyles(STYLE_ID3, hoverCSS);
+  const containerRef = import_react36.useRef(null);
+  const [indicator, setIndicator] = import_react36.useState(null);
+  const s = sizes[size];
+  const updateIndicator = import_react36.useCallback(() => {
+    const container = containerRef.current;
+    if (!container)
+      return;
+    const activeBtn = container.querySelector('[aria-pressed="true"]');
+    if (!activeBtn) {
+      setIndicator(null);
+      return;
+    }
+    const containerRect = container.getBoundingClientRect();
+    const btnRect = activeBtn.getBoundingClientRect();
+    setIndicator({
+      left: btnRect.left - containerRect.left,
+      width: btnRect.width
+    });
+  }, []);
+  import_react36.useLayoutEffect(() => {
+    updateIndicator();
+  }, [value, segments, updateIndicator]);
+  import_react36.useLayoutEffect(() => {
+    const observer = new ResizeObserver(() => updateIndicator());
+    if (containerRef.current)
+      observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [updateIndicator]);
+  return /* @__PURE__ */ jsx_dev_runtime40.jsxDEV("div", {
+    ref: containerRef,
+    role: "group",
+    style: {
+      position: "relative",
+      display: "inline-flex",
+      alignItems: "center",
+      height: s.height,
+      background: import_core41.semantic.colorSurfaceInput,
+      borderRadius: import_core41.semantic.radiusFull,
+      border: `1px solid ${import_core41.semantic.colorBorder}`,
+      padding: 2,
+      boxSizing: "border-box"
+    },
+    children: [
+      indicator && /* @__PURE__ */ jsx_dev_runtime40.jsxDEV("div", {
+        className: "segmented-ctrl-indicator",
+        style: {
+          position: "absolute",
+          top: 2,
+          left: indicator.left,
+          width: indicator.width,
+          height: s.height - 6,
+          borderRadius: import_core41.semantic.radiusFull,
+          background: import_core41.semantic.colorActionPrimary,
+          transition: "left 200ms ease, width 200ms ease",
+          pointerEvents: "none"
+        }
+      }, undefined, false, undefined, this),
+      segments.map((seg) => {
+        const isActive = seg.value === value;
+        const hasIcon = !!seg.icon;
+        const iconOnly = hasIcon && !seg.label;
+        return /* @__PURE__ */ jsx_dev_runtime40.jsxDEV("button", {
+          type: "button",
+          className: "segmented-ctrl-btn",
+          "aria-pressed": isActive,
+          onClick: () => onChange(seg.value),
+          style: {
+            position: "relative",
+            zIndex: 1,
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: import_core41.semantic.spaceXs,
+            height: s.height - 6,
+            padding: iconOnly ? `0 ${s.px - 2}px` : `0 ${s.px}px`,
+            border: "none",
+            borderRadius: import_core41.semantic.radiusFull,
+            background: "transparent",
+            color: isActive ? import_core41.semantic.colorTextInverse : import_core41.semantic.colorTextMuted,
+            fontSize: s.fontSize,
+            fontFamily: import_core41.semantic.fontSans,
+            fontWeight: isActive ? import_core41.semantic.fontWeightSemibold : import_core41.semantic.fontWeightNormal,
+            cursor: "pointer",
+            transition: "color 150ms ease",
+            whiteSpace: "nowrap",
+            lineHeight: 1
+          },
+          children: [
+            hasIcon && /* @__PURE__ */ jsx_dev_runtime40.jsxDEV(Icon, {
+              name: seg.icon,
+              size: s.iconSize
+            }, undefined, false, undefined, this),
+            seg.label && /* @__PURE__ */ jsx_dev_runtime40.jsxDEV("span", {
+              children: seg.label
+            }, undefined, false, undefined, this)
+          ]
+        }, seg.value, true, undefined, this);
+      })
+    ]
+  }, undefined, true, undefined, this);
+}
+// src/components/AlertBanner/index.ts
+var exports_AlertBanner = {};
+__export(exports_AlertBanner, {
+  AlertBanner: () => AlertBanner
+});
+
+// src/components/AlertBanner/AlertBanner.tsx
+var import_react37 = require("react");
+var import_core42 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime41 = require("react/jsx-dev-runtime");
+var STYLE_ID4 = "4lt7ab-alert-banner";
+var alertBannerCSS = `
 @keyframes alert-banner-slide-in {
   from { opacity: 0; transform: translateY(-100%); }
   to   { opacity: 1; transform: translateY(0); }
@@ -318,7 +5037,106 @@ var X3=Object.create;var{getPrototypeOf:J3,defineProperty:s1,getOwnPropertyNames
 .alert-banner-dismiss:hover {
   opacity: 1 !important;
 }
-`,t9={info:{bg:f.semantic.colorInfoBg,fg:f.semantic.colorInfo,border:f.semantic.colorInfo},warning:{bg:f.semantic.colorWarningBg,fg:f.semantic.colorWarning,border:f.semantic.colorWarning},error:{bg:f.semantic.colorErrorBg,fg:f.semantic.colorError,border:f.semantic.colorError},success:{bg:f.semantic.colorSuccessBg,fg:f.semantic.colorSuccess,border:f.semantic.colorSuccess}},e9={info:C1.jsx(_2,{size:20}),warning:C1.jsx(Y2,{size:20}),error:C1.jsx(V2,{size:20}),success:C1.jsx(M2,{size:20})},r0=m2.forwardRef(function({variant:X,children:P,onDismiss:$,autoDismiss:Q,icon:Z,style:N},H){f.useInjectStyles(a9,s9);let W=m2.useRef(null);m2.useEffect(()=>{if(Q&&$)return W.current=setTimeout($,Q),()=>{if(W.current)clearTimeout(W.current)}},[Q,$]);let q=t9[X],G=Z!==void 0?Z:e9[X];return C1.jsxs("div",{ref:H,role:"alert",style:{display:"flex",alignItems:"center",gap:f.semantic.spaceSm,width:"100%",padding:`${f.semantic.spaceSm} ${f.semantic.spaceMd}`,background:q.bg,color:q.fg,borderBottom:`2px solid ${q.border}`,fontFamily:f.semantic.fontSans,fontSize:f.semantic.fontSizeSm,fontWeight:f.semantic.fontWeightMedium,lineHeight:f.semantic.lineHeightBase,boxSizing:"border-box",animation:"alert-banner-slide-in 250ms ease",...N},children:[G&&C1.jsx("span",{style:{flexShrink:0,display:"flex",alignItems:"center"},children:G}),C1.jsx("span",{style:{flex:1},children:P}),$&&C1.jsx("button",{className:"alert-banner-dismiss",onClick:$,"aria-label":"Dismiss",style:{all:"unset",cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",width:"1.5rem",height:"1.5rem",borderRadius:f.semantic.radiusSm,color:q.fg,opacity:0.7,fontSize:f.semantic.fontSizeLg,lineHeight:1},children:"×"})]})});var l4={};O(l4,{TopBar:()=>n0});var i4=require("react"),u=require("../../core/dist/index.cjs"),G2=require("react/jsx-runtime"),XX="4lt7ab-topbar",JX=`
+`;
+var variantColors2 = {
+  info: { bg: import_core42.semantic.colorInfoBg, fg: import_core42.semantic.colorInfo, border: import_core42.semantic.colorInfo },
+  warning: { bg: import_core42.semantic.colorWarningBg, fg: import_core42.semantic.colorWarning, border: import_core42.semantic.colorWarning },
+  error: { bg: import_core42.semantic.colorErrorBg, fg: import_core42.semantic.colorError, border: import_core42.semantic.colorError },
+  success: { bg: import_core42.semantic.colorSuccessBg, fg: import_core42.semantic.colorSuccess, border: import_core42.semantic.colorSuccess }
+};
+var defaultIcons = {
+  info: /* @__PURE__ */ jsx_dev_runtime41.jsxDEV(IconInfo, {
+    size: 20
+  }, undefined, false, undefined, this),
+  warning: /* @__PURE__ */ jsx_dev_runtime41.jsxDEV(IconWarning, {
+    size: 20
+  }, undefined, false, undefined, this),
+  error: /* @__PURE__ */ jsx_dev_runtime41.jsxDEV(IconError, {
+    size: 20
+  }, undefined, false, undefined, this),
+  success: /* @__PURE__ */ jsx_dev_runtime41.jsxDEV(IconCheckCircle, {
+    size: 20
+  }, undefined, false, undefined, this)
+};
+var AlertBanner = import_react37.forwardRef(function AlertBanner2({ variant, children, onDismiss, autoDismiss, icon, style }, ref) {
+  import_core42.useInjectStyles(STYLE_ID4, alertBannerCSS);
+  const timerRef = import_react37.useRef(null);
+  import_react37.useEffect(() => {
+    if (autoDismiss && onDismiss) {
+      timerRef.current = setTimeout(onDismiss, autoDismiss);
+      return () => {
+        if (timerRef.current)
+          clearTimeout(timerRef.current);
+      };
+    }
+  }, [autoDismiss, onDismiss]);
+  const colors = variantColors2[variant];
+  const resolvedIcon = icon !== undefined ? icon : defaultIcons[variant];
+  return /* @__PURE__ */ jsx_dev_runtime41.jsxDEV("div", {
+    ref,
+    role: "alert",
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: import_core42.semantic.spaceSm,
+      width: "100%",
+      padding: `${import_core42.semantic.spaceSm} ${import_core42.semantic.spaceMd}`,
+      background: colors.bg,
+      color: colors.fg,
+      borderBottom: `2px solid ${colors.border}`,
+      fontFamily: import_core42.semantic.fontSans,
+      fontSize: import_core42.semantic.fontSizeSm,
+      fontWeight: import_core42.semantic.fontWeightMedium,
+      lineHeight: import_core42.semantic.lineHeightBase,
+      boxSizing: "border-box",
+      animation: "alert-banner-slide-in 250ms ease",
+      ...style
+    },
+    children: [
+      resolvedIcon && /* @__PURE__ */ jsx_dev_runtime41.jsxDEV("span", {
+        style: { flexShrink: 0, display: "flex", alignItems: "center" },
+        children: resolvedIcon
+      }, undefined, false, undefined, this),
+      /* @__PURE__ */ jsx_dev_runtime41.jsxDEV("span", {
+        style: { flex: 1 },
+        children
+      }, undefined, false, undefined, this),
+      onDismiss && /* @__PURE__ */ jsx_dev_runtime41.jsxDEV("button", {
+        className: "alert-banner-dismiss",
+        onClick: onDismiss,
+        "aria-label": "Dismiss",
+        style: {
+          all: "unset",
+          cursor: "pointer",
+          flexShrink: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "1.5rem",
+          height: "1.5rem",
+          borderRadius: import_core42.semantic.radiusSm,
+          color: colors.fg,
+          opacity: 0.7,
+          fontSize: import_core42.semantic.fontSizeLg,
+          lineHeight: 1
+        },
+        children: "×"
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/TopBar/index.ts
+var exports_TopBar = {};
+__export(exports_TopBar, {
+  TopBar: () => TopBar
+});
+
+// src/components/TopBar/TopBar.tsx
+var import_react38 = require("react");
+var import_core43 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime42 = require("react/jsx-dev-runtime");
+var TOPBAR_STYLES_ID = "4lt7ab-topbar";
+var TOPBAR_CSS = `
   .topbar-nav-item {
     position: relative;
   }
@@ -333,17 +5151,252 @@ var X3=Object.create;var{getPrototypeOf:J3,defineProperty:s1,getOwnPropertyNames
     transition: background 0.15s ease;
   }
   .topbar-nav-item:hover::after {
-    background: ${u.semantic.colorBorder};
+    background: ${import_core43.semantic.colorBorder};
   }
   .topbar-nav-item[data-active]::after {
-    background: ${u.semantic.colorActionPrimary};
+    background: ${import_core43.semantic.colorActionPrimary};
   }
   .topbar-nav-item:hover {
-    color: ${u.semantic.colorText};
+    color: ${import_core43.semantic.colorText};
   }
-`,n0=i4.forwardRef(function({title:X,items:P=[],activePath:$,onNavigate:Q,trailing:Z,sticky:N=!1,style:H,...W},q){u.useInjectStyles(XX,JX);let G=N?{position:"sticky",top:0,zIndex:100}:{};return G2.jsxs("header",{ref:q,style:{display:"flex",alignItems:"center",height:48,padding:`0 ${u.semantic.spaceMd}`,background:u.semantic.colorSurface,borderBottom:`1px solid ${u.semantic.colorBorder}`,fontFamily:u.semantic.fontSans,...G,...H},...W,children:[G2.jsx("div",{style:{display:"flex",alignItems:"center",fontWeight:u.semantic.fontWeightBold,fontSize:u.semantic.fontSizeSm,color:u.semantic.colorText,marginRight:u.semantic.spaceLg,whiteSpace:"nowrap",flexShrink:0},children:X}),P.length>0&&G2.jsx("nav",{style:{display:"flex",alignItems:"center",gap:u.semantic.spaceXs,height:"100%",flex:1,minWidth:0},children:P.map((M)=>{let K=$===M.path;return G2.jsxs("button",{type:"button",className:"topbar-nav-item",onClick:()=>Q?.(M.path),"aria-current":K?"page":void 0,"data-active":K||void 0,style:{display:"inline-flex",alignItems:"center",gap:u.semantic.spaceXs,height:"100%",padding:`0 ${u.semantic.spaceSm}`,border:"none",background:"transparent",color:K?u.semantic.colorActionPrimary:u.semantic.colorTextMuted,fontSize:u.semantic.fontSizeSm,fontFamily:u.semantic.fontSans,fontWeight:K?u.semantic.fontWeightSemibold:u.semantic.fontWeightNormal,cursor:"pointer",whiteSpace:"nowrap",transition:"color 0.15s ease",boxSizing:"border-box"},children:[M.icon,M.label]},M.path)})}),Z&&G2.jsx("div",{style:{display:"flex",alignItems:"center",gap:u.semantic.spaceSm,marginLeft:"auto",flexShrink:0},children:Z})]})});var s4={};O(s4,{ShortcutHelpModal:()=>a4});var T0=require("react"),w=require("../../core/dist/index.cjs");var Z1=require("react/jsx-runtime"),PX="4lt7ab-shortcut-help",$X=`
+`;
+var TopBar = import_react38.forwardRef(function TopBar2({
+  title,
+  items = [],
+  activePath,
+  onNavigate,
+  trailing,
+  sticky = false,
+  style,
+  ...props
+}, ref) {
+  import_core43.useInjectStyles(TOPBAR_STYLES_ID, TOPBAR_CSS);
+  const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: 100 } : {};
+  return /* @__PURE__ */ jsx_dev_runtime42.jsxDEV("header", {
+    ref,
+    style: {
+      display: "flex",
+      alignItems: "center",
+      height: 48,
+      padding: `0 ${import_core43.semantic.spaceMd}`,
+      background: import_core43.semantic.colorSurface,
+      borderBottom: `1px solid ${import_core43.semantic.colorBorder}`,
+      fontFamily: import_core43.semantic.fontSans,
+      ...stickyStyle,
+      ...style
+    },
+    ...props,
+    children: [
+      /* @__PURE__ */ jsx_dev_runtime42.jsxDEV("div", {
+        style: {
+          display: "flex",
+          alignItems: "center",
+          fontWeight: import_core43.semantic.fontWeightBold,
+          fontSize: import_core43.semantic.fontSizeSm,
+          color: import_core43.semantic.colorText,
+          marginRight: import_core43.semantic.spaceLg,
+          whiteSpace: "nowrap",
+          flexShrink: 0
+        },
+        children: title
+      }, undefined, false, undefined, this),
+      items.length > 0 && /* @__PURE__ */ jsx_dev_runtime42.jsxDEV("nav", {
+        style: {
+          display: "flex",
+          alignItems: "center",
+          gap: import_core43.semantic.spaceXs,
+          height: "100%",
+          flex: 1,
+          minWidth: 0
+        },
+        children: items.map((item) => {
+          const isActive = activePath === item.path;
+          return /* @__PURE__ */ jsx_dev_runtime42.jsxDEV("button", {
+            type: "button",
+            className: "topbar-nav-item",
+            onClick: () => onNavigate?.(item.path),
+            "aria-current": isActive ? "page" : undefined,
+            "data-active": isActive || undefined,
+            style: {
+              display: "inline-flex",
+              alignItems: "center",
+              gap: import_core43.semantic.spaceXs,
+              height: "100%",
+              padding: `0 ${import_core43.semantic.spaceSm}`,
+              border: "none",
+              background: "transparent",
+              color: isActive ? import_core43.semantic.colorActionPrimary : import_core43.semantic.colorTextMuted,
+              fontSize: import_core43.semantic.fontSizeSm,
+              fontFamily: import_core43.semantic.fontSans,
+              fontWeight: isActive ? import_core43.semantic.fontWeightSemibold : import_core43.semantic.fontWeightNormal,
+              cursor: "pointer",
+              whiteSpace: "nowrap",
+              transition: "color 0.15s ease",
+              boxSizing: "border-box"
+            },
+            children: [
+              item.icon,
+              item.label
+            ]
+          }, item.path, true, undefined, this);
+        })
+      }, undefined, false, undefined, this),
+      trailing && /* @__PURE__ */ jsx_dev_runtime42.jsxDEV("div", {
+        style: {
+          display: "flex",
+          alignItems: "center",
+          gap: import_core43.semantic.spaceSm,
+          marginLeft: "auto",
+          flexShrink: 0
+        },
+        children: trailing
+      }, undefined, false, undefined, this)
+    ]
+  }, undefined, true, undefined, this);
+});
+// src/components/ShortcutHelpModal/index.ts
+var exports_ShortcutHelpModal = {};
+__export(exports_ShortcutHelpModal, {
+  ShortcutHelpModal: () => ShortcutHelpModal
+});
+
+// src/components/ShortcutHelpModal/ShortcutHelpModal.tsx
+var import_react39 = require("react");
+var import_core44 = require("../../core/dist/index.cjs");
+var jsx_dev_runtime43 = require("react/jsx-dev-runtime");
+var SHORTCUT_HELP_STYLES_ID = "4lt7ab-shortcut-help";
+var SHORTCUT_HELP_CSS = `
   [data-shortcut-help] kbd:hover {
-    background: ${w.semantic.colorSurfaceRaised} !important;
-    border-color: ${w.semantic.colorBorderFocused} !important;
+    background: ${import_core44.semantic.colorSurfaceRaised} !important;
+    border-color: ${import_core44.semantic.colorBorderFocused} !important;
   }
-`,a4=T0.forwardRef(function({shortcuts:X,onClose:P,title:$="Keyboard Shortcuts",maxWidth:Q=520},Z){let N=T0.useId();return w.useInjectStyles(PX,$X),Z1.jsx(Q2,{ref:Z,onClose:P,maxWidth:Q,titleId:N,children:Z1.jsxs("div",{"data-shortcut-help":!0,children:[Z1.jsxs("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:w.semantic.spaceLg},children:[Z1.jsx("h2",{id:N,style:$2,children:$}),Z1.jsx(v1,{icon:"close","aria-label":"Close",onClick:P,style:{marginRight:`calc(-1 * ${w.semantic.spaceXs})`,marginTop:`calc(-1 * ${w.semantic.spaceXs})`}})]}),Z1.jsx("div",{style:{display:"flex",flexDirection:"column",gap:w.semantic.spaceLg},children:X.map((H)=>Z1.jsxs("div",{children:[Z1.jsx("h3",{style:{margin:0,marginBottom:w.semantic.spaceSm,fontWeight:w.semantic.fontWeightMedium,fontFamily:w.semantic.fontSans,color:w.semantic.colorTextMuted,fontSize:w.semantic.fontSizeXs,textTransform:"uppercase",letterSpacing:w.semantic.letterSpacingWide},children:H.group}),Z1.jsx("div",{style:{display:"flex",flexDirection:"column"},children:H.shortcuts.map((W)=>Z1.jsxs("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",padding:`${w.semantic.spaceXs} 0`,borderBottom:`1px solid ${w.semantic.colorBorder}`},children:[Z1.jsx("span",{style:{fontFamily:w.semantic.fontSans,fontSize:w.semantic.fontSizeSm,color:w.semantic.colorText},children:W.description}),Z1.jsx("span",{style:{display:"inline-flex",alignItems:"center",gap:w.semantic.spaceXs,flexShrink:0,marginLeft:w.semantic.spaceMd},children:W.keys.map((q,G)=>Z1.jsxs("span",{style:{display:"inline-flex",alignItems:"center",gap:w.semantic.spaceXs},children:[G>0&&Z1.jsx("span",{style:{fontSize:w.semantic.fontSizeXs,color:w.semantic.colorTextMuted,fontFamily:w.semantic.fontSans},children:"+"}),Z1.jsx("kbd",{style:{display:"inline-flex",alignItems:"center",justifyContent:"center",minWidth:24,height:24,padding:`0 ${w.semantic.spaceXs}`,fontFamily:w.semantic.fontMono,fontSize:w.semantic.fontSizeXs,fontWeight:w.semantic.fontWeightMedium,lineHeight:1,color:w.semantic.colorTextSecondary,background:w.semantic.colorSurfaceInput,border:`1px solid ${w.semantic.colorBorder}`,borderRadius:w.semantic.radiusSm,boxShadow:`0 1px 0 ${w.semantic.colorBorder}`,transition:"background 150ms ease, border-color 150ms ease"},children:q})]},`${q}-${G}`))})]},W.description))})]},H.group))})]})})});
+`;
+var ShortcutHelpModal = import_react39.forwardRef(function ShortcutHelpModal2({
+  shortcuts,
+  onClose,
+  title = "Keyboard Shortcuts",
+  maxWidth = 520
+}, ref) {
+  const titleId = import_react39.useId();
+  import_core44.useInjectStyles(SHORTCUT_HELP_STYLES_ID, SHORTCUT_HELP_CSS);
+  return /* @__PURE__ */ jsx_dev_runtime43.jsxDEV(ModalShell, {
+    ref,
+    onClose,
+    maxWidth,
+    titleId,
+    children: /* @__PURE__ */ jsx_dev_runtime43.jsxDEV("div", {
+      "data-shortcut-help": true,
+      children: [
+        /* @__PURE__ */ jsx_dev_runtime43.jsxDEV("div", {
+          style: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: import_core44.semantic.spaceLg
+          },
+          children: [
+            /* @__PURE__ */ jsx_dev_runtime43.jsxDEV("h2", {
+              id: titleId,
+              style: modalHeadingStyle,
+              children: title
+            }, undefined, false, undefined, this),
+            /* @__PURE__ */ jsx_dev_runtime43.jsxDEV(IconButton, {
+              icon: "close",
+              "aria-label": "Close",
+              onClick: onClose,
+              style: { marginRight: `calc(-1 * ${import_core44.semantic.spaceXs})`, marginTop: `calc(-1 * ${import_core44.semantic.spaceXs})` }
+            }, undefined, false, undefined, this)
+          ]
+        }, undefined, true, undefined, this),
+        /* @__PURE__ */ jsx_dev_runtime43.jsxDEV("div", {
+          style: { display: "flex", flexDirection: "column", gap: import_core44.semantic.spaceLg },
+          children: shortcuts.map((group) => /* @__PURE__ */ jsx_dev_runtime43.jsxDEV("div", {
+            children: [
+              /* @__PURE__ */ jsx_dev_runtime43.jsxDEV("h3", {
+                style: {
+                  margin: 0,
+                  marginBottom: import_core44.semantic.spaceSm,
+                  fontWeight: import_core44.semantic.fontWeightMedium,
+                  fontFamily: import_core44.semantic.fontSans,
+                  color: import_core44.semantic.colorTextMuted,
+                  fontSize: import_core44.semantic.fontSizeXs,
+                  textTransform: "uppercase",
+                  letterSpacing: import_core44.semantic.letterSpacingWide
+                },
+                children: group.group
+              }, undefined, false, undefined, this),
+              /* @__PURE__ */ jsx_dev_runtime43.jsxDEV("div", {
+                style: {
+                  display: "flex",
+                  flexDirection: "column"
+                },
+                children: group.shortcuts.map((shortcut) => /* @__PURE__ */ jsx_dev_runtime43.jsxDEV("div", {
+                  style: {
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: `${import_core44.semantic.spaceXs} 0`,
+                    borderBottom: `1px solid ${import_core44.semantic.colorBorder}`
+                  },
+                  children: [
+                    /* @__PURE__ */ jsx_dev_runtime43.jsxDEV("span", {
+                      style: {
+                        fontFamily: import_core44.semantic.fontSans,
+                        fontSize: import_core44.semantic.fontSizeSm,
+                        color: import_core44.semantic.colorText
+                      },
+                      children: shortcut.description
+                    }, undefined, false, undefined, this),
+                    /* @__PURE__ */ jsx_dev_runtime43.jsxDEV("span", {
+                      style: {
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: import_core44.semantic.spaceXs,
+                        flexShrink: 0,
+                        marginLeft: import_core44.semantic.spaceMd
+                      },
+                      children: shortcut.keys.map((key, i) => /* @__PURE__ */ jsx_dev_runtime43.jsxDEV("span", {
+                        style: { display: "inline-flex", alignItems: "center", gap: import_core44.semantic.spaceXs },
+                        children: [
+                          i > 0 && /* @__PURE__ */ jsx_dev_runtime43.jsxDEV("span", {
+                            style: {
+                              fontSize: import_core44.semantic.fontSizeXs,
+                              color: import_core44.semantic.colorTextMuted,
+                              fontFamily: import_core44.semantic.fontSans
+                            },
+                            children: "+"
+                          }, undefined, false, undefined, this),
+                          /* @__PURE__ */ jsx_dev_runtime43.jsxDEV("kbd", {
+                            style: {
+                              display: "inline-flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              minWidth: 24,
+                              height: 24,
+                              padding: `0 ${import_core44.semantic.spaceXs}`,
+                              fontFamily: import_core44.semantic.fontMono,
+                              fontSize: import_core44.semantic.fontSizeXs,
+                              fontWeight: import_core44.semantic.fontWeightMedium,
+                              lineHeight: 1,
+                              color: import_core44.semantic.colorTextSecondary,
+                              background: import_core44.semantic.colorSurfaceInput,
+                              border: `1px solid ${import_core44.semantic.colorBorder}`,
+                              borderRadius: import_core44.semantic.radiusSm,
+                              boxShadow: `0 1px 0 ${import_core44.semantic.colorBorder}`,
+                              transition: "background 150ms ease, border-color 150ms ease"
+                            },
+                            children: key
+                          }, undefined, false, undefined, this)
+                        ]
+                      }, `${key}-${i}`, true, undefined, this))
+                    }, undefined, false, undefined, this)
+                  ]
+                }, shortcut.description, true, undefined, this))
+              }, undefined, false, undefined, this)
+            ]
+          }, group.group, true, undefined, this))
+        }, undefined, false, undefined, this)
+      ]
+    }, undefined, true, undefined, this)
+  }, undefined, false, undefined, this);
+});
