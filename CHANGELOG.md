@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.18
+
 - Fix `@4lt7ab/ui` bundle: `bun build --production` minifier in bun v1.3.11 silently drops 36 of 77 exports (including ModalShell, all icons, Toast, ErrorBoundary, ChipPicker, etc.); replaced with unminified build — consumers minify at their own bundler layer
 
 ## v0.2.17
