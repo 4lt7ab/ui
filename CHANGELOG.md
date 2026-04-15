@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.24
+
 - Fix Toast backgrounds being transparent on some themes — layer translucent type color over opaque `colorSurfaceSolid`
 - Add `xs` pill size variant to Badge — tiny monospace lowercase pill for inline metadata labels
 - Add PillSelect pill-shaped native select component for filter bars with active/inactive state coloring
