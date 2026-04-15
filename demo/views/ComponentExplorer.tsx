@@ -18,6 +18,7 @@ import {
   AlertBannerDemo,
   TopBarDemo,
   ShortcutHelpModalDemo,
+  PillSelectDemo,
 } from '../demos';
 
 // ---------------------------------------------------------------------------
@@ -82,6 +83,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'Combobox', source: 'ui', Demo: ComboboxDemo },
       { name: 'ChipPicker', source: 'ui', Demo: ChipPickerDemo },
       { name: 'SearchInput', source: 'ui', Demo: SearchInputDemo },
+      { name: 'PillSelect', source: 'ui', Demo: PillSelectDemo },
     ],
   },
   {

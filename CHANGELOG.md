@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add PillSelect pill-shaped native select component for filter bars with active/inactive state coloring
+
 ## v0.2.23
 
 - Add test infrastructure (vitest, testing-library, jsdom) and first 76 tests covering Select, Combobox, ModalShell, useFocusTrap, and dateUtils
