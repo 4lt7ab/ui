@@ -20,7 +20,7 @@ if grep -qE "ModalShell[0-9]+ as ModalShell" packages/ui/dist/index.js; then
 fi
 
 # Must use production JSX runtime
-if ! head -5 packages/ui/dist/index.js | grep -q "jsx-runtime"; then
+if ! grep -q "jsx-runtime" packages/ui/dist/index.js; then
   echo "FAIL: packages/ui/dist/index.js not using react/jsx-runtime"
   exit 1
 fi

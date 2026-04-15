@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-## v0.2.20
+- Fix pre-commit jsx-runtime check failing when esbuild orders non-JSX modules first in the bundle
 
 ## v0.2.20
 
