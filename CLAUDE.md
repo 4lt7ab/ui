@@ -86,6 +86,7 @@ packages/
 │       │   ├── ErrorBoundary/
 │       │   ├── Pagination/
 │       │   ├── PageHeader/
+│       │   ├── PageShell/
 │       │   ├── TagChip/
 │       │   ├── ExpandableCard/
 │       │   ├── Table/
