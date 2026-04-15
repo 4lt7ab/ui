@@ -1,6 +1,15 @@
 import { forwardRef } from 'react';
 import type { HTMLAttributes, ReactNode } from 'react';
 import { useInjectStyles } from '@4lt7ab/core';
+import {
+  BREAKPOINT_PROSE,
+  BREAKPOINT_MARGIN_NOTES,
+  PROSE_BODY_SIZE,
+  PROSE_H1_SIZE,
+  PROSE_H2_SIZE,
+  PROSE_CODE_SIZE,
+  PROSE_BLOCKQUOTE_SIZE,
+} from '../../constants';
 
 export interface ProseProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -18,7 +27,7 @@ const PROSE_STYLES_ID = 'alttab-prose-styles';
 const proseCSS = /* css */ `
   /* ── Typography ── */
   .alttab-prose {
-    font-size: 1.0625rem;
+    font-size: ${PROSE_BODY_SIZE};
     line-height: 1.75;
     color: var(--color-text);
     -webkit-font-smoothing: antialiased;
@@ -27,7 +36,7 @@ const proseCSS = /* css */ `
   /* Lead paragraph — serif, larger */
   .alttab-prose > p:first-child {
     font-family: var(--font-serif);
-    font-size: 1.35em;
+    font-size: ${PROSE_H2_SIZE};
     line-height: 1.45;
     letter-spacing: -0.01em;
     margin-bottom: 1.5rem;
@@ -43,7 +52,7 @@ const proseCSS = /* css */ `
     font-family: var(--font-serif);
     font-weight: 600;
     line-height: 1.25;
-    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-size: ${PROSE_H1_SIZE};
     color: var(--color-text);
     margin-bottom: 0.75rem;
   }
@@ -206,7 +215,7 @@ const proseCSS = /* css */ `
     margin-inline: -2.25rem;
   }
 
-  @media (max-width: 680px) {
+  @media (max-width: ${BREAKPOINT_PROSE}) {
     .alttab-prose .figure--wide {
       margin-inline: -1.5rem;
     }
@@ -235,7 +244,7 @@ const proseCSS = /* css */ `
     text-align: right;
   }
 
-  @media (min-width: 1100px) {
+  @media (min-width: ${BREAKPOINT_MARGIN_NOTES}) {
     .alttab-prose {
       position: relative;
       overflow: visible;

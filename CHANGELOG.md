@@ -7,6 +7,7 @@
 - Add focus-visible indicator to SegmentedControl segments for keyboard navigation
 - Add focus-visible ring to ChipPicker chip buttons
 - Replace sed-based `@4lt7ab/core` import rewriting with cross-platform Bun script (`scripts/rewrite-core-imports.ts`) — handles ESM, CJS, and `.d.ts` files with verification
+- Extract shared prose/markdown constants (breakpoints, typography scale, color-mix ratios) into `packages/content/src/constants.ts` and export from `@4lt7ab/content` barrel
 
 ## v0.2.23
 

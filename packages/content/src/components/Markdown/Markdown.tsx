@@ -3,6 +3,12 @@ import type { HTMLAttributes, ReactNode } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
+import {
+  PROSE_BODY_SIZE,
+  PROSE_H1_SIZE,
+  MIX_SUBTLE,
+  MIX_HOVER,
+} from '../../constants';
 
 export interface MarkdownProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
   /** Markdown source text to render. */
@@ -315,7 +321,7 @@ const markdownCSS = /* css */ `
   /* ── Base ── */
   .alttab-markdown {
     position: relative;
-    font-size: 1.0625rem;
+    font-size: ${PROSE_BODY_SIZE};
     line-height: 1.75;
     color: var(--color-text);
     -webkit-font-smoothing: antialiased;
@@ -340,7 +346,7 @@ const markdownCSS = /* css */ `
     font-family: var(--font-serif);
     font-weight: 600;
     line-height: 1.25;
-    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-size: ${PROSE_H1_SIZE};
     color: var(--color-text);
     margin-bottom: 0.75rem;
   }
@@ -720,7 +726,7 @@ function MarkdownTbody({ children }: { children?: ReactNode }): React.JSX.Elemen
         if (!isValidElement(cell)) return cell;
         const cellProps = cell.props as { style?: React.CSSProperties };
         return cloneElement(cell as React.ReactElement<{ style?: React.CSSProperties }>, {
-          style: { ...cellProps.style, background: 'color-mix(in srgb, var(--color-text) 5%, transparent)' },
+          style: { ...cellProps.style, background: `color-mix(in srgb, var(--color-text) ${MIX_SUBTLE}, transparent)` },
         });
       },
     );

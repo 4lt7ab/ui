@@ -1,3 +1,26 @@
+/** Shared layout and typography constants for content components. */
+/** Max-width for prose reading measure (~65ch). Used by Prose, Markdown, Container. */
+declare const BREAKPOINT_PROSE = "680px";
+/** Max-width for wide content layouts. Used by Container. */
+declare const BREAKPOINT_WIDE = "900px";
+/** Min-width at which margin/side notes become visible. */
+declare const BREAKPOINT_MARGIN_NOTES = "1100px";
+/** Body text size for prose content. */
+declare const PROSE_BODY_SIZE = "1.0625rem";
+/** H1 heading size — fluid, clamped between 2rem and 2.75rem. */
+declare const PROSE_H1_SIZE = "clamp(2rem, 5vw, 2.75rem)";
+/** H2 heading size. */
+declare const PROSE_H2_SIZE = "1.35em";
+/** Inline code font size. */
+declare const PROSE_CODE_SIZE = "0.875rem";
+/** Blockquote font size. */
+declare const PROSE_BLOCKQUOTE_SIZE = "1.25rem";
+/** Subtle background tint (zebra stripes, alternating rows). */
+declare const MIX_SUBTLE = "5%";
+/** Hover background tint. */
+declare const MIX_HOVER = "8%";
+/** Badge/tag background tint. */
+declare const MIX_BADGE = "14%";
 import { HTMLAttributes, ReactNode } from "react";
 /** Named width preset for the Container. */
 type ContainerWidth = "prose" | "wide";
@@ -56,7 +79,7 @@ interface MarginNoteProps {
 	children: ReactNode4;
 }
 /**
-* Side annotation that appears inline on mobile and in the left margin on wide screens (>=1100px).
+* Side annotation that appears inline on mobile and in the left margin on wide screens (>=BREAKPOINT_MARGIN_NOTES).
 * Must be used inside <Prose> for styling and positioning.
 */
 declare const MarginNote: React.ForwardRefExoticComponent<Omit<MarginNoteProps, "ref"> & React.RefAttributes<HTMLElement>>;
@@ -65,7 +88,7 @@ interface SideNoteProps {
 	children: ReactNode5;
 }
 /**
-* Side annotation that appears inline on mobile and in the right margin on wide screens (>=1100px).
+* Side annotation that appears inline on mobile and in the right margin on wide screens (>=BREAKPOINT_MARGIN_NOTES).
 * Must be used inside <Prose> for styling and positioning.
 */
 declare const SideNote: React.ForwardRefExoticComponent<Omit<SideNoteProps, "ref"> & React.RefAttributes<HTMLElement>>;
@@ -118,4 +141,4 @@ interface ThinkingCycleProps {
 * Usage: Building with AI tools is <ThinkingCycle words={['powerful', 'wild']} />.
 */
 declare const ThinkingCycle: React.ForwardRefExoticComponent<Omit<ThinkingCycleProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
-export { ThinkingCycleProps, ThinkingCycle, SideNoteProps, SideNote, PullQuoteProps, PullQuote, ProseProps, Prose, MarkdownProps, Markdown, MarginNoteProps, MarginNote, LinkCardProps, LinkCard, EpigraphProps, Epigraph, ContainerWidth, ContainerProps, Container };
+export { ThinkingCycleProps, ThinkingCycle, SideNoteProps, SideNote, PullQuoteProps, PullQuote, ProseProps, Prose, PROSE_H2_SIZE, PROSE_H1_SIZE, PROSE_CODE_SIZE, PROSE_BODY_SIZE, PROSE_BLOCKQUOTE_SIZE, MarkdownProps, Markdown, MarginNoteProps, MarginNote, MIX_SUBTLE, MIX_HOVER, MIX_BADGE, LinkCardProps, LinkCard, EpigraphProps, Epigraph, ContainerWidth, ContainerProps, Container, BREAKPOINT_WIDE, BREAKPOINT_PROSE, BREAKPOINT_MARGIN_NOTES };
