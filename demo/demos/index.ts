@@ -49,6 +49,7 @@ import { TopBarDemo } from './TopBarDemo';
 import { ShortcutHelpModalDemo } from './ShortcutHelpModalDemo';
 import { PageShellDemo } from './PageShellDemo';
 import { PillSelectDemo } from './PillSelectDemo';
+import { TextSectionDemo } from './TextSectionDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -123,6 +124,7 @@ export const demos: DemoEntry[] = [
   { name: 'MarginNote', category: 'Layout', source: 'content', component: MarginNoteDemo },
   { name: 'SideNote', category: 'Layout', source: 'content', component: SideNoteDemo },
   { name: 'ThinkingCycle', category: 'Action', source: 'content', component: ThinkingCycleDemo },
+  { name: 'TextSection', category: 'Form', source: 'content', component: TextSectionDemo },
   { name: 'LinkCard', category: 'Layout', source: 'content', component: LinkCardDemo },
   { name: 'ThemePicker', category: 'Action', source: 'ui', component: ThemePickerDemo },
 ];
@@ -153,4 +155,5 @@ export {
   ShortcutHelpModalDemo,
   PageShellDemo,
   PillSelectDemo,
+  TextSectionDemo,
 };
