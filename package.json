@@ -5,24 +5,24 @@
   "type": "module",
   "exports": {
     "./core": {
+      "types": "./packages/core/dist/index.d.ts",
       "import": "./packages/core/dist/index.js",
-      "require": "./packages/core/dist/index.cjs",
-      "types": "./packages/core/dist/index.d.ts"
+      "require": "./packages/core/dist/index.cjs"
     },
     "./ui": {
+      "types": "./packages/ui/dist/index.d.ts",
       "import": "./packages/ui/dist/index.js",
-      "require": "./packages/ui/dist/index.cjs",
-      "types": "./packages/ui/dist/index.d.ts"
+      "require": "./packages/ui/dist/index.cjs"
     },
     "./content": {
+      "types": "./packages/content/dist/index.d.ts",
       "import": "./packages/content/dist/index.js",
-      "require": "./packages/content/dist/index.cjs",
-      "types": "./packages/content/dist/index.d.ts"
+      "require": "./packages/content/dist/index.cjs"
     },
     "./animations": {
+      "types": "./packages/animations/dist/index.d.ts",
       "import": "./packages/animations/dist/index.js",
-      "require": "./packages/animations/dist/index.cjs",
-      "types": "./packages/animations/dist/index.d.ts"
+      "require": "./packages/animations/dist/index.cjs"
     }
   },
   "workspaces": [
