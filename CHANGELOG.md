@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.27
+
 - **BREAKING**: Replace Icon/IconButton `size?: number` with `IconSize` preset (`'xs' | 'sm' | 'md' | 'lg' | 'xl'`)
 - **BREAKING**: Merge IconButton `size` and `buttonSize` into single `size?: IconButtonSize` prop — icon size derived internally
 - **BREAKING**: Remove StatCard `iconSize` prop — icon circle is a fixed internal layout

@@ -1,6 +1,6 @@
 {
   "name": "@4lt7ab/animations",
-  "version": "0.2.26",
+  "version": "0.2.27",
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
