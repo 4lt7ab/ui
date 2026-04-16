@@ -1,8 +1,8 @@
 import { createElement, forwardRef } from 'react';
 import { semantic as t } from '@4lt7ab/core';
-import type { HTMLAttributes, ReactNode } from 'react';
-import { spacingMap, radiusMap, shadowMap } from '../../types';
-import type { SpacingToken, RadiusToken, ShadowToken } from '../../types';
+import type { ReactNode } from 'react';
+import { spacingMap, radiusMap, shadowMap, semanticColorMap } from '../../types';
+import type { SpacingToken, RadiusToken, ShadowToken, SemanticColor, BaseComponentProps } from '../../types';
 
 /**
  * Which semantic surface token to use as the background.
@@ -63,7 +63,11 @@ const levelMap: Record<SurfaceLevel, string> = {
  * </Surface>
  * ```
  */
-export interface SurfaceProps extends HTMLAttributes<HTMLDivElement> {
+export interface SurfaceProps extends BaseComponentProps {
+  /** Accessible label for landmark regions (e.g. when rendered as `section`). */
+  'aria-label'?: string;
+  /** ID of an element that labels this surface. */
+  'aria-labelledby'?: string;
   /**
    * Background surface level from the token system.
    * @default 'solid'
@@ -71,10 +75,11 @@ export interface SurfaceProps extends HTMLAttributes<HTMLDivElement> {
   level?: SurfaceLevel;
 
   /**
-   * Custom background override. When provided, takes precedence over `level`.
-   * Useful for tinted surfaces via `color-mix()`.
+   * Apply a semantic color tint over the surface background.
+   * Renders as `color-mix(in srgb, <token> 10%, transparent)`.
+   * Takes precedence over `level` when provided.
    */
-  bg?: string;
+  tint?: SemanticColor;
 
   /**
    * Inner padding.
@@ -89,11 +94,11 @@ export interface SurfaceProps extends HTMLAttributes<HTMLDivElement> {
   radius?: RadiusToken;
 
   /**
-   * Show a border. `true` uses `colorBorder`; a string value is used as a
-   * custom border color.
+   * Show a border. `true` uses `colorBorder`; a semantic color name uses that
+   * token as the border color.
    * @default false
    */
-  border?: boolean | string;
+  border?: boolean | SemanticColor;
 
   /**
    * Box shadow intensity.
@@ -116,38 +121,43 @@ export const Surface: React.ForwardRefExoticComponent<
   function Surface(
     {
       level = 'solid',
-      bg,
+      tint,
       padding,
       radius = 'lg',
       border = false,
       shadow,
       as = 'div',
       children,
-      style,
-      ...props
+      ...rest
     },
     ref,
   ): React.JSX.Element {
     const borderValue = border === true
       ? `${t.borderWidthDefault} solid ${t.colorBorder}`
       : typeof border === 'string'
-        ? `${t.borderWidthDefault} solid ${border}`
+        ? `${t.borderWidthDefault} solid ${semanticColorMap[border as SemanticColor]}`
         : undefined;
+
+    const tintBg = tint
+      ? `color-mix(in srgb, ${semanticColorMap[tint]} 10%, transparent)`
+      : undefined;
 
     return createElement(
       as,
       {
         ref,
+        id: rest.id,
+        'data-testid': rest['data-testid'],
+        'aria-label': rest['aria-label'],
+        'aria-labelledby': rest['aria-labelledby'],
         style: {
-          background: bg ?? levelMap[level],
+          background: tintBg ?? levelMap[level],
           padding: padding ? spacingMap[padding] : undefined,
           borderRadius: radiusMap[radius],
           border: borderValue,
           boxShadow: shadow ? shadowMap[shadow] : undefined,
           color: t.colorText,
-          ...style,
         },
-        ...props,
       },
       children,
     );

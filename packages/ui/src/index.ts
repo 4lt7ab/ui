@@ -64,5 +64,20 @@ export * from './components/TabStrip';
 export * from './components/SectionHeader';
 
 // Shared types
-export type { SpacingToken, RadiusToken, ShadowToken } from './types';
-export { spacingMap, radiusMap, shadowMap } from './types';
+export type {
+  SpacingToken,
+  RadiusToken,
+  ShadowToken,
+  BaseComponentProps,
+  AlignItems,
+  JustifyContent,
+  SemanticColor,
+} from './types';
+export {
+  spacingMap,
+  radiusMap,
+  shadowMap,
+  alignMap,
+  justifyMap,
+  semanticColorMap,
+} from './types';

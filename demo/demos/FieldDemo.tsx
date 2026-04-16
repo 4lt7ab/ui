@@ -54,12 +54,14 @@ export function FieldDemo(): React.JSX.Element {
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Realistic: Contact form</h3>
         <Card>
           {submitted ? (
-            <Stack gap="sm" align="center" style={{ padding: '1rem 0' }}>
-              <p style={{ fontSize: '1rem', fontWeight: 500, margin: 0 }}>Message sent!</p>
-              <Button variant="ghost" size="sm" onClick={() => setSubmitted(false)}>
-                Send another
-              </Button>
-            </Stack>
+            <div style={{ padding: '1rem 0' }}>
+              <Stack gap="sm" align="center">
+                <p style={{ fontSize: '1rem', fontWeight: 500, margin: 0 }}>Message sent!</p>
+                <Button variant="ghost" size="sm" onClick={() => setSubmitted(false)}>
+                  Send another
+                </Button>
+              </Stack>
+            </div>
           ) : (
             <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}>
               <Stack gap="md">
@@ -93,7 +95,7 @@ export function FieldDemo(): React.JSX.Element {
                 <Field label="Message" htmlFor="contact-message" help="Markdown is supported.">
                   <Textarea id="contact-message" placeholder="How can we help?" rows={4} />
                 </Field>
-                <Stack direction="horizontal" gap="sm" justify="flex-end">
+                <Stack direction="horizontal" gap="sm" justify="end">
                   <Button variant="ghost" type="reset">Clear</Button>
                   <Button variant="primary" type="submit">Send message</Button>
                 </Stack>

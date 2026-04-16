@@ -138,18 +138,18 @@ function NavButton({ icon, active, label, onClick }: {
   onClick: () => void;
 }): React.JSX.Element {
   return (
-    <IconButton
-      icon={icon}
-      size={20}
-      onClick={onClick}
-      aria-label={label}
-      title={label}
-      style={{
-        background: active ? 'var(--color-action-secondary-hover)' : 'transparent',
-        borderRadius: 'var(--radius-md)',
-        padding: 'var(--space-sm)',
-      }}
-    />
+    <div style={{
+      background: active ? 'var(--color-action-secondary-hover)' : 'transparent',
+      borderRadius: 'var(--radius-md)',
+      padding: 'var(--space-sm)',
+    }}>
+      <IconButton
+        icon={icon}
+        size={20}
+        onClick={onClick}
+        aria-label={label}
+      />
+    </div>
   );
 }
 
@@ -158,7 +158,8 @@ function ProjectCard({ project, onOpen }: {
   onOpen: () => void;
 }): React.JSX.Element {
   return (
-    <Card padding="md" style={{ cursor: 'pointer' }} onClick={onOpen}>
+    <div onClick={onOpen} style={{ cursor: 'pointer' }}>
+    <Card padding="md" hover>
       <Stack gap="sm">
         <Stack direction="horizontal" justify="space-between" align="center">
           <span style={{ fontWeight: 600, fontSize: '0.875rem' }}>{project.name}</span>
@@ -169,8 +170,8 @@ function ProjectCard({ project, onOpen }: {
         </span>
         <ProgressBar
           segments={[
-            { value: project.progress || 1, color: project.progress > 0 ? 'var(--color-success)' : 'var(--color-surface-disabled)' },
-            { value: Math.max(100 - project.progress, 1), color: 'var(--color-surface-disabled)' },
+            { value: project.progress || 1, color: project.progress > 0 ? 'success' : 'muted' },
+            { value: Math.max(100 - project.progress, 1), color: 'muted' },
           ]}
           height={4}
         />
@@ -182,6 +183,7 @@ function ProjectCard({ project, onOpen }: {
         </Stack>
       </Stack>
     </Card>
+    </div>
   );
 }
 
@@ -197,7 +199,7 @@ function ProjectDetail({ project, onClose, onDelete }: {
     <ModalShell onClose={onClose} maxWidth={600}>
       <Stack gap="xl">
         {/* Header */}
-        <Stack direction="horizontal" justify="space-between" align="flex-start">
+        <Stack direction="horizontal" justify="space-between" align="start">
           <Stack gap="xs">
             <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 700 }}>{project.name}</h3>
             <span style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
@@ -222,8 +224,8 @@ function ProjectDetail({ project, onClose, onDelete }: {
               </Stack>
               <ProgressBar
                 segments={[
-                  { value: project.progress || 1, color: project.progress > 0 ? 'var(--color-success)' : 'var(--color-surface-disabled)' },
-                  { value: Math.max(100 - project.progress, 1), color: 'var(--color-surface-disabled)' },
+                  { value: project.progress || 1, color: project.progress > 0 ? 'success' : 'muted' },
+                  { value: Math.max(100 - project.progress, 1), color: 'muted' },
                 ]}
                 height={6}
               />
@@ -300,7 +302,8 @@ export function ProjectHub(): React.JSX.Element {
   ];
 
   return (
-    <Stack direction="horizontal" gap="md" style={{ minHeight: 500 }}>
+    <div style={{ minHeight: 500 }}>
+    <Stack direction="horizontal" gap="md">
       {/* Sidebar navigation */}
       <nav style={{
         display: 'flex',
@@ -419,5 +422,6 @@ export function ProjectHub(): React.JSX.Element {
         />
       )}
     </Stack>
+    </div>
   );
 }

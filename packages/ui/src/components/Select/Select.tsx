@@ -1,6 +1,6 @@
 import { forwardRef, useState, useEffect, useRef, useCallback } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
-import type { ReactNode, SelectHTMLAttributes } from 'react';
+import type { ReactNode } from 'react';
 
 /** A single option in the Select dropdown. */
 export interface SelectOption {
@@ -13,7 +13,7 @@ export interface SelectOption {
 }
 
 /** A custom dropdown select with viewport-aware positioning. */
-export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'children'> {
+export interface SelectProps {
   /** Options to render. Ignored when `children` is provided. */
   options?: SelectOption[];
   /** Custom option/optgroup elements. When provided, `options` is ignored. */
@@ -24,6 +24,22 @@ export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement
    * @default false
    */
   hasError?: boolean;
+  value?: string | number | readonly string[];
+  defaultValue?: string | number | readonly string[];
+  onChange?: React.ChangeEventHandler<HTMLSelectElement>;
+  onFocus?: React.FocusEventHandler<HTMLSelectElement>;
+  onBlur?: React.FocusEventHandler<HTMLSelectElement>;
+  name?: string;
+  disabled?: boolean;
+  required?: boolean;
+  id?: string;
+  form?: string;
+  tabIndex?: number;
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
+  'aria-describedby'?: string;
+  'aria-invalid'?: boolean;
+  'data-testid'?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -100,15 +116,21 @@ export const Select: React.ForwardRefExoticComponent<
     placeholder,
     hasError,
     disabled,
-    style,
     value: controlledValue,
     defaultValue,
     onChange,
+    onFocus,
+    onBlur,
     name,
+    required,
     id,
+    form,
+    tabIndex,
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
-    ...props
+    'aria-describedby': ariaDescribedBy,
+    'aria-invalid': ariaInvalid,
+    'data-testid': dataTestId,
   },
   ref,
 ): React.JSX.Element {
@@ -154,22 +176,27 @@ export const Select: React.ForwardRefExoticComponent<
       <div style={wrapperStyle}>
         <select
           ref={hiddenSelectRef}
-          aria-invalid={hasError || undefined}
+          aria-invalid={ariaInvalid ?? (hasError || undefined)}
           aria-label={ariaLabel}
           aria-labelledby={ariaLabelledBy}
+          aria-describedby={ariaDescribedBy}
           name={name}
           id={id}
+          form={form}
+          required={required}
+          tabIndex={tabIndex}
           value={controlledValue}
           defaultValue={defaultValue}
           onChange={onChange}
+          onFocus={onFocus}
+          onBlur={onBlur}
           disabled={disabled}
+          data-testid={dataTestId}
           style={{
             ...triggerBaseStyle,
             ...(hasError ? errorBorderStyle : {}),
             ...(disabled ? disabledStyle : {}),
-            ...style,
           }}
-          {...props}
         >
           {placeholder && (
             <option value="" disabled>
@@ -383,7 +410,6 @@ export const Select: React.ForwardRefExoticComponent<
           opacity: 0,
           pointerEvents: 'none',
         }}
-        {...props}
       >
         {placeholder && (
           <option value="" disabled>
@@ -416,12 +442,12 @@ export const Select: React.ForwardRefExoticComponent<
         }
         disabled={disabled}
         onClick={() => (open ? closeMenu() : openMenu())}
+        data-testid={dataTestId}
         style={{
           ...triggerBaseStyle,
           ...(hasError ? errorBorderStyle : {}),
           ...(disabled ? disabledStyle : {}),
           ...(showPlaceholder ? placeholderStyle : {}),
-          ...style,
         }}
       >
         {displayLabel ?? placeholder ?? '\u00A0'}

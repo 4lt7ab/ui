@@ -1,9 +1,11 @@
 import { Grid, Surface, Stack } from '@4lt7ab/ui';
 
 const cell = (label: string): React.JSX.Element => (
-  <Surface level="raised" padding="md" radius="md" border style={{ textAlign: 'center' }}>
-    <span style={{ fontSize: '0.875rem' }}>{label}</span>
-  </Surface>
+  <div style={{ textAlign: 'center' }}>
+    <Surface level="raised" padding="md" radius="md" border>
+      <span style={{ fontSize: '0.875rem' }}>{label}</span>
+    </Surface>
+  </div>
 );
 
 export function GridDemo(): React.JSX.Element {
@@ -49,17 +51,19 @@ export function GridDemo(): React.JSX.Element {
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Gap options</h3>
         <Stack direction="horizontal" gap="lg" wrap>
           {(['xs', 'sm', 'md', 'lg', 'xl'] as const).map((g) => (
-            <Stack key={g} gap="xs" style={{ flex: '1 1 12rem' }}>
-              <span style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--color-text-muted)' }}>
-                gap="{g}"
-              </span>
-              <Grid columns={2} gap={g}>
-                {cell('1')}
-                {cell('2')}
-                {cell('3')}
-                {cell('4')}
-              </Grid>
-            </Stack>
+            <div key={g} style={{ flex: '1 1 12rem' }}>
+              <Stack gap="xs">
+                <span style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--color-text-muted)' }}>
+                  gap="{g}"
+                </span>
+                <Grid columns={2} gap={g}>
+                  {cell('1')}
+                  {cell('2')}
+                  {cell('3')}
+                  {cell('4')}
+                </Grid>
+              </Stack>
+            </div>
           ))}
         </Stack>
       </Stack>
@@ -67,13 +71,13 @@ export function GridDemo(): React.JSX.Element {
       <Stack gap="sm">
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Realistic: Dashboard stats</h3>
         <Grid minColumnWidth={200} gap="md">
-          {[
-            { label: 'Projects', value: '12', color: 'var(--color-info)' },
-            { label: 'Tasks', value: '47', color: 'var(--color-warning)' },
-            { label: 'Completed', value: '31', color: 'var(--color-success)' },
-            { label: 'Documents', value: '89', color: 'var(--color-action-primary)' },
-          ].map(({ label, value, color }) => (
-            <Surface key={label} bg={`color-mix(in srgb, ${color} 8%, transparent)`} padding="lg" radius="md" border>
+          {([
+            { label: 'Projects', value: '12', tint: 'info' as const },
+            { label: 'Tasks', value: '47', tint: 'warning' as const },
+            { label: 'Completed', value: '31', tint: 'success' as const },
+            { label: 'Documents', value: '89', tint: 'primary' as const },
+          ]).map(({ label, value, tint }) => (
+            <Surface key={label} tint={tint} padding="lg" radius="md" border>
               <div style={{ fontSize: '1.5rem', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>{value}</div>
               <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.25rem', textTransform: 'uppercase', letterSpacing: 'var(--letter-spacing-wide)' }}>
                 {label}

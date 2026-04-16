@@ -1,6 +1,7 @@
 import { forwardRef, useCallback, useRef } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
-import type { HTMLAttributes, KeyboardEvent } from 'react';
+import type { KeyboardEvent } from 'react';
+import type { BaseComponentProps } from '../../types';
 
 /** A single tab definition. */
 export interface Tab {
@@ -37,7 +38,7 @@ export interface Tab {
  * {tab === 'context' && <div>Context content</div>}
  * ```
  */
-export interface TabStripProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface TabStripProps extends BaseComponentProps {
   /** Tab definitions. */
   tabs: Tab[];
 
@@ -84,8 +85,7 @@ export const TabStrip: React.ForwardRefExoticComponent<
       onChange,
       allowDeselect = false,
       size = 'md',
-      style,
-      ...props
+      ...rest
     },
     ref,
   ): React.JSX.Element {
@@ -130,13 +130,13 @@ export const TabStrip: React.ForwardRefExoticComponent<
     return (
       <div
         ref={ref}
+        id={rest.id}
+        data-testid={rest['data-testid']}
         role="tablist"
         style={{
           display: 'flex',
           gap: 2,
-          ...style,
         }}
-        {...props}
       >
         {tabs.map((tab, i) => {
           const isActive = tab.key === activeKey;

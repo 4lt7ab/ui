@@ -26,8 +26,6 @@ export interface DatePickerProps {
    * @default false
    */
   disabled?: boolean;
-  /** Additional inline styles on the wrapper. */
-  style?: React.CSSProperties;
 }
 
 const SCOPE = 'alttab-dp';
@@ -115,7 +113,6 @@ export const DatePicker: React.ForwardRefExoticComponent<
       placeholder = 'Select date',
       hasError,
       disabled,
-      style,
     },
     ref,
   ): React.JSX.Element {
@@ -232,7 +229,7 @@ export const DatePicker: React.ForwardRefExoticComponent<
           if (typeof ref === 'function') ref(node);
           else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
         }}
-        style={{ ...wrapperStyle, ...style }}
+        style={wrapperStyle}
       >
         <button
           type="button"

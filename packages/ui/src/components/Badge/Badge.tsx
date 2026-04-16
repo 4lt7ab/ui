@@ -1,15 +1,16 @@
 import { forwardRef } from 'react';
 import { semantic as t } from '@4lt7ab/core';
 import type { ReactNode } from 'react';
+import type { BaseComponentProps } from '../../types';
 
 /** Semantic color variant for badges. */
-export type BadgeVariant = 'default' | 'success' | 'warning' | 'error' | 'info';
+export type BadgeVariant = 'default' | 'primary' | 'success' | 'warning' | 'error' | 'info';
 
 /** Size variant for badges. */
 export type BadgeSize = 'default' | 'xs';
 
 /** A small label for status, category, or metadata. Rendered as uppercase pill text. */
-export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
+export interface BadgeProps extends BaseComponentProps {
   /** Badge content (typically short text). */
   children: ReactNode;
   /** Color variant mapping to feedback tokens.
@@ -27,16 +28,16 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
    * @default 'default'
    */
   size?: BadgeSize;
-  /** Custom CSS color override. When provided, variant styling is ignored.
-   * The color is used directly for text and at low opacity for the background.
-   */
-  color?: string;
 }
 
 const variantStyles: Record<BadgeVariant, React.CSSProperties> = {
   default: {
     border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
     color: t.colorTextSecondary,
+  },
+  primary: {
+    background: `color-mix(in srgb, ${t.colorActionPrimary} 14%, transparent)`,
+    color: t.colorActionPrimary,
   },
   success: {
     background: t.colorSuccessBg,
@@ -86,25 +87,19 @@ export const Badge: React.ForwardRefExoticComponent<Omit<BadgeProps, 'ref'> & Re
     children,
     variant = 'default',
     size = 'default',
-    color,
-    style,
     ...rest
   }, ref): React.JSX.Element {
     const isXs = size === 'xs';
     const base = isXs ? xsBaseStyles : baseStyles;
 
-    const colorStyles: React.CSSProperties | undefined = color
-      ? { background: `color-mix(in srgb, ${color} 14%, transparent)`, color }
-      : undefined;
-
     return (
       <span
         ref={ref}
-        {...rest}
+        id={rest.id}
+        data-testid={rest['data-testid']}
         style={{
           ...base,
-          ...(colorStyles ?? variantStyles[variant]),
-          ...style,
+          ...variantStyles[variant],
         }}
       >
         {children}

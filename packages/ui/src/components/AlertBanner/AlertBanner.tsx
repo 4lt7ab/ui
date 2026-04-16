@@ -22,8 +22,6 @@ export interface AlertBannerProps {
   autoDismiss?: number;
   /** Optional leading icon. Defaults to a variant-appropriate icon. */
   icon?: ReactNode;
-  /** Additional inline styles. */
-  style?: CSSProperties;
 }
 
 // ---------------------------------------------------------------------------
@@ -80,7 +78,7 @@ const defaultIcons: Record<AlertBannerVariant, ReactNode> = {
  */
 export const AlertBanner: React.ForwardRefExoticComponent<Omit<AlertBannerProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, AlertBannerProps>(
   function AlertBanner(
-    { variant, children, onDismiss, autoDismiss, icon, style },
+    { variant, children, onDismiss, autoDismiss, icon },
     ref,
   ): React.JSX.Element {
     useInjectStyles(STYLE_ID, alertBannerCSS);
@@ -118,7 +116,6 @@ export const AlertBanner: React.ForwardRefExoticComponent<Omit<AlertBannerProps,
           lineHeight: t.lineHeightBase,
           boxSizing: 'border-box',
           animation: 'alert-banner-slide-in 250ms ease',
-          ...style,
         }}
       >
         {resolvedIcon && (

@@ -38,7 +38,7 @@ export function CalendarHeader({
         aria-label="Previous month"
         size={16}
         onClick={onPrev}
-        style={{ width: 28, height: 28 }}
+        buttonSize="sm"
       />
       <span style={titleStyle}>
         {MONTH_NAMES[month]} {year}
@@ -48,7 +48,7 @@ export function CalendarHeader({
         aria-label="Next month"
         size={16}
         onClick={onNext}
-        style={{ width: 28, height: 28 }}
+        buttonSize="sm"
       />
     </div>
   );

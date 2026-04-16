@@ -36,24 +36,30 @@ export function CardDemo(): React.JSX.Element {
       <Stack gap="sm">
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Hover interaction</h3>
         <Stack direction="horizontal" gap="md" wrap>
-          <Card hover style={{ flex: '1 1 10rem' }}>
-            <strong>Hoverable card</strong>
-            <p style={{ margin: '0.25rem 0 0', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
-              Lifts and highlights on hover. Good for clickable tiles.
-            </p>
-          </Card>
-          <Card hover variant="flat" style={{ flex: '1 1 10rem' }}>
-            <strong>Flat + hover</strong>
-            <p style={{ margin: '0.25rem 0 0', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
-              Hover works with any variant.
-            </p>
-          </Card>
-          <Card hover variant="live" style={{ flex: '1 1 10rem' }}>
-            <strong>Live + hover</strong>
-            <p style={{ margin: '0.25rem 0 0', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
-              Combines pulse animation with hover lift.
-            </p>
-          </Card>
+          <div style={{ flex: '1 1 10rem' }}>
+            <Card hover>
+              <strong>Hoverable card</strong>
+              <p style={{ margin: '0.25rem 0 0', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
+                Lifts and highlights on hover. Good for clickable tiles.
+              </p>
+            </Card>
+          </div>
+          <div style={{ flex: '1 1 10rem' }}>
+            <Card hover variant="flat">
+              <strong>Flat + hover</strong>
+              <p style={{ margin: '0.25rem 0 0', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
+                Hover works with any variant.
+              </p>
+            </Card>
+          </div>
+          <div style={{ flex: '1 1 10rem' }}>
+            <Card hover variant="live">
+              <strong>Live + hover</strong>
+              <p style={{ margin: '0.25rem 0 0', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
+                Combines pulse animation with hover lift.
+              </p>
+            </Card>
+          </div>
         </Stack>
       </Stack>
 
@@ -61,9 +67,11 @@ export function CardDemo(): React.JSX.Element {
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Padding options</h3>
         <Stack direction="horizontal" gap="md" wrap>
           {(['sm', 'md', 'lg', 'xl'] as const).map((p) => (
-            <Card key={p} padding={p} variant="flat" style={{ flex: '1 1 8rem' }}>
-              <span style={{ fontSize: '0.875rem' }}>padding="{p}"</span>
-            </Card>
+            <div key={p} style={{ flex: '1 1 8rem' }}>
+              <Card padding={p} variant="flat">
+                <span style={{ fontSize: '0.875rem' }}>padding="{p}"</span>
+              </Card>
+            </div>
           ))}
         </Stack>
       </Stack>
@@ -93,7 +101,7 @@ export function CardDemo(): React.JSX.Element {
             <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
               Shared React component library. Tokens, themes, and components.
             </p>
-            <Stack direction="horizontal" gap="sm" justify="flex-end">
+            <Stack direction="horizontal" gap="sm" justify="end">
               <Button variant="ghost" size="sm">Settings</Button>
               <Button variant="primary" size="sm">Open</Button>
             </Stack>
@@ -109,10 +117,12 @@ export function CardDemo(): React.JSX.Element {
             { label: 'Tokens', value: '38' },
             { label: 'Themes', value: '2' },
           ].map(({ label, value }) => (
-            <Card key={label} variant="flat" padding="md" style={{ flex: '1 1 6rem', textAlign: 'center' }}>
-              <div style={{ fontSize: '1.5rem', fontWeight: 700 }}>{value}</div>
-              <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.25rem' }}>{label}</div>
-            </Card>
+            <div key={label} style={{ flex: '1 1 6rem', textAlign: 'center' }}>
+              <Card variant="flat" padding="md">
+                <div style={{ fontSize: '1.5rem', fontWeight: 700 }}>{value}</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.25rem' }}>{label}</div>
+              </Card>
+            </div>
           ))}
         </Stack>
       </Stack>

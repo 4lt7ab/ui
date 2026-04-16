@@ -21,8 +21,6 @@ export interface ChipPickerProps {
   selected: string[];
   /** Called with the updated selection array when a chip is toggled. */
   onChange: (selected: string[]) => void;
-  /** Additional inline styles for the root container. */
-  style?: CSSProperties;
 }
 
 /** Multi-select toggle chip group with optional category grouping. */
@@ -30,7 +28,6 @@ export function ChipPicker({
   items,
   selected,
   onChange,
-  style,
 }: ChipPickerProps): React.JSX.Element {
   const uid = useId();
   const styleId = `chip-picker-${uid.replace(/:/g, '')}`;
@@ -128,15 +125,16 @@ export function ChipPicker({
         display: 'flex',
         flexDirection: 'column',
         gap: t.spaceMd,
-        ...style,
       }}
     >
       {groups.map((group, i) => (
         <div key={group.label ?? '__ungrouped'} style={{ display: 'flex', flexDirection: 'column', gap: t.spaceSm }}>
           {group.label !== null && (
-            <SectionLabel style={i > 0 ? { marginTop: t.spaceXs } : undefined}>
-              {group.label}
-            </SectionLabel>
+            <div style={i > 0 ? { marginTop: t.spaceXs } : undefined}>
+              <SectionLabel>
+                {group.label}
+              </SectionLabel>
+            </div>
           )}
           {renderChips(group.chips)}
         </div>

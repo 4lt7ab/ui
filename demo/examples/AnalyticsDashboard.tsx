@@ -104,7 +104,7 @@ export function AnalyticsDashboard(): React.JSX.Element {
           <ThemePicker variant="compact" />
         </Stack>
 
-        <Stack direction="horizontal" gap="md" wrap align="flex-end">
+        <Stack direction="horizontal" gap="md" wrap align="end">
           <div style={{ minWidth: 220, flex: '0 1 auto' }}>
             <Field label="Date range">
               <DateRangePicker
@@ -205,8 +205,8 @@ export function AnalyticsDashboard(): React.JSX.Element {
                 </Stack>
                 <ProgressBar
                   segments={[
-                    { value: page.views, color: 'var(--color-action-primary)' },
-                    { value: PAGES[0].views - page.views, color: 'var(--color-surface-disabled)' },
+                    { value: page.views, color: 'primary' },
+                    { value: PAGES[0].views - page.views, color: 'muted' },
                   ]}
                   height={4}
                 />

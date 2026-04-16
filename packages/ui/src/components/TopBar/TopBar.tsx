@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
-import type { HTMLAttributes, ReactNode, CSSProperties } from 'react';
+import type { ReactNode, CSSProperties } from 'react';
+import type { BaseComponentProps } from '../../types';
 
 // ---------------------------------------------------------------------------
 // Nav item config
@@ -21,7 +22,9 @@ export interface NavItem {
 // ---------------------------------------------------------------------------
 
 /** App-level navigation header with title, nav items, and trailing slot. */
-export interface TopBarProps extends Omit<HTMLAttributes<HTMLElement>, 'title'> {
+export interface TopBarProps extends BaseComponentProps {
+  /** Accessible label for the header landmark. */
+  'aria-label'?: string;
   /** Logo or app title — rendered in the leading slot. */
   title: ReactNode;
   /** Navigation items displayed as horizontal buttons. */
@@ -80,8 +83,7 @@ export const TopBar: React.ForwardRefExoticComponent<Omit<TopBarProps, 'ref'> & 
     onNavigate,
     trailing,
     sticky = false,
-    style,
-    ...props
+    ...rest
   }, ref): React.JSX.Element {
     useInjectStyles(TOPBAR_STYLES_ID, TOPBAR_CSS);
 
@@ -92,6 +94,9 @@ export const TopBar: React.ForwardRefExoticComponent<Omit<TopBarProps, 'ref'> & 
     return (
       <header
         ref={ref}
+        id={rest.id}
+        data-testid={rest['data-testid']}
+        aria-label={rest['aria-label']}
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -101,9 +106,7 @@ export const TopBar: React.ForwardRefExoticComponent<Omit<TopBarProps, 'ref'> & 
           borderBottom: `${t.borderWidthDefault} solid ${t.colorBorder}`,
           fontFamily: t.fontSans,
           ...stickyStyle,
-          ...style,
         }}
-        {...props}
       >
         {/* Leading — title / logo */}
         <div

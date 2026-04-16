@@ -60,17 +60,19 @@ function StatCard({ label, value, dot }: {
   dot?: 'success' | 'warning' | 'error';
 }): React.JSX.Element {
   return (
-    <Card padding="md" style={{ flex: '1 1 10rem' }}>
-      <Stack gap="xs">
-        <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{label}</span>
-        <Stack direction="horizontal" gap="sm" align="center">
-          {dot && <StatusDot variant={dot} />}
-          <span style={{ fontSize: '1.5rem', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
-            {value}
-          </span>
+    <div style={{ flex: '1 1 10rem' }}>
+      <Card padding="md">
+        <Stack gap="xs">
+          <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{label}</span>
+          <Stack direction="horizontal" gap="sm" align="center">
+            {dot && <StatusDot variant={dot} />}
+            <span style={{ fontSize: '1.5rem', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
+              {value}
+            </span>
+          </Stack>
         </Stack>
-      </Stack>
-    </Card>
+      </Card>
+    </div>
   );
 }
 
@@ -81,7 +83,7 @@ function StatCard({ label, value, dot }: {
 function Metric({ label, value, color }: {
   label: string;
   value: number;
-  color: string;
+  color: 'primary' | 'success' | 'warning' | 'error' | 'info' | 'muted';
 }): React.JSX.Element {
   return (
     <Stack gap="xs">
@@ -94,7 +96,7 @@ function Metric({ label, value, color }: {
       <ProgressBar
         segments={[
           { value, color },
-          { value: 100 - value, color: 'var(--color-surface-disabled)' },
+          { value: 100 - value, color: 'muted' },
         ]}
         height={6}
       />
@@ -114,7 +116,7 @@ function ServiceRow({ svc, showUptime }: {
     <TableRow hoverable>
       <TableCell>
         <Stack direction="horizontal" gap="sm" align="center">
-          <StatusDot variant={statusDot(svc.status)} size={8} />
+          <StatusDot variant={statusDot(svc.status)} size="md" />
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem' }}>{svc.name}</span>
         </Stack>
       </TableCell>
@@ -180,10 +182,10 @@ export function CommandCenter(): React.JSX.Element {
       />
 
       {/* ── Tab bar ── */}
+      <div style={{ borderBottom: '1px solid var(--color-border)', paddingBottom: 'var(--space-xs)' }}>
       <Stack
         direction="horizontal"
         gap="xs"
-        style={{ borderBottom: '1px solid var(--color-border)', paddingBottom: 'var(--space-xs)' }}
       >
         {(['overview', 'services', 'incidents'] as Tab[]).map((t) => (
           <Button
@@ -191,15 +193,15 @@ export function CommandCenter(): React.JSX.Element {
             variant={tab === t ? 'secondary' : 'ghost'}
             size="sm"
             onClick={() => { setTab(t); setPage(1); }}
-            style={{ textTransform: 'capitalize' }}
           >
-            {t}
+            <span style={{ textTransform: 'capitalize' }}>{t}</span>
             {t === 'incidents' && INCIDENTS.length > 0 && (
-              <Badge variant="error" style={{ marginLeft: '0.375rem' }}>{INCIDENTS.length}</Badge>
+              <span style={{ marginLeft: '0.375rem' }}><Badge variant="error">{INCIDENTS.length}</Badge></span>
             )}
           </Button>
         ))}
       </Stack>
+      </div>
 
       {/* ── Overview ── */}
       {tab === 'overview' && (
@@ -208,12 +210,14 @@ export function CommandCenter(): React.JSX.Element {
           {loading ? (
             <Stack direction="horizontal" gap="md" wrap>
               {Array.from({ length: 4 }).map((_, i) => (
-                <Card key={i} padding="md" style={{ flex: '1 1 10rem' }}>
+                <div key={i} style={{ flex: '1 1 10rem' }}>
+                <Card padding="md">
                   <Stack gap="sm">
                     <Skeleton width="40%" height={12} />
                     <Skeleton width="60%" height={28} />
                   </Stack>
                 </Card>
+                </div>
               ))}
             </Stack>
           ) : (
@@ -237,9 +241,9 @@ export function CommandCenter(): React.JSX.Element {
                 </Stack>
               ) : (
                 <Stack gap="sm">
-                  <Metric label="CPU" value={78} color="var(--color-warning)" />
-                  <Metric label="Memory" value={56} color="var(--color-success)" />
-                  <Metric label="Disk" value={34} color="var(--color-info)" />
+                  <Metric label="CPU" value={78} color="warning" />
+                  <Metric label="Memory" value={56} color="success" />
+                  <Metric label="Disk" value={34} color="info" />
                 </Stack>
               )}
             </Stack>
@@ -276,10 +280,9 @@ export function CommandCenter(): React.JSX.Element {
           >
             <Stack gap="md">
               {INCIDENTS.map((inc) => (
+                <div key={inc.id} style={{ padding: 'var(--space-sm) 0', borderBottom: '1px solid var(--color-border)' }}>
                 <Stack
-                  key={inc.id}
                   gap="xs"
-                  style={{ padding: 'var(--space-sm) 0', borderBottom: '1px solid var(--color-border)' }}
                 >
                   <Stack direction="horizontal" justify="space-between" align="center">
                     <Stack direction="horizontal" gap="sm" align="center">
@@ -301,6 +304,7 @@ export function CommandCenter(): React.JSX.Element {
                     ))}
                   </Stack>
                 </Stack>
+                </div>
               ))}
             </Stack>
           </ExpandableCard>

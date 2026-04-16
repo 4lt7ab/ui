@@ -13,38 +13,42 @@ export function DatePickerDemo(): React.JSX.Element {
     <Stack gap="xl">
       <Stack gap="sm">
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>States</h3>
-        <Stack gap="md" style={{ maxWidth: '24rem' }}>
-          <DatePicker
-            value={date}
-            onChange={setDate}
-            placeholder="Pick a date"
-          />
-          <DatePicker
-            value={errorDate}
-            onChange={setErrorDate}
-            placeholder="Error state"
-            hasError
-          />
-          <DatePicker
-            value={undefined}
-            onChange={() => {}}
-            placeholder="Disabled"
-            disabled
-          />
-        </Stack>
+        <div style={{ maxWidth: '24rem' }}>
+          <Stack gap="md">
+            <DatePicker
+              value={date}
+              onChange={setDate}
+              placeholder="Pick a date"
+            />
+            <DatePicker
+              value={errorDate}
+              onChange={setErrorDate}
+              placeholder="Error state"
+              hasError
+            />
+            <DatePicker
+              value={undefined}
+              onChange={() => {}}
+              placeholder="Disabled"
+              disabled
+            />
+          </Stack>
+        </div>
       </Stack>
 
       <Stack gap="sm">
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>With constraints</h3>
-        <Stack gap="md" style={{ maxWidth: '24rem' }}>
-          <DatePicker
-            value={date}
-            onChange={setDate}
-            minDate={minDate}
-            maxDate={maxDate}
-            placeholder="Min/max constrained"
-          />
-        </Stack>
+        <div style={{ maxWidth: '24rem' }}>
+          <Stack gap="md">
+            <DatePicker
+              value={date}
+              onChange={setDate}
+              minDate={minDate}
+              maxDate={maxDate}
+              placeholder="Min/max constrained"
+            />
+          </Stack>
+        </div>
       </Stack>
 
       {date && (

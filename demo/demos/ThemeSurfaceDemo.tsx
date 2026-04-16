@@ -14,30 +14,34 @@ export function ThemeSurfaceDemo(): React.JSX.Element {
         <p style={{ ...desc, margin: 0 }}>
           Renders a <code>&lt;div&gt;</code> with the theme's page background color.
         </p>
-        <ThemeSurface style={{ padding: 'var(--space-lg)', borderRadius: 'var(--radius-md)' }}>
-          <Stack gap="sm">
-            <strong>ThemeSurface content</strong>
-            <span style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
-              This div uses <code>colorSurfacePage</code> as its background.
-            </span>
-          </Stack>
-        </ThemeSurface>
+        <div style={{ padding: 'var(--space-lg)', borderRadius: 'var(--radius-md)' }}>
+          <ThemeSurface>
+            <Stack gap="sm">
+              <strong>ThemeSurface content</strong>
+              <span style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
+                This div uses <code>colorSurfacePage</code> as its background.
+              </span>
+            </Stack>
+          </ThemeSurface>
+        </div>
       </Stack>
 
       <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>With custom styles</h3>
-        <ThemeSurface style={{
+        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>With wrapper styles</h3>
+        <div style={{
           padding: 'var(--space-lg)',
           borderRadius: 'var(--radius-lg)',
           border: `1px solid ${t.colorBorder}`,
         }}>
-          <Stack gap="sm">
-            <strong>Custom styled surface</strong>
-            <span style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
-              Additional styles are merged via the <code>style</code> prop.
-            </span>
-          </Stack>
-        </ThemeSurface>
+          <ThemeSurface>
+            <Stack gap="sm">
+              <strong>Styled wrapper around surface</strong>
+              <span style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
+                Layout styles live on a wrapper div, not on the component.
+              </span>
+            </Stack>
+          </ThemeSurface>
+        </div>
       </Stack>
 
       <Stack gap="sm">

@@ -11,8 +11,6 @@ export interface ThemeSurfaceProps {
    * @default false
    */
   global?: boolean;
-  /** Additional inline styles for the wrapper div (only used when global=false). */
-  style?: React.CSSProperties;
 }
 
 /**
@@ -25,7 +23,6 @@ export const ThemeSurface: React.ForwardRefExoticComponent<Omit<ThemeSurfaceProp
   function ThemeSurface({
     children,
     global = false,
-    style,
   }, ref): React.JSX.Element {
     const { resolved } = useTheme();
     const prevBodyBgRef = useRef<string>('');
@@ -56,7 +53,6 @@ export const ThemeSurface: React.ForwardRefExoticComponent<Omit<ThemeSurfaceProp
         ref={ref}
         style={{
           background: t.colorSurfacePage,
-          ...style,
         }}
       >
         {children}

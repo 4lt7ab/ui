@@ -75,7 +75,7 @@ function StepTeam({ email, onEmail, emailRole, onEmailRole, members, onAdd, onRe
         </span>
       </Stack>
 
-      <Stack direction="horizontal" gap="sm" align="flex-end">
+      <Stack direction="horizontal" gap="sm" align="end">
         <div style={{ flex: 1 }}>
           <Field label="Email">
             <Input
@@ -105,16 +105,15 @@ function StepTeam({ email, onEmail, emailRole, onEmailRole, members, onAdd, onRe
             {members.length} member{members.length !== 1 ? 's' : ''} invited
           </span>
           {members.map((m) => (
-            <Stack
-              key={m.email}
-              direction="horizontal"
-              justify="space-between"
-              align="center"
-              style={{
+            <div key={m.email} style={{
                 padding: 'var(--space-xs) var(--space-sm)',
                 borderRadius: 'var(--radius-md)',
                 background: 'var(--color-surface-raised)',
-              }}
+              }}>
+            <Stack
+              direction="horizontal"
+              justify="space-between"
+              align="center"
             >
               <Stack direction="horizontal" gap="sm" align="center">
                 <span style={{ fontSize: '0.8125rem', fontFamily: 'var(--font-mono)' }}>{m.email}</span>
@@ -122,6 +121,7 @@ function StepTeam({ email, onEmail, emailRole, onEmailRole, members, onAdd, onRe
               </Stack>
               <IconButton icon="close" size={14} onClick={() => onRemove(m.email)} aria-label={`Remove ${m.email}`} />
             </Stack>
+            </div>
           ))}
         </Stack>
       )}
@@ -160,7 +160,8 @@ function StepPreferences({ plan, onPlan, description, onDescription, workspaceNa
       </Field>
 
       {/* Summary */}
-      <Card variant="flat" padding="md" style={{ background: 'var(--color-surface-raised)' }}>
+      <div style={{ background: 'var(--color-surface-raised)', borderRadius: 'var(--radius-md)' }}>
+      <Card variant="flat" padding="md">
         <Stack gap="sm">
           <span style={{
             fontSize: '0.7rem',
@@ -182,6 +183,7 @@ function StepPreferences({ plan, onPlan, description, onDescription, workspaceNa
           </SummaryRow>
         </Stack>
       </Card>
+      </div>
     </Stack>
   );
 }
@@ -250,7 +252,8 @@ export function OnboardingFlow(): React.JSX.Element {
   return (
     <>
       {/* Landing state */}
-      <Stack gap="lg" align="center" style={{ padding: 'var(--space-2xl) 0' }}>
+      <div style={{ padding: 'var(--space-2xl) 0' }}>
+      <Stack gap="lg" align="center">
         {done ? (
           <>
             <Icon name="check-circle" size={48} style={{ color: 'var(--color-success)' }} />
@@ -288,6 +291,7 @@ export function OnboardingFlow(): React.JSX.Element {
           </>
         )}
       </Stack>
+      </div>
 
       {/* Modal wizard */}
       {open && (
@@ -305,8 +309,8 @@ export function OnboardingFlow(): React.JSX.Element {
               </Stack>
               <ProgressBar
                 segments={[
-                  { value: step, color: 'var(--color-action-primary)' },
-                  { value: TOTAL_STEPS - step, color: 'var(--color-surface-disabled)' },
+                  { value: step, color: 'primary' },
+                  { value: TOTAL_STEPS - step, color: 'muted' },
                 ]}
                 height={4}
               />

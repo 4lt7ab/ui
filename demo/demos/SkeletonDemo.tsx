@@ -15,8 +15,8 @@ export function SkeletonDemo(): React.JSX.Element {
       <Stack gap="sm">
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Card Skeleton</h3>
         <Stack direction="horizontal" gap="md" wrap>
-          <CardSkeleton style={{ width: 240 }} />
-          <CardSkeleton style={{ width: 240 }} />
+          <div style={{ width: 240 }}><CardSkeleton /></div>
+          <div style={{ width: 240 }}><CardSkeleton /></div>
         </Stack>
       </Stack>
 

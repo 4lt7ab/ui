@@ -26,13 +26,15 @@ export function DividerDemo(): React.JSX.Element {
 
       <Stack gap="sm">
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Vertical</h3>
-        <Stack direction="horizontal" align="center" gap="md" style={{ height: 40 }}>
-          <Badge>Status</Badge>
-          <Divider orientation="vertical" />
-          <Badge variant="info">Priority</Badge>
-          <Divider orientation="vertical" />
-          <Badge variant="success">Active</Badge>
-        </Stack>
+        <div style={{ height: 40 }}>
+          <Stack direction="horizontal" align="center" gap="md">
+            <Badge>Status</Badge>
+            <Divider orientation="vertical" />
+            <Badge variant="info">Priority</Badge>
+            <Divider orientation="vertical" />
+            <Badge variant="success">Active</Badge>
+          </Stack>
+        </div>
       </Stack>
 
       <Stack gap="sm">
@@ -63,23 +65,24 @@ export function DividerDemo(): React.JSX.Element {
 
       <Stack gap="sm">
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Realistic: Filter bar</h3>
-        <Stack
-          direction="horizontal"
-          align="center"
-          gap="sm"
-          style={{
-            padding: 'var(--space-sm) var(--space-md)',
-            background: 'var(--color-surface-raised)',
-            borderRadius: 'var(--radius-md)',
-            border: '1px solid var(--color-border)',
-          }}
-        >
-          <Badge variant="info">All</Badge>
-          <Badge>Active</Badge>
-          <Badge>Archived</Badge>
-          <Divider orientation="vertical" length={20} opacity={40} />
-          <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>12 results</span>
-        </Stack>
+        <div style={{
+          padding: 'var(--space-sm) var(--space-md)',
+          background: 'var(--color-surface-raised)',
+          borderRadius: 'var(--radius-md)',
+          border: '1px solid var(--color-border)',
+        }}>
+          <Stack
+            direction="horizontal"
+            align="center"
+            gap="sm"
+          >
+            <Badge variant="info">All</Badge>
+            <Badge>Active</Badge>
+            <Badge>Archived</Badge>
+            <Divider orientation="vertical" length={20} opacity={40} />
+            <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>12 results</span>
+          </Stack>
+        </div>
       </Stack>
     </Stack>
   );

@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 /** Visual style variant for buttons. */
 export type ButtonVariant = 'primary' | 'secondary' | 'destructive' | 'ghost';
@@ -9,7 +9,23 @@ export type ButtonVariant = 'primary' | 'secondary' | 'destructive' | 'ghost';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 /** A clickable button that triggers an action. */
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps {
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  form?: string;
+  name?: string;
+  value?: string;
+  tabIndex?: number;
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
+  'aria-describedby'?: string;
+  'aria-expanded'?: boolean;
+  'aria-controls'?: string;
+  'aria-haspopup'?: boolean | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
+  autoFocus?: boolean;
+  'data-testid'?: string;
+  id?: string;
   /** Visual style variant.
    * - `primary` — filled accent background, high emphasis
    * - `secondary` — subtle background with border, medium emphasis
@@ -120,9 +136,22 @@ export const Button: React.ForwardRefExoticComponent<Omit<ButtonProps, 'ref'> & 
     loading = false,
     iconOnly = false,
     children,
-    style,
     disabled,
-    ...props
+    onClick,
+    type,
+    form,
+    name,
+    value,
+    tabIndex,
+    autoFocus,
+    id,
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
+    'aria-describedby': ariaDescribedBy,
+    'aria-expanded': ariaExpanded,
+    'aria-controls': ariaControls,
+    'aria-haspopup': ariaHasPopup,
+    'data-testid': dataTestId,
   }, ref): React.JSX.Element {
     useInjectStyles(SPINNER_STYLES_ID, spinnerCSS);
 
@@ -131,17 +160,30 @@ export const Button: React.ForwardRefExoticComponent<Omit<ButtonProps, 'ref'> & 
     return (
       <button
         ref={ref}
+        type={type}
+        form={form}
+        name={name}
+        value={value}
+        tabIndex={tabIndex}
+        id={id}
+        onClick={onClick}
+        autoFocus={autoFocus}
         aria-busy={loading || undefined}
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
+        aria-describedby={ariaDescribedBy}
+        aria-expanded={ariaExpanded}
+        aria-controls={ariaControls}
+        aria-haspopup={ariaHasPopup}
+        data-testid={dataTestId}
         style={{
           ...baseStyles,
           ...variantStyles[variant],
           ...sizeStyles[size],
           ...(iconOnly ? { padding: iconOnlyPadding[size], aspectRatio: '1', minWidth: 0 } : {}),
           ...(isDisabled ? { opacity: 0.5, cursor: 'not-allowed' } : {}),
-          ...style,
         }}
         disabled={isDisabled}
-        {...props}
       >
         {loading ? <span className="alttab-btn-spinner" /> : children}
       </button>

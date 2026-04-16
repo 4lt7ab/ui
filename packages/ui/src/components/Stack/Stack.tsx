@@ -1,12 +1,12 @@
 import { forwardRef } from 'react';
-import type { CSSProperties, HTMLAttributes, ReactNode } from 'react';
-import { spacingMap } from '../../types';
-import type { SpacingToken } from '../../types';
+import type { ReactNode } from 'react';
+import { spacingMap, alignMap, justifyMap } from '../../types';
+import type { SpacingToken, AlignItems, JustifyContent, BaseComponentProps } from '../../types';
 
 const gapMap: Record<SpacingToken, string> = spacingMap;
 
 /** Flexbox layout component for vertical or horizontal stacking with consistent spacing. */
-export interface StackProps extends HTMLAttributes<HTMLDivElement> {
+export interface StackProps extends BaseComponentProps {
   /** Stack direction.
    * - `vertical` — column layout
    * - `horizontal` — row layout
@@ -17,10 +17,10 @@ export interface StackProps extends HTMLAttributes<HTMLDivElement> {
    * @default 'md'
    */
   gap?: SpacingToken;
-  /** Cross-axis alignment (maps to CSS `align-items`). */
-  align?: CSSProperties['alignItems'];
-  /** Main-axis alignment (maps to CSS `justify-content`). */
-  justify?: CSSProperties['justifyContent'];
+  /** Cross-axis alignment. */
+  align?: AlignItems;
+  /** Main-axis alignment. */
+  justify?: JustifyContent;
   /** Whether children should wrap to the next line when they overflow.
    * @default false
    */
@@ -37,22 +37,21 @@ export const Stack: React.ForwardRefExoticComponent<Omit<StackProps, 'ref'> & Re
     justify,
     wrap,
     children,
-    style,
-    ...props
+    ...rest
   }, ref): React.JSX.Element {
     return (
       <div
         ref={ref}
+        id={rest.id}
+        data-testid={rest['data-testid']}
         style={{
           display: 'flex',
           flexDirection: direction === 'vertical' ? 'column' : 'row',
           gap: gapMap[gap],
-          alignItems: align,
-          justifyContent: justify,
+          alignItems: align ? alignMap[align] : undefined,
+          justifyContent: justify ? justifyMap[justify] : undefined,
           flexWrap: wrap ? 'wrap' : undefined,
-          ...style,
         }}
-        {...props}
       >
         {children}
       </div>

@@ -8,7 +8,8 @@ export function SettingsPage(): React.JSX.Element {
   const [bio, setBio] = useState('We build things that matter.');
 
   return (
-    <Stack gap="xl" style={{ maxWidth: 600 }}>
+    <div style={{ maxWidth: 600 }}>
+    <Stack gap="xl">
       <PageHeader
         title="Settings"
         subtitle="Manage your workspace preferences"
@@ -43,10 +44,11 @@ export function SettingsPage(): React.JSX.Element {
         </Stack>
       </Card>
 
-      <Stack direction="horizontal" gap="sm" justify="flex-end">
+      <Stack direction="horizontal" gap="sm" justify="end">
         <Button variant="ghost">Cancel</Button>
         <Button variant="primary">Save changes</Button>
       </Stack>
     </Stack>
+    </div>
   );
 }

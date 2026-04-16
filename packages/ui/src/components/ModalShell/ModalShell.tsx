@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { semantic as t } from '@4lt7ab/core';
 import { useFocusTrap } from '../../utils/useFocusTrap';
 import { Overlay } from '../Overlay';
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 /** Shared heading style for modal titles. Used by ConfirmDialog, FormModal, ShortcutHelpModal. */
 export const modalHeadingStyle: React.CSSProperties = Object.freeze({
@@ -44,8 +44,6 @@ export interface ModalShellProps {
    * @default 'var(--z-index-modal)'
    */
   zIndex?: number | string;
-  /** Additional inline styles for the modal panel. */
-  style?: CSSProperties;
   /** ID of the element that labels this dialog. Used for `aria-labelledby`. */
   titleId?: string;
   /** Accessible label for the dialog. Alternative to `titleId`/`aria-labelledby`. */
@@ -60,7 +58,6 @@ export const ModalShell: React.ForwardRefExoticComponent<Omit<ModalShellProps, '
     children,
     maxWidth = 480,
     zIndex = t.zIndexModal,
-    style,
     titleId,
     'aria-label': ariaLabel,
     role = 'dialog',
@@ -145,7 +142,6 @@ export const ModalShell: React.ForwardRefExoticComponent<Omit<ModalShellProps, '
               width: '100%',
               pointerEvents: 'auto',
               outline: 'none',
-              ...style,
             }}
           >
             {children}

@@ -1,8 +1,8 @@
 import { forwardRef } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
-import type { HTMLAttributes, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { spacingMap } from '../../types';
-import type { SpacingToken } from '../../types';
+import type { SpacingToken, BaseComponentProps } from '../../types';
 
 const paddingMap: Record<SpacingToken, string> = spacingMap;
 
@@ -10,7 +10,7 @@ const paddingMap: Record<SpacingToken, string> = spacingMap;
 export type CardVariant = 'default' | 'flat' | 'elevated' | 'live';
 
 /** A contained surface for grouping related content. */
-export interface CardProps extends HTMLAttributes<HTMLDivElement> {
+export interface CardProps extends BaseComponentProps {
   /** Visual treatment.
    * - `default` — standard surface with border and small shadow
    * - `flat` — raised background with border, no shadow
@@ -91,8 +91,7 @@ export const Card: React.ForwardRefExoticComponent<Omit<CardProps, 'ref'> & Reac
     padding = 'lg',
     hover = false,
     children,
-    style,
-    ...props
+    ...rest
   }, ref): React.JSX.Element {
     useInjectStyles(HOVER_STYLES_ID, HOVER_STYLES_CSS);
     useInjectStyles(LIVE_STYLES_ID, LIVE_STYLES_CSS);
@@ -100,6 +99,8 @@ export const Card: React.ForwardRefExoticComponent<Omit<CardProps, 'ref'> & Reac
     return (
       <div
         ref={ref}
+        id={rest.id}
+        data-testid={rest['data-testid']}
         data-card-hover={hover || undefined}
         data-card-live={variant === 'live' || undefined}
         style={{
@@ -107,9 +108,7 @@ export const Card: React.ForwardRefExoticComponent<Omit<CardProps, 'ref'> & Reac
           padding: paddingMap[padding],
           color: t.colorText,
           ...variantStyles[variant],
-          ...style,
         }}
-        {...props}
       >
         {children}
       </div>

@@ -113,8 +113,11 @@ __export(index_exports, {
   ThemeSurface: () => ThemeSurface,
   ToastProvider: () => ToastProvider,
   TopBar: () => TopBar,
+  alignMap: () => alignMap,
   iconRegistry: () => iconRegistry,
+  justifyMap: () => justifyMap,
   radiusMap: () => radiusMap,
+  semanticColorMap: () => semanticColorMap,
   shadowMap: () => shadowMap,
   spacingMap: () => spacingMap,
   useFocusTrap: () => useFocusTrap,
@@ -763,9 +766,22 @@ var Button = (0, import_react4.forwardRef)(
     loading = false,
     iconOnly = false,
     children,
-    style,
     disabled,
-    ...props
+    onClick,
+    type,
+    form,
+    name,
+    value,
+    tabIndex,
+    autoFocus,
+    id,
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledBy,
+    "aria-describedby": ariaDescribedBy,
+    "aria-expanded": ariaExpanded,
+    "aria-controls": ariaControls,
+    "aria-haspopup": ariaHasPopup,
+    "data-testid": dataTestId
   }, ref) {
     (0, import_core3.useInjectStyles)(SPINNER_STYLES_ID, spinnerCSS);
     const isDisabled = disabled || loading;
@@ -773,17 +789,30 @@ var Button = (0, import_react4.forwardRef)(
       "button",
       {
         ref,
+        type,
+        form,
+        name,
+        value,
+        tabIndex,
+        id,
+        onClick,
+        autoFocus,
         "aria-busy": loading || void 0,
+        "aria-label": ariaLabel,
+        "aria-labelledby": ariaLabelledBy,
+        "aria-describedby": ariaDescribedBy,
+        "aria-expanded": ariaExpanded,
+        "aria-controls": ariaControls,
+        "aria-haspopup": ariaHasPopup,
+        "data-testid": dataTestId,
         style: {
           ...baseStyles,
           ...variantStyles[variant],
           ...sizeStyles[size],
           ...iconOnly ? { padding: iconOnlyPadding[size], aspectRatio: "1", minWidth: 0 } : {},
-          ...isDisabled ? { opacity: 0.5, cursor: "not-allowed" } : {},
-          ...style
+          ...isDisabled ? { opacity: 0.5, cursor: "not-allowed" } : {}
         },
         disabled: isDisabled,
-        ...props,
         children: loading ? /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "alttab-btn-spinner" }) : children
       }
     );
@@ -795,6 +824,29 @@ var import_react5 = require("react");
 
 // src/types.ts
 var import_core4 = require("../../core/dist/index.cjs");
+var alignMap = {
+  start: "flex-start",
+  center: "center",
+  end: "flex-end",
+  stretch: "stretch",
+  baseline: "baseline"
+};
+var justifyMap = {
+  start: "flex-start",
+  center: "center",
+  end: "flex-end",
+  "space-between": "space-between",
+  "space-around": "space-around",
+  "space-evenly": "space-evenly"
+};
+var semanticColorMap = {
+  primary: import_core4.semantic.colorActionPrimary,
+  success: import_core4.semantic.colorSuccess,
+  warning: import_core4.semantic.colorWarning,
+  error: import_core4.semantic.colorError,
+  info: import_core4.semantic.colorInfo,
+  muted: import_core4.semantic.colorTextMuted
+};
 var spacingMap = {
   xs: import_core4.semantic.spaceXs,
   sm: import_core4.semantic.spaceSm,
@@ -827,23 +879,22 @@ var Stack = (0, import_react5.forwardRef)(
     justify,
     wrap,
     children,
-    style,
-    ...props
+    ...rest
   }, ref) {
     return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
       "div",
       {
         ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
         style: {
           display: "flex",
           flexDirection: direction === "vertical" ? "column" : "row",
           gap: gapMap[gap],
-          alignItems: align,
-          justifyContent: justify,
-          flexWrap: wrap ? "wrap" : void 0,
-          ...style
+          alignItems: align ? alignMap[align] : void 0,
+          justifyContent: justify ? justifyMap[justify] : void 0,
+          flexWrap: wrap ? "wrap" : void 0
         },
-        ...props,
         children
       }
     );
@@ -910,8 +961,7 @@ var Card = (0, import_react6.forwardRef)(
     padding = "lg",
     hover = false,
     children,
-    style,
-    ...props
+    ...rest
   }, ref) {
     (0, import_core5.useInjectStyles)(HOVER_STYLES_ID, HOVER_STYLES_CSS);
     (0, import_core5.useInjectStyles)(LIVE_STYLES_ID, LIVE_STYLES_CSS);
@@ -919,16 +969,16 @@ var Card = (0, import_react6.forwardRef)(
       "div",
       {
         ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
         "data-card-hover": hover || void 0,
         "data-card-live": variant === "live" || void 0,
         style: {
           borderRadius: import_core5.semantic.radiusLg,
           padding: paddingMap[padding],
           color: import_core5.semantic.colorText,
-          ...variantStyles2[variant],
-          ...style
+          ...variantStyles2[variant]
         },
-        ...props,
         children
       }
     );
@@ -974,8 +1024,7 @@ var Field = (0, import_react7.forwardRef)(
     required,
     disabled,
     children,
-    style,
-    ...props
+    ...rest
   }, ref) {
     const autoId = (0, import_react7.useId)();
     const helpId = help ? `${autoId}-help` : void 0;
@@ -988,14 +1037,15 @@ var Field = (0, import_react7.forwardRef)(
       "div",
       {
         ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
+        "aria-describedby": rest["aria-describedby"],
         style: {
           display: "flex",
           flexDirection: "column",
           gap: import_core6.semantic.spaceXs,
-          opacity: disabled ? 0.6 : void 0,
-          ...style
+          opacity: disabled ? 0.6 : void 0
         },
-        ...props,
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("label", { htmlFor, style: labelStyle, children: [
             label,
@@ -1041,22 +1091,71 @@ var Input = (0, import_react8.forwardRef)(
   function Input2({
     hasError,
     disabled,
-    style,
-    ...props
+    type,
+    value,
+    defaultValue,
+    onChange,
+    onFocus,
+    onBlur,
+    onKeyDown,
+    placeholder,
+    readOnly,
+    maxLength,
+    min,
+    max,
+    step,
+    pattern,
+    inputMode,
+    name,
+    required,
+    autoFocus,
+    autoComplete,
+    id,
+    form,
+    tabIndex,
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledBy,
+    "aria-describedby": ariaDescribedBy,
+    "aria-invalid": ariaInvalid,
+    "data-testid": dataTestId
   }, ref) {
     return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
       "input",
       {
         ref,
-        "aria-invalid": hasError || void 0,
+        type,
+        value,
+        defaultValue,
+        onChange,
+        onFocus,
+        onBlur,
+        onKeyDown,
+        placeholder,
+        readOnly,
+        maxLength,
+        min,
+        max,
+        step,
+        pattern,
+        inputMode,
+        name,
+        disabled,
+        required,
+        autoFocus,
+        autoComplete,
+        id,
+        form,
+        tabIndex,
+        "aria-invalid": ariaInvalid ?? (hasError || void 0),
+        "aria-label": ariaLabel,
+        "aria-labelledby": ariaLabelledBy,
+        "aria-describedby": ariaDescribedBy,
+        "data-testid": dataTestId,
         style: {
           ...baseStyle,
           ...hasError ? errorBorderStyle : {},
-          ...disabled ? disabledStyle : {},
-          ...style
-        },
-        disabled,
-        ...props
+          ...disabled ? disabledStyle : {}
+        }
       }
     );
   }
@@ -1096,22 +1195,59 @@ var Textarea = (0, import_react9.forwardRef)(
   function Textarea2({
     hasError,
     disabled,
-    style,
-    ...props
+    value,
+    defaultValue,
+    onChange,
+    onFocus,
+    onBlur,
+    onKeyDown,
+    placeholder,
+    readOnly,
+    rows,
+    maxLength,
+    name,
+    required,
+    autoFocus,
+    id,
+    form,
+    tabIndex,
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledBy,
+    "aria-describedby": ariaDescribedBy,
+    "aria-invalid": ariaInvalid,
+    "data-testid": dataTestId
   }, ref) {
     return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
       "textarea",
       {
         ref,
-        "aria-invalid": hasError || void 0,
+        value,
+        defaultValue,
+        onChange,
+        onFocus,
+        onBlur,
+        onKeyDown,
+        placeholder,
+        readOnly,
+        rows,
+        maxLength,
+        name,
+        disabled,
+        required,
+        autoFocus,
+        id,
+        form,
+        tabIndex,
+        "aria-invalid": ariaInvalid ?? (hasError || void 0),
+        "aria-label": ariaLabel,
+        "aria-labelledby": ariaLabelledBy,
+        "aria-describedby": ariaDescribedBy,
+        "data-testid": dataTestId,
         style: {
           ...baseStyle2,
           ...hasError ? errorBorderStyle2 : {},
-          ...disabled ? disabledStyle2 : {},
-          ...style
-        },
-        disabled,
-        ...props
+          ...disabled ? disabledStyle2 : {}
+        }
       }
     );
   }
@@ -1177,15 +1313,21 @@ var Select = (0, import_react10.forwardRef)(function Select2({
   placeholder,
   hasError,
   disabled,
-  style,
   value: controlledValue,
   defaultValue,
   onChange,
+  onFocus,
+  onBlur,
   name,
+  required,
   id,
+  form,
+  tabIndex,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
-  ...props
+  "aria-describedby": ariaDescribedBy,
+  "aria-invalid": ariaInvalid,
+  "data-testid": dataTestId
 }, ref) {
   (0, import_core9.useInjectStyles)(SELECT_STYLES_ID, selectCSS);
   const optionList = getOptions(options);
@@ -1215,22 +1357,27 @@ var Select = (0, import_react10.forwardRef)(function Select2({
         "select",
         {
           ref: hiddenSelectRef,
-          "aria-invalid": hasError || void 0,
+          "aria-invalid": ariaInvalid ?? (hasError || void 0),
           "aria-label": ariaLabel,
           "aria-labelledby": ariaLabelledBy,
+          "aria-describedby": ariaDescribedBy,
           name,
           id,
+          form,
+          required,
+          tabIndex,
           value: controlledValue,
           defaultValue,
           onChange,
+          onFocus,
+          onBlur,
           disabled,
+          "data-testid": dataTestId,
           style: {
             ...triggerBaseStyle,
             ...hasError ? errorBorderStyle3 : {},
-            ...disabled ? disabledStyle3 : {},
-            ...style
+            ...disabled ? disabledStyle3 : {}
           },
-          ...props,
           children: [
             placeholder && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("option", { value: "", disabled: true, children: placeholder }),
             children
@@ -1386,7 +1533,6 @@ var Select = (0, import_react10.forwardRef)(function Select2({
           opacity: 0,
           pointerEvents: "none"
         },
-        ...props,
         children: [
           placeholder && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("option", { value: "", disabled: true, children: placeholder }),
           optionList.map((opt) => /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("option", { value: opt.value, disabled: opt.disabled, children: opt.label }, opt.value))
@@ -1409,12 +1555,12 @@ var Select = (0, import_react10.forwardRef)(function Select2({
         "aria-activedescendant": open && focusedIndex >= 0 ? `alttab-select-opt-${optionList[focusedIndex]?.value}` : void 0,
         disabled,
         onClick: () => open ? closeMenu() : openMenu(),
+        "data-testid": dataTestId,
         style: {
           ...triggerBaseStyle,
           ...hasError ? errorBorderStyle3 : {},
           ...disabled ? disabledStyle3 : {},
-          ...showPlaceholder ? placeholderStyle : {},
-          ...style
+          ...showPlaceholder ? placeholderStyle : {}
         },
         children: displayLabel ?? placeholder ?? "\xA0"
       }
@@ -1548,6 +1694,10 @@ var variantStyles3 = {
     border: `${import_core10.semantic.borderWidthDefault} solid ${import_core10.semantic.colorBorder}`,
     color: import_core10.semantic.colorTextSecondary
   },
+  primary: {
+    background: `color-mix(in srgb, ${import_core10.semantic.colorActionPrimary} 14%, transparent)`,
+    color: import_core10.semantic.colorActionPrimary
+  },
   success: {
     background: import_core10.semantic.colorSuccessBg,
     color: import_core10.semantic.colorSuccess
@@ -1593,22 +1743,19 @@ var Badge = (0, import_react11.forwardRef)(
     children,
     variant = "default",
     size = "default",
-    color,
-    style,
     ...rest
   }, ref) {
     const isXs = size === "xs";
     const base = isXs ? xsBaseStyles : baseStyles2;
-    const colorStyles = color ? { background: `color-mix(in srgb, ${color} 14%, transparent)`, color } : void 0;
     return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
       "span",
       {
         ref,
-        ...rest,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
         style: {
           ...base,
-          ...colorStyles ?? variantStyles3[variant],
-          ...style
+          ...variantStyles3[variant]
         },
         children
       }
@@ -1632,9 +1779,17 @@ var IconButton = (0, import_react12.forwardRef)(
     buttonSize = "md",
     badge,
     fontClass,
-    style,
-    className,
-    ...props
+    onClick,
+    disabled,
+    type,
+    tabIndex,
+    id,
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledBy,
+    "aria-describedby": ariaDescribedBy,
+    "aria-expanded": ariaExpanded,
+    "aria-controls": ariaControls,
+    "data-testid": dataTestId
   }, ref) {
     const uid = (0, import_react12.useId)();
     const styleId = `icon-btn-${uid.replace(/:/g, "")}`;
@@ -1654,7 +1809,17 @@ var IconButton = (0, import_react12.forwardRef)(
       {
         ref,
         "data-icon-btn-id": styleId,
-        className,
+        type,
+        onClick,
+        disabled,
+        tabIndex,
+        id,
+        "aria-label": ariaLabel,
+        "aria-labelledby": ariaLabelledBy,
+        "aria-describedby": ariaDescribedBy,
+        "aria-expanded": ariaExpanded,
+        "aria-controls": ariaControls,
+        "data-testid": dataTestId,
         style: {
           position: "relative",
           display: "inline-flex",
@@ -1667,10 +1832,8 @@ var IconButton = (0, import_react12.forwardRef)(
           border: "none",
           color: import_core11.semantic.colorTextMuted,
           cursor: "pointer",
-          padding: 0,
-          ...style
+          padding: 0
         },
-        ...props,
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Icon, { name: icon, size, fontClass }),
           badge && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
@@ -1701,8 +1864,7 @@ var import_jsx_runtime13 = require("react/jsx-runtime");
 var Overlay = (0, import_react13.forwardRef)(
   function Overlay2({
     onClick,
-    zIndex = import_core12.semantic.zIndexSticky,
-    style
+    zIndex = import_core12.semantic.zIndexSticky
   }, ref) {
     return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
       "div",
@@ -1714,8 +1876,7 @@ var Overlay = (0, import_react13.forwardRef)(
           position: "fixed",
           inset: 0,
           background: import_core12.semantic.colorSurfaceOverlay,
-          zIndex,
-          ...style
+          zIndex
         }
       }
     );
@@ -1730,8 +1891,7 @@ var Skeleton = (0, import_react14.forwardRef)(
   function Skeleton2({
     width = "100%",
     height = 16,
-    borderRadius = import_core13.semantic.radiusMd,
-    style
+    radius = "md"
   }, ref) {
     return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
       "div",
@@ -1741,16 +1901,15 @@ var Skeleton = (0, import_react14.forwardRef)(
         style: {
           width,
           height,
-          borderRadius,
-          background: import_core13.semantic.colorSurfaceRaised,
-          ...style
+          borderRadius: radiusMap[radius],
+          background: import_core13.semantic.colorSurfaceRaised
         }
       }
     );
   }
 );
 var CardSkeleton = (0, import_react14.forwardRef)(
-  function CardSkeleton2({ style }, ref) {
+  function CardSkeleton2(_props, ref) {
     return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(
       "div",
       {
@@ -1762,8 +1921,7 @@ var CardSkeleton = (0, import_react14.forwardRef)(
           padding: import_core13.semantic.spaceLg,
           display: "flex",
           flexDirection: "column",
-          gap: import_core13.semantic.spaceSm,
-          ...style
+          gap: import_core13.semantic.spaceSm
         },
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Skeleton, { width: "60%", height: 20 }),
@@ -1775,7 +1933,7 @@ var CardSkeleton = (0, import_react14.forwardRef)(
   }
 );
 var RowSkeleton = (0, import_react14.forwardRef)(
-  function RowSkeleton2({ style }, ref) {
+  function RowSkeleton2(_props, ref) {
     return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(
       "div",
       {
@@ -1785,11 +1943,10 @@ var RowSkeleton = (0, import_react14.forwardRef)(
           display: "flex",
           alignItems: "center",
           gap: import_core13.semantic.spaceSm,
-          padding: `${import_core13.semantic.spaceSm} 0`,
-          ...style
+          padding: `${import_core13.semantic.spaceSm} 0`
         },
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Skeleton, { width: 32, height: 32, borderRadius: import_core13.semantic.radiusFull }),
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Skeleton, { width: 32, height: 32, radius: "full" }),
           /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { style: { flex: 1, display: "flex", flexDirection: "column", gap: import_core13.semantic.spaceXs }, children: [
             /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Skeleton, { width: "40%", height: 14 }),
             /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Skeleton, { width: "70%", height: 12 })
@@ -1808,8 +1965,7 @@ var ProgressBar = (0, import_react15.forwardRef)(
   function ProgressBar2({
     segments,
     height = 6,
-    "aria-label": ariaLabel,
-    style
+    "aria-label": ariaLabel
   }, ref) {
     const total = segments.reduce((sum, s) => sum + s.value, 0);
     return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
@@ -1827,8 +1983,7 @@ var ProgressBar = (0, import_react15.forwardRef)(
           borderRadius: height / 2,
           overflow: "hidden",
           display: "flex",
-          background: import_core14.semantic.colorSurfaceRaised,
-          ...style
+          background: import_core14.semantic.colorSurfaceRaised
         },
         children: segments.map((segment, i) => {
           const pct = total > 0 ? segment.value / total * 100 : 0;
@@ -1839,7 +1994,7 @@ var ProgressBar = (0, import_react15.forwardRef)(
               style: {
                 width: `${pct}%`,
                 height: "100%",
-                background: segment.color
+                background: semanticColorMap[segment.color]
               }
             },
             i
@@ -1859,11 +2014,10 @@ var EmptyState = (0, import_react16.forwardRef)(
     icon,
     message,
     variant = "plain",
-    style,
     children,
     action
   }, ref) {
-    const content = /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(Stack, { align: "center", gap: "sm", style: { padding: import_core15.semantic.spaceXl, ...style }, children: [
+    const content = /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { style: { padding: import_core15.semantic.spaceXl }, children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(Stack, { align: "center", gap: "sm", children: [
       /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Icon, { name: icon, size: 32, style: { color: import_core15.semantic.colorTextMuted } }),
       /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
         "span",
@@ -1879,7 +2033,7 @@ var EmptyState = (0, import_react16.forwardRef)(
       ),
       children,
       action && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { style: { marginTop: import_core15.semantic.spaceSm }, children: action })
-    ] });
+    ] }) });
     if (variant === "card") {
       return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Card, { ref, variant: "flat", children: content });
     }
@@ -1902,22 +2056,18 @@ var Pagination = (0, import_react17.forwardRef)(
     totalPages,
     total,
     onPageChange,
-    labels,
-    className,
-    style
+    labels
   }, ref) {
     const resolvedLabels = { ...defaultLabels, ...labels };
     return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(
       "div",
       {
         ref,
-        className,
         style: {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: import_core16.semantic.spaceSm,
-          ...style
+          gap: import_core16.semantic.spaceSm
         },
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
@@ -1972,8 +2122,6 @@ var PageHeader = (0, import_react18.forwardRef)(
     subtitle,
     indicator,
     trailing,
-    style,
-    className,
     level = 2
   }, ref) {
     const heading = (0, import_react18.createElement)(
@@ -1992,12 +2140,10 @@ var PageHeader = (0, import_react18.forwardRef)(
       "div",
       {
         ref,
-        className,
         style: {
           display: "flex",
           justifyContent: "space-between",
-          alignItems: "flex-end",
-          ...style
+          alignItems: "flex-end"
         },
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { children: [
@@ -2040,8 +2186,7 @@ function PageShell({
   children,
   maxWidth = 1100,
   gap = "md",
-  topPadding = true,
-  style
+  topPadding = true
 }) {
   (0, import_core18.useInjectStyles)(SCROLLBAR_ID, SCROLLBAR_CSS);
   return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
@@ -2056,8 +2201,7 @@ function PageShell({
         alignSelf: "center",
         overflowY: "auto",
         padding: `${topPadding ? import_core18.semantic.spaceLg : "0"} ${import_core18.semantic.spaceLg}`,
-        gap: gapMap2[gap],
-        ...style
+        gap: gapMap2[gap]
       },
       children
     }
@@ -2072,8 +2216,7 @@ var TagChip = (0, import_react19.forwardRef)(
   function TagChip2({
     name,
     prefix,
-    onRemove,
-    style
+    onRemove
   }, ref) {
     return /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(
       "span",
@@ -2088,8 +2231,7 @@ var TagChip = (0, import_react19.forwardRef)(
           background: import_core19.semantic.colorSurfaceRaised,
           borderRadius: import_core19.semantic.radiusFull,
           padding: "2px 8px",
-          fontFamily: import_core19.semantic.fontSans,
-          ...style
+          fontFamily: import_core19.semantic.fontSans
         },
         children: [
           prefix && /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("span", { style: { color: import_core19.semantic.colorTextMuted }, children: [
@@ -2097,16 +2239,16 @@ var TagChip = (0, import_react19.forwardRef)(
             ":"
           ] }),
           name,
-          onRemove && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
+          onRemove && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("span", { style: { display: "inline-flex", width: 18, height: 18, color: import_core19.semantic.colorActionPrimary }, children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
             IconButton,
             {
               icon: "close",
               size: 12,
               onClick: onRemove,
               "aria-label": `Remove ${name}`,
-              style: { width: 18, height: 18, color: import_core19.semantic.colorActionPrimary }
+              buttonSize: "sm"
             }
-          )
+          ) })
         ]
       }
     );
@@ -2125,7 +2267,6 @@ var ExpandableCard = (0, import_react20.forwardRef)(
     open: controlledOpen,
     onToggle,
     variant = "default",
-    style,
     headerAction
   }, ref) {
     const [internalOpen, setInternalOpen] = (0, import_react20.useState)(defaultOpen);
@@ -2138,7 +2279,7 @@ var ExpandableCard = (0, import_react20.forwardRef)(
       }
       onToggle?.(next);
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(Card, { ref, variant, padding: "xs", style, children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(Card, { ref, variant, padding: "xs", children: [
       /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between" }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(
           "button",
@@ -2244,7 +2385,6 @@ var ModalShell = (0, import_react21.forwardRef)(
     children,
     maxWidth = 480,
     zIndex = import_core21.semantic.zIndexModal,
-    style,
     titleId,
     "aria-label": ariaLabel,
     role = "dialog"
@@ -2319,8 +2459,7 @@ var ModalShell = (0, import_react21.forwardRef)(
                   maxWidth,
                   width: "100%",
                   pointerEvents: "auto",
-                  outline: "none",
-                  ...style
+                  outline: "none"
                 },
                 children
               }
@@ -2451,10 +2590,16 @@ var import_core24 = require("../../core/dist/index.cjs");
 var import_jsx_runtime25 = require("react/jsx-runtime");
 var variantColors = {
   default: import_core24.semantic.colorTextMuted,
+  primary: import_core24.semantic.colorActionPrimary,
   success: import_core24.semantic.colorSuccess,
   warning: import_core24.semantic.colorWarning,
   error: import_core24.semantic.colorError,
   info: import_core24.semantic.colorInfo
+};
+var sizeMap = {
+  sm: 6,
+  md: 8,
+  lg: 12
 };
 var PULSE_STYLES_ID = "4lt7ab-status-dot-pulse";
 var PULSE_STYLES_CSS = `
@@ -2475,13 +2620,12 @@ var PULSE_STYLES_CSS = `
 var StatusDot = (0, import_react24.forwardRef)(
   function StatusDot2({
     variant = "default",
-    color,
-    size = 8,
+    size = "md",
     animate = "none",
-    "aria-label": ariaLabel,
-    style
+    "aria-label": ariaLabel
   }, ref) {
-    const resolvedColor = color ?? variantColors[variant];
+    const resolvedColor = variantColors[variant];
+    const resolvedSize = sizeMap[size];
     const isPulsing = animate === "pulse";
     (0, import_core24.useInjectStyles)(PULSE_STYLES_ID, PULSE_STYLES_CSS);
     return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
@@ -2494,13 +2638,12 @@ var StatusDot = (0, import_react24.forwardRef)(
         "data-status-dot-pulse": isPulsing || void 0,
         style: {
           display: "inline-block",
-          width: size,
-          height: size,
+          width: resolvedSize,
+          height: resolvedSize,
           borderRadius: import_core24.semantic.radiusFull,
           background: resolvedColor,
           flexShrink: 0,
-          ...isPulsing ? { "--status-dot-color": resolvedColor } : void 0,
-          ...style
+          ...isPulsing ? { "--status-dot-color": resolvedColor } : void 0
         }
       }
     );
@@ -2515,8 +2658,7 @@ var import_jsx_runtime26 = require("react/jsx-runtime");
 var ThemeSurface = (0, import_react25.forwardRef)(
   function ThemeSurface2({
     children,
-    global = false,
-    style
+    global = false
   }, ref) {
     const { resolved } = (0, import_core26.useTheme)();
     const prevBodyBgRef = (0, import_react25.useRef)("");
@@ -2540,8 +2682,7 @@ var ThemeSurface = (0, import_react25.forwardRef)(
       {
         ref,
         style: {
-          background: import_core25.semantic.colorSurfacePage,
-          ...style
+          background: import_core25.semantic.colorSurfacePage
         },
         children
       }
@@ -2917,7 +3058,7 @@ function CalendarHeader({
         "aria-label": "Previous month",
         size: 16,
         onClick: onPrev,
-        style: { width: 28, height: 28 }
+        buttonSize: "sm"
       }
     ),
     /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("span", { style: titleStyle, children: [
@@ -2932,7 +3073,7 @@ function CalendarHeader({
         "aria-label": "Next month",
         size: 16,
         onClick: onNext,
-        style: { width: 28, height: 28 }
+        buttonSize: "sm"
       }
     )
   ] });
@@ -3192,8 +3333,7 @@ var DateRangePicker = (0, import_react28.forwardRef)(
     disabledDates,
     placeholder = "Select date range",
     hasError,
-    disabled,
-    style
+    disabled
   }, ref) {
     (0, import_core32.useInjectStyles)(SCOPE, injectedCSS);
     const [open, setOpen] = (0, import_react28.useState)(false);
@@ -3302,7 +3442,7 @@ var DateRangePicker = (0, import_react28.forwardRef)(
           if (typeof ref === "function") ref(node);
           else if (ref) ref.current = node;
         },
-        style: { ...wrapperStyle2, ...style },
+        style: wrapperStyle2,
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
             "button",
@@ -3435,8 +3575,7 @@ var DatePicker = (0, import_react29.forwardRef)(
     disabledDates,
     placeholder = "Select date",
     hasError,
-    disabled,
-    style
+    disabled
   }, ref) {
     (0, import_core33.useInjectStyles)(SCOPE2, injectedCSS2);
     const [open, setOpen] = (0, import_react29.useState)(false);
@@ -3530,7 +3669,7 @@ var DatePicker = (0, import_react29.forwardRef)(
           if (typeof ref === "function") ref(node);
           else if (ref) ref.current = node;
         },
-        style: { ...wrapperStyle3, ...style },
+        style: wrapperStyle3,
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
             "button",
@@ -3658,13 +3797,10 @@ var ErrorBoundary = class extends import_react30.default.Component {
     if (fallback) {
       return fallback({ error, resetErrorBoundary: this.resetErrorBoundary });
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("div", { style: { borderColor: import_core35.semantic.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: import_core35.semantic.radiusLg }, children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
       Card,
       {
-        style: {
-          borderColor: import_core35.semantic.colorError,
-          borderWidth: "2px"
-        },
+        variant: "flat",
         padding: "lg",
         children: /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: import_core35.semantic.spaceMd }, children: [
           /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("div", { style: { display: "flex", alignItems: "center", gap: import_core35.semantic.spaceSm }, children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
@@ -3739,7 +3875,7 @@ var ErrorBoundary = class extends import_react30.default.Component {
           /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(Button, { variant: "secondary", size: "sm", onClick: this.resetErrorBoundary, children: "Try again" }) })
         ] })
       }
-    );
+    ) });
   }
 };
 
@@ -3757,10 +3893,17 @@ var baseStyles3 = {
 };
 function SectionLabel({
   children,
-  style,
   ...rest
 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("div", { ...rest, style: { ...baseStyles3, ...style }, children });
+  return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+    "div",
+    {
+      id: rest.id,
+      "data-testid": rest["data-testid"],
+      style: baseStyles3,
+      children
+    }
+  );
 }
 
 // src/components/Toast/Toast.tsx
@@ -3981,11 +4124,24 @@ var Combobox = (0, import_react32.forwardRef)(function Combobox2({
   placeholder,
   disabled,
   hasError,
-  style,
+  onFocus: onFocusProp,
+  onBlur: onBlurProp,
+  onKeyDown: onKeyDownProp,
+  readOnly,
+  maxLength,
+  inputMode,
+  name,
+  required,
+  autoFocus,
+  autoComplete,
   id,
+  form,
+  tabIndex,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
-  ...props
+  "aria-describedby": ariaDescribedBy,
+  "aria-invalid": ariaInvalid,
+  "data-testid": dataTestId
 }, ref) {
   (0, import_core38.useInjectStyles)(COMBOBOX_STYLES_ID, comboboxCSS);
   const [open, setOpen] = (0, import_react32.useState)(false);
@@ -4148,25 +4304,35 @@ var Combobox = (0, import_react32.forwardRef)(function Combobox2({
             "aria-controls": listboxId,
             "aria-activedescendant": activedescendant,
             "aria-autocomplete": "list",
-            "aria-invalid": hasError || void 0,
+            "aria-invalid": ariaInvalid ?? (hasError || void 0),
             "aria-label": ariaLabel,
             "aria-labelledby": ariaLabelledBy,
-            autoComplete: "off",
+            "aria-describedby": ariaDescribedBy,
+            autoComplete: autoComplete ?? "off",
             id,
+            form,
+            name,
+            tabIndex,
+            readOnly,
+            maxLength,
+            inputMode,
+            required,
+            autoFocus,
             value,
             placeholder,
             disabled,
             onChange: handleInputChange,
-            onFocus: () => {
+            onBlur: onBlurProp,
+            onFocus: (e) => {
               if (!disabled && filtered.length > 0) openMenu();
+              onFocusProp?.(e);
             },
+            "data-testid": dataTestId,
             style: {
               ...inputBaseStyle,
               ...hasError ? errorBorderStyle4 : {},
-              ...disabled ? disabledStyle4 : {},
-              ...style
-            },
-            ...props
+              ...disabled ? disabledStyle4 : {}
+            }
           }
         ),
         open && filtered.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
@@ -4364,8 +4530,7 @@ var import_jsx_runtime39 = require("react/jsx-runtime");
 function ChipPicker({
   items,
   selected,
-  onChange,
-  style
+  onChange
 }) {
   const uid = (0, import_react34.useId)();
   const styleId = `chip-picker-${uid.replace(/:/g, "")}`;
@@ -4453,11 +4618,10 @@ function ChipPicker({
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: import_core40.semantic.spaceMd,
-        ...style
+        gap: import_core40.semantic.spaceMd
       },
       children: groups.map((group, i) => /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: import_core40.semantic.spaceSm }, children: [
-        group.label !== null && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(SectionLabel, { style: i > 0 ? { marginTop: import_core40.semantic.spaceXs } : void 0, children: group.label }),
+        group.label !== null && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { style: i > 0 ? { marginTop: import_core40.semantic.spaceXs } : void 0, children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(SectionLabel, { children: group.label }) }),
         renderChips(group.chips)
       ] }, group.label ?? "__ungrouped"))
     }
@@ -4520,9 +4684,15 @@ var SearchInput = (0, import_react35.forwardRef)(
     debounceMs = 300,
     trailing,
     disabled,
-    style,
     placeholder = "Search\u2026",
-    ...props
+    name,
+    id,
+    autoFocus,
+    tabIndex,
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledBy,
+    "aria-describedby": ariaDescribedBy,
+    "data-testid": dataTestId
   }, ref) {
     (0, import_core41.useInjectStyles)(STYLE_ID2, hoverFocusCSS);
     const [localValue, setLocalValue] = (0, import_react35.useState)(value);
@@ -4549,10 +4719,10 @@ var SearchInput = (0, import_react35.forwardRef)(
       "div",
       {
         className: "search-input-wrapper",
+        "data-testid": dataTestId,
         style: {
           ...wrapperStyle5,
-          ...disabled ? disabledWrapperStyle : {},
-          ...style
+          ...disabled ? disabledWrapperStyle : {}
         },
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Icon, { name: "search", size: 16, style: { color: import_core41.semantic.colorTextMuted, flexShrink: 0 } }),
@@ -4565,8 +4735,14 @@ var SearchInput = (0, import_react35.forwardRef)(
               onChange: handleChange,
               placeholder,
               disabled,
-              style: inputStyle,
-              ...props
+              name,
+              id,
+              autoFocus,
+              tabIndex,
+              "aria-label": ariaLabel,
+              "aria-labelledby": ariaLabelledBy,
+              "aria-describedby": ariaDescribedBy,
+              style: inputStyle
             }
           ),
           trailing && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: trailing })
@@ -4746,7 +4922,7 @@ var defaultIcons = {
   success: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(IconCheckCircle, { size: 20 })
 };
 var AlertBanner = (0, import_react37.forwardRef)(
-  function AlertBanner2({ variant, children, onDismiss, autoDismiss, icon, style }, ref) {
+  function AlertBanner2({ variant, children, onDismiss, autoDismiss, icon }, ref) {
     (0, import_core43.useInjectStyles)(STYLE_ID4, alertBannerCSS);
     const timerRef = (0, import_react37.useRef)(null);
     (0, import_react37.useEffect)(() => {
@@ -4778,8 +4954,7 @@ var AlertBanner = (0, import_react37.forwardRef)(
           fontWeight: import_core43.semantic.fontWeightMedium,
           lineHeight: import_core43.semantic.lineHeightBase,
           boxSizing: "border-box",
-          animation: "alert-banner-slide-in 250ms ease",
-          ...style
+          animation: "alert-banner-slide-in 250ms ease"
         },
         children: [
           resolvedIcon && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
@@ -4855,8 +5030,7 @@ var TopBar = (0, import_react38.forwardRef)(
     onNavigate,
     trailing,
     sticky = false,
-    style,
-    ...props
+    ...rest
   }, ref) {
     (0, import_core44.useInjectStyles)(TOPBAR_STYLES_ID, TOPBAR_CSS);
     const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: import_core44.semantic.zIndexSticky } : {};
@@ -4864,6 +5038,9 @@ var TopBar = (0, import_react38.forwardRef)(
       "header",
       {
         ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
+        "aria-label": rest["aria-label"],
         style: {
           display: "flex",
           alignItems: "center",
@@ -4872,10 +5049,8 @@ var TopBar = (0, import_react38.forwardRef)(
           background: import_core44.semantic.colorSurface,
           borderBottom: `${import_core44.semantic.borderWidthDefault} solid ${import_core44.semantic.colorBorder}`,
           fontFamily: import_core44.semantic.fontSans,
-          ...stickyStyle,
-          ...style
+          ...stickyStyle
         },
-        ...props,
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
             "div",
@@ -4999,15 +5174,14 @@ var ShortcutHelpModal = (0, import_react39.forwardRef)(
                 children: title
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("span", { style: { marginRight: `calc(-1 * ${import_core45.semantic.spaceXs})`, marginTop: `calc(-1 * ${import_core45.semantic.spaceXs})` }, children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
               IconButton,
               {
                 icon: "close",
                 "aria-label": "Close",
-                onClick: onClose,
-                style: { marginRight: `calc(-1 * ${import_core45.semantic.spaceXs})`, marginTop: `calc(-1 * ${import_core45.semantic.spaceXs})` }
+                onClick: onClose
               }
-            )
+            ) })
           ]
         }
       ),
@@ -5210,31 +5384,33 @@ var levelMap = {
 var Surface = (0, import_react41.forwardRef)(
   function Surface2({
     level = "solid",
-    bg,
+    tint,
     padding,
     radius = "lg",
     border = false,
     shadow,
     as = "div",
     children,
-    style,
-    ...props
+    ...rest
   }, ref) {
-    const borderValue = border === true ? `${import_core47.semantic.borderWidthDefault} solid ${import_core47.semantic.colorBorder}` : typeof border === "string" ? `${import_core47.semantic.borderWidthDefault} solid ${border}` : void 0;
+    const borderValue = border === true ? `${import_core47.semantic.borderWidthDefault} solid ${import_core47.semantic.colorBorder}` : typeof border === "string" ? `${import_core47.semantic.borderWidthDefault} solid ${semanticColorMap[border]}` : void 0;
+    const tintBg = tint ? `color-mix(in srgb, ${semanticColorMap[tint]} 10%, transparent)` : void 0;
     return (0, import_react41.createElement)(
       as,
       {
         ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
+        "aria-label": rest["aria-label"],
+        "aria-labelledby": rest["aria-labelledby"],
         style: {
-          background: bg ?? levelMap[level],
+          background: tintBg ?? levelMap[level],
           padding: padding ? spacingMap[padding] : void 0,
           borderRadius: radiusMap[radius],
           border: borderValue,
           boxShadow: shadow ? shadowMap[shadow] : void 0,
-          color: import_core47.semantic.colorText,
-          ...style
-        },
-        ...props
+          color: import_core47.semantic.colorText
+        }
       },
       children
     );
@@ -5250,8 +5426,7 @@ var Grid = (0, import_react42.forwardRef)(
     columns,
     gap = "md",
     children,
-    style,
-    ...props
+    ...rest
   }, ref) {
     const minWidth = typeof minColumnWidth === "number" ? `${minColumnWidth}px` : minColumnWidth;
     const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
@@ -5259,13 +5434,13 @@ var Grid = (0, import_react42.forwardRef)(
       "div",
       {
         ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
         style: {
           display: "grid",
           gridTemplateColumns,
-          gap: spacingMap[gap],
-          ...style
+          gap: spacingMap[gap]
         },
-        ...props,
         children
       }
     );
@@ -5282,8 +5457,7 @@ var Divider = (0, import_react43.forwardRef)(
     opacity = 50,
     length,
     spacing,
-    style,
-    ...props
+    ...rest
   }, ref) {
     const bg = `color-mix(in srgb, ${import_core48.semantic.colorBorder} ${opacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
@@ -5292,6 +5466,8 @@ var Divider = (0, import_react43.forwardRef)(
       "div",
       {
         ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
         role: "separator",
         "aria-orientation": orientation,
         style: {
@@ -5299,10 +5475,8 @@ var Divider = (0, import_react43.forwardRef)(
           width: isHorizontal ? length != null ? `${length}px` : "100%" : 1,
           height: isHorizontal ? 1 : length != null ? `${length}px` : "100%",
           flexShrink: 0,
-          margin: spacingValue ? isHorizontal ? `${spacingValue} 0` : `0 ${spacingValue}` : void 0,
-          ...style
-        },
-        ...props
+          margin: spacingValue ? isHorizontal ? `${spacingValue} 0` : `0 ${spacingValue}` : void 0
+        }
       }
     );
   }
@@ -5319,14 +5493,16 @@ var StatCard = (0, import_react44.forwardRef)(
     color,
     icon,
     iconSize = 40,
-    style,
-    ...props
+    ...rest
   }, ref) {
-    const tintBg = color ? `color-mix(in srgb, ${color} 10%, transparent)` : `color-mix(in srgb, ${import_core49.semantic.colorBorder} 20%, transparent)`;
+    const resolvedColor = color ? semanticColorMap[color] : void 0;
+    const tintBg = resolvedColor ? `color-mix(in srgb, ${resolvedColor} 10%, transparent)` : `color-mix(in srgb, ${import_core49.semantic.colorBorder} 20%, transparent)`;
     return /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)(
       "div",
       {
         ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
         style: {
           display: "flex",
           alignItems: "center",
@@ -5335,10 +5511,8 @@ var StatCard = (0, import_react44.forwardRef)(
           borderRadius: import_core49.semantic.radiusMd,
           background: import_core49.semantic.colorSurfaceRaised,
           border: `${import_core49.semantic.borderWidthDefault} solid color-mix(in srgb, ${import_core49.semantic.colorBorder} 40%, transparent)`,
-          color: import_core49.semantic.colorText,
-          ...style
+          color: import_core49.semantic.colorText
         },
-        ...props,
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
             "div",
@@ -5359,7 +5533,7 @@ var StatCard = (0, import_react44.forwardRef)(
                   className: "material-symbols-outlined",
                   style: {
                     fontSize: iconSize * 0.5,
-                    color: color ?? import_core49.semantic.colorTextMuted,
+                    color: resolvedColor ?? import_core49.semantic.colorTextMuted,
                     lineHeight: 1
                   },
                   "aria-hidden": "true",
@@ -5372,7 +5546,7 @@ var StatCard = (0, import_react44.forwardRef)(
                     width: 10,
                     height: 10,
                     borderRadius: import_core49.semantic.radiusFull,
-                    background: color ?? import_core49.semantic.colorTextMuted
+                    background: resolvedColor ?? import_core49.semantic.colorTextMuted
                   }
                 }
               )
@@ -5435,8 +5609,7 @@ var TabStrip = (0, import_react45.forwardRef)(
     onChange,
     allowDeselect = false,
     size = "md",
-    style,
-    ...props
+    ...rest
   }, ref) {
     (0, import_core50.useInjectStyles)(STYLES_ID, STYLES_CSS);
     const tabRefs = (0, import_react45.useRef)([]);
@@ -5474,13 +5647,13 @@ var TabStrip = (0, import_react45.forwardRef)(
       "div",
       {
         ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
         role: "tablist",
         style: {
           display: "flex",
-          gap: 2,
-          ...style
+          gap: 2
         },
-        ...props,
         children: tabs.map((tab, i) => {
           const isActive = tab.key === activeKey;
           return /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(
@@ -5545,13 +5718,14 @@ var SectionHeader = (0, import_react46.forwardRef)(
     trailing,
     border = false,
     spacing,
-    style,
-    ...props
+    ...rest
   }, ref) {
     return /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)(
       "div",
       {
         ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
         style: {
           display: "flex",
           justifyContent: "space-between",
@@ -5559,10 +5733,8 @@ var SectionHeader = (0, import_react46.forwardRef)(
           gap: import_core51.semantic.spaceMd,
           borderBottom: border ? `${import_core51.semantic.borderWidthDefault} solid ${import_core51.semantic.colorBorder}` : void 0,
           paddingBottom: border ? import_core51.semantic.spaceMd : void 0,
-          marginBottom: spacing ? spacingMap[spacing] : void 0,
-          ...style
+          marginBottom: spacing ? spacingMap[spacing] : void 0
         },
-        ...props,
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)(
             "div",

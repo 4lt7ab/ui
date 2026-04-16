@@ -30,10 +30,12 @@ export function IconDemo(): React.JSX.Element {
           gap: 'var(--space-md)',
         }}>
           {allIcons.map((name) => (
-            <Stack key={name} align="center" gap="xs" style={{ padding: 'var(--space-sm)' }}>
-              <Icon name={name} />
-              <span style={{ fontSize: '0.6rem', color: 'var(--color-text-muted)', textAlign: 'center' }}>{name}</span>
-            </Stack>
+            <div key={name} style={{ padding: 'var(--space-sm)' }}>
+              <Stack align="center" gap="xs">
+                <Icon name={name} />
+                <span style={{ fontSize: '0.6rem', color: 'var(--color-text-muted)', textAlign: 'center' }}>{name}</span>
+              </Stack>
+            </div>
           ))}
         </div>
       </Stack>

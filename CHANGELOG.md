@@ -2,6 +2,21 @@
 
 ## Unreleased
 
+- **BREAKING**: Lock down component prop APIs — remove `style`, `className`, and `extends HTMLAttributes` from all components
+- **BREAKING**: Replace arbitrary `color?: string` props with `SemanticColor` union on Badge, StatCard, StatusDot, ProgressBar, Surface
+- **BREAKING**: Remove `bg?: string` from Surface, replace with `tint?: SemanticColor`
+- **BREAKING**: Constrain Surface `border` string values to `SemanticColor`
+- **BREAKING**: Replace StatusDot `size?: number` with `size?: 'sm' | 'md' | 'lg'`; remove `color?: string`
+- **BREAKING**: Replace Skeleton `borderRadius?: string` with `radius?: RadiusToken`; constrain `width`/`height` types
+- **BREAKING**: Constrain Stack `align`/`justify` from open CSS types to named unions (`AlignItems`, `JustifyContent`)
+- **BREAKING**: Replace Container `maxWidth?: string` with `width` union (`'narrow' | 'prose' | 'wide' | 'full'`); replace `padding?: string` with `ContainerPadding` preset
+- **BREAKING**: Replace `extends HTMLAttributes` on form elements (Input, Textarea, Select, Button, IconButton, Combobox, SearchInput) with explicit prop allowlists
+- Add `BaseComponentProps` type (`id`, `data-testid`) — shared across all components
+- Add `SemanticColor` type and `semanticColorMap` for token-based color props
+- Add `AlignItems`, `JustifyContent` constrained layout unions with maps
+- Add `'primary'` variant to Badge, StatusDot
+- Aria props distributed per-component: interactive/structural components get relevant aria-* props, decorative components get none
+
 ## v0.2.25
 
 - Add Surface component — semantic background wrapper with level, border, shadow, radius, and polymorphic `as` prop

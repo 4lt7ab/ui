@@ -1,6 +1,5 @@
 import { forwardRef } from 'react';
 import { semantic as t } from '@4lt7ab/core';
-import type { CSSProperties } from 'react';
 
 /** A full-screen semi-transparent backdrop. Used behind modals and drawers. */
 export interface OverlayProps {
@@ -10,15 +9,12 @@ export interface OverlayProps {
    * @default 'var(--z-index-sticky)'
    */
   zIndex?: number | string;
-  /** Additional inline styles. */
-  style?: CSSProperties;
 }
 
 export const Overlay: React.ForwardRefExoticComponent<Omit<OverlayProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, OverlayProps>(
   function Overlay({
     onClick,
     zIndex = t.zIndexSticky,
-    style,
   }, ref): React.JSX.Element {
     return (
       <div
@@ -30,7 +26,6 @@ export const Overlay: React.ForwardRefExoticComponent<Omit<OverlayProps, 'ref'> 
           inset: 0,
           background: t.colorSurfaceOverlay,
           zIndex,
-          ...style,
         }}
       />
     );

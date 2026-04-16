@@ -1,7 +1,6 @@
 import { forwardRef } from 'react';
 import { semantic as t } from '@4lt7ab/core';
 import { Button } from '../Button';
-import type { CSSProperties } from 'react';
 
 /** Customizable text labels for the Pagination component. */
 export interface PaginationLabels {
@@ -29,10 +28,6 @@ export interface PaginationProps {
   onPageChange: (page: number) => void;
   /** Custom text labels for buttons and page indicator. */
   labels?: PaginationLabels;
-  /** CSS class name for the wrapper. */
-  className?: string;
-  /** Additional inline styles for the wrapper. */
-  style?: CSSProperties;
 }
 
 const defaultLabels: Required<PaginationLabels> = {
@@ -48,21 +43,17 @@ export const Pagination: React.ForwardRefExoticComponent<Omit<PaginationProps, '
     total,
     onPageChange,
     labels,
-    className,
-    style,
   }, ref): React.JSX.Element {
     const resolvedLabels = { ...defaultLabels, ...labels };
 
     return (
       <div
         ref={ref}
-        className={className}
       style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         gap: t.spaceSm,
-        ...style,
       }}
     >
       <Button

@@ -15,7 +15,8 @@ export function TaskDashboard(): React.JSX.Element {
   const [loading, setLoading] = useState(false);
 
   return (
-    <Stack gap="xl" style={{ maxWidth: 700 }}>
+    <div style={{ maxWidth: 700 }}>
+    <Stack gap="xl">
       <PageHeader
         title="Sprint 14"
         subtitle="Apr 7 – Apr 18"
@@ -34,10 +35,10 @@ export function TaskDashboard(): React.JSX.Element {
           </Stack>
           <ProgressBar
             segments={[
-              { value: 1, color: 'var(--color-success)', label: 'Done' },
-              { value: 1, color: 'var(--color-info)', label: 'In progress' },
-              { value: 1, color: 'var(--color-warning)', label: 'Blocked' },
-              { value: 1, color: 'var(--color-surface-disabled)', label: 'Todo' },
+              { value: 1, color: 'success', label: 'Done' },
+              { value: 1, color: 'info', label: 'In progress' },
+              { value: 1, color: 'warning', label: 'Blocked' },
+              { value: 1, color: 'muted', label: 'Todo' },
             ]}
             height={8}
           />
@@ -47,12 +48,13 @@ export function TaskDashboard(): React.JSX.Element {
       <ExpandableCard title="Active tasks" defaultOpen headerAction={<Badge variant="info">4</Badge>}>
         <Stack gap="sm">
           {tasks.map((task) => (
-            <Stack key={task.id} direction="horizontal" justify="space-between" align="center"
-              style={{ padding: 'var(--space-sm) 0', borderBottom: '1px solid var(--color-border)' }}
+            <div key={task.id} style={{ padding: 'var(--space-sm) 0', borderBottom: '1px solid var(--color-border)' }}>
+            <Stack direction="horizontal" justify="space-between" align="center"
             >
               <span style={{ fontSize: '0.875rem', color: 'var(--color-text)' }}>{task.title}</span>
               <Badge variant={task.status}>{task.label}</Badge>
             </Stack>
+            </div>
           ))}
         </Stack>
       </ExpandableCard>
@@ -71,5 +73,6 @@ export function TaskDashboard(): React.JSX.Element {
         </Card>
       )}
     </Stack>
+    </div>
   );
 }

@@ -2,13 +2,24 @@ import { forwardRef, useId } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
 import { Icon } from '../Icon';
 import type { IconName } from '../../icons';
-import type { ButtonHTMLAttributes } from 'react';
 
 /** Controls the tap-target size of the icon button. */
 export type IconButtonSize = 'sm' | 'md' | 'lg';
 
 /** A circular icon-only button. Requires `aria-label` for accessibility. */
-export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface IconButtonProps {
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  tabIndex?: number;
+  /** Required accessible label for icon-only buttons. */
+  'aria-label': string;
+  'aria-labelledby'?: string;
+  'aria-describedby'?: string;
+  'aria-expanded'?: boolean;
+  'aria-controls'?: string;
+  'data-testid'?: string;
+  id?: string;
   /** Icon to render — built-in registry name or any icon-font name when `fontClass` is set. */
   icon: IconName | (string & {});
   /** Icon dimensions in pixels.
@@ -29,8 +40,6 @@ export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
   /** CSS class for an icon font (e.g. `'material-symbols-outlined'`).
    *  Passed through to Icon for font-based rendering. */
   fontClass?: string;
-  /** Required accessible label for icon-only buttons. */
-  'aria-label': string;
 }
 
 const buttonSizeMap: Record<IconButtonSize, number> = {
@@ -46,9 +55,17 @@ export const IconButton: React.ForwardRefExoticComponent<Omit<IconButtonProps, '
     buttonSize = 'md',
     badge,
     fontClass,
-    style,
-    className,
-    ...props
+    onClick,
+    disabled,
+    type,
+    tabIndex,
+    id,
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
+    'aria-describedby': ariaDescribedBy,
+    'aria-expanded': ariaExpanded,
+    'aria-controls': ariaControls,
+    'data-testid': dataTestId,
   }, ref): React.JSX.Element {
     const uid = useId();
     const styleId = `icon-btn-${uid.replace(/:/g, '')}`;
@@ -70,7 +87,17 @@ export const IconButton: React.ForwardRefExoticComponent<Omit<IconButtonProps, '
       <button
         ref={ref}
         data-icon-btn-id={styleId}
-        className={className}
+        type={type}
+        onClick={onClick}
+        disabled={disabled}
+        tabIndex={tabIndex}
+        id={id}
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
+        aria-describedby={ariaDescribedBy}
+        aria-expanded={ariaExpanded}
+        aria-controls={ariaControls}
+        data-testid={dataTestId}
         style={{
           position: 'relative',
           display: 'inline-flex',
@@ -84,9 +111,7 @@ export const IconButton: React.ForwardRefExoticComponent<Omit<IconButtonProps, '
           color: t.colorTextMuted,
           cursor: 'pointer',
           padding: 0,
-          ...style,
         }}
-        {...props}
       >
         <Icon name={icon} size={size} fontClass={fontClass} />
         {badge && (

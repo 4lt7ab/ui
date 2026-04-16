@@ -1,6 +1,5 @@
 import { forwardRef, useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
-import type { InputHTMLAttributes } from 'react';
 
 /** A single option in the Combobox dropdown. */
 export interface ComboboxOption {
@@ -11,8 +10,7 @@ export interface ComboboxOption {
 }
 
 /** A typeahead select that combines free-text input with a filterable dropdown. */
-export interface ComboboxProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value' | 'onSelect'> {
+export interface ComboboxProps {
   /** Options to render in the dropdown. */
   options: ComboboxOption[];
   /** Current input value. */
@@ -29,6 +27,24 @@ export interface ComboboxProps
    * @default false
    */
   hasError?: boolean;
+  onFocus?: React.FocusEventHandler<HTMLInputElement>;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
+  readOnly?: boolean;
+  maxLength?: number;
+  inputMode?: 'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url';
+  name?: string;
+  required?: boolean;
+  autoFocus?: boolean;
+  autoComplete?: string;
+  id?: string;
+  form?: string;
+  tabIndex?: number;
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
+  'aria-describedby'?: string;
+  'aria-invalid'?: boolean;
+  'data-testid'?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -87,11 +103,24 @@ export const Combobox: React.ForwardRefExoticComponent<
     placeholder,
     disabled,
     hasError,
-    style,
+    onFocus: onFocusProp,
+    onBlur: onBlurProp,
+    onKeyDown: onKeyDownProp,
+    readOnly,
+    maxLength,
+    inputMode,
+    name,
+    required,
+    autoFocus,
+    autoComplete,
     id,
+    form,
+    tabIndex,
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
-    ...props
+    'aria-describedby': ariaDescribedBy,
+    'aria-invalid': ariaInvalid,
+    'data-testid': dataTestId,
   },
   ref,
 ): React.JSX.Element {
@@ -309,25 +338,35 @@ export const Combobox: React.ForwardRefExoticComponent<
         aria-controls={listboxId}
         aria-activedescendant={activedescendant}
         aria-autocomplete="list"
-        aria-invalid={hasError || undefined}
+        aria-invalid={ariaInvalid ?? (hasError || undefined)}
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledBy}
-        autoComplete="off"
+        aria-describedby={ariaDescribedBy}
+        autoComplete={autoComplete ?? 'off'}
         id={id}
+        form={form}
+        name={name}
+        tabIndex={tabIndex}
+        readOnly={readOnly}
+        maxLength={maxLength}
+        inputMode={inputMode}
+        required={required}
+        autoFocus={autoFocus}
         value={value}
         placeholder={placeholder}
         disabled={disabled}
         onChange={handleInputChange}
-        onFocus={() => {
+        onBlur={onBlurProp}
+        onFocus={(e) => {
           if (!disabled && filtered.length > 0) openMenu();
+          onFocusProp?.(e);
         }}
+        data-testid={dataTestId}
         style={{
           ...inputBaseStyle,
           ...(hasError ? errorBorderStyle : {}),
           ...(disabled ? disabledStyle : {}),
-          ...style,
         }}
-        {...props}
       />
 
       {/* Dropdown listbox */}

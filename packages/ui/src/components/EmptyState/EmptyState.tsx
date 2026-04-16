@@ -4,7 +4,7 @@ import { Icon } from '../Icon';
 import { Stack } from '../Stack';
 import { Card } from '../Card';
 import type { IconName } from '../../icons';
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 /** A placeholder shown when a section has no content. Displays an icon, message, and optional action. */
 export interface EmptyStateProps {
@@ -18,8 +18,6 @@ export interface EmptyStateProps {
    * @default 'plain'
    */
   variant?: 'plain' | 'card';
-  /** Additional inline styles. */
-  style?: CSSProperties;
   /** Additional content rendered below the message. */
   children?: ReactNode;
   /** Action slot (e.g. a CTA button) rendered below the message and children. */
@@ -31,12 +29,12 @@ export const EmptyState: React.ForwardRefExoticComponent<Omit<EmptyStateProps, '
     icon,
     message,
     variant = 'plain',
-    style,
     children,
     action,
   }, ref): React.JSX.Element {
     const content = (
-      <Stack align="center" gap="sm" style={{ padding: t.spaceXl, ...style }}>
+      <div style={{ padding: t.spaceXl }}>
+      <Stack align="center" gap="sm">
         <Icon name={icon} size={32} style={{ color: t.colorTextMuted }} />
         <span
           style={{
@@ -51,6 +49,7 @@ export const EmptyState: React.ForwardRefExoticComponent<Omit<EmptyStateProps, '
         {children}
         {action && <div style={{ marginTop: t.spaceSm }}>{action}</div>}
       </Stack>
+      </div>
     );
 
     if (variant === 'card') {

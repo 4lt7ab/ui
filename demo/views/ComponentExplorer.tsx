@@ -338,9 +338,11 @@ function ComponentDetail({ name }: { name: string }): React.JSX.Element {
 
   if (!entry) {
     return (
-      <Stack gap="md" style={{ padding: 'var(--space-xl)' }}>
+      <div style={{ padding: 'var(--space-xl)' }}>
+      <Stack gap="md">
         <span style={{ color: 'var(--color-text-muted)' }}>Component not found: {name}</span>
       </Stack>
+      </div>
     );
   }
 

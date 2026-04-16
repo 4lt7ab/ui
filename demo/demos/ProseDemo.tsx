@@ -2,7 +2,7 @@ import { Prose, PullQuote, MarginNote, SideNote, Epigraph, Container } from '@4l
 
 export function ProseDemo(): React.JSX.Element {
   return (
-    <Container width="prose" style={{ padding: 0 }}>
+    <Container width="prose" padding="none">
       <Epigraph cite="— Probably not Abraham Lincoln">
         The best way to predict the future is to create it.
       </Epigraph>

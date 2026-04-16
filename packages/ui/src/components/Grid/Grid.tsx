@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
-import type { HTMLAttributes, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { spacingMap } from '../../types';
-import type { SpacingToken } from '../../types';
+import type { SpacingToken, BaseComponentProps } from '../../types';
 
 /**
  * Responsive grid layout with auto-fill columns.
@@ -27,7 +27,7 @@ import type { SpacingToken } from '../../types';
  * </Grid>
  * ```
  */
-export interface GridProps extends HTMLAttributes<HTMLDivElement> {
+export interface GridProps extends BaseComponentProps {
   /**
    * Minimum width of each column before wrapping.
    * Number values are treated as pixels; strings are used as-is.
@@ -58,8 +58,7 @@ export const Grid: React.ForwardRefExoticComponent<
       columns,
       gap = 'md',
       children,
-      style,
-      ...props
+      ...rest
     },
     ref,
   ): React.JSX.Element {
@@ -75,13 +74,13 @@ export const Grid: React.ForwardRefExoticComponent<
     return (
       <div
         ref={ref}
+        id={rest.id}
+        data-testid={rest['data-testid']}
         style={{
           display: 'grid',
           gridTemplateColumns,
           gap: spacingMap[gap],
-          ...style,
         }}
-        {...props}
       >
         {children}
       </div>

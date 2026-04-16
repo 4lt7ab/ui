@@ -28,7 +28,6 @@ export function OverlayDemo(): React.JSX.Element {
           <Overlay
             onClick={() => setShowCustom(false)}
             zIndex={50}
-            style={{ cursor: 'pointer' }}
           />
         )}
       </Stack>

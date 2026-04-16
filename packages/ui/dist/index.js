@@ -639,9 +639,22 @@ var Button = forwardRef3(
     loading = false,
     iconOnly = false,
     children,
-    style,
     disabled,
-    ...props
+    onClick,
+    type,
+    form,
+    name,
+    value,
+    tabIndex,
+    autoFocus,
+    id,
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledBy,
+    "aria-describedby": ariaDescribedBy,
+    "aria-expanded": ariaExpanded,
+    "aria-controls": ariaControls,
+    "aria-haspopup": ariaHasPopup,
+    "data-testid": dataTestId
   }, ref) {
     useInjectStyles2(SPINNER_STYLES_ID, spinnerCSS);
     const isDisabled = disabled || loading;
@@ -649,17 +662,30 @@ var Button = forwardRef3(
       "button",
       {
         ref,
+        type,
+        form,
+        name,
+        value,
+        tabIndex,
+        id,
+        onClick,
+        autoFocus,
         "aria-busy": loading || void 0,
+        "aria-label": ariaLabel,
+        "aria-labelledby": ariaLabelledBy,
+        "aria-describedby": ariaDescribedBy,
+        "aria-expanded": ariaExpanded,
+        "aria-controls": ariaControls,
+        "aria-haspopup": ariaHasPopup,
+        "data-testid": dataTestId,
         style: {
           ...baseStyles,
           ...variantStyles[variant],
           ...sizeStyles[size],
           ...iconOnly ? { padding: iconOnlyPadding[size], aspectRatio: "1", minWidth: 0 } : {},
-          ...isDisabled ? { opacity: 0.5, cursor: "not-allowed" } : {},
-          ...style
+          ...isDisabled ? { opacity: 0.5, cursor: "not-allowed" } : {}
         },
         disabled: isDisabled,
-        ...props,
         children: loading ? /* @__PURE__ */ jsx4("span", { className: "alttab-btn-spinner" }) : children
       }
     );
@@ -671,6 +697,29 @@ import { forwardRef as forwardRef4 } from "react";
 
 // src/types.ts
 import { semantic as t2 } from "../../core/dist/index.js";
+var alignMap = {
+  start: "flex-start",
+  center: "center",
+  end: "flex-end",
+  stretch: "stretch",
+  baseline: "baseline"
+};
+var justifyMap = {
+  start: "flex-start",
+  center: "center",
+  end: "flex-end",
+  "space-between": "space-between",
+  "space-around": "space-around",
+  "space-evenly": "space-evenly"
+};
+var semanticColorMap = {
+  primary: t2.colorActionPrimary,
+  success: t2.colorSuccess,
+  warning: t2.colorWarning,
+  error: t2.colorError,
+  info: t2.colorInfo,
+  muted: t2.colorTextMuted
+};
 var spacingMap = {
   xs: t2.spaceXs,
   sm: t2.spaceSm,
@@ -703,23 +752,22 @@ var Stack = forwardRef4(
     justify,
     wrap,
     children,
-    style,
-    ...props
+    ...rest
   }, ref) {
     return /* @__PURE__ */ jsx5(
       "div",
       {
         ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
         style: {
           display: "flex",
           flexDirection: direction === "vertical" ? "column" : "row",
           gap: gapMap[gap],
-          alignItems: align,
-          justifyContent: justify,
-          flexWrap: wrap ? "wrap" : void 0,
-          ...style
+          alignItems: align ? alignMap[align] : void 0,
+          justifyContent: justify ? justifyMap[justify] : void 0,
+          flexWrap: wrap ? "wrap" : void 0
         },
-        ...props,
         children
       }
     );
@@ -786,8 +834,7 @@ var Card = forwardRef5(
     padding = "lg",
     hover = false,
     children,
-    style,
-    ...props
+    ...rest
   }, ref) {
     useInjectStyles3(HOVER_STYLES_ID, HOVER_STYLES_CSS);
     useInjectStyles3(LIVE_STYLES_ID, LIVE_STYLES_CSS);
@@ -795,16 +842,16 @@ var Card = forwardRef5(
       "div",
       {
         ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
         "data-card-hover": hover || void 0,
         "data-card-live": variant === "live" || void 0,
         style: {
           borderRadius: t3.radiusLg,
           padding: paddingMap[padding],
           color: t3.colorText,
-          ...variantStyles2[variant],
-          ...style
+          ...variantStyles2[variant]
         },
-        ...props,
         children
       }
     );
@@ -850,8 +897,7 @@ var Field = forwardRef6(
     required,
     disabled,
     children,
-    style,
-    ...props
+    ...rest
   }, ref) {
     const autoId = useId();
     const helpId = help ? `${autoId}-help` : void 0;
@@ -864,14 +910,15 @@ var Field = forwardRef6(
       "div",
       {
         ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
+        "aria-describedby": rest["aria-describedby"],
         style: {
           display: "flex",
           flexDirection: "column",
           gap: t4.spaceXs,
-          opacity: disabled ? 0.6 : void 0,
-          ...style
+          opacity: disabled ? 0.6 : void 0
         },
-        ...props,
         children: [
           /* @__PURE__ */ jsxs3("label", { htmlFor, style: labelStyle, children: [
             label,
@@ -917,22 +964,71 @@ var Input = forwardRef7(
   function Input2({
     hasError,
     disabled,
-    style,
-    ...props
+    type,
+    value,
+    defaultValue,
+    onChange,
+    onFocus,
+    onBlur,
+    onKeyDown,
+    placeholder,
+    readOnly,
+    maxLength,
+    min,
+    max,
+    step,
+    pattern,
+    inputMode,
+    name,
+    required,
+    autoFocus,
+    autoComplete,
+    id,
+    form,
+    tabIndex,
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledBy,
+    "aria-describedby": ariaDescribedBy,
+    "aria-invalid": ariaInvalid,
+    "data-testid": dataTestId
   }, ref) {
     return /* @__PURE__ */ jsx8(
       "input",
       {
         ref,
-        "aria-invalid": hasError || void 0,
+        type,
+        value,
+        defaultValue,
+        onChange,
+        onFocus,
+        onBlur,
+        onKeyDown,
+        placeholder,
+        readOnly,
+        maxLength,
+        min,
+        max,
+        step,
+        pattern,
+        inputMode,
+        name,
+        disabled,
+        required,
+        autoFocus,
+        autoComplete,
+        id,
+        form,
+        tabIndex,
+        "aria-invalid": ariaInvalid ?? (hasError || void 0),
+        "aria-label": ariaLabel,
+        "aria-labelledby": ariaLabelledBy,
+        "aria-describedby": ariaDescribedBy,
+        "data-testid": dataTestId,
         style: {
           ...baseStyle,
           ...hasError ? errorBorderStyle : {},
-          ...disabled ? disabledStyle : {},
-          ...style
-        },
-        disabled,
-        ...props
+          ...disabled ? disabledStyle : {}
+        }
       }
     );
   }
@@ -972,22 +1068,59 @@ var Textarea = forwardRef8(
   function Textarea2({
     hasError,
     disabled,
-    style,
-    ...props
+    value,
+    defaultValue,
+    onChange,
+    onFocus,
+    onBlur,
+    onKeyDown,
+    placeholder,
+    readOnly,
+    rows,
+    maxLength,
+    name,
+    required,
+    autoFocus,
+    id,
+    form,
+    tabIndex,
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledBy,
+    "aria-describedby": ariaDescribedBy,
+    "aria-invalid": ariaInvalid,
+    "data-testid": dataTestId
   }, ref) {
     return /* @__PURE__ */ jsx9(
       "textarea",
       {
         ref,
-        "aria-invalid": hasError || void 0,
+        value,
+        defaultValue,
+        onChange,
+        onFocus,
+        onBlur,
+        onKeyDown,
+        placeholder,
+        readOnly,
+        rows,
+        maxLength,
+        name,
+        disabled,
+        required,
+        autoFocus,
+        id,
+        form,
+        tabIndex,
+        "aria-invalid": ariaInvalid ?? (hasError || void 0),
+        "aria-label": ariaLabel,
+        "aria-labelledby": ariaLabelledBy,
+        "aria-describedby": ariaDescribedBy,
+        "data-testid": dataTestId,
         style: {
           ...baseStyle2,
           ...hasError ? errorBorderStyle2 : {},
-          ...disabled ? disabledStyle2 : {},
-          ...style
-        },
-        disabled,
-        ...props
+          ...disabled ? disabledStyle2 : {}
+        }
       }
     );
   }
@@ -1053,15 +1186,21 @@ var Select = forwardRef9(function Select2({
   placeholder,
   hasError,
   disabled,
-  style,
   value: controlledValue,
   defaultValue,
   onChange,
+  onFocus,
+  onBlur,
   name,
+  required,
   id,
+  form,
+  tabIndex,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
-  ...props
+  "aria-describedby": ariaDescribedBy,
+  "aria-invalid": ariaInvalid,
+  "data-testid": dataTestId
 }, ref) {
   useInjectStyles4(SELECT_STYLES_ID, selectCSS);
   const optionList = getOptions(options);
@@ -1091,22 +1230,27 @@ var Select = forwardRef9(function Select2({
         "select",
         {
           ref: hiddenSelectRef,
-          "aria-invalid": hasError || void 0,
+          "aria-invalid": ariaInvalid ?? (hasError || void 0),
           "aria-label": ariaLabel,
           "aria-labelledby": ariaLabelledBy,
+          "aria-describedby": ariaDescribedBy,
           name,
           id,
+          form,
+          required,
+          tabIndex,
           value: controlledValue,
           defaultValue,
           onChange,
+          onFocus,
+          onBlur,
           disabled,
+          "data-testid": dataTestId,
           style: {
             ...triggerBaseStyle,
             ...hasError ? errorBorderStyle3 : {},
-            ...disabled ? disabledStyle3 : {},
-            ...style
+            ...disabled ? disabledStyle3 : {}
           },
-          ...props,
           children: [
             placeholder && /* @__PURE__ */ jsx10("option", { value: "", disabled: true, children: placeholder }),
             children
@@ -1262,7 +1406,6 @@ var Select = forwardRef9(function Select2({
           opacity: 0,
           pointerEvents: "none"
         },
-        ...props,
         children: [
           placeholder && /* @__PURE__ */ jsx10("option", { value: "", disabled: true, children: placeholder }),
           optionList.map((opt) => /* @__PURE__ */ jsx10("option", { value: opt.value, disabled: opt.disabled, children: opt.label }, opt.value))
@@ -1285,12 +1428,12 @@ var Select = forwardRef9(function Select2({
         "aria-activedescendant": open && focusedIndex >= 0 ? `alttab-select-opt-${optionList[focusedIndex]?.value}` : void 0,
         disabled,
         onClick: () => open ? closeMenu() : openMenu(),
+        "data-testid": dataTestId,
         style: {
           ...triggerBaseStyle,
           ...hasError ? errorBorderStyle3 : {},
           ...disabled ? disabledStyle3 : {},
-          ...showPlaceholder ? placeholderStyle : {},
-          ...style
+          ...showPlaceholder ? placeholderStyle : {}
         },
         children: displayLabel ?? placeholder ?? "\xA0"
       }
@@ -1424,6 +1567,10 @@ var variantStyles3 = {
     border: `${t8.borderWidthDefault} solid ${t8.colorBorder}`,
     color: t8.colorTextSecondary
   },
+  primary: {
+    background: `color-mix(in srgb, ${t8.colorActionPrimary} 14%, transparent)`,
+    color: t8.colorActionPrimary
+  },
   success: {
     background: t8.colorSuccessBg,
     color: t8.colorSuccess
@@ -1469,22 +1616,19 @@ var Badge = forwardRef10(
     children,
     variant = "default",
     size = "default",
-    color,
-    style,
     ...rest
   }, ref) {
     const isXs = size === "xs";
     const base = isXs ? xsBaseStyles : baseStyles2;
-    const colorStyles = color ? { background: `color-mix(in srgb, ${color} 14%, transparent)`, color } : void 0;
     return /* @__PURE__ */ jsx11(
       "span",
       {
         ref,
-        ...rest,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
         style: {
           ...base,
-          ...colorStyles ?? variantStyles3[variant],
-          ...style
+          ...variantStyles3[variant]
         },
         children
       }
@@ -1508,9 +1652,17 @@ var IconButton = forwardRef11(
     buttonSize = "md",
     badge,
     fontClass,
-    style,
-    className,
-    ...props
+    onClick,
+    disabled,
+    type,
+    tabIndex,
+    id,
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledBy,
+    "aria-describedby": ariaDescribedBy,
+    "aria-expanded": ariaExpanded,
+    "aria-controls": ariaControls,
+    "data-testid": dataTestId
   }, ref) {
     const uid = useId2();
     const styleId = `icon-btn-${uid.replace(/:/g, "")}`;
@@ -1530,7 +1682,17 @@ var IconButton = forwardRef11(
       {
         ref,
         "data-icon-btn-id": styleId,
-        className,
+        type,
+        onClick,
+        disabled,
+        tabIndex,
+        id,
+        "aria-label": ariaLabel,
+        "aria-labelledby": ariaLabelledBy,
+        "aria-describedby": ariaDescribedBy,
+        "aria-expanded": ariaExpanded,
+        "aria-controls": ariaControls,
+        "data-testid": dataTestId,
         style: {
           position: "relative",
           display: "inline-flex",
@@ -1543,10 +1705,8 @@ var IconButton = forwardRef11(
           border: "none",
           color: t9.colorTextMuted,
           cursor: "pointer",
-          padding: 0,
-          ...style
+          padding: 0
         },
-        ...props,
         children: [
           /* @__PURE__ */ jsx12(Icon, { name: icon, size, fontClass }),
           badge && /* @__PURE__ */ jsx12(
@@ -1577,8 +1737,7 @@ import { jsx as jsx13 } from "react/jsx-runtime";
 var Overlay = forwardRef12(
   function Overlay2({
     onClick,
-    zIndex = t10.zIndexSticky,
-    style
+    zIndex = t10.zIndexSticky
   }, ref) {
     return /* @__PURE__ */ jsx13(
       "div",
@@ -1590,8 +1749,7 @@ var Overlay = forwardRef12(
           position: "fixed",
           inset: 0,
           background: t10.colorSurfaceOverlay,
-          zIndex,
-          ...style
+          zIndex
         }
       }
     );
@@ -1606,8 +1764,7 @@ var Skeleton = forwardRef13(
   function Skeleton2({
     width = "100%",
     height = 16,
-    borderRadius = t11.radiusMd,
-    style
+    radius = "md"
   }, ref) {
     return /* @__PURE__ */ jsx14(
       "div",
@@ -1617,16 +1774,15 @@ var Skeleton = forwardRef13(
         style: {
           width,
           height,
-          borderRadius,
-          background: t11.colorSurfaceRaised,
-          ...style
+          borderRadius: radiusMap[radius],
+          background: t11.colorSurfaceRaised
         }
       }
     );
   }
 );
 var CardSkeleton = forwardRef13(
-  function CardSkeleton2({ style }, ref) {
+  function CardSkeleton2(_props, ref) {
     return /* @__PURE__ */ jsxs6(
       "div",
       {
@@ -1638,8 +1794,7 @@ var CardSkeleton = forwardRef13(
           padding: t11.spaceLg,
           display: "flex",
           flexDirection: "column",
-          gap: t11.spaceSm,
-          ...style
+          gap: t11.spaceSm
         },
         children: [
           /* @__PURE__ */ jsx14(Skeleton, { width: "60%", height: 20 }),
@@ -1651,7 +1806,7 @@ var CardSkeleton = forwardRef13(
   }
 );
 var RowSkeleton = forwardRef13(
-  function RowSkeleton2({ style }, ref) {
+  function RowSkeleton2(_props, ref) {
     return /* @__PURE__ */ jsxs6(
       "div",
       {
@@ -1661,11 +1816,10 @@ var RowSkeleton = forwardRef13(
           display: "flex",
           alignItems: "center",
           gap: t11.spaceSm,
-          padding: `${t11.spaceSm} 0`,
-          ...style
+          padding: `${t11.spaceSm} 0`
         },
         children: [
-          /* @__PURE__ */ jsx14(Skeleton, { width: 32, height: 32, borderRadius: t11.radiusFull }),
+          /* @__PURE__ */ jsx14(Skeleton, { width: 32, height: 32, radius: "full" }),
           /* @__PURE__ */ jsxs6("div", { style: { flex: 1, display: "flex", flexDirection: "column", gap: t11.spaceXs }, children: [
             /* @__PURE__ */ jsx14(Skeleton, { width: "40%", height: 14 }),
             /* @__PURE__ */ jsx14(Skeleton, { width: "70%", height: 12 })
@@ -1684,8 +1838,7 @@ var ProgressBar = forwardRef14(
   function ProgressBar2({
     segments,
     height = 6,
-    "aria-label": ariaLabel,
-    style
+    "aria-label": ariaLabel
   }, ref) {
     const total = segments.reduce((sum, s) => sum + s.value, 0);
     return /* @__PURE__ */ jsx15(
@@ -1703,8 +1856,7 @@ var ProgressBar = forwardRef14(
           borderRadius: height / 2,
           overflow: "hidden",
           display: "flex",
-          background: t12.colorSurfaceRaised,
-          ...style
+          background: t12.colorSurfaceRaised
         },
         children: segments.map((segment, i) => {
           const pct = total > 0 ? segment.value / total * 100 : 0;
@@ -1715,7 +1867,7 @@ var ProgressBar = forwardRef14(
               style: {
                 width: `${pct}%`,
                 height: "100%",
-                background: segment.color
+                background: semanticColorMap[segment.color]
               }
             },
             i
@@ -1735,11 +1887,10 @@ var EmptyState = forwardRef15(
     icon,
     message,
     variant = "plain",
-    style,
     children,
     action
   }, ref) {
-    const content = /* @__PURE__ */ jsxs7(Stack, { align: "center", gap: "sm", style: { padding: t13.spaceXl, ...style }, children: [
+    const content = /* @__PURE__ */ jsx16("div", { style: { padding: t13.spaceXl }, children: /* @__PURE__ */ jsxs7(Stack, { align: "center", gap: "sm", children: [
       /* @__PURE__ */ jsx16(Icon, { name: icon, size: 32, style: { color: t13.colorTextMuted } }),
       /* @__PURE__ */ jsx16(
         "span",
@@ -1755,7 +1906,7 @@ var EmptyState = forwardRef15(
       ),
       children,
       action && /* @__PURE__ */ jsx16("div", { style: { marginTop: t13.spaceSm }, children: action })
-    ] });
+    ] }) });
     if (variant === "card") {
       return /* @__PURE__ */ jsx16(Card, { ref, variant: "flat", children: content });
     }
@@ -1778,22 +1929,18 @@ var Pagination = forwardRef16(
     totalPages,
     total,
     onPageChange,
-    labels,
-    className,
-    style
+    labels
   }, ref) {
     const resolvedLabels = { ...defaultLabels, ...labels };
     return /* @__PURE__ */ jsxs8(
       "div",
       {
         ref,
-        className,
         style: {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: t14.spaceSm,
-          ...style
+          gap: t14.spaceSm
         },
         children: [
           /* @__PURE__ */ jsx17(
@@ -1848,8 +1995,6 @@ var PageHeader = forwardRef17(
     subtitle,
     indicator,
     trailing,
-    style,
-    className,
     level = 2
   }, ref) {
     const heading = createElement(
@@ -1868,12 +2013,10 @@ var PageHeader = forwardRef17(
       "div",
       {
         ref,
-        className,
         style: {
           display: "flex",
           justifyContent: "space-between",
-          alignItems: "flex-end",
-          ...style
+          alignItems: "flex-end"
         },
         children: [
           /* @__PURE__ */ jsxs9("div", { children: [
@@ -1916,8 +2059,7 @@ function PageShell({
   children,
   maxWidth = 1100,
   gap = "md",
-  topPadding = true,
-  style
+  topPadding = true
 }) {
   useInjectStyles6(SCROLLBAR_ID, SCROLLBAR_CSS);
   return /* @__PURE__ */ jsx19(
@@ -1932,8 +2074,7 @@ function PageShell({
         alignSelf: "center",
         overflowY: "auto",
         padding: `${topPadding ? t16.spaceLg : "0"} ${t16.spaceLg}`,
-        gap: gapMap2[gap],
-        ...style
+        gap: gapMap2[gap]
       },
       children
     }
@@ -1948,8 +2089,7 @@ var TagChip = forwardRef18(
   function TagChip2({
     name,
     prefix,
-    onRemove,
-    style
+    onRemove
   }, ref) {
     return /* @__PURE__ */ jsxs10(
       "span",
@@ -1964,8 +2104,7 @@ var TagChip = forwardRef18(
           background: t17.colorSurfaceRaised,
           borderRadius: t17.radiusFull,
           padding: "2px 8px",
-          fontFamily: t17.fontSans,
-          ...style
+          fontFamily: t17.fontSans
         },
         children: [
           prefix && /* @__PURE__ */ jsxs10("span", { style: { color: t17.colorTextMuted }, children: [
@@ -1973,16 +2112,16 @@ var TagChip = forwardRef18(
             ":"
           ] }),
           name,
-          onRemove && /* @__PURE__ */ jsx20(
+          onRemove && /* @__PURE__ */ jsx20("span", { style: { display: "inline-flex", width: 18, height: 18, color: t17.colorActionPrimary }, children: /* @__PURE__ */ jsx20(
             IconButton,
             {
               icon: "close",
               size: 12,
               onClick: onRemove,
               "aria-label": `Remove ${name}`,
-              style: { width: 18, height: 18, color: t17.colorActionPrimary }
+              buttonSize: "sm"
             }
-          )
+          ) })
         ]
       }
     );
@@ -2001,7 +2140,6 @@ var ExpandableCard = forwardRef19(
     open: controlledOpen,
     onToggle,
     variant = "default",
-    style,
     headerAction
   }, ref) {
     const [internalOpen, setInternalOpen] = useState3(defaultOpen);
@@ -2014,7 +2152,7 @@ var ExpandableCard = forwardRef19(
       }
       onToggle?.(next);
     };
-    return /* @__PURE__ */ jsxs11(Card, { ref, variant, padding: "xs", style, children: [
+    return /* @__PURE__ */ jsxs11(Card, { ref, variant, padding: "xs", children: [
       /* @__PURE__ */ jsxs11("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between" }, children: [
         /* @__PURE__ */ jsxs11(
           "button",
@@ -2120,7 +2258,6 @@ var ModalShell = forwardRef20(
     children,
     maxWidth = 480,
     zIndex = t19.zIndexModal,
-    style,
     titleId,
     "aria-label": ariaLabel,
     role = "dialog"
@@ -2195,8 +2332,7 @@ var ModalShell = forwardRef20(
                   maxWidth,
                   width: "100%",
                   pointerEvents: "auto",
-                  outline: "none",
-                  ...style
+                  outline: "none"
                 },
                 children
               }
@@ -2327,10 +2463,16 @@ import { semantic as t22, useInjectStyles as useInjectStyles7 } from "../../core
 import { jsx as jsx25 } from "react/jsx-runtime";
 var variantColors = {
   default: t22.colorTextMuted,
+  primary: t22.colorActionPrimary,
   success: t22.colorSuccess,
   warning: t22.colorWarning,
   error: t22.colorError,
   info: t22.colorInfo
+};
+var sizeMap = {
+  sm: 6,
+  md: 8,
+  lg: 12
 };
 var PULSE_STYLES_ID = "4lt7ab-status-dot-pulse";
 var PULSE_STYLES_CSS = `
@@ -2351,13 +2493,12 @@ var PULSE_STYLES_CSS = `
 var StatusDot = forwardRef23(
   function StatusDot2({
     variant = "default",
-    color,
-    size = 8,
+    size = "md",
     animate = "none",
-    "aria-label": ariaLabel,
-    style
+    "aria-label": ariaLabel
   }, ref) {
-    const resolvedColor = color ?? variantColors[variant];
+    const resolvedColor = variantColors[variant];
+    const resolvedSize = sizeMap[size];
     const isPulsing = animate === "pulse";
     useInjectStyles7(PULSE_STYLES_ID, PULSE_STYLES_CSS);
     return /* @__PURE__ */ jsx25(
@@ -2370,13 +2511,12 @@ var StatusDot = forwardRef23(
         "data-status-dot-pulse": isPulsing || void 0,
         style: {
           display: "inline-block",
-          width: size,
-          height: size,
+          width: resolvedSize,
+          height: resolvedSize,
           borderRadius: t22.radiusFull,
           background: resolvedColor,
           flexShrink: 0,
-          ...isPulsing ? { "--status-dot-color": resolvedColor } : void 0,
-          ...style
+          ...isPulsing ? { "--status-dot-color": resolvedColor } : void 0
         }
       }
     );
@@ -2391,8 +2531,7 @@ import { Fragment as Fragment2, jsx as jsx26 } from "react/jsx-runtime";
 var ThemeSurface = forwardRef24(
   function ThemeSurface2({
     children,
-    global = false,
-    style
+    global = false
   }, ref) {
     const { resolved } = useTheme2();
     const prevBodyBgRef = useRef4("");
@@ -2416,8 +2555,7 @@ var ThemeSurface = forwardRef24(
       {
         ref,
         style: {
-          background: t23.colorSurfacePage,
-          ...style
+          background: t23.colorSurfacePage
         },
         children
       }
@@ -2793,7 +2931,7 @@ function CalendarHeader({
         "aria-label": "Previous month",
         size: 16,
         onClick: onPrev,
-        style: { width: 28, height: 28 }
+        buttonSize: "sm"
       }
     ),
     /* @__PURE__ */ jsxs15("span", { style: titleStyle, children: [
@@ -2808,7 +2946,7 @@ function CalendarHeader({
         "aria-label": "Next month",
         size: 16,
         onClick: onNext,
-        style: { width: 28, height: 28 }
+        buttonSize: "sm"
       }
     )
   ] });
@@ -3068,8 +3206,7 @@ var DateRangePicker = forwardRef26(
     disabledDates,
     placeholder = "Select date range",
     hasError,
-    disabled,
-    style
+    disabled
   }, ref) {
     useInjectStyles9(SCOPE, injectedCSS);
     const [open, setOpen] = useState6(false);
@@ -3178,7 +3315,7 @@ var DateRangePicker = forwardRef26(
           if (typeof ref === "function") ref(node);
           else if (ref) ref.current = node;
         },
-        style: { ...wrapperStyle2, ...style },
+        style: wrapperStyle2,
         children: [
           /* @__PURE__ */ jsx31(
             "button",
@@ -3311,8 +3448,7 @@ var DatePicker = forwardRef27(
     disabledDates,
     placeholder = "Select date",
     hasError,
-    disabled,
-    style
+    disabled
   }, ref) {
     useInjectStyles10(SCOPE2, injectedCSS2);
     const [open, setOpen] = useState7(false);
@@ -3406,7 +3542,7 @@ var DatePicker = forwardRef27(
           if (typeof ref === "function") ref(node);
           else if (ref) ref.current = node;
         },
-        style: { ...wrapperStyle3, ...style },
+        style: wrapperStyle3,
         children: [
           /* @__PURE__ */ jsx32(
             "button",
@@ -3534,13 +3670,10 @@ var ErrorBoundary = class extends React.Component {
     if (fallback) {
       return fallback({ error, resetErrorBoundary: this.resetErrorBoundary });
     }
-    return /* @__PURE__ */ jsx34(
+    return /* @__PURE__ */ jsx34("div", { style: { borderColor: t31.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: t31.radiusLg }, children: /* @__PURE__ */ jsx34(
       Card,
       {
-        style: {
-          borderColor: t31.colorError,
-          borderWidth: "2px"
-        },
+        variant: "flat",
         padding: "lg",
         children: /* @__PURE__ */ jsxs20("div", { style: { display: "flex", flexDirection: "column", gap: t31.spaceMd }, children: [
           /* @__PURE__ */ jsx34("div", { style: { display: "flex", alignItems: "center", gap: t31.spaceSm }, children: /* @__PURE__ */ jsx34(
@@ -3615,7 +3748,7 @@ var ErrorBoundary = class extends React.Component {
           /* @__PURE__ */ jsx34("div", { children: /* @__PURE__ */ jsx34(Button, { variant: "secondary", size: "sm", onClick: this.resetErrorBoundary, children: "Try again" }) })
         ] })
       }
-    );
+    ) });
   }
 };
 
@@ -3633,10 +3766,17 @@ var baseStyles3 = {
 };
 function SectionLabel({
   children,
-  style,
   ...rest
 }) {
-  return /* @__PURE__ */ jsx35("div", { ...rest, style: { ...baseStyles3, ...style }, children });
+  return /* @__PURE__ */ jsx35(
+    "div",
+    {
+      id: rest.id,
+      "data-testid": rest["data-testid"],
+      style: baseStyles3,
+      children
+    }
+  );
 }
 
 // src/components/Toast/Toast.tsx
@@ -3864,11 +4004,24 @@ var Combobox = forwardRef28(function Combobox2({
   placeholder,
   disabled,
   hasError,
-  style,
+  onFocus: onFocusProp,
+  onBlur: onBlurProp,
+  onKeyDown: onKeyDownProp,
+  readOnly,
+  maxLength,
+  inputMode,
+  name,
+  required,
+  autoFocus,
+  autoComplete,
   id,
+  form,
+  tabIndex,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
-  ...props
+  "aria-describedby": ariaDescribedBy,
+  "aria-invalid": ariaInvalid,
+  "data-testid": dataTestId
 }, ref) {
   useInjectStyles12(COMBOBOX_STYLES_ID, comboboxCSS);
   const [open, setOpen] = useState9(false);
@@ -4031,25 +4184,35 @@ var Combobox = forwardRef28(function Combobox2({
             "aria-controls": listboxId,
             "aria-activedescendant": activedescendant,
             "aria-autocomplete": "list",
-            "aria-invalid": hasError || void 0,
+            "aria-invalid": ariaInvalid ?? (hasError || void 0),
             "aria-label": ariaLabel,
             "aria-labelledby": ariaLabelledBy,
-            autoComplete: "off",
+            "aria-describedby": ariaDescribedBy,
+            autoComplete: autoComplete ?? "off",
             id,
+            form,
+            name,
+            tabIndex,
+            readOnly,
+            maxLength,
+            inputMode,
+            required,
+            autoFocus,
             value,
             placeholder,
             disabled,
             onChange: handleInputChange,
-            onFocus: () => {
+            onBlur: onBlurProp,
+            onFocus: (e) => {
               if (!disabled && filtered.length > 0) openMenu();
+              onFocusProp?.(e);
             },
+            "data-testid": dataTestId,
             style: {
               ...inputBaseStyle,
               ...hasError ? errorBorderStyle4 : {},
-              ...disabled ? disabledStyle4 : {},
-              ...style
-            },
-            ...props
+              ...disabled ? disabledStyle4 : {}
+            }
           }
         ),
         open && filtered.length > 0 && /* @__PURE__ */ jsx37(
@@ -4247,8 +4410,7 @@ import { jsx as jsx39, jsxs as jsxs23 } from "react/jsx-runtime";
 function ChipPicker({
   items,
   selected,
-  onChange,
-  style
+  onChange
 }) {
   const uid = useId8();
   const styleId = `chip-picker-${uid.replace(/:/g, "")}`;
@@ -4336,11 +4498,10 @@ function ChipPicker({
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: t36.spaceMd,
-        ...style
+        gap: t36.spaceMd
       },
       children: groups.map((group, i) => /* @__PURE__ */ jsxs23("div", { style: { display: "flex", flexDirection: "column", gap: t36.spaceSm }, children: [
-        group.label !== null && /* @__PURE__ */ jsx39(SectionLabel, { style: i > 0 ? { marginTop: t36.spaceXs } : void 0, children: group.label }),
+        group.label !== null && /* @__PURE__ */ jsx39("div", { style: i > 0 ? { marginTop: t36.spaceXs } : void 0, children: /* @__PURE__ */ jsx39(SectionLabel, { children: group.label }) }),
         renderChips(group.chips)
       ] }, group.label ?? "__ungrouped"))
     }
@@ -4403,9 +4564,15 @@ var SearchInput = forwardRef29(
     debounceMs = 300,
     trailing,
     disabled,
-    style,
     placeholder = "Search\u2026",
-    ...props
+    name,
+    id,
+    autoFocus,
+    tabIndex,
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledBy,
+    "aria-describedby": ariaDescribedBy,
+    "data-testid": dataTestId
   }, ref) {
     useInjectStyles14(STYLE_ID2, hoverFocusCSS);
     const [localValue, setLocalValue] = useState11(value);
@@ -4432,10 +4599,10 @@ var SearchInput = forwardRef29(
       "div",
       {
         className: "search-input-wrapper",
+        "data-testid": dataTestId,
         style: {
           ...wrapperStyle5,
-          ...disabled ? disabledWrapperStyle : {},
-          ...style
+          ...disabled ? disabledWrapperStyle : {}
         },
         children: [
           /* @__PURE__ */ jsx40(Icon, { name: "search", size: 16, style: { color: t37.colorTextMuted, flexShrink: 0 } }),
@@ -4448,8 +4615,14 @@ var SearchInput = forwardRef29(
               onChange: handleChange,
               placeholder,
               disabled,
-              style: inputStyle,
-              ...props
+              name,
+              id,
+              autoFocus,
+              tabIndex,
+              "aria-label": ariaLabel,
+              "aria-labelledby": ariaLabelledBy,
+              "aria-describedby": ariaDescribedBy,
+              style: inputStyle
             }
           ),
           trailing && /* @__PURE__ */ jsx40("div", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: trailing })
@@ -4629,7 +4802,7 @@ var defaultIcons = {
   success: /* @__PURE__ */ jsx42(IconCheckCircle, { size: 20 })
 };
 var AlertBanner = forwardRef30(
-  function AlertBanner2({ variant, children, onDismiss, autoDismiss, icon, style }, ref) {
+  function AlertBanner2({ variant, children, onDismiss, autoDismiss, icon }, ref) {
     useInjectStyles16(STYLE_ID4, alertBannerCSS);
     const timerRef = useRef13(null);
     useEffect12(() => {
@@ -4661,8 +4834,7 @@ var AlertBanner = forwardRef30(
           fontWeight: t39.fontWeightMedium,
           lineHeight: t39.lineHeightBase,
           boxSizing: "border-box",
-          animation: "alert-banner-slide-in 250ms ease",
-          ...style
+          animation: "alert-banner-slide-in 250ms ease"
         },
         children: [
           resolvedIcon && /* @__PURE__ */ jsx42("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
@@ -4738,8 +4910,7 @@ var TopBar = forwardRef31(
     onNavigate,
     trailing,
     sticky = false,
-    style,
-    ...props
+    ...rest
   }, ref) {
     useInjectStyles17(TOPBAR_STYLES_ID, TOPBAR_CSS);
     const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: t40.zIndexSticky } : {};
@@ -4747,6 +4918,9 @@ var TopBar = forwardRef31(
       "header",
       {
         ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
+        "aria-label": rest["aria-label"],
         style: {
           display: "flex",
           alignItems: "center",
@@ -4755,10 +4929,8 @@ var TopBar = forwardRef31(
           background: t40.colorSurface,
           borderBottom: `${t40.borderWidthDefault} solid ${t40.colorBorder}`,
           fontFamily: t40.fontSans,
-          ...stickyStyle,
-          ...style
+          ...stickyStyle
         },
-        ...props,
         children: [
           /* @__PURE__ */ jsx43(
             "div",
@@ -4882,15 +5054,14 @@ var ShortcutHelpModal = forwardRef32(
                 children: title
               }
             ),
-            /* @__PURE__ */ jsx44(
+            /* @__PURE__ */ jsx44("span", { style: { marginRight: `calc(-1 * ${t41.spaceXs})`, marginTop: `calc(-1 * ${t41.spaceXs})` }, children: /* @__PURE__ */ jsx44(
               IconButton,
               {
                 icon: "close",
                 "aria-label": "Close",
-                onClick: onClose,
-                style: { marginRight: `calc(-1 * ${t41.spaceXs})`, marginTop: `calc(-1 * ${t41.spaceXs})` }
+                onClick: onClose
               }
-            )
+            ) })
           ]
         }
       ),
@@ -5093,31 +5264,33 @@ var levelMap = {
 var Surface = forwardRef33(
   function Surface2({
     level = "solid",
-    bg,
+    tint,
     padding,
     radius = "lg",
     border = false,
     shadow,
     as = "div",
     children,
-    style,
-    ...props
+    ...rest
   }, ref) {
-    const borderValue = border === true ? `${t43.borderWidthDefault} solid ${t43.colorBorder}` : typeof border === "string" ? `${t43.borderWidthDefault} solid ${border}` : void 0;
+    const borderValue = border === true ? `${t43.borderWidthDefault} solid ${t43.colorBorder}` : typeof border === "string" ? `${t43.borderWidthDefault} solid ${semanticColorMap[border]}` : void 0;
+    const tintBg = tint ? `color-mix(in srgb, ${semanticColorMap[tint]} 10%, transparent)` : void 0;
     return createElement2(
       as,
       {
         ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
+        "aria-label": rest["aria-label"],
+        "aria-labelledby": rest["aria-labelledby"],
         style: {
-          background: bg ?? levelMap[level],
+          background: tintBg ?? levelMap[level],
           padding: padding ? spacingMap[padding] : void 0,
           borderRadius: radiusMap[radius],
           border: borderValue,
           boxShadow: shadow ? shadowMap[shadow] : void 0,
-          color: t43.colorText,
-          ...style
-        },
-        ...props
+          color: t43.colorText
+        }
       },
       children
     );
@@ -5133,8 +5306,7 @@ var Grid = forwardRef34(
     columns,
     gap = "md",
     children,
-    style,
-    ...props
+    ...rest
   }, ref) {
     const minWidth = typeof minColumnWidth === "number" ? `${minColumnWidth}px` : minColumnWidth;
     const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
@@ -5142,13 +5314,13 @@ var Grid = forwardRef34(
       "div",
       {
         ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
         style: {
           display: "grid",
           gridTemplateColumns,
-          gap: spacingMap[gap],
-          ...style
+          gap: spacingMap[gap]
         },
-        ...props,
         children
       }
     );
@@ -5165,8 +5337,7 @@ var Divider = forwardRef35(
     opacity = 50,
     length,
     spacing,
-    style,
-    ...props
+    ...rest
   }, ref) {
     const bg = `color-mix(in srgb, ${t44.colorBorder} ${opacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
@@ -5175,6 +5346,8 @@ var Divider = forwardRef35(
       "div",
       {
         ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
         role: "separator",
         "aria-orientation": orientation,
         style: {
@@ -5182,10 +5355,8 @@ var Divider = forwardRef35(
           width: isHorizontal ? length != null ? `${length}px` : "100%" : 1,
           height: isHorizontal ? 1 : length != null ? `${length}px` : "100%",
           flexShrink: 0,
-          margin: spacingValue ? isHorizontal ? `${spacingValue} 0` : `0 ${spacingValue}` : void 0,
-          ...style
-        },
-        ...props
+          margin: spacingValue ? isHorizontal ? `${spacingValue} 0` : `0 ${spacingValue}` : void 0
+        }
       }
     );
   }
@@ -5202,14 +5373,16 @@ var StatCard = forwardRef36(
     color,
     icon,
     iconSize = 40,
-    style,
-    ...props
+    ...rest
   }, ref) {
-    const tintBg = color ? `color-mix(in srgb, ${color} 10%, transparent)` : `color-mix(in srgb, ${t45.colorBorder} 20%, transparent)`;
+    const resolvedColor = color ? semanticColorMap[color] : void 0;
+    const tintBg = resolvedColor ? `color-mix(in srgb, ${resolvedColor} 10%, transparent)` : `color-mix(in srgb, ${t45.colorBorder} 20%, transparent)`;
     return /* @__PURE__ */ jsxs30(
       "div",
       {
         ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
         style: {
           display: "flex",
           alignItems: "center",
@@ -5218,10 +5391,8 @@ var StatCard = forwardRef36(
           borderRadius: t45.radiusMd,
           background: t45.colorSurfaceRaised,
           border: `${t45.borderWidthDefault} solid color-mix(in srgb, ${t45.colorBorder} 40%, transparent)`,
-          color: t45.colorText,
-          ...style
+          color: t45.colorText
         },
-        ...props,
         children: [
           /* @__PURE__ */ jsx48(
             "div",
@@ -5242,7 +5413,7 @@ var StatCard = forwardRef36(
                   className: "material-symbols-outlined",
                   style: {
                     fontSize: iconSize * 0.5,
-                    color: color ?? t45.colorTextMuted,
+                    color: resolvedColor ?? t45.colorTextMuted,
                     lineHeight: 1
                   },
                   "aria-hidden": "true",
@@ -5255,7 +5426,7 @@ var StatCard = forwardRef36(
                     width: 10,
                     height: 10,
                     borderRadius: t45.radiusFull,
-                    background: color ?? t45.colorTextMuted
+                    background: resolvedColor ?? t45.colorTextMuted
                   }
                 }
               )
@@ -5318,8 +5489,7 @@ var TabStrip = forwardRef37(
     onChange,
     allowDeselect = false,
     size = "md",
-    style,
-    ...props
+    ...rest
   }, ref) {
     useInjectStyles20(STYLES_ID, STYLES_CSS);
     const tabRefs = useRef14([]);
@@ -5357,13 +5527,13 @@ var TabStrip = forwardRef37(
       "div",
       {
         ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
         role: "tablist",
         style: {
           display: "flex",
-          gap: 2,
-          ...style
+          gap: 2
         },
-        ...props,
         children: tabs.map((tab, i) => {
           const isActive = tab.key === activeKey;
           return /* @__PURE__ */ jsxs31(
@@ -5428,13 +5598,14 @@ var SectionHeader = forwardRef38(
     trailing,
     border = false,
     spacing,
-    style,
-    ...props
+    ...rest
   }, ref) {
     return /* @__PURE__ */ jsxs32(
       "div",
       {
         ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
         style: {
           display: "flex",
           justifyContent: "space-between",
@@ -5442,10 +5613,8 @@ var SectionHeader = forwardRef38(
           gap: t47.spaceMd,
           borderBottom: border ? `${t47.borderWidthDefault} solid ${t47.colorBorder}` : void 0,
           paddingBottom: border ? t47.spaceMd : void 0,
-          marginBottom: spacing ? spacingMap[spacing] : void 0,
-          ...style
+          marginBottom: spacing ? spacingMap[spacing] : void 0
         },
-        ...props,
         children: [
           /* @__PURE__ */ jsxs32(
             "div",
@@ -5588,8 +5757,11 @@ export {
   ThemeSurface,
   ToastProvider,
   TopBar,
+  alignMap,
   iconRegistry,
+  justifyMap,
   radiusMap,
+  semanticColorMap,
   shadowMap,
   spacingMap,
   useFocusTrap,

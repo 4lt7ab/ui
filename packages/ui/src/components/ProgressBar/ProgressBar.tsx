@@ -1,13 +1,14 @@
 import { forwardRef } from 'react';
 import { semantic as t } from '@4lt7ab/core';
-import type { CSSProperties } from 'react';
+import { semanticColorMap } from '../../types';
+import type { SemanticColor } from '../../types';
 
 /** A single segment in a multi-part progress bar. */
 export interface ProgressBarSegment {
   /** Numeric value for this segment. Width is proportional to value / total. */
   value: number;
-  /** Segment fill color (CSS color string or semantic token). */
-  color: string;
+  /** Segment fill color from the semantic color palette. */
+  color: SemanticColor;
   /** Optional label shown in the segment's title tooltip. */
   label?: string;
 }
@@ -22,8 +23,6 @@ export interface ProgressBarProps {
   height?: number;
   /** Accessible label for screen readers. */
   'aria-label'?: string;
-  /** Additional inline styles for the track container. */
-  style?: CSSProperties;
 }
 
 export const ProgressBar: React.ForwardRefExoticComponent<Omit<ProgressBarProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, ProgressBarProps>(
@@ -31,7 +30,6 @@ export const ProgressBar: React.ForwardRefExoticComponent<Omit<ProgressBarProps,
     segments,
     height = 6,
     'aria-label': ariaLabel,
-    style,
   }, ref): React.JSX.Element {
     const total = segments.reduce((sum, s) => sum + s.value, 0);
 
@@ -44,30 +42,29 @@ export const ProgressBar: React.ForwardRefExoticComponent<Omit<ProgressBarProps,
         aria-valuemax={100}
         aria-label={ariaLabel}
         style={{
-        width: '100%',
-        height,
-        borderRadius: height / 2,
-        overflow: 'hidden',
-        display: 'flex',
-        background: t.colorSurfaceRaised,
-        ...style,
-      }}
-    >
-      {segments.map((segment, i) => {
-        const pct = total > 0 ? (segment.value / total) * 100 : 0;
-        return (
-          <div
-            key={i}
-            title={segment.label ? `${segment.label}: ${segment.value}` : String(segment.value)}
-            style={{
-              width: `${pct}%`,
-              height: '100%',
-              background: segment.color,
-            }}
-          />
-        );
-      })}
-    </div>
+          width: '100%',
+          height,
+          borderRadius: height / 2,
+          overflow: 'hidden',
+          display: 'flex',
+          background: t.colorSurfaceRaised,
+        }}
+      >
+        {segments.map((segment, i) => {
+          const pct = total > 0 ? (segment.value / total) * 100 : 0;
+          return (
+            <div
+              key={i}
+              title={segment.label ? `${segment.label}: ${segment.value}` : String(segment.value)}
+              style={{
+                width: `${pct}%`,
+                height: '100%',
+                background: semanticColorMap[segment.color],
+              }}
+            />
+          );
+        })}
+      </div>
     );
   }
 );

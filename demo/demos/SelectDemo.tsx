@@ -19,26 +19,30 @@ export function SelectDemo(): React.JSX.Element {
     <Stack gap="xl">
       <Stack gap="sm">
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>States</h3>
-        <Stack gap="md" style={{ maxWidth: '24rem' }}>
-          <Select placeholder="With placeholder..." options={roleOptions} />
-          <Select options={roleOptions} defaultValue="editor" />
-          <Select placeholder="Error state" options={roleOptions} hasError />
-          <Select options={[{ value: 'locked', label: 'Locked option' }]} disabled />
-        </Stack>
+        <div style={{ maxWidth: '24rem' }}>
+          <Stack gap="md">
+            <Select placeholder="With placeholder..." options={roleOptions} />
+            <Select options={roleOptions} defaultValue="editor" />
+            <Select placeholder="Error state" options={roleOptions} hasError />
+            <Select options={[{ value: 'locked', label: 'Locked option' }]} disabled />
+          </Stack>
+        </div>
       </Stack>
 
       <Stack gap="sm">
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Realistic: Settings row</h3>
-        <Stack gap="md" style={{ maxWidth: '24rem' }}>
-          <Stack direction="horizontal" gap="md" align="center" justify="space-between">
-            <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>Role</span>
-            <Select options={roleOptions} defaultValue="editor" style={{ width: '10rem' }} />
+        <div style={{ maxWidth: '24rem' }}>
+          <Stack gap="md">
+            <Stack direction="horizontal" gap="md" align="center" justify="space-between">
+              <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>Role</span>
+              <Select options={roleOptions} defaultValue="editor" />
+            </Stack>
+            <Stack direction="horizontal" gap="md" align="center" justify="space-between">
+              <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>Timezone</span>
+              <Select options={timezoneOptions} defaultValue="utc" />
+            </Stack>
           </Stack>
-          <Stack direction="horizontal" gap="md" align="center" justify="space-between">
-            <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>Timezone</span>
-            <Select options={timezoneOptions} defaultValue="utc" style={{ width: '10rem' }} />
-          </Stack>
-        </Stack>
+        </div>
       </Stack>
     </Stack>
   );

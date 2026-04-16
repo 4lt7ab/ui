@@ -1,7 +1,6 @@
 import { forwardRef } from 'react';
 import { semantic as t } from '@4lt7ab/core';
 import { IconButton } from '../IconButton';
-import type { CSSProperties } from 'react';
 
 /** A small pill-shaped tag with an optional remove button. */
 export interface TagChipProps {
@@ -11,8 +10,6 @@ export interface TagChipProps {
   prefix?: string;
   /** When provided, renders a close button that calls this handler on click. */
   onRemove?: () => void;
-  /** Additional inline styles. */
-  style?: CSSProperties;
 }
 
 export const TagChip: React.ForwardRefExoticComponent<Omit<TagChipProps, 'ref'> & React.RefAttributes<HTMLSpanElement>> = forwardRef<HTMLSpanElement, TagChipProps>(
@@ -20,7 +17,6 @@ export const TagChip: React.ForwardRefExoticComponent<Omit<TagChipProps, 'ref'> 
     name,
     prefix,
     onRemove,
-    style,
   }, ref): React.JSX.Element {
     return (
       <span
@@ -35,19 +31,20 @@ export const TagChip: React.ForwardRefExoticComponent<Omit<TagChipProps, 'ref'> 
           borderRadius: t.radiusFull,
           padding: '2px 8px',
           fontFamily: t.fontSans,
-          ...style,
         }}
       >
         {prefix && <span style={{ color: t.colorTextMuted }}>{prefix}:</span>}
         {name}
         {onRemove && (
-          <IconButton
-            icon="close"
-            size={12}
-            onClick={onRemove}
-            aria-label={`Remove ${name}`}
-            style={{ width: 18, height: 18, color: t.colorActionPrimary }}
-          />
+          <span style={{ display: 'inline-flex', width: 18, height: 18, color: t.colorActionPrimary }}>
+            <IconButton
+              icon="close"
+              size={12}
+              onClick={onRemove}
+              aria-label={`Remove ${name}`}
+              buttonSize="sm"
+            />
+          </span>
         )}
       </span>
     );

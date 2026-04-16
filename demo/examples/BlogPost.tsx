@@ -11,7 +11,7 @@ export function BlogPost(): React.JSX.Element {
       borderRadius: 'var(--radius-lg)',
       overflow: 'hidden',
     }}>
-      <Container style={{ paddingBlock: '2rem' }}>
+      <Container>
         <Epigraph cite="— Frank Chimero, The Shape of Design">
           People ignore design that ignores people.
         </Epigraph>
@@ -221,7 +221,8 @@ export const semantic = {
 
           <h3>Related reading</h3>
 
-          <Stack gap="sm" style={{ marginBlock: '1.5rem' }}>
+          <div style={{ marginBlock: '1.5rem' }}>
+          <Stack gap="sm">
             <LinkCard
               href="#"
               title="Design Tokens W3C Specification"
@@ -234,6 +235,7 @@ export const semantic = {
               description="A practical guide to building theme systems without build tools."
             />
           </Stack>
+          </div>
 
           <p>
             The library that survives is the one shaped by use, not by

@@ -91,7 +91,8 @@ function ArchDiagram(): React.JSX.Element {
 
 function InstallSnippet(): React.JSX.Element {
   return (
-    <Card variant="flat" padding="md" style={{ maxWidth: '36rem', margin: '0 auto' }}>
+    <div style={{ maxWidth: '36rem', margin: '0 auto' }}>
+    <Card variant="flat" padding="md">
       <Stack gap="xs">
         <span style={{
           fontSize: '0.7rem',
@@ -122,6 +123,7 @@ import { ThemeBackground } from '@4lt7ab/ui/animations';`}
         </pre>
       </Stack>
     </Card>
+    </div>
   );
 }
 
@@ -134,7 +136,8 @@ export function Landing({ onNavigate }: { onNavigate: (view: string) => void }):
     <div style={{ maxWidth: '52rem', margin: '0 auto', padding: 'var(--space-2xl) var(--space-lg)' }}>
       <Stack gap="2xl" align="center">
         {/* Hero */}
-        <Stack gap="md" align="center" style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center' }}>
+        <Stack gap="md" align="center">
           <Stack direction="horizontal" gap="sm" align="center">
             <h1 style={{
               margin: 0,
@@ -159,9 +162,11 @@ export function Landing({ onNavigate }: { onNavigate: (view: string) => void }):
             distributed as a single git dependency with subpath exports.
           </p>
         </Stack>
+        </div>
 
         {/* Architecture */}
-        <Stack gap="md" align="center" style={{ width: '100%' }}>
+        <div style={{ width: '100%' }}>
+        <Stack gap="md" align="center">
           <span style={{
             fontSize: '0.7rem',
             fontWeight: 600,
@@ -173,6 +178,7 @@ export function Landing({ onNavigate }: { onNavigate: (view: string) => void }):
           </span>
           <ArchDiagram />
         </Stack>
+        </div>
 
         {/* Install */}
         <div style={{ width: '100%' }}>
@@ -180,7 +186,8 @@ export function Landing({ onNavigate }: { onNavigate: (view: string) => void }):
         </div>
 
         {/* Entry points */}
-        <Stack gap="md" style={{ width: '100%' }}>
+        <div style={{ width: '100%' }}>
+        <Stack gap="md">
           <span style={{
             fontSize: '0.7rem',
             fontWeight: 600,
@@ -206,11 +213,13 @@ export function Landing({ onNavigate }: { onNavigate: (view: string) => void }):
                   display: 'block',
                 }}
               >
-                <Card padding="lg" style={{
+                <div style={{
                   height: '100%',
                   transition: 'box-shadow 150ms ease, border-color 150ms ease',
                   border: '1px solid var(--color-border)',
+                  borderRadius: 'var(--radius-md)',
                 }}>
+                <Card padding="lg">
                   <Stack gap="sm">
                     <Stack direction="horizontal" gap="sm" align="center">
                       <Icon name={ep.icon} size={18} style={{ color: 'var(--color-action-primary)' }} />
@@ -230,10 +239,12 @@ export function Landing({ onNavigate }: { onNavigate: (view: string) => void }):
                     </span>
                   </Stack>
                 </Card>
+                </div>
               </button>
             ))}
           </div>
         </Stack>
+        </div>
       </Stack>
     </div>
   );

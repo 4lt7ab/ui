@@ -14,38 +14,42 @@ export function DateRangePickerDemo(): React.JSX.Element {
     <Stack gap="xl">
       <Stack gap="sm">
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>States</h3>
-        <Stack gap="md" style={{ maxWidth: '24rem' }}>
-          <DateRangePicker
-            value={range}
-            onChange={setRange}
-            placeholder="Pick a date range"
-          />
-          <DateRangePicker
-            value={errorRange}
-            onChange={setErrorRange}
-            placeholder="Error state"
-            hasError
-          />
-          <DateRangePicker
-            value={undefined}
-            onChange={() => {}}
-            placeholder="Disabled"
-            disabled
-          />
-        </Stack>
+        <div style={{ maxWidth: '24rem' }}>
+          <Stack gap="md">
+            <DateRangePicker
+              value={range}
+              onChange={setRange}
+              placeholder="Pick a date range"
+            />
+            <DateRangePicker
+              value={errorRange}
+              onChange={setErrorRange}
+              placeholder="Error state"
+              hasError
+            />
+            <DateRangePicker
+              value={undefined}
+              onChange={() => {}}
+              placeholder="Disabled"
+              disabled
+            />
+          </Stack>
+        </div>
       </Stack>
 
       <Stack gap="sm">
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>With constraints</h3>
-        <Stack gap="md" style={{ maxWidth: '24rem' }}>
-          <DateRangePicker
-            value={range}
-            onChange={setRange}
-            minDate={minDate}
-            maxDate={maxDate}
-            placeholder="Min/max date constrained"
-          />
-        </Stack>
+        <div style={{ maxWidth: '24rem' }}>
+          <Stack gap="md">
+            <DateRangePicker
+              value={range}
+              onChange={setRange}
+              minDate={minDate}
+              maxDate={maxDate}
+              placeholder="Min/max date constrained"
+            />
+          </Stack>
+        </div>
       </Stack>
 
       {range && (

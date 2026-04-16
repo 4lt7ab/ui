@@ -33,17 +33,19 @@ export function ComboboxDemo(): React.JSX.Element {
         <p style={{ margin: 0, fontSize: '0.8125rem', opacity: 0.7 }}>
           Type to filter, or enter a custom value.
         </p>
-        <Stack gap="md" style={{ maxWidth: '24rem' }}>
-          <Combobox
-            options={fruitOptions}
-            value={basic}
-            onChange={setBasic}
-            placeholder="Search fruits..."
-          />
-          <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>
-            Value: {basic || '(empty)'}
-          </span>
-        </Stack>
+        <div style={{ maxWidth: '24rem' }}>
+          <Stack gap="md">
+            <Combobox
+              options={fruitOptions}
+              value={basic}
+              onChange={setBasic}
+              placeholder="Search fruits..."
+            />
+            <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>
+              Value: {basic || '(empty)'}
+            </span>
+          </Stack>
+        </div>
       </Stack>
 
       <Stack gap="sm">
@@ -51,39 +53,43 @@ export function ComboboxDemo(): React.JSX.Element {
         <p style={{ margin: 0, fontSize: '0.8125rem', opacity: 0.7 }}>
           Pre-populated with known paths. Free-text entry for custom paths.
         </p>
-        <Stack gap="md" style={{ maxWidth: '24rem' }}>
-          <Combobox
-            options={folderOptions}
-            value={folder}
-            onChange={setFolder}
-            onSelect={(opt) => setSelected(opt.label)}
-            placeholder="Type a folder path..."
-          />
-          <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>
-            Value: {folder || '(empty)'}
-            {selected && ` — last selected: ${selected}`}
-          </span>
-        </Stack>
+        <div style={{ maxWidth: '24rem' }}>
+          <Stack gap="md">
+            <Combobox
+              options={folderOptions}
+              value={folder}
+              onChange={setFolder}
+              onSelect={(opt) => setSelected(opt.label)}
+              placeholder="Type a folder path..."
+            />
+            <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>
+              Value: {folder || '(empty)'}
+              {selected && ` — last selected: ${selected}`}
+            </span>
+          </Stack>
+        </div>
       </Stack>
 
       <Stack gap="sm">
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>States</h3>
-        <Stack gap="md" style={{ maxWidth: '24rem' }}>
-          <Combobox
-            options={fruitOptions}
-            value=""
-            onChange={() => {}}
-            placeholder="Error state"
-            hasError
-          />
-          <Combobox
-            options={fruitOptions}
-            value=""
-            onChange={() => {}}
-            placeholder="Disabled"
-            disabled
-          />
-        </Stack>
+        <div style={{ maxWidth: '24rem' }}>
+          <Stack gap="md">
+            <Combobox
+              options={fruitOptions}
+              value=""
+              onChange={() => {}}
+              placeholder="Error state"
+              hasError
+            />
+            <Combobox
+              options={fruitOptions}
+              value=""
+              onChange={() => {}}
+              placeholder="Disabled"
+              disabled
+            />
+          </Stack>
+        </div>
       </Stack>
     </Stack>
   );

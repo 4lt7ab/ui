@@ -1,14 +1,21 @@
 import { forwardRef } from 'react';
-import type { AnchorHTMLAttributes, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { useInjectStyles } from '@4lt7ab/core';
 
-export interface LinkCardProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'title'> {
+export interface LinkCardProps {
   /** Card title — rendered in serif. */
   title: ReactNode;
   /** Optional description — rendered smaller in muted text. */
   description?: ReactNode;
   /** Whether link opens in a new tab. */
   external?: boolean;
+  href?: string;
+  target?: string;
+  rel?: string;
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>;
+  id?: string;
+  'aria-label'?: string;
+  'data-testid'?: string;
 }
 
 const STYLES_ID = 'alttab-link-card';
@@ -55,8 +62,13 @@ export const LinkCard: React.ForwardRefExoticComponent<Omit<LinkCardProps, 'ref'
     title,
     description,
     external,
-    children,
-    ...props
+    href,
+    target,
+    rel,
+    onClick,
+    id,
+    'aria-label': ariaLabel,
+    'data-testid': dataTestId,
   }, ref): React.JSX.Element {
     useInjectStyles(STYLES_ID, linkCardCSS);
 
@@ -64,12 +76,16 @@ export const LinkCard: React.ForwardRefExoticComponent<Omit<LinkCardProps, 'ref'
       <a
         ref={ref}
         className="alttab-link-card"
-        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-        {...props}
+        href={href}
+        target={external ? '_blank' : target}
+        rel={external ? 'noopener noreferrer' : rel}
+        onClick={onClick}
+        id={id}
+        aria-label={ariaLabel}
+        data-testid={dataTestId}
       >
         <span className="alttab-link-card__title">{title}</span>
         {description && <span className="alttab-link-card__desc">{description}</span>}
-        {children}
       </a>
     );
   }

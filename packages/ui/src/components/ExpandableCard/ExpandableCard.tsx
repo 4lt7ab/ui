@@ -2,7 +2,7 @@ import { semantic as t } from '@4lt7ab/core';
 import { Card } from '../Card';
 import { IconChevronRight } from '../../icons/icons';
 import type { CardVariant } from '../Card';
-import { forwardRef, useState, useId, type CSSProperties, type ReactNode } from 'react';
+import { forwardRef, useState, useId, type ReactNode } from 'react';
 
 /** A Card with a collapsible body. Supports both controlled and uncontrolled open state. */
 export interface ExpandableCardProps {
@@ -22,8 +22,6 @@ export interface ExpandableCardProps {
    * @default 'default'
    */
   variant?: CardVariant;
-  /** Additional inline styles for the Card wrapper. */
-  style?: CSSProperties;
   /** Content rendered in the header row to the right of the title (e.g. action buttons). */
   headerAction?: ReactNode;
 }
@@ -36,7 +34,6 @@ export const ExpandableCard: React.ForwardRefExoticComponent<Omit<ExpandableCard
     open: controlledOpen,
     onToggle,
     variant = 'default',
-    style,
     headerAction,
   }, ref): React.JSX.Element {
     const [internalOpen, setInternalOpen] = useState(defaultOpen);
@@ -52,7 +49,7 @@ export const ExpandableCard: React.ForwardRefExoticComponent<Omit<ExpandableCard
     };
 
     return (
-      <Card ref={ref} variant={variant} padding="xs" style={style}>
+      <Card ref={ref} variant={variant} padding="xs">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <button
             type="button"

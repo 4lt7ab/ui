@@ -1,5 +1,5 @@
-import { Surface, Stack, Badge, semantic as t } from '@4lt7ab/ui';
-import type { SurfaceLevel } from '@4lt7ab/ui';
+import { Surface, Stack, Badge } from '@4lt7ab/ui';
+import type { SurfaceLevel, SemanticColor } from '@4lt7ab/ui';
 
 const desc: React.CSSProperties = {
   margin: '0.25rem 0 0',
@@ -42,36 +42,44 @@ export function SurfaceDemo(): React.JSX.Element {
       <Stack gap="sm">
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Border & shadow</h3>
         <Stack direction="horizontal" gap="md" wrap>
-          <Surface padding="lg" border shadow="sm" style={{ flex: '1 1 10rem' }}>
-            <strong>border + shadow sm</strong>
-            <p style={desc}>The classic card look.</p>
-          </Surface>
-          <Surface padding="lg" border shadow="md" style={{ flex: '1 1 10rem' }}>
-            <strong>border + shadow md</strong>
-            <p style={desc}>Elevated.</p>
-          </Surface>
-          <Surface padding="lg" border={t.colorActionPrimary} shadow="lg" style={{ flex: '1 1 10rem' }}>
-            <strong>custom border color</strong>
-            <p style={desc}>Primary accent border + large shadow.</p>
-          </Surface>
+          <div style={{ flex: '1 1 10rem' }}>
+            <Surface padding="lg" border shadow="sm">
+              <strong>border + shadow sm</strong>
+              <p style={desc}>The classic card look.</p>
+            </Surface>
+          </div>
+          <div style={{ flex: '1 1 10rem' }}>
+            <Surface padding="lg" border shadow="md">
+              <strong>border + shadow md</strong>
+              <p style={desc}>Elevated.</p>
+            </Surface>
+          </div>
+          <div style={{ flex: '1 1 10rem' }}>
+            <Surface padding="lg" border="primary" shadow="lg">
+              <strong>semantic border color</strong>
+              <p style={desc}>Primary accent border + large shadow.</p>
+            </Surface>
+          </div>
         </Stack>
       </Stack>
 
       <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Custom tinted backgrounds</h3>
+        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Semantic tints</h3>
         <p style={{ ...desc, margin: 0 }}>
-          The <code>bg</code> prop overrides <code>level</code> for color-mix tints.
+          The <code>tint</code> prop applies a 10% color-mix overlay using semantic tokens.
         </p>
         <Stack direction="horizontal" gap="md" wrap>
-          {[
-            { label: 'Success 10%', bg: `color-mix(in srgb, ${t.colorSuccess} 10%, transparent)` },
-            { label: 'Warning 10%', bg: `color-mix(in srgb, ${t.colorWarning} 10%, transparent)` },
-            { label: 'Error 10%', bg: `color-mix(in srgb, ${t.colorError} 10%, transparent)` },
-            { label: 'Info 10%', bg: `color-mix(in srgb, ${t.colorInfo} 10%, transparent)` },
-          ].map(({ label, bg }) => (
-            <Surface key={label} bg={bg} padding="md" radius="md" border style={{ flex: '1 1 8rem' }}>
-              <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>{label}</span>
-            </Surface>
+          {([
+            { label: 'Success', tint: 'success' as SemanticColor },
+            { label: 'Warning', tint: 'warning' as SemanticColor },
+            { label: 'Error', tint: 'error' as SemanticColor },
+            { label: 'Info', tint: 'info' as SemanticColor },
+          ]).map(({ label, tint }) => (
+            <div key={label} style={{ flex: '1 1 8rem' }}>
+              <Surface tint={tint} padding="md" radius="md" border>
+                <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>{label}</span>
+              </Surface>
+            </div>
           ))}
         </Stack>
       </Stack>
@@ -80,9 +88,11 @@ export function SurfaceDemo(): React.JSX.Element {
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Radius options</h3>
         <Stack direction="horizontal" gap="md" wrap>
           {(['none', 'sm', 'md', 'lg', 'full'] as const).map((r) => (
-            <Surface key={r} level="raised" padding="md" radius={r} border style={{ flex: '1 1 6rem', textAlign: 'center' }}>
-              <span style={{ fontSize: '0.875rem' }}>radius="{r}"</span>
-            </Surface>
+            <div key={r} style={{ flex: '1 1 6rem', textAlign: 'center' }}>
+              <Surface level="raised" padding="md" radius={r} border>
+                <span style={{ fontSize: '0.875rem' }}>radius="{r}"</span>
+              </Surface>
+            </div>
           ))}
         </Stack>
       </Stack>

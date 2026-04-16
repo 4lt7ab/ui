@@ -1,8 +1,7 @@
 import { forwardRef } from 'react';
 import { semantic as t } from '@4lt7ab/core';
-import type { HTMLAttributes } from 'react';
 import { spacingMap } from '../../types';
-import type { SpacingToken } from '../../types';
+import type { SpacingToken, BaseComponentProps } from '../../types';
 
 /**
  * A thin visual separator line.
@@ -24,7 +23,7 @@ import type { SpacingToken } from '../../types';
  * </Stack>
  * ```
  */
-export interface DividerProps extends HTMLAttributes<HTMLDivElement> {
+export interface DividerProps extends BaseComponentProps {
   /**
    * Orientation of the divider.
    * @default 'horizontal'
@@ -61,8 +60,7 @@ export const Divider: React.ForwardRefExoticComponent<
       opacity = 50,
       length,
       spacing,
-      style,
-      ...props
+      ...rest
     },
     ref,
   ): React.JSX.Element {
@@ -74,6 +72,8 @@ export const Divider: React.ForwardRefExoticComponent<
     return (
       <div
         ref={ref}
+        id={rest.id}
+        data-testid={rest['data-testid']}
         role="separator"
         aria-orientation={orientation}
         style={{
@@ -90,9 +90,7 @@ export const Divider: React.ForwardRefExoticComponent<
               ? `${spacingValue} 0`
               : `0 ${spacingValue}`
             : undefined,
-          ...style,
         }}
-        {...props}
       />
     );
   },

@@ -1,7 +1,8 @@
 import { forwardRef } from 'react';
 import { semantic as t } from '@4lt7ab/core';
-import type { HTMLAttributes, ReactNode } from 'react';
-import { spacingMap } from '../../types';
+import type { ReactNode } from 'react';
+import { spacingMap, semanticColorMap } from '../../types';
+import type { SemanticColor, BaseComponentProps } from '../../types';
 
 /**
  * A compact metric display card: icon in a tinted circle + prominent value + label.
@@ -26,7 +27,7 @@ import { spacingMap } from '../../types';
  * />
  * ```
  */
-export interface StatCardProps extends HTMLAttributes<HTMLDivElement> {
+export interface StatCardProps extends BaseComponentProps {
   /** The metric value displayed prominently. */
   value: ReactNode;
 
@@ -35,9 +36,9 @@ export interface StatCardProps extends HTMLAttributes<HTMLDivElement> {
 
   /**
    * Accent color for the icon circle background tint and the icon itself.
-   * Accepts any CSS color value, typically a semantic token like `t.colorSuccess`.
+   * Maps to a semantic token from the theme system.
    */
-  color?: string;
+  color?: SemanticColor;
 
   /**
    * Material Symbols icon name rendered inside the tinted circle.
@@ -62,18 +63,20 @@ export const StatCard: React.ForwardRefExoticComponent<
       color,
       icon,
       iconSize = 40,
-      style,
-      ...props
+      ...rest
     },
     ref,
   ): React.JSX.Element {
-    const tintBg = color
-      ? `color-mix(in srgb, ${color} 10%, transparent)`
+    const resolvedColor = color ? semanticColorMap[color] : undefined;
+    const tintBg = resolvedColor
+      ? `color-mix(in srgb, ${resolvedColor} 10%, transparent)`
       : `color-mix(in srgb, ${t.colorBorder} 20%, transparent)`;
 
     return (
       <div
         ref={ref}
+        id={rest.id}
+        data-testid={rest['data-testid']}
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -83,9 +86,7 @@ export const StatCard: React.ForwardRefExoticComponent<
           background: t.colorSurfaceRaised,
           border: `${t.borderWidthDefault} solid color-mix(in srgb, ${t.colorBorder} 40%, transparent)`,
           color: t.colorText,
-          ...style,
         }}
-        {...props}
       >
         {/* Icon circle */}
         <div
@@ -105,7 +106,7 @@ export const StatCard: React.ForwardRefExoticComponent<
               className="material-symbols-outlined"
               style={{
                 fontSize: iconSize * 0.5,
-                color: color ?? t.colorTextMuted,
+                color: resolvedColor ?? t.colorTextMuted,
                 lineHeight: 1,
               }}
               aria-hidden="true"
@@ -118,7 +119,7 @@ export const StatCard: React.ForwardRefExoticComponent<
                 width: 10,
                 height: 10,
                 borderRadius: t.radiusFull,
-                background: color ?? t.colorTextMuted,
+                background: resolvedColor ?? t.colorTextMuted,
               }}
             />
           )}

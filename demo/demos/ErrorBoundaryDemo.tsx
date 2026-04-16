@@ -53,21 +53,23 @@ export function ErrorBoundaryDemo(): React.JSX.Element {
         </p>
         <ErrorBoundary
           fallback={({ error, resetErrorBoundary }) => (
-            <Card padding="md" style={{ borderColor: t.colorWarning, borderWidth: '2px' }}>
-              <Stack gap="sm">
-                <span style={{ fontFamily: t.fontSans, color: t.colorWarning, fontWeight: t.fontWeightSemibold }}>
-                  Custom fallback
-                </span>
-                <span style={{ fontFamily: t.fontMono, fontSize: t.fontSizeSm, color: t.colorTextSecondary }}>
-                  {error.message}
-                </span>
-                <div>
-                  <Button variant="secondary" size="sm" onClick={resetErrorBoundary}>
-                    Retry
-                  </Button>
-                </div>
-              </Stack>
-            </Card>
+            <div style={{ borderColor: t.colorWarning, borderWidth: '2px' }}>
+              <Card padding="md">
+                <Stack gap="sm">
+                  <span style={{ fontFamily: t.fontSans, color: t.colorWarning, fontWeight: t.fontWeightSemibold }}>
+                    Custom fallback
+                  </span>
+                  <span style={{ fontFamily: t.fontMono, fontSize: t.fontSizeSm, color: t.colorTextSecondary }}>
+                    {error.message}
+                  </span>
+                  <div>
+                    <Button variant="secondary" size="sm" onClick={resetErrorBoundary}>
+                      Retry
+                    </Button>
+                  </div>
+                </Stack>
+              </Card>
+            </div>
           )}
         >
           <BuggyCounter shouldThrow />

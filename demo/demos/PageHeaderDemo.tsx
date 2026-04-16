@@ -27,7 +27,7 @@ export function PageHeaderDemo(): React.JSX.Element {
         <PageHeader
           title="API Health"
           subtitle="All systems operational"
-          indicator={<StatusDot status="success" />}
+          indicator={<StatusDot variant="success" />}
         />
       </Stack>
 

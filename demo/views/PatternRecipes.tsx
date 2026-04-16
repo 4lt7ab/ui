@@ -151,20 +151,22 @@ function RecipeIndex({
               onClick={() => onSelect(recipe.id)}
               style={{ all: 'unset', cursor: 'pointer', display: 'block' }}
             >
-              <Card padding="lg" style={{
+              <div style={{
                 height: '100%',
                 border: '1px solid var(--color-border)',
                 transition: 'box-shadow 150ms ease',
+                borderRadius: 'var(--radius-md)',
               }}>
+              <Card padding="lg">
                 <Stack gap="md">
                   <Stack direction="horizontal" gap="sm" align="center">
                     <Icon name={recipe.icon} size={18} style={{ color: 'var(--color-action-primary)' }} />
                     <span style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--color-text)' }}>
                       {recipe.title}
                     </span>
-                    <Badge variant="default" style={{ marginLeft: 'auto' }}>
+                    <span style={{ marginLeft: 'auto' }}><Badge variant="default">
                       {CATEGORY_LABELS[recipe.category]}
-                    </Badge>
+                    </Badge></span>
                   </Stack>
 
                   <span style={{
@@ -199,6 +201,7 @@ function RecipeIndex({
                   </Stack>
                 </Stack>
               </Card>
+              </div>
             </button>
           ))}
         </div>

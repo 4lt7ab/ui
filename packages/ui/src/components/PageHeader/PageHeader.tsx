@@ -1,6 +1,6 @@
 import { createElement, forwardRef } from 'react';
 import { semantic as t } from '@4lt7ab/core';
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 /** HTML heading level (h1-h6). */
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
@@ -15,10 +15,6 @@ export interface PageHeaderProps {
   indicator?: ReactNode;
   /** Content aligned to the right of the header (e.g. action buttons). */
   trailing?: ReactNode;
-  /** Additional inline styles for the wrapper. */
-  style?: CSSProperties;
-  /** CSS class name for the wrapper. */
-  className?: string;
   /** HTML heading level (1-6).
    * @default 2
    */
@@ -31,8 +27,6 @@ export const PageHeader: React.ForwardRefExoticComponent<Omit<PageHeaderProps, '
     subtitle,
     indicator,
     trailing,
-    style,
-    className,
     level = 2,
   }, ref): React.JSX.Element {
     const heading = createElement(
@@ -51,12 +45,10 @@ export const PageHeader: React.ForwardRefExoticComponent<Omit<PageHeaderProps, '
     return (
       <div
         ref={ref}
-        className={className}
         style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'flex-end',
-          ...style,
         }}
       >
         <div>

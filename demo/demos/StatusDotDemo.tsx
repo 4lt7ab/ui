@@ -1,7 +1,12 @@
 import { StatusDot, Stack, Badge } from '@4lt7ab/ui';
-import type { StatusDotVariant } from '@4lt7ab/ui';
+import type { StatusDotVariant, StatusDotSize } from '@4lt7ab/ui';
 
-const variants: StatusDotVariant[] = ['default', 'success', 'warning', 'error', 'info'];
+const variants: StatusDotVariant[] = ['default', 'primary', 'success', 'warning', 'error', 'info'];
+const sizes: { token: StatusDotSize; label: string }[] = [
+  { token: 'sm', label: '6px' },
+  { token: 'md', label: '8px' },
+  { token: 'lg', label: '12px' },
+];
 
 export function StatusDotDemo(): React.JSX.Element {
   return (
@@ -21,21 +26,12 @@ export function StatusDotDemo(): React.JSX.Element {
       <Stack gap="sm">
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Sizes</h3>
         <Stack direction="horizontal" gap="md" wrap align="center">
-          {[6, 8, 10, 12, 16].map((s) => (
-            <Stack key={s} direction="horizontal" gap="xs" align="center">
-              <StatusDot variant="success" size={s} />
-              <span style={{ fontSize: '0.85rem' }}>{s}px</span>
+          {sizes.map(({ token, label }) => (
+            <Stack key={token} direction="horizontal" gap="xs" align="center">
+              <StatusDot variant="success" size={token} />
+              <span style={{ fontSize: '0.85rem' }}>{label}</span>
             </Stack>
           ))}
-        </Stack>
-      </Stack>
-
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Custom Colors</h3>
-        <Stack direction="horizontal" gap="md" wrap align="center">
-          <StatusDot color="#e040fb" />
-          <StatusDot color="#00e5ff" />
-          <StatusDot color="#ff6d00" />
         </Stack>
       </Stack>
 

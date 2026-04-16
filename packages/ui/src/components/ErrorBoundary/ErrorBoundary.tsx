@@ -53,11 +53,9 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     }
 
     return (
+      <div style={{ borderColor: t.colorError, borderWidth: '2px', borderStyle: 'solid', borderRadius: t.radiusLg }}>
       <Card
-        style={{
-          borderColor: t.colorError,
-          borderWidth: '2px',
-        }}
+        variant="flat"
         padding="lg"
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: t.spaceMd }}>
@@ -139,6 +137,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
           </div>
         </div>
       </Card>
+      </div>
     );
   }
 }

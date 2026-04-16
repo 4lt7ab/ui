@@ -235,7 +235,8 @@ function TokenPalette({
               const value = definition.tokens[key as keyof ThemeTokens];
               if (!value) return null;
               return (
-                <Stack key={key} direction="horizontal" gap="xs" align="center" style={{ minWidth: '11rem' }}>
+                <div key={key} style={{ minWidth: '11rem' }}>
+                <Stack direction="horizontal" gap="xs" align="center">
                   <div style={{
                     width: '1.5rem',
                     height: '1.5rem',
@@ -253,6 +254,7 @@ function TokenPalette({
                     </div>
                   </div>
                 </Stack>
+                </div>
               );
             })}
           </Stack>

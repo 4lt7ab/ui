@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, Children, cloneElement, isValidElement } from 'react';
-import type { HTMLAttributes, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
@@ -10,9 +10,11 @@ import {
   MIX_HOVER,
 } from '../../constants';
 
-export interface MarkdownProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+export interface MarkdownProps {
   /** Markdown source text to render. */
   children: string;
+  id?: string;
+  'data-testid'?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -768,7 +770,11 @@ const mdComponents = {
  *
  * Styled independently from Prose — uses the `.alttab-markdown` namespace.
  */
-export function Markdown({ children, className, ...rest }: MarkdownProps): React.JSX.Element {
+export function Markdown({
+  children,
+  id,
+  'data-testid': dataTestId,
+}: MarkdownProps): React.JSX.Element {
   useInjectStyles(MARKDOWN_STYLES_ID, markdownCSS);
   const [copied, setCopied] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -782,8 +788,9 @@ export function Markdown({ children, className, ...rest }: MarkdownProps): React
 
   return (
     <div
-      className={className ? `alttab-markdown ${className}` : 'alttab-markdown'}
-      {...rest}
+      className="alttab-markdown"
+      id={id}
+      data-testid={dataTestId}
     >
       <button
         type="button"

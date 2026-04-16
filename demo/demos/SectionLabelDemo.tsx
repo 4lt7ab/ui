@@ -29,7 +29,7 @@ export function SectionLabelDemo(): React.JSX.Element {
       </Stack>
 
       <Stack gap="sm">
-        <SectionLabel style={{ color: 'var(--color-action-primary)' }}>Custom Color</SectionLabel>
+        <span style={{ color: 'var(--color-action-primary)' }}><SectionLabel>Custom Color</SectionLabel></span>
         <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)' }}>
           Style prop allows color overrides.
         </span>

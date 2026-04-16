@@ -21,36 +21,43 @@ declare const MIX_SUBTLE = "5%";
 declare const MIX_HOVER = "8%";
 /** Badge/tag background tint. */
 declare const MIX_BADGE = "14%";
-import { HTMLAttributes, ReactNode } from "react";
+import { ReactNode } from "react";
 /** Named width preset for the Container. */
-type ContainerWidth = "prose" | "wide";
+type ContainerWidth = "narrow" | "prose" | "wide" | "full";
+/** Horizontal padding preset for the Container. */
+type ContainerPadding = "none" | "sm" | "md" | "lg";
 /** A centered content wrapper with max-width constraint. */
-interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
+interface ContainerProps {
 	/** Named width preset.
+	* - `narrow` — 32rem, compact layouts
 	* - `prose` — 680px, optimized for reading
 	* - `wide` — 900px, for wider layouts
+	* - `full` — 100%, no max-width constraint
 	* @default 'prose'
 	*/
 	width?: ContainerWidth;
-	/** Arbitrary max-width value (e.g. '1200px', '100%'). Overrides `width` when set. */
-	maxWidth?: string;
-	/** Horizontal padding CSS value.
-	* @default '1.5rem'
+	/** Horizontal padding preset.
+	* @default 'md'
 	*/
-	padding?: string;
+	padding?: ContainerPadding;
 	/** Container content. */
 	children: ReactNode;
+	id?: string;
+	"data-testid"?: string;
 }
 declare const Container: React.ForwardRefExoticComponent<Omit<ContainerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { HTMLAttributes as HTMLAttributes2, ReactNode as ReactNode2 } from "react";
-interface ProseProps extends HTMLAttributes2<HTMLDivElement> {
+import { ReactNode as ReactNode2 } from "react";
+interface ProseProps {
 	children: ReactNode2;
+	id?: string;
+	"data-testid"?: string;
 }
 declare const Prose: React.ForwardRefExoticComponent<Omit<ProseProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { HTMLAttributes as HTMLAttributes3 } from "react";
-interface MarkdownProps extends Omit<HTMLAttributes3<HTMLDivElement>, "children"> {
+interface MarkdownProps {
 	/** Markdown source text to render. */
 	children: string;
+	id?: string;
+	"data-testid"?: string;
 }
 /**
 * Renders a markdown string with its own typographic styles.
@@ -64,7 +71,7 @@ interface MarkdownProps extends Omit<HTMLAttributes3<HTMLDivElement>, "children"
 *
 * Styled independently from Prose — uses the `.alttab-markdown` namespace.
 */
-declare function Markdown({ children, className,...rest }: MarkdownProps): React.JSX.Element;
+declare function Markdown({ children, id, "data-testid": dataTestId }: MarkdownProps): React.JSX.Element;
 import { ReactNode as ReactNode3 } from "react";
 interface PullQuoteProps {
 	children: ReactNode3;
@@ -105,14 +112,21 @@ interface EpigraphProps {
 * Works both inside and outside <Prose>.
 */
 declare const Epigraph: React.ForwardRefExoticComponent<Omit<EpigraphProps, "ref"> & React.RefAttributes<HTMLQuoteElement>>;
-import { AnchorHTMLAttributes, ReactNode as ReactNode7 } from "react";
-interface LinkCardProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "title"> {
+import { ReactNode as ReactNode7 } from "react";
+interface LinkCardProps {
 	/** Card title — rendered in serif. */
 	title: ReactNode7;
 	/** Optional description — rendered smaller in muted text. */
 	description?: ReactNode7;
 	/** Whether link opens in a new tab. */
 	external?: boolean;
+	href?: string;
+	target?: string;
+	rel?: string;
+	onClick?: React.MouseEventHandler<HTMLAnchorElement>;
+	id?: string;
+	"aria-label"?: string;
+	"data-testid"?: string;
 }
 /**
 * Clickable card with serif title and muted description.
@@ -169,4 +183,4 @@ interface ThinkingCycleProps {
 * Usage: Building with AI tools is <ThinkingCycle words={['powerful', 'wild']} />.
 */
 declare const ThinkingCycle: React.ForwardRefExoticComponent<Omit<ThinkingCycleProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
-export { ThinkingCycleProps, ThinkingCycle, TextSectionProps, TextSection, SideNoteProps, SideNote, PullQuoteProps, PullQuote, ProseProps, Prose, PROSE_H2_SIZE, PROSE_H1_SIZE, PROSE_CODE_SIZE, PROSE_BODY_SIZE, PROSE_BLOCKQUOTE_SIZE, MarkdownProps, Markdown, MarginNoteProps, MarginNote, MIX_SUBTLE, MIX_HOVER, MIX_BADGE, LinkCardProps, LinkCard, EpigraphProps, Epigraph, ContainerWidth, ContainerProps, Container, BREAKPOINT_WIDE, BREAKPOINT_PROSE, BREAKPOINT_MARGIN_NOTES };
+export { ThinkingCycleProps, ThinkingCycle, TextSectionProps, TextSection, SideNoteProps, SideNote, PullQuoteProps, PullQuote, ProseProps, Prose, PROSE_H2_SIZE, PROSE_H1_SIZE, PROSE_CODE_SIZE, PROSE_BODY_SIZE, PROSE_BLOCKQUOTE_SIZE, MarkdownProps, Markdown, MarginNoteProps, MarginNote, MIX_SUBTLE, MIX_HOVER, MIX_BADGE, LinkCardProps, LinkCard, EpigraphProps, Epigraph, ContainerWidth, ContainerProps, ContainerPadding, Container, BREAKPOINT_WIDE, BREAKPOINT_PROSE, BREAKPOINT_MARGIN_NOTES };

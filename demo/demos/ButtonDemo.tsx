@@ -18,7 +18,7 @@ export function ButtonDemo(): React.JSX.Element {
 
       <Stack gap="sm">
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Sizes</h3>
-        <Stack direction="horizontal" gap="sm" wrap align="flex-end">
+        <Stack direction="horizontal" gap="sm" wrap align="end">
           {sizes.map((s) => (
             <Button key={s} size={s}>{s}</Button>
           ))}
@@ -51,7 +51,7 @@ export function ButtonDemo(): React.JSX.Element {
               <Icon name="settings" size={18} />
             </Button>
           ))}
-          <Button variant="primary" iconOnly loading aria-label="loading action" />
+          <Button variant="primary" iconOnly loading aria-label="loading action">{null}</Button>
         </Stack>
       </Stack>
 
@@ -59,7 +59,7 @@ export function ButtonDemo(): React.JSX.Element {
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>All variants x sizes</h3>
         <Stack gap="md">
           {variants.map((v) => (
-            <Stack key={v} direction="horizontal" gap="sm" wrap align="flex-end">
+            <Stack key={v} direction="horizontal" gap="sm" wrap align="end">
               {sizes.map((s) => (
                 <Button key={`${v}-${s}`} variant={v} size={s}>
                   {v} {s}

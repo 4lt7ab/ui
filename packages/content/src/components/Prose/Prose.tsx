@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import type { HTMLAttributes, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { useInjectStyles } from '@4lt7ab/core';
 import {
   BREAKPOINT_PROSE,
@@ -11,8 +11,10 @@ import {
   PROSE_BLOCKQUOTE_SIZE,
 } from '../../constants';
 
-export interface ProseProps extends HTMLAttributes<HTMLDivElement> {
+export interface ProseProps {
   children: ReactNode;
+  id?: string;
+  'data-testid'?: string;
 }
 
 const PROSE_STYLES_ID = 'alttab-prose-styles';
@@ -316,8 +318,8 @@ const proseCSS = /* css */ `
 export const Prose: React.ForwardRefExoticComponent<Omit<ProseProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, ProseProps>(
   function Prose({
     children,
-    style,
-    ...props
+    id,
+    'data-testid': dataTestId,
   }, ref): React.JSX.Element {
     useInjectStyles(PROSE_STYLES_ID, proseCSS);
 
@@ -325,8 +327,8 @@ export const Prose: React.ForwardRefExoticComponent<Omit<ProseProps, 'ref'> & Re
       <div
         ref={ref}
         className="alttab-prose"
-        style={style}
-        {...props}
+        id={id}
+        data-testid={dataTestId}
       >
         {children}
       </div>

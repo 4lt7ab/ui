@@ -1,5 +1,5 @@
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export interface PageShellProps {
   children: ReactNode;
@@ -9,8 +9,6 @@ export interface PageShellProps {
   gap?: 'sm' | 'md' | 'lg';
   /** Whether to add top padding. @default true */
   topPadding?: boolean;
-  /** Style override. */
-  style?: CSSProperties;
 }
 
 const SCROLLBAR_ID = 'page-shell-scrollbar';
@@ -30,7 +28,6 @@ export function PageShell({
   maxWidth = 1100,
   gap = 'md',
   topPadding = true,
-  style,
 }: PageShellProps): React.JSX.Element {
   useInjectStyles(SCROLLBAR_ID, SCROLLBAR_CSS);
 
@@ -46,7 +43,6 @@ export function PageShell({
         overflowY: 'auto',
         padding: `${topPadding ? t.spaceLg : '0'} ${t.spaceLg}`,
         gap: gapMap[gap],
-        ...style,
       }}
     >
       {children}

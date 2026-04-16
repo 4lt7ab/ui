@@ -1,8 +1,8 @@
 import { forwardRef } from 'react';
 import { semantic as t } from '@4lt7ab/core';
-import type { HTMLAttributes, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { spacingMap } from '../../types';
-import type { SpacingToken } from '../../types';
+import type { SpacingToken, BaseComponentProps } from '../../types';
 
 /**
  * A section heading bar with icon, title, indicator slot, and trailing actions.
@@ -21,7 +21,7 @@ import type { SpacingToken } from '../../types';
  * />
  * ```
  */
-export interface SectionHeaderProps extends HTMLAttributes<HTMLDivElement> {
+export interface SectionHeaderProps extends BaseComponentProps {
   /** Section title text. */
   title: string;
 
@@ -63,14 +63,15 @@ export const SectionHeader: React.ForwardRefExoticComponent<
       trailing,
       border = false,
       spacing,
-      style,
-      ...props
+      ...rest
     },
     ref,
   ): React.JSX.Element {
     return (
       <div
         ref={ref}
+        id={rest.id}
+        data-testid={rest['data-testid']}
         style={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -81,9 +82,7 @@ export const SectionHeader: React.ForwardRefExoticComponent<
             : undefined,
           paddingBottom: border ? t.spaceMd : undefined,
           marginBottom: spacing ? spacingMap[spacing] : undefined,
-          ...style,
         }}
-        {...props}
       >
         {/* Left cluster: icon + title + indicator */}
         <div

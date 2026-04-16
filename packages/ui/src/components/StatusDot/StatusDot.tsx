@@ -3,7 +3,10 @@ import { semantic as t, useInjectStyles } from '@4lt7ab/core';
 import type { CSSProperties } from 'react';
 
 /** Semantic color variant for the status dot. */
-export type StatusDotVariant = 'default' | 'success' | 'warning' | 'error' | 'info';
+export type StatusDotVariant = 'default' | 'primary' | 'success' | 'warning' | 'error' | 'info';
+
+/** Size preset for the status dot. */
+export type StatusDotSize = 'sm' | 'md' | 'lg';
 
 /** Animation style for the status dot. */
 export type StatusDotAnimate = 'pulse' | 'none';
@@ -12,23 +15,32 @@ export type StatusDotAnimate = 'pulse' | 'none';
 export interface StatusDotProps {
   /** Semantic variant — maps to feedback tokens. */
   variant?: StatusDotVariant;
-  /** Raw color override. Takes precedence over variant. */
-  color?: string;
-  /** Dot diameter in pixels. @default 8 */
-  size?: number;
+  /** Dot size preset.
+   * - `sm` — 6px
+   * - `md` — 8px (default)
+   * - `lg` — 12px
+   * @default 'md'
+   */
+  size?: StatusDotSize;
   /** Animation style. @default 'none' */
   animate?: StatusDotAnimate;
   /** Accessible label describing the status. */
   'aria-label'?: string;
-  style?: CSSProperties;
 }
 
 const variantColors: Record<StatusDotVariant, string> = {
   default: t.colorTextMuted,
+  primary: t.colorActionPrimary,
   success: t.colorSuccess,
   warning: t.colorWarning,
   error: t.colorError,
   info: t.colorInfo,
+};
+
+const sizeMap: Record<StatusDotSize, number> = {
+  sm: 6,
+  md: 8,
+  lg: 12,
 };
 
 const PULSE_STYLES_ID = '4lt7ab-status-dot-pulse';
@@ -51,13 +63,12 @@ const PULSE_STYLES_CSS = `
 export const StatusDot: React.ForwardRefExoticComponent<Omit<StatusDotProps, 'ref'> & React.RefAttributes<HTMLSpanElement>> = forwardRef<HTMLSpanElement, StatusDotProps>(
   function StatusDot({
     variant = 'default',
-    color,
-    size = 8,
+    size = 'md',
     animate = 'none',
     'aria-label': ariaLabel,
-    style,
   }, ref): React.JSX.Element {
-    const resolvedColor = color ?? variantColors[variant];
+    const resolvedColor = variantColors[variant];
+    const resolvedSize = sizeMap[size];
     const isPulsing = animate === 'pulse';
 
     useInjectStyles(PULSE_STYLES_ID, PULSE_STYLES_CSS);
@@ -71,13 +82,12 @@ export const StatusDot: React.ForwardRefExoticComponent<Omit<StatusDotProps, 're
         data-status-dot-pulse={isPulsing || undefined}
         style={{
           display: 'inline-block',
-          width: size,
-          height: size,
+          width: resolvedSize,
+          height: resolvedSize,
           borderRadius: t.radiusFull,
           background: resolvedColor,
           flexShrink: 0,
           ...(isPulsing ? { '--status-dot-color': resolvedColor } as CSSProperties : undefined),
-          ...style,
         }}
       />
     );

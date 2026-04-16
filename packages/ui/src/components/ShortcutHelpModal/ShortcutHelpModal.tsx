@@ -71,12 +71,13 @@ export const ShortcutHelpModal: React.ForwardRefExoticComponent<Omit<ShortcutHel
             >
               {title}
             </h2>
-            <IconButton
-              icon="close"
-              aria-label="Close"
-              onClick={onClose}
-              style={{ marginRight: `calc(-1 * ${t.spaceXs})`, marginTop: `calc(-1 * ${t.spaceXs})` }}
-            />
+            <span style={{ marginRight: `calc(-1 * ${t.spaceXs})`, marginTop: `calc(-1 * ${t.spaceXs})` }}>
+              <IconButton
+                icon="close"
+                aria-label="Close"
+                onClick={onClose}
+              />
+            </span>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: t.spaceLg }}>

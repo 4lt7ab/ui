@@ -12,7 +12,8 @@ export function DeleteFlow(): React.JSX.Element {
   const [list, setList] = useState(items);
 
   return (
-    <Stack gap="xl" style={{ maxWidth: 500 }}>
+    <div style={{ maxWidth: 500 }}>
+    <Stack gap="xl">
       <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600, color: 'var(--color-text)' }}>
         Resources
       </h3>
@@ -55,5 +56,6 @@ export function DeleteFlow(): React.JSX.Element {
         />
       )}
     </Stack>
+    </div>
   );
 }

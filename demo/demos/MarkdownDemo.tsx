@@ -99,7 +99,7 @@ That's all there is to it — pass a markdown string as children and get fully s
 
 export function MarkdownDemo(): React.JSX.Element {
   return (
-    <Container width="prose" style={{ padding: 0 }}>
+    <Container width="prose" padding="none">
       <Markdown>{sampleMarkdown}</Markdown>
     </Container>
   );

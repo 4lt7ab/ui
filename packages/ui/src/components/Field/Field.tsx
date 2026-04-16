@@ -1,8 +1,11 @@
 import { semantic as t } from '@4lt7ab/core';
-import { forwardRef, useId, isValidElement, cloneElement, type HTMLAttributes, type ReactNode, type ReactElement } from 'react';
+import { forwardRef, useId, isValidElement, cloneElement, type ReactNode, type ReactElement } from 'react';
+import type { BaseComponentProps } from '../../types';
 
 /** Wraps an input with a label, help text, and error message. Handles `aria-describedby` wiring automatically. */
-export interface FieldProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+export interface FieldProps extends BaseComponentProps {
+  /** Links the field wrapper to external descriptive text. */
+  'aria-describedby'?: string;
   /** Field label text displayed above the input. */
   label: string;
   /** Associates the label with the input via `htmlFor`/`id`. */
@@ -62,8 +65,7 @@ export const Field: React.ForwardRefExoticComponent<Omit<FieldProps, 'ref'> & Re
     required,
     disabled,
     children,
-    style,
-    ...props
+    ...rest
   }, ref): React.JSX.Element {
     const autoId = useId();
     const helpId = help ? `${autoId}-help` : undefined;
@@ -80,14 +82,15 @@ export const Field: React.ForwardRefExoticComponent<Omit<FieldProps, 'ref'> & Re
     return (
       <div
         ref={ref}
+        id={rest.id}
+        data-testid={rest['data-testid']}
+        aria-describedby={rest['aria-describedby']}
         style={{
           display: 'flex',
           flexDirection: 'column',
           gap: t.spaceXs,
           opacity: disabled ? 0.6 : undefined,
-          ...style,
         }}
-        {...props}
       >
         <label htmlFor={htmlFor} style={labelStyle}>
           {label}

@@ -43,17 +43,19 @@ const spacingTokens = [
 
 function Swatch({ color, label }: { color: string; label: string }): React.JSX.Element {
   return (
-    <Stack direction="horizontal" gap="sm" align="center" style={{ minWidth: '12rem' }}>
-      <div style={{
-        width: '2rem',
-        height: '2rem',
-        borderRadius: 'var(--radius-sm)',
-        background: color,
-        border: '1px solid var(--color-border)',
-        flexShrink: 0,
-      }} />
-      <span style={{ fontSize: '0.8rem', fontFamily: 'var(--font-mono)' }}>{label}</span>
-    </Stack>
+    <div style={{ minWidth: '12rem' }}>
+      <Stack direction="horizontal" gap="sm" align="center">
+        <div style={{
+          width: '2rem',
+          height: '2rem',
+          borderRadius: 'var(--radius-sm)',
+          background: color,
+          border: '1px solid var(--color-border)',
+          flexShrink: 0,
+        }} />
+        <span style={{ fontSize: '0.8rem', fontFamily: 'var(--font-mono)' }}>{label}</span>
+      </Stack>
+    </div>
   );
 }
 
@@ -92,13 +94,15 @@ export function TokensDemo(): React.JSX.Element {
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Shadows</h3>
         <Stack direction="horizontal" gap="lg" wrap>
           {['sm', 'md', 'lg'].map((s) => (
-            <Card key={s} variant="default" padding="md" style={{
+            <div key={s} style={{
               boxShadow: `var(--shadow-${s})`,
               minWidth: '6rem',
               textAlign: 'center',
             }}>
-              <span style={{ fontSize: '0.8rem', fontFamily: 'var(--font-mono)' }}>{s}</span>
-            </Card>
+              <Card variant="default" padding="md">
+                <span style={{ fontSize: '0.8rem', fontFamily: 'var(--font-mono)' }}>{s}</span>
+              </Card>
+            </div>
           ))}
         </Stack>
       </Stack>
