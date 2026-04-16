@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.29
+
 ## v0.2.28
 
 - Add DocBlock documentation system — shared `PropsTable`, `PropDemo`, and `DocBlock` components in `demo/components/`
