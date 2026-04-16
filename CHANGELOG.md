@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.26
+
 - **BREAKING**: Lock down component prop APIs — remove `style`, `className`, and `extends HTMLAttributes` from all components
 - **BREAKING**: Replace arbitrary `color?: string` props with `SemanticColor` union on Badge, StatCard, StatusDot, ProgressBar, Surface
 - **BREAKING**: Remove `bg?: string` from Surface, replace with `tint?: SemanticColor`
