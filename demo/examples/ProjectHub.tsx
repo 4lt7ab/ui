@@ -145,7 +145,7 @@ function NavButton({ icon, active, label, onClick }: {
     }}>
       <IconButton
         icon={icon}
-        size={20}
+        size="sm"
         onClick={onClick}
         aria-label={label}
       />
@@ -173,13 +173,13 @@ function ProjectCard({ project, onOpen }: {
             { value: project.progress || 1, color: project.progress > 0 ? 'success' : 'muted' },
             { value: Math.max(100 - project.progress, 1), color: 'muted' },
           ]}
-          height={4}
+          height="sm"
         />
         <Stack direction="horizontal" justify="space-between" align="center">
           <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
             {project.tasks.length} task{project.tasks.length !== 1 ? 's' : ''}
           </span>
-          <Icon name="chevron-right" size={14} style={{ color: 'var(--color-text-muted)' }} />
+          <span style={{ color: 'var(--color-text-muted)' }}><Icon name="chevron-right" size="xs" /></span>
         </Stack>
       </Stack>
     </Card>
@@ -196,7 +196,7 @@ function ProjectDetail({ project, onClose, onDelete }: {
   const totalTasks = project.tasks.length;
 
   return (
-    <ModalShell onClose={onClose} maxWidth={600}>
+    <ModalShell onClose={onClose} width="xl">
       <Stack gap="xl">
         {/* Header */}
         <Stack direction="horizontal" justify="space-between" align="start">
@@ -208,7 +208,7 @@ function ProjectDetail({ project, onClose, onDelete }: {
           </Stack>
           <Stack direction="horizontal" gap="xs" align="center">
             <Badge variant={projectBadge(project.status)}>{project.status}</Badge>
-            <IconButton icon="trash" size={16} onClick={onDelete} aria-label="Delete project" />
+            <IconButton icon="trash" size="sm" onClick={onDelete} aria-label="Delete project" />
           </Stack>
         </Stack>
 
@@ -227,7 +227,7 @@ function ProjectDetail({ project, onClose, onDelete }: {
                   { value: project.progress || 1, color: project.progress > 0 ? 'success' : 'muted' },
                   { value: Math.max(100 - project.progress, 1), color: 'muted' },
                 ]}
-                height={6}
+                height="md"
               />
             </Stack>
             <Stack direction="horizontal" gap="xs" wrap>
@@ -334,7 +334,7 @@ export function ProjectHub(): React.JSX.Element {
             <PageHeader
               title="Projects"
               subtitle={`${projects.length} project${projects.length !== 1 ? 's' : ''}`}
-              trailing={<Button size="sm"><Icon name="plus" size={14} /> New project</Button>}
+              trailing={<Button size="sm"><Icon name="plus" size="xs" /> New project</Button>}
             />
 
             <div style={{

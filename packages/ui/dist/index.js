@@ -208,6 +208,75 @@ var iconRegistry = {
   "filter": IconFilter
 };
 
+// src/types.ts
+import { semantic as t } from "../../core/dist/index.js";
+var alignMap = {
+  start: "flex-start",
+  center: "center",
+  end: "flex-end",
+  stretch: "stretch",
+  baseline: "baseline"
+};
+var justifyMap = {
+  start: "flex-start",
+  center: "center",
+  end: "flex-end",
+  "space-between": "space-between",
+  "space-around": "space-around",
+  "space-evenly": "space-evenly"
+};
+var semanticColorMap = {
+  primary: t.colorActionPrimary,
+  success: t.colorSuccess,
+  warning: t.colorWarning,
+  error: t.colorError,
+  info: t.colorInfo,
+  muted: t.colorTextMuted
+};
+var iconSizeMap = {
+  xs: 14,
+  sm: 16,
+  md: 20,
+  lg: 24,
+  xl: 32
+};
+var modalWidthMap = {
+  sm: 400,
+  md: 480,
+  lg: 520,
+  xl: 640
+};
+var progressBarHeightMap = {
+  sm: 4,
+  md: 6,
+  lg: 10
+};
+var dividerOpacityMap = {
+  subtle: 25,
+  default: 50,
+  strong: 75
+};
+var spacingMap = {
+  xs: t.spaceXs,
+  sm: t.spaceSm,
+  md: t.spaceMd,
+  lg: t.spaceLg,
+  xl: t.spaceXl,
+  "2xl": t.space2xl
+};
+var radiusMap = {
+  none: "0",
+  sm: t.radiusSm,
+  md: t.radiusMd,
+  lg: t.radiusLg,
+  full: t.radiusFull
+};
+var shadowMap = {
+  sm: t.shadowSm,
+  md: t.shadowMd,
+  lg: t.shadowLg
+};
+
 // src/components/Icon/Icon.tsx
 import { jsx as jsx2 } from "react/jsx-runtime";
 var IconFontContext = createContext(void 0);
@@ -215,16 +284,19 @@ function IconFontProvider({ fontClass, children }) {
   return /* @__PURE__ */ jsx2(IconFontContext.Provider, { value: fontClass, children });
 }
 var Icon = forwardRef(
-  function Icon2({ name, size = 24, fontClass, style, "aria-label": ariaLabel, ...props }, ref) {
+  function Icon2({ name, size = "lg", fontClass, "aria-label": ariaLabel, id, "data-testid": dataTestId }, ref) {
     const contextFontClass = useContext(IconFontContext);
     const IconComponent = iconRegistry[name];
     const isDecorative = !ariaLabel;
+    const px = iconSizeMap[size];
     const resolvedFontClass = fontClass ?? contextFontClass;
     if (!IconComponent && resolvedFontClass) {
       return /* @__PURE__ */ jsx2(
         "span",
         {
           ref,
+          id,
+          "data-testid": dataTestId,
           role: isDecorative ? void 0 : "img",
           "aria-hidden": isDecorative || void 0,
           "aria-label": ariaLabel,
@@ -233,15 +305,13 @@ var Icon = forwardRef(
             display: "inline-flex",
             alignItems: "center",
             justifyContent: "center",
-            minWidth: size,
-            minHeight: size,
-            fontSize: size,
+            minWidth: px,
+            minHeight: px,
+            fontSize: px,
             lineHeight: 1,
             color: "inherit",
-            fontStyle: "normal",
-            ...style
+            fontStyle: "normal"
           },
-          ...props,
           children: name
         }
       );
@@ -250,6 +320,8 @@ var Icon = forwardRef(
       "span",
       {
         ref,
+        id,
+        "data-testid": dataTestId,
         role: isDecorative ? void 0 : "img",
         "aria-hidden": isDecorative || void 0,
         "aria-label": ariaLabel,
@@ -257,14 +329,12 @@ var Icon = forwardRef(
           display: "inline-flex",
           alignItems: "center",
           justifyContent: "center",
-          width: size,
-          height: size,
+          width: px,
+          height: px,
           lineHeight: 1,
-          color: "inherit",
-          ...style
+          color: "inherit"
         },
-        ...props,
-        children: IconComponent ? /* @__PURE__ */ jsx2(IconComponent, { size }) : null
+        children: IconComponent ? /* @__PURE__ */ jsx2(IconComponent, { size: px }) : null
       }
     );
   }
@@ -484,7 +554,7 @@ function CompactView() {
             flexShrink: 0
           } }),
           currentTheme?.label ?? resolved,
-          /* @__PURE__ */ jsx3(Icon, { name: open ? "chevron-up" : "chevron-down", size: 12 })
+          /* @__PURE__ */ jsx3(Icon, { name: open ? "chevron-up" : "chevron-down", size: "xs" })
         ]
       }
     ),
@@ -557,57 +627,57 @@ var ThemePicker = forwardRef2(
 
 // src/components/Button/Button.tsx
 import { forwardRef as forwardRef3 } from "react";
-import { semantic as t, useInjectStyles as useInjectStyles2 } from "../../core/dist/index.js";
+import { semantic as t2, useInjectStyles as useInjectStyles2 } from "../../core/dist/index.js";
 import { jsx as jsx4 } from "react/jsx-runtime";
 var variantStyles = {
   primary: {
-    background: t.colorActionPrimary,
-    color: t.colorTextInverse,
+    background: t2.colorActionPrimary,
+    color: t2.colorTextInverse,
     border: "none"
   },
   secondary: {
-    background: t.colorActionSecondary,
-    color: t.colorText,
-    border: `${t.borderWidthDefault} solid ${t.colorBorder}`
+    background: t2.colorActionSecondary,
+    color: t2.colorText,
+    border: `${t2.borderWidthDefault} solid ${t2.colorBorder}`
   },
   destructive: {
-    background: t.colorActionDestructive,
-    color: t.colorTextInverse,
+    background: t2.colorActionDestructive,
+    color: t2.colorTextInverse,
     border: "none"
   },
   ghost: {
     background: "transparent",
-    color: t.colorText,
-    border: `${t.borderWidthDefault} solid transparent`
+    color: t2.colorText,
+    border: `${t2.borderWidthDefault} solid transparent`
   }
 };
 var sizeStyles = {
   sm: {
-    padding: `${t.spaceXs} ${t.spaceSm}`,
-    fontSize: t.fontSizeSm,
-    lineHeight: t.lineHeightTight
+    padding: `${t2.spaceXs} ${t2.spaceSm}`,
+    fontSize: t2.fontSizeSm,
+    lineHeight: t2.lineHeightTight
   },
   md: {
-    padding: `${t.spaceSm} ${t.spaceMd}`,
-    fontSize: t.fontSizeSm,
-    lineHeight: t.lineHeightTight
+    padding: `${t2.spaceSm} ${t2.spaceMd}`,
+    fontSize: t2.fontSizeSm,
+    lineHeight: t2.lineHeightTight
   },
   lg: {
-    padding: `${t.spaceSm} ${t.spaceLg}`,
-    fontSize: t.fontSizeBase,
-    lineHeight: t.lineHeightBase
+    padding: `${t2.spaceSm} ${t2.spaceLg}`,
+    fontSize: t2.fontSizeBase,
+    lineHeight: t2.lineHeightBase
   }
 };
 var baseStyles = {
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
-  gap: t.spaceSm,
-  borderRadius: t.radiusMd,
-  fontFamily: t.fontSans,
-  fontWeight: t.fontWeightMedium,
+  gap: t2.spaceSm,
+  borderRadius: t2.radiusMd,
+  fontFamily: t2.fontSans,
+  fontWeight: t2.fontWeightMedium,
   cursor: "pointer",
-  transition: `background ${t.transitionBase}, border-color ${t.transitionBase}, opacity ${t.transitionBase}`
+  transition: `background ${t2.transitionBase}, border-color ${t2.transitionBase}, opacity ${t2.transitionBase}`
 };
 var SPINNER_STYLES_ID = "alttab-button-spinner";
 var spinnerCSS = (
@@ -620,7 +690,7 @@ var spinnerCSS = (
     display: inline-block;
     width: 1em;
     height: 1em;
-    border: ${t.borderWidthThick} solid currentColor;
+    border: ${t2.borderWidthThick} solid currentColor;
     border-right-color: transparent;
     border-radius: 50%;
     animation: alttab-btn-spin 600ms linear infinite;
@@ -628,9 +698,9 @@ var spinnerCSS = (
 `
 );
 var iconOnlyPadding = {
-  sm: t.spaceXs,
-  md: t.spaceSm,
-  lg: t.spaceSm
+  sm: t2.spaceXs,
+  md: t2.spaceSm,
+  lg: t2.spaceSm
 };
 var Button = forwardRef3(
   function Button2({
@@ -694,54 +764,6 @@ var Button = forwardRef3(
 
 // src/components/Stack/Stack.tsx
 import { forwardRef as forwardRef4 } from "react";
-
-// src/types.ts
-import { semantic as t2 } from "../../core/dist/index.js";
-var alignMap = {
-  start: "flex-start",
-  center: "center",
-  end: "flex-end",
-  stretch: "stretch",
-  baseline: "baseline"
-};
-var justifyMap = {
-  start: "flex-start",
-  center: "center",
-  end: "flex-end",
-  "space-between": "space-between",
-  "space-around": "space-around",
-  "space-evenly": "space-evenly"
-};
-var semanticColorMap = {
-  primary: t2.colorActionPrimary,
-  success: t2.colorSuccess,
-  warning: t2.colorWarning,
-  error: t2.colorError,
-  info: t2.colorInfo,
-  muted: t2.colorTextMuted
-};
-var spacingMap = {
-  xs: t2.spaceXs,
-  sm: t2.spaceSm,
-  md: t2.spaceMd,
-  lg: t2.spaceLg,
-  xl: t2.spaceXl,
-  "2xl": t2.space2xl
-};
-var radiusMap = {
-  none: "0",
-  sm: t2.radiusSm,
-  md: t2.radiusMd,
-  lg: t2.radiusLg,
-  full: t2.radiusFull
-};
-var shadowMap = {
-  sm: t2.shadowSm,
-  md: t2.shadowMd,
-  lg: t2.shadowLg
-};
-
-// src/components/Stack/Stack.tsx
 import { jsx as jsx5 } from "react/jsx-runtime";
 var gapMap = spacingMap;
 var Stack = forwardRef4(
@@ -1645,11 +1667,15 @@ var buttonSizeMap = {
   md: 36,
   lg: 44
 };
+var iconSizeForButton = {
+  sm: "sm",
+  md: "md",
+  lg: "lg"
+};
 var IconButton = forwardRef11(
   function IconButton2({
     icon,
-    size = 24,
-    buttonSize = "md",
+    size = "md",
     badge,
     fontClass,
     onClick,
@@ -1676,7 +1702,7 @@ var IconButton = forwardRef11(
         outline-offset: ${t9.focusRingOffset};
       }`
     );
-    const dim = buttonSizeMap[buttonSize];
+    const dim = buttonSizeMap[size];
     return /* @__PURE__ */ jsxs5(
       "button",
       {
@@ -1708,7 +1734,7 @@ var IconButton = forwardRef11(
           padding: 0
         },
         children: [
-          /* @__PURE__ */ jsx12(Icon, { name: icon, size, fontClass }),
+          /* @__PURE__ */ jsx12(Icon, { name: icon, size: iconSizeForButton[size], fontClass }),
           badge && /* @__PURE__ */ jsx12(
             "span",
             {
@@ -1837,10 +1863,11 @@ import { jsx as jsx15 } from "react/jsx-runtime";
 var ProgressBar = forwardRef14(
   function ProgressBar2({
     segments,
-    height = 6,
+    height = "md",
     "aria-label": ariaLabel
   }, ref) {
     const total = segments.reduce((sum, s) => sum + s.value, 0);
+    const px = progressBarHeightMap[height];
     return /* @__PURE__ */ jsx15(
       "div",
       {
@@ -1852,8 +1879,8 @@ var ProgressBar = forwardRef14(
         "aria-label": ariaLabel,
         style: {
           width: "100%",
-          height,
-          borderRadius: height / 2,
+          height: px,
+          borderRadius: px / 2,
           overflow: "hidden",
           display: "flex",
           background: t12.colorSurfaceRaised
@@ -1891,7 +1918,7 @@ var EmptyState = forwardRef15(
     action
   }, ref) {
     const content = /* @__PURE__ */ jsx16("div", { style: { padding: t13.spaceXl }, children: /* @__PURE__ */ jsxs7(Stack, { align: "center", gap: "sm", children: [
-      /* @__PURE__ */ jsx16(Icon, { name: icon, size: 32, style: { color: t13.colorTextMuted } }),
+      /* @__PURE__ */ jsx16("span", { style: { color: t13.colorTextMuted, display: "inline-flex" }, children: /* @__PURE__ */ jsx16(Icon, { name: icon, size: "xl" }) }),
       /* @__PURE__ */ jsx16(
         "span",
         {
@@ -2103,7 +2130,7 @@ var TagChip = forwardRef18(
           color: t17.colorActionPrimary,
           background: t17.colorSurfaceRaised,
           borderRadius: t17.radiusFull,
-          padding: "2px 8px",
+          padding: `${t17.spaceXs} ${t17.spaceSm}`,
           fontFamily: t17.fontSans
         },
         children: [
@@ -2116,10 +2143,9 @@ var TagChip = forwardRef18(
             IconButton,
             {
               icon: "close",
-              size: 12,
               onClick: onRemove,
               "aria-label": `Remove ${name}`,
-              buttonSize: "sm"
+              size: "sm"
             }
           ) })
         ]
@@ -2256,7 +2282,7 @@ var ModalShell = forwardRef20(
   function ModalShell2({
     onClose,
     children,
-    maxWidth = 480,
+    width = "md",
     zIndex = t19.zIndexModal,
     titleId,
     "aria-label": ariaLabel,
@@ -2329,7 +2355,7 @@ var ModalShell = forwardRef20(
                   boxShadow: t19.shadowLg,
                   border: `${t19.borderWidthDefault} solid ${t19.colorBorder}`,
                   padding: t19.spaceXl,
-                  maxWidth,
+                  maxWidth: modalWidthMap[width],
                   width: "100%",
                   pointerEvents: "auto",
                   outline: "none"
@@ -2417,7 +2443,7 @@ var FormModal = forwardRef22(
     submitLabel = "Submit",
     cancelLabel = "Cancel",
     loading: externalLoading,
-    maxWidth
+    width = "md"
   }, ref) {
     const [internalLoading, setInternalLoading] = useState5(false);
     const titleId = useId6();
@@ -2430,7 +2456,7 @@ var FormModal = forwardRef22(
         setInternalLoading(false);
       }
     };
-    return /* @__PURE__ */ jsxs14(ModalShell, { ref, onClose: onCancel, titleId, maxWidth, children: [
+    return /* @__PURE__ */ jsxs14(ModalShell, { ref, onClose: onCancel, titleId, width, children: [
       /* @__PURE__ */ jsx24(
         "h2",
         {
@@ -2609,9 +2635,7 @@ var Table = forwardRef25(
   function Table2({
     variant = "default",
     density = "md",
-    children,
-    style,
-    ...props
+    children
   }, ref) {
     useInjectStyles8(TABLE_STYLES_ID, TABLE_STYLES_CSS);
     return /* @__PURE__ */ jsx27(
@@ -2620,10 +2644,8 @@ var Table = forwardRef25(
         ref,
         style: {
           overflowX: "auto",
-          ...wrapperVariants[variant],
-          ...style
+          ...wrapperVariants[variant]
         },
-        ...props,
         children: /* @__PURE__ */ jsx27(
           "table",
           {
@@ -2643,22 +2665,22 @@ var Table = forwardRef25(
   }
 );
 var TableHeader = forwardRef25(
-  function TableHeader2({ children, style, ...props }, ref) {
-    return /* @__PURE__ */ jsx27("thead", { ref, style, ...props, children: /* @__PURE__ */ jsx27("tr", { children }) });
+  function TableHeader2({ children }, ref) {
+    return /* @__PURE__ */ jsx27("thead", { ref, children: /* @__PURE__ */ jsx27("tr", { children }) });
   }
 );
 var TableHeaderCell = forwardRef25(
   function TableHeaderCell2({
     align = "left",
     width,
-    children,
-    style,
-    ...props
+    colSpan,
+    children
   }, ref) {
     return /* @__PURE__ */ jsx27(
       "th",
       {
         ref,
+        colSpan,
         style: {
           padding: `${t24.spaceSm} ${t24.spaceMd}`,
           textAlign: align,
@@ -2669,17 +2691,15 @@ var TableHeaderCell = forwardRef25(
           letterSpacing: t24.letterSpacingWide,
           borderBottom: `${t24.borderWidthThick} solid ${t24.colorBorder}`,
           whiteSpace: "nowrap",
-          width: typeof width === "number" ? `${width}px` : width,
-          ...style
+          width: width !== void 0 ? `${width}px` : void 0
         },
-        ...props,
         children
       }
     );
   }
 );
 var TableBody = forwardRef25(
-  function TableBody2({ children, ...props }, ref) {
+  function TableBody2({ children }, ref) {
     let dataRowIndex = 0;
     const styledChildren = Children.map(children, (child) => {
       if (!isValidElement2(child)) return child;
@@ -2699,7 +2719,7 @@ var TableBody = forwardRef25(
       });
       return cloneElement2(child, {}, cells);
     });
-    return /* @__PURE__ */ jsx27("tbody", { ref, ...props, children: styledChildren });
+    return /* @__PURE__ */ jsx27("tbody", { ref, children: styledChildren });
   }
 );
 var TableRow = forwardRef25(
@@ -2707,18 +2727,14 @@ var TableRow = forwardRef25(
     selected = false,
     hoverable = false,
     children,
-    style,
-    onClick,
-    onKeyDown,
-    ...props
+    onClick
   }, ref) {
     const handleKeyDown = onClick ? (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         onClick(e);
       }
-      onKeyDown?.(e);
-    } : onKeyDown;
+    } : void 0;
     return /* @__PURE__ */ jsx27(
       "tr",
       {
@@ -2729,10 +2745,8 @@ var TableRow = forwardRef25(
         onClick,
         onKeyDown: handleKeyDown,
         style: {
-          cursor: onClick ? "pointer" : void 0,
-          ...style
+          cursor: onClick ? "pointer" : void 0
         },
-        ...props,
         children
       }
     );
@@ -2744,30 +2758,28 @@ var TableCell = forwardRef25(
     truncate = false,
     muted = false,
     width,
-    children,
-    style,
-    ...props
+    colSpan,
+    children
   }, ref) {
     return /* @__PURE__ */ jsx27(
       "td",
       {
         ref,
+        colSpan,
         style: {
           padding: `${t24.spaceSm} ${t24.spaceMd}`,
           borderBottom: `${t24.borderWidthDefault} solid ${t24.colorBorder}`,
           verticalAlign: "middle",
           textAlign: align,
           color: muted ? t24.colorTextMuted : void 0,
-          width: typeof width === "number" ? `${width}px` : width,
+          width: width !== void 0 ? `${width}px` : void 0,
           ...truncate ? {
             maxWidth: 0,
             overflow: "hidden",
             textOverflow: "ellipsis",
             whiteSpace: "nowrap"
-          } : {},
-          ...style
+          } : {}
         },
-        ...props,
         children
       }
     );
@@ -2776,11 +2788,9 @@ var TableCell = forwardRef25(
 var TableGroupHeader = forwardRef25(
   function TableGroupHeader2({
     colSpan,
-    children,
-    style,
-    ...props
+    children
   }, ref) {
-    return /* @__PURE__ */ jsx27("tr", { ref, style: { cursor: "default", ...style }, ...props, children: /* @__PURE__ */ jsx27(
+    return /* @__PURE__ */ jsx27("tr", { ref, style: { cursor: "default" }, children: /* @__PURE__ */ jsx27(
       "td",
       {
         colSpan,
@@ -2805,11 +2815,9 @@ var TableGroupHeader = forwardRef25(
 var TableEmptyRow = forwardRef25(
   function TableEmptyRow2({
     colSpan,
-    children,
-    style,
-    ...props
+    children
   }, ref) {
-    return /* @__PURE__ */ jsx27("tr", { ref, style, ...props, children: /* @__PURE__ */ jsx27(
+    return /* @__PURE__ */ jsx27("tr", { ref, children: /* @__PURE__ */ jsx27(
       "td",
       {
         colSpan,
@@ -2929,9 +2937,8 @@ function CalendarHeader({
       {
         icon: "chevron-left",
         "aria-label": "Previous month",
-        size: 16,
         onClick: onPrev,
-        buttonSize: "sm"
+        size: "sm"
       }
     ),
     /* @__PURE__ */ jsxs15("span", { style: titleStyle, children: [
@@ -2944,9 +2951,8 @@ function CalendarHeader({
       {
         icon: "chevron-right",
         "aria-label": "Next month",
-        size: 16,
         onClick: onNext,
-        buttonSize: "sm"
+        size: "sm"
       }
     )
   ] });
@@ -4454,7 +4460,7 @@ function ChipPicker({
   const chipStyle = (isSelected) => ({
     display: "inline-flex",
     alignItems: "center",
-    padding: `4px 12px`,
+    padding: `${t36.spaceXs} ${t36.spaceSm}`,
     fontSize: t36.fontSizeSm,
     fontFamily: t36.fontSans,
     fontWeight: t36.fontWeightMedium,
@@ -4605,7 +4611,7 @@ var SearchInput = forwardRef29(
           ...disabled ? disabledWrapperStyle : {}
         },
         children: [
-          /* @__PURE__ */ jsx40(Icon, { name: "search", size: 16, style: { color: t37.colorTextMuted, flexShrink: 0 } }),
+          /* @__PURE__ */ jsx40("span", { style: { color: t37.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ jsx40(Icon, { name: "search", size: "sm" }) }),
           /* @__PURE__ */ jsx40(
             "input",
             {
@@ -4654,8 +4660,8 @@ var hoverCSS = `
   }
 `;
 var sizes = {
-  sm: { height: 28, px: 8, fontSize: "var(--font-size-xs)", iconSize: 14 },
-  md: { height: 32, px: 12, fontSize: "var(--font-size-sm)", iconSize: 16 }
+  sm: { height: 28, px: 8, fontSize: "var(--font-size-xs)", iconSize: "xs" },
+  md: { height: 32, px: 12, fontSize: "var(--font-size-sm)", iconSize: "sm" }
 };
 function SegmentedControl({
   segments,
@@ -4924,7 +4930,7 @@ var TopBar = forwardRef31(
         style: {
           display: "flex",
           alignItems: "center",
-          height: 48,
+          height: t40.space2xl,
           padding: `0 ${t40.spaceMd}`,
           background: t40.colorSurface,
           borderBottom: `${t40.borderWidthDefault} solid ${t40.colorBorder}`,
@@ -5031,11 +5037,11 @@ var ShortcutHelpModal = forwardRef32(
     shortcuts,
     onClose,
     title = "Keyboard Shortcuts",
-    maxWidth = 520
+    width = "lg"
   }, ref) {
     const titleId = useId9();
     useInjectStyles18(SHORTCUT_HELP_STYLES_ID, SHORTCUT_HELP_CSS);
-    return /* @__PURE__ */ jsx44(ModalShell, { ref, onClose, maxWidth, titleId, children: /* @__PURE__ */ jsxs28("div", { "data-shortcut-help": true, children: [
+    return /* @__PURE__ */ jsx44(ModalShell, { ref, onClose, width, titleId, children: /* @__PURE__ */ jsxs28("div", { "data-shortcut-help": true, children: [
       /* @__PURE__ */ jsxs28(
         "div",
         {
@@ -5241,7 +5247,7 @@ function PillSelect({
               alignItems: "center",
               color: isActive ? t42.colorActionPrimary : t42.colorTextMuted
             },
-            children: /* @__PURE__ */ jsx45(Icon, { name: "chevron-down", size: 12 })
+            children: /* @__PURE__ */ jsx45(Icon, { name: "chevron-down", size: "xs" })
           }
         )
       ]
@@ -5308,7 +5314,7 @@ var Grid = forwardRef34(
     children,
     ...rest
   }, ref) {
-    const minWidth = typeof minColumnWidth === "number" ? `${minColumnWidth}px` : minColumnWidth;
+    const minWidth = `${minColumnWidth}px`;
     const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
     return /* @__PURE__ */ jsx46(
       "div",
@@ -5334,12 +5340,12 @@ import { jsx as jsx47 } from "react/jsx-runtime";
 var Divider = forwardRef35(
   function Divider2({
     orientation = "horizontal",
-    opacity = 50,
-    length,
+    opacity = "default",
     spacing,
     ...rest
   }, ref) {
-    const bg = `color-mix(in srgb, ${t44.colorBorder} ${opacity}%, transparent)`;
+    const resolvedOpacity = dividerOpacityMap[opacity];
+    const bg = `color-mix(in srgb, ${t44.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
     const isHorizontal = orientation === "horizontal";
     return /* @__PURE__ */ jsx47(
@@ -5352,8 +5358,8 @@ var Divider = forwardRef35(
         "aria-orientation": orientation,
         style: {
           background: bg,
-          width: isHorizontal ? length != null ? `${length}px` : "100%" : 1,
-          height: isHorizontal ? 1 : length != null ? `${length}px` : "100%",
+          width: isHorizontal ? "100%" : 1,
+          height: isHorizontal ? 1 : "100%",
           flexShrink: 0,
           margin: spacingValue ? isHorizontal ? `${spacingValue} 0` : `0 ${spacingValue}` : void 0
         }
@@ -5372,7 +5378,6 @@ var StatCard = forwardRef36(
     label,
     color,
     icon,
-    iconSize = 40,
     ...rest
   }, ref) {
     const resolvedColor = color ? semanticColorMap[color] : void 0;
@@ -5398,8 +5403,8 @@ var StatCard = forwardRef36(
             "div",
             {
               style: {
-                width: iconSize,
-                height: iconSize,
+                width: 40,
+                height: 40,
                 borderRadius: t45.radiusFull,
                 background: tintBg,
                 display: "flex",
@@ -5412,7 +5417,7 @@ var StatCard = forwardRef36(
                 {
                   className: "material-symbols-outlined",
                   style: {
-                    fontSize: iconSize * 0.5,
+                    fontSize: 20,
                     color: resolvedColor ?? t45.colorTextMuted,
                     lineHeight: 1
                   },
@@ -5631,7 +5636,7 @@ var SectionHeader = forwardRef38(
                   {
                     className: "material-symbols-outlined",
                     style: {
-                      fontSize: 18,
+                      fontSize: iconSizeMap.md,
                       color: t47.colorTextSecondary,
                       lineHeight: 1
                     },
@@ -5758,8 +5763,12 @@ export {
   ToastProvider,
   TopBar,
   alignMap,
+  dividerOpacityMap,
   iconRegistry,
+  iconSizeMap,
   justifyMap,
+  modalWidthMap,
+  progressBarHeightMap,
   radiusMap,
   semanticColorMap,
   shadowMap,

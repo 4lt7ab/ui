@@ -40,7 +40,7 @@ export function TaskDashboard(): React.JSX.Element {
               { value: 1, color: 'warning', label: 'Blocked' },
               { value: 1, color: 'muted', label: 'Todo' },
             ]}
-            height={8}
+            height="lg"
           />
         </Stack>
       </Card>

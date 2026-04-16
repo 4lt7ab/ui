@@ -109,7 +109,7 @@ function Shell(): React.JSX.Element {
                     transition: 'background 100ms ease, color 100ms ease',
                   }}
                 >
-                  <Icon name={item.icon} size={14} />
+                  <Icon name={item.icon} size="xs" />
                   {item.label}
                 </button>
               );

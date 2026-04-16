@@ -15,8 +15,8 @@ export function IconFontDemo(): React.JSX.Element {
         <Stack direction="horizontal" gap="md" align="center">
           <Icon name="home" fontClass={FONT_CLASS} />
           <Icon name="favorite" fontClass={FONT_CLASS} />
-          <Icon name="visibility" fontClass={FONT_CLASS} size={32} />
-          <Icon name="delete" fontClass={FONT_CLASS} size={16} />
+          <Icon name="visibility" fontClass={FONT_CLASS} size="xl" />
+          <Icon name="delete" fontClass={FONT_CLASS} size="sm" />
         </Stack>
       </Stack>
 
@@ -31,7 +31,7 @@ export function IconFontDemo(): React.JSX.Element {
           <Stack direction="horizontal" gap="md" align="center">
             <Icon name="star" />
             <Icon name="bolt" />
-            <Icon name="cloud" size={32} />
+            <Icon name="cloud" size="xl" />
             {/* Built-in registry names still render SVG */}
             <Icon name="search" />
           </Stack>

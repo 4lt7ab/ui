@@ -2,6 +2,8 @@ import { forwardRef, useId } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
 import { ModalShell, modalHeadingStyle } from '../ModalShell';
 import { IconButton } from '../IconButton';
+import { modalWidthMap } from '../../types';
+import type { ModalWidth } from '../../types';
 
 const SHORTCUT_HELP_STYLES_ID = '4lt7ab-shortcut-help';
 const SHORTCUT_HELP_CSS = `
@@ -37,10 +39,10 @@ export interface ShortcutHelpModalProps {
    * @default 'Keyboard Shortcuts'
    */
   title?: string;
-  /** Maximum width of the modal panel in pixels.
-   * @default 520
+  /** Width preset for the modal panel.
+   * @default 'lg'
    */
-  maxWidth?: number;
+  width?: ModalWidth;
 }
 
 export const ShortcutHelpModal: React.ForwardRefExoticComponent<Omit<ShortcutHelpModalProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, ShortcutHelpModalProps>(
@@ -48,14 +50,14 @@ export const ShortcutHelpModal: React.ForwardRefExoticComponent<Omit<ShortcutHel
     shortcuts,
     onClose,
     title = 'Keyboard Shortcuts',
-    maxWidth = 520,
+    width = 'lg',
   }, ref): React.JSX.Element {
     const titleId = useId();
 
     useInjectStyles(SHORTCUT_HELP_STYLES_ID, SHORTCUT_HELP_CSS);
 
     return (
-      <ModalShell ref={ref} onClose={onClose} maxWidth={maxWidth} titleId={titleId}>
+      <ModalShell ref={ref} onClose={onClose} width={width} titleId={titleId}>
         <div data-shortcut-help>
           <div
             style={{

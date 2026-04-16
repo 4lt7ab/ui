@@ -35,7 +35,7 @@ export const EmptyState: React.ForwardRefExoticComponent<Omit<EmptyStateProps, '
     const content = (
       <div style={{ padding: t.spaceXl }}>
       <Stack align="center" gap="sm">
-        <Icon name={icon} size={32} style={{ color: t.colorTextMuted }} />
+        <span style={{ color: t.colorTextMuted, display: 'inline-flex' }}><Icon name={icon} size="xl" /></span>
         <span
           style={{
             color: t.colorTextSecondary,

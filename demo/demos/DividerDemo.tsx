@@ -15,9 +15,9 @@ export function DividerDemo(): React.JSX.Element {
       <Stack gap="sm">
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Opacity levels</h3>
         <Stack gap="md">
-          {[20, 40, 60, 80, 100].map((o) => (
+          {(['subtle', 'default', 'strong'] as const).map((o) => (
             <Stack key={o} gap="xs">
-              <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>opacity={o}</span>
+              <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>opacity="{o}"</span>
               <Divider opacity={o} />
             </Stack>
           ))}
@@ -38,12 +38,12 @@ export function DividerDemo(): React.JSX.Element {
       </Stack>
 
       <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Vertical with fixed length</h3>
+        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Vertical divider</h3>
         <Stack direction="horizontal" align="center" gap="sm">
           <Button variant="ghost" size="sm">Filter A</Button>
-          <Divider orientation="vertical" length={20} opacity={40} />
+          <Divider orientation="vertical" opacity="subtle" />
           <Button variant="ghost" size="sm">Filter B</Button>
-          <Divider orientation="vertical" length={20} opacity={40} />
+          <Divider orientation="vertical" opacity="subtle" />
           <Button variant="ghost" size="sm">Filter C</Button>
         </Stack>
       </Stack>
@@ -56,9 +56,9 @@ export function DividerDemo(): React.JSX.Element {
           border: '1px solid var(--color-border)',
         }}>
           <p style={{ margin: 0, fontSize: '0.875rem' }}>Section one</p>
-          <Divider spacing="md" opacity={30} />
+          <Divider spacing="md" opacity="subtle" />
           <p style={{ margin: 0, fontSize: '0.875rem' }}>Section two</p>
-          <Divider spacing="md" opacity={30} />
+          <Divider spacing="md" opacity="subtle" />
           <p style={{ margin: 0, fontSize: '0.875rem' }}>Section three</p>
         </div>
       </Stack>
@@ -79,7 +79,7 @@ export function DividerDemo(): React.JSX.Element {
             <Badge variant="info">All</Badge>
             <Badge>Active</Badge>
             <Badge>Archived</Badge>
-            <Divider orientation="vertical" length={20} opacity={40} />
+            <Divider orientation="vertical" opacity="subtle" />
             <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>12 results</span>
           </Stack>
         </div>

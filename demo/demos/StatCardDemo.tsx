@@ -23,11 +23,9 @@ export function StatCardDemo(): React.JSX.Element {
       </Stack>
 
       <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Custom icon sizes</h3>
+        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Default icon</h3>
         <Stack direction="horizontal" gap="md" wrap>
-          <StatCard icon="analytics" color="info" value="28" label="Reports" iconSize={32} />
-          <StatCard icon="analytics" color="info" value="28" label="Reports" iconSize={48} />
-          <StatCard icon="analytics" color="info" value="28" label="Reports" iconSize={56} />
+          <StatCard icon="analytics" color="info" value="28" label="Reports" />
         </Stack>
       </Stack>
 

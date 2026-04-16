@@ -27,15 +27,15 @@ export function ModalDemo(): React.JSX.Element {
       </Stack>
 
       <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>ModalShell with custom maxWidth</h3>
-        <Button onClick={() => setShowWide(true)}>Open Wide Modal (640px)</Button>
+        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>ModalShell with xl width</h3>
+        <Button onClick={() => setShowWide(true)}>Open Wide Modal (xl)</Button>
         {showWide && (
-          <ModalShell onClose={() => setShowWide(false)} maxWidth={640}>
+          <ModalShell onClose={() => setShowWide(false)} width="xl">
             <h2 style={{ margin: 0, fontSize: '1.125rem', fontWeight: 600 }}>
               Wide Modal
             </h2>
             <p style={{ margin: '0.5rem 0 1rem', fontSize: '0.875rem', color: 'var(--color-text-muted)' }}>
-              This modal uses maxWidth=640 instead of the default 480.
+              This modal uses width="xl" instead of the default "md".
               Useful for content that needs more horizontal space.
             </p>
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>

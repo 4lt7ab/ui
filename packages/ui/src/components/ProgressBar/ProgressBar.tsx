@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import { semantic as t } from '@4lt7ab/core';
-import { semanticColorMap } from '../../types';
-import type { SemanticColor } from '../../types';
+import { semanticColorMap, progressBarHeightMap } from '../../types';
+import type { SemanticColor, ProgressBarHeight } from '../../types';
 
 /** A single segment in a multi-part progress bar. */
 export interface ProgressBarSegment {
@@ -17,10 +17,10 @@ export interface ProgressBarSegment {
 export interface ProgressBarProps {
   /** One or more segments to display. */
   segments: ProgressBarSegment[];
-  /** Bar height in pixels.
-   * @default 6
+  /** Bar height preset.
+   * @default 'md'
    */
-  height?: number;
+  height?: ProgressBarHeight;
   /** Accessible label for screen readers. */
   'aria-label'?: string;
 }
@@ -28,10 +28,11 @@ export interface ProgressBarProps {
 export const ProgressBar: React.ForwardRefExoticComponent<Omit<ProgressBarProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, ProgressBarProps>(
   function ProgressBar({
     segments,
-    height = 6,
+    height = 'md',
     'aria-label': ariaLabel,
   }, ref): React.JSX.Element {
     const total = segments.reduce((sum, s) => sum + s.value, 0);
+    const px = progressBarHeightMap[height];
 
     return (
       <div
@@ -43,8 +44,8 @@ export const ProgressBar: React.ForwardRefExoticComponent<Omit<ProgressBarProps,
         aria-label={ariaLabel}
         style={{
           width: '100%',
-          height,
-          borderRadius: height / 2,
+          height: px,
+          borderRadius: px / 2,
           overflow: 'hidden',
           display: 'flex',
           background: t.colorSurfaceRaised,

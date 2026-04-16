@@ -23,7 +23,7 @@ export function DeleteFlow(): React.JSX.Element {
           <Card key={item.id} variant="flat" padding="md">
             <Stack direction="horizontal" justify="space-between" align="center">
               <Stack direction="horizontal" gap="sm" align="center">
-                <Icon name="settings" size={18} style={{ color: 'var(--color-text-muted)' }} />
+                <span style={{ color: 'var(--color-text-muted)' }}><Icon name="settings" size="md" /></span>
                 <span style={{ fontSize: '0.875rem', fontFamily: 'var(--font-mono)', color: 'var(--color-text)' }}>
                   {item.name}
                 </span>
@@ -33,7 +33,7 @@ export function DeleteFlow(): React.JSX.Element {
               </Stack>
               <IconButton
                 icon="trash"
-                size={18}
+                size="sm"
                 onClick={() => setDeleteTarget(item.name)}
                 aria-label={`Delete ${item.name}`}
               />

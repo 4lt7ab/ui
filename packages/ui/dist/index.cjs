@@ -114,8 +114,12 @@ __export(index_exports, {
   ToastProvider: () => ToastProvider,
   TopBar: () => TopBar,
   alignMap: () => alignMap,
+  dividerOpacityMap: () => dividerOpacityMap,
   iconRegistry: () => iconRegistry,
+  iconSizeMap: () => iconSizeMap,
   justifyMap: () => justifyMap,
+  modalWidthMap: () => modalWidthMap,
+  progressBarHeightMap: () => progressBarHeightMap,
   radiusMap: () => radiusMap,
   semanticColorMap: () => semanticColorMap,
   shadowMap: () => shadowMap,
@@ -173,8 +177,8 @@ __reExport(index_exports, require("../../core/dist/index.cjs"), module.exports);
 
 // src/components/ThemePicker/ThemePicker.tsx
 var import_react3 = require("react");
-var import_core = require("../../core/dist/index.cjs");
 var import_core2 = require("../../core/dist/index.cjs");
+var import_core3 = require("../../core/dist/index.cjs");
 
 // src/components/Icon/Icon.tsx
 var import_react2 = require("react");
@@ -335,6 +339,75 @@ var iconRegistry = {
   "filter": IconFilter
 };
 
+// src/types.ts
+var import_core = require("../../core/dist/index.cjs");
+var alignMap = {
+  start: "flex-start",
+  center: "center",
+  end: "flex-end",
+  stretch: "stretch",
+  baseline: "baseline"
+};
+var justifyMap = {
+  start: "flex-start",
+  center: "center",
+  end: "flex-end",
+  "space-between": "space-between",
+  "space-around": "space-around",
+  "space-evenly": "space-evenly"
+};
+var semanticColorMap = {
+  primary: import_core.semantic.colorActionPrimary,
+  success: import_core.semantic.colorSuccess,
+  warning: import_core.semantic.colorWarning,
+  error: import_core.semantic.colorError,
+  info: import_core.semantic.colorInfo,
+  muted: import_core.semantic.colorTextMuted
+};
+var iconSizeMap = {
+  xs: 14,
+  sm: 16,
+  md: 20,
+  lg: 24,
+  xl: 32
+};
+var modalWidthMap = {
+  sm: 400,
+  md: 480,
+  lg: 520,
+  xl: 640
+};
+var progressBarHeightMap = {
+  sm: 4,
+  md: 6,
+  lg: 10
+};
+var dividerOpacityMap = {
+  subtle: 25,
+  default: 50,
+  strong: 75
+};
+var spacingMap = {
+  xs: import_core.semantic.spaceXs,
+  sm: import_core.semantic.spaceSm,
+  md: import_core.semantic.spaceMd,
+  lg: import_core.semantic.spaceLg,
+  xl: import_core.semantic.spaceXl,
+  "2xl": import_core.semantic.space2xl
+};
+var radiusMap = {
+  none: "0",
+  sm: import_core.semantic.radiusSm,
+  md: import_core.semantic.radiusMd,
+  lg: import_core.semantic.radiusLg,
+  full: import_core.semantic.radiusFull
+};
+var shadowMap = {
+  sm: import_core.semantic.shadowSm,
+  md: import_core.semantic.shadowMd,
+  lg: import_core.semantic.shadowLg
+};
+
 // src/components/Icon/Icon.tsx
 var import_jsx_runtime2 = require("react/jsx-runtime");
 var IconFontContext = (0, import_react2.createContext)(void 0);
@@ -342,16 +415,19 @@ function IconFontProvider({ fontClass, children }) {
   return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(IconFontContext.Provider, { value: fontClass, children });
 }
 var Icon = (0, import_react2.forwardRef)(
-  function Icon2({ name, size = 24, fontClass, style, "aria-label": ariaLabel, ...props }, ref) {
+  function Icon2({ name, size = "lg", fontClass, "aria-label": ariaLabel, id, "data-testid": dataTestId }, ref) {
     const contextFontClass = (0, import_react2.useContext)(IconFontContext);
     const IconComponent = iconRegistry[name];
     const isDecorative = !ariaLabel;
+    const px = iconSizeMap[size];
     const resolvedFontClass = fontClass ?? contextFontClass;
     if (!IconComponent && resolvedFontClass) {
       return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
         "span",
         {
           ref,
+          id,
+          "data-testid": dataTestId,
           role: isDecorative ? void 0 : "img",
           "aria-hidden": isDecorative || void 0,
           "aria-label": ariaLabel,
@@ -360,15 +436,13 @@ var Icon = (0, import_react2.forwardRef)(
             display: "inline-flex",
             alignItems: "center",
             justifyContent: "center",
-            minWidth: size,
-            minHeight: size,
-            fontSize: size,
+            minWidth: px,
+            minHeight: px,
+            fontSize: px,
             lineHeight: 1,
             color: "inherit",
-            fontStyle: "normal",
-            ...style
+            fontStyle: "normal"
           },
-          ...props,
           children: name
         }
       );
@@ -377,6 +451,8 @@ var Icon = (0, import_react2.forwardRef)(
       "span",
       {
         ref,
+        id,
+        "data-testid": dataTestId,
         role: isDecorative ? void 0 : "img",
         "aria-hidden": isDecorative || void 0,
         "aria-label": ariaLabel,
@@ -384,14 +460,12 @@ var Icon = (0, import_react2.forwardRef)(
           display: "inline-flex",
           alignItems: "center",
           justifyContent: "center",
-          width: size,
-          height: size,
+          width: px,
+          height: px,
           lineHeight: 1,
-          color: "inherit",
-          ...style
+          color: "inherit"
         },
-        ...props,
-        children: IconComponent ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(IconComponent, { size }) : null
+        children: IconComponent ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(IconComponent, { size: px }) : null
       }
     );
   }
@@ -500,8 +574,8 @@ var compactCSS = (
 `
 );
 function GridView({ descriptions }) {
-  (0, import_core2.useInjectStyles)(GRID_STYLES_ID, gridCSS);
-  const { resolved, themes, setTheme } = (0, import_core.useTheme)();
+  (0, import_core3.useInjectStyles)(GRID_STYLES_ID, gridCSS);
+  const { resolved, themes, setTheme } = (0, import_core2.useTheme)();
   return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "alttab-theme-picker", children: Array.from(themes.values()).map((def) => {
     const isActive = resolved === def.name;
     return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
@@ -519,8 +593,8 @@ function GridView({ descriptions }) {
   }) });
 }
 function CompactView() {
-  (0, import_core2.useInjectStyles)(COMPACT_STYLES_ID, compactCSS);
-  const { resolved, themes, setTheme } = (0, import_core.useTheme)();
+  (0, import_core3.useInjectStyles)(COMPACT_STYLES_ID, compactCSS);
+  const { resolved, themes, setTheme } = (0, import_core2.useTheme)();
   const [open, setOpen] = (0, import_react3.useState)(false);
   const [focusedIndex, setFocusedIndex] = (0, import_react3.useState)(-1);
   const containerRef = (0, import_react3.useRef)(null);
@@ -611,7 +685,7 @@ function CompactView() {
             flexShrink: 0
           } }),
           currentTheme?.label ?? resolved,
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: open ? "chevron-up" : "chevron-down", size: 12 })
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Icon, { name: open ? "chevron-up" : "chevron-down", size: "xs" })
         ]
       }
     ),
@@ -684,57 +758,57 @@ var ThemePicker = (0, import_react3.forwardRef)(
 
 // src/components/Button/Button.tsx
 var import_react4 = require("react");
-var import_core3 = require("../../core/dist/index.cjs");
+var import_core4 = require("../../core/dist/index.cjs");
 var import_jsx_runtime4 = require("react/jsx-runtime");
 var variantStyles = {
   primary: {
-    background: import_core3.semantic.colorActionPrimary,
-    color: import_core3.semantic.colorTextInverse,
+    background: import_core4.semantic.colorActionPrimary,
+    color: import_core4.semantic.colorTextInverse,
     border: "none"
   },
   secondary: {
-    background: import_core3.semantic.colorActionSecondary,
-    color: import_core3.semantic.colorText,
-    border: `${import_core3.semantic.borderWidthDefault} solid ${import_core3.semantic.colorBorder}`
+    background: import_core4.semantic.colorActionSecondary,
+    color: import_core4.semantic.colorText,
+    border: `${import_core4.semantic.borderWidthDefault} solid ${import_core4.semantic.colorBorder}`
   },
   destructive: {
-    background: import_core3.semantic.colorActionDestructive,
-    color: import_core3.semantic.colorTextInverse,
+    background: import_core4.semantic.colorActionDestructive,
+    color: import_core4.semantic.colorTextInverse,
     border: "none"
   },
   ghost: {
     background: "transparent",
-    color: import_core3.semantic.colorText,
-    border: `${import_core3.semantic.borderWidthDefault} solid transparent`
+    color: import_core4.semantic.colorText,
+    border: `${import_core4.semantic.borderWidthDefault} solid transparent`
   }
 };
 var sizeStyles = {
   sm: {
-    padding: `${import_core3.semantic.spaceXs} ${import_core3.semantic.spaceSm}`,
-    fontSize: import_core3.semantic.fontSizeSm,
-    lineHeight: import_core3.semantic.lineHeightTight
+    padding: `${import_core4.semantic.spaceXs} ${import_core4.semantic.spaceSm}`,
+    fontSize: import_core4.semantic.fontSizeSm,
+    lineHeight: import_core4.semantic.lineHeightTight
   },
   md: {
-    padding: `${import_core3.semantic.spaceSm} ${import_core3.semantic.spaceMd}`,
-    fontSize: import_core3.semantic.fontSizeSm,
-    lineHeight: import_core3.semantic.lineHeightTight
+    padding: `${import_core4.semantic.spaceSm} ${import_core4.semantic.spaceMd}`,
+    fontSize: import_core4.semantic.fontSizeSm,
+    lineHeight: import_core4.semantic.lineHeightTight
   },
   lg: {
-    padding: `${import_core3.semantic.spaceSm} ${import_core3.semantic.spaceLg}`,
-    fontSize: import_core3.semantic.fontSizeBase,
-    lineHeight: import_core3.semantic.lineHeightBase
+    padding: `${import_core4.semantic.spaceSm} ${import_core4.semantic.spaceLg}`,
+    fontSize: import_core4.semantic.fontSizeBase,
+    lineHeight: import_core4.semantic.lineHeightBase
   }
 };
 var baseStyles = {
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
-  gap: import_core3.semantic.spaceSm,
-  borderRadius: import_core3.semantic.radiusMd,
-  fontFamily: import_core3.semantic.fontSans,
-  fontWeight: import_core3.semantic.fontWeightMedium,
+  gap: import_core4.semantic.spaceSm,
+  borderRadius: import_core4.semantic.radiusMd,
+  fontFamily: import_core4.semantic.fontSans,
+  fontWeight: import_core4.semantic.fontWeightMedium,
   cursor: "pointer",
-  transition: `background ${import_core3.semantic.transitionBase}, border-color ${import_core3.semantic.transitionBase}, opacity ${import_core3.semantic.transitionBase}`
+  transition: `background ${import_core4.semantic.transitionBase}, border-color ${import_core4.semantic.transitionBase}, opacity ${import_core4.semantic.transitionBase}`
 };
 var SPINNER_STYLES_ID = "alttab-button-spinner";
 var spinnerCSS = (
@@ -747,7 +821,7 @@ var spinnerCSS = (
     display: inline-block;
     width: 1em;
     height: 1em;
-    border: ${import_core3.semantic.borderWidthThick} solid currentColor;
+    border: ${import_core4.semantic.borderWidthThick} solid currentColor;
     border-right-color: transparent;
     border-radius: 50%;
     animation: alttab-btn-spin 600ms linear infinite;
@@ -755,9 +829,9 @@ var spinnerCSS = (
 `
 );
 var iconOnlyPadding = {
-  sm: import_core3.semantic.spaceXs,
-  md: import_core3.semantic.spaceSm,
-  lg: import_core3.semantic.spaceSm
+  sm: import_core4.semantic.spaceXs,
+  md: import_core4.semantic.spaceSm,
+  lg: import_core4.semantic.spaceSm
 };
 var Button = (0, import_react4.forwardRef)(
   function Button2({
@@ -783,7 +857,7 @@ var Button = (0, import_react4.forwardRef)(
     "aria-haspopup": ariaHasPopup,
     "data-testid": dataTestId
   }, ref) {
-    (0, import_core3.useInjectStyles)(SPINNER_STYLES_ID, spinnerCSS);
+    (0, import_core4.useInjectStyles)(SPINNER_STYLES_ID, spinnerCSS);
     const isDisabled = disabled || loading;
     return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
       "button",
@@ -821,54 +895,6 @@ var Button = (0, import_react4.forwardRef)(
 
 // src/components/Stack/Stack.tsx
 var import_react5 = require("react");
-
-// src/types.ts
-var import_core4 = require("../../core/dist/index.cjs");
-var alignMap = {
-  start: "flex-start",
-  center: "center",
-  end: "flex-end",
-  stretch: "stretch",
-  baseline: "baseline"
-};
-var justifyMap = {
-  start: "flex-start",
-  center: "center",
-  end: "flex-end",
-  "space-between": "space-between",
-  "space-around": "space-around",
-  "space-evenly": "space-evenly"
-};
-var semanticColorMap = {
-  primary: import_core4.semantic.colorActionPrimary,
-  success: import_core4.semantic.colorSuccess,
-  warning: import_core4.semantic.colorWarning,
-  error: import_core4.semantic.colorError,
-  info: import_core4.semantic.colorInfo,
-  muted: import_core4.semantic.colorTextMuted
-};
-var spacingMap = {
-  xs: import_core4.semantic.spaceXs,
-  sm: import_core4.semantic.spaceSm,
-  md: import_core4.semantic.spaceMd,
-  lg: import_core4.semantic.spaceLg,
-  xl: import_core4.semantic.spaceXl,
-  "2xl": import_core4.semantic.space2xl
-};
-var radiusMap = {
-  none: "0",
-  sm: import_core4.semantic.radiusSm,
-  md: import_core4.semantic.radiusMd,
-  lg: import_core4.semantic.radiusLg,
-  full: import_core4.semantic.radiusFull
-};
-var shadowMap = {
-  sm: import_core4.semantic.shadowSm,
-  md: import_core4.semantic.shadowMd,
-  lg: import_core4.semantic.shadowLg
-};
-
-// src/components/Stack/Stack.tsx
 var import_jsx_runtime5 = require("react/jsx-runtime");
 var gapMap = spacingMap;
 var Stack = (0, import_react5.forwardRef)(
@@ -1772,11 +1798,15 @@ var buttonSizeMap = {
   md: 36,
   lg: 44
 };
+var iconSizeForButton = {
+  sm: "sm",
+  md: "md",
+  lg: "lg"
+};
 var IconButton = (0, import_react12.forwardRef)(
   function IconButton2({
     icon,
-    size = 24,
-    buttonSize = "md",
+    size = "md",
     badge,
     fontClass,
     onClick,
@@ -1803,7 +1833,7 @@ var IconButton = (0, import_react12.forwardRef)(
         outline-offset: ${import_core11.semantic.focusRingOffset};
       }`
     );
-    const dim = buttonSizeMap[buttonSize];
+    const dim = buttonSizeMap[size];
     return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(
       "button",
       {
@@ -1835,7 +1865,7 @@ var IconButton = (0, import_react12.forwardRef)(
           padding: 0
         },
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Icon, { name: icon, size, fontClass }),
+          /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Icon, { name: icon, size: iconSizeForButton[size], fontClass }),
           badge && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
             "span",
             {
@@ -1964,10 +1994,11 @@ var import_jsx_runtime15 = require("react/jsx-runtime");
 var ProgressBar = (0, import_react15.forwardRef)(
   function ProgressBar2({
     segments,
-    height = 6,
+    height = "md",
     "aria-label": ariaLabel
   }, ref) {
     const total = segments.reduce((sum, s) => sum + s.value, 0);
+    const px = progressBarHeightMap[height];
     return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
       "div",
       {
@@ -1979,8 +2010,8 @@ var ProgressBar = (0, import_react15.forwardRef)(
         "aria-label": ariaLabel,
         style: {
           width: "100%",
-          height,
-          borderRadius: height / 2,
+          height: px,
+          borderRadius: px / 2,
           overflow: "hidden",
           display: "flex",
           background: import_core14.semantic.colorSurfaceRaised
@@ -2018,7 +2049,7 @@ var EmptyState = (0, import_react16.forwardRef)(
     action
   }, ref) {
     const content = /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { style: { padding: import_core15.semantic.spaceXl }, children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(Stack, { align: "center", gap: "sm", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Icon, { name: icon, size: 32, style: { color: import_core15.semantic.colorTextMuted } }),
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { style: { color: import_core15.semantic.colorTextMuted, display: "inline-flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Icon, { name: icon, size: "xl" }) }),
       /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
         "span",
         {
@@ -2230,7 +2261,7 @@ var TagChip = (0, import_react19.forwardRef)(
           color: import_core19.semantic.colorActionPrimary,
           background: import_core19.semantic.colorSurfaceRaised,
           borderRadius: import_core19.semantic.radiusFull,
-          padding: "2px 8px",
+          padding: `${import_core19.semantic.spaceXs} ${import_core19.semantic.spaceSm}`,
           fontFamily: import_core19.semantic.fontSans
         },
         children: [
@@ -2243,10 +2274,9 @@ var TagChip = (0, import_react19.forwardRef)(
             IconButton,
             {
               icon: "close",
-              size: 12,
               onClick: onRemove,
               "aria-label": `Remove ${name}`,
-              buttonSize: "sm"
+              size: "sm"
             }
           ) })
         ]
@@ -2383,7 +2413,7 @@ var ModalShell = (0, import_react21.forwardRef)(
   function ModalShell2({
     onClose,
     children,
-    maxWidth = 480,
+    width = "md",
     zIndex = import_core21.semantic.zIndexModal,
     titleId,
     "aria-label": ariaLabel,
@@ -2456,7 +2486,7 @@ var ModalShell = (0, import_react21.forwardRef)(
                   boxShadow: import_core21.semantic.shadowLg,
                   border: `${import_core21.semantic.borderWidthDefault} solid ${import_core21.semantic.colorBorder}`,
                   padding: import_core21.semantic.spaceXl,
-                  maxWidth,
+                  maxWidth: modalWidthMap[width],
                   width: "100%",
                   pointerEvents: "auto",
                   outline: "none"
@@ -2544,7 +2574,7 @@ var FormModal = (0, import_react23.forwardRef)(
     submitLabel = "Submit",
     cancelLabel = "Cancel",
     loading: externalLoading,
-    maxWidth
+    width = "md"
   }, ref) {
     const [internalLoading, setInternalLoading] = (0, import_react23.useState)(false);
     const titleId = (0, import_react23.useId)();
@@ -2557,7 +2587,7 @@ var FormModal = (0, import_react23.forwardRef)(
         setInternalLoading(false);
       }
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(ModalShell, { ref, onClose: onCancel, titleId, maxWidth, children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(ModalShell, { ref, onClose: onCancel, titleId, width, children: [
       /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
         "h2",
         {
@@ -2736,9 +2766,7 @@ var Table = (0, import_react26.forwardRef)(
   function Table2({
     variant = "default",
     density = "md",
-    children,
-    style,
-    ...props
+    children
   }, ref) {
     (0, import_core28.useInjectStyles)(TABLE_STYLES_ID, TABLE_STYLES_CSS);
     return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
@@ -2747,10 +2775,8 @@ var Table = (0, import_react26.forwardRef)(
         ref,
         style: {
           overflowX: "auto",
-          ...wrapperVariants[variant],
-          ...style
+          ...wrapperVariants[variant]
         },
-        ...props,
         children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
           "table",
           {
@@ -2770,22 +2796,22 @@ var Table = (0, import_react26.forwardRef)(
   }
 );
 var TableHeader = (0, import_react26.forwardRef)(
-  function TableHeader2({ children, style, ...props }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("thead", { ref, style, ...props, children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("tr", { children }) });
+  function TableHeader2({ children }, ref) {
+    return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("thead", { ref, children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("tr", { children }) });
   }
 );
 var TableHeaderCell = (0, import_react26.forwardRef)(
   function TableHeaderCell2({
     align = "left",
     width,
-    children,
-    style,
-    ...props
+    colSpan,
+    children
   }, ref) {
     return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
       "th",
       {
         ref,
+        colSpan,
         style: {
           padding: `${import_core27.semantic.spaceSm} ${import_core27.semantic.spaceMd}`,
           textAlign: align,
@@ -2796,17 +2822,15 @@ var TableHeaderCell = (0, import_react26.forwardRef)(
           letterSpacing: import_core27.semantic.letterSpacingWide,
           borderBottom: `${import_core27.semantic.borderWidthThick} solid ${import_core27.semantic.colorBorder}`,
           whiteSpace: "nowrap",
-          width: typeof width === "number" ? `${width}px` : width,
-          ...style
+          width: width !== void 0 ? `${width}px` : void 0
         },
-        ...props,
         children
       }
     );
   }
 );
 var TableBody = (0, import_react26.forwardRef)(
-  function TableBody2({ children, ...props }, ref) {
+  function TableBody2({ children }, ref) {
     let dataRowIndex = 0;
     const styledChildren = import_react26.Children.map(children, (child) => {
       if (!(0, import_react26.isValidElement)(child)) return child;
@@ -2826,7 +2850,7 @@ var TableBody = (0, import_react26.forwardRef)(
       });
       return (0, import_react26.cloneElement)(child, {}, cells);
     });
-    return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("tbody", { ref, ...props, children: styledChildren });
+    return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("tbody", { ref, children: styledChildren });
   }
 );
 var TableRow = (0, import_react26.forwardRef)(
@@ -2834,18 +2858,14 @@ var TableRow = (0, import_react26.forwardRef)(
     selected = false,
     hoverable = false,
     children,
-    style,
-    onClick,
-    onKeyDown,
-    ...props
+    onClick
   }, ref) {
     const handleKeyDown = onClick ? (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         onClick(e);
       }
-      onKeyDown?.(e);
-    } : onKeyDown;
+    } : void 0;
     return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
       "tr",
       {
@@ -2856,10 +2876,8 @@ var TableRow = (0, import_react26.forwardRef)(
         onClick,
         onKeyDown: handleKeyDown,
         style: {
-          cursor: onClick ? "pointer" : void 0,
-          ...style
+          cursor: onClick ? "pointer" : void 0
         },
-        ...props,
         children
       }
     );
@@ -2871,30 +2889,28 @@ var TableCell = (0, import_react26.forwardRef)(
     truncate = false,
     muted = false,
     width,
-    children,
-    style,
-    ...props
+    colSpan,
+    children
   }, ref) {
     return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
       "td",
       {
         ref,
+        colSpan,
         style: {
           padding: `${import_core27.semantic.spaceSm} ${import_core27.semantic.spaceMd}`,
           borderBottom: `${import_core27.semantic.borderWidthDefault} solid ${import_core27.semantic.colorBorder}`,
           verticalAlign: "middle",
           textAlign: align,
           color: muted ? import_core27.semantic.colorTextMuted : void 0,
-          width: typeof width === "number" ? `${width}px` : width,
+          width: width !== void 0 ? `${width}px` : void 0,
           ...truncate ? {
             maxWidth: 0,
             overflow: "hidden",
             textOverflow: "ellipsis",
             whiteSpace: "nowrap"
-          } : {},
-          ...style
+          } : {}
         },
-        ...props,
         children
       }
     );
@@ -2903,11 +2919,9 @@ var TableCell = (0, import_react26.forwardRef)(
 var TableGroupHeader = (0, import_react26.forwardRef)(
   function TableGroupHeader2({
     colSpan,
-    children,
-    style,
-    ...props
+    children
   }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("tr", { ref, style: { cursor: "default", ...style }, ...props, children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("tr", { ref, style: { cursor: "default" }, children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
       "td",
       {
         colSpan,
@@ -2932,11 +2946,9 @@ var TableGroupHeader = (0, import_react26.forwardRef)(
 var TableEmptyRow = (0, import_react26.forwardRef)(
   function TableEmptyRow2({
     colSpan,
-    children,
-    style,
-    ...props
+    children
   }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("tr", { ref, style, ...props, children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("tr", { ref, children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
       "td",
       {
         colSpan,
@@ -3056,9 +3068,8 @@ function CalendarHeader({
       {
         icon: "chevron-left",
         "aria-label": "Previous month",
-        size: 16,
         onClick: onPrev,
-        buttonSize: "sm"
+        size: "sm"
       }
     ),
     /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("span", { style: titleStyle, children: [
@@ -3071,9 +3082,8 @@ function CalendarHeader({
       {
         icon: "chevron-right",
         "aria-label": "Next month",
-        size: 16,
         onClick: onNext,
-        buttonSize: "sm"
+        size: "sm"
       }
     )
   ] });
@@ -4574,7 +4584,7 @@ function ChipPicker({
   const chipStyle = (isSelected) => ({
     display: "inline-flex",
     alignItems: "center",
-    padding: `4px 12px`,
+    padding: `${import_core40.semantic.spaceXs} ${import_core40.semantic.spaceSm}`,
     fontSize: import_core40.semantic.fontSizeSm,
     fontFamily: import_core40.semantic.fontSans,
     fontWeight: import_core40.semantic.fontWeightMedium,
@@ -4725,7 +4735,7 @@ var SearchInput = (0, import_react35.forwardRef)(
           ...disabled ? disabledWrapperStyle : {}
         },
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Icon, { name: "search", size: 16, style: { color: import_core41.semantic.colorTextMuted, flexShrink: 0 } }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("span", { style: { color: import_core41.semantic.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Icon, { name: "search", size: "sm" }) }),
           /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
             "input",
             {
@@ -4774,8 +4784,8 @@ var hoverCSS = `
   }
 `;
 var sizes = {
-  sm: { height: 28, px: 8, fontSize: "var(--font-size-xs)", iconSize: 14 },
-  md: { height: 32, px: 12, fontSize: "var(--font-size-sm)", iconSize: 16 }
+  sm: { height: 28, px: 8, fontSize: "var(--font-size-xs)", iconSize: "xs" },
+  md: { height: 32, px: 12, fontSize: "var(--font-size-sm)", iconSize: "sm" }
 };
 function SegmentedControl({
   segments,
@@ -5044,7 +5054,7 @@ var TopBar = (0, import_react38.forwardRef)(
         style: {
           display: "flex",
           alignItems: "center",
-          height: 48,
+          height: import_core44.semantic.space2xl,
           padding: `0 ${import_core44.semantic.spaceMd}`,
           background: import_core44.semantic.colorSurface,
           borderBottom: `${import_core44.semantic.borderWidthDefault} solid ${import_core44.semantic.colorBorder}`,
@@ -5151,11 +5161,11 @@ var ShortcutHelpModal = (0, import_react39.forwardRef)(
     shortcuts,
     onClose,
     title = "Keyboard Shortcuts",
-    maxWidth = 520
+    width = "lg"
   }, ref) {
     const titleId = (0, import_react39.useId)();
     (0, import_core45.useInjectStyles)(SHORTCUT_HELP_STYLES_ID, SHORTCUT_HELP_CSS);
-    return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(ModalShell, { ref, onClose, maxWidth, titleId, children: /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { "data-shortcut-help": true, children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(ModalShell, { ref, onClose, width, titleId, children: /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { "data-shortcut-help": true, children: [
       /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(
         "div",
         {
@@ -5361,7 +5371,7 @@ function PillSelect({
               alignItems: "center",
               color: isActive ? import_core46.semantic.colorActionPrimary : import_core46.semantic.colorTextMuted
             },
-            children: /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(Icon, { name: "chevron-down", size: 12 })
+            children: /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(Icon, { name: "chevron-down", size: "xs" })
           }
         )
       ]
@@ -5428,7 +5438,7 @@ var Grid = (0, import_react42.forwardRef)(
     children,
     ...rest
   }, ref) {
-    const minWidth = typeof minColumnWidth === "number" ? `${minColumnWidth}px` : minColumnWidth;
+    const minWidth = `${minColumnWidth}px`;
     const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
     return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
       "div",
@@ -5454,12 +5464,12 @@ var import_jsx_runtime47 = require("react/jsx-runtime");
 var Divider = (0, import_react43.forwardRef)(
   function Divider2({
     orientation = "horizontal",
-    opacity = 50,
-    length,
+    opacity = "default",
     spacing,
     ...rest
   }, ref) {
-    const bg = `color-mix(in srgb, ${import_core48.semantic.colorBorder} ${opacity}%, transparent)`;
+    const resolvedOpacity = dividerOpacityMap[opacity];
+    const bg = `color-mix(in srgb, ${import_core48.semantic.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
     const isHorizontal = orientation === "horizontal";
     return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
@@ -5472,8 +5482,8 @@ var Divider = (0, import_react43.forwardRef)(
         "aria-orientation": orientation,
         style: {
           background: bg,
-          width: isHorizontal ? length != null ? `${length}px` : "100%" : 1,
-          height: isHorizontal ? 1 : length != null ? `${length}px` : "100%",
+          width: isHorizontal ? "100%" : 1,
+          height: isHorizontal ? 1 : "100%",
           flexShrink: 0,
           margin: spacingValue ? isHorizontal ? `${spacingValue} 0` : `0 ${spacingValue}` : void 0
         }
@@ -5492,7 +5502,6 @@ var StatCard = (0, import_react44.forwardRef)(
     label,
     color,
     icon,
-    iconSize = 40,
     ...rest
   }, ref) {
     const resolvedColor = color ? semanticColorMap[color] : void 0;
@@ -5518,8 +5527,8 @@ var StatCard = (0, import_react44.forwardRef)(
             "div",
             {
               style: {
-                width: iconSize,
-                height: iconSize,
+                width: 40,
+                height: 40,
                 borderRadius: import_core49.semantic.radiusFull,
                 background: tintBg,
                 display: "flex",
@@ -5532,7 +5541,7 @@ var StatCard = (0, import_react44.forwardRef)(
                 {
                   className: "material-symbols-outlined",
                   style: {
-                    fontSize: iconSize * 0.5,
+                    fontSize: 20,
                     color: resolvedColor ?? import_core49.semantic.colorTextMuted,
                     lineHeight: 1
                   },
@@ -5751,7 +5760,7 @@ var SectionHeader = (0, import_react46.forwardRef)(
                   {
                     className: "material-symbols-outlined",
                     style: {
-                      fontSize: 18,
+                      fontSize: iconSizeMap.md,
                       color: import_core51.semantic.colorTextSecondary,
                       lineHeight: 1
                     },

@@ -2,6 +2,8 @@ import { forwardRef, useId, useState } from 'react';
 import { semantic as t } from '@4lt7ab/core';
 import { ModalShell, modalHeadingStyle, modalFooterStyle } from '../ModalShell';
 import { Button } from '../Button';
+import { modalWidthMap } from '../../types';
+import type { ModalWidth } from '../../types';
 import type { ReactNode } from 'react';
 
 /** A modal wrapper for form submission workflows with title, scrollable body, and cancel/submit footer. */
@@ -24,10 +26,10 @@ export interface FormModalProps {
   cancelLabel?: string;
   /** External loading control. When true, the submit button shows a spinner and is disabled. */
   loading?: boolean;
-  /** Maximum width of the modal panel in pixels. Passed through to ModalShell.
-   * @default 480
+  /** Width preset for the modal panel. Passed through to ModalShell.
+   * @default 'md'
    */
-  maxWidth?: number;
+  width?: ModalWidth;
 }
 
 export const FormModal: React.ForwardRefExoticComponent<Omit<FormModalProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, FormModalProps>(
@@ -39,7 +41,7 @@ export const FormModal: React.ForwardRefExoticComponent<Omit<FormModalProps, 're
     submitLabel = 'Submit',
     cancelLabel = 'Cancel',
     loading: externalLoading,
-    maxWidth,
+    width = 'md',
   }, ref): React.JSX.Element {
     const [internalLoading, setInternalLoading] = useState(false);
     const titleId = useId();
@@ -56,7 +58,7 @@ export const FormModal: React.ForwardRefExoticComponent<Omit<FormModalProps, 're
     };
 
     return (
-      <ModalShell ref={ref} onClose={onCancel} titleId={titleId} maxWidth={maxWidth}>
+      <ModalShell ref={ref} onClose={onCancel} titleId={titleId} width={width}>
         <h2
           id={titleId}
           style={modalHeadingStyle}

@@ -36,9 +36,8 @@ export function CalendarHeader({
       <IconButton
         icon="chevron-left"
         aria-label="Previous month"
-        size={16}
         onClick={onPrev}
-        buttonSize="sm"
+        size="sm"
       />
       <span style={titleStyle}>
         {MONTH_NAMES[month]} {year}
@@ -46,9 +45,8 @@ export function CalendarHeader({
       <IconButton
         icon="chevron-right"
         aria-label="Next month"
-        size={16}
         onClick={onNext}
-        buttonSize="sm"
+        size="sm"
       />
     </div>
   );

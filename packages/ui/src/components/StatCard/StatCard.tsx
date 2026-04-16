@@ -3,6 +3,7 @@ import { semantic as t } from '@4lt7ab/core';
 import type { ReactNode } from 'react';
 import { spacingMap, semanticColorMap } from '../../types';
 import type { SemanticColor, BaseComponentProps } from '../../types';
+import type { IconName } from '../../icons';
 
 /**
  * A compact metric display card: icon in a tinted circle + prominent value + label.
@@ -41,16 +42,10 @@ export interface StatCardProps extends BaseComponentProps {
   color?: SemanticColor;
 
   /**
-   * Material Symbols icon name rendered inside the tinted circle.
+   * Icon name rendered inside the tinted circle.
    * When omitted, a small colored dot is shown instead.
    */
-  icon?: string;
-
-  /**
-   * Diameter of the icon circle in pixels.
-   * @default 40
-   */
-  iconSize?: number;
+  icon?: IconName | (string & {});
 }
 
 export const StatCard: React.ForwardRefExoticComponent<
@@ -62,7 +57,6 @@ export const StatCard: React.ForwardRefExoticComponent<
       label,
       color,
       icon,
-      iconSize = 40,
       ...rest
     },
     ref,
@@ -91,8 +85,8 @@ export const StatCard: React.ForwardRefExoticComponent<
         {/* Icon circle */}
         <div
           style={{
-            width: iconSize,
-            height: iconSize,
+            width: 40,
+            height: 40,
             borderRadius: t.radiusFull,
             background: tintBg,
             display: 'flex',
@@ -105,7 +99,7 @@ export const StatCard: React.ForwardRefExoticComponent<
             <span
               className="material-symbols-outlined"
               style={{
-                fontSize: iconSize * 0.5,
+                fontSize: 20,
                 color: resolvedColor ?? t.colorTextMuted,
                 lineHeight: 1,
               }}

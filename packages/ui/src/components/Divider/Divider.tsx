@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import { semantic as t } from '@4lt7ab/core';
-import { spacingMap } from '../../types';
-import type { SpacingToken, BaseComponentProps } from '../../types';
+import { spacingMap, dividerOpacityMap } from '../../types';
+import type { SpacingToken, DividerOpacity, BaseComponentProps } from '../../types';
 
 /**
  * A thin visual separator line.
@@ -18,7 +18,7 @@ import type { SpacingToken, BaseComponentProps } from '../../types';
  * // Vertical divider between filter pills
  * <Stack direction="horizontal" align="center" gap="sm">
  *   <PillSelect ... />
- *   <Divider orientation="vertical" length={20} />
+ *   <Divider orientation="vertical" />
  *   <PillSelect ... />
  * </Stack>
  * ```
@@ -31,18 +31,11 @@ export interface DividerProps extends BaseComponentProps {
   orientation?: 'horizontal' | 'vertical';
 
   /**
-   * Opacity of the border color, 0-100.
+   * Opacity preset for the border color.
    * Uses `color-mix(in srgb, colorBorder <opacity>%, transparent)`.
-   * @default 50
+   * @default 'default'
    */
-  opacity?: number;
-
-  /**
-   * Fixed length for the divider (pixels).
-   * For vertical: height. For horizontal: width.
-   * Defaults to 100% of the available axis.
-   */
-  length?: number;
+  opacity?: DividerOpacity;
 
   /**
    * Spacing around the divider.
@@ -57,14 +50,14 @@ export const Divider: React.ForwardRefExoticComponent<
   function Divider(
     {
       orientation = 'horizontal',
-      opacity = 50,
-      length,
+      opacity = 'default',
       spacing,
       ...rest
     },
     ref,
   ): React.JSX.Element {
-    const bg = `color-mix(in srgb, ${t.colorBorder} ${opacity}%, transparent)`;
+    const resolvedOpacity = dividerOpacityMap[opacity];
+    const bg = `color-mix(in srgb, ${t.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : undefined;
 
     const isHorizontal = orientation === 'horizontal';
@@ -78,12 +71,8 @@ export const Divider: React.ForwardRefExoticComponent<
         aria-orientation={orientation}
         style={{
           background: bg,
-          width: isHorizontal
-            ? length != null ? `${length}px` : '100%'
-            : 1,
-          height: isHorizontal
-            ? 1
-            : length != null ? `${length}px` : '100%',
+          width: isHorizontal ? '100%' : 1,
+          height: isHorizontal ? 1 : '100%',
           flexShrink: 0,
           margin: spacingValue
             ? isHorizontal

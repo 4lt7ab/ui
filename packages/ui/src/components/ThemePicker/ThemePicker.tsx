@@ -253,7 +253,7 @@ function CompactView(): React.JSX.Element {
           flexShrink: 0,
         }} />
         {currentTheme?.label ?? resolved}
-        <Icon name={open ? 'chevron-up' : 'chevron-down'} size={12} />
+        <Icon name={open ? 'chevron-up' : 'chevron-down'} size="xs" />
       </button>
 
       {open && (

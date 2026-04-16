@@ -29,11 +29,10 @@ import type { SpacingToken, BaseComponentProps } from '../../types';
  */
 export interface GridProps extends BaseComponentProps {
   /**
-   * Minimum width of each column before wrapping.
-   * Number values are treated as pixels; strings are used as-is.
+   * Minimum width of each column before wrapping (pixels).
    * @default 300
    */
-  minColumnWidth?: number | string;
+  minColumnWidth?: number;
 
   /**
    * Fixed column count. When set, overrides `minColumnWidth`.
@@ -62,10 +61,7 @@ export const Grid: React.ForwardRefExoticComponent<
     },
     ref,
   ): React.JSX.Element {
-    const minWidth =
-      typeof minColumnWidth === 'number'
-        ? `${minColumnWidth}px`
-        : minColumnWidth;
+    const minWidth = `${minColumnWidth}px`;
 
     const gridTemplateColumns = columns
       ? `repeat(${columns}, 1fr)`

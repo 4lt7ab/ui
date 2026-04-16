@@ -1,7 +1,9 @@
 import { forwardRef, createContext, useContext } from 'react';
 import { iconRegistry } from '../../icons';
 import type { IconName } from '../../icons';
-import type { HTMLAttributes, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import { iconSizeMap } from '../../types';
+import type { IconSize } from '../../types';
 
 // ---------------------------------------------------------------------------
 // Icon font context — lets consumers set a default fontClass globally
@@ -29,25 +31,30 @@ export function IconFontProvider({ fontClass, children }: { fontClass: string; c
 
 /** Renders a named icon from the built-in registry, or falls back to an icon font
  *  when the name is unregistered and a `fontClass` is available (via prop or context). */
-export interface IconProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'children'> {
+export interface IconProps {
   /** Icon name. Built-in registry names render SVG components; unregistered names
    *  fall back to icon-font rendering when `fontClass` is set. */
   name: IconName | (string & {});
-  /** Icon dimensions in pixels (width and height).
-   * @default 24
+  /** Icon size preset.
+   * @default 'lg'
    */
-  size?: number;
+  size?: IconSize;
   /** CSS class for an icon font (e.g. `'material-symbols-outlined'`).
    *  Used when `name` is not in the built-in registry. Falls back to the
    *  value from `IconFontProvider` when omitted. */
   fontClass?: string;
+  /** Accessible label. When omitted, icon is treated as decorative. */
+  'aria-label'?: string;
+  id?: string;
+  'data-testid'?: string;
 }
 
 export const Icon: React.ForwardRefExoticComponent<Omit<IconProps, 'ref'> & React.RefAttributes<HTMLSpanElement>> = forwardRef<HTMLSpanElement, IconProps>(
-  function Icon({ name, size = 24, fontClass, style, 'aria-label': ariaLabel, ...props }, ref): React.JSX.Element {
+  function Icon({ name, size = 'lg', fontClass, 'aria-label': ariaLabel, id, 'data-testid': dataTestId }, ref): React.JSX.Element {
     const contextFontClass = useContext(IconFontContext);
     const IconComponent = iconRegistry[name as IconName];
     const isDecorative = !ariaLabel;
+    const px = iconSizeMap[size];
 
     const resolvedFontClass = fontClass ?? contextFontClass;
 
@@ -56,6 +63,8 @@ export const Icon: React.ForwardRefExoticComponent<Omit<IconProps, 'ref'> & Reac
       return (
         <span
           ref={ref}
+          id={id}
+          data-testid={dataTestId}
           role={isDecorative ? undefined : 'img'}
           aria-hidden={isDecorative || undefined}
           aria-label={ariaLabel}
@@ -64,15 +73,13 @@ export const Icon: React.ForwardRefExoticComponent<Omit<IconProps, 'ref'> & Reac
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
-            minWidth: size,
-            minHeight: size,
-            fontSize: size,
+            minWidth: px,
+            minHeight: px,
+            fontSize: px,
             lineHeight: 1,
             color: 'inherit',
             fontStyle: 'normal',
-            ...style,
           }}
-          {...props}
         >
           {name}
         </span>
@@ -83,6 +90,8 @@ export const Icon: React.ForwardRefExoticComponent<Omit<IconProps, 'ref'> & Reac
     return (
       <span
         ref={ref}
+        id={id}
+        data-testid={dataTestId}
         role={isDecorative ? undefined : 'img'}
         aria-hidden={isDecorative || undefined}
         aria-label={ariaLabel}
@@ -90,15 +99,13 @@ export const Icon: React.ForwardRefExoticComponent<Omit<IconProps, 'ref'> & Reac
           display: 'inline-flex',
           alignItems: 'center',
           justifyContent: 'center',
-          width: size,
-          height: size,
+          width: px,
+          height: px,
           lineHeight: 1,
           color: 'inherit',
-          ...style,
         }}
-        {...props}
       >
-        {IconComponent ? <IconComponent size={size} /> : null}
+        {IconComponent ? <IconComponent size={px} /> : null}
       </span>
     );
   }

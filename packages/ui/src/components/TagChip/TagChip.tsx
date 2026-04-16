@@ -29,7 +29,7 @@ export const TagChip: React.ForwardRefExoticComponent<Omit<TagChipProps, 'ref'> 
           color: t.colorActionPrimary,
           background: t.colorSurfaceRaised,
           borderRadius: t.radiusFull,
-          padding: '2px 8px',
+          padding: `${t.spaceXs} ${t.spaceSm}`,
           fontFamily: t.fontSans,
         }}
       >
@@ -39,10 +39,9 @@ export const TagChip: React.ForwardRefExoticComponent<Omit<TagChipProps, 'ref'> 
           <span style={{ display: 'inline-flex', width: 18, height: 18, color: t.colorActionPrimary }}>
             <IconButton
               icon="close"
-              size={12}
               onClick={onRemove}
               aria-label={`Remove ${name}`}
-              buttonSize="sm"
+              size="sm"
             />
           </span>
         )}

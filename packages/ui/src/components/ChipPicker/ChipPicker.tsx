@@ -79,7 +79,7 @@ export function ChipPicker({
   const chipStyle = (isSelected: boolean): CSSProperties => ({
     display: 'inline-flex',
     alignItems: 'center',
-    padding: `4px 12px`,
+    padding: `${t.spaceXs} ${t.spaceSm}`,
     fontSize: t.fontSizeSm,
     fontFamily: t.fontSans,
     fontWeight: t.fontWeightMedium,

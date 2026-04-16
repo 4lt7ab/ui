@@ -15,10 +15,9 @@ export function IconDemo(): React.JSX.Element {
       <Stack gap="sm">
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Icon sizes</h3>
         <Stack direction="horizontal" gap="md" align="center">
-          <Icon name="search" size={16} />
-          <Icon name="search" size={24} />
-          <Icon name="search" size={32} />
-          <Icon name="search" size={48} />
+          <Icon name="search" size="sm" />
+          <Icon name="search" size="lg" />
+          <Icon name="search" size="xl" />
         </Stack>
       </Stack>
 

@@ -61,7 +61,7 @@ function ArchDiagram(): React.JSX.Element {
 
       {/* Arrow */}
       <div style={{ textAlign: 'center', color: 'var(--color-text-muted)', fontSize: '0.75rem' }}>
-        <Icon name="chevron-down" size={16} />
+        <Icon name="chevron-down" size="sm" />
       </div>
 
       {/* Dependent packages */}
@@ -222,7 +222,7 @@ export function Landing({ onNavigate }: { onNavigate: (view: string) => void }):
                 <Card padding="lg">
                   <Stack gap="sm">
                     <Stack direction="horizontal" gap="sm" align="center">
-                      <Icon name={ep.icon} size={18} style={{ color: 'var(--color-action-primary)' }} />
+                      <span style={{ color: 'var(--color-action-primary)' }}><Icon name={ep.icon} size="md" /></span>
                       <span style={{
                         fontSize: '1rem',
                         fontWeight: 600,

@@ -165,9 +165,9 @@ export function AnalyticsDashboard(): React.JSX.Element {
               {CHANNELS.map((ch) => (
                 <TableRow key={ch.name}>
                   <TableCell>{ch.name}</TableCell>
-                  <TableCell align="right" style={{ fontFamily: 'var(--font-mono)' }}>{fmt(ch.visitors)}</TableCell>
-                  <TableCell align="right" style={{ fontFamily: 'var(--font-mono)' }}>{ch.conversion}%</TableCell>
-                  <TableCell align="right" style={{ fontFamily: 'var(--font-mono)' }}>${fmt(ch.revenue)}</TableCell>
+                  <TableCell align="right"><span style={{ fontFamily: 'var(--font-mono)' }}>{fmt(ch.visitors)}</span></TableCell>
+                  <TableCell align="right"><span style={{ fontFamily: 'var(--font-mono)' }}>{ch.conversion}%</span></TableCell>
+                  <TableCell align="right"><span style={{ fontFamily: 'var(--font-mono)' }}>${fmt(ch.revenue)}</span></TableCell>
                   <TableCell align="center">
                     <StatusDot variant={trendDot(ch.trend)} aria-label={ch.trend} />
                   </TableCell>
@@ -208,7 +208,7 @@ export function AnalyticsDashboard(): React.JSX.Element {
                     { value: page.views, color: 'primary' },
                     { value: PAGES[0].views - page.views, color: 'muted' },
                   ]}
-                  height={4}
+                  height="sm"
                 />
               </Stack>
             ))}

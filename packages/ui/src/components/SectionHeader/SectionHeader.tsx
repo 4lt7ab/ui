@@ -1,8 +1,9 @@
 import { forwardRef } from 'react';
 import { semantic as t } from '@4lt7ab/core';
 import type { ReactNode } from 'react';
-import { spacingMap } from '../../types';
+import { spacingMap, iconSizeMap } from '../../types';
 import type { SpacingToken, BaseComponentProps } from '../../types';
+import type { IconName } from '../../icons';
 
 /**
  * A section heading bar with icon, title, indicator slot, and trailing actions.
@@ -25,8 +26,8 @@ export interface SectionHeaderProps extends BaseComponentProps {
   /** Section title text. */
   title: string;
 
-  /** Material Symbols icon name rendered before the title. */
-  icon?: string;
+  /** Icon name rendered before the title. */
+  icon?: IconName | (string & {});
 
   /**
    * Content rendered inline after the title.
@@ -97,7 +98,7 @@ export const SectionHeader: React.ForwardRefExoticComponent<
             <span
               className="material-symbols-outlined"
               style={{
-                fontSize: 18,
+                fontSize: iconSizeMap.md,
                 color: t.colorTextSecondary,
                 lineHeight: 1,
               }}

@@ -20,10 +20,9 @@ export function IconButtonDemo(): React.JSX.Element {
       <Stack gap="sm">
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Sizes</h3>
         <Stack direction="horizontal" gap="sm" wrap align="center">
-          <IconButton icon="settings" size={16} aria-label="Small" />
-          <IconButton icon="settings" size={20} aria-label="Medium-small" />
-          <IconButton icon="settings" size={24} aria-label="Default" />
-          <IconButton icon="settings" size={32} aria-label="Large" />
+          <IconButton icon="settings" size="sm" aria-label="Small" />
+          <IconButton icon="settings" size="md" aria-label="Medium" />
+          <IconButton icon="settings" size="lg" aria-label="Large" />
         </Stack>
       </Stack>
 

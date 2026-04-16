@@ -132,7 +132,7 @@ export const SearchInput: React.ForwardRefExoticComponent<Omit<SearchInputProps,
           ...(disabled ? disabledWrapperStyle : {}),
         }}
       >
-        <Icon name="search" size={16} style={{ color: t.colorTextMuted, flexShrink: 0 }} />
+        <span style={{ color: t.colorTextMuted, flexShrink: 0, display: 'inline-flex' }}><Icon name="search" size="sm" /></span>
         <input
           ref={ref}
           type="text"

@@ -1,7 +1,8 @@
 import { forwardRef, Children, isValidElement, cloneElement } from 'react';
 import { semantic as t } from '@4lt7ab/core';
 import { useInjectStyles } from '@4lt7ab/core';
-import type { HTMLAttributes, TdHTMLAttributes, ThHTMLAttributes, ReactNode, CSSProperties, KeyboardEvent } from 'react';
+import type { ReactNode, CSSProperties, KeyboardEvent } from 'react';
+import type { BaseComponentProps } from '../../types';
 
 // ---------------------------------------------------------------------------
 // Shared types
@@ -24,7 +25,7 @@ const spaceMap: Record<SpacingToken, string> = {
 export type TableVariant = 'default' | 'flat';
 
 /** Root table wrapper. Provides overflow scrolling, border, and shadow. */
-export interface TableProps extends HTMLAttributes<HTMLDivElement> {
+export interface TableProps extends BaseComponentProps {
   /** Visual treatment for the outer wrapper.
    * - `default` — border, rounded corners, and small shadow
    * - `flat` — no wrapper chrome
@@ -77,8 +78,6 @@ export const Table: React.ForwardRefExoticComponent<Omit<TableProps, 'ref'> & Re
     variant = 'default',
     density = 'md',
     children,
-    style,
-    ...props
   }, ref): React.JSX.Element {
     useInjectStyles(TABLE_STYLES_ID, TABLE_STYLES_CSS);
 
@@ -88,9 +87,7 @@ export const Table: React.ForwardRefExoticComponent<Omit<TableProps, 'ref'> & Re
         style={{
           overflowX: 'auto',
           ...wrapperVariants[variant],
-          ...style,
         }}
-        {...props}
       >
         <table
           data-table-density={density}
@@ -114,15 +111,15 @@ export const Table: React.ForwardRefExoticComponent<Omit<TableProps, 'ref'> & Re
 // ---------------------------------------------------------------------------
 
 /** Table header section. Renders a `<thead>` with a single `<tr>` wrapping the children. */
-export interface TableHeaderProps extends HTMLAttributes<HTMLTableSectionElement> {
+export interface TableHeaderProps {
   /** TableHeaderCell elements. */
   children: ReactNode;
 }
 
 export const TableHeader: React.ForwardRefExoticComponent<Omit<TableHeaderProps, 'ref'> & React.RefAttributes<HTMLTableSectionElement>> = forwardRef<HTMLTableSectionElement, TableHeaderProps>(
-  function TableHeader({ children, style, ...props }, ref): React.JSX.Element {
+  function TableHeader({ children }, ref): React.JSX.Element {
     return (
-      <thead ref={ref} style={style} {...props}>
+      <thead ref={ref}>
         <tr>{children}</tr>
       </thead>
     );
@@ -134,13 +131,15 @@ export const TableHeader: React.ForwardRefExoticComponent<Omit<TableHeaderProps,
 // ---------------------------------------------------------------------------
 
 /** A single column header cell (`<th>`). Renders uppercase, muted, semibold text. */
-export interface TableHeaderCellProps extends ThHTMLAttributes<HTMLTableCellElement> {
+export interface TableHeaderCellProps {
   /** Text alignment.
    * @default 'left'
    */
   align?: 'left' | 'center' | 'right';
-  /** Fixed column width. Numbers are treated as pixels; strings are used as-is. */
-  width?: number | string;
+  /** Fixed column width in pixels. */
+  width?: number;
+  /** Number of columns this header should span. */
+  colSpan?: number;
   /** Header label. */
   children?: ReactNode;
 }
@@ -149,13 +148,13 @@ export const TableHeaderCell: React.ForwardRefExoticComponent<Omit<TableHeaderCe
   function TableHeaderCell({
     align = 'left',
     width,
+    colSpan,
     children,
-    style,
-    ...props
   }, ref): React.JSX.Element {
     return (
       <th
         ref={ref}
+        colSpan={colSpan}
         style={{
         padding: `${t.spaceSm} ${t.spaceMd}`,
         textAlign: align,
@@ -166,10 +165,8 @@ export const TableHeaderCell: React.ForwardRefExoticComponent<Omit<TableHeaderCe
         letterSpacing: t.letterSpacingWide,
         borderBottom: `${t.borderWidthThick} solid ${t.colorBorder}`,
         whiteSpace: 'nowrap',
-        width: typeof width === 'number' ? `${width}px` : width,
-        ...style,
+        width: width !== undefined ? `${width}px` : undefined,
       }}
-      {...props}
     >
       {children}
     </th>
@@ -182,13 +179,13 @@ export const TableHeaderCell: React.ForwardRefExoticComponent<Omit<TableHeaderCe
 // ---------------------------------------------------------------------------
 
 /** Table body section (`<tbody>`). Wraps TableRow elements. */
-export interface TableBodyProps extends HTMLAttributes<HTMLTableSectionElement> {
+export interface TableBodyProps {
   /** TableRow elements. */
   children: ReactNode;
 }
 
 export const TableBody: React.ForwardRefExoticComponent<Omit<TableBodyProps, 'ref'> & React.RefAttributes<HTMLTableSectionElement>> = forwardRef<HTMLTableSectionElement, TableBodyProps>(
-  function TableBody({ children, ...props }, ref): React.JSX.Element {
+  function TableBody({ children }, ref): React.JSX.Element {
     // Apply zebra-stripe backgrounds to even data rows via inline styles on <td>.
     // CSS-based nth-child doesn't reliably paint <tr> backgrounds in all browsers.
     let dataRowIndex = 0;
@@ -218,7 +215,7 @@ export const TableBody: React.ForwardRefExoticComponent<Omit<TableBodyProps, 're
       return cloneElement(child as React.ReactElement, {}, cells);
     });
 
-    return <tbody ref={ref} {...props}>{styledChildren}</tbody>;
+    return <tbody ref={ref}>{styledChildren}</tbody>;
   }
 );
 
@@ -227,7 +224,7 @@ export const TableBody: React.ForwardRefExoticComponent<Omit<TableBodyProps, 're
 // ---------------------------------------------------------------------------
 
 /** A table row (`<tr>`). Supports selection highlighting and hover effects. When `onClick` is provided, the row becomes focusable and responds to Enter/Space. */
-export interface TableRowProps extends HTMLAttributes<HTMLTableRowElement> {
+export interface TableRowProps {
   /** Highlights the row with a raised background and a left accent border.
    * @default false
    */
@@ -236,6 +233,8 @@ export interface TableRowProps extends HTMLAttributes<HTMLTableRowElement> {
    * @default false
    */
   hoverable?: boolean;
+  /** Click handler. When provided, the row becomes focusable and responds to Enter/Space. */
+  onClick?: React.MouseEventHandler<HTMLTableRowElement>;
   /** TableCell elements. */
   children: ReactNode;
 }
@@ -245,10 +244,7 @@ export const TableRow: React.ForwardRefExoticComponent<Omit<TableRowProps, 'ref'
     selected = false,
     hoverable = false,
     children,
-    style,
     onClick,
-    onKeyDown,
-    ...props
   }, ref): React.JSX.Element {
     const handleKeyDown = onClick
       ? (e: KeyboardEvent<HTMLTableRowElement>): void => {
@@ -256,9 +252,8 @@ export const TableRow: React.ForwardRefExoticComponent<Omit<TableRowProps, 'ref'
             e.preventDefault();
             onClick(e as unknown as React.MouseEvent<HTMLTableRowElement>);
           }
-          onKeyDown?.(e);
         }
-      : onKeyDown;
+      : undefined;
 
     return (
       <tr
@@ -270,9 +265,7 @@ export const TableRow: React.ForwardRefExoticComponent<Omit<TableRowProps, 'ref'
         onKeyDown={handleKeyDown}
         style={{
           cursor: onClick ? 'pointer' : undefined,
-          ...style,
         }}
-        {...props}
       >
         {children}
       </tr>
@@ -285,7 +278,7 @@ export const TableRow: React.ForwardRefExoticComponent<Omit<TableRowProps, 'ref'
 // ---------------------------------------------------------------------------
 
 /** A table data cell (`<td>`). */
-export interface TableCellProps extends TdHTMLAttributes<HTMLTableCellElement> {
+export interface TableCellProps {
   /** Text alignment.
    * @default 'left'
    */
@@ -298,8 +291,10 @@ export interface TableCellProps extends TdHTMLAttributes<HTMLTableCellElement> {
    * @default false
    */
   muted?: boolean;
-  /** Fixed column width. Numbers are treated as pixels; strings are used as-is. */
-  width?: number | string;
+  /** Fixed column width in pixels. */
+  width?: number;
+  /** Number of columns this cell should span. */
+  colSpan?: number;
   /** Cell content. */
   children?: ReactNode;
 }
@@ -310,20 +305,20 @@ export const TableCell: React.ForwardRefExoticComponent<Omit<TableCellProps, 're
     truncate = false,
     muted = false,
     width,
+    colSpan,
     children,
-    style,
-    ...props
   }, ref): React.JSX.Element {
     return (
       <td
         ref={ref}
+        colSpan={colSpan}
         style={{
         padding: `${t.spaceSm} ${t.spaceMd}`,
         borderBottom: `${t.borderWidthDefault} solid ${t.colorBorder}`,
         verticalAlign: 'middle',
         textAlign: align,
         color: muted ? t.colorTextMuted : undefined,
-        width: typeof width === 'number' ? `${width}px` : width,
+        width: width !== undefined ? `${width}px` : undefined,
         ...(truncate
           ? {
               maxWidth: 0,
@@ -332,9 +327,7 @@ export const TableCell: React.ForwardRefExoticComponent<Omit<TableCellProps, 're
               whiteSpace: 'nowrap' as const,
             }
           : {}),
-        ...style,
       }}
-      {...props}
     >
       {children}
     </td>
@@ -347,7 +340,7 @@ export const TableCell: React.ForwardRefExoticComponent<Omit<TableCellProps, 're
 // ---------------------------------------------------------------------------
 
 /** A full-width subheading row for grouping table rows under a shared label. */
-export interface TableGroupHeaderProps extends HTMLAttributes<HTMLTableRowElement> {
+export interface TableGroupHeaderProps {
   /** Number of columns the header should span. */
   colSpan: number;
   /** Group label text. */
@@ -358,11 +351,9 @@ export const TableGroupHeader: React.ForwardRefExoticComponent<Omit<TableGroupHe
   function TableGroupHeader({
     colSpan,
     children,
-    style,
-    ...props
   }, ref): React.JSX.Element {
     return (
-      <tr ref={ref} style={{ cursor: 'default', ...style }} {...props}>
+      <tr ref={ref} style={{ cursor: 'default' }}>
       <td
         colSpan={colSpan}
         style={{
@@ -391,7 +382,7 @@ export const TableGroupHeader: React.ForwardRefExoticComponent<Omit<TableGroupHe
 // ---------------------------------------------------------------------------
 
 /** A centered message row displayed when the table has no data. */
-export interface TableEmptyRowProps extends HTMLAttributes<HTMLTableRowElement> {
+export interface TableEmptyRowProps {
   /** Number of columns the message should span. */
   colSpan: number;
   /** Empty state message content. */
@@ -402,11 +393,9 @@ export const TableEmptyRow: React.ForwardRefExoticComponent<Omit<TableEmptyRowPr
   function TableEmptyRow({
     colSpan,
     children,
-    style,
-    ...props
   }, ref): React.JSX.Element {
     return (
-      <tr ref={ref} style={style} {...props}>
+      <tr ref={ref}>
       <td
         colSpan={colSpan}
         style={{

@@ -67,6 +67,53 @@ export const semanticColorMap: Record<SemanticColor, string> = {
   muted: t.colorTextMuted,
 };
 
+// ── Icon sizes ──
+
+/** Named icon size presets in pixels. */
+export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+
+export const iconSizeMap: Record<IconSize, number> = {
+  xs: 14,
+  sm: 16,
+  md: 20,
+  lg: 24,
+  xl: 32,
+};
+
+// ── Modal widths ──
+
+/** Named modal width presets in pixels. */
+export type ModalWidth = 'sm' | 'md' | 'lg' | 'xl';
+
+export const modalWidthMap: Record<ModalWidth, number> = {
+  sm: 400,
+  md: 480,
+  lg: 520,
+  xl: 640,
+};
+
+// ── Progress bar heights ──
+
+/** Named progress bar height presets. */
+export type ProgressBarHeight = 'sm' | 'md' | 'lg';
+
+export const progressBarHeightMap: Record<ProgressBarHeight, number> = {
+  sm: 4,
+  md: 6,
+  lg: 10,
+};
+
+// ── Divider opacity ──
+
+/** Named divider opacity presets. */
+export type DividerOpacity = 'subtle' | 'default' | 'strong';
+
+export const dividerOpacityMap: Record<DividerOpacity, number> = {
+  subtle: 25,
+  default: 50,
+  strong: 75,
+};
+
 // ── Existing token types ──
 
 /** Spacing token keys that map to semantic spacing CSS variables. */

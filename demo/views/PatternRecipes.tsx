@@ -160,7 +160,7 @@ function RecipeIndex({
               <Card padding="lg">
                 <Stack gap="md">
                   <Stack direction="horizontal" gap="sm" align="center">
-                    <Icon name={recipe.icon} size={18} style={{ color: 'var(--color-action-primary)' }} />
+                    <span style={{ color: 'var(--color-action-primary)' }}><Icon name={recipe.icon} size="md" /></span>
                     <span style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--color-text)' }}>
                       {recipe.title}
                     </span>
@@ -242,13 +242,13 @@ function RecipeDetail({
               color: 'var(--color-text-link)',
             }}
           >
-            <Icon name="arrow-left" size={14} />
+            <Icon name="arrow-left" size="xs" />
             All patterns
           </button>
 
           <Stack gap="sm">
             <Stack direction="horizontal" gap="sm" align="center">
-              <Icon name={recipe.icon} size={20} style={{ color: 'var(--color-action-primary)' }} />
+              <span style={{ color: 'var(--color-action-primary)' }}><Icon name={recipe.icon} size="md" /></span>
               <h2 style={{
                 margin: 0,
                 fontSize: '1.25rem',

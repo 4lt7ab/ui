@@ -195,7 +195,7 @@ function Sidebar({
           }}
           aria-label="Expand sidebar"
         >
-          <Icon name="chevron-right" size={16} />
+          <Icon name="chevron-right" size="sm" />
         </button>
       </div>
     );
@@ -239,7 +239,7 @@ function Sidebar({
           }}
           aria-label="Collapse sidebar"
         >
-          <Icon name="chevron-left" size={14} />
+          <Icon name="chevron-left" size="xs" />
         </button>
       </div>
 
@@ -267,7 +267,7 @@ function Sidebar({
                   letterSpacing: '0.04em',
                 }}
               >
-                <Icon name={isCollapsed ? 'chevron-right' : 'chevron-down'} size={10} />
+                <Icon name={isCollapsed ? 'chevron-right' : 'chevron-down'} size="xs" />
                 {cat.name}
                 <span style={{
                   marginLeft: 'auto',

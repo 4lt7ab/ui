@@ -48,7 +48,7 @@ export function ButtonDemo(): React.JSX.Element {
         <Stack direction="horizontal" gap="sm" wrap align="center">
           {variants.map((v) => (
             <Button key={v} variant={v} iconOnly aria-label={`${v} action`}>
-              <Icon name="settings" size={18} />
+              <Icon name="settings" size="md" />
             </Button>
           ))}
           <Button variant="primary" iconOnly loading aria-label="loading action">{null}</Button>

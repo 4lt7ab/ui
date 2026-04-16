@@ -98,7 +98,7 @@ function Metric({ label, value, color }: {
           { value, color },
           { value: 100 - value, color: 'muted' },
         ]}
-        height={6}
+        height="md"
       />
     </Stack>
   );
@@ -173,7 +173,7 @@ export function CommandCenter(): React.JSX.Element {
         subtitle="All regions \u00B7 Last updated 30s ago"
         trailing={
           <Stack direction="horizontal" gap="sm">
-            <IconButton icon="filter" size={18} aria-label="Filter" />
+            <IconButton icon="filter" size="sm" aria-label="Filter" />
             <Button variant="secondary" size="sm" onClick={refresh}>
               Refresh
             </Button>
@@ -254,7 +254,7 @@ export function CommandCenter(): React.JSX.Element {
             <Stack direction="horizontal" justify="space-between" align="center">
               <span style={{ fontSize: '0.875rem', fontWeight: 600 }}>Services</span>
               <Button variant="ghost" size="sm" onClick={() => setTab('services')}>
-                View all <Icon name="chevron-right" size={14} />
+                View all <Icon name="chevron-right" size="xs" />
               </Button>
             </Stack>
             <Table density="sm">
@@ -351,7 +351,7 @@ export function CommandCenter(): React.JSX.Element {
                   <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{inc.time}</span>
                 </Stack>
                 <Stack direction="horizontal" gap="sm" align="center">
-                  <Icon name="settings" size={14} style={{ color: 'var(--color-text-muted)' }} />
+                  <span style={{ color: 'var(--color-text-muted)' }}><Icon name="settings" size="xs" /></span>
                   <span style={{
                     fontSize: '0.8rem',
                     fontFamily: 'var(--font-mono)',

@@ -119,7 +119,7 @@ function StepTeam({ email, onEmail, emailRole, onEmailRole, members, onAdd, onRe
                 <span style={{ fontSize: '0.8125rem', fontFamily: 'var(--font-mono)' }}>{m.email}</span>
                 <Badge>{m.role}</Badge>
               </Stack>
-              <IconButton icon="close" size={14} onClick={() => onRemove(m.email)} aria-label={`Remove ${m.email}`} />
+              <IconButton icon="close" size="sm" onClick={() => onRemove(m.email)} aria-label={`Remove ${m.email}`} />
             </Stack>
             </div>
           ))}
@@ -256,7 +256,7 @@ export function OnboardingFlow(): React.JSX.Element {
       <Stack gap="lg" align="center">
         {done ? (
           <>
-            <Icon name="check-circle" size={48} style={{ color: 'var(--color-success)' }} />
+            <span style={{ color: 'var(--color-success)' }}><Icon name="check-circle" size="xl" /></span>
             <span style={{ fontSize: '1.125rem', fontWeight: 600 }}>
               {workspaceName || 'Workspace'} is ready
             </span>
@@ -275,7 +275,7 @@ export function OnboardingFlow(): React.JSX.Element {
           </>
         ) : (
           <>
-            <Icon name="plus" size={48} style={{ color: 'var(--color-text-muted)' }} />
+            <span style={{ color: 'var(--color-text-muted)' }}><Icon name="plus" size="xl" /></span>
             <span style={{ fontSize: '1.125rem', fontWeight: 600 }}>Create a new workspace</span>
             <span style={{
               fontSize: '0.875rem',
@@ -295,7 +295,7 @@ export function OnboardingFlow(): React.JSX.Element {
 
       {/* Modal wizard */}
       {open && (
-        <ModalShell onClose={() => setOpen(false)} maxWidth={520}>
+        <ModalShell onClose={() => setOpen(false)} width="lg">
           <Stack gap="xl">
             {/* Progress bar */}
             <Stack gap="sm">
@@ -312,7 +312,7 @@ export function OnboardingFlow(): React.JSX.Element {
                   { value: step, color: 'primary' },
                   { value: TOTAL_STEPS - step, color: 'muted' },
                 ]}
-                height={4}
+                height="sm"
               />
             </Stack>
 

@@ -47,8 +47,8 @@ const hoverCSS = `
 `;
 
 const sizes = {
-  sm: { height: 28, px: 8, fontSize: 'var(--font-size-xs)', iconSize: 14 },
-  md: { height: 32, px: 12, fontSize: 'var(--font-size-sm)', iconSize: 16 },
+  sm: { height: 28, px: 8, fontSize: 'var(--font-size-xs)', iconSize: 'xs' as const },
+  md: { height: 32, px: 12, fontSize: 'var(--font-size-sm)', iconSize: 'sm' as const },
 } as const;
 
 export function SegmentedControl({

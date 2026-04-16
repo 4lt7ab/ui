@@ -20,7 +20,7 @@ export function ProgressBarDemo(): React.JSX.Element {
             { value: 25, color: 'warning', label: 'In progress' },
             { value: 10, color: 'error', label: 'Failed' },
           ]}
-          height={10}
+          height="lg"
         />
       </Stack>
 
@@ -32,7 +32,7 @@ export function ProgressBarDemo(): React.JSX.Element {
             { value: 8, color: 'info', label: 'Documents' },
             { value: 5, color: 'warning', label: 'Other' },
           ]}
-          height={8}
+          height="lg"
         />
         <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
           25 GB of 100 GB used

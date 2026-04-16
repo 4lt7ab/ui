@@ -128,6 +128,18 @@ declare const justifyMap: Record<JustifyContent, string>;
 type SemanticColor = "primary" | "success" | "warning" | "error" | "info" | "muted";
 /** Resolves a SemanticColor to a theme token CSS variable. */
 declare const semanticColorMap: Record<SemanticColor, string>;
+/** Named icon size presets in pixels. */
+type IconSize = "xs" | "sm" | "md" | "lg" | "xl";
+declare const iconSizeMap: Record<IconSize, number>;
+/** Named modal width presets in pixels. */
+type ModalWidth = "sm" | "md" | "lg" | "xl";
+declare const modalWidthMap: Record<ModalWidth, number>;
+/** Named progress bar height presets. */
+type ProgressBarHeight = "sm" | "md" | "lg";
+declare const progressBarHeightMap: Record<ProgressBarHeight, number>;
+/** Named divider opacity presets. */
+type DividerOpacity = "subtle" | "default" | "strong";
+declare const dividerOpacityMap: Record<DividerOpacity, number>;
 /** Spacing token keys that map to semantic spacing CSS variables. */
 type SpacingToken = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 /** Radius token keys that map to semantic border-radius CSS variables. */
@@ -343,7 +355,7 @@ interface BadgeProps extends BaseComponentProps {
 	size?: BadgeSize;
 }
 declare const Badge: React.ForwardRefExoticComponent<Omit<BadgeProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
-import { HTMLAttributes, ReactNode as ReactNode8 } from "react";
+import { ReactNode as ReactNode8 } from "react";
 /** Provider that sets a default `fontClass` for all descendant Icon components.
 *
 * Wrap your app (or a subtree) so you don't have to pass `fontClass` on every Icon:
@@ -360,21 +372,25 @@ declare function IconFontProvider({ fontClass, children }: {
 }): React.JSX.Element;
 /** Renders a named icon from the built-in registry, or falls back to an icon font
 *  when the name is unregistered and a `fontClass` is available (via prop or context). */
-interface IconProps extends Omit<HTMLAttributes<HTMLSpanElement>, "children"> {
+interface IconProps {
 	/** Icon name. Built-in registry names render SVG components; unregistered names
 	*  fall back to icon-font rendering when `fontClass` is set. */
 	name: IconName | (string & {});
-	/** Icon dimensions in pixels (width and height).
-	* @default 24
+	/** Icon size preset.
+	* @default 'lg'
 	*/
-	size?: number;
+	size?: IconSize;
 	/** CSS class for an icon font (e.g. `'material-symbols-outlined'`).
 	*  Used when `name` is not in the built-in registry. Falls back to the
 	*  value from `IconFontProvider` when omitted. */
 	fontClass?: string;
+	/** Accessible label. When omitted, icon is treated as decorative. */
+	"aria-label"?: string;
+	id?: string;
+	"data-testid"?: string;
 }
 declare const Icon: React.ForwardRefExoticComponent<Omit<IconProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
-/** Controls the tap-target size of the icon button. */
+/** Controls the tap-target and icon size of the icon button. */
 type IconButtonSize = "sm" | "md" | "lg";
 /** A circular icon-only button. Requires `aria-label` for accessibility. */
 interface IconButtonProps {
@@ -392,17 +408,13 @@ interface IconButtonProps {
 	id?: string;
 	/** Icon to render — built-in registry name or any icon-font name when `fontClass` is set. */
 	icon: IconName | (string & {});
-	/** Icon dimensions in pixels.
-	* @default 24
-	*/
-	size?: number;
-	/** Tap-target size of the button.
-	* - `sm` — 28px
-	* - `md` — 36px (default)
-	* - `lg` — 44px
+	/** Button and icon size.
+	* - `sm` — 28px button, 16px icon
+	* - `md` — 36px button, 20px icon (default)
+	* - `lg` — 44px button, 24px icon
 	* @default 'md'
 	*/
-	buttonSize?: IconButtonSize;
+	size?: IconButtonSize;
 	/** Shows a small red notification dot in the top-right corner.
 	* @default false
 	*/
@@ -453,10 +465,10 @@ interface ProgressBarSegment {
 interface ProgressBarProps {
 	/** One or more segments to display. */
 	segments: ProgressBarSegment[];
-	/** Bar height in pixels.
-	* @default 6
+	/** Bar height preset.
+	* @default 'md'
 	*/
-	height?: number;
+	height?: ProgressBarHeight;
 	/** Accessible label for screen readers. */
 	"aria-label"?: string;
 }
@@ -577,10 +589,10 @@ interface ModalShellProps {
 	onClose: () => void;
 	/** Modal body content. */
 	children: ReactNode13;
-	/** Maximum width of the modal panel in pixels.
-	* @default 480
+	/** Width preset for the modal panel.
+	* @default 'md'
 	*/
-	maxWidth?: number;
+	width?: ModalWidth;
 	/** Base z-index for the overlay. The panel renders at `zIndex + 1`.
 	* @default 'var(--z-index-modal)'
 	*/
@@ -642,10 +654,10 @@ interface FormModalProps {
 	cancelLabel?: string;
 	/** External loading control. When true, the submit button shows a spinner and is disabled. */
 	loading?: boolean;
-	/** Maximum width of the modal panel in pixels. Passed through to ModalShell.
-	* @default 480
+	/** Width preset for the modal panel. Passed through to ModalShell.
+	* @default 'md'
 	*/
-	maxWidth?: number;
+	width?: ModalWidth;
 }
 declare const FormModal: React.ForwardRefExoticComponent<Omit<FormModalProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /** Semantic color variant for the status dot. */
@@ -689,12 +701,12 @@ interface ThemeSurfaceProps {
 * Without `global`, renders a styled div with the page background.
 */
 declare const ThemeSurface: React.ForwardRefExoticComponent<Omit<ThemeSurfaceProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { HTMLAttributes as HTMLAttributes2, TdHTMLAttributes, ThHTMLAttributes, ReactNode as ReactNode17 } from "react";
+import { ReactNode as ReactNode17 } from "react";
 type SpacingToken2 = "xs" | "sm" | "md" | "lg";
 /** Visual treatment for the table wrapper. */
 type TableVariant = "default" | "flat";
 /** Root table wrapper. Provides overflow scrolling, border, and shadow. */
-interface TableProps extends HTMLAttributes2<HTMLDivElement> {
+interface TableProps extends BaseComponentProps {
 	/** Visual treatment for the outer wrapper.
 	* - `default` — border, rounded corners, and small shadow
 	* - `flat` — no wrapper chrome
@@ -710,31 +722,33 @@ interface TableProps extends HTMLAttributes2<HTMLDivElement> {
 }
 declare const Table: React.ForwardRefExoticComponent<Omit<TableProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /** Table header section. Renders a `<thead>` with a single `<tr>` wrapping the children. */
-interface TableHeaderProps extends HTMLAttributes2<HTMLTableSectionElement> {
+interface TableHeaderProps {
 	/** TableHeaderCell elements. */
 	children: ReactNode17;
 }
 declare const TableHeader: React.ForwardRefExoticComponent<Omit<TableHeaderProps, "ref"> & React.RefAttributes<HTMLTableSectionElement>>;
 /** A single column header cell (`<th>`). Renders uppercase, muted, semibold text. */
-interface TableHeaderCellProps extends ThHTMLAttributes<HTMLTableCellElement> {
+interface TableHeaderCellProps {
 	/** Text alignment.
 	* @default 'left'
 	*/
 	align?: "left" | "center" | "right";
-	/** Fixed column width. Numbers are treated as pixels; strings are used as-is. */
-	width?: number | string;
+	/** Fixed column width in pixels. */
+	width?: number;
+	/** Number of columns this header should span. */
+	colSpan?: number;
 	/** Header label. */
 	children?: ReactNode17;
 }
 declare const TableHeaderCell: React.ForwardRefExoticComponent<Omit<TableHeaderCellProps, "ref"> & React.RefAttributes<HTMLTableCellElement>>;
 /** Table body section (`<tbody>`). Wraps TableRow elements. */
-interface TableBodyProps extends HTMLAttributes2<HTMLTableSectionElement> {
+interface TableBodyProps {
 	/** TableRow elements. */
 	children: ReactNode17;
 }
 declare const TableBody: React.ForwardRefExoticComponent<Omit<TableBodyProps, "ref"> & React.RefAttributes<HTMLTableSectionElement>>;
 /** A table row (`<tr>`). Supports selection highlighting and hover effects. When `onClick` is provided, the row becomes focusable and responds to Enter/Space. */
-interface TableRowProps extends HTMLAttributes2<HTMLTableRowElement> {
+interface TableRowProps {
 	/** Highlights the row with a raised background and a left accent border.
 	* @default false
 	*/
@@ -743,12 +757,14 @@ interface TableRowProps extends HTMLAttributes2<HTMLTableRowElement> {
 	* @default false
 	*/
 	hoverable?: boolean;
+	/** Click handler. When provided, the row becomes focusable and responds to Enter/Space. */
+	onClick?: React.MouseEventHandler<HTMLTableRowElement>;
 	/** TableCell elements. */
 	children: ReactNode17;
 }
 declare const TableRow: React.ForwardRefExoticComponent<Omit<TableRowProps, "ref"> & React.RefAttributes<HTMLTableRowElement>>;
 /** A table data cell (`<td>`). */
-interface TableCellProps extends TdHTMLAttributes<HTMLTableCellElement> {
+interface TableCellProps {
 	/** Text alignment.
 	* @default 'left'
 	*/
@@ -761,14 +777,16 @@ interface TableCellProps extends TdHTMLAttributes<HTMLTableCellElement> {
 	* @default false
 	*/
 	muted?: boolean;
-	/** Fixed column width. Numbers are treated as pixels; strings are used as-is. */
-	width?: number | string;
+	/** Fixed column width in pixels. */
+	width?: number;
+	/** Number of columns this cell should span. */
+	colSpan?: number;
 	/** Cell content. */
 	children?: ReactNode17;
 }
 declare const TableCell: React.ForwardRefExoticComponent<Omit<TableCellProps, "ref"> & React.RefAttributes<HTMLTableCellElement>>;
 /** A full-width subheading row for grouping table rows under a shared label. */
-interface TableGroupHeaderProps extends HTMLAttributes2<HTMLTableRowElement> {
+interface TableGroupHeaderProps {
 	/** Number of columns the header should span. */
 	colSpan: number;
 	/** Group label text. */
@@ -776,7 +794,7 @@ interface TableGroupHeaderProps extends HTMLAttributes2<HTMLTableRowElement> {
 }
 declare const TableGroupHeader: React.ForwardRefExoticComponent<Omit<TableGroupHeaderProps, "ref"> & React.RefAttributes<HTMLTableRowElement>>;
 /** A centered message row displayed when the table has no data. */
-interface TableEmptyRowProps extends HTMLAttributes2<HTMLTableRowElement> {
+interface TableEmptyRowProps {
 	/** Number of columns the message should span. */
 	colSpan: number;
 	/** Empty state message content. */
@@ -981,7 +999,7 @@ interface ComboboxProps {
 	"data-testid"?: string;
 }
 declare const Combobox: React.ForwardRefExoticComponent<Omit<ComboboxProps, "ref"> & React.RefAttributes<HTMLInputElement>>;
-import { HTMLAttributes as HTMLAttributes3 } from "react";
+import { HTMLAttributes } from "react";
 /** Configuration for a debounced text search filter. */
 interface TextFilterConfig {
 	type: "text";
@@ -1008,7 +1026,7 @@ interface SelectFilterConfig {
 /** A single filter definition — either text or select. */
 type FilterConfig = TextFilterConfig | SelectFilterConfig;
 /** A declarative filter bar that pairs with Table. */
-interface TableFiltersProps extends Omit<HTMLAttributes3<HTMLDivElement>, "onChange"> {
+interface TableFiltersProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
 	/** Ordered list of filter definitions. */
 	filters: FilterConfig[];
 	/** Current filter values keyed by filter key. */
@@ -1160,10 +1178,10 @@ interface ShortcutHelpModalProps {
 	* @default 'Keyboard Shortcuts'
 	*/
 	title?: string;
-	/** Maximum width of the modal panel in pixels.
-	* @default 520
+	/** Width preset for the modal panel.
+	* @default 'lg'
 	*/
-	maxWidth?: number;
+	width?: ModalWidth;
 }
 declare const ShortcutHelpModal: React.ForwardRefExoticComponent<Omit<ShortcutHelpModalProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /** A single option in a PillSelect. */
@@ -1302,11 +1320,10 @@ import { ReactNode as ReactNode25 } from "react";
 */
 interface GridProps extends BaseComponentProps {
 	/**
-	* Minimum width of each column before wrapping.
-	* Number values are treated as pixels; strings are used as-is.
+	* Minimum width of each column before wrapping (pixels).
 	* @default 300
 	*/
-	minColumnWidth?: number | string;
+	minColumnWidth?: number;
 	/**
 	* Fixed column count. When set, overrides `minColumnWidth`.
 	*/
@@ -1334,7 +1351,7 @@ declare const Grid: React.ForwardRefExoticComponent<Omit<GridProps, "ref"> & Rea
 * // Vertical divider between filter pills
 * <Stack direction="horizontal" align="center" gap="sm">
 *   <PillSelect ... />
-*   <Divider orientation="vertical" length={20} />
+*   <Divider orientation="vertical" />
 *   <PillSelect ... />
 * </Stack>
 * ```
@@ -1346,17 +1363,11 @@ interface DividerProps extends BaseComponentProps {
 	*/
 	orientation?: "horizontal" | "vertical";
 	/**
-	* Opacity of the border color, 0-100.
+	* Opacity preset for the border color.
 	* Uses `color-mix(in srgb, colorBorder <opacity>%, transparent)`.
-	* @default 50
+	* @default 'default'
 	*/
-	opacity?: number;
-	/**
-	* Fixed length for the divider (pixels).
-	* For vertical: height. For horizontal: width.
-	* Defaults to 100% of the available axis.
-	*/
-	length?: number;
+	opacity?: DividerOpacity;
 	/**
 	* Spacing around the divider.
 	* Horizontal: margin-block. Vertical: margin-inline.
@@ -1399,15 +1410,10 @@ interface StatCardProps extends BaseComponentProps {
 	*/
 	color?: SemanticColor;
 	/**
-	* Material Symbols icon name rendered inside the tinted circle.
+	* Icon name rendered inside the tinted circle.
 	* When omitted, a small colored dot is shown instead.
 	*/
-	icon?: string;
-	/**
-	* Diameter of the icon circle in pixels.
-	* @default 40
-	*/
-	iconSize?: number;
+	icon?: IconName | (string & {});
 }
 declare const StatCard: React.ForwardRefExoticComponent<Omit<StatCardProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /** A single tab definition. */
@@ -1487,8 +1493,8 @@ import { ReactNode as ReactNode27 } from "react";
 interface SectionHeaderProps extends BaseComponentProps {
 	/** Section title text. */
 	title: string;
-	/** Material Symbols icon name rendered before the title. */
-	icon?: string;
+	/** Icon name rendered before the title. */
+	icon?: IconName | (string & {});
 	/**
 	* Content rendered inline after the title.
 	* Typically a Badge with a count or a StatusDot.
@@ -1510,4 +1516,4 @@ interface SectionHeaderProps extends BaseComponentProps {
 	spacing?: SpacingToken;
 }
 declare const SectionHeader: React.ForwardRefExoticComponent<Omit<SectionHeaderProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-export { useToast, useFocusTrap, spacingMap, shadowMap, semanticColorMap, radiusMap, justifyMap, iconRegistry, alignMap, TopBarProps, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemeSurfaceProps, ThemeSurface, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StatCardProps, StatCard, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShortcutHelpModalProps, ShortcutHelpModal, ShortcutGroup, ShortcutDef, ShadowToken, SemanticColor, SelectProps, SelectOption, SelectFilterConfig, Select, SegmentedControlProps, SegmentedControl, Segment, SectionLabelProps, SectionLabel, SectionHeaderProps, SectionHeader, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBar, PillSelectProps, PillSelectOption, PillSelect, PaginationProps, PaginationLabels, Pagination, PageShellProps, PageShell, PageHeaderProps, PageHeader, OverlayProps, Overlay, NavItem, ModalShellProps, ModalShell, MetadataTableProps, MetadataTable, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, GridProps, Grid, FormModalProps, FormModal, FilterConfig, FieldProps, Field, ExpandableCardProps, ExpandableCard, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DividerProps, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxProps, ComboboxOption, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };
+export { useToast, useFocusTrap, spacingMap, shadowMap, semanticColorMap, radiusMap, progressBarHeightMap, modalWidthMap, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarProps, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemeSurfaceProps, ThemeSurface, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StatCardProps, StatCard, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShortcutHelpModalProps, ShortcutHelpModal, ShortcutGroup, ShortcutDef, ShadowToken, SemanticColor, SelectProps, SelectOption, SelectFilterConfig, Select, SegmentedControlProps, SegmentedControl, Segment, SectionLabelProps, SectionLabel, SectionHeaderProps, SectionHeader, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PillSelectProps, PillSelectOption, PillSelect, PaginationProps, PaginationLabels, Pagination, PageShellProps, PageShell, PageHeaderProps, PageHeader, OverlayProps, Overlay, NavItem, ModalWidth, ModalShellProps, ModalShell, MetadataTableProps, MetadataTable, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, GridProps, Grid, FormModalProps, FormModal, FilterConfig, FieldProps, Field, ExpandableCardProps, ExpandableCard, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxProps, ComboboxOption, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };

@@ -3,6 +3,8 @@ import { createPortal } from 'react-dom';
 import { semantic as t } from '@4lt7ab/core';
 import { useFocusTrap } from '../../utils/useFocusTrap';
 import { Overlay } from '../Overlay';
+import { modalWidthMap } from '../../types';
+import type { ModalWidth } from '../../types';
 import type { ReactNode } from 'react';
 
 /** Shared heading style for modal titles. Used by ConfirmDialog, FormModal, ShortcutHelpModal. */
@@ -36,10 +38,10 @@ export interface ModalShellProps {
   onClose: () => void;
   /** Modal body content. */
   children: ReactNode;
-  /** Maximum width of the modal panel in pixels.
-   * @default 480
+  /** Width preset for the modal panel.
+   * @default 'md'
    */
-  maxWidth?: number;
+  width?: ModalWidth;
   /** Base z-index for the overlay. The panel renders at `zIndex + 1`.
    * @default 'var(--z-index-modal)'
    */
@@ -56,7 +58,7 @@ export const ModalShell: React.ForwardRefExoticComponent<Omit<ModalShellProps, '
   function ModalShell({
     onClose,
     children,
-    maxWidth = 480,
+    width = 'md',
     zIndex = t.zIndexModal,
     titleId,
     'aria-label': ariaLabel,
@@ -138,7 +140,7 @@ export const ModalShell: React.ForwardRefExoticComponent<Omit<ModalShellProps, '
               boxShadow: t.shadowLg,
               border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
               padding: t.spaceXl,
-              maxWidth,
+              maxWidth: modalWidthMap[width],
               width: '100%',
               pointerEvents: 'auto',
               outline: 'none',

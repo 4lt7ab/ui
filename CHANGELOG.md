@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+- **BREAKING**: Replace Icon/IconButton `size?: number` with `IconSize` preset (`'xs' | 'sm' | 'md' | 'lg' | 'xl'`)
+- **BREAKING**: Merge IconButton `size` and `buttonSize` into single `size?: IconButtonSize` prop — icon size derived internally
+- **BREAKING**: Remove StatCard `iconSize` prop — icon circle is a fixed internal layout
+- **BREAKING**: Replace `maxWidth?: number` on ModalShell, FormModal, ShortcutHelpModal with `width?: ModalWidth` preset
+- **BREAKING**: Lock down all Table subcomponents — replace HTMLAttributes with explicit props, remove `...props` spread
+- **BREAKING**: Constrain TableCell/TableHeaderCell `width` to `number` only (drop string)
+- **BREAKING**: Replace ProgressBar `height?: number` with `ProgressBarHeight` preset (`'sm' | 'md' | 'lg'`)
+- **BREAKING**: Replace Divider `opacity?: number` with `DividerOpacity` preset (`'subtle' | 'default' | 'strong'`); remove `length` prop
+- **BREAKING**: Drop `string` from Grid `minColumnWidth` (number only)
+- **BREAKING**: Remove Icon `extends HTMLAttributes` — explicit props only
+- Normalize icon prop type to `IconName | (string & {})` on SectionHeader, StatCard
+- Add `IconSize`, `ModalWidth`, `ProgressBarHeight`, `DividerOpacity` types and maps
+- Replace internal hardcoded pixel literals with token references (TagChip, ChipPicker, TopBar)
+
 ## v0.2.26
 
 - **BREAKING**: Lock down component prop APIs — remove `style`, `className`, and `extends HTMLAttributes` from all components

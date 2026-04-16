@@ -3,7 +3,7 @@ import { semantic as t, useInjectStyles } from '@4lt7ab/core';
 import { Icon } from '../Icon';
 import type { IconName } from '../../icons';
 
-/** Controls the tap-target size of the icon button. */
+/** Controls the tap-target and icon size of the icon button. */
 export type IconButtonSize = 'sm' | 'md' | 'lg';
 
 /** A circular icon-only button. Requires `aria-label` for accessibility. */
@@ -22,17 +22,13 @@ export interface IconButtonProps {
   id?: string;
   /** Icon to render — built-in registry name or any icon-font name when `fontClass` is set. */
   icon: IconName | (string & {});
-  /** Icon dimensions in pixels.
-   * @default 24
-   */
-  size?: number;
-  /** Tap-target size of the button.
-   * - `sm` — 28px
-   * - `md` — 36px (default)
-   * - `lg` — 44px
+  /** Button and icon size.
+   * - `sm` — 28px button, 16px icon
+   * - `md` — 36px button, 20px icon (default)
+   * - `lg` — 44px button, 24px icon
    * @default 'md'
    */
-  buttonSize?: IconButtonSize;
+  size?: IconButtonSize;
   /** Shows a small red notification dot in the top-right corner.
    * @default false
    */
@@ -48,11 +44,16 @@ const buttonSizeMap: Record<IconButtonSize, number> = {
   lg: 44,
 };
 
+const iconSizeForButton: Record<IconButtonSize, 'sm' | 'md' | 'lg'> = {
+  sm: 'sm',
+  md: 'md',
+  lg: 'lg',
+};
+
 export const IconButton: React.ForwardRefExoticComponent<Omit<IconButtonProps, 'ref'> & React.RefAttributes<HTMLButtonElement>> = forwardRef<HTMLButtonElement, IconButtonProps>(
   function IconButton({
     icon,
-    size = 24,
-    buttonSize = 'md',
+    size = 'md',
     badge,
     fontClass,
     onClick,
@@ -81,7 +82,7 @@ export const IconButton: React.ForwardRefExoticComponent<Omit<IconButtonProps, '
       }`,
     );
 
-    const dim = buttonSizeMap[buttonSize];
+    const dim = buttonSizeMap[size];
 
     return (
       <button
@@ -113,7 +114,7 @@ export const IconButton: React.ForwardRefExoticComponent<Omit<IconButtonProps, '
           padding: 0,
         }}
       >
-        <Icon name={icon} size={size} fontClass={fontClass} />
+        <Icon name={icon} size={iconSizeForButton[size]} fontClass={fontClass} />
         {badge && (
           <span
             style={{

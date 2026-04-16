@@ -72,6 +72,10 @@ export type {
   AlignItems,
   JustifyContent,
   SemanticColor,
+  IconSize,
+  ModalWidth,
+  ProgressBarHeight,
+  DividerOpacity,
 } from './types';
 export {
   spacingMap,
@@ -80,4 +84,8 @@ export {
   alignMap,
   justifyMap,
   semanticColorMap,
+  iconSizeMap,
+  modalWidthMap,
+  progressBarHeightMap,
+  dividerOpacityMap,
 } from './types';

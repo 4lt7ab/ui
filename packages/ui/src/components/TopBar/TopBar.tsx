@@ -100,7 +100,7 @@ export const TopBar: React.ForwardRefExoticComponent<Omit<TopBarProps, 'ref'> & 
         style={{
           display: 'flex',
           alignItems: 'center',
-          height: 48,
+          height: t.space2xl,
           padding: `0 ${t.spaceMd}`,
           background: t.colorSurface,
           borderBottom: `${t.borderWidthDefault} solid ${t.colorBorder}`,

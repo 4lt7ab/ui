@@ -95,7 +95,7 @@ export function PillSelect({
           color: isActive ? t.colorActionPrimary : t.colorTextMuted,
         }}
       >
-        <Icon name="chevron-down" size={12} />
+        <Icon name="chevron-down" size="xs" />
       </span>
     </div>
   );
