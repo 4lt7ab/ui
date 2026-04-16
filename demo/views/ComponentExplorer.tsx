@@ -21,6 +21,13 @@ import {
   PageShellDemo,
   PillSelectDemo,
   TextSectionDemo,
+  SurfaceDemo,
+  GridDemo,
+  DividerDemo,
+  StatCardDemo,
+  TabStripDemo,
+  SectionHeaderDemo,
+  ThemeSurfaceDemo,
 } from '../demos';
 
 // ---------------------------------------------------------------------------
@@ -59,6 +66,11 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'PageShell', source: 'ui', Demo: PageShellDemo },
       { name: 'MetadataTable', source: 'ui', Demo: MetadataTableDemo },
       { name: 'SectionLabel', source: 'ui', Demo: SectionLabelDemo },
+      { name: 'Surface', source: 'ui', Demo: SurfaceDemo },
+      { name: 'Grid', source: 'ui', Demo: GridDemo },
+      { name: 'Divider', source: 'ui', Demo: DividerDemo },
+      { name: 'SectionHeader', source: 'ui', Demo: SectionHeaderDemo },
+      { name: 'ThemeSurface', source: 'ui', Demo: ThemeSurfaceDemo },
     ],
   },
   {
@@ -100,6 +112,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'TagChip', source: 'ui', Demo: TagChipDemo },
       { name: 'ThemePicker', source: 'ui', Demo: ThemePickerDemo },
       { name: 'SegmentedControl', source: 'ui', Demo: SegmentedControlDemo },
+      { name: 'TabStrip', source: 'ui', Demo: TabStripDemo },
     ],
   },
   {
@@ -113,6 +126,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'ProgressBar', source: 'ui', Demo: ProgressBarDemo },
       { name: 'Skeleton', source: 'ui', Demo: SkeletonDemo },
       { name: 'EmptyState', source: 'ui', Demo: EmptyStateDemo },
+      { name: 'StatCard', source: 'ui', Demo: StatCardDemo },
     ],
   },
   {

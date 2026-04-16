@@ -1,17 +1,10 @@
 import { forwardRef } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
 import type { HTMLAttributes, ReactNode } from 'react';
+import { spacingMap } from '../../types';
+import type { SpacingToken } from '../../types';
 
-type SpacingToken = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-
-const paddingMap: Record<SpacingToken, string> = {
-  xs: t.spaceXs,
-  sm: t.spaceSm,
-  md: t.spaceMd,
-  lg: t.spaceLg,
-  xl: t.spaceXl,
-  '2xl': t.space2xl,
-};
+const paddingMap: Record<SpacingToken, string> = spacingMap;
 
 /** Visual treatment for the Card surface. */
 export type CardVariant = 'default' | 'flat' | 'elevated' | 'live';

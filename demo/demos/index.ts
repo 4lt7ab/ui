@@ -50,6 +50,13 @@ import { ShortcutHelpModalDemo } from './ShortcutHelpModalDemo';
 import { PageShellDemo } from './PageShellDemo';
 import { PillSelectDemo } from './PillSelectDemo';
 import { TextSectionDemo } from './TextSectionDemo';
+import { SurfaceDemo } from './SurfaceDemo';
+import { GridDemo } from './GridDemo';
+import { DividerDemo } from './DividerDemo';
+import { StatCardDemo } from './StatCardDemo';
+import { TabStripDemo } from './TabStripDemo';
+import { SectionHeaderDemo } from './SectionHeaderDemo';
+import { ThemeSurfaceDemo } from './ThemeSurfaceDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -66,6 +73,9 @@ export const demos: DemoEntry[] = [
   { name: 'Tokens', category: 'Foundation', source: 'ui', component: TokensDemo },
 
   // Layout
+  { name: 'Surface', category: 'Layout', source: 'ui', component: SurfaceDemo },
+  { name: 'Grid', category: 'Layout', source: 'ui', component: GridDemo },
+  { name: 'Divider', category: 'Layout', source: 'ui', component: DividerDemo },
   { name: 'Stack', category: 'Layout', source: 'ui', component: StackDemo },
   { name: 'Card', category: 'Layout', source: 'ui', component: CardDemo },
   { name: 'ExpandableCard', category: 'Layout', source: 'ui', component: ExpandableCardDemo },
@@ -112,6 +122,12 @@ export const demos: DemoEntry[] = [
   { name: 'SearchInput', category: 'Form', source: 'ui', component: SearchInputDemo },
   { name: 'PillSelect', category: 'Form', source: 'ui', component: PillSelectDemo },
 
+  // Molecules
+  { name: 'StatCard', category: 'Feedback', source: 'ui', component: StatCardDemo },
+  { name: 'TabStrip', category: 'Navigation', source: 'ui', component: TabStripDemo },
+  { name: 'SectionHeader', category: 'Layout', source: 'ui', component: SectionHeaderDemo },
+  { name: 'ThemeSurface', category: 'Layout', source: 'ui', component: ThemeSurfaceDemo },
+
   // Action (additional)
   { name: 'SegmentedControl', category: 'Action', source: 'ui', component: SegmentedControlDemo },
 
@@ -156,4 +172,11 @@ export {
   PageShellDemo,
   PillSelectDemo,
   TextSectionDemo,
+  SurfaceDemo,
+  GridDemo,
+  DividerDemo,
+  StatCardDemo,
+  TabStripDemo,
+  SectionHeaderDemo,
+  ThemeSurfaceDemo,
 };

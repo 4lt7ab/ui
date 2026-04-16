@@ -1,0 +1,90 @@
+import { forwardRef } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
+import { spacingMap } from '../../types';
+import type { SpacingToken } from '../../types';
+
+/**
+ * Responsive grid layout with auto-fill columns.
+ *
+ * Two modes:
+ * - **Auto-fill** (default): columns fill available space with a minimum width.
+ *   `gridTemplateColumns: repeat(auto-fill, minmax(minColumnWidth, 1fr))`
+ * - **Fixed columns**: explicit column count.
+ *   `gridTemplateColumns: repeat(columns, 1fr)`
+ *
+ * @example
+ * ```tsx
+ * // Auto-fill cards at 300px minimum
+ * <Grid minColumnWidth={300} gap="lg">
+ *   {items.map(item => <Card key={item.id}>{item.name}</Card>)}
+ * </Grid>
+ *
+ * // Fixed 3-column layout
+ * <Grid columns={3} gap="md">
+ *   <div>A</div>
+ *   <div>B</div>
+ *   <div>C</div>
+ * </Grid>
+ * ```
+ */
+export interface GridProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * Minimum width of each column before wrapping.
+   * Number values are treated as pixels; strings are used as-is.
+   * @default 300
+   */
+  minColumnWidth?: number | string;
+
+  /**
+   * Fixed column count. When set, overrides `minColumnWidth`.
+   */
+  columns?: number;
+
+  /**
+   * Gap between grid cells.
+   * @default 'md'
+   */
+  gap?: SpacingToken;
+
+  children: ReactNode;
+}
+
+export const Grid: React.ForwardRefExoticComponent<
+  Omit<GridProps, 'ref'> & React.RefAttributes<HTMLDivElement>
+> = forwardRef<HTMLDivElement, GridProps>(
+  function Grid(
+    {
+      minColumnWidth = 300,
+      columns,
+      gap = 'md',
+      children,
+      style,
+      ...props
+    },
+    ref,
+  ): React.JSX.Element {
+    const minWidth =
+      typeof minColumnWidth === 'number'
+        ? `${minColumnWidth}px`
+        : minColumnWidth;
+
+    const gridTemplateColumns = columns
+      ? `repeat(${columns}, 1fr)`
+      : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
+
+    return (
+      <div
+        ref={ref}
+        style={{
+          display: 'grid',
+          gridTemplateColumns,
+          gap: spacingMap[gap],
+          ...style,
+        }}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  },
+);

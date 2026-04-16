@@ -52,3 +52,17 @@ export * from './components/AlertBanner';
 export * from './components/TopBar';
 export * from './components/ShortcutHelpModal';
 export * from './components/PillSelect';
+
+// Layout & Container primitives
+export * from './components/Surface';
+export * from './components/Grid';
+export * from './components/Divider';
+
+// Molecules
+export * from './components/StatCard';
+export * from './components/TabStrip';
+export * from './components/SectionHeader';
+
+// Shared types
+export type { SpacingToken, RadiusToken, ShadowToken } from './types';
+export { spacingMap, radiusMap, shadowMap } from './types';

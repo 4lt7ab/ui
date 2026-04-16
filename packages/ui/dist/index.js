@@ -461,11 +461,11 @@ function CompactView() {
   }, [open, focusedIndex]);
   useEffect2(() => {
     if (open) {
-      const activeIdx = themeList.findIndex((t43) => t43.name === resolved);
+      const activeIdx = themeList.findIndex((t48) => t48.name === resolved);
       setFocusedIndex(activeIdx >= 0 ? activeIdx : 0);
     }
   }, [open]);
-  const currentTheme = themeList.find((t43) => t43.name === resolved);
+  const currentTheme = themeList.find((t48) => t48.name === resolved);
   return /* @__PURE__ */ jsxs2("div", { ref: containerRef, style: { position: "relative" }, onKeyDown: handleKeyDown, children: [
     /* @__PURE__ */ jsxs2(
       "button",
@@ -507,8 +507,8 @@ function CompactView() {
           zIndex: "var(--z-index-sticky)",
           boxShadow: "var(--shadow-md)"
         },
-        children: themeList.map((t43, idx) => {
-          const isActive = resolved === t43.name;
+        children: themeList.map((t48, idx) => {
+          const isActive = resolved === t48.name;
           const isFocused = focusedIndex === idx;
           const classes = [
             "alttab-tp-menu-item",
@@ -518,12 +518,12 @@ function CompactView() {
           return /* @__PURE__ */ jsxs2(
             "button",
             {
-              id: `alttab-tp-item-${t43.name}`,
+              id: `alttab-tp-item-${t48.name}`,
               role: "option",
               "aria-selected": isActive,
               className: classes,
               onClick: () => {
-                setTheme(t43.name);
+                setTheme(t48.name);
                 setOpen(false);
                 triggerRef.current?.focus();
               },
@@ -536,10 +536,10 @@ function CompactView() {
                   background: isActive ? "var(--color-action-primary)" : "var(--color-text-muted)",
                   flexShrink: 0
                 } }),
-                t43.label
+                t48.label
               ]
             },
-            t43.name
+            t48.name
           );
         })
       }
@@ -668,9 +668,10 @@ var Button = forwardRef3(
 
 // src/components/Stack/Stack.tsx
 import { forwardRef as forwardRef4 } from "react";
+
+// src/types.ts
 import { semantic as t2 } from "../../core/dist/index.js";
-import { jsx as jsx5 } from "react/jsx-runtime";
-var gapMap = {
+var spacingMap = {
   xs: t2.spaceXs,
   sm: t2.spaceSm,
   md: t2.spaceMd,
@@ -678,6 +679,22 @@ var gapMap = {
   xl: t2.spaceXl,
   "2xl": t2.space2xl
 };
+var radiusMap = {
+  none: "0",
+  sm: t2.radiusSm,
+  md: t2.radiusMd,
+  lg: t2.radiusLg,
+  full: t2.radiusFull
+};
+var shadowMap = {
+  sm: t2.shadowSm,
+  md: t2.shadowMd,
+  lg: t2.shadowLg
+};
+
+// src/components/Stack/Stack.tsx
+import { jsx as jsx5 } from "react/jsx-runtime";
+var gapMap = spacingMap;
 var Stack = forwardRef4(
   function Stack2({
     direction = "vertical",
@@ -713,14 +730,7 @@ var Stack = forwardRef4(
 import { forwardRef as forwardRef5 } from "react";
 import { semantic as t3, useInjectStyles as useInjectStyles3 } from "../../core/dist/index.js";
 import { jsx as jsx6 } from "react/jsx-runtime";
-var paddingMap = {
-  xs: t3.spaceXs,
-  sm: t3.spaceSm,
-  md: t3.spaceMd,
-  lg: t3.spaceLg,
-  xl: t3.spaceXl,
-  "2xl": t3.space2xl
-};
+var paddingMap = spacingMap;
 var variantStyles2 = {
   default: {
     background: t3.colorSurfaceSolid,
@@ -2697,8 +2707,8 @@ function isSameDay(a, b) {
 function isInRange(date, from, to) {
   const d = stripTime(date).getTime();
   const f = stripTime(from).getTime();
-  const t43 = stripTime(to).getTime();
-  return d >= f && d <= t43;
+  const t48 = stripTime(to).getTime();
+  return d >= f && d <= t48;
 }
 function isDateDisabled(date, minDate, maxDate, disabledDates) {
   const d = stripTime(date).getTime();
@@ -3783,7 +3793,7 @@ function ToastProvider({
 }) {
   const [toasts, setToasts] = useState8([]);
   const dismiss = useCallback6((id) => {
-    setToasts((prev) => prev.filter((t43) => t43.id !== id));
+    setToasts((prev) => prev.filter((t48) => t48.id !== id));
   }, []);
   const showToast = useCallback6(
     (message, typeOrOptions) => {
@@ -5067,6 +5077,434 @@ function PillSelect({
     }
   );
 }
+
+// src/components/Surface/Surface.tsx
+import { createElement as createElement2, forwardRef as forwardRef33 } from "react";
+import { semantic as t43 } from "../../core/dist/index.js";
+var levelMap = {
+  page: t43.colorSurfacePage,
+  default: t43.colorSurface,
+  solid: t43.colorSurfaceSolid,
+  raised: t43.colorSurfaceRaised,
+  panel: t43.colorSurfacePanel,
+  input: t43.colorSurfaceInput,
+  overlay: t43.colorSurfaceOverlay
+};
+var Surface = forwardRef33(
+  function Surface2({
+    level = "solid",
+    bg,
+    padding,
+    radius = "lg",
+    border = false,
+    shadow,
+    as = "div",
+    children,
+    style,
+    ...props
+  }, ref) {
+    const borderValue = border === true ? `${t43.borderWidthDefault} solid ${t43.colorBorder}` : typeof border === "string" ? `${t43.borderWidthDefault} solid ${border}` : void 0;
+    return createElement2(
+      as,
+      {
+        ref,
+        style: {
+          background: bg ?? levelMap[level],
+          padding: padding ? spacingMap[padding] : void 0,
+          borderRadius: radiusMap[radius],
+          border: borderValue,
+          boxShadow: shadow ? shadowMap[shadow] : void 0,
+          color: t43.colorText,
+          ...style
+        },
+        ...props
+      },
+      children
+    );
+  }
+);
+
+// src/components/Grid/Grid.tsx
+import { forwardRef as forwardRef34 } from "react";
+import { jsx as jsx46 } from "react/jsx-runtime";
+var Grid = forwardRef34(
+  function Grid2({
+    minColumnWidth = 300,
+    columns,
+    gap = "md",
+    children,
+    style,
+    ...props
+  }, ref) {
+    const minWidth = typeof minColumnWidth === "number" ? `${minColumnWidth}px` : minColumnWidth;
+    const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
+    return /* @__PURE__ */ jsx46(
+      "div",
+      {
+        ref,
+        style: {
+          display: "grid",
+          gridTemplateColumns,
+          gap: spacingMap[gap],
+          ...style
+        },
+        ...props,
+        children
+      }
+    );
+  }
+);
+
+// src/components/Divider/Divider.tsx
+import { forwardRef as forwardRef35 } from "react";
+import { semantic as t44 } from "../../core/dist/index.js";
+import { jsx as jsx47 } from "react/jsx-runtime";
+var Divider = forwardRef35(
+  function Divider2({
+    orientation = "horizontal",
+    opacity = 50,
+    length,
+    spacing,
+    style,
+    ...props
+  }, ref) {
+    const bg = `color-mix(in srgb, ${t44.colorBorder} ${opacity}%, transparent)`;
+    const spacingValue = spacing ? spacingMap[spacing] : void 0;
+    const isHorizontal = orientation === "horizontal";
+    return /* @__PURE__ */ jsx47(
+      "div",
+      {
+        ref,
+        role: "separator",
+        "aria-orientation": orientation,
+        style: {
+          background: bg,
+          width: isHorizontal ? length != null ? `${length}px` : "100%" : 1,
+          height: isHorizontal ? 1 : length != null ? `${length}px` : "100%",
+          flexShrink: 0,
+          margin: spacingValue ? isHorizontal ? `${spacingValue} 0` : `0 ${spacingValue}` : void 0,
+          ...style
+        },
+        ...props
+      }
+    );
+  }
+);
+
+// src/components/StatCard/StatCard.tsx
+import { forwardRef as forwardRef36 } from "react";
+import { semantic as t45 } from "../../core/dist/index.js";
+import { jsx as jsx48, jsxs as jsxs30 } from "react/jsx-runtime";
+var StatCard = forwardRef36(
+  function StatCard2({
+    value,
+    label,
+    color,
+    icon,
+    iconSize = 40,
+    style,
+    ...props
+  }, ref) {
+    const tintBg = color ? `color-mix(in srgb, ${color} 10%, transparent)` : `color-mix(in srgb, ${t45.colorBorder} 20%, transparent)`;
+    return /* @__PURE__ */ jsxs30(
+      "div",
+      {
+        ref,
+        style: {
+          display: "flex",
+          alignItems: "center",
+          gap: spacingMap.md,
+          padding: spacingMap.md,
+          borderRadius: t45.radiusMd,
+          background: t45.colorSurfaceRaised,
+          border: `${t45.borderWidthDefault} solid color-mix(in srgb, ${t45.colorBorder} 40%, transparent)`,
+          color: t45.colorText,
+          ...style
+        },
+        ...props,
+        children: [
+          /* @__PURE__ */ jsx48(
+            "div",
+            {
+              style: {
+                width: iconSize,
+                height: iconSize,
+                borderRadius: t45.radiusFull,
+                background: tintBg,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0
+              },
+              children: icon ? /* @__PURE__ */ jsx48(
+                "span",
+                {
+                  className: "material-symbols-outlined",
+                  style: {
+                    fontSize: iconSize * 0.5,
+                    color: color ?? t45.colorTextMuted,
+                    lineHeight: 1
+                  },
+                  "aria-hidden": "true",
+                  children: icon
+                }
+              ) : /* @__PURE__ */ jsx48(
+                "div",
+                {
+                  style: {
+                    width: 10,
+                    height: 10,
+                    borderRadius: t45.radiusFull,
+                    background: color ?? t45.colorTextMuted
+                  }
+                }
+              )
+            }
+          ),
+          /* @__PURE__ */ jsxs30("div", { style: { display: "flex", flexDirection: "column", gap: 2, minWidth: 0 }, children: [
+            /* @__PURE__ */ jsx48(
+              "span",
+              {
+                style: {
+                  fontFamily: t45.fontMono,
+                  fontWeight: t45.fontWeightBold,
+                  fontSize: t45.fontSizeXl,
+                  lineHeight: 1,
+                  color: t45.colorText
+                },
+                children: value
+              }
+            ),
+            /* @__PURE__ */ jsx48(
+              "span",
+              {
+                style: {
+                  fontFamily: t45.fontMono,
+                  fontSize: t45.fontSizeXs,
+                  fontWeight: t45.fontWeightMedium,
+                  color: t45.colorTextMuted,
+                  textTransform: "uppercase",
+                  letterSpacing: t45.letterSpacingWide,
+                  lineHeight: 1
+                },
+                children: label
+              }
+            )
+          ] })
+        ]
+      }
+    );
+  }
+);
+
+// src/components/TabStrip/TabStrip.tsx
+import { forwardRef as forwardRef37, useCallback as useCallback11, useRef as useRef14 } from "react";
+import { semantic as t46, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
+import { jsx as jsx49, jsxs as jsxs31 } from "react/jsx-runtime";
+var STYLES_ID = "4lt7ab-tab-strip";
+var STYLES_CSS = `
+[data-tab-btn] {
+  transition: color ${t46.transitionFast}, background ${t46.transitionFast}, border-color ${t46.transitionFast};
+}
+[data-tab-btn]:hover:not([aria-selected="true"]) {
+  color: ${t46.colorTextSecondary};
+  background: color-mix(in srgb, ${t46.colorBorder} 10%, transparent);
+}
+`;
+var TabStrip = forwardRef37(
+  function TabStrip2({
+    tabs,
+    activeKey,
+    onChange,
+    allowDeselect = false,
+    size = "md",
+    style,
+    ...props
+  }, ref) {
+    useInjectStyles20(STYLES_ID, STYLES_CSS);
+    const tabRefs = useRef14([]);
+    const handleClick = useCallback11(
+      (key) => {
+        if (key === activeKey && allowDeselect) {
+          onChange(null);
+        } else {
+          onChange(key);
+        }
+      },
+      [activeKey, allowDeselect, onChange]
+    );
+    const handleKeyDown = useCallback11(
+      (e, index) => {
+        let nextIndex = null;
+        if (e.key === "ArrowRight") {
+          nextIndex = (index + 1) % tabs.length;
+        } else if (e.key === "ArrowLeft") {
+          nextIndex = (index - 1 + tabs.length) % tabs.length;
+        } else if (e.key === "Home") {
+          nextIndex = 0;
+        } else if (e.key === "End") {
+          nextIndex = tabs.length - 1;
+        }
+        if (nextIndex != null) {
+          e.preventDefault();
+          tabRefs.current[nextIndex]?.focus();
+        }
+      },
+      [tabs.length]
+    );
+    const isSm = size === "sm";
+    return /* @__PURE__ */ jsx49(
+      "div",
+      {
+        ref,
+        role: "tablist",
+        style: {
+          display: "flex",
+          gap: 2,
+          ...style
+        },
+        ...props,
+        children: tabs.map((tab, i) => {
+          const isActive = tab.key === activeKey;
+          return /* @__PURE__ */ jsxs31(
+            "button",
+            {
+              ref: (el) => {
+                tabRefs.current[i] = el;
+              },
+              role: "tab",
+              "aria-selected": isActive,
+              tabIndex: isActive ? 0 : -1,
+              "data-tab-btn": "",
+              onClick: () => handleClick(tab.key),
+              onKeyDown: (e) => handleKeyDown(e, i),
+              style: {
+                display: "flex",
+                alignItems: "center",
+                gap: t46.spaceXs,
+                padding: isSm ? `${t46.spaceXs} ${t46.spaceSm}` : `${t46.spaceSm} ${t46.spaceMd}`,
+                border: "none",
+                borderBottom: `2px solid ${isActive ? t46.colorActionPrimary : "transparent"}`,
+                borderRadius: 0,
+                background: isActive ? `color-mix(in srgb, ${t46.colorActionPrimary} 8%, transparent)` : "transparent",
+                color: isActive ? t46.colorActionPrimary : t46.colorTextMuted,
+                fontFamily: t46.fontSans,
+                fontSize: isSm ? t46.fontSizeXs : t46.fontSizeSm,
+                fontWeight: t46.fontWeightSemibold,
+                lineHeight: t46.lineHeightTight,
+                cursor: "pointer",
+                whiteSpace: "nowrap"
+              },
+              children: [
+                tab.icon && /* @__PURE__ */ jsx49(
+                  "span",
+                  {
+                    className: "material-symbols-outlined",
+                    style: { fontSize: isSm ? 12 : 14, lineHeight: 1 },
+                    "aria-hidden": "true",
+                    children: tab.icon
+                  }
+                ),
+                tab.label
+              ]
+            },
+            tab.key
+          );
+        })
+      }
+    );
+  }
+);
+
+// src/components/SectionHeader/SectionHeader.tsx
+import { forwardRef as forwardRef38 } from "react";
+import { semantic as t47 } from "../../core/dist/index.js";
+import { jsx as jsx50, jsxs as jsxs32 } from "react/jsx-runtime";
+var SectionHeader = forwardRef38(
+  function SectionHeader2({
+    title,
+    icon,
+    indicator,
+    trailing,
+    border = false,
+    spacing,
+    style,
+    ...props
+  }, ref) {
+    return /* @__PURE__ */ jsxs32(
+      "div",
+      {
+        ref,
+        style: {
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: t47.spaceMd,
+          borderBottom: border ? `${t47.borderWidthDefault} solid ${t47.colorBorder}` : void 0,
+          paddingBottom: border ? t47.spaceMd : void 0,
+          marginBottom: spacing ? spacingMap[spacing] : void 0,
+          ...style
+        },
+        ...props,
+        children: [
+          /* @__PURE__ */ jsxs32(
+            "div",
+            {
+              style: {
+                display: "flex",
+                alignItems: "center",
+                gap: t47.spaceSm,
+                minWidth: 0
+              },
+              children: [
+                icon && /* @__PURE__ */ jsx50(
+                  "span",
+                  {
+                    className: "material-symbols-outlined",
+                    style: {
+                      fontSize: 18,
+                      color: t47.colorTextSecondary,
+                      lineHeight: 1
+                    },
+                    "aria-hidden": "true",
+                    children: icon
+                  }
+                ),
+                /* @__PURE__ */ jsx50(
+                  "span",
+                  {
+                    style: {
+                      fontFamily: t47.fontSans,
+                      fontWeight: t47.fontWeightSemibold,
+                      fontSize: t47.fontSizeBase,
+                      color: t47.colorText,
+                      lineHeight: t47.lineHeightTight,
+                      whiteSpace: "nowrap"
+                    },
+                    children: title
+                  }
+                ),
+                indicator
+              ]
+            }
+          ),
+          trailing && /* @__PURE__ */ jsx50(
+            "div",
+            {
+              style: {
+                display: "flex",
+                alignItems: "center",
+                gap: t47.spaceSm,
+                flexShrink: 0
+              },
+              children: trailing
+            }
+          )
+        ]
+      }
+    );
+  }
+);
 export {
   AlertBanner,
   Badge,
@@ -5078,11 +5516,13 @@ export {
   ConfirmDialog,
   DatePicker,
   DateRangePicker,
+  Divider,
   EmptyState,
   ErrorBoundary,
   ExpandableCard,
   Field,
   FormModal,
+  Grid,
   Icon,
   IconArrowLeft,
   IconArrowRight,
@@ -5122,13 +5562,17 @@ export {
   ProgressBar,
   RowSkeleton,
   SearchInput,
+  SectionHeader,
   SectionLabel,
   SegmentedControl,
   Select,
   ShortcutHelpModal,
   Skeleton,
   Stack,
+  StatCard,
   StatusDot,
+  Surface,
+  TabStrip,
   Table,
   TableBody,
   TableCell,
@@ -5145,6 +5589,9 @@ export {
   ToastProvider,
   TopBar,
   iconRegistry,
+  radiusMap,
+  shadowMap,
+  spacingMap,
   useFocusTrap,
   useToast
 };

@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- Add Surface component — semantic background wrapper with level, border, shadow, radius, and polymorphic `as` prop
+- Add Grid component — responsive auto-fit grid with `minColumnWidth` and gap props
+- Add Divider component — horizontal/vertical rule using semantic border tokens
+- Add StatCard component — metric display card with icon, color, value, and label
+- Add TabStrip component — horizontal tab navigation bar
+- Add SectionHeader component — section heading with optional actions
+- Add ThemeSurface demo for page-background surface component
+- Register Surface, Grid, Divider, SectionHeader, ThemeSurface, StatCard, and TabStrip in ComponentExplorer sidebar
+- Update Card and Stack to support additional layout props
+
 ## v0.2.24
 
 - Fix Toast backgrounds being transparent on some themes — layer translucent type color over opaque `colorSurfaceSolid`

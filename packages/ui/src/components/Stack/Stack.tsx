@@ -1,17 +1,9 @@
 import { forwardRef } from 'react';
-import { semantic as t } from '@4lt7ab/core';
 import type { CSSProperties, HTMLAttributes, ReactNode } from 'react';
+import { spacingMap } from '../../types';
+import type { SpacingToken } from '../../types';
 
-type SpacingToken = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-
-const gapMap: Record<SpacingToken, string> = {
-  xs: t.spaceXs,
-  sm: t.spaceSm,
-  md: t.spaceMd,
-  lg: t.spaceLg,
-  xl: t.spaceXl,
-  '2xl': t.space2xl,
-};
+const gapMap: Record<SpacingToken, string> = spacingMap;
 
 /** Flexbox layout component for vertical or horizontal stacking with consistent spacing. */
 export interface StackProps extends HTMLAttributes<HTMLDivElement> {
