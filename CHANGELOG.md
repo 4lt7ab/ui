@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.25
+
 - Add Surface component — semantic background wrapper with level, border, shadow, radius, and polymorphic `as` prop
 - Add Grid component — responsive auto-fit grid with `minColumnWidth` and gap props
 - Add Divider component — horizontal/vertical rule using semantic border tokens
