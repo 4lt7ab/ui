@@ -1,11 +1,14 @@
-import { Stack } from '@4lt7ab/ui';
 import { Prose, SideNote } from '@4lt7ab/content';
+import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
+
+const props: PropMeta[] = [
+  { name: 'children', type: 'ReactNode', required: true, description: 'Note content. Appears inline on mobile, floats into the right margin on wide screens (>=1100px). Must be used inside <Prose>.' },
+];
 
 export function SideNoteDemo(): React.JSX.Element {
   return (
-    <Stack gap="xl">
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Short side note</h3>
+    <DocBlock props={props}>
+      <PropDemo name="children" description="Side notes mirror margin notes but float into the right margin instead of the left. On narrow screens they appear inline with a right border.">
         <Prose>
           <p>
             Design tokens create a shared vocabulary between design and engineering.
@@ -13,10 +16,9 @@ export function SideNoteDemo(): React.JSX.Element {
             They ensure consistency across every surface of the product.
           </p>
         </Prose>
-      </Stack>
+      </PropDemo>
 
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Longer side note</h3>
+      <PropDemo name="Longer content" description="Side notes can hold longer explanatory text that would interrupt the main flow.">
         <Prose>
           <p>
             The semantic token layer is the API contract between themes and components.
@@ -28,7 +30,7 @@ export function SideNoteDemo(): React.JSX.Element {
             Components import semantic tokens and use them for all visual values.
           </p>
         </Prose>
-      </Stack>
-    </Stack>
+      </PropDemo>
+    </DocBlock>
   );
 }

@@ -1,30 +1,32 @@
-import { Stack } from '@4lt7ab/ui';
 import { Epigraph } from '@4lt7ab/content';
+import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
+
+const props: PropMeta[] = [
+  { name: 'children', type: 'ReactNode', required: true, description: 'The quote text. Rendered in serif italic at a large responsive size.' },
+  { name: 'cite', type: 'ReactNode', description: 'Attribution line (author, source). Rendered smaller below the quote in muted text.' },
+];
 
 export function EpigraphDemo(): React.JSX.Element {
   return (
-    <Stack gap="xl">
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Without citation</h3>
+    <DocBlock props={props}>
+      <PropDemo name="children" description="The quote text, rendered centered in serif italic with horizontal rules above and below.">
         <Epigraph>
           The best interface is no interface.
         </Epigraph>
-      </Stack>
+      </PropDemo>
 
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>With citation</h3>
+      <PropDemo name="cite" description="Optional attribution displayed below the quote in smaller, muted text.">
         <Epigraph cite="Dieter Rams">
           Less, but better.
         </Epigraph>
-      </Stack>
 
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Longer quote with citation</h3>
-        <Epigraph cite="Frank Chimero, The Shape of Design">
-          People ignore design that ignores people. The warmth and quality of a
-          well-considered interface speaks to the care behind the product.
-        </Epigraph>
-      </Stack>
-    </Stack>
+        <div style={{ marginTop: 'var(--space-lg)' }}>
+          <Epigraph cite="Frank Chimero, The Shape of Design">
+            People ignore design that ignores people. The warmth and quality of a
+            well-considered interface speaks to the care behind the product.
+          </Epigraph>
+        </div>
+      </PropDemo>
+    </DocBlock>
   );
 }

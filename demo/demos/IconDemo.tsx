@@ -1,5 +1,6 @@
-import { Icon, IconButton, Stack } from '@4lt7ab/ui';
-import type { IconName } from '@4lt7ab/ui';
+import { Icon, Stack } from '@4lt7ab/ui';
+import type { IconName, IconSize } from '@4lt7ab/ui';
+import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
 
 const allIcons: IconName[] = [
   'close', 'chevron-right', 'chevron-down', 'chevron-left', 'chevron-up',
@@ -9,20 +10,19 @@ const allIcons: IconName[] = [
   'eye', 'eye-off', 'copy', 'external-link', 'more-vertical', 'filter',
 ];
 
+const sizes: IconSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
+
+const props: PropMeta[] = [
+  { name: 'name', type: "IconName | string", required: true, description: 'Icon name. Built-in names render SVGs; unregistered names fall back to icon-font rendering when fontClass is set.' },
+  { name: 'size', type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'", default: "'lg'", description: 'Icon size preset.' },
+  { name: 'fontClass', type: 'string', description: 'CSS class for an icon font (e.g. "material-symbols-outlined"). Used when name is not in the built-in registry.' },
+  { name: 'aria-label', type: 'string', description: 'Accessible label. When omitted, icon is treated as decorative (aria-hidden).' },
+];
+
 export function IconDemo(): React.JSX.Element {
   return (
-    <Stack gap="xl">
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Icon sizes</h3>
-        <Stack direction="horizontal" gap="md" align="center">
-          <Icon name="search" size="sm" />
-          <Icon name="search" size="lg" />
-          <Icon name="search" size="xl" />
-        </Stack>
-      </Stack>
-
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>All icons</h3>
+    <DocBlock props={props}>
+      <PropDemo name="name" description="Selects which icon to render. Built-in registry names render SVG components. Any string works as a font-icon fallback when fontClass is provided.">
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(5rem, 1fr))',
@@ -37,17 +37,40 @@ export function IconDemo(): React.JSX.Element {
             </div>
           ))}
         </div>
-      </Stack>
+      </PropDemo>
 
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>IconButton</h3>
-        <Stack direction="horizontal" gap="sm" align="center">
-          <IconButton icon="settings" aria-label="Settings" />
-          <IconButton icon="info" badge aria-label="Info" />
-          <IconButton icon="check-circle" aria-label="Confirm" />
-          <IconButton icon="more-vertical" aria-label="More options" />
+      <PropDemo name="size" description="Controls the rendered pixel size of the icon. All five presets shown at the same icon for comparison.">
+        <Stack direction="horizontal" gap="md" align="center">
+          {sizes.map((s) => (
+            <Stack key={s} align="center" gap="xs">
+              <Icon name="search" size={s} />
+              <span style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>{s}</span>
+            </Stack>
+          ))}
         </Stack>
-      </Stack>
-    </Stack>
+      </PropDemo>
+
+      <PropDemo name="fontClass" description="When the icon name is not in the built-in registry, fontClass enables icon-font rendering. The name becomes the text content of a span with the given class.">
+        <Stack direction="horizontal" gap="md" align="center">
+          <Icon name="home" fontClass="material-symbols-outlined" />
+          <Icon name="favorite" fontClass="material-symbols-outlined" />
+          <Icon name="visibility" fontClass="material-symbols-outlined" size="xl" />
+          <Icon name="delete" fontClass="material-symbols-outlined" size="sm" />
+        </Stack>
+      </PropDemo>
+
+      <PropDemo name="aria-label" description="When provided, the icon gets role='img' and the label is announced by screen readers. When omitted, the icon is treated as decorative with aria-hidden.">
+        <Stack direction="horizontal" gap="md" align="center">
+          <Stack align="center" gap="xs">
+            <Icon name="warning" aria-label="Warning indicator" />
+            <span style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>with label</span>
+          </Stack>
+          <Stack align="center" gap="xs">
+            <Icon name="warning" />
+            <span style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>decorative</span>
+          </Stack>
+        </Stack>
+      </PropDemo>
+    </DocBlock>
   );
 }

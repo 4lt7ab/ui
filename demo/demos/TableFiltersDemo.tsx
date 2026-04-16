@@ -6,6 +6,7 @@ import {
   TableFilters,
 } from '@4lt7ab/ui';
 import type { FilterConfig } from '@4lt7ab/ui';
+import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
 
 // ---------------------------------------------------------------------------
 // Sample data
@@ -62,6 +63,16 @@ const FILTER_CONFIGS: FilterConfig[] = [
 const COL_COUNT = 4;
 
 // ---------------------------------------------------------------------------
+// Props metadata
+// ---------------------------------------------------------------------------
+
+const props: PropMeta[] = [
+  { name: 'filters', type: 'FilterConfig[]', required: true, description: 'Ordered list of filter definitions. Each is either a text or select filter.' },
+  { name: 'values', type: 'Record<string, string>', required: true, description: 'Current filter values keyed by filter key.' },
+  { name: 'onChange', type: '(values: Record<string, string>) => void', required: true, description: 'Called when any filter value changes. Receives the full updated values object.' },
+];
+
+// ---------------------------------------------------------------------------
 // Demo
 // ---------------------------------------------------------------------------
 
@@ -84,48 +95,43 @@ export function TableFiltersDemo(): React.JSX.Element {
   }, [filterValues]);
 
   return (
-    <Stack gap="lg">
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Filter bar + Table</h3>
-        <p style={{ margin: 0, fontSize: '0.8125rem', color: 'var(--color-text-secondary)' }}>
-          Text search is debounced (300ms). Select filters apply immediately.
-        </p>
-      </Stack>
+    <DocBlock props={props}>
+      <PropDemo name="filters + values + onChange" description="A declarative filter bar paired with Table. Text filters are debounced (300ms), select filters apply immediately.">
+        <Stack gap="sm">
+          <TableFilters
+            filters={FILTER_CONFIGS}
+            values={filterValues}
+            onChange={setFilterValues}
+          />
 
-      <Stack gap="sm">
-        <TableFilters
-          filters={FILTER_CONFIGS}
-          values={filterValues}
-          onChange={setFilterValues}
-        />
-
-        <Table>
-          <TableHeader>
-            <TableHeaderCell>Title</TableHeaderCell>
-            <TableHeaderCell>Status</TableHeaderCell>
-            <TableHeaderCell>Category</TableHeaderCell>
-            <TableHeaderCell>Effort</TableHeaderCell>
-          </TableHeader>
-          <TableBody>
-            {filtered.length === 0 ? (
-              <TableEmptyRow colSpan={COL_COUNT}>No tasks match your filters</TableEmptyRow>
-            ) : (
-              filtered.map((task) => (
-                <TableRow key={task.id} hoverable>
-                  <TableCell>{task.title}</TableCell>
-                  <TableCell>
-                    <Badge variant={STATUS_VARIANT[task.status] ?? 'default'}>
-                      {task.status.replace('_', ' ')}
-                    </Badge>
-                  </TableCell>
-                  <TableCell muted>{task.category}</TableCell>
-                  <TableCell muted>{task.effort}</TableCell>
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </Stack>
-    </Stack>
+          <Table>
+            <TableHeader>
+              <TableHeaderCell>Title</TableHeaderCell>
+              <TableHeaderCell>Status</TableHeaderCell>
+              <TableHeaderCell>Category</TableHeaderCell>
+              <TableHeaderCell>Effort</TableHeaderCell>
+            </TableHeader>
+            <TableBody>
+              {filtered.length === 0 ? (
+                <TableEmptyRow colSpan={COL_COUNT}>No tasks match your filters</TableEmptyRow>
+              ) : (
+                filtered.map((task) => (
+                  <TableRow key={task.id} hoverable>
+                    <TableCell>{task.title}</TableCell>
+                    <TableCell>
+                      <Badge variant={STATUS_VARIANT[task.status] ?? 'default'}>
+                        {task.status.replace('_', ' ')}
+                      </Badge>
+                    </TableCell>
+                    <TableCell muted>{task.category}</TableCell>
+                    <TableCell muted>{task.effort}</TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </Stack>
+      </PropDemo>
+    </DocBlock>
   );
 }

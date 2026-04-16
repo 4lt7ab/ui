@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ShortcutHelpModal, Button, Stack } from '@4lt7ab/ui';
 import type { ShortcutGroup } from '@4lt7ab/ui';
+import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
 
 const sampleShortcuts: ShortcutGroup[] = [
   {
@@ -31,23 +32,31 @@ const sampleShortcuts: ShortcutGroup[] = [
   },
 ];
 
+const props: PropMeta[] = [
+  { name: 'shortcuts', type: 'ShortcutGroup[]', required: true, description: 'Shortcut data grouped by category. Each group has a heading and an array of shortcut definitions.' },
+  { name: 'onClose', type: '() => void', required: true, description: 'Called when the modal should close.' },
+  { name: 'title', type: 'string', default: "'Keyboard Shortcuts'", description: 'Modal heading text.' },
+  { name: 'width', type: "'sm' | 'md' | 'lg' | 'xl'", default: "'lg'", description: 'Width preset for the modal panel.' },
+];
+
 export function ShortcutHelpModalDemo(): React.JSX.Element {
   const [open, setOpen] = useState(false);
 
   return (
-    <Stack gap="sm">
-      <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--color-text-muted)' }}>
-        Opens a modal showing grouped keyboard shortcuts with styled kbd elements.
-      </p>
-      <Button variant="secondary" onClick={() => setOpen(true)}>
-        Show Keyboard Shortcuts
-      </Button>
-      {open && (
-        <ShortcutHelpModal
-          shortcuts={sampleShortcuts}
-          onClose={() => setOpen(false)}
-        />
-      )}
-    </Stack>
+    <DocBlock props={props}>
+      <PropDemo name="shortcuts + onClose" description="Opens a modal showing grouped keyboard shortcuts with styled kbd elements. Supports multiple groups with headings.">
+        <Stack gap="sm">
+          <Button variant="secondary" onClick={() => setOpen(true)}>
+            Show Keyboard Shortcuts
+          </Button>
+          {open && (
+            <ShortcutHelpModal
+              shortcuts={sampleShortcuts}
+              onClose={() => setOpen(false)}
+            />
+          )}
+        </Stack>
+      </PropDemo>
+    </DocBlock>
   );
 }

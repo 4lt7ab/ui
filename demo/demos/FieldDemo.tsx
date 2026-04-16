@@ -1,57 +1,87 @@
 import { useState } from 'react';
 import { Field, Input, Textarea, Select, Stack, Button, Card } from '@4lt7ab/ui';
+import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
+
+const props: PropMeta[] = [
+  { name: 'label', type: 'string', required: true, description: 'Field label text displayed above the input.' },
+  { name: 'htmlFor', type: 'string', description: 'Associates the label with the input via htmlFor/id.' },
+  { name: 'error', type: 'string', description: 'Error message. When set, the field renders in error state and the message is announced via role="alert".' },
+  { name: 'help', type: 'string', description: 'Help text shown below the input. Hidden when error is set.' },
+  { name: 'required', type: 'boolean', default: 'false', description: 'Shows a red asterisk (*) on the label.' },
+  { name: 'disabled', type: 'boolean', default: 'false', description: 'Reduces field opacity. Does not disable the child input -- do that yourself.' },
+  { name: 'children', type: 'ReactNode', required: true, description: 'The form control to wrap (Input, Select, Textarea, etc.).' },
+];
 
 export function FieldDemo(): React.JSX.Element {
   const [submitted, setSubmitted] = useState(false);
 
   return (
-    <Stack gap="xl">
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>States</h3>
-        <Stack gap="md">
-          <Field label="Default" htmlFor="field-default">
-            <Input id="field-default" placeholder="Standard field" />
+    <DocBlock props={props}>
+      <PropDemo name="label" description="The label text is always visible above the input. Use htmlFor to associate it with the input's id for accessibility.">
+        <div style={{ maxWidth: '24rem' }}>
+          <Field label="Email address" htmlFor="field-label-demo">
+            <Input id="field-label-demo" type="email" placeholder="you@example.com" />
           </Field>
-          <Field label="Required" htmlFor="field-required" required>
-            <Input id="field-required" placeholder="Must be filled" />
+        </div>
+      </PropDemo>
+
+      <PropDemo name="required" description="Shows a red asterisk next to the label. Does not enforce validation -- add required to the child input as well.">
+        <div style={{ maxWidth: '24rem' }}>
+          <Field label="Full name" htmlFor="field-required-demo" required>
+            <Input id="field-required-demo" placeholder="Jane Doe" required />
           </Field>
-          <Field label="With help text" htmlFor="field-help" help="We'll use this to send you a confirmation.">
-            <Input id="field-help" type="email" placeholder="you@example.com" />
+        </div>
+      </PropDemo>
+
+      <PropDemo name="help" description="Help text appears below the input in muted styling. Automatically wired to the input via aria-describedby.">
+        <div style={{ maxWidth: '24rem' }}>
+          <Field label="Email" htmlFor="field-help-demo" help="We'll use this to send you a confirmation.">
+            <Input id="field-help-demo" type="email" placeholder="you@example.com" />
           </Field>
-          <Field label="Error state" htmlFor="field-error" error="This field is required" required>
-            <Input id="field-error" hasError placeholder="Try typing here..." />
+        </div>
+      </PropDemo>
+
+      <PropDemo name="error" description="Replaces help text with an error message in red. Announced to screen readers via role='alert'. Pair with hasError on the child input.">
+        <div style={{ maxWidth: '24rem' }}>
+          <Field label="Username" htmlFor="field-error-demo" error="This field is required" required>
+            <Input id="field-error-demo" hasError placeholder="Pick a username..." />
           </Field>
-          <Field label="Disabled" disabled>
+        </div>
+      </PropDemo>
+
+      <PropDemo name="disabled" description="Reduces opacity on the entire field. You must also disable the child input separately.">
+        <div style={{ maxWidth: '24rem' }}>
+          <Field label="Locked field" disabled>
             <Input disabled value="Cannot edit this" />
           </Field>
-        </Stack>
-      </Stack>
+        </div>
+      </PropDemo>
 
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>With different inputs</h3>
-        <Stack gap="md">
-          <Field label="Text input" htmlFor="field-text">
-            <Input id="field-text" placeholder="Short text" />
-          </Field>
-          <Field label="Textarea" htmlFor="field-textarea" help="Supports multiple lines.">
-            <Textarea id="field-textarea" placeholder="Write something longer..." rows={3} />
-          </Field>
-          <Field label="Select" htmlFor="field-select">
-            <Select
-              id="field-select"
-              placeholder="Pick one..."
-              options={[
-                { value: 'a', label: 'Option A' },
-                { value: 'b', label: 'Option B' },
-                { value: 'c', label: 'Option C' },
-              ]}
-            />
-          </Field>
-        </Stack>
-      </Stack>
+      <PropDemo name="children" description="Works with any form control -- Input, Textarea, Select, or custom components.">
+        <div style={{ maxWidth: '24rem' }}>
+          <Stack gap="md">
+            <Field label="Text input" htmlFor="field-child-input">
+              <Input id="field-child-input" placeholder="Short text" />
+            </Field>
+            <Field label="Textarea" htmlFor="field-child-textarea" help="Supports multiple lines.">
+              <Textarea id="field-child-textarea" placeholder="Write something longer..." rows={3} />
+            </Field>
+            <Field label="Select" htmlFor="field-child-select">
+              <Select
+                id="field-child-select"
+                placeholder="Pick one..."
+                options={[
+                  { value: 'a', label: 'Option A' },
+                  { value: 'b', label: 'Option B' },
+                  { value: 'c', label: 'Option C' },
+                ]}
+              />
+            </Field>
+          </Stack>
+        </div>
+      </PropDemo>
 
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Realistic: Contact form</h3>
+      <PropDemo name="Realistic: Contact form" description="A complete form layout using Field with multiple control types.">
         <Card>
           {submitted ? (
             <div style={{ padding: '1rem 0' }}>
@@ -103,7 +133,7 @@ export function FieldDemo(): React.JSX.Element {
             </form>
           )}
         </Card>
-      </Stack>
-    </Stack>
+      </PropDemo>
+    </DocBlock>
   );
 }

@@ -1,5 +1,18 @@
 import { useState } from 'react';
 import { SearchInput, SegmentedControl, Stack } from '@4lt7ab/ui';
+import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
+
+const props: PropMeta[] = [
+  { name: 'value', type: 'string', required: true, description: 'Current search value (controlled).' },
+  { name: 'onSearch', type: '(value: string) => void', required: true, description: 'Debounced search callback -- fires after debounceMs of inactivity.' },
+  { name: 'debounceMs', type: 'number', default: '300', description: 'Debounce delay in milliseconds.' },
+  { name: 'trailing', type: 'ReactNode', description: 'Optional content rendered inside the input on the right side (toggle, clear button, etc.).' },
+  { name: 'placeholder', type: 'string', default: "'Search...'", description: 'Placeholder text shown when empty.' },
+  { name: 'disabled', type: 'boolean', default: 'false', description: 'Disables the input with muted styling.' },
+  { name: 'name', type: 'string', description: 'Form field name for submission.' },
+  { name: 'autoFocus', type: 'boolean', description: 'Automatically focus the input on mount.' },
+  { name: 'tabIndex', type: 'number', description: 'Tab order override.' },
+];
 
 export function SearchInputDemo(): React.JSX.Element {
   const [query1, setQuery1] = useState('');
@@ -10,67 +23,69 @@ export function SearchInputDemo(): React.JSX.Element {
   const [mode, setMode] = useState('keyword');
 
   return (
-    <Stack gap="xl">
-      {/* Basic */}
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Basic</h3>
+    <DocBlock props={props}>
+      <PropDemo name="value + onSearch" description="The input updates immediately on keystroke, but onSearch only fires after the debounce period.">
         <div style={{ maxWidth: '24rem' }}>
-          <Stack gap="md">
+          <Stack gap="sm">
             <SearchInput
               value={query1}
               onSearch={(v) => { setQuery1(v); setResult1(v); }}
               placeholder="Search components..."
             />
-            <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
+            <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>
               Debounced value: {result1 || '(empty)'}
             </span>
           </Stack>
         </div>
-      </Stack>
+      </PropDemo>
 
-      {/* With SegmentedControl trailing */}
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>With trailing toggle</h3>
-        <div style={{ maxWidth: '28rem' }}>
-          <Stack gap="md">
+      <PropDemo name="debounceMs" description="Controls how long to wait after the last keystroke before firing onSearch. Default is 300ms.">
+        <div style={{ maxWidth: '24rem' }}>
+          <Stack gap="sm">
             <SearchInput
               value={query2}
               onSearch={(v) => { setQuery2(v); setResult2(v); }}
-              placeholder={mode === 'keyword' ? 'Search by keyword...' : 'Semantic search...'}
+              placeholder="500ms debounce..."
               debounceMs={500}
-              trailing={
-                <SegmentedControl
-                  size="sm"
-                  segments={[
-                    { value: 'keyword', label: '', icon: 'search' },
-                    { value: 'semantic', label: '', icon: 'settings' },
-                  ]}
-                  value={mode}
-                  onChange={setMode}
-                />
-              }
             />
-            <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
-              Mode: {mode} | Debounced value: {result2 || '(empty)'}
+            <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>
+              Debounced value: {result2 || '(empty)'}
             </span>
           </Stack>
         </div>
-      </Stack>
+      </PropDemo>
 
-      {/* Disabled */}
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Disabled</h3>
-        <div style={{ maxWidth: '24rem' }}>
-          <Stack gap="md">
-            <SearchInput
-              value=""
-              onSearch={() => {}}
-              placeholder="Disabled search"
-              disabled
-            />
-          </Stack>
+      <PropDemo name="trailing" description="Renders content inside the input on the right side. Useful for mode toggles, clear buttons, or filter indicators.">
+        <div style={{ maxWidth: '28rem' }}>
+          <SearchInput
+            value=""
+            onSearch={() => {}}
+            placeholder={mode === 'keyword' ? 'Search by keyword...' : 'Semantic search...'}
+            trailing={
+              <SegmentedControl
+                size="sm"
+                segments={[
+                  { value: 'keyword', label: '', icon: 'search' },
+                  { value: 'semantic', label: '', icon: 'settings' },
+                ]}
+                value={mode}
+                onChange={setMode}
+              />
+            }
+          />
         </div>
-      </Stack>
-    </Stack>
+      </PropDemo>
+
+      <PropDemo name="disabled" description="Disables the input with muted background and not-allowed cursor.">
+        <div style={{ maxWidth: '24rem' }}>
+          <SearchInput
+            value=""
+            onSearch={() => {}}
+            placeholder="Disabled search"
+            disabled
+          />
+        </div>
+      </PropDemo>
+    </DocBlock>
   );
 }

@@ -1,57 +1,59 @@
 import { Icon, IconButton, IconFontProvider, Stack, Card } from '@4lt7ab/ui';
+import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
 
 const FONT_CLASS = 'material-symbols-outlined';
 
+const props: PropMeta[] = [
+  { name: 'fontClass', type: 'string', required: true, description: 'CSS class applied to descendant Icons for font-based rendering (e.g. "material-symbols-outlined").' },
+  { name: 'children', type: 'ReactNode', required: true, description: 'Subtree of components that inherit the default fontClass.' },
+];
+
 export function IconFontDemo(): React.JSX.Element {
   return (
-    <Stack gap="xl">
-      {/* Per-icon fontClass */}
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Icon font fallback (per-icon)</h3>
-        <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--color-text-secondary)' }}>
-          Pass <code>fontClass</code> to render any icon-font name. The icon name becomes
-          the text content of a <code>&lt;span&gt;</code> with that class.
-        </p>
-        <Stack direction="horizontal" gap="md" align="center">
-          <Icon name="home" fontClass={FONT_CLASS} />
-          <Icon name="favorite" fontClass={FONT_CLASS} />
-          <Icon name="visibility" fontClass={FONT_CLASS} size="xl" />
-          <Icon name="delete" fontClass={FONT_CLASS} size="sm" />
+    <DocBlock props={props}>
+      <PropDemo name="fontClass (per-icon)" description="Pass fontClass directly on individual Icon components to enable icon-font rendering. The icon name becomes the text content of a span with that CSS class.">
+        <Stack gap="sm">
+          <Stack direction="horizontal" gap="md" align="center">
+            <Icon name="home" fontClass={FONT_CLASS} />
+            <Icon name="favorite" fontClass={FONT_CLASS} />
+            <Icon name="visibility" fontClass={FONT_CLASS} size="xl" />
+            <Icon name="delete" fontClass={FONT_CLASS} size="sm" />
+          </Stack>
         </Stack>
-      </Stack>
+      </PropDemo>
 
-      {/* Global provider */}
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>IconFontProvider (global default)</h3>
-        <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--color-text-secondary)' }}>
-          Wrap a subtree with <code>&lt;IconFontProvider&gt;</code> so every Icon
-          falls back to the font automatically — no per-icon prop needed.
-        </p>
+      <PropDemo name="fontClass (via provider)" description="Wrap a subtree with IconFontProvider so every descendant Icon falls back to the font automatically — no per-icon prop needed. Built-in registry names still render SVG.">
         <IconFontProvider fontClass={FONT_CLASS}>
           <Stack direction="horizontal" gap="md" align="center">
-            <Icon name="star" />
-            <Icon name="bolt" />
-            <Icon name="cloud" size="xl" />
-            {/* Built-in registry names still render SVG */}
-            <Icon name="search" />
+            <Stack align="center" gap="xs">
+              <Icon name="star" />
+              <span style={{ fontSize: '0.6rem', color: 'var(--color-text-muted)' }}>font</span>
+            </Stack>
+            <Stack align="center" gap="xs">
+              <Icon name="bolt" />
+              <span style={{ fontSize: '0.6rem', color: 'var(--color-text-muted)' }}>font</span>
+            </Stack>
+            <Stack align="center" gap="xs">
+              <Icon name="cloud" size="xl" />
+              <span style={{ fontSize: '0.6rem', color: 'var(--color-text-muted)' }}>font (xl)</span>
+            </Stack>
+            <Stack align="center" gap="xs">
+              <Icon name="search" />
+              <span style={{ fontSize: '0.6rem', color: 'var(--color-text-muted)' }}>SVG (built-in)</span>
+            </Stack>
           </Stack>
         </IconFontProvider>
-      </Stack>
+      </PropDemo>
 
-      {/* IconButton with font icon */}
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>IconButton with font icons</h3>
+      <PropDemo name="children" description="IconFontProvider works with any descendant component that uses Icon internally, including IconButton.">
         <Stack direction="horizontal" gap="sm" align="center">
           <IconButton icon="home" fontClass={FONT_CLASS} aria-label="Home" />
           <IconButton icon="favorite" fontClass={FONT_CLASS} aria-label="Favorite" badge />
-          {/* Built-in icon for comparison */}
-          <IconButton icon="settings" aria-label="Settings" />
+          <IconButton icon="settings" aria-label="Settings (built-in)" />
         </Stack>
-      </Stack>
+      </PropDemo>
 
-      {/* Rendered markup preview */}
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Rendered markup</h3>
+      <PropDemo name="rendered markup" description="Font-icon rendering produces a span with the fontClass and the icon name as text content. The icon font CSS must be loaded for visual rendering.">
         <Card variant="flat" padding="md">
           <code style={{
             fontSize: '0.75rem',
@@ -62,12 +64,7 @@ export function IconFontDemo(): React.JSX.Element {
             {`<span class="${FONT_CLASS}" style="font-size: 24px; ...">home</span>`}
           </code>
         </Card>
-        <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
-          Note: The font icons above render correctly only when the icon font CSS
-          is loaded. Without it you will see the icon name as plain text, which
-          confirms the markup is correct.
-        </p>
-      </Stack>
-    </Stack>
+      </PropDemo>
+    </DocBlock>
   );
 }

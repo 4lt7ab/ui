@@ -1,16 +1,23 @@
 import { ToastProvider, useToast, Button, Stack } from '@4lt7ab/ui';
+import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
+
+const props: PropMeta[] = [
+  // ToastProvider
+  { name: 'position (Provider)', type: "'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'", default: "'top-right'", description: 'Screen position of the toast stack.' },
+  { name: 'children (Provider)', type: 'ReactNode', required: true, description: 'Application content that can access useToast().' },
+  // showToast options
+  { name: 'message (showToast)', type: 'string', required: true, description: 'Toast message text to display.' },
+  { name: 'type (showToast)', type: "'success' | 'error' | 'info' | 'warning'", default: "'info'", description: 'Visual type controlling the toast color.' },
+  { name: 'duration (showToast)', type: 'number', default: '4000', description: 'Auto-dismiss duration in milliseconds.' },
+];
 
 function ToastButtons(): React.JSX.Element {
   const { showToast } = useToast();
 
   return (
-    <Stack gap="md">
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Toast types</h3>
-        <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--color-text-muted)' }}>
-          Click a button to trigger each toast variant.
-        </p>
-        <Stack direction="horizontal" gap="sm">
+    <DocBlock props={props}>
+      <PropDemo name="type" description="Four toast types with distinct colors and left accent borders. Click to trigger each variant.">
+        <Stack direction="horizontal" gap="sm" wrap>
           <Button variant="primary" onClick={() => showToast('Item saved successfully.', 'success')}>
             Success
           </Button>
@@ -24,21 +31,17 @@ function ToastButtons(): React.JSX.Element {
             Warning
           </Button>
         </Stack>
-      </Stack>
+      </PropDemo>
 
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Custom duration</h3>
-        <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--color-text-muted)' }}>
-          This toast stays visible for 8 seconds instead of the default 4.
-        </p>
+      <PropDemo name="duration" description="Override the default 4-second auto-dismiss. This toast stays visible for 8 seconds.">
         <Button
           variant="ghost"
           onClick={() => showToast('This message lasts 8 seconds.', { type: 'info', duration: 8000 })}
         >
-          Long toast
+          Long toast (8s)
         </Button>
-      </Stack>
-    </Stack>
+      </PropDemo>
+    </DocBlock>
   );
 }
 

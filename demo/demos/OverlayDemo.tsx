@@ -1,36 +1,38 @@
 import { useState } from 'react';
 import { Overlay, Button, Stack } from '@4lt7ab/ui';
+import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
+
+const props: PropMeta[] = [
+  { name: 'onClick', type: '() => void', description: 'Called when the overlay is clicked (typically to close the parent modal).' },
+  { name: 'zIndex', type: 'number | string', default: "'var(--z-index-sticky)'", description: 'CSS z-index for stacking control.' },
+];
 
 export function OverlayDemo(): React.JSX.Element {
   const [showDefault, setShowDefault] = useState(false);
   const [showCustom, setShowCustom] = useState(false);
 
   return (
-    <Stack gap="xl">
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Default overlay</h3>
-        <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--color-text-muted)' }}>
-          Click the overlay to dismiss it.
-        </p>
-        <Button onClick={() => setShowDefault(true)}>Show Overlay</Button>
-        {showDefault && (
-          <Overlay onClick={() => setShowDefault(false)} />
-        )}
-      </Stack>
+    <DocBlock props={props}>
+      <PropDemo name="onClick" description="Click the overlay to dismiss it. Typically wired to close the parent modal or drawer.">
+        <Stack gap="sm">
+          <Button onClick={() => setShowDefault(true)}>Show Overlay</Button>
+          {showDefault && (
+            <Overlay onClick={() => setShowDefault(false)} />
+          )}
+        </Stack>
+      </PropDemo>
 
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Custom z-index</h3>
-        <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--color-text-muted)' }}>
-          Overlay with zIndex=50 and custom style.
-        </p>
-        <Button onClick={() => setShowCustom(true)}>Show Custom Overlay</Button>
-        {showCustom && (
-          <Overlay
-            onClick={() => setShowCustom(false)}
-            zIndex={50}
-          />
-        )}
-      </Stack>
-    </Stack>
+      <PropDemo name="zIndex" description="Override the default z-index for custom stacking contexts.">
+        <Stack gap="sm">
+          <Button onClick={() => setShowCustom(true)}>Show Overlay (zIndex=50)</Button>
+          {showCustom && (
+            <Overlay
+              onClick={() => setShowCustom(false)}
+              zIndex={50}
+            />
+          )}
+        </Stack>
+      </PropDemo>
+    </DocBlock>
   );
 }

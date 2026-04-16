@@ -1,4 +1,5 @@
 import { Grid, Surface, Stack } from '@4lt7ab/ui';
+import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
 
 const cell = (label: string): React.JSX.Element => (
   <div style={{ textAlign: 'center' }}>
@@ -8,35 +9,41 @@ const cell = (label: string): React.JSX.Element => (
   </div>
 );
 
+const props: PropMeta[] = [
+  { name: 'minColumnWidth', type: 'number', default: '300', description: 'Minimum width of each column (px) before wrapping in auto-fill mode.' },
+  { name: 'columns', type: 'number', description: 'Fixed column count. When set, overrides minColumnWidth.' },
+  { name: 'gap', type: "'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'", default: "'md'", description: 'Gap between grid cells.' },
+  { name: 'children', type: 'ReactNode', required: true, description: 'Grid content.' },
+];
+
 export function GridDemo(): React.JSX.Element {
   return (
-    <Stack gap="xl">
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Auto-fill (default)</h3>
-        <p style={{ margin: 0, color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
-          Columns fill available space with a 300px minimum. Resize the window to see wrapping.
-        </p>
-        <Grid>
-          {Array.from({ length: 6 }, (_, i) => (
-            <Surface key={i} level="raised" padding="lg" radius="md" border>
-              <strong>Card {i + 1}</strong>
-              <p style={{ margin: '0.25rem 0 0', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
-                Auto-fill at minColumnWidth=300
-              </p>
-            </Surface>
-          ))}
-        </Grid>
-      </Stack>
+    <DocBlock props={props}>
+      <PropDemo name="minColumnWidth" description="In auto-fill mode (default), columns fill available space with this minimum width. Resize the window to see wrapping.">
+        <Stack gap="lg">
+          <Stack gap="xs">
+            <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>minColumnWidth=300 (default)</span>
+            <Grid>
+              {Array.from({ length: 6 }, (_, i) => (
+                <Surface key={i} level="raised" padding="lg" radius="md" border>
+                  <strong>Card {i + 1}</strong>
+                  <p style={{ margin: '0.25rem 0 0', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
+                    Auto-fill at 300px min
+                  </p>
+                </Surface>
+              ))}
+            </Grid>
+          </Stack>
+          <Stack gap="xs">
+            <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>minColumnWidth=180</span>
+            <Grid minColumnWidth={180} gap="sm">
+              {Array.from({ length: 8 }, (_, i) => cell(`Item ${i + 1}`))}
+            </Grid>
+          </Stack>
+        </Stack>
+      </PropDemo>
 
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Custom min width</h3>
-        <Grid minColumnWidth={180} gap="sm">
-          {Array.from({ length: 8 }, (_, i) => cell(`Item ${i + 1}`))}
-        </Grid>
-      </Stack>
-
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Fixed columns</h3>
+      <PropDemo name="columns" description="When set, uses a fixed column count instead of auto-fill. All columns are equal width (1fr).">
         <Grid columns={3} gap="md">
           {cell('A')}
           {cell('B')}
@@ -45,10 +52,9 @@ export function GridDemo(): React.JSX.Element {
           {cell('E')}
           {cell('F')}
         </Grid>
-      </Stack>
+      </PropDemo>
 
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Gap options</h3>
+      <PropDemo name="gap" description="Spacing between grid cells using the spacing token scale.">
         <Stack direction="horizontal" gap="lg" wrap>
           {(['xs', 'sm', 'md', 'lg', 'xl'] as const).map((g) => (
             <div key={g} style={{ flex: '1 1 12rem' }}>
@@ -66,26 +72,7 @@ export function GridDemo(): React.JSX.Element {
             </div>
           ))}
         </Stack>
-      </Stack>
-
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Realistic: Dashboard stats</h3>
-        <Grid minColumnWidth={200} gap="md">
-          {([
-            { label: 'Projects', value: '12', tint: 'info' as const },
-            { label: 'Tasks', value: '47', tint: 'warning' as const },
-            { label: 'Completed', value: '31', tint: 'success' as const },
-            { label: 'Documents', value: '89', tint: 'primary' as const },
-          ]).map(({ label, value, tint }) => (
-            <Surface key={label} tint={tint} padding="lg" radius="md" border>
-              <div style={{ fontSize: '1.5rem', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>{value}</div>
-              <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.25rem', textTransform: 'uppercase', letterSpacing: 'var(--letter-spacing-wide)' }}>
-                {label}
-              </div>
-            </Surface>
-          ))}
-        </Grid>
-      </Stack>
-    </Stack>
+      </PropDemo>
+    </DocBlock>
   );
 }

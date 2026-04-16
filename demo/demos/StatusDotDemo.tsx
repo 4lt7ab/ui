@@ -1,5 +1,6 @@
 import { StatusDot, Stack, Badge } from '@4lt7ab/ui';
 import type { StatusDotVariant, StatusDotSize } from '@4lt7ab/ui';
+import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
 
 const variants: StatusDotVariant[] = ['default', 'primary', 'success', 'warning', 'error', 'info'];
 const sizes: { token: StatusDotSize; label: string }[] = [
@@ -8,11 +9,16 @@ const sizes: { token: StatusDotSize; label: string }[] = [
   { token: 'lg', label: '12px' },
 ];
 
+const props: PropMeta[] = [
+  { name: 'variant', type: "'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'", default: "'default'", description: 'Semantic variant mapping to feedback color tokens.' },
+  { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Dot diameter preset (6px, 8px, or 12px).' },
+  { name: 'animate', type: "'pulse' | 'none'", default: "'none'", description: 'Animation style. Pulse adds a repeating glow effect.' },
+];
+
 export function StatusDotDemo(): React.JSX.Element {
   return (
-    <Stack gap="xl">
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Variants</h3>
+    <DocBlock props={props}>
+      <PropDemo name="variant" description="Controls the dot color. Maps to semantic feedback tokens from the active theme.">
         <Stack direction="horizontal" gap="md" wrap align="center">
           {variants.map((v) => (
             <Stack key={v} direction="horizontal" gap="xs" align="center">
@@ -21,10 +27,9 @@ export function StatusDotDemo(): React.JSX.Element {
             </Stack>
           ))}
         </Stack>
-      </Stack>
+      </PropDemo>
 
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Sizes</h3>
+      <PropDemo name="size" description="Three size presets: sm (6px), md (8px, default), lg (12px).">
         <Stack direction="horizontal" gap="md" wrap align="center">
           {sizes.map(({ token, label }) => (
             <Stack key={token} direction="horizontal" gap="xs" align="center">
@@ -33,10 +38,9 @@ export function StatusDotDemo(): React.JSX.Element {
             </Stack>
           ))}
         </Stack>
-      </Stack>
+      </PropDemo>
 
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Pulse Animation</h3>
+      <PropDemo name="animate" description="Pulse animation adds a repeating glow ring. Respects prefers-reduced-motion.">
         <Stack direction="horizontal" gap="md" wrap align="center">
           {variants.map((v) => (
             <Stack key={v} direction="horizontal" gap="xs" align="center">
@@ -45,10 +49,9 @@ export function StatusDotDemo(): React.JSX.Element {
             </Stack>
           ))}
         </Stack>
-      </Stack>
+      </PropDemo>
 
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Inline with Badge</h3>
+      <PropDemo name="Inline composition" description="StatusDot pairs naturally with Badge for labeled status indicators.">
         <Stack direction="horizontal" gap="sm" wrap align="center">
           <Stack direction="horizontal" gap="xs" align="center">
             <StatusDot variant="success" />
@@ -63,7 +66,7 @@ export function StatusDotDemo(): React.JSX.Element {
             <Badge variant="error">Failed</Badge>
           </Stack>
         </Stack>
-      </Stack>
-    </Stack>
+      </PropDemo>
+    </DocBlock>
   );
 }

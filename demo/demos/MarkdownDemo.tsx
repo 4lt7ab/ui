@@ -1,5 +1,9 @@
-import { Container } from '@4lt7ab/content';
-import { Markdown } from '@4lt7ab/content';
+import { Container, Markdown } from '@4lt7ab/content';
+import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
+
+const props: PropMeta[] = [
+  { name: 'children', type: 'string', required: true, description: 'Markdown source text to render. Supports GitHub Flavored Markdown (tables, strikethrough, autolinks, task lists).' },
+];
 
 const sampleMarkdown = `
 # Markdown Component
@@ -61,11 +65,11 @@ Tables have rounded corners, a tinted header row, and hover-highlighted rows:
 
 | Feature | Description | Status |
 |---------|-------------|--------|
-| Heading anchors | Auto-generated IDs with hover link icons | ✓ |
-| Callout blocks | GitHub-style \`[!NOTE]\`, \`[!TIP]\`, etc. | ✓ |
-| Copy source | Top-right button copies raw markdown | ✓ |
-| Code blocks | Left accent border + copy button | ✓ |
-| GFM tables | Rounded, hoverable, themed headers | ✓ |
+| Heading anchors | Auto-generated IDs with hover link icons | Done |
+| Callout blocks | GitHub-style \`[!NOTE]\`, \`[!TIP]\`, etc. | Done |
+| Copy source | Top-right button copies raw markdown | Done |
+| Code blocks | Left accent border + copy button | Done |
+| GFM tables | Rounded, hoverable, themed headers | Done |
 
 ## Lists
 
@@ -99,8 +103,12 @@ That's all there is to it — pass a markdown string as children and get fully s
 
 export function MarkdownDemo(): React.JSX.Element {
   return (
-    <Container width="prose" padding="none">
-      <Markdown>{sampleMarkdown}</Markdown>
-    </Container>
+    <DocBlock props={props}>
+      <PropDemo name="children" description="Pass a markdown string as children. The component renders it with heading anchors, callout blocks, copy buttons, GFM tables, task lists, and full typographic styling.">
+        <Container width="prose" padding="none">
+          <Markdown>{sampleMarkdown}</Markdown>
+        </Container>
+      </PropDemo>
+    </DocBlock>
   );
 }

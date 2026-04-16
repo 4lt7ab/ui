@@ -1,100 +1,79 @@
 import { useState } from 'react';
 import { SectionHeader, Stack, Badge, Button, SearchInput, Surface } from '@4lt7ab/ui';
+import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
+
+const props: PropMeta[] = [
+  { name: 'title', type: 'string', required: true, description: 'Section title text.' },
+  { name: 'icon', type: 'IconName | string', description: 'Material Symbols icon name rendered before the title.' },
+  { name: 'indicator', type: 'ReactNode', description: 'Content rendered inline after the title (e.g. Badge count or StatusDot).' },
+  { name: 'trailing', type: 'ReactNode', description: 'Content aligned to the right end (e.g. SearchInput, action buttons).' },
+  { name: 'border', type: 'boolean', default: 'false', description: 'Show a bottom border below the header.' },
+  { name: 'spacing', type: "'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'", description: 'Vertical spacing below the header (margin-bottom).' },
+];
 
 export function SectionHeaderDemo(): React.JSX.Element {
-  const [search1, setSearch1] = useState('');
-  const [search2, setSearch2] = useState('');
+  const [search, setSearch] = useState('');
 
   return (
-    <Stack gap="xl">
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Basic</h3>
+    <DocBlock props={props}>
+      <PropDemo name="title" description="The section heading text. Always visible.">
         <SectionHeader title="Tasks" />
-      </Stack>
+      </PropDemo>
 
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>With icon</h3>
-        <SectionHeader icon="task_alt" title="Tasks" />
-      </Stack>
+      <PropDemo name="icon" description="A Material Symbols icon name rendered before the title for visual context.">
+        <Stack gap="md">
+          <SectionHeader icon="task_alt" title="Tasks" />
+          <SectionHeader icon="folder" title="Projects" />
+          <SectionHeader icon="analytics" title="Overview" />
+        </Stack>
+      </PropDemo>
 
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>With indicator</h3>
+      <PropDemo name="indicator" description="Inline content after the title. Commonly used for count badges or status dots.">
         <SectionHeader
           icon="folder"
           title="Projects"
           indicator={<Badge variant="info">12</Badge>}
         />
-      </Stack>
+      </PropDemo>
 
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>With trailing actions</h3>
+      <PropDemo name="trailing" description="Right-aligned content such as search inputs, filter controls, or action buttons.">
         <SectionHeader
           icon="description"
           title="Documents"
           indicator={<Badge variant="info">89</Badge>}
           trailing={
             <>
-              <SearchInput value={search1} onSearch={setSearch1} placeholder="Search docs..." />
+              <SearchInput value={search} onSearch={setSearch} placeholder="Search docs..." />
               <Button variant="primary" size="sm">New</Button>
             </>
           }
         />
-      </Stack>
+      </PropDemo>
 
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>With bottom border</h3>
-        <SectionHeader
-          icon="analytics"
-          title="Overview"
-          border
-        />
-        <p style={{ margin: 0, color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
-          Content below the bordered section header.
-        </p>
-      </Stack>
+      <PropDemo name="border" description="Adds a bottom border below the header to visually separate it from content below.">
+        <Stack gap="sm">
+          <SectionHeader icon="analytics" title="Overview" border />
+          <p style={{ margin: 0, color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
+            Content below the bordered section header.
+          </p>
+        </Stack>
+      </PropDemo>
 
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>With spacing</h3>
-        <SectionHeader
-          icon="check_circle"
-          title="Completed Tasks"
-          indicator={<Badge variant="success">31</Badge>}
-          spacing="lg"
-        />
-        <Surface level="raised" padding="md" radius="md" border>
-          <span style={{ fontSize: '0.875rem' }}>
-            Content with spacing="lg" gap above.
-          </span>
-        </Surface>
-      </Stack>
-
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Realistic: Page section</h3>
-        <Surface padding="lg" border shadow="sm">
-          <Stack gap="md">
-            <SectionHeader
-              icon="task_alt"
-              title="Tasks"
-              indicator={<Badge variant="info">47</Badge>}
-              trailing={
-                <>
-                  <SearchInput value={search2} onSearch={setSearch2} placeholder="Search..." />
-                  <Button variant="ghost" size="sm">Filter</Button>
-                  <Button variant="primary" size="sm">New Task</Button>
-                </>
-              }
-              border
-            />
-            <Stack gap="sm">
-              {['Implement Surface component', 'Add Grid layout', 'Write demo pages'].map((task) => (
-                <Surface key={task} level="raised" padding="sm" radius="md" border>
-                  <span style={{ fontSize: '0.875rem' }}>{task}</span>
-                </Surface>
-              ))}
-            </Stack>
-          </Stack>
-        </Surface>
-      </Stack>
-    </Stack>
+      <PropDemo name="spacing" description="Adds margin-bottom below the header for consistent vertical rhythm.">
+        <Stack gap="sm">
+          <SectionHeader
+            icon="check_circle"
+            title="Completed Tasks"
+            indicator={<Badge variant="success">31</Badge>}
+            spacing="lg"
+          />
+          <Surface level="raised" padding="md" radius="md" border>
+            <span style={{ fontSize: '0.875rem' }}>
+              Content with spacing="lg" gap above.
+            </span>
+          </Surface>
+        </Stack>
+      </PropDemo>
+    </DocBlock>
   );
 }

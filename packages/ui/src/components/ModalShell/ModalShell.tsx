@@ -122,6 +122,7 @@ export const ModalShell: React.ForwardRefExoticComponent<Omit<ModalShellProps, '
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            padding: t.spaceMd,
             zIndex: typeof zIndex === 'number' ? zIndex + 1 : `calc(${zIndex} + 1)`,
             pointerEvents: 'none',
           }}
@@ -142,6 +143,8 @@ export const ModalShell: React.ForwardRefExoticComponent<Omit<ModalShellProps, '
               padding: t.spaceXl,
               maxWidth: modalWidthMap[width],
               width: '100%',
+              maxHeight: '100%',
+              overflowY: 'auto',
               pointerEvents: 'auto',
               outline: 'none',
             }}

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add DocBlock documentation system — shared `PropsTable`, `PropDemo`, and `DocBlock` components in `demo/components/`
+- Rewrite all 58 demo files with structured prop documentation: toggleable Examples/API views, per-prop live examples, complete PropMeta arrays
+- Every user-facing prop across all components now has a type, default, and description in the API table
+
 ## v0.2.27
 
 - **BREAKING**: Replace Icon/IconButton `size?: number` with `IconSize` preset (`'xs' | 'sm' | 'md' | 'lg' | 'xl'`)

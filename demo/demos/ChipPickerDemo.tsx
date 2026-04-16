@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ChipPicker, Stack } from '@4lt7ab/ui';
 import type { ChipItem } from '@4lt7ab/ui';
+import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
 
 const basicItems: ChipItem[] = [
   { value: 'react', label: 'React' },
@@ -23,45 +24,45 @@ const groupedItems: ChipItem[] = [
   { value: 'vite', label: 'Vite', group: 'Tools' },
 ];
 
+const props: PropMeta[] = [
+  { name: 'items', type: 'ChipItem[]', required: true, description: 'All available chip options. Each has value, label, and optional group.' },
+  { name: 'selected', type: 'string[]', required: true, description: 'Currently selected values (controlled).' },
+  { name: 'onChange', type: '(selected: string[]) => void', required: true, description: 'Called with the updated selection array when a chip is toggled.' },
+];
+
 export function ChipPickerDemo(): React.JSX.Element {
   const [basic, setBasic] = useState<string[]>([]);
   const [grouped, setGrouped] = useState<string[]>(['ts', 'react']);
   const [preselected, setPreselected] = useState<string[]>(['react', 'svelte', 'solid']);
 
   return (
-    <Stack gap="xl">
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Basic</h3>
-        <p style={{ margin: 0, fontSize: '0.8125rem', opacity: 0.7 }}>
-          Click chips to toggle selection.
-        </p>
-        <ChipPicker items={basicItems} selected={basic} onChange={setBasic} />
-        <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>
-          Selected: {basic.length ? basic.join(', ') : '(none)'}
-        </span>
-      </Stack>
+    <DocBlock props={props}>
+      <PropDemo name="items + selected + onChange" description="Click chips to toggle selection. The onChange callback receives the full updated array.">
+        <Stack gap="sm">
+          <ChipPicker items={basicItems} selected={basic} onChange={setBasic} />
+          <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>
+            Selected: {basic.length ? basic.join(', ') : '(none)'}
+          </span>
+        </Stack>
+      </PropDemo>
 
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Grouped</h3>
-        <p style={{ margin: 0, fontSize: '0.8125rem', opacity: 0.7 }}>
-          Items grouped by category with section labels.
-        </p>
-        <ChipPicker items={groupedItems} selected={grouped} onChange={setGrouped} />
-        <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>
-          Selected: {grouped.length ? grouped.join(', ') : '(none)'}
-        </span>
-      </Stack>
+      <PropDemo name="items (grouped)" description="Items with a group property are rendered under SectionLabel headers. Groups appear in order of first appearance.">
+        <Stack gap="sm">
+          <ChipPicker items={groupedItems} selected={grouped} onChange={setGrouped} />
+          <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>
+            Selected: {grouped.length ? grouped.join(', ') : '(none)'}
+          </span>
+        </Stack>
+      </PropDemo>
 
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Pre-selected</h3>
-        <p style={{ margin: 0, fontSize: '0.8125rem', opacity: 0.7 }}>
-          Starting with values already selected.
-        </p>
-        <ChipPicker items={basicItems} selected={preselected} onChange={setPreselected} />
-        <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>
-          Selected: {preselected.length ? preselected.join(', ') : '(none)'}
-        </span>
-      </Stack>
-    </Stack>
+      <PropDemo name="selected (pre-populated)" description="Pass initial values in the selected array to start with chips already active.">
+        <Stack gap="sm">
+          <ChipPicker items={basicItems} selected={preselected} onChange={setPreselected} />
+          <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>
+            Selected: {preselected.length ? preselected.join(', ') : '(none)'}
+          </span>
+        </Stack>
+      </PropDemo>
+    </DocBlock>
   );
 }

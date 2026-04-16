@@ -2336,6 +2336,7 @@ var ModalShell = forwardRef20(
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              padding: t19.spaceMd,
               zIndex: typeof zIndex === "number" ? zIndex + 1 : `calc(${zIndex} + 1)`,
               pointerEvents: "none"
             },
@@ -2357,6 +2358,8 @@ var ModalShell = forwardRef20(
                   padding: t19.spaceXl,
                   maxWidth: modalWidthMap[width],
                   width: "100%",
+                  maxHeight: "100%",
+                  overflowY: "auto",
                   pointerEvents: "auto",
                   outline: "none"
                 },

@@ -1,11 +1,14 @@
-import { Stack } from '@4lt7ab/ui';
 import { Prose, MarginNote } from '@4lt7ab/content';
+import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
+
+const props: PropMeta[] = [
+  { name: 'children', type: 'ReactNode', required: true, description: 'Note content. Appears inline on mobile, floats into the left margin on wide screens (>=1100px). Must be used inside <Prose>.' },
+];
 
 export function MarginNoteDemo(): React.JSX.Element {
   return (
-    <Stack gap="xl">
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>In prose context</h3>
+    <DocBlock props={props}>
+      <PropDemo name="children" description="Margin notes appear inline with a left border on narrow screens, and float into the left margin on wide screens (>=1100px). Must be placed inside a Prose wrapper.">
         <Prose>
           <p>
             Component libraries reduce duplication and enforce visual consistency.
@@ -16,10 +19,9 @@ export function MarginNoteDemo(): React.JSX.Element {
             typography decisions without re-implementing them.
           </p>
         </Prose>
-      </Stack>
+      </PropDemo>
 
-      <Stack gap="sm">
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Multiple margin notes</h3>
+      <PropDemo name="Multiple notes" description="Multiple margin notes can be used in the same paragraph. Each one positions independently.">
         <Prose>
           <p>
             The token architecture has three layers.
@@ -30,7 +32,7 @@ export function MarginNoteDemo(): React.JSX.Element {
             Components consume only semantic tokens, never primitives directly.
           </p>
         </Prose>
-      </Stack>
-    </Stack>
+      </PropDemo>
+    </DocBlock>
   );
 }
