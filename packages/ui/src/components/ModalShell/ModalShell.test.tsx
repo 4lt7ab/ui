@@ -157,4 +157,36 @@ describe("ModalShell", () => {
     // Should focus the dialog container itself (tabIndex={-1})
     expect(document.activeElement).toBe(screen.getByRole("dialog"));
   });
+
+  // -- Overflow handling (regression: short viewport clipping) ----------------
+
+  it("constrains panel height and scrolls internally when content overflows", () => {
+    // Regression: previously the panel had no maxHeight/overflowY, so tall
+    // content clipped off the top and bottom of short viewports with no way
+    // to scroll. The panel must now cap at the viewport and scroll its body.
+    render(
+      <ModalShell onClose={onClose} aria-label="Tall modal">
+        <div style={{ height: 2000 }}>Very tall content</div>
+      </ModalShell>,
+    );
+
+    const dialog = screen.getByRole("dialog");
+    expect(dialog.style.maxHeight).toBe("100%");
+    expect(dialog.style.overflowY).toBe("auto");
+  });
+
+  it("pads the centering container so the panel has breathing room from viewport edges", () => {
+    render(
+      <ModalShell onClose={onClose} aria-label="Test">
+        <p>Content</p>
+      </ModalShell>,
+    );
+
+    // Outer centering container is the dialog's parent — must have padding
+    // so the panel never butts up against a viewport edge.
+    const dialog = screen.getByRole("dialog");
+    const centeringContainer = dialog.parentElement as HTMLElement;
+    expect(centeringContainer.style.padding).not.toBe("");
+    expect(centeringContainer.style.padding).not.toBe("0px");
+  });
 });

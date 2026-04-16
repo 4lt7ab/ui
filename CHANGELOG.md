@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Fix ModalShell clipping on short viewports — panel now caps at `maxHeight: 100%` with `overflowY: auto`, and the centering container pads by `spaceMd` so the panel has breathing room from viewport edges
+- Add regression test covering ModalShell overflow behavior
+
 ## v0.2.29
 
 ## v0.2.28
