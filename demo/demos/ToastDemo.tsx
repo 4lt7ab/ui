@@ -8,7 +8,7 @@ const props: PropMeta[] = [
   // showToast options
   { name: 'message (showToast)', type: 'string', required: true, description: 'Toast message text to display.' },
   { name: 'type (showToast)', type: "'success' | 'error' | 'info' | 'warning'", default: "'info'", description: 'Visual type controlling the toast color.' },
-  { name: 'duration (showToast)', type: 'number', default: '4000', description: 'Auto-dismiss duration in milliseconds.' },
+  { name: 'duration (showToast)', type: 'number', default: '4000', description: 'Auto-dismiss duration in milliseconds. Pass 0 to disable auto-dismiss (the toast stays until the user clicks ×).' },
 ];
 
 function ToastButtons(): React.JSX.Element {
@@ -33,13 +33,21 @@ function ToastButtons(): React.JSX.Element {
         </Stack>
       </PropDemo>
 
-      <PropDemo name="duration" description="Override the default 4-second auto-dismiss. This toast stays visible for 8 seconds.">
-        <Button
-          variant="ghost"
-          onClick={() => showToast('This message lasts 8 seconds.', { type: 'info', duration: 8000 })}
-        >
-          Long toast (8s)
-        </Button>
+      <PropDemo name="duration" description="Override the default 4-second auto-dismiss. A drain bar at the bottom of each toast visualizes remaining time and pauses on hover. Pass 0 for a persistent toast (no bar).">
+        <Stack direction="horizontal" gap="sm" wrap>
+          <Button
+            variant="ghost"
+            onClick={() => showToast('This message lasts 8 seconds — hover to pause.', { type: 'info', duration: 8000 })}
+          >
+            Long toast (8s)
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={() => showToast('Persistent — click × to dismiss.', { type: 'warning', duration: 0 })}
+          >
+            Persistent (no auto-dismiss)
+          </Button>
+        </Stack>
       </PropDemo>
     </DocBlock>
   );

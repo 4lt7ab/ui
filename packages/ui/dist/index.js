@@ -3955,6 +3955,26 @@ var toastCSS = `
   from { opacity: 1; transform: translateX(0); }
   to   { opacity: 0; transform: translateX(100%); }
 }
+/* Dismiss timer: drains from full to zero width over the toast's duration. */
+@keyframes toast-timer-drain {
+  from { transform: scaleX(1); }
+  to   { transform: scaleX(0); }
+}
+[data-toast-timer] {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  transform-origin: left center;
+  animation: toast-timer-drain var(--toast-duration, 4000ms) linear forwards;
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+}
+[data-toast-root]:hover [data-toast-timer],
+[data-toast-root][data-toast-paused="true"] [data-toast-timer] {
+  animation-play-state: paused;
+}
 @media (prefers-reduced-motion: reduce) {
   @keyframes toast-slide-in {
     from { opacity: 0; }
@@ -3963,6 +3983,11 @@ var toastCSS = `
   @keyframes toast-fade-out {
     from { opacity: 1; }
     to   { opacity: 0; }
+  }
+  /* Freeze the timer bar at full width \u2014 the toast still dismisses via setTimeout. */
+  [data-toast-timer] {
+    animation: none;
+    transform: scaleX(1);
   }
 }
 `;
@@ -3977,15 +4002,37 @@ function ToastMessage({
   onDismiss
 }) {
   const [exiting, setExiting] = useState8(false);
+  const [paused, setPaused] = useState8(false);
   const timerRef = useRef8(null);
-  useEffect8(() => {
+  const startedAtRef = useRef8(0);
+  const remainingRef = useRef8(item.duration);
+  const autoDismiss = item.duration > 0;
+  const clearTimer = useCallback6(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
+  const startTimer = useCallback6(() => {
+    if (!autoDismiss || remainingRef.current <= 0) return;
+    clearTimer();
+    startedAtRef.current = Date.now();
     timerRef.current = setTimeout(() => {
       setExiting(true);
-    }, item.duration);
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, [item.duration]);
+    }, remainingRef.current);
+    setPaused(false);
+  }, [autoDismiss, clearTimer]);
+  const pauseTimer = useCallback6(() => {
+    if (!autoDismiss || !timerRef.current) return;
+    const elapsed = Date.now() - startedAtRef.current;
+    remainingRef.current = Math.max(0, remainingRef.current - elapsed);
+    clearTimer();
+    setPaused(true);
+  }, [autoDismiss, clearTimer]);
+  useEffect8(() => {
+    startTimer();
+    return clearTimer;
+  }, []);
   const handleAnimationEnd = () => {
     if (exiting) {
       onDismiss(item.id);
@@ -3996,11 +4043,19 @@ function ToastMessage({
     "div",
     {
       role: "status",
+      "data-toast-root": "",
+      "data-toast-paused": paused || void 0,
+      onMouseEnter: pauseTimer,
+      onMouseLeave: startTimer,
+      onFocus: pauseTimer,
+      onBlur: startTimer,
       style: {
+        position: "relative",
         display: "flex",
         alignItems: "center",
         gap: t33.spaceSm,
         padding: `${t33.spaceSm} ${t33.spaceMd}`,
+        paddingBottom: autoDismiss ? `calc(${t33.spaceSm} + 2px)` : t33.spaceSm,
         backgroundColor: t33.colorSurfaceSolid,
         backgroundImage: `linear-gradient(${colors.bg}, ${colors.bg})`,
         color: colors.fg,
@@ -4014,7 +4069,8 @@ function ToastMessage({
         pointerEvents: "auto",
         animation: exiting ? "toast-fade-out 200ms ease forwards" : "toast-slide-in 250ms ease",
         maxWidth: "24rem",
-        wordBreak: "break-word"
+        wordBreak: "break-word",
+        overflow: "hidden"
       },
       onAnimationEnd: handleAnimationEnd,
       children: [
@@ -4044,6 +4100,18 @@ function ToastMessage({
               lineHeight: 1
             },
             children: "\xD7"
+          }
+        ),
+        autoDismiss && /* @__PURE__ */ jsx36(
+          "span",
+          {
+            "data-toast-timer": "",
+            "aria-hidden": "true",
+            style: {
+              background: colors.fg,
+              opacity: 0.5,
+              ["--toast-duration"]: `${item.duration}ms`
+            }
           }
         )
       ]

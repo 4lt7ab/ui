@@ -4079,6 +4079,26 @@ var toastCSS = `
   from { opacity: 1; transform: translateX(0); }
   to   { opacity: 0; transform: translateX(100%); }
 }
+/* Dismiss timer: drains from full to zero width over the toast's duration. */
+@keyframes toast-timer-drain {
+  from { transform: scaleX(1); }
+  to   { transform: scaleX(0); }
+}
+[data-toast-timer] {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  transform-origin: left center;
+  animation: toast-timer-drain var(--toast-duration, 4000ms) linear forwards;
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+}
+[data-toast-root]:hover [data-toast-timer],
+[data-toast-root][data-toast-paused="true"] [data-toast-timer] {
+  animation-play-state: paused;
+}
 @media (prefers-reduced-motion: reduce) {
   @keyframes toast-slide-in {
     from { opacity: 0; }
@@ -4087,6 +4107,11 @@ var toastCSS = `
   @keyframes toast-fade-out {
     from { opacity: 1; }
     to   { opacity: 0; }
+  }
+  /* Freeze the timer bar at full width \u2014 the toast still dismisses via setTimeout. */
+  [data-toast-timer] {
+    animation: none;
+    transform: scaleX(1);
   }
 }
 `;
@@ -4101,15 +4126,37 @@ function ToastMessage({
   onDismiss
 }) {
   const [exiting, setExiting] = (0, import_react31.useState)(false);
+  const [paused, setPaused] = (0, import_react31.useState)(false);
   const timerRef = (0, import_react31.useRef)(null);
-  (0, import_react31.useEffect)(() => {
+  const startedAtRef = (0, import_react31.useRef)(0);
+  const remainingRef = (0, import_react31.useRef)(item.duration);
+  const autoDismiss = item.duration > 0;
+  const clearTimer = (0, import_react31.useCallback)(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
+  const startTimer = (0, import_react31.useCallback)(() => {
+    if (!autoDismiss || remainingRef.current <= 0) return;
+    clearTimer();
+    startedAtRef.current = Date.now();
     timerRef.current = setTimeout(() => {
       setExiting(true);
-    }, item.duration);
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, [item.duration]);
+    }, remainingRef.current);
+    setPaused(false);
+  }, [autoDismiss, clearTimer]);
+  const pauseTimer = (0, import_react31.useCallback)(() => {
+    if (!autoDismiss || !timerRef.current) return;
+    const elapsed = Date.now() - startedAtRef.current;
+    remainingRef.current = Math.max(0, remainingRef.current - elapsed);
+    clearTimer();
+    setPaused(true);
+  }, [autoDismiss, clearTimer]);
+  (0, import_react31.useEffect)(() => {
+    startTimer();
+    return clearTimer;
+  }, []);
   const handleAnimationEnd = () => {
     if (exiting) {
       onDismiss(item.id);
@@ -4120,11 +4167,19 @@ function ToastMessage({
     "div",
     {
       role: "status",
+      "data-toast-root": "",
+      "data-toast-paused": paused || void 0,
+      onMouseEnter: pauseTimer,
+      onMouseLeave: startTimer,
+      onFocus: pauseTimer,
+      onBlur: startTimer,
       style: {
+        position: "relative",
         display: "flex",
         alignItems: "center",
         gap: import_core37.semantic.spaceSm,
         padding: `${import_core37.semantic.spaceSm} ${import_core37.semantic.spaceMd}`,
+        paddingBottom: autoDismiss ? `calc(${import_core37.semantic.spaceSm} + 2px)` : import_core37.semantic.spaceSm,
         backgroundColor: import_core37.semantic.colorSurfaceSolid,
         backgroundImage: `linear-gradient(${colors.bg}, ${colors.bg})`,
         color: colors.fg,
@@ -4138,7 +4193,8 @@ function ToastMessage({
         pointerEvents: "auto",
         animation: exiting ? "toast-fade-out 200ms ease forwards" : "toast-slide-in 250ms ease",
         maxWidth: "24rem",
-        wordBreak: "break-word"
+        wordBreak: "break-word",
+        overflow: "hidden"
       },
       onAnimationEnd: handleAnimationEnd,
       children: [
@@ -4168,6 +4224,18 @@ function ToastMessage({
               lineHeight: 1
             },
             children: "\xD7"
+          }
+        ),
+        autoDismiss && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+          "span",
+          {
+            "data-toast-timer": "",
+            "aria-hidden": "true",
+            style: {
+              background: colors.fg,
+              opacity: 0.5,
+              ["--toast-duration"]: `${item.duration}ms`
+            }
           }
         )
       ]
