@@ -7,7 +7,7 @@ import { modalWidthMap } from '../../types';
 import type { ModalWidth } from '../../types';
 import type { ReactNode } from 'react';
 
-/** Shared heading style for modal titles. Used by ConfirmDialog, FormModal, ShortcutHelpModal. */
+/** Shared heading style for modal titles. Used by ConfirmDialog and consumer modal compositions. */
 export const modalHeadingStyle: React.CSSProperties = Object.freeze({
   margin: 0,
   fontWeight: t.fontWeightSemibold,
@@ -16,7 +16,7 @@ export const modalHeadingStyle: React.CSSProperties = Object.freeze({
   fontSize: t.fontSizeLg,
 });
 
-/** Shared footer layout for modal action buttons. Used by ConfirmDialog, FormModal. */
+/** Shared footer layout for modal action buttons. Used by ConfirmDialog and consumer modal compositions. */
 export const modalFooterStyle: React.CSSProperties = Object.freeze({
   display: 'flex',
   justifyContent: 'flex-end',

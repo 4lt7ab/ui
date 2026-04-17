@@ -19,7 +19,7 @@ import { ExpandableCardDemo } from './ExpandableCardDemo';
 import { ModalDemo } from './ModalDemo';
 import { OverlayDemo } from './OverlayDemo';
 import { ConfirmDialogDemo } from './ConfirmDialogDemo';
-import { FormModalDemo } from './FormModalDemo';
+import { ModalShellFormPatternDemo } from './ModalShellFormPatternDemo';
 import { ContainerDemo } from './ContainerDemo';
 import { ProseDemo } from './ProseDemo';
 import { MarkdownDemo } from './MarkdownDemo';
@@ -46,7 +46,6 @@ import { SearchInputDemo } from './SearchInputDemo';
 import { SegmentedControlDemo } from './SegmentedControlDemo';
 import { AlertBannerDemo } from './AlertBannerDemo';
 import { TopBarDemo } from './TopBarDemo';
-import { ShortcutHelpModalDemo } from './ShortcutHelpModalDemo';
 import { PageShellDemo } from './PageShellDemo';
 import { PillSelectDemo } from './PillSelectDemo';
 import { TextSectionDemo } from './TextSectionDemo';
@@ -102,11 +101,10 @@ export const demos: DemoEntry[] = [
   { name: 'Modal', category: 'Feedback', source: 'ui', component: ModalDemo },
   { name: 'Overlay', category: 'Feedback', source: 'ui', component: OverlayDemo },
   { name: 'ConfirmDialog', category: 'Feedback', source: 'ui', component: ConfirmDialogDemo },
-  { name: 'FormModal', category: 'Feedback', source: 'ui', component: FormModalDemo },
+  { name: 'ModalShellFormPattern', category: 'Feedback', source: 'ui', component: ModalShellFormPatternDemo },
   { name: 'ErrorBoundary', category: 'Feedback', source: 'ui', component: ErrorBoundaryDemo },
   { name: 'Toast', category: 'Feedback', source: 'ui', component: ToastDemo },
   { name: 'AlertBanner', category: 'Feedback', source: 'ui', component: AlertBannerDemo },
-  { name: 'ShortcutHelpModal', category: 'Feedback', source: 'ui', component: ShortcutHelpModalDemo },
 
   // Form
   { name: 'Field', category: 'Form', source: 'ui', component: FieldDemo },
@@ -162,9 +160,8 @@ export {
   SearchInputDemo,
   SegmentedControlDemo,
   AlertBannerDemo,
-  FormModalDemo,
+  ModalShellFormPatternDemo,
   TopBarDemo,
-  ShortcutHelpModalDemo,
   PageShellDemo,
   PillSelectDemo,
   TextSectionDemo,

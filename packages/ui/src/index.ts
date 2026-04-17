@@ -30,10 +30,9 @@ export * from './components/PageHeader';
 export * from './components/PageShell';
 export * from './components/TagChip';
 export * from './components/ExpandableCard';
-export { ModalShell } from './components/ModalShell';
+export { ModalShell, modalHeadingStyle, modalFooterStyle } from './components/ModalShell';
 export type { ModalShellProps } from './components/ModalShell';
 export * from './components/ConfirmDialog';
-export * from './components/FormModal';
 export * from './components/StatusDot';
 export * from './components/Table';
 export * from './components/DateRangePicker';
@@ -49,7 +48,6 @@ export * from './components/SearchInput';
 export * from './components/SegmentedControl';
 export * from './components/AlertBanner';
 export * from './components/TopBar';
-export * from './components/ShortcutHelpModal';
 export * from './components/PillSelect';
 
 // Layout & Container primitives
