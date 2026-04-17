@@ -24,10 +24,8 @@ import {
   SurfaceDemo,
   GridDemo,
   DividerDemo,
-  StatCardDemo,
   TabStripDemo,
   SectionHeaderDemo,
-  ThemeSurfaceDemo,
 } from '../demos';
 
 // ---------------------------------------------------------------------------
@@ -70,7 +68,6 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'Grid', source: 'ui', Demo: GridDemo },
       { name: 'Divider', source: 'ui', Demo: DividerDemo },
       { name: 'SectionHeader', source: 'ui', Demo: SectionHeaderDemo },
-      { name: 'ThemeSurface', source: 'ui', Demo: ThemeSurfaceDemo },
     ],
   },
   {
@@ -126,7 +123,6 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'ProgressBar', source: 'ui', Demo: ProgressBarDemo },
       { name: 'Skeleton', source: 'ui', Demo: SkeletonDemo },
       { name: 'EmptyState', source: 'ui', Demo: EmptyStateDemo },
-      { name: 'StatCard', source: 'ui', Demo: StatCardDemo },
     ],
   },
   {

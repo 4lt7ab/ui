@@ -135,7 +135,7 @@ export function ThemeProvider({
     _applyPageStylesWarned = true;
     console.warn(
       'ThemeProvider: applyPageStyles will default to false in v2. ' +
-      'Set it explicitly or use <ThemeSurface> for page backgrounds.',
+      'Set it explicitly or call usePageBackground() for page backgrounds.',
     );
   }
 

@@ -105,25 +105,26 @@ Pass a canvas element, get back a cleanup function that stops the animation and 
 
 - **Reduced motion:** Animations are disabled when `prefers-reduced-motion: reduce` is active.
 - **Mobile:** Only activates on viewports wider than 768px. No animations on mobile.
-- **Z-index:** The canvas renders at `z-index: 0` with `position: fixed`. Your app content should layer above it. Use `ThemeSurface` from `@4lt7ab/ui` for themed containers that stack correctly.
+- **Z-index:** The canvas renders at `z-index: 0` with `position: fixed`. Your app content should layer above it. Use `Surface` with `level="page"` from `@4lt7ab/ui` for themed containers that stack correctly.
 - **Cleanup:** Animations clean up automatically on theme change or component unmount.
 
-## Layering with ThemeSurface
+## Layering app content above the canvas
 
-`ThemeSurface` from `@4lt7ab/ui` provides a themed container that sits above the canvas animation:
+Use `Surface` from `@4lt7ab/ui` as the page container so your content sits above the canvas animation. For body-level theming (painting `document.body`), call the `usePageBackground()` hook from `@4lt7ab/core`:
 
 ```tsx
-import { ThemeProvider } from '@4lt7ab/ui/core';
-import { ThemeSurface } from '@4lt7ab/ui/ui';
+import { ThemeProvider, usePageBackground } from '@4lt7ab/ui/core';
+import { Surface } from '@4lt7ab/ui/ui';
 import { ThemeBackground } from '@4lt7ab/ui/animations';
 
 function App() {
+  usePageBackground();
   return (
     <ThemeProvider defaultTheme="warm-sand">
       <ThemeBackground />
-      <ThemeSurface>
+      <Surface level="page" style={{ minHeight: '100vh', position: 'relative' }}>
         {/* Content here sits above the animation */}
-      </ThemeSurface>
+      </Surface>
     </ThemeProvider>
   );
 }

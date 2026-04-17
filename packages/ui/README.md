@@ -802,24 +802,6 @@ Theme selector wired into `useTheme()`. Two variants:
 | `variant` | `'grid' \| 'compact'` | `'grid'` | Display variant |
 | `descriptions` | `Record<string, string>` | — | Optional per-theme descriptions (grid variant only) |
 
-### ThemeSurface
-
-Themed container that applies background and border tokens. Use it to layer content above canvas animations.
-
-```tsx
-<ThemeSurface>
-  <p>Content on a themed surface.</p>
-</ThemeSurface>
-
-{/* Or apply theme background to the whole page: */}
-<ThemeSurface global />
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `global` | `boolean` | `false` | When true, applies background to `document.body` instead of rendering a div |
-| `style` | `CSSProperties` | — | Inline styles (only used when `global` is false) |
-
 ---
 
 ## Icons

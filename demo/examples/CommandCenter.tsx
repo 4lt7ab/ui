@@ -54,7 +54,7 @@ function severityBadge(severity: string): 'error' | 'warning' | 'default' {
 // Stat card
 // ---------------------------------------------------------------------------
 
-function StatCard({ label, value, dot }: {
+function MetricTile({ label, value, dot }: {
   label: string;
   value: string;
   dot?: 'success' | 'warning' | 'error';
@@ -222,10 +222,10 @@ export function CommandCenter(): React.JSX.Element {
             </Stack>
           ) : (
             <Stack direction="horizontal" gap="md" wrap>
-              <StatCard label="Uptime" value="99.97%" dot="success" />
-              <StatCard label="Services" value={String(SERVICES.length)} dot={degradedCount > 0 ? 'warning' : 'success'} />
-              <StatCard label="Incidents" value={String(INCIDENTS.length)} dot={incidentCount > 0 ? 'error' : 'success'} />
-              <StatCard label="Requests/s" value="8,472" />
+              <MetricTile label="Uptime" value="99.97%" dot="success" />
+              <MetricTile label="Services" value={String(SERVICES.length)} dot={degradedCount > 0 ? 'warning' : 'success'} />
+              <MetricTile label="Incidents" value={String(INCIDENTS.length)} dot={incidentCount > 0 ? 'error' : 'success'} />
+              <MetricTile label="Requests/s" value="8,472" />
             </Stack>
           )}
 

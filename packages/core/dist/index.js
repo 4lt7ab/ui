@@ -1076,7 +1076,7 @@ function ThemeProvider({
 }) {
   if (applyPageStyles === undefined && !_applyPageStylesWarned) {
     _applyPageStylesWarned = true;
-    console.warn("ThemeProvider: applyPageStyles will default to false in v2. " + "Set it explicitly or use <ThemeSurface> for page backgrounds.");
+    console.warn("ThemeProvider: applyPageStyles will default to false in v2. " + "Set it explicitly or call usePageBackground() for page backgrounds.");
   }
   const shouldApplyPageStyles = applyPageStyles ?? true;
   const registry = useMemo(() => {
@@ -1197,6 +1197,23 @@ function staggerStyle(index, options) {
     animation: `${KEYFRAMES.fadeInUp} ${duration}s ease both`,
     animationDelay: `${delay}ms`
   };
+}
+// src/utils/usePageBackground.ts
+import { useEffect as useEffect3, useRef as useRef2 } from "react";
+function usePageBackground() {
+  const { resolved } = useTheme();
+  const prevBodyBgRef = useRef2("");
+  const prevBodyColorRef = useRef2("");
+  useEffect3(() => {
+    prevBodyBgRef.current = document.body.style.backgroundColor;
+    prevBodyColorRef.current = document.body.style.color;
+    document.body.style.backgroundColor = "var(--color-surface-page)";
+    document.body.style.color = "var(--color-text)";
+    return () => {
+      document.body.style.backgroundColor = prevBodyBgRef.current;
+      document.body.style.color = prevBodyColorRef.current;
+    };
+  }, [resolved]);
 }
 // src/tokens/primitives.ts
 var colors = {
@@ -1404,6 +1421,7 @@ export {
   warmSandTheme,
   useThemeRhythm,
   useTheme,
+  usePageBackground,
   useInjectStyles,
   typography,
   tokenToCssProperty,

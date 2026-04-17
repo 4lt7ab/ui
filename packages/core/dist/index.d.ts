@@ -21,6 +21,28 @@ interface StaggerOptions {
 */
 declare function staggerStyle(index: number, options?: StaggerOptions): CSSProperties;
 /**
+* Paint the active theme's page background onto `document.body`.
+*
+* Writes `background-color: var(--color-surface-page)` and
+* `color: var(--color-text)` to the body on mount and restores the previous
+* inline values on unmount. Uses CSS variables directly so the browser
+* resolves them dynamically, avoiding race conditions with ThemeProvider's
+* token application when the theme changes.
+*
+* This replaces the body-painting capability that previously required a
+* wrapper component; wrapping children in a fragment just to run a side
+* effect was never the right abstraction.
+*
+* @example
+* ```tsx
+* function RootLayout({ children }) {
+*   usePageBackground();
+*   return <>{children}</>;
+* }
+* ```
+*/
+declare function usePageBackground(): void;
+/**
 * Primitive tokens — raw design values with no semantic meaning.
 * These are the palette. Components never reference these directly.
 */
@@ -649,4 +671,4 @@ declare const pipboyTheme: ThemeDefinition;
 declare const neuralTheme: ThemeDefinition;
 declare const pacmanTheme: ThemeDefinition;
 declare const blackHoleTheme: ThemeDefinition;
-export { warmSandTheme, useThemeRhythm, useTheme, useInjectStyles, typography, tokenToCssProperty, synthwaveTheme, staggerStyle, spacing, slateTheme, shadows, setActiveRhythm, semantic, radii, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, coralTheme, colors, blackHoleTheme, Typography, ThemeTokens, ThemeRhythmHandle, ThemeRhythm, ThemeProviderProps, ThemeProvider, ThemeDefinition, ThemeContextValue, Theme, StaggerOptions, Spacing, Shadows, SemanticTokens, ResolvedTheme, Radii, KEYFRAMES, Colors };
+export { warmSandTheme, useThemeRhythm, useTheme, usePageBackground, useInjectStyles, typography, tokenToCssProperty, synthwaveTheme, staggerStyle, spacing, slateTheme, shadows, setActiveRhythm, semantic, radii, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, coralTheme, colors, blackHoleTheme, Typography, ThemeTokens, ThemeRhythmHandle, ThemeRhythm, ThemeProviderProps, ThemeProvider, ThemeDefinition, ThemeContextValue, Theme, StaggerOptions, Spacing, Shadows, SemanticTokens, ResolvedTheme, Radii, KEYFRAMES, Colors };

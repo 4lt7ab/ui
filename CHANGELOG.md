@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- **BREAKING** — Surface consolidation (see KB design doc `01KPD518FE48GGSBJFAHVPFMJH`): retire `ThemeSurface` component (replaced by new `usePageBackground()` hook in `@4lt7ab/core` plus `<Surface level="page">` for the non-global case), retire `StatCard` component (migrate to a `<Surface>` composition), and retire `Card` `variant: 'live'` (use `glow` prop — theme-aware superset via the component-canvas bridge). `Surface` already carries the `tint` prop noted in the design doc
 - Add theme rhythm system — `ThemeDefinition.rhythm?: { bpm, easing, intensity }` adds a temporal dimension to themes. `useThemeRhythm()` hook in `@4lt7ab/core` exposes active config, a phase ref (0..1 sine/triangle/square/sawtooth), an imperative `subscribe()` for per-frame updates, and a `durationCss` helper for CSS animations
 - Rhythm engine is lazy — single shared `requestAnimationFrame` loop starts only on first subscriber and stops on last unsubscribe; zero cost when unused
 - Synthwave (80 bpm sine), Pipboy (140 bpm square), and Neural (60 bpm triangle) themes gain rhythm definitions

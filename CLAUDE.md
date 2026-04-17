@@ -102,7 +102,6 @@ packages/
 │       │   ├── SegmentedControl/
 │       │   ├── StatusDot/
 │       │   ├── ThemePicker/
-│       │   ├── ThemeSurface/
 │       │   └── Toast/
 │       └── index.ts
 ├── content/

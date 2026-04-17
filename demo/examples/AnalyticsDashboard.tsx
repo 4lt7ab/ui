@@ -45,7 +45,7 @@ function fmt(n: number): string {
 // Stat card
 // ---------------------------------------------------------------------------
 
-function StatCard({ label, value, sub }: {
+function MetricTile({ label, value, sub }: {
   label: string;
   value: string;
   sub?: string;
@@ -137,10 +137,10 @@ export function AnalyticsDashboard(): React.JSX.Element {
         gridTemplateColumns: 'repeat(auto-fill, minmax(11rem, 1fr))',
         gap: 'var(--space-md)',
       }}>
-        <StatCard label="Visitors" value="38,040" sub="+12.3% vs prior period" />
-        <StatCard label="Conversion" value="3.4%" sub="+0.2pp vs prior period" />
-        <StatCard label="Revenue" value="$97,550" sub="+8.7% vs prior period" />
-        <StatCard label="Avg. Session" value="2m 34s" sub="-5s vs prior period" />
+        <MetricTile label="Visitors" value="38,040" sub="+12.3% vs prior period" />
+        <MetricTile label="Conversion" value="3.4%" sub="+0.2pp vs prior period" />
+        <MetricTile label="Revenue" value="$97,550" sub="+8.7% vs prior period" />
+        <MetricTile label="Avg. Session" value="2m 34s" sub="-5s vs prior period" />
       </div>
 
       {/* Channel breakdown */}

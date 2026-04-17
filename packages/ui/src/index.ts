@@ -35,7 +35,6 @@ export type { ModalShellProps } from './components/ModalShell';
 export * from './components/ConfirmDialog';
 export * from './components/FormModal';
 export * from './components/StatusDot';
-export * from './components/ThemeSurface';
 export * from './components/Table';
 export * from './components/DateRangePicker';
 export * from './components/DatePicker';
@@ -59,7 +58,6 @@ export * from './components/Grid';
 export * from './components/Divider';
 
 // Molecules
-export * from './components/StatCard';
 export * from './components/TabStrip';
 export * from './components/SectionHeader';
 

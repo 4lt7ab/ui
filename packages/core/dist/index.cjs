@@ -43,6 +43,7 @@ __export(exports_src, {
   warmSandTheme: () => warmSandTheme,
   useThemeRhythm: () => useThemeRhythm,
   useTheme: () => useTheme,
+  usePageBackground: () => usePageBackground,
   useInjectStyles: () => useInjectStyles,
   typography: () => typography,
   tokenToCssProperty: () => tokenToCssProperty,
@@ -1135,7 +1136,7 @@ function ThemeProvider({
 }) {
   if (applyPageStyles === undefined && !_applyPageStylesWarned) {
     _applyPageStylesWarned = true;
-    console.warn("ThemeProvider: applyPageStyles will default to false in v2. " + "Set it explicitly or use <ThemeSurface> for page backgrounds.");
+    console.warn("ThemeProvider: applyPageStyles will default to false in v2. " + "Set it explicitly or call usePageBackground() for page backgrounds.");
   }
   const shouldApplyPageStyles = applyPageStyles ?? true;
   const registry = import_react2.useMemo(() => {
@@ -1256,6 +1257,23 @@ function staggerStyle(index, options) {
     animation: `${KEYFRAMES.fadeInUp} ${duration}s ease both`,
     animationDelay: `${delay}ms`
   };
+}
+// src/utils/usePageBackground.ts
+var import_react3 = require("react");
+function usePageBackground() {
+  const { resolved } = useTheme();
+  const prevBodyBgRef = import_react3.useRef("");
+  const prevBodyColorRef = import_react3.useRef("");
+  import_react3.useEffect(() => {
+    prevBodyBgRef.current = document.body.style.backgroundColor;
+    prevBodyColorRef.current = document.body.style.color;
+    document.body.style.backgroundColor = "var(--color-surface-page)";
+    document.body.style.color = "var(--color-text)";
+    return () => {
+      document.body.style.backgroundColor = prevBodyBgRef.current;
+      document.body.style.color = prevBodyColorRef.current;
+    };
+  }, [resolved]);
 }
 // src/tokens/primitives.ts
 var colors = {

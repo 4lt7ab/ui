@@ -53,10 +53,8 @@ import { TextSectionDemo } from './TextSectionDemo';
 import { SurfaceDemo } from './SurfaceDemo';
 import { GridDemo } from './GridDemo';
 import { DividerDemo } from './DividerDemo';
-import { StatCardDemo } from './StatCardDemo';
 import { TabStripDemo } from './TabStripDemo';
 import { SectionHeaderDemo } from './SectionHeaderDemo';
-import { ThemeSurfaceDemo } from './ThemeSurfaceDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -123,10 +121,8 @@ export const demos: DemoEntry[] = [
   { name: 'PillSelect', category: 'Form', source: 'ui', component: PillSelectDemo },
 
   // Molecules
-  { name: 'StatCard', category: 'Feedback', source: 'ui', component: StatCardDemo },
   { name: 'TabStrip', category: 'Navigation', source: 'ui', component: TabStripDemo },
   { name: 'SectionHeader', category: 'Layout', source: 'ui', component: SectionHeaderDemo },
-  { name: 'ThemeSurface', category: 'Layout', source: 'ui', component: ThemeSurfaceDemo },
 
   // Action (additional)
   { name: 'SegmentedControl', category: 'Action', source: 'ui', component: SegmentedControlDemo },
@@ -175,8 +171,6 @@ export {
   SurfaceDemo,
   GridDemo,
   DividerDemo,
-  StatCardDemo,
   TabStripDemo,
   SectionHeaderDemo,
-  ThemeSurfaceDemo,
 };

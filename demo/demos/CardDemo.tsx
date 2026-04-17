@@ -2,7 +2,7 @@ import { Card, Stack, Button } from '@4lt7ab/ui';
 import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
 
 const props: PropMeta[] = [
-  { name: 'variant', type: "'default' | 'flat' | 'elevated' | 'live'", default: "'default'", description: 'Visual treatment of the card surface.' },
+  { name: 'variant', type: "'default' | 'flat' | 'elevated'", default: "'default'", description: 'Visual treatment of the card surface.' },
   { name: 'padding', type: "'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'", default: "'lg'", description: 'Inner padding using spacing tokens.' },
   { name: 'hover', type: 'boolean', default: 'false', description: 'Enable interactive hover state with border highlight and lift effect.' },
   { name: 'glow', type: 'boolean', default: 'false', description: 'Opt into a theme-rhythm-driven border glow. No-ops on themes without rhythm and under prefers-reduced-motion.' },
@@ -12,7 +12,7 @@ const props: PropMeta[] = [
 export function CardDemo(): React.JSX.Element {
   return (
     <DocBlock props={props}>
-      <PropDemo name="variant" description="Controls the card's background, border, and shadow. The live variant adds a pulsing border glow for active/real-time state.">
+      <PropDemo name="variant" description="Controls the card's background, border, and shadow. For a rhythm-driven pulsing border, use the glow prop.">
         <Stack gap="md">
           <Card variant="default">
             <strong>Default</strong>
@@ -30,12 +30,6 @@ export function CardDemo(): React.JSX.Element {
             <strong>Elevated</strong>
             <p style={{ margin: '0.25rem 0 0', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
               Stronger shadow. Good for floating content, popovers, or prominent sections.
-            </p>
-          </Card>
-          <Card variant="live">
-            <strong>Live</strong>
-            <p style={{ margin: '0.25rem 0 0', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
-              Pulsing border glow to indicate real-time or active state. Respects prefers-reduced-motion.
             </p>
           </Card>
         </Stack>
@@ -93,10 +87,10 @@ export function CardDemo(): React.JSX.Element {
             </Card>
           </div>
           <div style={{ flex: '1 1 10rem' }}>
-            <Card hover variant="live">
-              <strong>Live + hover</strong>
+            <Card hover glow>
+              <strong>Glow + hover</strong>
               <p style={{ margin: '0.25rem 0 0', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
-                Combines pulse animation with hover lift.
+                Combines rhythm-driven glow with hover lift.
               </p>
             </Card>
           </div>
