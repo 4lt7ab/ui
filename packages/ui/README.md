@@ -804,6 +804,17 @@ Theme selector wired into `useTheme()`. Two variants:
 
 ---
 
+## Retired in 0.3.0
+
+The 0.3.0 surface and modal consolidation retired four components. Design rationale lives in the Tab knowledgebase.
+
+- **`ThemeSurface`** — replaced by `usePageBackground()` in `@4lt7ab/core` for global page background, or `<Surface level="page">` for a scoped equivalent. See KB document `01KPD518FE48GGSBJFAHVPFMJH`.
+- **`StatCard`** — retired as a `<Surface>` composition. See KB document `01KPD518FE48GGSBJFAHVPFMJH`.
+- **`FormModal`** — retired as a documented composition over `ModalShell`; `modalHeadingStyle` and `modalFooterStyle` are exported directly from `@4lt7ab/ui`. See KB document `01KPD518FGRWBYJTS348Y7SMCX` and the `ModalShellFormPattern` demo.
+- **`ShortcutHelpModal`** — retired; consumers own their data shape and `<kbd>` styling per the migration snippet in KB document `01KPD518FGRWBYJTS348Y7SMCX`.
+
+---
+
 ## Icons
 
 25 built-in icons, usable as named components or dynamically via the `Icon` component:

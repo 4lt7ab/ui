@@ -67,54 +67,61 @@ packages/
 │       ├── utils/
 │       │   └── useFocusTrap.ts     # focus trap for modals
 │       ├── components/
+│       │   ├── AlertBanner/
+│       │   ├── Badge/
 │       │   ├── Button/
 │       │   ├── Card/
-│       │   ├── Stack/
-│       │   ├── Input/
-│       │   ├── Textarea/
-│       │   ├── Select/
-│       │   ├── Field/
-│       │   ├── Badge/
-│       │   ├── Icon/
-│       │   ├── IconButton/
-│       │   ├── Overlay/
-│       │   ├── ModalShell/
-│       │   ├── ConfirmDialog/
-│       │   ├── Skeleton/
-│       │   ├── ProgressBar/
-│       │   ├── EmptyState/
-│       │   ├── ErrorBoundary/
-│       │   ├── Pagination/
-│       │   ├── PageHeader/
-│       │   ├── PageShell/
-│       │   ├── TagChip/
-│       │   ├── ExpandableCard/
-│       │   ├── Table/
-│       │   ├── TableFilters/
+│       │   ├── ChipPicker/
 │       │   ├── Combobox/
+│       │   ├── ConfirmDialog/
 │       │   ├── DatePicker/
 │       │   ├── DateRangePicker/
-│       │   ├── ChipPicker/
-│       │   ├── AlertBanner/
+│       │   ├── Divider/
+│       │   ├── EmptyState/
+│       │   ├── ErrorBoundary/
+│       │   ├── ExpandableCard/
+│       │   ├── Field/
+│       │   ├── Grid/
+│       │   ├── Icon/
+│       │   ├── IconButton/
+│       │   ├── Input/
 │       │   ├── MetadataTable/
+│       │   ├── ModalShell/
+│       │   ├── Overlay/
+│       │   ├── PageHeader/
+│       │   ├── PageShell/
+│       │   ├── Pagination/
+│       │   ├── PillSelect/
+│       │   ├── ProgressBar/
 │       │   ├── SearchInput/
+│       │   ├── SectionHeader/
 │       │   ├── SectionLabel/
 │       │   ├── SegmentedControl/
+│       │   ├── Select/
+│       │   ├── Skeleton/
+│       │   ├── Stack/
 │       │   ├── StatusDot/
+│       │   ├── Surface/
+│       │   ├── TabStrip/
+│       │   ├── Table/
+│       │   ├── TableFilters/
+│       │   ├── TagChip/
+│       │   ├── Textarea/
 │       │   ├── ThemePicker/
-│       │   └── Toast/
+│       │   ├── Toast/
+│       │   └── TopBar/
 │       └── index.ts
 ├── content/
 │   └── src/
 │       ├── components/
 │       │   ├── Container/
-│       │   ├── Prose/
-│       │   ├── Markdown/
-│       │   ├── PullQuote/
-│       │   ├── MarginNote/
-│       │   ├── SideNote/
 │       │   ├── Epigraph/
 │       │   ├── LinkCard/
+│       │   ├── MarginNote/
+│       │   ├── Markdown/
+│       │   ├── Prose/
+│       │   ├── PullQuote/
+│       │   ├── SideNote/
 │       │   ├── TextSection/
 │       │   └── ThinkingCycle/
 │       └── index.ts
@@ -132,6 +139,15 @@ scripts/
 ├── verify-exports.ts            # post-build: confirms all source exports exist in dist bundles
 demo/                            # Vite demo app (separate workspace with own deps)
 ```
+
+### Retired in 0.3.0
+
+Component surface reduction tracked in the Tab knowledgebase. Do not re-add these without revisiting the design docs.
+
+- **`ThemeSurface`** — page background is now the `usePageBackground()` hook in `@4lt7ab/core`; non-global uses collapse to `<Surface level="page">`. See KB document `01KPD518FE48GGSBJFAHVPFMJH`.
+- **`StatCard`** — retired as a documented `<Surface>` composition. See KB document `01KPD518FE48GGSBJFAHVPFMJH`.
+- **`FormModal`** — retired as a documented composition over `ModalShell`; `modalHeadingStyle` and `modalFooterStyle` are exported for consumers. See KB document `01KPD518FGRWBYJTS348Y7SMCX` and the `ModalShellFormPattern` demo.
+- **`ShortcutHelpModal`** — retired; consumers own their data shape and `<kbd>` styling per the migration snippet in KB document `01KPD518FGRWBYJTS348Y7SMCX`.
 
 ## Conventions
 
@@ -214,7 +230,7 @@ Tests use **vitest** + **@testing-library/react** + **jsdom**. Config lives in `
 Tests are being added incrementally. Prioritize components with the most logic and interaction surface:
 
 1. **High** — ModalShell, Select, Combobox, DatePicker, DateRangePicker, useFocusTrap
-2. **Medium** — ConfirmDialog, FormModal, Toast, SearchInput, Pagination, SegmentedControl, ExpandableCard
+2. **Medium** — ConfirmDialog, Toast, SearchInput, Pagination, SegmentedControl, ExpandableCard
 3. **Low** — Presentational components (Badge, Card, Stack, Skeleton, etc.)
 
 Pure utility functions (dateUtils, token helpers) should always have tests.
