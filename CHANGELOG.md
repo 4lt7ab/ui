@@ -10,6 +10,7 @@
 - Skeleton now pulses with the theme's accent color at low opacity instead of a static grey block. Sibling skeletons stagger via `:nth-of-type` for a wave effect in DOM order. Duration syncs to the active theme's rhythm when present. `CardSkeleton` and `RowSkeleton` inherit via composition. Honors `prefers-reduced-motion`
 - EmptyState gets an `idle?: 'none' | 'breathe' | 'particles'` prop (default `'breathe'`). `breathe` scale-pulses the icon 1.0 → 1.05 → 1.0 on a 3s cycle. `particles` adds four drifting dots with independent elliptical paths. All animations are CSS-only, transform-based (no layout shift), and honor `prefers-reduced-motion`
 - Toast now renders a 2px dismiss-timer bar at the bottom that drains from full to empty over the toast's duration, colored to match the toast type. Hovering or focusing the toast pauses both the JS dismissal timer and the bar animation via a `data-toast-paused` attribute; leaving resumes with the remaining time. Pass `duration: 0` to showToast for a persistent toast (no bar, no auto-dismiss). Honors `prefers-reduced-motion` by freezing the bar at full width while the JS dismissal still runs
+- ExpandableCard open/close is now choreographed rather than simultaneous. On open: chevron rotates first (0-150ms), height opens with 100ms delay, direct children fade in with 40ms stagger. On close: children fade out immediately, height collapses after 80ms, chevron rotates back after 150ms. Total envelope ≤ 350ms. Honors `prefers-reduced-motion` for instant open/close
 
 ## v0.2.30
 

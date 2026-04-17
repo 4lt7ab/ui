@@ -2420,6 +2420,34 @@ var TagChip = (0, import_react19.forwardRef)(
 var import_core20 = require("../../core/dist/index.cjs");
 var import_react20 = require("react");
 var import_jsx_runtime21 = require("react/jsx-runtime");
+var EXPANDABLE_STYLES_ID = "4lt7ab-expandable-card-choreo";
+var EXPANDABLE_STYLES_CSS = `
+@keyframes expandableCardChildIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+[data-expandable-body][data-open="true"] > div > div > * {
+  animation: expandableCardChildIn 180ms ease-out both;
+}
+[data-expandable-body][data-open="true"] > div > div > *:nth-child(1) { animation-delay: 150ms; }
+[data-expandable-body][data-open="true"] > div > div > *:nth-child(2) { animation-delay: 190ms; }
+[data-expandable-body][data-open="true"] > div > div > *:nth-child(3) { animation-delay: 230ms; }
+[data-expandable-body][data-open="true"] > div > div > *:nth-child(4) { animation-delay: 270ms; }
+[data-expandable-body][data-open="true"] > div > div > *:nth-child(n+5) { animation-delay: 300ms; }
+/* Closing \u2014 fade children out quickly without stagger. */
+[data-expandable-body][data-open="false"] > div > div > * {
+  opacity: 0;
+  transition: opacity 120ms ease-in;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-expandable-body][data-open="true"] > div > div > * {
+    animation: none;
+  }
+  [data-expandable-body][data-open="false"] > div > div > * {
+    transition: none;
+  }
+}
+`;
 var ExpandableCard = (0, import_react20.forwardRef)(
   function ExpandableCard2({
     title,
@@ -2433,6 +2461,7 @@ var ExpandableCard = (0, import_react20.forwardRef)(
     const [internalOpen, setInternalOpen] = (0, import_react20.useState)(defaultOpen);
     const isOpen = controlledOpen !== void 0 ? controlledOpen : internalOpen;
     const panelId = (0, import_react20.useId)();
+    (0, import_core20.useInjectStyles)(EXPANDABLE_STYLES_ID, EXPANDABLE_STYLES_CSS);
     const handleToggle = () => {
       const next = !isOpen;
       if (controlledOpen === void 0) {
@@ -2475,7 +2504,9 @@ var ExpandableCard = (0, import_react20.forwardRef)(
                     height: 20,
                     lineHeight: 1,
                     color: "inherit",
-                    transition: `transform ${import_core20.semantic.transitionSlow}`,
+                    /* Chevron leads on open (no delay), trails on close (150ms delay). */
+                    transition: "transform 150ms ease-out",
+                    transitionDelay: isOpen ? "0ms" : "150ms",
                     transform: isOpen ? "rotate(90deg)" : "rotate(0deg)"
                   },
                   children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(IconChevronRight, { size: 20 })
@@ -2503,10 +2534,14 @@ var ExpandableCard = (0, import_react20.forwardRef)(
         {
           id: panelId,
           role: "region",
+          "data-expandable-body": "",
+          "data-open": isOpen ? "true" : "false",
           style: {
             display: "grid",
             gridTemplateRows: isOpen ? "1fr" : "0fr",
-            transition: `grid-template-rows ${import_core20.semantic.transitionSlow}`
+            transition: "grid-template-rows 200ms ease-out",
+            /* Height waits for chevron on open, lags behind children fade on close. */
+            transitionDelay: isOpen ? "100ms" : "80ms"
           },
           children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { style: { overflow: "hidden" }, children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { style: { padding: `${import_core20.semantic.spaceSm} ${import_core20.semantic.spaceMd} ${import_core20.semantic.spaceMd}` }, children }) })
         }
