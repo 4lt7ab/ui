@@ -4279,6 +4279,7 @@ var Combobox = forwardRef28(function Combobox2({
   const containerRef = useRef9(null);
   const inputRef = useRef9(null);
   const menuRef = useRef9(null);
+  const suppressNextOpenRef = useRef9(false);
   useEffect9(() => {
     if (!ref) return;
     if (typeof ref === "function") {
@@ -4318,7 +4319,10 @@ var Combobox = forwardRef28(function Combobox2({
       onChange(opt.value);
       onSelect?.(opt);
       closeMenu();
-      inputRef.current?.focus();
+      if (inputRef.current && document.activeElement !== inputRef.current) {
+        suppressNextOpenRef.current = true;
+        inputRef.current.focus();
+      }
     },
     [onChange, onSelect, closeMenu]
   );
@@ -4453,7 +4457,11 @@ var Combobox = forwardRef28(function Combobox2({
             onChange: handleInputChange,
             onBlur: onBlurProp,
             onFocus: (e) => {
-              if (!disabled && filtered.length > 0) openMenu();
+              if (suppressNextOpenRef.current) {
+                suppressNextOpenRef.current = false;
+              } else if (!disabled && filtered.length > 0) {
+                openMenu();
+              }
               onFocusProp?.(e);
             },
             "data-testid": dataTestId,
