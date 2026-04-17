@@ -12,6 +12,7 @@
 - Toast now renders a 2px dismiss-timer bar at the bottom that drains from full to empty over the toast's duration, colored to match the toast type. Hovering or focusing the toast pauses both the JS dismissal timer and the bar animation via a `data-toast-paused` attribute; leaving resumes with the remaining time. Pass `duration: 0` to showToast for a persistent toast (no bar, no auto-dismiss). Honors `prefers-reduced-motion` by freezing the bar at full width while the JS dismissal still runs
 - ExpandableCard open/close is now choreographed rather than simultaneous. On open: chevron rotates first (0-150ms), height opens with 100ms delay, direct children fade in with 40ms stagger. On close: children fade out immediately, height collapses after 80ms, chevron rotates back after 150ms. Total envelope ≤ 350ms. Honors `prefers-reduced-motion` for instant open/close
 - Fix Combobox menu reopening after option selection — listbox now stays closed when a click-selected option refocuses the input, matching the ARIA APG combobox pattern. Regression test asserts listbox is not in the DOM post-selection
+- Docs — add `packages/core/docs/component-canvas-bridge.md` specifying how components opt into `useThemeRhythm` (API shape, Card example, no-rhythm + reduced-motion fallback contract, 1ms-per-frame perf budget). Design doc only, no runtime changes
 
 ## v0.2.30
 
