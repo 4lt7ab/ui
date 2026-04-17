@@ -697,7 +697,7 @@ const [selected, setSelected] = useState<string[]>([]);
 
 `ChipItem`: `{ value: string; label: string; group?: string }`
 
-When items have a `group` set, they render under `SectionLabel` headers. Ungrouped items render first.
+When items have a `group` set, they render under uppercase section headings (using `sectionLabelStyle`). Ungrouped items render first.
 
 ### SearchInput
 
@@ -751,20 +751,16 @@ Generic segmented toggle with a sliding pill indicator. Supports text, icon, or 
 
 Each segment button has `aria-pressed` for accessibility. The sliding indicator uses CSS transitions and respects `prefers-reduced-motion`. Small enough to fit inside SearchInput's `trailing` slot.
 
-### SectionLabel
+### sectionLabelStyle
 
-Uppercase section heading for labeling content groups.
+Exported `CSSProperties` object (not a component) for uppercase section headings. Spread onto any element.
 
 ```tsx
-<SectionLabel>Dependencies</SectionLabel>
-<SectionLabel style={{ color: semantic.colorActionPrimary }}>Custom</SectionLabel>
+import { sectionLabelStyle } from '@4lt7ab/ui';
+
+<span style={sectionLabelStyle}>Dependencies</span>
+<div style={{ ...sectionLabelStyle, color: semantic.colorActionPrimary }}>Custom</div>
 ```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | *required* | Label content |
-
-Extends `HTMLAttributes<HTMLDivElement>`.
 
 ### StatusDot
 

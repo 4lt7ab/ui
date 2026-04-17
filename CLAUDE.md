@@ -109,7 +109,6 @@ packages/
 │       │   ├── ProgressBar/
 │       │   ├── SearchInput/
 │       │   ├── SectionHeader/
-│       │   ├── SectionLabel/
 │       │   ├── SegmentedControl/
 │       │   ├── Select/
 │       │   ├── Skeleton/
@@ -162,6 +161,10 @@ Component surface reduction tracked in the Tab knowledgebase. Do not re-add thes
 - **`StatCard`** — retired as a documented `<Surface>` composition. See KB document `01KPD518FE48GGSBJFAHVPFMJH`.
 - **`FormModal`** — retired as a documented composition over `ModalShell`; `modalHeadingStyle` and `modalFooterStyle` are exported for consumers. See KB document `01KPD518FGRWBYJTS348Y7SMCX` and the `ModalShellFormPattern` demo.
 - **`ShortcutHelpModal`** — retired; consumers own their data shape and `<kbd>` styling per the migration snippet in KB document `01KPD518FGRWBYJTS348Y7SMCX`.
+
+### Retired in 0.4.0
+
+- **`SectionLabel`** — retired; the uppercase + letter-spacing style block is exported as `sectionLabelStyle: CSSProperties` from `@4lt7ab/ui` so consumers can spread it onto any element. See KB documents `01KPE1EQB2T23FV6XH17APTD1T` (audit) and `01KPE1JZ93VM9QDK2QFM88GWBK` §1 (upgrade guide).
 
 ## Conventions
 

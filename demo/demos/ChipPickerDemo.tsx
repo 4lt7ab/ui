@@ -46,7 +46,7 @@ export function ChipPickerDemo(): React.JSX.Element {
         </Stack>
       </PropDemo>
 
-      <PropDemo name="items (grouped)" description="Items with a group property are rendered under SectionLabel headers. Groups appear in order of first appearance.">
+      <PropDemo name="items (grouped)" description="Items with a group property are rendered under uppercase section headings. Groups appear in order of first appearance.">
         <Stack gap="sm">
           <ChipPicker items={groupedItems} selected={grouped} onChange={setGrouped} />
           <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>

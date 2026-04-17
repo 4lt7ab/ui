@@ -1,6 +1,6 @@
 import { useId } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
-import { SectionLabel } from '../SectionLabel';
+import { sectionLabelStyle } from '../../styles/sectionLabelStyle';
 import type { CSSProperties } from 'react';
 
 /** A single chip option. */
@@ -9,7 +9,7 @@ export interface ChipItem {
   value: string;
   /** Display label. */
   label: string;
-  /** Optional group name — chips sharing a group render under a SectionLabel header. */
+  /** Optional group name — chips sharing a group render under an uppercase section heading. */
   group?: string;
 }
 
@@ -131,9 +131,9 @@ export function ChipPicker({
         <div key={group.label ?? '__ungrouped'} style={{ display: 'flex', flexDirection: 'column', gap: t.spaceSm }}>
           {group.label !== null && (
             <div style={i > 0 ? { marginTop: t.spaceXs } : undefined}>
-              <SectionLabel>
+              <div style={sectionLabelStyle}>
                 {group.label}
-              </SectionLabel>
+              </div>
             </div>
           )}
           {renderChips(group.chips)}

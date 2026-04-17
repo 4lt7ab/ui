@@ -37,7 +37,6 @@ import { DatePickerDemo } from './DatePickerDemo';
 import { MetadataTableDemo } from './MetadataTableDemo';
 import { ErrorBoundaryDemo } from './ErrorBoundaryDemo';
 import { IconFontDemo } from './IconFontDemo';
-import { SectionLabelDemo } from './SectionLabelDemo';
 import { ToastDemo } from './ToastDemo';
 import { ComboboxDemo } from './ComboboxDemo';
 import { TableFiltersDemo } from './TableFiltersDemo';
@@ -81,7 +80,6 @@ export const demos: DemoEntry[] = [
   { name: 'Table', category: 'Layout', source: 'ui', component: TableDemo },
   { name: 'TableFilters', category: 'Layout', source: 'ui', component: TableFiltersDemo },
   { name: 'MetadataTable', category: 'Layout', source: 'ui', component: MetadataTableDemo },
-  { name: 'SectionLabel', category: 'Layout', source: 'ui', component: SectionLabelDemo },
   { name: 'Skeleton', category: 'Layout', source: 'ui', component: SkeletonDemo },
 
   // Action
@@ -152,7 +150,6 @@ export {
   MetadataTableDemo,
   ErrorBoundaryDemo,
   IconFontDemo,
-  SectionLabelDemo,
   ToastDemo,
   ComboboxDemo,
   TableFiltersDemo,

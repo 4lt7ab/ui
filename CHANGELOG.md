@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- **BREAKING** — Retire `SectionLabel` component. The uppercase + letter-spacing style block is now exported as `sectionLabelStyle: CSSProperties` from `@4lt7ab/ui` for consumers to apply to any element. See upgrade guide `01KPE1JZ93VM9QDK2QFM88GWBK` §1
 - Docs — scaffold the 0.4.0 consumer upgrade guide in the Tab knowledgebase as document `01KPE1JZ93VM9QDK2QFM88GWBK` (folder `upgrade-guides`, attached to `4lt7ab/component-library`). Quick-lookup table plus a section per v0.4 breaking change; each section is an intentional `_TBD_` placeholder populated by its owning backlog task as the change lands. Cross-links the North Star principles doc (`01KPE19KJEN755V8ZX8DN1ZWSZ`), the component audit (`01KPE1EQB2T23FV6XH17APTD1T`), and the compound-component ADR (`01KPE1EJPMPZ4DPXYMK624KTG3`)
 - Docs — publish the 0.3.0 consumer upgrade guide to the Tab knowledgebase as document `01KPD65F17Z9TXXEJEA6FG7JNT` (attached to the `4lt7ab/component-library`, `Tab`, and `tab-for-projects` projects). Covers every breaking change in this release with before/after JSX snippets and a quick-lookup table; no in-repo artifact per the 0.3.0 convention
 - Docs — refresh `CLAUDE.md` source-layout tree to match the current `packages/ui/` and `packages/content/` component sets, and add a "Retired in 0.3.0" section to `CLAUDE.md`, the root `README.md`, and `packages/ui/README.md` pointing at the KB design docs (`01KPD518FE48GGSBJFAHVPFMJH`, `01KPD518FGRWBYJTS348Y7SMCX`) rather than in-repo filepaths
