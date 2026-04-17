@@ -155,16 +155,16 @@ demo/                            # Vite demo app (separate workspace with own de
 
 ### Retired in 0.3.0
 
-Component surface reduction tracked in the Tab knowledgebase. Do not re-add these without revisiting the design docs.
+Component surface reduction. Do not re-add these without revisiting the rationale (captured in the project's design docs in the Tab knowledgebase, attached to the `4lt7ab/component-library` project).
 
-- **`ThemeSurface`** — page background is now the `usePageBackground()` hook in `@4lt7ab/core`; non-global uses collapse to `<Surface level="page">`. See KB document `01KPD518FE48GGSBJFAHVPFMJH`.
-- **`StatCard`** — retired as a documented `<Surface>` composition. See KB document `01KPD518FE48GGSBJFAHVPFMJH`.
-- **`FormModal`** — retired as a documented composition over `ModalShell`; `modalHeadingStyle` and `modalFooterStyle` are exported for consumers. See KB document `01KPD518FGRWBYJTS348Y7SMCX` and the `ModalShellFormPattern` demo.
-- **`ShortcutHelpModal`** — retired; consumers own their data shape and `<kbd>` styling per the migration snippet in KB document `01KPD518FGRWBYJTS348Y7SMCX`.
+- **`ThemeSurface`** — page background is now the `usePageBackground()` hook in `@4lt7ab/core`; non-global uses collapse to `<Surface level="page">`.
+- **`StatCard`** — retired as a documented `<Surface>` composition.
+- **`FormModal`** — retired as a documented composition over `ModalShell`; `modalHeadingStyle` and `modalFooterStyle` are exported for consumers. See the `ModalShellFormPattern` demo for the canonical replacement.
+- **`ShortcutHelpModal`** — retired; consumers own their data shape and `<kbd>` styling.
 
 ### Retired in 0.4.0
 
-- **`SectionLabel`** — retired; the uppercase + letter-spacing style block is exported as `sectionLabelStyle: CSSProperties` from `@4lt7ab/ui` so consumers can spread it onto any element. See KB documents `01KPE1EQB2T23FV6XH17APTD1T` (audit) and `01KPE1JZ93VM9QDK2QFM88GWBK` §1 (upgrade guide).
+- **`SectionLabel`** — retired; the uppercase + letter-spacing style block is exported as `sectionLabelStyle: CSSProperties` from `@4lt7ab/ui` so consumers can spread it onto any element.
 
 ## Conventions
 

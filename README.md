@@ -134,12 +134,12 @@ Use these tokens when building custom components that should stay consistent wit
 
 ## Retired in 0.3.0
 
-The following components were retired during the 0.3.0 surface and modal consolidation. Design rationale lives in the Tab knowledgebase.
+The following components were retired during the 0.3.0 surface and modal consolidation.
 
-- **`ThemeSurface`** — replaced by `usePageBackground()` in `@4lt7ab/core` for global page background, or `<Surface level="page">` for a scoped equivalent. See KB document `01KPD518FE48GGSBJFAHVPFMJH`.
-- **`StatCard`** — retired as a `<Surface>` composition. See KB document `01KPD518FE48GGSBJFAHVPFMJH`.
-- **`FormModal`** — retired as a documented composition over `ModalShell`; `modalHeadingStyle` and `modalFooterStyle` are exported from `@4lt7ab/ui`. See KB document `01KPD518FGRWBYJTS348Y7SMCX` and the `ModalShellFormPattern` demo.
-- **`ShortcutHelpModal`** — retired; consumers own their data shape and `<kbd>` styling per the migration snippet in KB document `01KPD518FGRWBYJTS348Y7SMCX`.
+- **`ThemeSurface`** — replaced by `usePageBackground()` in `@4lt7ab/core` for global page background, or `<Surface level="page">` for a scoped equivalent.
+- **`StatCard`** — retired as a `<Surface>` composition.
+- **`FormModal`** — retired as a documented composition over `ModalShell`; `modalHeadingStyle` and `modalFooterStyle` are exported from `@4lt7ab/ui`. See the `ModalShellFormPattern` demo.
+- **`ShortcutHelpModal`** — retired; consumers own their data shape and `<kbd>` styling.
 
 ## Versioning & Updates
 
