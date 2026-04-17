@@ -2083,16 +2083,104 @@ var ProgressBar = (0, import_react15.forwardRef)(
 var import_react16 = require("react");
 var import_core15 = require("../../core/dist/index.cjs");
 var import_jsx_runtime16 = require("react/jsx-runtime");
+var IDLE_STYLES_ID = "4lt7ab-empty-state-idle";
+var IDLE_STYLES_CSS = `
+@keyframes emptyStateBreathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+/* Four orbits \u2014 each particle takes a different elliptical path so they don't look coordinated. */
+@keyframes emptyStateDrift0 {
+  0%   { transform: translate( 22px, -14px) scale(0.9); opacity: 0; }
+  20%  { opacity: 0.55; }
+  50%  { transform: translate( 28px,  18px) scale(1);   opacity: 0.55; }
+  80%  { opacity: 0.3; }
+  100% { transform: translate( 22px, -14px) scale(0.9); opacity: 0; }
+}
+@keyframes emptyStateDrift1 {
+  0%   { transform: translate(-24px,  16px) scale(0.85); opacity: 0; }
+  25%  { opacity: 0.5; }
+  50%  { transform: translate(-30px, -10px) scale(1);    opacity: 0.5; }
+  75%  { opacity: 0.3; }
+  100% { transform: translate(-24px,  16px) scale(0.85); opacity: 0; }
+}
+@keyframes emptyStateDrift2 {
+  0%   { transform: translate( -8px, -26px) scale(0.95); opacity: 0; }
+  30%  { opacity: 0.45; }
+  50%  { transform: translate( 12px, -30px) scale(1);    opacity: 0.45; }
+  70%  { opacity: 0.25; }
+  100% { transform: translate( -8px, -26px) scale(0.95); opacity: 0; }
+}
+@keyframes emptyStateDrift3 {
+  0%   { transform: translate( 10px,  28px) scale(0.9);  opacity: 0; }
+  20%  { opacity: 0.5; }
+  50%  { transform: translate( -6px,  32px) scale(1);    opacity: 0.5; }
+  80%  { opacity: 0.3; }
+  100% { transform: translate( 10px,  28px) scale(0.9);  opacity: 0; }
+}
+[data-empty-state-icon="breathe"],
+[data-empty-state-icon="particles"] {
+  display: inline-flex;
+  position: relative;
+  animation: emptyStateBreathe 3s ease-in-out infinite;
+  will-change: transform;
+}
+[data-empty-state-particle] {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  border-radius: 50%;
+  background: var(--empty-state-particle, currentColor);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+[data-empty-state-particle="0"] { animation: emptyStateDrift0 6.5s ease-in-out infinite; }
+[data-empty-state-particle="1"] { animation: emptyStateDrift1 7.2s ease-in-out infinite -1.5s; }
+[data-empty-state-particle="2"] { animation: emptyStateDrift2 5.8s ease-in-out infinite -0.8s; }
+[data-empty-state-particle="3"] { animation: emptyStateDrift3 8.1s ease-in-out infinite -2.2s; }
+@media (prefers-reduced-motion: reduce) {
+  [data-empty-state-icon="breathe"],
+  [data-empty-state-icon="particles"] {
+    animation: none;
+  }
+  [data-empty-state-particle] {
+    animation: none;
+    opacity: 0;
+  }
+}
+`;
 var EmptyState = (0, import_react16.forwardRef)(
   function EmptyState2({
     icon,
     message,
     variant = "plain",
+    idle = "breathe",
     children,
     action
   }, ref) {
+    (0, import_core15.useInjectStyles)(IDLE_STYLES_ID, IDLE_STYLES_CSS);
+    const iconWrapper = /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
+      "span",
+      {
+        "data-empty-state-icon": idle === "none" ? void 0 : idle,
+        style: { color: import_core15.semantic.colorTextMuted, display: "inline-flex" },
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Icon, { name: icon, size: "xl" }),
+          idle === "particles" && /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(import_jsx_runtime16.Fragment, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { "data-empty-state-particle": "0", "aria-hidden": "true" }),
+            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { "data-empty-state-particle": "1", "aria-hidden": "true" }),
+            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { "data-empty-state-particle": "2", "aria-hidden": "true" }),
+            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { "data-empty-state-particle": "3", "aria-hidden": "true" })
+          ] })
+        ]
+      }
+    );
     const content = /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { style: { padding: import_core15.semantic.spaceXl }, children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(Stack, { align: "center", gap: "sm", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { style: { color: import_core15.semantic.colorTextMuted, display: "inline-flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Icon, { name: icon, size: "xl" }) }),
+      iconWrapper,
       /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
         "span",
         {

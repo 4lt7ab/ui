@@ -8,6 +8,7 @@
 - StatusDot pulse now syncs its animation duration to the active theme's rhythm when present, falls back to 1.5s otherwise
 - Respects `prefers-reduced-motion` — pins phase to 0.5 and skips rAF
 - Skeleton now pulses with the theme's accent color at low opacity instead of a static grey block. Sibling skeletons stagger via `:nth-of-type` for a wave effect in DOM order. Duration syncs to the active theme's rhythm when present. `CardSkeleton` and `RowSkeleton` inherit via composition. Honors `prefers-reduced-motion`
+- EmptyState gets an `idle?: 'none' | 'breathe' | 'particles'` prop (default `'breathe'`). `breathe` scale-pulses the icon 1.0 → 1.05 → 1.0 on a 3s cycle. `particles` adds four drifting dots with independent elliptical paths. All animations are CSS-only, transform-based (no layout shift), and honor `prefers-reduced-motion`
 
 ## v0.2.30
 

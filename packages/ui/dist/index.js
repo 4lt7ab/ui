@@ -1950,18 +1950,106 @@ var ProgressBar = forwardRef14(
 
 // src/components/EmptyState/EmptyState.tsx
 import { forwardRef as forwardRef15 } from "react";
-import { semantic as t13 } from "../../core/dist/index.js";
-import { jsx as jsx16, jsxs as jsxs7 } from "react/jsx-runtime";
+import { semantic as t13, useInjectStyles as useInjectStyles7 } from "../../core/dist/index.js";
+import { Fragment, jsx as jsx16, jsxs as jsxs7 } from "react/jsx-runtime";
+var IDLE_STYLES_ID = "4lt7ab-empty-state-idle";
+var IDLE_STYLES_CSS = `
+@keyframes emptyStateBreathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+/* Four orbits \u2014 each particle takes a different elliptical path so they don't look coordinated. */
+@keyframes emptyStateDrift0 {
+  0%   { transform: translate( 22px, -14px) scale(0.9); opacity: 0; }
+  20%  { opacity: 0.55; }
+  50%  { transform: translate( 28px,  18px) scale(1);   opacity: 0.55; }
+  80%  { opacity: 0.3; }
+  100% { transform: translate( 22px, -14px) scale(0.9); opacity: 0; }
+}
+@keyframes emptyStateDrift1 {
+  0%   { transform: translate(-24px,  16px) scale(0.85); opacity: 0; }
+  25%  { opacity: 0.5; }
+  50%  { transform: translate(-30px, -10px) scale(1);    opacity: 0.5; }
+  75%  { opacity: 0.3; }
+  100% { transform: translate(-24px,  16px) scale(0.85); opacity: 0; }
+}
+@keyframes emptyStateDrift2 {
+  0%   { transform: translate( -8px, -26px) scale(0.95); opacity: 0; }
+  30%  { opacity: 0.45; }
+  50%  { transform: translate( 12px, -30px) scale(1);    opacity: 0.45; }
+  70%  { opacity: 0.25; }
+  100% { transform: translate( -8px, -26px) scale(0.95); opacity: 0; }
+}
+@keyframes emptyStateDrift3 {
+  0%   { transform: translate( 10px,  28px) scale(0.9);  opacity: 0; }
+  20%  { opacity: 0.5; }
+  50%  { transform: translate( -6px,  32px) scale(1);    opacity: 0.5; }
+  80%  { opacity: 0.3; }
+  100% { transform: translate( 10px,  28px) scale(0.9);  opacity: 0; }
+}
+[data-empty-state-icon="breathe"],
+[data-empty-state-icon="particles"] {
+  display: inline-flex;
+  position: relative;
+  animation: emptyStateBreathe 3s ease-in-out infinite;
+  will-change: transform;
+}
+[data-empty-state-particle] {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  border-radius: 50%;
+  background: var(--empty-state-particle, currentColor);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+[data-empty-state-particle="0"] { animation: emptyStateDrift0 6.5s ease-in-out infinite; }
+[data-empty-state-particle="1"] { animation: emptyStateDrift1 7.2s ease-in-out infinite -1.5s; }
+[data-empty-state-particle="2"] { animation: emptyStateDrift2 5.8s ease-in-out infinite -0.8s; }
+[data-empty-state-particle="3"] { animation: emptyStateDrift3 8.1s ease-in-out infinite -2.2s; }
+@media (prefers-reduced-motion: reduce) {
+  [data-empty-state-icon="breathe"],
+  [data-empty-state-icon="particles"] {
+    animation: none;
+  }
+  [data-empty-state-particle] {
+    animation: none;
+    opacity: 0;
+  }
+}
+`;
 var EmptyState = forwardRef15(
   function EmptyState2({
     icon,
     message,
     variant = "plain",
+    idle = "breathe",
     children,
     action
   }, ref) {
+    useInjectStyles7(IDLE_STYLES_ID, IDLE_STYLES_CSS);
+    const iconWrapper = /* @__PURE__ */ jsxs7(
+      "span",
+      {
+        "data-empty-state-icon": idle === "none" ? void 0 : idle,
+        style: { color: t13.colorTextMuted, display: "inline-flex" },
+        children: [
+          /* @__PURE__ */ jsx16(Icon, { name: icon, size: "xl" }),
+          idle === "particles" && /* @__PURE__ */ jsxs7(Fragment, { children: [
+            /* @__PURE__ */ jsx16("span", { "data-empty-state-particle": "0", "aria-hidden": "true" }),
+            /* @__PURE__ */ jsx16("span", { "data-empty-state-particle": "1", "aria-hidden": "true" }),
+            /* @__PURE__ */ jsx16("span", { "data-empty-state-particle": "2", "aria-hidden": "true" }),
+            /* @__PURE__ */ jsx16("span", { "data-empty-state-particle": "3", "aria-hidden": "true" })
+          ] })
+        ]
+      }
+    );
     const content = /* @__PURE__ */ jsx16("div", { style: { padding: t13.spaceXl }, children: /* @__PURE__ */ jsxs7(Stack, { align: "center", gap: "sm", children: [
-      /* @__PURE__ */ jsx16("span", { style: { color: t13.colorTextMuted, display: "inline-flex" }, children: /* @__PURE__ */ jsx16(Icon, { name: icon, size: "xl" }) }),
+      iconWrapper,
       /* @__PURE__ */ jsx16(
         "span",
         {
@@ -2113,7 +2201,7 @@ var PageHeader = forwardRef17(
 );
 
 // src/components/PageShell/PageShell.tsx
-import { semantic as t16, useInjectStyles as useInjectStyles7 } from "../../core/dist/index.js";
+import { semantic as t16, useInjectStyles as useInjectStyles8 } from "../../core/dist/index.js";
 import { jsx as jsx19 } from "react/jsx-runtime";
 var SCROLLBAR_ID = "page-shell-scrollbar";
 var SCROLLBAR_CSS = `
@@ -2131,7 +2219,7 @@ function PageShell({
   gap = "md",
   topPadding = true
 }) {
-  useInjectStyles7(SCROLLBAR_ID, SCROLLBAR_CSS);
+  useInjectStyles8(SCROLLBAR_ID, SCROLLBAR_CSS);
   return /* @__PURE__ */ jsx19(
     "div",
     {
@@ -2300,7 +2388,7 @@ var ExpandableCard = forwardRef19(
 import { forwardRef as forwardRef20, useEffect as useEffect4, useId as useId4, useRef as useRef3 } from "react";
 import { createPortal } from "react-dom";
 import { semantic as t19 } from "../../core/dist/index.js";
-import { Fragment, jsx as jsx22, jsxs as jsxs12 } from "react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx22, jsxs as jsxs12 } from "react/jsx-runtime";
 var modalHeadingStyle = Object.freeze({
   margin: 0,
   fontWeight: t19.fontWeightSemibold,
@@ -2368,7 +2456,7 @@ var ModalShell = forwardRef20(
       return () => document.removeEventListener("keydown", handleKeyDown);
     }, [onClose]);
     return createPortal(
-      /* @__PURE__ */ jsxs12(Fragment, { children: [
+      /* @__PURE__ */ jsxs12(Fragment2, { children: [
         /* @__PURE__ */ jsx22(Overlay, { onClick: onClose, zIndex }),
         /* @__PURE__ */ jsx22(
           "div",
@@ -2531,7 +2619,7 @@ var FormModal = forwardRef22(
 
 // src/components/StatusDot/StatusDot.tsx
 import { forwardRef as forwardRef23 } from "react";
-import { semantic as t22, useInjectStyles as useInjectStyles8, useThemeRhythm as useThemeRhythm2 } from "../../core/dist/index.js";
+import { semantic as t22, useInjectStyles as useInjectStyles9, useThemeRhythm as useThemeRhythm2 } from "../../core/dist/index.js";
 import { jsx as jsx25 } from "react/jsx-runtime";
 var variantColors = {
   default: t22.colorTextMuted,
@@ -2574,7 +2662,7 @@ var StatusDot = forwardRef23(
     const resolvedSize = sizeMap[size];
     const isPulsing = animate === "pulse";
     const { durationCss } = useThemeRhythm2();
-    useInjectStyles8(PULSE_STYLES_ID, PULSE_STYLES_CSS);
+    useInjectStyles9(PULSE_STYLES_ID, PULSE_STYLES_CSS);
     return /* @__PURE__ */ jsx25(
       "span",
       {
@@ -2605,7 +2693,7 @@ var StatusDot = forwardRef23(
 import { forwardRef as forwardRef24, useEffect as useEffect5, useRef as useRef4 } from "react";
 import { semantic as t23 } from "../../core/dist/index.js";
 import { useTheme as useTheme2 } from "../../core/dist/index.js";
-import { Fragment as Fragment2, jsx as jsx26 } from "react/jsx-runtime";
+import { Fragment as Fragment3, jsx as jsx26 } from "react/jsx-runtime";
 var ThemeSurface = forwardRef24(
   function ThemeSurface2({
     children,
@@ -2626,7 +2714,7 @@ var ThemeSurface = forwardRef24(
       };
     }, [global, resolved]);
     if (global) {
-      return /* @__PURE__ */ jsx26(Fragment2, { children });
+      return /* @__PURE__ */ jsx26(Fragment3, { children });
     }
     return /* @__PURE__ */ jsx26(
       "div",
@@ -2644,7 +2732,7 @@ var ThemeSurface = forwardRef24(
 // src/components/Table/Table.tsx
 import { forwardRef as forwardRef25, Children, isValidElement as isValidElement2, cloneElement as cloneElement2 } from "react";
 import { semantic as t24 } from "../../core/dist/index.js";
-import { useInjectStyles as useInjectStyles9 } from "../../core/dist/index.js";
+import { useInjectStyles as useInjectStyles10 } from "../../core/dist/index.js";
 import { jsx as jsx27 } from "react/jsx-runtime";
 var spaceMap = {
   xs: t24.spaceXs,
@@ -2689,7 +2777,7 @@ var Table = forwardRef25(
     density = "md",
     children
   }, ref) {
-    useInjectStyles9(TABLE_STYLES_ID, TABLE_STYLES_CSS);
+    useInjectStyles10(TABLE_STYLES_ID, TABLE_STYLES_CSS);
     return /* @__PURE__ */ jsx27(
       "div",
       {
@@ -2887,7 +2975,7 @@ var TableEmptyRow = forwardRef25(
 
 // src/components/DateRangePicker/DateRangePicker.tsx
 import { forwardRef as forwardRef26, useState as useState6, useRef as useRef6, useCallback as useCallback4, useEffect as useEffect6 } from "react";
-import { semantic as t28, useInjectStyles as useInjectStyles10 } from "../../core/dist/index.js";
+import { semantic as t28, useInjectStyles as useInjectStyles11 } from "../../core/dist/index.js";
 
 // src/components/DateRangePicker/CalendarHeader.tsx
 import { semantic as t25 } from "../../core/dist/index.js";
@@ -3266,7 +3354,7 @@ var DateRangePicker = forwardRef26(
     hasError,
     disabled
   }, ref) {
-    useInjectStyles10(SCOPE, injectedCSS);
+    useInjectStyles11(SCOPE, injectedCSS);
     const [open, setOpen] = useState6(false);
     const [selectionStart, setSelectionStart] = useState6(null);
     const containerRef = useRef6(null);
@@ -3428,7 +3516,7 @@ var DateRangePicker = forwardRef26(
 
 // src/components/DatePicker/DatePicker.tsx
 import { forwardRef as forwardRef27, useState as useState7, useRef as useRef7, useCallback as useCallback5, useEffect as useEffect7 } from "react";
-import { semantic as t29, useInjectStyles as useInjectStyles11 } from "../../core/dist/index.js";
+import { semantic as t29, useInjectStyles as useInjectStyles12 } from "../../core/dist/index.js";
 import { jsx as jsx32, jsxs as jsxs18 } from "react/jsx-runtime";
 var SCOPE2 = "alttab-dp";
 var injectedCSS2 = (
@@ -3508,7 +3596,7 @@ var DatePicker = forwardRef27(
     hasError,
     disabled
   }, ref) {
-    useInjectStyles11(SCOPE2, injectedCSS2);
+    useInjectStyles12(SCOPE2, injectedCSS2);
     const [open, setOpen] = useState7(false);
     const containerRef = useRef7(null);
     const initialDate = value ?? /* @__PURE__ */ new Date();
@@ -3847,7 +3935,7 @@ import {
   useState as useState8
 } from "react";
 import { createPortal as createPortal2 } from "react-dom";
-import { semantic as t33, useInjectStyles as useInjectStyles12 } from "../../core/dist/index.js";
+import { semantic as t33, useInjectStyles as useInjectStyles13 } from "../../core/dist/index.js";
 import { jsx as jsx36, jsxs as jsxs21 } from "react/jsx-runtime";
 var ToastContext = createContext2(null);
 function useToast() {
@@ -3967,7 +4055,7 @@ function ToastContainer({
   onDismiss,
   position
 }) {
-  useInjectStyles12(STYLE_ID, toastCSS);
+  useInjectStyles13(STYLE_ID, toastCSS);
   if (toasts.length === 0) return null;
   const positionStyles = {
     position: "fixed",
@@ -4014,7 +4102,7 @@ function ToastProvider({
 
 // src/components/Combobox/Combobox.tsx
 import { forwardRef as forwardRef28, useState as useState9, useEffect as useEffect9, useRef as useRef9, useCallback as useCallback7, useMemo } from "react";
-import { semantic as t34, useInjectStyles as useInjectStyles13 } from "../../core/dist/index.js";
+import { semantic as t34, useInjectStyles as useInjectStyles14 } from "../../core/dist/index.js";
 import { jsx as jsx37, jsxs as jsxs22 } from "react/jsx-runtime";
 var COMBOBOX_STYLES_ID = "alttab-combobox";
 var comboboxCSS = (
@@ -4081,7 +4169,7 @@ var Combobox = forwardRef28(function Combobox2({
   "aria-invalid": ariaInvalid,
   "data-testid": dataTestId
 }, ref) {
-  useInjectStyles13(COMBOBOX_STYLES_ID, comboboxCSS);
+  useInjectStyles14(COMBOBOX_STYLES_ID, comboboxCSS);
   const [open, setOpen] = useState9(false);
   const [focusedIndex, setFocusedIndex] = useState9(-1);
   const [dropDirection, setDropDirection] = useState9("down");
@@ -4463,7 +4551,7 @@ function TableFilters({
 
 // src/components/ChipPicker/ChipPicker.tsx
 import { useId as useId8 } from "react";
-import { semantic as t36, useInjectStyles as useInjectStyles14 } from "../../core/dist/index.js";
+import { semantic as t36, useInjectStyles as useInjectStyles15 } from "../../core/dist/index.js";
 import { jsx as jsx39, jsxs as jsxs23 } from "react/jsx-runtime";
 function ChipPicker({
   items,
@@ -4472,7 +4560,7 @@ function ChipPicker({
 }) {
   const uid = useId8();
   const styleId = `chip-picker-${uid.replace(/:/g, "")}`;
-  useInjectStyles14(
+  useInjectStyles15(
     styleId,
     `[data-chip-picker-id="${styleId}"] button:hover {
       background: ${t36.colorSurfaceRaised} !important;
@@ -4568,7 +4656,7 @@ function ChipPicker({
 
 // src/components/SearchInput/SearchInput.tsx
 import { forwardRef as forwardRef29, useState as useState11, useEffect as useEffect11, useRef as useRef11, useCallback as useCallback9 } from "react";
-import { semantic as t37, useInjectStyles as useInjectStyles15 } from "../../core/dist/index.js";
+import { semantic as t37, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
 import { jsx as jsx40, jsxs as jsxs24 } from "react/jsx-runtime";
 var STYLE_ID2 = "4lt7ab-search-input";
 var hoverFocusCSS = `
@@ -4632,7 +4720,7 @@ var SearchInput = forwardRef29(
     "aria-describedby": ariaDescribedBy,
     "data-testid": dataTestId
   }, ref) {
-    useInjectStyles15(STYLE_ID2, hoverFocusCSS);
+    useInjectStyles16(STYLE_ID2, hoverFocusCSS);
     const [localValue, setLocalValue] = useState11(value);
     const timerRef = useRef11(null);
     const onSearchRef = useRef11(onSearch);
@@ -4692,7 +4780,7 @@ var SearchInput = forwardRef29(
 
 // src/components/SegmentedControl/SegmentedControl.tsx
 import { useRef as useRef12, useLayoutEffect, useState as useState12, useCallback as useCallback10 } from "react";
-import { semantic as t38, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
+import { semantic as t38, useInjectStyles as useInjectStyles17 } from "../../core/dist/index.js";
 import { jsx as jsx41, jsxs as jsxs25 } from "react/jsx-runtime";
 var STYLE_ID3 = "4lt7ab-segmented-control";
 var hoverCSS = `
@@ -4721,7 +4809,7 @@ function SegmentedControl({
   onChange,
   size = "md"
 }) {
-  useInjectStyles16(STYLE_ID3, hoverCSS);
+  useInjectStyles17(STYLE_ID3, hoverCSS);
   const containerRef = useRef12(null);
   const [indicator, setIndicator] = useState12(null);
   const s = sizes[size];
@@ -4829,7 +4917,7 @@ function SegmentedControl({
 
 // src/components/AlertBanner/AlertBanner.tsx
 import { forwardRef as forwardRef30, useEffect as useEffect12, useRef as useRef13 } from "react";
-import { semantic as t39, useInjectStyles as useInjectStyles17 } from "../../core/dist/index.js";
+import { semantic as t39, useInjectStyles as useInjectStyles18 } from "../../core/dist/index.js";
 import { jsx as jsx42, jsxs as jsxs26 } from "react/jsx-runtime";
 var STYLE_ID4 = "4lt7ab-alert-banner";
 var alertBannerCSS = `
@@ -4861,7 +4949,7 @@ var defaultIcons = {
 };
 var AlertBanner = forwardRef30(
   function AlertBanner2({ variant, children, onDismiss, autoDismiss, icon }, ref) {
-    useInjectStyles17(STYLE_ID4, alertBannerCSS);
+    useInjectStyles18(STYLE_ID4, alertBannerCSS);
     const timerRef = useRef13(null);
     useEffect12(() => {
       if (autoDismiss && onDismiss) {
@@ -4933,7 +5021,7 @@ var AlertBanner = forwardRef30(
 
 // src/components/TopBar/TopBar.tsx
 import { forwardRef as forwardRef31 } from "react";
-import { semantic as t40, useInjectStyles as useInjectStyles18 } from "../../core/dist/index.js";
+import { semantic as t40, useInjectStyles as useInjectStyles19 } from "../../core/dist/index.js";
 import { jsx as jsx43, jsxs as jsxs27 } from "react/jsx-runtime";
 var TOPBAR_STYLES_ID = "4lt7ab-topbar";
 var TOPBAR_CSS = `
@@ -4970,7 +5058,7 @@ var TopBar = forwardRef31(
     sticky = false,
     ...rest
   }, ref) {
-    useInjectStyles18(TOPBAR_STYLES_ID, TOPBAR_CSS);
+    useInjectStyles19(TOPBAR_STYLES_ID, TOPBAR_CSS);
     const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: t40.zIndexSticky } : {};
     return /* @__PURE__ */ jsxs27(
       "header",
@@ -5075,7 +5163,7 @@ var TopBar = forwardRef31(
 
 // src/components/ShortcutHelpModal/ShortcutHelpModal.tsx
 import { forwardRef as forwardRef32, useId as useId9 } from "react";
-import { semantic as t41, useInjectStyles as useInjectStyles19 } from "../../core/dist/index.js";
+import { semantic as t41, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
 import { jsx as jsx44, jsxs as jsxs28 } from "react/jsx-runtime";
 var SHORTCUT_HELP_STYLES_ID = "4lt7ab-shortcut-help";
 var SHORTCUT_HELP_CSS = `
@@ -5092,7 +5180,7 @@ var ShortcutHelpModal = forwardRef32(
     width = "lg"
   }, ref) {
     const titleId = useId9();
-    useInjectStyles19(SHORTCUT_HELP_STYLES_ID, SHORTCUT_HELP_CSS);
+    useInjectStyles20(SHORTCUT_HELP_STYLES_ID, SHORTCUT_HELP_CSS);
     return /* @__PURE__ */ jsx44(ModalShell, { ref, onClose, width, titleId, children: /* @__PURE__ */ jsxs28("div", { "data-shortcut-help": true, children: [
       /* @__PURE__ */ jsxs28(
         "div",
@@ -5231,7 +5319,7 @@ var ShortcutHelpModal = forwardRef32(
 
 // src/components/PillSelect/PillSelect.tsx
 import { useId as useId10 } from "react";
-import { semantic as t42, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
+import { semantic as t42, useInjectStyles as useInjectStyles21 } from "../../core/dist/index.js";
 import { jsx as jsx45, jsxs as jsxs29 } from "react/jsx-runtime";
 function PillSelect({
   value,
@@ -5243,7 +5331,7 @@ function PillSelect({
   const uid = useId10();
   const styleId = `pill-select-${uid.replace(/:/g, "")}`;
   const isActive = activeProp ?? !!value;
-  useInjectStyles20(
+  useInjectStyles21(
     styleId,
     `[data-pill-select-id="${styleId}"] select:hover {
       border-color: ${t42.colorActionPrimary};
@@ -5527,7 +5615,7 @@ var StatCard = forwardRef36(
 
 // src/components/TabStrip/TabStrip.tsx
 import { forwardRef as forwardRef37, useCallback as useCallback11, useRef as useRef14 } from "react";
-import { semantic as t46, useInjectStyles as useInjectStyles21 } from "../../core/dist/index.js";
+import { semantic as t46, useInjectStyles as useInjectStyles22 } from "../../core/dist/index.js";
 import { jsx as jsx49, jsxs as jsxs31 } from "react/jsx-runtime";
 var STYLES_ID = "4lt7ab-tab-strip";
 var STYLES_CSS = `
@@ -5548,7 +5636,7 @@ var TabStrip = forwardRef37(
     size = "md",
     ...rest
   }, ref) {
-    useInjectStyles21(STYLES_ID, STYLES_CSS);
+    useInjectStyles22(STYLES_ID, STYLES_CSS);
     const tabRefs = useRef14([]);
     const handleClick = useCallback11(
       (key) => {

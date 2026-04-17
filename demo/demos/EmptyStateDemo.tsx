@@ -5,6 +5,7 @@ const props: PropMeta[] = [
   { name: 'icon', type: 'IconName', required: true, description: 'Icon displayed above the message.' },
   { name: 'message', type: 'string', required: true, description: 'Primary message text.' },
   { name: 'variant', type: "'plain' | 'card'", default: "'plain'", description: 'Container variant. Card wraps content in a flat Card.' },
+  { name: 'idle', type: "'none' | 'breathe' | 'particles'", default: "'breathe'", description: 'Idle animation mode. Breathe scale-pulses the icon; particles adds 4 drifting dots. Respects prefers-reduced-motion.' },
   { name: 'children', type: 'ReactNode', description: 'Additional content rendered below the message.' },
   { name: 'action', type: 'ReactNode', description: 'Action slot (e.g. a CTA button) rendered below the message.' },
 ];
@@ -32,6 +33,14 @@ export function EmptyStateDemo(): React.JSX.Element {
         <Stack gap="lg">
           <EmptyState icon="info" message="Your inbox is empty" variant="card" />
           <EmptyState icon="error" message="Unable to load data. Check your connection." variant="card" />
+        </Stack>
+      </PropDemo>
+
+      <PropDemo name="idle" description="Idle animations that give the empty state life. Static is the previous behavior; breathe (default) scale-pulses the icon; particles adds drifting dots. All transform-only and honor prefers-reduced-motion.">
+        <Stack gap="lg">
+          <EmptyState icon="info" message="Static (no animation)" variant="card" idle="none" />
+          <EmptyState icon="info" message="Breathing icon" variant="card" idle="breathe" />
+          <EmptyState icon="info" message="With drifting particles" variant="card" idle="particles" />
         </Stack>
       </PropDemo>
     </DocBlock>
