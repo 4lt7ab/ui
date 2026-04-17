@@ -43,6 +43,20 @@ Primitives  ->  raw palette values (colors, spacing, radii, shadows, typography)
 
 The token layer and themes live in `@4lt7ab/core`. `@4lt7ab/content` and `@4lt7ab/animations` import from core directly -- they do not depend on `@4lt7ab/ui`. `@4lt7ab/ui` externalizes core and re-exports its entire API for convenience. At build time, `@4lt7ab/core` imports in dist are rewritten to relative paths (`../../core/dist/`) so all packages share one context instance without requiring a separate `@4lt7ab/core` install.
 
+## Design Tenets
+
+**Keep consumer chrome to an absolute minimum.** This is the load-bearing tenet the rest of the library answers to. "Chrome" is everything a consumer has to see, configure, or reason about that isn't the thing they came here to build. Every new component, prop, or API surface has to justify the attention it takes from the consumer.
+
+In practice:
+
+- **Prefer fewer components over more.** A component earns its place by carrying non-trivial behavior (accessibility, focus management, async lifecycles, rhythm subscriptions) that a consumer would otherwise rebuild. Thin wrappers that only arrange layout are retired as documented compositions -- the `FormModal` / `ShortcutHelpModal` retirements in 0.3.0 are the canonical examples.
+- **Prefer tighter props over more props.** A new prop competes for the consumer's attention every time they read an API table. Before adding one, check whether composition already expresses the same thing. Before keeping a prop, check whether it's still earning the documentation real estate.
+- **Defaults do the work.** Opt-in flags (`glow`, `hover`) default to off, and the zero-config call site renders correctly. Opt-outs are a last resort -- if a behavior is opt-out by default, it's chrome the consumer never asked for.
+- **No chrome in the consumer's app shell.** The library renders inside the consumer's app, not around it. `usePageBackground()` is a hook precisely so the consumer decides whether, when, and where the body gets painted -- not a `<ThemeSurface>` that wraps their tree and assumes scope.
+- **When a choice belongs to the consumer, return it to them.** `StatCard` presetting a metric layout was chrome; retiring it and documenting the composition lets the consuming app own the decisions their design calls for.
+
+This tenet is why the 0.3.0 release shrank the public surface rather than grew it. When a consolidation proposal surfaces "we could fold these into one richer component," the answer is usually yes.
+
 ## Source Layout
 
 ```
