@@ -1917,22 +1917,65 @@ var Overlay = (0, import_react13.forwardRef)(
 var import_react14 = require("react");
 var import_core13 = require("../../core/dist/index.cjs");
 var import_jsx_runtime14 = require("react/jsx-runtime");
+var SKELETON_STYLES_ID = "4lt7ab-skeleton-pulse";
+var STAGGER_STEPS = 10;
+var STAGGER_MS = 80;
+var SKELETON_STYLES_CSS = (() => {
+  const staggerRules = [];
+  for (let i = 2; i <= STAGGER_STEPS; i++) {
+    staggerRules.push(
+      `[data-skeleton]:nth-of-type(${i})::after { animation-delay: ${(i - 1) * STAGGER_MS}ms; }`
+    );
+  }
+  return `
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.18; }
+}
+[data-skeleton] {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+[data-skeleton]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--skeleton-accent, var(--color-action-primary));
+  opacity: 0;
+  animation: skeletonPulse var(--skeleton-duration, 1.6s) ease-in-out infinite;
+  pointer-events: none;
+}
+${staggerRules.join("\n")}
+@media (prefers-reduced-motion: reduce) {
+  [data-skeleton]::after {
+    animation: none;
+    opacity: 0;
+  }
+}
+`;
+})();
 var Skeleton = (0, import_react14.forwardRef)(
   function Skeleton2({
     width = "100%",
     height = 16,
     radius = "md"
   }, ref) {
+    const { durationCss } = (0, import_core13.useThemeRhythm)();
+    (0, import_core13.useInjectStyles)(SKELETON_STYLES_ID, SKELETON_STYLES_CSS);
     return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
       "div",
       {
         ref,
+        "data-skeleton": "",
         "aria-hidden": "true",
         style: {
           width,
           height,
           borderRadius: radiusMap[radius],
-          background: import_core13.semantic.colorSurfaceRaised
+          background: import_core13.semantic.colorSurfaceRaised,
+          ...durationCss ? { "--skeleton-duration": durationCss } : void 0
         }
       }
     );

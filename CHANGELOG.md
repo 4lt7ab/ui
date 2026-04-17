@@ -7,6 +7,7 @@
 - Synthwave (80 bpm sine), Pipboy (140 bpm square), and Neural (60 bpm triangle) themes gain rhythm definitions
 - StatusDot pulse now syncs its animation duration to the active theme's rhythm when present, falls back to 1.5s otherwise
 - Respects `prefers-reduced-motion` — pins phase to 0.5 and skips rAF
+- Skeleton now pulses with the theme's accent color at low opacity instead of a static grey block. Sibling skeletons stagger via `:nth-of-type` for a wave effect in DOM order. Duration syncs to the active theme's rhythm when present. `CardSkeleton` and `RowSkeleton` inherit via composition. Honors `prefers-reduced-motion`
 
 ## v0.2.30
 

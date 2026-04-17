@@ -434,7 +434,14 @@ interface OverlayProps {
 	zIndex?: number | string;
 }
 declare const Overlay: React.ForwardRefExoticComponent<Omit<OverlayProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-/** A placeholder loading shape. Renders a static block with the raised surface color. */
+/**
+* A placeholder loading shape that pulses with the active theme's accent color.
+*
+* Siblings stagger automatically via `:nth-of-type` — when multiple Skeletons
+* are rendered next to each other, a subtle wave travels through them in DOM
+* order. The pulse duration syncs to the active theme's rhythm when one is
+* defined, falling back to a 1.6s cadence otherwise.
+*/
 interface SkeletonProps {
 	/** Width in pixels, or a percentage string like '100%' or '60%'.
 	* @default '100%'
