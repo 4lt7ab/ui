@@ -5,6 +5,7 @@ const props: PropMeta[] = [
   { name: 'variant', type: "'default' | 'flat' | 'elevated' | 'live'", default: "'default'", description: 'Visual treatment of the card surface.' },
   { name: 'padding', type: "'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'", default: "'lg'", description: 'Inner padding using spacing tokens.' },
   { name: 'hover', type: 'boolean', default: 'false', description: 'Enable interactive hover state with border highlight and lift effect.' },
+  { name: 'glow', type: 'boolean', default: 'false', description: 'Opt into a theme-rhythm-driven border glow. No-ops on themes without rhythm and under prefers-reduced-motion.' },
   { name: 'children', type: 'ReactNode', required: true, description: 'Card content.' },
 ];
 
@@ -49,6 +50,27 @@ export function CardDemo(): React.JSX.Element {
               </Card>
             </div>
           ))}
+        </Stack>
+      </PropDemo>
+
+      <PropDemo name="glow" description="Opt-in border glow driven by the active theme's rhythm phase (see packages/core/docs/component-canvas-bridge.md). Visible under synthwave (80bpm sine), pipboy (140bpm square), and neural (60bpm triangle). Absent on rhythm-less themes (slate, warm-sand, moss, coral, pacman) and under prefers-reduced-motion.">
+        <Stack direction="horizontal" gap="md" wrap>
+          <div style={{ flex: '1 1 10rem' }}>
+            <Card glow>
+              <strong>Glow on</strong>
+              <p style={{ margin: '0.25rem 0 0', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
+                Border breathes with the active theme. Switch themes to see the tempo change.
+              </p>
+            </Card>
+          </div>
+          <div style={{ flex: '1 1 10rem' }}>
+            <Card>
+              <strong>Glow off (default)</strong>
+              <p style={{ margin: '0.25rem 0 0', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
+                Pre-bridge behavior — no subscription, no animation.
+              </p>
+            </Card>
+          </div>
         </Stack>
       </PropDemo>
 

@@ -13,6 +13,7 @@
 - ExpandableCard open/close is now choreographed rather than simultaneous. On open: chevron rotates first (0-150ms), height opens with 100ms delay, direct children fade in with 40ms stagger. On close: children fade out immediately, height collapses after 80ms, chevron rotates back after 150ms. Total envelope ≤ 350ms. Honors `prefers-reduced-motion` for instant open/close
 - Fix Combobox menu reopening after option selection — listbox now stays closed when a click-selected option refocuses the input, matching the ARIA APG combobox pattern. Regression test asserts listbox is not in the DOM post-selection
 - Docs — add `packages/core/docs/component-canvas-bridge.md` specifying how components opt into `useThemeRhythm` (API shape, Card example, no-rhythm + reduced-motion fallback contract, 1ms-per-frame perf budget). Design doc only, no runtime changes
+- Card gains an opt-in `glow?: boolean` prop (default `false`). When enabled, the border emits a color-mixed box-shadow whose spread and alpha scale with the active theme's rhythm phase. First consumer of the component-canvas bridge. No subscription and no visual change when `glow` is off, when the active theme has no rhythm, or under `prefers-reduced-motion`. Cards without the prop behave identically to pre-bridge Cards
 
 ## v0.2.30
 

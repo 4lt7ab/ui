@@ -981,29 +981,64 @@ var LIVE_STYLES_CSS = `
   }
 }
 `;
+var GLOW_STYLES_ID = "4lt7ab-card-glow";
+var GLOW_STYLES_CSS = `
+[data-card-glow] {
+  --card-glow-strength: 0;
+}
+`;
+var GLOW_BOX_SHADOW = `0 0 calc(var(--card-glow-strength, 0) * 16px) calc(var(--card-glow-strength, 0) * 2px) color-mix(in srgb, ${import_core5.semantic.colorActionPrimary} calc(var(--card-glow-strength, 0) * 70%), transparent)`;
+function prefersReducedMotion() {
+  if (typeof window === "undefined" || !window.matchMedia) return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
 var Card = (0, import_react6.forwardRef)(
   function Card2({
     variant = "default",
     padding = "lg",
     hover = false,
+    glow = false,
     children,
     ...rest
   }, ref) {
     (0, import_core5.useInjectStyles)(HOVER_STYLES_ID, HOVER_STYLES_CSS);
     (0, import_core5.useInjectStyles)(LIVE_STYLES_ID, LIVE_STYLES_CSS);
+    (0, import_core5.useInjectStyles)(GLOW_STYLES_ID, GLOW_STYLES_CSS);
+    const internalRef = (0, import_react6.useRef)(null);
+    const setRef = (node) => {
+      internalRef.current = node;
+      if (typeof ref === "function") ref(node);
+      else if (ref) ref.current = node;
+    };
+    const { config, subscribe } = (0, import_core5.useThemeRhythm)();
+    (0, import_react6.useEffect)(() => {
+      if (!glow || !config) return;
+      if (prefersReducedMotion()) return;
+      const el = internalRef.current;
+      if (!el) return;
+      const unsubscribe = subscribe((phase) => {
+        el.style.setProperty("--card-glow-strength", String(phase));
+      });
+      return () => {
+        unsubscribe();
+        el.style.removeProperty("--card-glow-strength");
+      };
+    }, [glow, config, subscribe]);
     return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
       "div",
       {
-        ref,
+        ref: setRef,
         id: rest.id,
         "data-testid": rest["data-testid"],
         "data-card-hover": hover || void 0,
         "data-card-live": variant === "live" || void 0,
+        "data-card-glow": glow || void 0,
         style: {
           borderRadius: import_core5.semantic.radiusLg,
           padding: paddingMap[padding],
           color: import_core5.semantic.colorText,
-          ...variantStyles2[variant]
+          ...variantStyles2[variant],
+          ...glow ? { boxShadow: GLOW_BOX_SHADOW } : void 0
         },
         children
       }

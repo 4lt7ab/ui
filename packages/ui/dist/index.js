@@ -797,8 +797,8 @@ var Stack = forwardRef4(
 );
 
 // src/components/Card/Card.tsx
-import { forwardRef as forwardRef5 } from "react";
-import { semantic as t3, useInjectStyles as useInjectStyles3 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef5, useEffect as useEffect3, useRef as useRef2 } from "react";
+import { semantic as t3, useInjectStyles as useInjectStyles3, useThemeRhythm } from "../../core/dist/index.js";
 import { jsx as jsx6 } from "react/jsx-runtime";
 var paddingMap = spacingMap;
 var variantStyles2 = {
@@ -850,29 +850,64 @@ var LIVE_STYLES_CSS = `
   }
 }
 `;
+var GLOW_STYLES_ID = "4lt7ab-card-glow";
+var GLOW_STYLES_CSS = `
+[data-card-glow] {
+  --card-glow-strength: 0;
+}
+`;
+var GLOW_BOX_SHADOW = `0 0 calc(var(--card-glow-strength, 0) * 16px) calc(var(--card-glow-strength, 0) * 2px) color-mix(in srgb, ${t3.colorActionPrimary} calc(var(--card-glow-strength, 0) * 70%), transparent)`;
+function prefersReducedMotion() {
+  if (typeof window === "undefined" || !window.matchMedia) return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
 var Card = forwardRef5(
   function Card2({
     variant = "default",
     padding = "lg",
     hover = false,
+    glow = false,
     children,
     ...rest
   }, ref) {
     useInjectStyles3(HOVER_STYLES_ID, HOVER_STYLES_CSS);
     useInjectStyles3(LIVE_STYLES_ID, LIVE_STYLES_CSS);
+    useInjectStyles3(GLOW_STYLES_ID, GLOW_STYLES_CSS);
+    const internalRef = useRef2(null);
+    const setRef = (node) => {
+      internalRef.current = node;
+      if (typeof ref === "function") ref(node);
+      else if (ref) ref.current = node;
+    };
+    const { config, subscribe } = useThemeRhythm();
+    useEffect3(() => {
+      if (!glow || !config) return;
+      if (prefersReducedMotion()) return;
+      const el = internalRef.current;
+      if (!el) return;
+      const unsubscribe = subscribe((phase) => {
+        el.style.setProperty("--card-glow-strength", String(phase));
+      });
+      return () => {
+        unsubscribe();
+        el.style.removeProperty("--card-glow-strength");
+      };
+    }, [glow, config, subscribe]);
     return /* @__PURE__ */ jsx6(
       "div",
       {
-        ref,
+        ref: setRef,
         id: rest.id,
         "data-testid": rest["data-testid"],
         "data-card-hover": hover || void 0,
         "data-card-live": variant === "live" || void 0,
+        "data-card-glow": glow || void 0,
         style: {
           borderRadius: t3.radiusLg,
           padding: paddingMap[padding],
           color: t3.colorText,
-          ...variantStyles2[variant]
+          ...variantStyles2[variant],
+          ...glow ? { boxShadow: GLOW_BOX_SHADOW } : void 0
         },
         children
       }
@@ -1149,7 +1184,7 @@ var Textarea = forwardRef8(
 );
 
 // src/components/Select/Select.tsx
-import { forwardRef as forwardRef9, useState as useState2, useEffect as useEffect3, useRef as useRef2, useCallback as useCallback2 } from "react";
+import { forwardRef as forwardRef9, useState as useState2, useEffect as useEffect4, useRef as useRef3, useCallback as useCallback2 } from "react";
 import { semantic as t7, useInjectStyles as useInjectStyles4 } from "../../core/dist/index.js";
 import { jsx as jsx10, jsxs as jsxs4 } from "react/jsx-runtime";
 var SELECT_STYLES_ID = "alttab-select";
@@ -1233,12 +1268,12 @@ var Select = forwardRef9(function Select2({
   );
   const isControlled = controlledValue !== void 0;
   const currentValue = isControlled ? controlledValue : internalValue;
-  const containerRef = useRef2(null);
-  const triggerRef = useRef2(null);
-  const menuRef = useRef2(null);
-  const hiddenSelectRef = useRef2(null);
+  const containerRef = useRef3(null);
+  const triggerRef = useRef3(null);
+  const menuRef = useRef3(null);
+  const hiddenSelectRef = useRef3(null);
   const [dropDirection, setDropDirection] = useState2("down");
-  useEffect3(() => {
+  useEffect4(() => {
     if (!ref) return;
     if (typeof ref === "function") {
       ref(hiddenSelectRef.current);
@@ -1322,7 +1357,7 @@ var Select = forwardRef9(function Select2({
     },
     [isControlled, onChange, closeMenu]
   );
-  useEffect3(() => {
+  useEffect4(() => {
     if (!open) return;
     function handleMouseDown(e) {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -1332,7 +1367,7 @@ var Select = forwardRef9(function Select2({
     document.addEventListener("mousedown", handleMouseDown);
     return () => document.removeEventListener("mousedown", handleMouseDown);
   }, [open, closeMenu]);
-  useEffect3(() => {
+  useEffect4(() => {
     if (!open || focusedIndex < 0) return;
     const menu = menuRef.current;
     if (!menu) return;
@@ -1784,7 +1819,7 @@ var Overlay = forwardRef12(
 
 // src/components/Skeleton/Skeleton.tsx
 import { forwardRef as forwardRef13 } from "react";
-import { semantic as t11, useInjectStyles as useInjectStyles6, useThemeRhythm } from "../../core/dist/index.js";
+import { semantic as t11, useInjectStyles as useInjectStyles6, useThemeRhythm as useThemeRhythm2 } from "../../core/dist/index.js";
 import { jsx as jsx14, jsxs as jsxs6 } from "react/jsx-runtime";
 var SKELETON_STYLES_ID = "4lt7ab-skeleton-pulse";
 var STAGGER_STEPS = 10;
@@ -1831,7 +1866,7 @@ var Skeleton = forwardRef13(
     height = 16,
     radius = "md"
   }, ref) {
-    const { durationCss } = useThemeRhythm();
+    const { durationCss } = useThemeRhythm2();
     useInjectStyles6(SKELETON_STYLES_ID, SKELETON_STYLES_CSS);
     return /* @__PURE__ */ jsx14(
       "div",
@@ -2420,7 +2455,7 @@ var ExpandableCard = forwardRef19(
 );
 
 // src/components/ModalShell/ModalShell.tsx
-import { forwardRef as forwardRef20, useEffect as useEffect4, useId as useId4, useRef as useRef3 } from "react";
+import { forwardRef as forwardRef20, useEffect as useEffect5, useId as useId4, useRef as useRef4 } from "react";
 import { createPortal } from "react-dom";
 import { semantic as t19 } from "../../core/dist/index.js";
 import { Fragment as Fragment2, jsx as jsx22, jsxs as jsxs12 } from "react/jsx-runtime";
@@ -2456,7 +2491,7 @@ var ModalShell = forwardRef20(
   }, ref) {
     const generatedId = useId4();
     const resolvedLabelId = titleId ?? generatedId;
-    const internalRef = useRef3(null);
+    const internalRef = useRef4(null);
     const setRefs = (node) => {
       internalRef.current = node;
       if (typeof ref === "function") {
@@ -2466,7 +2501,7 @@ var ModalShell = forwardRef20(
       }
     };
     useFocusTrap(internalRef);
-    useEffect4(() => {
+    useEffect5(() => {
       const previouslyFocused = document.activeElement;
       const container = internalRef.current;
       if (container) {
@@ -2481,7 +2516,7 @@ var ModalShell = forwardRef20(
         previouslyFocused?.focus();
       };
     }, []);
-    useEffect4(() => {
+    useEffect5(() => {
       const handleKeyDown = (e) => {
         if (e.key === "Escape") {
           onClose();
@@ -2654,7 +2689,7 @@ var FormModal = forwardRef22(
 
 // src/components/StatusDot/StatusDot.tsx
 import { forwardRef as forwardRef23 } from "react";
-import { semantic as t22, useInjectStyles as useInjectStyles10, useThemeRhythm as useThemeRhythm2 } from "../../core/dist/index.js";
+import { semantic as t22, useInjectStyles as useInjectStyles10, useThemeRhythm as useThemeRhythm3 } from "../../core/dist/index.js";
 import { jsx as jsx25 } from "react/jsx-runtime";
 var variantColors = {
   default: t22.colorTextMuted,
@@ -2696,7 +2731,7 @@ var StatusDot = forwardRef23(
     const resolvedColor = variantColors[variant];
     const resolvedSize = sizeMap[size];
     const isPulsing = animate === "pulse";
-    const { durationCss } = useThemeRhythm2();
+    const { durationCss } = useThemeRhythm3();
     useInjectStyles10(PULSE_STYLES_ID, PULSE_STYLES_CSS);
     return /* @__PURE__ */ jsx25(
       "span",
@@ -2725,7 +2760,7 @@ var StatusDot = forwardRef23(
 );
 
 // src/components/ThemeSurface/ThemeSurface.tsx
-import { forwardRef as forwardRef24, useEffect as useEffect5, useRef as useRef4 } from "react";
+import { forwardRef as forwardRef24, useEffect as useEffect6, useRef as useRef5 } from "react";
 import { semantic as t23 } from "../../core/dist/index.js";
 import { useTheme as useTheme2 } from "../../core/dist/index.js";
 import { Fragment as Fragment3, jsx as jsx26 } from "react/jsx-runtime";
@@ -2735,9 +2770,9 @@ var ThemeSurface = forwardRef24(
     global = false
   }, ref) {
     const { resolved } = useTheme2();
-    const prevBodyBgRef = useRef4("");
-    const prevBodyColorRef = useRef4("");
-    useEffect5(() => {
+    const prevBodyBgRef = useRef5("");
+    const prevBodyColorRef = useRef5("");
+    useEffect6(() => {
       if (!global) return;
       prevBodyBgRef.current = document.body.style.backgroundColor;
       prevBodyColorRef.current = document.body.style.color;
@@ -3009,7 +3044,7 @@ var TableEmptyRow = forwardRef25(
 );
 
 // src/components/DateRangePicker/DateRangePicker.tsx
-import { forwardRef as forwardRef26, useState as useState6, useRef as useRef6, useCallback as useCallback4, useEffect as useEffect6 } from "react";
+import { forwardRef as forwardRef26, useState as useState6, useRef as useRef7, useCallback as useCallback4, useEffect as useEffect7 } from "react";
 import { semantic as t28, useInjectStyles as useInjectStyles12 } from "../../core/dist/index.js";
 
 // src/components/DateRangePicker/CalendarHeader.tsx
@@ -3134,7 +3169,7 @@ function CalendarHeader({
 }
 
 // src/components/DateRangePicker/CalendarGrid.tsx
-import { useCallback as useCallback3, useRef as useRef5 } from "react";
+import { useCallback as useCallback3, useRef as useRef6 } from "react";
 import { semantic as t27 } from "../../core/dist/index.js";
 
 // src/components/DateRangePicker/DayCell.tsx
@@ -3240,7 +3275,7 @@ function CalendarGrid({
   onSelect,
   onFocusedDateChange
 }) {
-  const today = useRef5(/* @__PURE__ */ new Date()).current;
+  const today = useRef6(/* @__PURE__ */ new Date()).current;
   const grid = buildCalendarGrid(year, month);
   const rows = [];
   for (let r = 0; r < 6; r++) {
@@ -3392,7 +3427,7 @@ var DateRangePicker = forwardRef26(
     useInjectStyles12(SCOPE, injectedCSS);
     const [open, setOpen] = useState6(false);
     const [selectionStart, setSelectionStart] = useState6(null);
-    const containerRef = useRef6(null);
+    const containerRef = useRef7(null);
     const initialDate = value?.from ?? /* @__PURE__ */ new Date();
     const [viewYear, setViewYear] = useState6(initialDate.getFullYear());
     const [viewMonth, setViewMonth] = useState6(initialDate.getMonth());
@@ -3404,7 +3439,7 @@ var DateRangePicker = forwardRef26(
       setViewYear(date.getFullYear());
       setViewMonth(date.getMonth());
     }, []);
-    useEffect6(() => {
+    useEffect7(() => {
       if (!open) return;
       const container = containerRef.current;
       if (!container) return;
@@ -3413,7 +3448,7 @@ var DateRangePicker = forwardRef26(
       );
       btn?.focus();
     }, [focusedDate, open]);
-    useEffect6(() => {
+    useEffect7(() => {
       if (!open) return;
       function handleMouseDown(e) {
         if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -3424,7 +3459,7 @@ var DateRangePicker = forwardRef26(
       document.addEventListener("mousedown", handleMouseDown);
       return () => document.removeEventListener("mousedown", handleMouseDown);
     }, [open]);
-    useEffect6(() => {
+    useEffect7(() => {
       if (!open) return;
       function handleKey(e) {
         if (e.key === "Escape") {
@@ -3550,7 +3585,7 @@ var DateRangePicker = forwardRef26(
 );
 
 // src/components/DatePicker/DatePicker.tsx
-import { forwardRef as forwardRef27, useState as useState7, useRef as useRef7, useCallback as useCallback5, useEffect as useEffect7 } from "react";
+import { forwardRef as forwardRef27, useState as useState7, useRef as useRef8, useCallback as useCallback5, useEffect as useEffect8 } from "react";
 import { semantic as t29, useInjectStyles as useInjectStyles13 } from "../../core/dist/index.js";
 import { jsx as jsx32, jsxs as jsxs18 } from "react/jsx-runtime";
 var SCOPE2 = "alttab-dp";
@@ -3633,7 +3668,7 @@ var DatePicker = forwardRef27(
   }, ref) {
     useInjectStyles13(SCOPE2, injectedCSS2);
     const [open, setOpen] = useState7(false);
-    const containerRef = useRef7(null);
+    const containerRef = useRef8(null);
     const initialDate = value ?? /* @__PURE__ */ new Date();
     const [viewYear, setViewYear] = useState7(initialDate.getFullYear());
     const [viewMonth, setViewMonth] = useState7(initialDate.getMonth());
@@ -3643,7 +3678,7 @@ var DatePicker = forwardRef27(
       setViewYear(date.getFullYear());
       setViewMonth(date.getMonth());
     }, []);
-    useEffect7(() => {
+    useEffect8(() => {
       if (!open) return;
       const container = containerRef.current;
       if (!container) return;
@@ -3652,7 +3687,7 @@ var DatePicker = forwardRef27(
       );
       btn?.focus();
     }, [focusedDate, open]);
-    useEffect7(() => {
+    useEffect8(() => {
       if (!open) return;
       function handleMouseDown(e) {
         if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -3662,7 +3697,7 @@ var DatePicker = forwardRef27(
       document.addEventListener("mousedown", handleMouseDown);
       return () => document.removeEventListener("mousedown", handleMouseDown);
     }, [open]);
-    useEffect7(() => {
+    useEffect8(() => {
       if (!open) return;
       function handleKey(e) {
         if (e.key === "Escape") {
@@ -3965,8 +4000,8 @@ import {
   createContext as createContext2,
   useCallback as useCallback6,
   useContext as useContext2,
-  useEffect as useEffect8,
-  useRef as useRef8,
+  useEffect as useEffect9,
+  useRef as useRef9,
   useState as useState8
 } from "react";
 import { createPortal as createPortal2 } from "react-dom";
@@ -4038,9 +4073,9 @@ function ToastMessage({
 }) {
   const [exiting, setExiting] = useState8(false);
   const [paused, setPaused] = useState8(false);
-  const timerRef = useRef8(null);
-  const startedAtRef = useRef8(0);
-  const remainingRef = useRef8(item.duration);
+  const timerRef = useRef9(null);
+  const startedAtRef = useRef9(0);
+  const remainingRef = useRef9(item.duration);
   const autoDismiss = item.duration > 0;
   const clearTimer = useCallback6(() => {
     if (timerRef.current) {
@@ -4064,7 +4099,7 @@ function ToastMessage({
     clearTimer();
     setPaused(true);
   }, [autoDismiss, clearTimer]);
-  useEffect8(() => {
+  useEffect9(() => {
     startTimer();
     return clearTimer;
   }, []);
@@ -4204,7 +4239,7 @@ function ToastProvider({
 }
 
 // src/components/Combobox/Combobox.tsx
-import { forwardRef as forwardRef28, useState as useState9, useEffect as useEffect9, useRef as useRef9, useCallback as useCallback7, useMemo } from "react";
+import { forwardRef as forwardRef28, useState as useState9, useEffect as useEffect10, useRef as useRef10, useCallback as useCallback7, useMemo } from "react";
 import { semantic as t34, useInjectStyles as useInjectStyles15 } from "../../core/dist/index.js";
 import { jsx as jsx37, jsxs as jsxs22 } from "react/jsx-runtime";
 var COMBOBOX_STYLES_ID = "alttab-combobox";
@@ -4276,11 +4311,11 @@ var Combobox = forwardRef28(function Combobox2({
   const [open, setOpen] = useState9(false);
   const [focusedIndex, setFocusedIndex] = useState9(-1);
   const [dropDirection, setDropDirection] = useState9("down");
-  const containerRef = useRef9(null);
-  const inputRef = useRef9(null);
-  const menuRef = useRef9(null);
-  const suppressNextOpenRef = useRef9(false);
-  useEffect9(() => {
+  const containerRef = useRef10(null);
+  const inputRef = useRef10(null);
+  const menuRef = useRef10(null);
+  const suppressNextOpenRef = useRef10(false);
+  useEffect10(() => {
     if (!ref) return;
     if (typeof ref === "function") {
       ref(inputRef.current);
@@ -4326,7 +4361,7 @@ var Combobox = forwardRef28(function Combobox2({
     },
     [onChange, onSelect, closeMenu]
   );
-  useEffect9(() => {
+  useEffect10(() => {
     if (!open) return;
     function handleMouseDown(e) {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -4336,7 +4371,7 @@ var Combobox = forwardRef28(function Combobox2({
     document.addEventListener("mousedown", handleMouseDown);
     return () => document.removeEventListener("mousedown", handleMouseDown);
   }, [open, closeMenu]);
-  useEffect9(() => {
+  useEffect10(() => {
     if (!open || focusedIndex < 0) return;
     const menu = menuRef.current;
     if (!menu) return;
@@ -4549,7 +4584,7 @@ var disabledStyle4 = {
 };
 
 // src/components/TableFilters/TableFilters.tsx
-import { useState as useState10, useEffect as useEffect10, useRef as useRef10, useCallback as useCallback8 } from "react";
+import { useState as useState10, useEffect as useEffect11, useRef as useRef11, useCallback as useCallback8 } from "react";
 import { semantic as t35 } from "../../core/dist/index.js";
 import { jsx as jsx38 } from "react/jsx-runtime";
 function DebouncedTextFilter({
@@ -4559,8 +4594,8 @@ function DebouncedTextFilter({
 }) {
   const delay = config.debounceMs ?? 300;
   const [local, setLocal] = useState10(value);
-  const timerRef = useRef10(null);
-  useEffect10(() => {
+  const timerRef = useRef11(null);
+  useEffect11(() => {
     setLocal(value);
   }, [value]);
   const handleChange = useCallback8(
@@ -4574,7 +4609,7 @@ function DebouncedTextFilter({
     },
     [config.key, delay, onCommit]
   );
-  useEffect10(() => {
+  useEffect11(() => {
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
@@ -4766,7 +4801,7 @@ function ChipPicker({
 }
 
 // src/components/SearchInput/SearchInput.tsx
-import { forwardRef as forwardRef29, useState as useState11, useEffect as useEffect11, useRef as useRef11, useCallback as useCallback9 } from "react";
+import { forwardRef as forwardRef29, useState as useState11, useEffect as useEffect12, useRef as useRef12, useCallback as useCallback9 } from "react";
 import { semantic as t37, useInjectStyles as useInjectStyles17 } from "../../core/dist/index.js";
 import { jsx as jsx40, jsxs as jsxs24 } from "react/jsx-runtime";
 var STYLE_ID2 = "4lt7ab-search-input";
@@ -4833,10 +4868,10 @@ var SearchInput = forwardRef29(
   }, ref) {
     useInjectStyles17(STYLE_ID2, hoverFocusCSS);
     const [localValue, setLocalValue] = useState11(value);
-    const timerRef = useRef11(null);
-    const onSearchRef = useRef11(onSearch);
+    const timerRef = useRef12(null);
+    const onSearchRef = useRef12(onSearch);
     onSearchRef.current = onSearch;
-    useEffect11(() => {
+    useEffect12(() => {
       setLocalValue(value);
     }, [value]);
     const handleChange = useCallback9((e) => {
@@ -4847,7 +4882,7 @@ var SearchInput = forwardRef29(
         onSearchRef.current(next);
       }, debounceMs);
     }, [debounceMs]);
-    useEffect11(() => {
+    useEffect12(() => {
       return () => {
         if (timerRef.current) clearTimeout(timerRef.current);
       };
@@ -4890,7 +4925,7 @@ var SearchInput = forwardRef29(
 );
 
 // src/components/SegmentedControl/SegmentedControl.tsx
-import { useRef as useRef12, useLayoutEffect, useState as useState12, useCallback as useCallback10 } from "react";
+import { useRef as useRef13, useLayoutEffect, useState as useState12, useCallback as useCallback10 } from "react";
 import { semantic as t38, useInjectStyles as useInjectStyles18 } from "../../core/dist/index.js";
 import { jsx as jsx41, jsxs as jsxs25 } from "react/jsx-runtime";
 var STYLE_ID3 = "4lt7ab-segmented-control";
@@ -4921,7 +4956,7 @@ function SegmentedControl({
   size = "md"
 }) {
   useInjectStyles18(STYLE_ID3, hoverCSS);
-  const containerRef = useRef12(null);
+  const containerRef = useRef13(null);
   const [indicator, setIndicator] = useState12(null);
   const s = sizes[size];
   const updateIndicator = useCallback10(() => {
@@ -5027,7 +5062,7 @@ function SegmentedControl({
 }
 
 // src/components/AlertBanner/AlertBanner.tsx
-import { forwardRef as forwardRef30, useEffect as useEffect12, useRef as useRef13 } from "react";
+import { forwardRef as forwardRef30, useEffect as useEffect13, useRef as useRef14 } from "react";
 import { semantic as t39, useInjectStyles as useInjectStyles19 } from "../../core/dist/index.js";
 import { jsx as jsx42, jsxs as jsxs26 } from "react/jsx-runtime";
 var STYLE_ID4 = "4lt7ab-alert-banner";
@@ -5061,8 +5096,8 @@ var defaultIcons = {
 var AlertBanner = forwardRef30(
   function AlertBanner2({ variant, children, onDismiss, autoDismiss, icon }, ref) {
     useInjectStyles19(STYLE_ID4, alertBannerCSS);
-    const timerRef = useRef13(null);
-    useEffect12(() => {
+    const timerRef = useRef14(null);
+    useEffect13(() => {
       if (autoDismiss && onDismiss) {
         timerRef.current = setTimeout(onDismiss, autoDismiss);
         return () => {
@@ -5725,7 +5760,7 @@ var StatCard = forwardRef36(
 );
 
 // src/components/TabStrip/TabStrip.tsx
-import { forwardRef as forwardRef37, useCallback as useCallback11, useRef as useRef14 } from "react";
+import { forwardRef as forwardRef37, useCallback as useCallback11, useRef as useRef15 } from "react";
 import { semantic as t46, useInjectStyles as useInjectStyles23 } from "../../core/dist/index.js";
 import { jsx as jsx49, jsxs as jsxs31 } from "react/jsx-runtime";
 var STYLES_ID = "4lt7ab-tab-strip";
@@ -5748,7 +5783,7 @@ var TabStrip = forwardRef37(
     ...rest
   }, ref) {
     useInjectStyles23(STYLES_ID, STYLES_CSS);
-    const tabRefs = useRef14([]);
+    const tabRefs = useRef15([]);
     const handleClick = useCallback11(
       (key) => {
         if (key === activeKey && allowDeselect) {

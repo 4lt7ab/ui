@@ -194,6 +194,14 @@ interface CardProps extends BaseComponentProps {
 	* @default false
 	*/
 	hover?: boolean;
+	/**
+	* Opt into a border glow that pulses with the active theme's rhythm
+	* (see `packages/core/docs/component-canvas-bridge.md`). Default off —
+	* Cards without this prop behave identically to pre-bridge Cards.
+	* No-ops on themes without rhythm and under `prefers-reduced-motion`.
+	* @default false
+	*/
+	glow?: boolean;
 	/** Card content. */
 	children: ReactNode4;
 }
