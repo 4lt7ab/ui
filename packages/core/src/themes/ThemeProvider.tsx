@@ -6,6 +6,7 @@ import {
   useMemo,
   useRef,
   useState,
+  useSyncExternalStore,
   type ReactNode,
 } from 'react';
 import type { ThemeDefinition, ThemeTokens } from './types';
@@ -16,6 +17,15 @@ import {
   pipboyTheme, neuralTheme, pacmanTheme, blackHoleTheme,
 } from './definitions';
 import { useInjectStyles } from '../utils/useInjectStyles';
+import {
+  setActiveRhythm,
+  subscribeRhythmConfig,
+  getRhythmConfigSnapshot,
+  getRhythmServerSnapshot,
+  subscribePhase,
+  getCurrentPhase,
+  type ThemeRhythmHandle,
+} from './rhythm';
 
 /**
  * Built-in keyframe animation names injected globally by ThemeProvider.
@@ -212,6 +222,9 @@ export function ThemeProvider({
     applyTokens(document.documentElement, definition.tokens);
     document.documentElement.setAttribute('data-theme', resolved);
 
+    /* Publish this theme's rhythm (or lack of one) to the shared clock. */
+    setActiveRhythm(definition.rhythm);
+
     // Inject theme CSS (keyframes, animations, pseudo-elements, etc.)
     if (styleElRef.current) {
       styleElRef.current.remove();
@@ -251,4 +264,51 @@ export function useTheme(): ThemeContextValue {
   const ctx = useContext(ThemeContext);
   if (!ctx) throw new Error('useTheme must be used within <ThemeProvider>');
   return ctx;
+}
+
+/**
+ * Subscribe to the active theme's rhythm. Rerenders only when the rhythm
+ * *config* changes (new theme, new bpm) — never on every phase frame.
+ *
+ * Components read live phase via `phaseRef.current` inside their own rAF, or
+ * via the `subscribe()` callback. For simple pulses that only need the
+ * cadence (not the current wave position), use `durationCss` as a CSS
+ * animation-duration.
+ *
+ * @example
+ * ```tsx
+ * const { durationCss } = useThemeRhythm();
+ * return <span style={{ animationDuration: durationCss ?? '1.5s' }} />;
+ * ```
+ *
+ * @example
+ * ```tsx
+ * const { subscribe } = useThemeRhythm();
+ * const ref = useRef<HTMLDivElement>(null);
+ * useEffect(() => subscribe((phase) => {
+ *   if (ref.current) ref.current.style.opacity = String(0.5 + phase * 0.5);
+ * }), [subscribe]);
+ * ```
+ */
+export function useThemeRhythm(): ThemeRhythmHandle {
+  const config = useSyncExternalStore(
+    subscribeRhythmConfig,
+    getRhythmConfigSnapshot,
+    getRhythmServerSnapshot,
+  );
+
+  const phaseRef = useRef(getCurrentPhase());
+
+  const subscribe = useCallback((cb: (phase: number) => void): (() => void) => {
+    return subscribePhase((phase) => {
+      phaseRef.current = phase;
+      cb(phase);
+    });
+  }, []);
+
+  const durationCss = config
+    ? `${Math.round(60_000 / Math.max(1, config.bpm))}ms`
+    : undefined;
+
+  return { config, phaseRef, subscribe, durationCss };
 }

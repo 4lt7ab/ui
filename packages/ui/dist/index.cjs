@@ -2642,7 +2642,8 @@ var PULSE_STYLES_CSS = `
   100% { box-shadow: 0 0 0 0 var(--status-dot-color); opacity: 0; }
 }
 [data-status-dot-pulse] {
-  animation: statusDotPulse 1.5s ease-in-out infinite;
+  /* Duration overridden by --status-dot-duration when the active theme has a rhythm. */
+  animation: statusDotPulse var(--status-dot-duration, 1.5s) ease-in-out infinite;
 }
 @media (prefers-reduced-motion: reduce) {
   [data-status-dot-pulse] {
@@ -2660,6 +2661,7 @@ var StatusDot = (0, import_react24.forwardRef)(
     const resolvedColor = variantColors[variant];
     const resolvedSize = sizeMap[size];
     const isPulsing = animate === "pulse";
+    const { durationCss } = (0, import_core24.useThemeRhythm)();
     (0, import_core24.useInjectStyles)(PULSE_STYLES_ID, PULSE_STYLES_CSS);
     return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
       "span",
@@ -2676,7 +2678,11 @@ var StatusDot = (0, import_react24.forwardRef)(
           borderRadius: import_core24.semantic.radiusFull,
           background: resolvedColor,
           flexShrink: 0,
-          ...isPulsing ? { "--status-dot-color": resolvedColor } : void 0
+          ...isPulsing ? {
+            "--status-dot-color": resolvedColor,
+            /* When the theme has a rhythm, the pulse syncs to its tempo. */
+            ...durationCss ? { "--status-dot-duration": durationCss } : void 0
+          } : void 0
         }
       }
     );

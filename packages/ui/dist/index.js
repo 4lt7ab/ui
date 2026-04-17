@@ -2488,7 +2488,7 @@ var FormModal = forwardRef22(
 
 // src/components/StatusDot/StatusDot.tsx
 import { forwardRef as forwardRef23 } from "react";
-import { semantic as t22, useInjectStyles as useInjectStyles7 } from "../../core/dist/index.js";
+import { semantic as t22, useInjectStyles as useInjectStyles7, useThemeRhythm } from "../../core/dist/index.js";
 import { jsx as jsx25 } from "react/jsx-runtime";
 var variantColors = {
   default: t22.colorTextMuted,
@@ -2511,7 +2511,8 @@ var PULSE_STYLES_CSS = `
   100% { box-shadow: 0 0 0 0 var(--status-dot-color); opacity: 0; }
 }
 [data-status-dot-pulse] {
-  animation: statusDotPulse 1.5s ease-in-out infinite;
+  /* Duration overridden by --status-dot-duration when the active theme has a rhythm. */
+  animation: statusDotPulse var(--status-dot-duration, 1.5s) ease-in-out infinite;
 }
 @media (prefers-reduced-motion: reduce) {
   [data-status-dot-pulse] {
@@ -2529,6 +2530,7 @@ var StatusDot = forwardRef23(
     const resolvedColor = variantColors[variant];
     const resolvedSize = sizeMap[size];
     const isPulsing = animate === "pulse";
+    const { durationCss } = useThemeRhythm();
     useInjectStyles7(PULSE_STYLES_ID, PULSE_STYLES_CSS);
     return /* @__PURE__ */ jsx25(
       "span",
@@ -2545,7 +2547,11 @@ var StatusDot = forwardRef23(
           borderRadius: t22.radiusFull,
           background: resolvedColor,
           flexShrink: 0,
-          ...isPulsing ? { "--status-dot-color": resolvedColor } : void 0
+          ...isPulsing ? {
+            "--status-dot-color": resolvedColor,
+            /* When the theme has a rhythm, the pulse syncs to its tempo. */
+            ...durationCss ? { "--status-dot-duration": durationCss } : void 0
+          } : void 0
         }
       }
     );

@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { semantic as t, useInjectStyles } from '@4lt7ab/core';
+import { semantic as t, useInjectStyles, useThemeRhythm } from '@4lt7ab/core';
 import type { CSSProperties } from 'react';
 
 /** Semantic color variant for the status dot. */
@@ -51,7 +51,8 @@ const PULSE_STYLES_CSS = `
   100% { box-shadow: 0 0 0 0 var(--status-dot-color); opacity: 0; }
 }
 [data-status-dot-pulse] {
-  animation: statusDotPulse 1.5s ease-in-out infinite;
+  /* Duration overridden by --status-dot-duration when the active theme has a rhythm. */
+  animation: statusDotPulse var(--status-dot-duration, 1.5s) ease-in-out infinite;
 }
 @media (prefers-reduced-motion: reduce) {
   [data-status-dot-pulse] {
@@ -70,6 +71,7 @@ export const StatusDot: React.ForwardRefExoticComponent<Omit<StatusDotProps, 're
     const resolvedColor = variantColors[variant];
     const resolvedSize = sizeMap[size];
     const isPulsing = animate === 'pulse';
+    const { durationCss } = useThemeRhythm();
 
     useInjectStyles(PULSE_STYLES_ID, PULSE_STYLES_CSS);
 
@@ -87,7 +89,13 @@ export const StatusDot: React.ForwardRefExoticComponent<Omit<StatusDotProps, 're
           borderRadius: t.radiusFull,
           background: resolvedColor,
           flexShrink: 0,
-          ...(isPulsing ? { '--status-dot-color': resolvedColor } as CSSProperties : undefined),
+          ...(isPulsing
+            ? ({
+                '--status-dot-color': resolvedColor,
+                /* When the theme has a rhythm, the pulse syncs to its tempo. */
+                ...(durationCss ? { '--status-dot-duration': durationCss } : undefined),
+              } as CSSProperties)
+            : undefined),
         }}
       />
     );

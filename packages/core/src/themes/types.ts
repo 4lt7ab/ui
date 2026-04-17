@@ -217,6 +217,36 @@ export interface ThemeTokens {
   zIndexMax: string;
 }
 
+/**
+ * Optional rhythm config that gives a theme a temporal personality.
+ * Components can subscribe via `useThemeRhythm()` to sync pulses, glows, or
+ * flickers to the theme's heartbeat — making the theme feel alive rather than
+ * a static color swap.
+ */
+export interface ThemeRhythm {
+  /**
+   * Beats per minute. Drives the primary pulse cadence.
+   * Examples: synthwave ~80 (slow disco pulse), pipboy ~140 (CRT flicker),
+   * neural ~60 (calm oscillation).
+   */
+  bpm: number;
+  /**
+   * Shape of the pulse waveform.
+   * - `sine` — smooth in/out (default)
+   * - `triangle` — linear up, linear down
+   * - `square` — on/off flicker
+   * - `sawtooth` — ramp up, snap down
+   * @default 'sine'
+   */
+  easing?: 'sine' | 'triangle' | 'square' | 'sawtooth';
+  /**
+   * Intensity multiplier [0..1]. Components interpret this as "how strong the
+   * pulse feels" — e.g. scaling the amplitude of a glow or pulse.
+   * @default 1
+   */
+  intensity?: number;
+}
+
 /** A named theme definition. */
 export interface ThemeDefinition {
   /** Unique identifier used in `setTheme()` and `data-theme` attribute. */
@@ -231,6 +261,12 @@ export interface ThemeDefinition {
    * The selector `[data-theme="<name>"]` is available for scoping.
    */
   css?: string;
+  /**
+   * Optional animation rhythm. When set, components that subscribe to
+   * `useThemeRhythm()` will pulse in time with this cadence.
+   * When absent, components fall back to their default timing.
+   */
+  rhythm?: ThemeRhythm;
 }
 
 /** Converts a camelCase token key to its CSS custom property name. */

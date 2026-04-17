@@ -486,6 +486,35 @@ interface ThemeTokens {
 	/** Z-index ceiling for elements that must always be on top (9999). */
 	zIndexMax: string;
 }
+/**
+* Optional rhythm config that gives a theme a temporal personality.
+* Components can subscribe via `useThemeRhythm()` to sync pulses, glows, or
+* flickers to the theme's heartbeat — making the theme feel alive rather than
+* a static color swap.
+*/
+interface ThemeRhythm {
+	/**
+	* Beats per minute. Drives the primary pulse cadence.
+	* Examples: synthwave ~80 (slow disco pulse), pipboy ~140 (CRT flicker),
+	* neural ~60 (calm oscillation).
+	*/
+	bpm: number;
+	/**
+	* Shape of the pulse waveform.
+	* - `sine` — smooth in/out (default)
+	* - `triangle` — linear up, linear down
+	* - `square` — on/off flicker
+	* - `sawtooth` — ramp up, snap down
+	* @default 'sine'
+	*/
+	easing?: "sine" | "triangle" | "square" | "sawtooth";
+	/**
+	* Intensity multiplier [0..1]. Components interpret this as "how strong the
+	* pulse feels" — e.g. scaling the amplitude of a glow or pulse.
+	* @default 1
+	*/
+	intensity?: number;
+}
 /** A named theme definition. */
 interface ThemeDefinition {
 	/** Unique identifier used in `setTheme()` and `data-theme` attribute. */
@@ -500,9 +529,45 @@ interface ThemeDefinition {
 	* The selector `[data-theme="<name>"]` is available for scoping.
 	*/
 	css?: string;
+	/**
+	* Optional animation rhythm. When set, components that subscribe to
+	* `useThemeRhythm()` will pulse in time with this cadence.
+	* When absent, components fall back to their default timing.
+	*/
+	rhythm?: ThemeRhythm;
 }
 /** Converts a camelCase token key to its CSS custom property name. */
 declare function tokenToCssProperty(key: string): string;
+import { MutableRefObject } from "react";
+/**
+* Set the active rhythm. Called by ThemeProvider when the theme changes.
+* Passing `null` stops the engine. Idempotent — safe to call with the same
+* config repeatedly.
+*/
+declare function setActiveRhythm(config: ThemeRhythm | null | undefined): void;
+/** Handle returned by `useThemeRhythm`. */
+interface ThemeRhythmHandle {
+	/** Active rhythm config from the current theme. `null` if the theme has no rhythm. */
+	config: ThemeRhythm | null;
+	/**
+	* Mutable ref whose `.current` holds the current phase 0..1 (shaped by easing
+	* and scaled by intensity). Read it inside your own rAF or event handlers.
+	* Only updated while at least one subscribe() callback is active.
+	*/
+	phaseRef: MutableRefObject<number>;
+	/**
+	* Subscribe a callback that fires every frame with the latest phase.
+	* Returns an unsubscribe function. Starts the shared rAF loop if this is the
+	* first subscriber; stops it when the last subscriber unsubscribes.
+	*/
+	subscribe: (cb: (phase: number) => void) => () => void;
+	/**
+	* Animation duration string derived from `config.bpm` (e.g. `'750ms'`),
+	* suitable for CSS `animation-duration`. Returns `undefined` if no rhythm is
+	* active, so callers can fall back to their default.
+	*/
+	durationCss: string | undefined;
+}
 /**
 * Built-in keyframe animation names injected globally by ThemeProvider.
 * Use these constants to reference the keyframes type-safely.
@@ -550,6 +615,31 @@ interface ThemeProviderProps {
 }
 declare function ThemeProvider({ children, themes: extraThemes, defaultTheme, storageKey, applyPageStyles }: ThemeProviderProps): React.JSX.Element;
 declare function useTheme(): ThemeContextValue;
+/**
+* Subscribe to the active theme's rhythm. Rerenders only when the rhythm
+* *config* changes (new theme, new bpm) — never on every phase frame.
+*
+* Components read live phase via `phaseRef.current` inside their own rAF, or
+* via the `subscribe()` callback. For simple pulses that only need the
+* cadence (not the current wave position), use `durationCss` as a CSS
+* animation-duration.
+*
+* @example
+* ```tsx
+* const { durationCss } = useThemeRhythm();
+* return <span style={{ animationDuration: durationCss ?? '1.5s' }} />;
+* ```
+*
+* @example
+* ```tsx
+* const { subscribe } = useThemeRhythm();
+* const ref = useRef<HTMLDivElement>(null);
+* useEffect(() => subscribe((phase) => {
+*   if (ref.current) ref.current.style.opacity = String(0.5 + phase * 0.5);
+* }), [subscribe]);
+* ```
+*/
+declare function useThemeRhythm(): ThemeRhythmHandle;
 declare const synthwaveTheme: ThemeDefinition;
 declare const slateTheme: ThemeDefinition;
 declare const warmSandTheme: ThemeDefinition;
@@ -559,4 +649,4 @@ declare const pipboyTheme: ThemeDefinition;
 declare const neuralTheme: ThemeDefinition;
 declare const pacmanTheme: ThemeDefinition;
 declare const blackHoleTheme: ThemeDefinition;
-export { warmSandTheme, useTheme, useInjectStyles, typography, tokenToCssProperty, synthwaveTheme, staggerStyle, spacing, slateTheme, shadows, semantic, radii, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, coralTheme, colors, blackHoleTheme, Typography, ThemeTokens, ThemeProviderProps, ThemeProvider, ThemeDefinition, ThemeContextValue, Theme, StaggerOptions, Spacing, Shadows, SemanticTokens, ResolvedTheme, Radii, KEYFRAMES, Colors };
+export { warmSandTheme, useThemeRhythm, useTheme, useInjectStyles, typography, tokenToCssProperty, synthwaveTheme, staggerStyle, spacing, slateTheme, shadows, setActiveRhythm, semantic, radii, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, coralTheme, colors, blackHoleTheme, Typography, ThemeTokens, ThemeRhythmHandle, ThemeRhythm, ThemeProviderProps, ThemeProvider, ThemeDefinition, ThemeContextValue, Theme, StaggerOptions, Spacing, Shadows, SemanticTokens, ResolvedTheme, Radii, KEYFRAMES, Colors };

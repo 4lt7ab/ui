@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Add theme rhythm system — `ThemeDefinition.rhythm?: { bpm, easing, intensity }` adds a temporal dimension to themes. `useThemeRhythm()` hook in `@4lt7ab/core` exposes active config, a phase ref (0..1 sine/triangle/square/sawtooth), an imperative `subscribe()` for per-frame updates, and a `durationCss` helper for CSS animations
+- Rhythm engine is lazy — single shared `requestAnimationFrame` loop starts only on first subscriber and stops on last unsubscribe; zero cost when unused
+- Synthwave (80 bpm sine), Pipboy (140 bpm square), and Neural (60 bpm triangle) themes gain rhythm definitions
+- StatusDot pulse now syncs its animation duration to the active theme's rhythm when present, falls back to 1.5s otherwise
+- Respects `prefers-reduced-motion` — pins phase to 0.5 and skips rAF
+
 ## v0.2.30
 
 - Fix ModalShell clipping on short viewports — panel now caps at `maxHeight: 100%` with `overflowY: auto`, and the centering container pads by `spaceMd` so the panel has breathing room from viewport edges

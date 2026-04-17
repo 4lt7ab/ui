@@ -118,6 +118,13 @@ export const synthwaveTheme: ThemeDefinition = {
     zIndexMax: '9999',
   },
 
+  rhythm: {
+    /* Slow disco pulse — 80 bpm, smooth. */
+    bpm: 80,
+    easing: 'sine',
+    intensity: 1,
+  },
+
   css: /* css */ `
     /* Base background */
     [data-theme="synthwave"] body,

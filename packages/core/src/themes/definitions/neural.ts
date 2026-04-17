@@ -109,6 +109,13 @@ export const neuralTheme: ThemeDefinition = {
     zIndexMax: '9999',
   },
 
+  rhythm: {
+    /* Calm neural oscillation — 60 bpm, smooth triangle. */
+    bpm: 60,
+    easing: 'triangle',
+    intensity: 0.9,
+  },
+
   css: /* css */ `
     [data-theme="neural"] body,
     [data-theme="neural"] {

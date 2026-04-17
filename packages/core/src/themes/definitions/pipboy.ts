@@ -109,6 +109,13 @@ export const pipboyTheme: ThemeDefinition = {
     zIndexMax: '9999',
   },
 
+  rhythm: {
+    /* CRT flicker — fast, square wave for the on/off feel. */
+    bpm: 140,
+    easing: 'square',
+    intensity: 0.85,
+  },
+
   css: /* css */ `
     /* Base background for canvas to render on top of */
     [data-theme="pipboy"] body,

@@ -23,7 +23,8 @@ import {
   useEffect as useEffect2,
   useMemo,
   useRef,
-  useState
+  useState,
+  useSyncExternalStore
 } from "react";
 
 // src/themes/types.ts
@@ -115,6 +116,11 @@ var synthwaveTheme = {
     zIndexModal: "200",
     zIndexToast: "500",
     zIndexMax: "9999"
+  },
+  rhythm: {
+    bpm: 80,
+    easing: "sine",
+    intensity: 1
   },
   css: `
     /* Base background */
@@ -575,6 +581,11 @@ var pipboyTheme = {
     zIndexToast: "500",
     zIndexMax: "9999"
   },
+  rhythm: {
+    bpm: 140,
+    easing: "square",
+    intensity: 0.85
+  },
   css: `
     /* Base background for canvas to render on top of */
     [data-theme="pipboy"] body,
@@ -694,6 +705,11 @@ var neuralTheme = {
     zIndexModal: "200",
     zIndexToast: "500",
     zIndexMax: "9999"
+  },
+  rhythm: {
+    bpm: 60,
+    easing: "triangle",
+    intensity: 0.9
   },
   css: `
     [data-theme="neural"] body,
@@ -913,6 +929,108 @@ var blackHoleTheme = {
     }
   `
 };
+// src/themes/rhythm.ts
+var TAU = Math.PI * 2;
+var easings = {
+  sine: (t) => (1 - Math.cos(TAU * t)) / 2,
+  triangle: (t) => 1 - Math.abs(t * 2 - 1),
+  square: (t) => t < 0.5 ? 1 : 0,
+  sawtooth: (t) => t
+};
+var engine = {
+  config: null,
+  startedAt: 0,
+  phase: 0.5,
+  rafId: 0,
+  subscribers: new Set
+};
+function prefersReducedMotion() {
+  if (typeof window === "undefined" || !window.matchMedia)
+    return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+function tick(now) {
+  const { config, startedAt, subscribers } = engine;
+  if (!config || subscribers.size === 0) {
+    engine.rafId = 0;
+    return;
+  }
+  const periodMs = 60000 / Math.max(1, config.bpm);
+  const elapsed = now - startedAt;
+  const t = elapsed % periodMs / periodMs;
+  const easing = easings[config.easing ?? "sine"];
+  const intensity = config.intensity ?? 1;
+  engine.phase = easing(t) * intensity;
+  for (const cb of subscribers)
+    cb(engine.phase);
+  engine.rafId = requestAnimationFrame(tick);
+}
+function startIfNeeded() {
+  if (engine.rafId !== 0)
+    return;
+  if (!engine.config || engine.subscribers.size === 0)
+    return;
+  if (typeof window === "undefined")
+    return;
+  if (prefersReducedMotion()) {
+    engine.phase = 0.5;
+    for (const cb of engine.subscribers)
+      cb(engine.phase);
+    return;
+  }
+  engine.startedAt = performance.now();
+  engine.rafId = requestAnimationFrame(tick);
+}
+function stop() {
+  if (engine.rafId !== 0) {
+    cancelAnimationFrame(engine.rafId);
+    engine.rafId = 0;
+  }
+}
+function setActiveRhythm(config) {
+  const normalized = config ?? null;
+  const prev = engine.config;
+  if (prev === normalized || prev && normalized && prev.bpm === normalized.bpm && prev.easing === normalized.easing && prev.intensity === normalized.intensity) {
+    return;
+  }
+  engine.config = normalized;
+  engine.phase = 0.5;
+  if (normalized && engine.subscribers.size > 0) {
+    engine.startedAt = typeof performance !== "undefined" ? performance.now() : 0;
+    if (engine.rafId === 0)
+      startIfNeeded();
+  } else if (!normalized) {
+    stop();
+  }
+  rhythmConfigListeners.forEach((l) => l());
+}
+var rhythmConfigListeners = new Set;
+function subscribeRhythmConfig(listener) {
+  rhythmConfigListeners.add(listener);
+  return () => {
+    rhythmConfigListeners.delete(listener);
+  };
+}
+function getRhythmConfigSnapshot() {
+  return engine.config;
+}
+function getRhythmServerSnapshot() {
+  return null;
+}
+function subscribePhase(cb) {
+  engine.subscribers.add(cb);
+  startIfNeeded();
+  cb(engine.phase);
+  return () => {
+    engine.subscribers.delete(cb);
+    if (engine.subscribers.size === 0)
+      stop();
+  };
+}
+function getCurrentPhase() {
+  return engine.phase;
+}
+
 // src/themes/ThemeProvider.tsx
 import { jsx } from "react/jsx-runtime";
 var KEYFRAMES = {
@@ -1027,6 +1145,7 @@ function ThemeProvider({
     }
     applyTokens(document.documentElement, definition.tokens);
     document.documentElement.setAttribute("data-theme", resolved);
+    setActiveRhythm(definition.rhythm);
     if (styleElRef.current) {
       styleElRef.current.remove();
       styleElRef.current = null;
@@ -1056,6 +1175,18 @@ function useTheme() {
   if (!ctx)
     throw new Error("useTheme must be used within <ThemeProvider>");
   return ctx;
+}
+function useThemeRhythm() {
+  const config = useSyncExternalStore(subscribeRhythmConfig, getRhythmConfigSnapshot, getRhythmServerSnapshot);
+  const phaseRef = useRef(getCurrentPhase());
+  const subscribe = useCallback((cb) => {
+    return subscribePhase((phase) => {
+      phaseRef.current = phase;
+      cb(phase);
+    });
+  }, []);
+  const durationCss = config ? `${Math.round(60000 / Math.max(1, config.bpm))}ms` : undefined;
+  return { config, phaseRef, subscribe, durationCss };
 }
 
 // src/utils/staggerStyle.ts
@@ -1271,6 +1402,7 @@ var semantic = {
 };
 export {
   warmSandTheme,
+  useThemeRhythm,
   useTheme,
   useInjectStyles,
   typography,
@@ -1280,6 +1412,7 @@ export {
   spacing,
   slateTheme,
   shadows,
+  setActiveRhythm2 as setActiveRhythm,
   semantic,
   radii,
   pipboyTheme,

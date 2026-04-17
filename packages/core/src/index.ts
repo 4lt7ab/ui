@@ -9,3 +9,5 @@ export * from './tokens';
 export * from './themes/ThemeProvider';
 export * from './themes/types';
 export * from './themes/definitions';
+export { setActiveRhythm } from './themes/rhythm';
+export type { ThemeRhythmHandle } from './themes/rhythm';
