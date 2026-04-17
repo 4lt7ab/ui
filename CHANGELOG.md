@@ -2,8 +2,6 @@
 
 ## Unreleased
 
-- Docs — add `packages/ui/docs/surface-consolidation.md` auditing today's surface components (`Card`, `Surface`, `ThemeSurface`, `StatCard`), naming `Surface` as the canonical primitive and `Card` as the opinionated preset, retiring `ThemeSurface` (replaced by a `usePageBackground` hook in `@4lt7ab/core`) and `StatCard` (replaced by composition), and retiring Card's `variant: 'live'` in favor of the newer `glow` prop. Design doc only, no runtime changes
-- Docs — add `packages/ui/docs/modal-consolidation.md` auditing the modal/overlay family (`Overlay`, `ModalShell`, `ConfirmDialog`, `FormModal`, `ShortcutHelpModal`) for the 0.3.0 cleanup: keep Overlay + ModalShell + ConfirmDialog as primitives, retire `FormModal` and `ShortcutHelpModal` as documented compositions with complete migration snippets and a call-out for the one lost capability (`<kbd>:hover` styling). Design doc only, no runtime changes
 - Add theme rhythm system — `ThemeDefinition.rhythm?: { bpm, easing, intensity }` adds a temporal dimension to themes. `useThemeRhythm()` hook in `@4lt7ab/core` exposes active config, a phase ref (0..1 sine/triangle/square/sawtooth), an imperative `subscribe()` for per-frame updates, and a `durationCss` helper for CSS animations
 - Rhythm engine is lazy — single shared `requestAnimationFrame` loop starts only on first subscriber and stops on last unsubscribe; zero cost when unused
 - Synthwave (80 bpm sine), Pipboy (140 bpm square), and Neural (60 bpm triangle) themes gain rhythm definitions
