@@ -147,9 +147,11 @@ describe("Combobox", () => {
 
     expect(onChange).toHaveBeenCalledWith("cherry");
     expect(onSelect).toHaveBeenCalledWith({ value: "cherry", label: "Cherry" });
-    // Note: listbox reopens because focus returns to the input (onFocus triggers openMenu).
-    // This is correct combobox behavior — verify the input has the selected value instead.
+    // Per ARIA APG combobox pattern: after selection the listbox stays closed
+    // and the input shows the selected value. Refocusing the input must not
+    // reopen the menu.
     expect(screen.getByRole("combobox")).toHaveValue("cherry");
+    expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
   });
 
   // -- Keyboard navigation -----------------------------------------------------

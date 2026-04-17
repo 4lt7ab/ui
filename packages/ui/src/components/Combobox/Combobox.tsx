@@ -137,6 +137,10 @@ export const Combobox: React.ForwardRefExoticComponent<
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  // Suppresses the next openMenu() triggered by onFocus. Set when a click
+  // selection refocuses the input — otherwise the menu would flash closed
+  // and immediately reopen, violating the ARIA APG combobox pattern.
+  const suppressNextOpenRef = useRef(false);
 
   // Merge refs
   useEffect(() => {
@@ -194,7 +198,12 @@ export const Combobox: React.ForwardRefExoticComponent<
       onChange(opt.value);
       onSelect?.(opt);
       closeMenu();
-      inputRef.current?.focus();
+      // Refocus the input (click selection moves focus to the option button).
+      // Suppress the onFocus-driven reopen so the menu stays closed per APG.
+      if (inputRef.current && document.activeElement !== inputRef.current) {
+        suppressNextOpenRef.current = true;
+        inputRef.current.focus();
+      }
     },
     [onChange, onSelect, closeMenu],
   );
@@ -358,7 +367,11 @@ export const Combobox: React.ForwardRefExoticComponent<
         onChange={handleInputChange}
         onBlur={onBlurProp}
         onFocus={(e) => {
-          if (!disabled && filtered.length > 0) openMenu();
+          if (suppressNextOpenRef.current) {
+            suppressNextOpenRef.current = false;
+          } else if (!disabled && filtered.length > 0) {
+            openMenu();
+          }
           onFocusProp?.(e);
         }}
         data-testid={dataTestId}
