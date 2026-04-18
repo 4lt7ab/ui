@@ -531,11 +531,11 @@ function CompactView() {
   }, [open, focusedIndex]);
   useEffect2(() => {
     if (open) {
-      const activeIdx = themeList.findIndex((t44) => t44.name === resolved);
+      const activeIdx = themeList.findIndex((t43) => t43.name === resolved);
       setFocusedIndex(activeIdx >= 0 ? activeIdx : 0);
     }
   }, [open]);
-  const currentTheme = themeList.find((t44) => t44.name === resolved);
+  const currentTheme = themeList.find((t43) => t43.name === resolved);
   return /* @__PURE__ */ jsxs2("div", { ref: containerRef, style: { position: "relative" }, onKeyDown: handleKeyDown, children: [
     /* @__PURE__ */ jsxs2(
       "button",
@@ -577,8 +577,8 @@ function CompactView() {
           zIndex: "var(--z-index-sticky)",
           boxShadow: "var(--shadow-md)"
         },
-        children: themeList.map((t44, idx) => {
-          const isActive = resolved === t44.name;
+        children: themeList.map((t43, idx) => {
+          const isActive = resolved === t43.name;
           const isFocused = focusedIndex === idx;
           const classes = [
             "alttab-tp-menu-item",
@@ -588,12 +588,12 @@ function CompactView() {
           return /* @__PURE__ */ jsxs2(
             "button",
             {
-              id: `alttab-tp-item-${t44.name}`,
+              id: `alttab-tp-item-${t43.name}`,
               role: "option",
               "aria-selected": isActive,
               className: classes,
               onClick: () => {
-                setTheme(t44.name);
+                setTheme(t43.name);
                 setOpen(false);
                 triggerRef.current?.focus();
               },
@@ -606,10 +606,10 @@ function CompactView() {
                   background: isActive ? "var(--color-action-primary)" : "var(--color-text-muted)",
                   flexShrink: 0
                 } }),
-                t44.label
+                t43.label
               ]
             },
-            t44.name
+            t43.name
           );
         })
       }
@@ -2960,8 +2960,8 @@ function isSameDay(a, b) {
 function isInRange(date, from, to) {
   const d = stripTime(date).getTime();
   const f = stripTime(from).getTime();
-  const t44 = stripTime(to).getTime();
-  return d >= f && d <= t44;
+  const t43 = stripTime(to).getTime();
+  return d >= f && d <= t43;
 }
 function isDateDisabled(date, minDate, maxDate, disabledDates) {
   const d = stripTime(date).getTime();
@@ -3708,58 +3708,10 @@ var DatePicker = forwardRef25(
   }
 );
 
-// src/components/MetadataTable/MetadataTable.tsx
-import { semantic as t29 } from "../../core/dist/index.js";
-import { jsx as jsx31, jsxs as jsxs18 } from "react/jsx-runtime";
-var titleStyles = {
-  margin: 0,
-  marginBottom: t29.spaceMd,
-  fontSize: t29.fontSizeLg,
-  fontWeight: t29.fontWeightSemibold,
-  fontFamily: t29.fontSans,
-  color: t29.colorText
-};
-var listStyles = {
-  margin: 0,
-  padding: 0,
-  display: "flex",
-  flexDirection: "column",
-  gap: t29.spaceSm
-};
-var rowStyles = {
-  display: "flex",
-  flexDirection: "column",
-  gap: t29.spaceXs,
-  padding: `${t29.spaceSm} 0`,
-  borderBottom: `${t29.borderWidthDefault} solid ${t29.colorBorder}`
-};
-var labelStyles = {
-  fontSize: t29.fontSizeXs,
-  fontWeight: t29.fontWeightSemibold,
-  fontFamily: t29.fontSans,
-  color: t29.colorTextMuted,
-  textTransform: "uppercase",
-  letterSpacing: t29.letterSpacingWide
-};
-var valueStyles = {
-  fontSize: t29.fontSizeSm,
-  fontFamily: t29.fontSans,
-  color: t29.colorText
-};
-function MetadataTable({ items, title }) {
-  return /* @__PURE__ */ jsxs18("div", { children: [
-    title && /* @__PURE__ */ jsx31("h3", { style: titleStyles, children: title }),
-    /* @__PURE__ */ jsx31("dl", { style: listStyles, children: items.map((item, i) => /* @__PURE__ */ jsxs18("div", { style: i === items.length - 1 ? { ...rowStyles, borderBottom: "none" } : rowStyles, children: [
-      /* @__PURE__ */ jsx31("dt", { style: labelStyles, children: item.label }),
-      /* @__PURE__ */ jsx31("dd", { style: { ...valueStyles, margin: 0 }, children: item.value })
-    ] }, i)) })
-  ] });
-}
-
 // src/components/ErrorBoundary/ErrorBoundary.tsx
 import React from "react";
-import { semantic as t30 } from "../../core/dist/index.js";
-import { jsx as jsx32, jsxs as jsxs19 } from "react/jsx-runtime";
+import { semantic as t29 } from "../../core/dist/index.js";
+import { jsx as jsx31, jsxs as jsxs18 } from "react/jsx-runtime";
 var ErrorBoundary = class extends React.Component {
   constructor(props) {
     super(props);
@@ -3783,43 +3735,43 @@ var ErrorBoundary = class extends React.Component {
     if (fallback) {
       return fallback({ error, resetErrorBoundary: this.resetErrorBoundary });
     }
-    return /* @__PURE__ */ jsx32("div", { style: { borderColor: t30.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: t30.radiusLg }, children: /* @__PURE__ */ jsx32(
+    return /* @__PURE__ */ jsx31("div", { style: { borderColor: t29.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: t29.radiusLg }, children: /* @__PURE__ */ jsx31(
       Card,
       {
         variant: "flat",
         padding: "lg",
-        children: /* @__PURE__ */ jsxs19("div", { style: { display: "flex", flexDirection: "column", gap: t30.spaceMd }, children: [
-          /* @__PURE__ */ jsx32("div", { style: { display: "flex", alignItems: "center", gap: t30.spaceSm }, children: /* @__PURE__ */ jsx32(
+        children: /* @__PURE__ */ jsxs18("div", { style: { display: "flex", flexDirection: "column", gap: t29.spaceMd }, children: [
+          /* @__PURE__ */ jsx31("div", { style: { display: "flex", alignItems: "center", gap: t29.spaceSm }, children: /* @__PURE__ */ jsx31(
             "span",
             {
               style: {
-                fontSize: t30.fontSizeLg,
-                color: t30.colorError,
-                fontWeight: t30.fontWeightSemibold,
-                fontFamily: t30.fontSans
+                fontSize: t29.fontSizeLg,
+                color: t29.colorError,
+                fontWeight: t29.fontWeightSemibold,
+                fontFamily: t29.fontSans
               },
               children: "Something went wrong"
             }
           ) }),
-          /* @__PURE__ */ jsx32(
+          /* @__PURE__ */ jsx31(
             "p",
             {
               style: {
                 margin: 0,
-                fontFamily: t30.fontMono,
-                fontSize: t30.fontSizeSm,
-                lineHeight: t30.lineHeightBase,
-                color: t30.colorText,
-                background: t30.colorSurfaceRaised,
-                padding: t30.spaceSm,
-                borderRadius: t30.radiusMd,
+                fontFamily: t29.fontMono,
+                fontSize: t29.fontSizeSm,
+                lineHeight: t29.lineHeightBase,
+                color: t29.colorText,
+                background: t29.colorSurfaceRaised,
+                padding: t29.spaceSm,
+                borderRadius: t29.radiusMd,
                 wordBreak: "break-word"
               },
               children: error.message
             }
           ),
-          error.stack && /* @__PURE__ */ jsxs19("div", { children: [
-            /* @__PURE__ */ jsx32(
+          error.stack && /* @__PURE__ */ jsxs18("div", { children: [
+            /* @__PURE__ */ jsx31(
               "button",
               {
                 type: "button",
@@ -3828,27 +3780,27 @@ var ErrorBoundary = class extends React.Component {
                   background: "none",
                   border: "none",
                   padding: 0,
-                  fontFamily: t30.fontSans,
-                  fontSize: t30.fontSizeSm,
-                  color: t30.colorTextMuted,
+                  fontFamily: t29.fontSans,
+                  fontSize: t29.fontSizeSm,
+                  color: t29.colorTextMuted,
                   cursor: "pointer",
                   textDecoration: "underline"
                 },
                 children: showStack ? "Hide stack trace" : "Show stack trace"
               }
             ),
-            showStack && /* @__PURE__ */ jsx32(
+            showStack && /* @__PURE__ */ jsx31(
               "pre",
               {
                 style: {
-                  marginTop: t30.spaceSm,
-                  fontFamily: t30.fontMono,
-                  fontSize: t30.fontSizeXs,
-                  lineHeight: t30.lineHeightBase,
-                  color: t30.colorTextSecondary,
-                  background: t30.colorSurfaceRaised,
-                  padding: t30.spaceSm,
-                  borderRadius: t30.radiusMd,
+                  marginTop: t29.spaceSm,
+                  fontFamily: t29.fontMono,
+                  fontSize: t29.fontSizeXs,
+                  lineHeight: t29.lineHeightBase,
+                  color: t29.colorTextSecondary,
+                  background: t29.colorSurfaceRaised,
+                  padding: t29.spaceSm,
+                  borderRadius: t29.radiusMd,
                   overflow: "auto",
                   maxHeight: "200px",
                   whiteSpace: "pre-wrap",
@@ -3858,7 +3810,7 @@ var ErrorBoundary = class extends React.Component {
               }
             )
           ] }),
-          /* @__PURE__ */ jsx32("div", { children: /* @__PURE__ */ jsx32(Button, { variant: "secondary", size: "sm", onClick: this.resetErrorBoundary, children: "Try again" }) })
+          /* @__PURE__ */ jsx31("div", { children: /* @__PURE__ */ jsx31(Button, { variant: "secondary", size: "sm", onClick: this.resetErrorBoundary, children: "Try again" }) })
         ] })
       }
     ) });
@@ -3875,8 +3827,8 @@ import {
   useState as useState7
 } from "react";
 import { createPortal as createPortal2 } from "react-dom";
-import { semantic as t31, useInjectStyles as useInjectStyles14 } from "../../core/dist/index.js";
-import { jsx as jsx33, jsxs as jsxs20 } from "react/jsx-runtime";
+import { semantic as t30, useInjectStyles as useInjectStyles14 } from "../../core/dist/index.js";
+import { jsx as jsx32, jsxs as jsxs19 } from "react/jsx-runtime";
 var ToastContext = createContext2(null);
 function useToast() {
   const ctx = useContext2(ToastContext);
@@ -3932,10 +3884,10 @@ var toastCSS = `
 }
 `;
 var typeColors = {
-  success: { bg: t31.colorSuccessBg, fg: t31.colorSuccess, border: t31.colorSuccess },
-  error: { bg: t31.colorErrorBg, fg: t31.colorError, border: t31.colorError },
-  info: { bg: t31.colorInfoBg, fg: t31.colorInfo, border: t31.colorInfo },
-  warning: { bg: t31.colorWarningBg, fg: t31.colorWarning, border: t31.colorWarning }
+  success: { bg: t30.colorSuccessBg, fg: t30.colorSuccess, border: t30.colorSuccess },
+  error: { bg: t30.colorErrorBg, fg: t30.colorError, border: t30.colorError },
+  info: { bg: t30.colorInfoBg, fg: t30.colorInfo, border: t30.colorInfo },
+  warning: { bg: t30.colorWarningBg, fg: t30.colorWarning, border: t30.colorWarning }
 };
 function ToastMessage({
   item,
@@ -3979,7 +3931,7 @@ function ToastMessage({
     }
   };
   const colors = typeColors[item.type];
-  return /* @__PURE__ */ jsxs20(
+  return /* @__PURE__ */ jsxs19(
     "div",
     {
       role: "status",
@@ -3993,19 +3945,19 @@ function ToastMessage({
         position: "relative",
         display: "flex",
         alignItems: "center",
-        gap: t31.spaceSm,
-        padding: `${t31.spaceSm} ${t31.spaceMd}`,
-        paddingBottom: autoDismiss ? `calc(${t31.spaceSm} + 2px)` : t31.spaceSm,
-        backgroundColor: t31.colorSurfaceSolid,
+        gap: t30.spaceSm,
+        padding: `${t30.spaceSm} ${t30.spaceMd}`,
+        paddingBottom: autoDismiss ? `calc(${t30.spaceSm} + 2px)` : t30.spaceSm,
+        backgroundColor: t30.colorSurfaceSolid,
         backgroundImage: `linear-gradient(${colors.bg}, ${colors.bg})`,
         color: colors.fg,
-        borderRadius: t31.radiusMd,
-        borderLeft: `${t31.borderWidthAccent} solid ${colors.border}`,
-        boxShadow: t31.shadowMd,
-        fontSize: t31.fontSizeSm,
-        fontFamily: t31.fontSans,
-        fontWeight: t31.fontWeightMedium,
-        lineHeight: t31.lineHeightBase,
+        borderRadius: t30.radiusMd,
+        borderLeft: `${t30.borderWidthAccent} solid ${colors.border}`,
+        boxShadow: t30.shadowMd,
+        fontSize: t30.fontSizeSm,
+        fontFamily: t30.fontSans,
+        fontWeight: t30.fontWeightMedium,
+        lineHeight: t30.lineHeightBase,
         pointerEvents: "auto",
         animation: exiting ? "toast-fade-out 200ms ease forwards" : "toast-slide-in 250ms ease",
         maxWidth: "24rem",
@@ -4014,8 +3966,8 @@ function ToastMessage({
       },
       onAnimationEnd: handleAnimationEnd,
       children: [
-        /* @__PURE__ */ jsx33("span", { style: { flex: 1 }, children: item.message }),
-        /* @__PURE__ */ jsx33(
+        /* @__PURE__ */ jsx32("span", { style: { flex: 1 }, children: item.message }),
+        /* @__PURE__ */ jsx32(
           "button",
           {
             onClick: () => setExiting(true),
@@ -4033,16 +3985,16 @@ function ToastMessage({
               justifyContent: "center",
               width: "1.25rem",
               height: "1.25rem",
-              borderRadius: t31.radiusSm,
+              borderRadius: t30.radiusSm,
               color: colors.fg,
               opacity: 0.7,
-              fontSize: t31.fontSizeSm,
+              fontSize: t30.fontSizeSm,
               lineHeight: 1
             },
             children: "\xD7"
           }
         ),
-        autoDismiss && /* @__PURE__ */ jsx33(
+        autoDismiss && /* @__PURE__ */ jsx32(
           "span",
           {
             "data-toast-timer": "",
@@ -4067,16 +4019,16 @@ function ToastContainer({
   if (toasts.length === 0) return null;
   const positionStyles = {
     position: "fixed",
-    zIndex: t31.zIndexToast,
+    zIndex: t30.zIndexToast,
     display: "flex",
     flexDirection: "column",
-    gap: t31.spaceSm,
+    gap: t30.spaceSm,
     pointerEvents: "none",
-    ...position.startsWith("top") ? { top: t31.spaceLg } : { bottom: t31.spaceLg },
-    ...position.endsWith("right") ? { right: t31.spaceLg } : { left: t31.spaceLg }
+    ...position.startsWith("top") ? { top: t30.spaceLg } : { bottom: t30.spaceLg },
+    ...position.endsWith("right") ? { right: t30.spaceLg } : { left: t30.spaceLg }
   };
   return createPortal2(
-    /* @__PURE__ */ jsx33("div", { "aria-live": "polite", style: positionStyles, children: toasts.map((item) => /* @__PURE__ */ jsx33(ToastMessage, { item, onDismiss }, item.id)) }),
+    /* @__PURE__ */ jsx32("div", { "aria-live": "polite", style: positionStyles, children: toasts.map((item) => /* @__PURE__ */ jsx32(ToastMessage, { item, onDismiss }, item.id)) }),
     document.body
   );
 }
@@ -4087,7 +4039,7 @@ function ToastProvider({
 }) {
   const [toasts, setToasts] = useState7([]);
   const dismiss = useCallback6((id) => {
-    setToasts((prev) => prev.filter((t44) => t44.id !== id));
+    setToasts((prev) => prev.filter((t43) => t43.id !== id));
   }, []);
   const showToast = useCallback6(
     (message, typeOrOptions) => {
@@ -4102,16 +4054,16 @@ function ToastProvider({
     },
     []
   );
-  return /* @__PURE__ */ jsxs20(ToastContext.Provider, { value: { showToast }, children: [
+  return /* @__PURE__ */ jsxs19(ToastContext.Provider, { value: { showToast }, children: [
     children,
-    /* @__PURE__ */ jsx33(ToastContainer, { toasts, onDismiss: dismiss, position })
+    /* @__PURE__ */ jsx32(ToastContainer, { toasts, onDismiss: dismiss, position })
   ] });
 }
 
 // src/components/Combobox/Combobox.tsx
 import { forwardRef as forwardRef26, useState as useState8, useEffect as useEffect9, useRef as useRef9, useCallback as useCallback7, useMemo } from "react";
-import { semantic as t32, useInjectStyles as useInjectStyles15 } from "../../core/dist/index.js";
-import { jsx as jsx34, jsxs as jsxs21 } from "react/jsx-runtime";
+import { semantic as t31, useInjectStyles as useInjectStyles15 } from "../../core/dist/index.js";
+import { jsx as jsx33, jsxs as jsxs20 } from "react/jsx-runtime";
 var COMBOBOX_STYLES_ID = "alttab-combobox";
 var comboboxCSS = (
   /* css */
@@ -4315,22 +4267,22 @@ var Combobox = forwardRef26(function Combobox2({
     top: "100%",
     left: 0,
     right: 0,
-    marginTop: t32.spaceXs
+    marginTop: t31.spaceXs
   } : {
     position: "absolute",
     bottom: "100%",
     left: 0,
     right: 0,
-    marginBottom: t32.spaceXs
+    marginBottom: t31.spaceXs
   };
-  return /* @__PURE__ */ jsxs21(
+  return /* @__PURE__ */ jsxs20(
     "div",
     {
       ref: containerRef,
       style: wrapperStyle4,
       onKeyDown: handleKeyDown,
       children: [
-        /* @__PURE__ */ jsx34(
+        /* @__PURE__ */ jsx33(
           "input",
           {
             ref: inputRef,
@@ -4377,7 +4329,7 @@ var Combobox = forwardRef26(function Combobox2({
             }
           }
         ),
-        open && filtered.length > 0 && /* @__PURE__ */ jsx34(
+        open && filtered.length > 0 && /* @__PURE__ */ jsx33(
           "div",
           {
             ref: menuRef,
@@ -4385,12 +4337,12 @@ var Combobox = forwardRef26(function Combobox2({
             role: "listbox",
             style: {
               ...menuStyle,
-              background: t32.colorSurfacePanel,
-              border: `${t32.borderWidthDefault} solid ${t32.colorBorder}`,
-              borderRadius: t32.radiusMd,
-              padding: t32.spaceXs,
-              zIndex: t32.zIndexSticky,
-              boxShadow: t32.shadowMd,
+              background: t31.colorSurfacePanel,
+              border: `${t31.borderWidthDefault} solid ${t31.colorBorder}`,
+              borderRadius: t31.radiusMd,
+              padding: t31.spaceXs,
+              zIndex: t31.zIndexSticky,
+              boxShadow: t31.shadowMd,
               maxHeight: "16rem",
               overflowY: "auto",
               boxSizing: "border-box"
@@ -4402,7 +4354,7 @@ var Combobox = forwardRef26(function Combobox2({
                 "alttab-combobox-option",
                 isFocused ? "alttab-combobox-option--focused" : ""
               ].filter(Boolean).join(" ");
-              return /* @__PURE__ */ jsx34(
+              return /* @__PURE__ */ jsx33(
                 "button",
                 {
                   id: `alttab-combobox-opt-${opt.value}`,
@@ -4412,7 +4364,7 @@ var Combobox = forwardRef26(function Combobox2({
                   className: classes,
                   onClick: () => selectOption(opt),
                   onMouseEnter: () => setFocusedIndex(idx),
-                  style: isMatch ? { fontWeight: t32.fontWeightSemibold } : void 0,
+                  style: isMatch ? { fontWeight: t31.fontWeightSemibold } : void 0,
                   children: opt.label
                 },
                 opt.value
@@ -4432,31 +4384,31 @@ var wrapperStyle4 = {
 var inputBaseStyle = {
   display: "block",
   width: "100%",
-  padding: `${t32.spaceSm} ${t32.spaceMd}`,
-  fontSize: t32.fontSizeSm,
-  lineHeight: t32.lineHeightTight,
-  fontFamily: t32.fontSans,
-  color: t32.colorText,
-  background: t32.colorSurfaceInput,
-  border: `${t32.borderWidthDefault} solid ${t32.colorBorder}`,
-  borderRadius: t32.radiusMd,
+  padding: `${t31.spaceSm} ${t31.spaceMd}`,
+  fontSize: t31.fontSizeSm,
+  lineHeight: t31.lineHeightTight,
+  fontFamily: t31.fontSans,
+  color: t31.colorText,
+  background: t31.colorSurfaceInput,
+  border: `${t31.borderWidthDefault} solid ${t31.colorBorder}`,
+  borderRadius: t31.radiusMd,
   outline: "none",
-  transition: `border-color ${t32.transitionBase}, box-shadow ${t32.transitionBase}`,
+  transition: `border-color ${t31.transitionBase}, box-shadow ${t31.transitionBase}`,
   boxSizing: "border-box"
 };
 var errorBorderStyle4 = {
-  borderColor: t32.colorBorderError
+  borderColor: t31.colorBorderError
 };
 var disabledStyle4 = {
-  background: t32.colorSurfaceDisabled,
-  color: t32.colorTextDisabled,
+  background: t31.colorSurfaceDisabled,
+  color: t31.colorTextDisabled,
   cursor: "not-allowed"
 };
 
 // src/components/TableFilters/TableFilters.tsx
 import { useState as useState9, useEffect as useEffect10, useRef as useRef10, useCallback as useCallback8 } from "react";
-import { semantic as t33 } from "../../core/dist/index.js";
-import { jsx as jsx35 } from "react/jsx-runtime";
+import { semantic as t32 } from "../../core/dist/index.js";
+import { jsx as jsx34 } from "react/jsx-runtime";
 function DebouncedTextFilter({
   config,
   value,
@@ -4484,7 +4436,7 @@ function DebouncedTextFilter({
       if (timerRef.current) clearTimeout(timerRef.current);
     };
   }, []);
-  return /* @__PURE__ */ jsx35("div", { style: { minWidth: "10rem", flex: "1 1 10rem" }, children: /* @__PURE__ */ jsx35(
+  return /* @__PURE__ */ jsx34("div", { style: { minWidth: "10rem", flex: "1 1 10rem" }, children: /* @__PURE__ */ jsx34(
     Input,
     {
       value: local,
@@ -4504,7 +4456,7 @@ function SelectFilter({
     },
     [config.key, onCommit]
   );
-  return /* @__PURE__ */ jsx35("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ jsx35(
+  return /* @__PURE__ */ jsx34("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ jsx34(
     Select,
     {
       value,
@@ -4527,13 +4479,13 @@ function TableFilters({
     },
     [values, onChange]
   );
-  return /* @__PURE__ */ jsx35(
+  return /* @__PURE__ */ jsx34(
     "div",
     {
       style: {
         display: "flex",
         flexWrap: "wrap",
-        gap: t33.spaceSm,
+        gap: t32.spaceSm,
         alignItems: "flex-start",
         ...style
       },
@@ -4541,7 +4493,7 @@ function TableFilters({
       children: filters.map((filter) => {
         const val = values[filter.key] ?? "";
         if (filter.type === "text") {
-          return /* @__PURE__ */ jsx35(
+          return /* @__PURE__ */ jsx34(
             DebouncedTextFilter,
             {
               config: filter,
@@ -4551,7 +4503,7 @@ function TableFilters({
             filter.key
           );
         }
-        return /* @__PURE__ */ jsx35(
+        return /* @__PURE__ */ jsx34(
           SelectFilter,
           {
             config: filter,
@@ -4567,8 +4519,8 @@ function TableFilters({
 
 // src/components/ChipPicker/ChipPicker.tsx
 import { useId as useId7 } from "react";
-import { semantic as t34, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
-import { jsx as jsx36, jsxs as jsxs22 } from "react/jsx-runtime";
+import { semantic as t33, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
+import { jsx as jsx35, jsxs as jsxs21 } from "react/jsx-runtime";
 function ChipPicker({
   items,
   selected,
@@ -4579,14 +4531,14 @@ function ChipPicker({
   useInjectStyles16(
     styleId,
     `[data-chip-picker-id="${styleId}"] button:hover {
-      background: ${t34.colorSurfaceRaised} !important;
+      background: ${t33.colorSurfaceRaised} !important;
     }
     [data-chip-picker-id="${styleId}"] button[aria-pressed="true"]:hover {
-      background: ${t34.colorActionSecondaryHover} !important;
+      background: ${t33.colorActionSecondaryHover} !important;
     }
     [data-chip-picker-id="${styleId}"] button:focus-visible {
-      outline: ${t34.focusRingWidth} solid ${t34.focusRingColor};
-      outline-offset: ${t34.focusRingOffset};
+      outline: ${t33.focusRingWidth} solid ${t33.focusRingColor};
+      outline-offset: ${t33.focusRingOffset};
     }`
   );
   const toggle = (value) => {
@@ -4616,30 +4568,30 @@ function ChipPicker({
   const chipStyle = (isSelected) => ({
     display: "inline-flex",
     alignItems: "center",
-    padding: `${t34.spaceXs} ${t34.spaceSm}`,
-    fontSize: t34.fontSizeSm,
-    fontFamily: t34.fontSans,
-    fontWeight: t34.fontWeightMedium,
-    lineHeight: t34.lineHeightTight,
-    color: isSelected ? t34.colorActionPrimary : t34.colorText,
-    background: isSelected ? t34.colorActionSecondary : "transparent",
-    border: `${t34.borderWidthDefault} solid ${isSelected ? t34.colorActionPrimary : t34.colorBorder}`,
-    borderRadius: t34.radiusFull,
+    padding: `${t33.spaceXs} ${t33.spaceSm}`,
+    fontSize: t33.fontSizeSm,
+    fontFamily: t33.fontSans,
+    fontWeight: t33.fontWeightMedium,
+    lineHeight: t33.lineHeightTight,
+    color: isSelected ? t33.colorActionPrimary : t33.colorText,
+    background: isSelected ? t33.colorActionSecondary : "transparent",
+    border: `${t33.borderWidthDefault} solid ${isSelected ? t33.colorActionPrimary : t33.colorBorder}`,
+    borderRadius: t33.radiusFull,
     cursor: "pointer",
-    transition: `background ${t34.transitionFast}, border-color ${t34.transitionFast}, color ${t34.transitionFast}`,
+    transition: `background ${t33.transitionFast}, border-color ${t33.transitionFast}, color ${t33.transitionFast}`,
     outline: "none"
   });
-  const renderChips = (chips) => /* @__PURE__ */ jsx36(
+  const renderChips = (chips) => /* @__PURE__ */ jsx35(
     "div",
     {
       style: {
         display: "flex",
         flexWrap: "wrap",
-        gap: t34.spaceSm
+        gap: t33.spaceSm
       },
       children: chips.map((item) => {
         const isSelected = selected.includes(item.value);
-        return /* @__PURE__ */ jsx36(
+        return /* @__PURE__ */ jsx35(
           "button",
           {
             type: "button",
@@ -4653,17 +4605,17 @@ function ChipPicker({
       })
     }
   );
-  return /* @__PURE__ */ jsx36(
+  return /* @__PURE__ */ jsx35(
     "div",
     {
       "data-chip-picker-id": styleId,
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: t34.spaceMd
+        gap: t33.spaceMd
       },
-      children: groups.map((group, i) => /* @__PURE__ */ jsxs22("div", { style: { display: "flex", flexDirection: "column", gap: t34.spaceSm }, children: [
-        group.label !== null && /* @__PURE__ */ jsx36("div", { style: i > 0 ? { marginTop: t34.spaceXs } : void 0, children: /* @__PURE__ */ jsx36("div", { style: sectionLabelStyle, children: group.label }) }),
+      children: groups.map((group, i) => /* @__PURE__ */ jsxs21("div", { style: { display: "flex", flexDirection: "column", gap: t33.spaceSm }, children: [
+        group.label !== null && /* @__PURE__ */ jsx35("div", { style: i > 0 ? { marginTop: t33.spaceXs } : void 0, children: /* @__PURE__ */ jsx35("div", { style: sectionLabelStyle, children: group.label }) }),
         renderChips(group.chips)
       ] }, group.label ?? "__ungrouped"))
     }
@@ -4672,13 +4624,13 @@ function ChipPicker({
 
 // src/components/SearchInput/SearchInput.tsx
 import { forwardRef as forwardRef27, useState as useState10, useEffect as useEffect11, useRef as useRef11, useCallback as useCallback9 } from "react";
-import { semantic as t35, useInjectStyles as useInjectStyles17 } from "../../core/dist/index.js";
-import { jsx as jsx37, jsxs as jsxs23 } from "react/jsx-runtime";
+import { semantic as t34, useInjectStyles as useInjectStyles17 } from "../../core/dist/index.js";
+import { jsx as jsx36, jsxs as jsxs22 } from "react/jsx-runtime";
 var STYLE_ID2 = "4lt7ab-search-input";
 var hoverFocusCSS = `
   .search-input-wrapper:focus-within {
-    border-color: ${t35.colorBorderFocused};
-    box-shadow: 0 0 0 ${t35.focusRingWidth} ${t35.focusRingColor};
+    border-color: ${t34.colorBorderFocused};
+    box-shadow: 0 0 0 ${t34.focusRingWidth} ${t34.focusRingColor};
   }
   @media (prefers-reduced-motion: reduce) {
     .search-input-wrapper {
@@ -4689,17 +4641,17 @@ var hoverFocusCSS = `
 var wrapperStyle5 = {
   display: "flex",
   alignItems: "center",
-  gap: t35.spaceXs,
+  gap: t34.spaceXs,
   width: "100%",
-  padding: `${t35.spaceSm} ${t35.spaceMd}`,
-  fontSize: t35.fontSizeSm,
-  lineHeight: t35.lineHeightTight,
-  fontFamily: t35.fontSans,
-  color: t35.colorText,
-  background: t35.colorSurfaceInput,
-  border: `${t35.borderWidthDefault} solid ${t35.colorBorder}`,
-  borderRadius: t35.radiusMd,
-  transition: `border-color ${t35.transitionBase}, box-shadow ${t35.transitionBase}`,
+  padding: `${t34.spaceSm} ${t34.spaceMd}`,
+  fontSize: t34.fontSizeSm,
+  lineHeight: t34.lineHeightTight,
+  fontFamily: t34.fontSans,
+  color: t34.colorText,
+  background: t34.colorSurfaceInput,
+  border: `${t34.borderWidthDefault} solid ${t34.colorBorder}`,
+  borderRadius: t34.radiusMd,
+  transition: `border-color ${t34.transitionBase}, box-shadow ${t34.transitionBase}`,
   boxSizing: "border-box"
 };
 var inputStyle = {
@@ -4715,8 +4667,8 @@ var inputStyle = {
   padding: 0
 };
 var disabledWrapperStyle = {
-  background: t35.colorSurfaceDisabled,
-  color: t35.colorTextDisabled,
+  background: t34.colorSurfaceDisabled,
+  color: t34.colorTextDisabled,
   cursor: "not-allowed"
 };
 var SearchInput = forwardRef27(
@@ -4757,7 +4709,7 @@ var SearchInput = forwardRef27(
         if (timerRef.current) clearTimeout(timerRef.current);
       };
     }, []);
-    return /* @__PURE__ */ jsxs23(
+    return /* @__PURE__ */ jsxs22(
       "div",
       {
         className: "search-input-wrapper",
@@ -4767,8 +4719,8 @@ var SearchInput = forwardRef27(
           ...disabled ? disabledWrapperStyle : {}
         },
         children: [
-          /* @__PURE__ */ jsx37("span", { style: { color: t35.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ jsx37(Icon, { name: "search", size: "sm" }) }),
-          /* @__PURE__ */ jsx37(
+          /* @__PURE__ */ jsx36("span", { style: { color: t34.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ jsx36(Icon, { name: "search", size: "sm" }) }),
+          /* @__PURE__ */ jsx36(
             "input",
             {
               ref,
@@ -4787,7 +4739,7 @@ var SearchInput = forwardRef27(
               style: inputStyle
             }
           ),
-          trailing && /* @__PURE__ */ jsx37("div", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: trailing })
+          trailing && /* @__PURE__ */ jsx36("div", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: trailing })
         ]
       }
     );
@@ -4796,17 +4748,17 @@ var SearchInput = forwardRef27(
 
 // src/components/SegmentedControl/SegmentedControl.tsx
 import { useRef as useRef12, useLayoutEffect, useState as useState11, useCallback as useCallback10 } from "react";
-import { semantic as t36, useInjectStyles as useInjectStyles18 } from "../../core/dist/index.js";
-import { jsx as jsx38, jsxs as jsxs24 } from "react/jsx-runtime";
+import { semantic as t35, useInjectStyles as useInjectStyles18 } from "../../core/dist/index.js";
+import { jsx as jsx37, jsxs as jsxs23 } from "react/jsx-runtime";
 var STYLE_ID3 = "4lt7ab-segmented-control";
 var hoverCSS = `
   .segmented-ctrl-btn:hover:not([aria-pressed="true"]) {
-    color: ${t36.colorText};
+    color: ${t35.colorText};
   }
   .segmented-ctrl-btn:focus-visible {
-    outline: ${t36.focusRingWidth} solid ${t36.focusRingColor};
-    outline-offset: ${t36.focusRingOffset};
-    border-radius: ${t36.radiusFull};
+    outline: ${t35.focusRingWidth} solid ${t35.focusRingColor};
+    outline-offset: ${t35.focusRingOffset};
+    border-radius: ${t35.radiusFull};
     z-index: 2;
   }
   @media (prefers-reduced-motion: reduce) {
@@ -4852,7 +4804,7 @@ function SegmentedControl({
     if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, [updateIndicator]);
-  return /* @__PURE__ */ jsxs24(
+  return /* @__PURE__ */ jsxs23(
     "div",
     {
       ref: containerRef,
@@ -4862,14 +4814,14 @@ function SegmentedControl({
         display: "inline-flex",
         alignItems: "center",
         height: s.height,
-        background: t36.colorSurfaceInput,
-        borderRadius: t36.radiusFull,
-        border: `${t36.borderWidthDefault} solid ${t36.colorBorder}`,
+        background: t35.colorSurfaceInput,
+        borderRadius: t35.radiusFull,
+        border: `${t35.borderWidthDefault} solid ${t35.colorBorder}`,
         padding: 2,
         boxSizing: "border-box"
       },
       children: [
-        indicator && /* @__PURE__ */ jsx38(
+        indicator && /* @__PURE__ */ jsx37(
           "div",
           {
             className: "segmented-ctrl-indicator",
@@ -4879,9 +4831,9 @@ function SegmentedControl({
               left: indicator.left,
               width: indicator.width,
               height: s.height - 6,
-              borderRadius: t36.radiusFull,
-              background: t36.colorActionPrimary,
-              transition: `left ${t36.transitionSlow}, width ${t36.transitionSlow}`,
+              borderRadius: t35.radiusFull,
+              background: t35.colorActionPrimary,
+              transition: `left ${t35.transitionSlow}, width ${t35.transitionSlow}`,
               pointerEvents: "none"
             }
           }
@@ -4890,7 +4842,7 @@ function SegmentedControl({
           const isActive = seg.value === value;
           const hasIcon = !!seg.icon;
           const iconOnly = hasIcon && !seg.label;
-          return /* @__PURE__ */ jsxs24(
+          return /* @__PURE__ */ jsxs23(
             "button",
             {
               type: "button",
@@ -4903,24 +4855,24 @@ function SegmentedControl({
                 display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "center",
-                gap: t36.spaceXs,
+                gap: t35.spaceXs,
                 height: s.height - 6,
                 padding: iconOnly ? `0 ${s.px - 2}px` : `0 ${s.px}px`,
                 border: "none",
-                borderRadius: t36.radiusFull,
+                borderRadius: t35.radiusFull,
                 background: "transparent",
-                color: isActive ? t36.colorTextInverse : t36.colorTextMuted,
+                color: isActive ? t35.colorTextInverse : t35.colorTextMuted,
                 fontSize: s.fontSize,
-                fontFamily: t36.fontSans,
-                fontWeight: isActive ? t36.fontWeightSemibold : t36.fontWeightNormal,
+                fontFamily: t35.fontSans,
+                fontWeight: isActive ? t35.fontWeightSemibold : t35.fontWeightNormal,
                 cursor: "pointer",
-                transition: `color ${t36.transitionBase}`,
+                transition: `color ${t35.transitionBase}`,
                 whiteSpace: "nowrap",
                 lineHeight: 1
               },
               children: [
-                hasIcon && /* @__PURE__ */ jsx38(Icon, { name: seg.icon, size: s.iconSize }),
-                seg.label && /* @__PURE__ */ jsx38("span", { children: seg.label })
+                hasIcon && /* @__PURE__ */ jsx37(Icon, { name: seg.icon, size: s.iconSize }),
+                seg.label && /* @__PURE__ */ jsx37("span", { children: seg.label })
               ]
             },
             seg.value
@@ -4933,8 +4885,8 @@ function SegmentedControl({
 
 // src/components/AlertBanner/AlertBanner.tsx
 import { forwardRef as forwardRef28 } from "react";
-import { semantic as t37, useInjectStyles as useInjectStyles19 } from "../../core/dist/index.js";
-import { jsx as jsx39, jsxs as jsxs25 } from "react/jsx-runtime";
+import { semantic as t36, useInjectStyles as useInjectStyles19 } from "../../core/dist/index.js";
+import { jsx as jsx38, jsxs as jsxs24 } from "react/jsx-runtime";
 var STYLE_ID4 = "4lt7ab-alert-banner";
 var alertBannerCSS = `
 @keyframes alert-banner-slide-in {
@@ -4952,23 +4904,23 @@ var alertBannerCSS = `
 }
 `;
 var variantColors2 = {
-  info: { bg: t37.colorInfoBg, fg: t37.colorInfo, border: t37.colorInfo },
-  warning: { bg: t37.colorWarningBg, fg: t37.colorWarning, border: t37.colorWarning },
-  error: { bg: t37.colorErrorBg, fg: t37.colorError, border: t37.colorError },
-  success: { bg: t37.colorSuccessBg, fg: t37.colorSuccess, border: t37.colorSuccess }
+  info: { bg: t36.colorInfoBg, fg: t36.colorInfo, border: t36.colorInfo },
+  warning: { bg: t36.colorWarningBg, fg: t36.colorWarning, border: t36.colorWarning },
+  error: { bg: t36.colorErrorBg, fg: t36.colorError, border: t36.colorError },
+  success: { bg: t36.colorSuccessBg, fg: t36.colorSuccess, border: t36.colorSuccess }
 };
 var defaultIcons = {
-  info: /* @__PURE__ */ jsx39(IconInfo, { size: 20 }),
-  warning: /* @__PURE__ */ jsx39(IconWarning, { size: 20 }),
-  error: /* @__PURE__ */ jsx39(IconError, { size: 20 }),
-  success: /* @__PURE__ */ jsx39(IconCheckCircle, { size: 20 })
+  info: /* @__PURE__ */ jsx38(IconInfo, { size: 20 }),
+  warning: /* @__PURE__ */ jsx38(IconWarning, { size: 20 }),
+  error: /* @__PURE__ */ jsx38(IconError, { size: 20 }),
+  success: /* @__PURE__ */ jsx38(IconCheckCircle, { size: 20 })
 };
 var AlertBanner = forwardRef28(
   function AlertBanner2({ variant, children, onDismiss, icon }, ref) {
     useInjectStyles19(STYLE_ID4, alertBannerCSS);
     const colors = variantColors2[variant];
     const resolvedIcon = icon !== void 0 ? icon : defaultIcons[variant];
-    return /* @__PURE__ */ jsxs25(
+    return /* @__PURE__ */ jsxs24(
       "div",
       {
         ref,
@@ -4976,23 +4928,23 @@ var AlertBanner = forwardRef28(
         style: {
           display: "flex",
           alignItems: "center",
-          gap: t37.spaceSm,
+          gap: t36.spaceSm,
           width: "100%",
-          padding: `${t37.spaceSm} ${t37.spaceMd}`,
+          padding: `${t36.spaceSm} ${t36.spaceMd}`,
           background: colors.bg,
           color: colors.fg,
-          borderBottom: `${t37.borderWidthThick} solid ${colors.border}`,
-          fontFamily: t37.fontSans,
-          fontSize: t37.fontSizeSm,
-          fontWeight: t37.fontWeightMedium,
-          lineHeight: t37.lineHeightBase,
+          borderBottom: `${t36.borderWidthThick} solid ${colors.border}`,
+          fontFamily: t36.fontSans,
+          fontSize: t36.fontSizeSm,
+          fontWeight: t36.fontWeightMedium,
+          lineHeight: t36.lineHeightBase,
           boxSizing: "border-box",
           animation: "alert-banner-slide-in 250ms ease"
         },
         children: [
-          resolvedIcon && /* @__PURE__ */ jsx39("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
-          /* @__PURE__ */ jsx39("span", { style: { flex: 1 }, children }),
-          onDismiss && /* @__PURE__ */ jsx39(
+          resolvedIcon && /* @__PURE__ */ jsx38("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
+          /* @__PURE__ */ jsx38("span", { style: { flex: 1 }, children }),
+          onDismiss && /* @__PURE__ */ jsx38(
             "button",
             {
               className: "alert-banner-dismiss",
@@ -5011,10 +4963,10 @@ var AlertBanner = forwardRef28(
                 justifyContent: "center",
                 width: "1.5rem",
                 height: "1.5rem",
-                borderRadius: t37.radiusSm,
+                borderRadius: t36.radiusSm,
                 color: colors.fg,
                 opacity: 0.7,
-                fontSize: t37.fontSizeLg,
+                fontSize: t36.fontSizeLg,
                 lineHeight: 1
               },
               children: "\xD7"
@@ -5028,8 +4980,8 @@ var AlertBanner = forwardRef28(
 
 // src/components/TopBar/TopBar.tsx
 import { forwardRef as forwardRef29 } from "react";
-import { semantic as t38, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
-import { jsx as jsx40, jsxs as jsxs26 } from "react/jsx-runtime";
+import { semantic as t37, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
+import { jsx as jsx39, jsxs as jsxs25 } from "react/jsx-runtime";
 var TOPBAR_STYLES_ID = "4lt7ab-topbar";
 var TOPBAR_CSS = `
   .topbar-nav-item {
@@ -5043,16 +4995,16 @@ var TOPBAR_CSS = `
     right: 0;
     height: 2px;
     background: transparent;
-    transition: background ${t38.transitionBase};
+    transition: background ${t37.transitionBase};
   }
   .topbar-nav-item:hover::after {
-    background: ${t38.colorBorder};
+    background: ${t37.colorBorder};
   }
   .topbar-nav-item[data-active]::after {
-    background: ${t38.colorActionPrimary};
+    background: ${t37.colorActionPrimary};
   }
   .topbar-nav-item:hover {
-    color: ${t38.colorText};
+    color: ${t37.colorText};
   }
 `;
 var TopBar = forwardRef29(
@@ -5066,8 +5018,8 @@ var TopBar = forwardRef29(
     ...rest
   }, ref) {
     useInjectStyles20(TOPBAR_STYLES_ID, TOPBAR_CSS);
-    const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: t38.zIndexSticky } : {};
-    return /* @__PURE__ */ jsxs26(
+    const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: t37.zIndexSticky } : {};
+    return /* @__PURE__ */ jsxs25(
       "header",
       {
         ref,
@@ -5077,44 +5029,44 @@ var TopBar = forwardRef29(
         style: {
           display: "flex",
           alignItems: "center",
-          height: t38.space2xl,
-          padding: `0 ${t38.spaceMd}`,
-          background: t38.colorSurface,
-          borderBottom: `${t38.borderWidthDefault} solid ${t38.colorBorder}`,
-          fontFamily: t38.fontSans,
+          height: t37.space2xl,
+          padding: `0 ${t37.spaceMd}`,
+          background: t37.colorSurface,
+          borderBottom: `${t37.borderWidthDefault} solid ${t37.colorBorder}`,
+          fontFamily: t37.fontSans,
           ...stickyStyle
         },
         children: [
-          /* @__PURE__ */ jsx40(
+          /* @__PURE__ */ jsx39(
             "div",
             {
               style: {
                 display: "flex",
                 alignItems: "center",
-                fontWeight: t38.fontWeightBold,
-                fontSize: t38.fontSizeSm,
-                color: t38.colorText,
-                marginRight: t38.spaceLg,
+                fontWeight: t37.fontWeightBold,
+                fontSize: t37.fontSizeSm,
+                color: t37.colorText,
+                marginRight: t37.spaceLg,
                 whiteSpace: "nowrap",
                 flexShrink: 0
               },
               children: title
             }
           ),
-          items.length > 0 && /* @__PURE__ */ jsx40(
+          items.length > 0 && /* @__PURE__ */ jsx39(
             "nav",
             {
               style: {
                 display: "flex",
                 alignItems: "center",
-                gap: t38.spaceXs,
+                gap: t37.spaceXs,
                 height: "100%",
                 flex: 1,
                 minWidth: 0
               },
               children: items.map((item) => {
                 const isActive = activePath === item.path;
-                return /* @__PURE__ */ jsxs26(
+                return /* @__PURE__ */ jsxs25(
                   "button",
                   {
                     type: "button",
@@ -5125,18 +5077,18 @@ var TopBar = forwardRef29(
                     style: {
                       display: "inline-flex",
                       alignItems: "center",
-                      gap: t38.spaceXs,
+                      gap: t37.spaceXs,
                       height: "100%",
-                      padding: `0 ${t38.spaceSm}`,
+                      padding: `0 ${t37.spaceSm}`,
                       border: "none",
                       background: "transparent",
-                      color: isActive ? t38.colorActionPrimary : t38.colorTextMuted,
-                      fontSize: t38.fontSizeSm,
-                      fontFamily: t38.fontSans,
-                      fontWeight: isActive ? t38.fontWeightSemibold : t38.fontWeightNormal,
+                      color: isActive ? t37.colorActionPrimary : t37.colorTextMuted,
+                      fontSize: t37.fontSizeSm,
+                      fontFamily: t37.fontSans,
+                      fontWeight: isActive ? t37.fontWeightSemibold : t37.fontWeightNormal,
                       cursor: "pointer",
                       whiteSpace: "nowrap",
-                      transition: `color ${t38.transitionBase}`,
+                      transition: `color ${t37.transitionBase}`,
                       boxSizing: "border-box"
                     },
                     children: [
@@ -5149,13 +5101,13 @@ var TopBar = forwardRef29(
               })
             }
           ),
-          trailing && /* @__PURE__ */ jsx40(
+          trailing && /* @__PURE__ */ jsx39(
             "div",
             {
               style: {
                 display: "flex",
                 alignItems: "center",
-                gap: t38.spaceSm,
+                gap: t37.spaceSm,
                 marginLeft: "auto",
                 flexShrink: 0
               },
@@ -5170,8 +5122,8 @@ var TopBar = forwardRef29(
 
 // src/components/PillSelect/PillSelect.tsx
 import { useId as useId8 } from "react";
-import { semantic as t39, useInjectStyles as useInjectStyles21 } from "../../core/dist/index.js";
-import { jsx as jsx41, jsxs as jsxs27 } from "react/jsx-runtime";
+import { semantic as t38, useInjectStyles as useInjectStyles21 } from "../../core/dist/index.js";
+import { jsx as jsx40, jsxs as jsxs26 } from "react/jsx-runtime";
 function PillSelect({
   value,
   options,
@@ -5185,10 +5137,10 @@ function PillSelect({
   useInjectStyles21(
     styleId,
     `[data-pill-select-id="${styleId}"] select:hover {
-      border-color: ${t39.colorActionPrimary};
+      border-color: ${t38.colorActionPrimary};
     }`
   );
-  return /* @__PURE__ */ jsxs27(
+  return /* @__PURE__ */ jsxs26(
     "div",
     {
       "data-pill-select-id": styleId,
@@ -5198,7 +5150,7 @@ function PillSelect({
         alignItems: "center"
       },
       children: [
-        /* @__PURE__ */ jsx41(
+        /* @__PURE__ */ jsx40(
           "select",
           {
             value,
@@ -5208,24 +5160,24 @@ function PillSelect({
               appearance: "none",
               WebkitAppearance: "none",
               MozAppearance: "none",
-              padding: `2px ${t39.spaceXs}`,
+              padding: `2px ${t38.spaceXs}`,
               paddingRight: "1.5rem",
-              fontSize: t39.fontSizeSm,
-              fontFamily: t39.fontSans,
-              fontWeight: t39.fontWeightMedium,
-              lineHeight: t39.lineHeightTight,
-              color: isActive ? t39.colorActionPrimary : t39.colorTextMuted,
-              background: isActive ? `color-mix(in srgb, ${t39.colorActionPrimary} 10%, transparent)` : "transparent",
-              border: `${t39.borderWidthDefault} solid ${isActive ? t39.colorActionPrimary : t39.colorBorder}`,
-              borderRadius: t39.radiusFull,
+              fontSize: t38.fontSizeSm,
+              fontFamily: t38.fontSans,
+              fontWeight: t38.fontWeightMedium,
+              lineHeight: t38.lineHeightTight,
+              color: isActive ? t38.colorActionPrimary : t38.colorTextMuted,
+              background: isActive ? `color-mix(in srgb, ${t38.colorActionPrimary} 10%, transparent)` : "transparent",
+              border: `${t38.borderWidthDefault} solid ${isActive ? t38.colorActionPrimary : t38.colorBorder}`,
+              borderRadius: t38.radiusFull,
               cursor: "pointer",
               outline: "none",
-              transition: `background ${t39.transitionFast}, border-color ${t39.transitionFast}, color ${t39.transitionFast}`
+              transition: `background ${t38.transitionFast}, border-color ${t38.transitionFast}, color ${t38.transitionFast}`
             },
-            children: options.map((opt) => /* @__PURE__ */ jsx41("option", { value: opt.value, children: opt.label }, opt.value))
+            children: options.map((opt) => /* @__PURE__ */ jsx40("option", { value: opt.value, children: opt.label }, opt.value))
           }
         ),
-        /* @__PURE__ */ jsx41(
+        /* @__PURE__ */ jsx40(
           "span",
           {
             style: {
@@ -5236,9 +5188,9 @@ function PillSelect({
               pointerEvents: "none",
               display: "flex",
               alignItems: "center",
-              color: isActive ? t39.colorActionPrimary : t39.colorTextMuted
+              color: isActive ? t38.colorActionPrimary : t38.colorTextMuted
             },
-            children: /* @__PURE__ */ jsx41(Icon, { name: "chevron-down", size: "xs" })
+            children: /* @__PURE__ */ jsx40(Icon, { name: "chevron-down", size: "xs" })
           }
         )
       ]
@@ -5248,15 +5200,15 @@ function PillSelect({
 
 // src/components/Surface/Surface.tsx
 import { createElement as createElement2, forwardRef as forwardRef30 } from "react";
-import { semantic as t40 } from "../../core/dist/index.js";
+import { semantic as t39 } from "../../core/dist/index.js";
 var levelMap = {
-  page: t40.colorSurfacePage,
-  default: t40.colorSurface,
-  solid: t40.colorSurfaceSolid,
-  raised: t40.colorSurfaceRaised,
-  panel: t40.colorSurfacePanel,
-  input: t40.colorSurfaceInput,
-  overlay: t40.colorSurfaceOverlay
+  page: t39.colorSurfacePage,
+  default: t39.colorSurface,
+  solid: t39.colorSurfaceSolid,
+  raised: t39.colorSurfaceRaised,
+  panel: t39.colorSurfacePanel,
+  input: t39.colorSurfaceInput,
+  overlay: t39.colorSurfaceOverlay
 };
 var Surface = forwardRef30(
   function Surface2({
@@ -5270,7 +5222,7 @@ var Surface = forwardRef30(
     children,
     ...rest
   }, ref) {
-    const borderValue = border === true ? `${t40.borderWidthDefault} solid ${t40.colorBorder}` : typeof border === "string" ? `${t40.borderWidthDefault} solid ${semanticColorMap[border]}` : void 0;
+    const borderValue = border === true ? `${t39.borderWidthDefault} solid ${t39.colorBorder}` : typeof border === "string" ? `${t39.borderWidthDefault} solid ${semanticColorMap[border]}` : void 0;
     const tintBg = tint ? `color-mix(in srgb, ${semanticColorMap[tint]} 10%, transparent)` : void 0;
     return createElement2(
       as,
@@ -5286,7 +5238,7 @@ var Surface = forwardRef30(
           borderRadius: radiusMap[radius],
           border: borderValue,
           boxShadow: shadow ? shadowMap[shadow] : void 0,
-          color: t40.colorText
+          color: t39.colorText
         }
       },
       children
@@ -5296,7 +5248,7 @@ var Surface = forwardRef30(
 
 // src/components/Grid/Grid.tsx
 import { forwardRef as forwardRef31 } from "react";
-import { jsx as jsx42 } from "react/jsx-runtime";
+import { jsx as jsx41 } from "react/jsx-runtime";
 var Grid = forwardRef31(
   function Grid2({
     minColumnWidth = 300,
@@ -5307,7 +5259,7 @@ var Grid = forwardRef31(
   }, ref) {
     const minWidth = `${minColumnWidth}px`;
     const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
-    return /* @__PURE__ */ jsx42(
+    return /* @__PURE__ */ jsx41(
       "div",
       {
         ref,
@@ -5326,8 +5278,8 @@ var Grid = forwardRef31(
 
 // src/components/Divider/Divider.tsx
 import { forwardRef as forwardRef32 } from "react";
-import { semantic as t41 } from "../../core/dist/index.js";
-import { jsx as jsx43 } from "react/jsx-runtime";
+import { semantic as t40 } from "../../core/dist/index.js";
+import { jsx as jsx42 } from "react/jsx-runtime";
 var Divider = forwardRef32(
   function Divider2({
     orientation = "horizontal",
@@ -5336,10 +5288,10 @@ var Divider = forwardRef32(
     ...rest
   }, ref) {
     const resolvedOpacity = dividerOpacityMap[opacity];
-    const bg = `color-mix(in srgb, ${t41.colorBorder} ${resolvedOpacity}%, transparent)`;
+    const bg = `color-mix(in srgb, ${t40.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
     const isHorizontal = orientation === "horizontal";
-    return /* @__PURE__ */ jsx43(
+    return /* @__PURE__ */ jsx42(
       "div",
       {
         ref,
@@ -5361,16 +5313,16 @@ var Divider = forwardRef32(
 
 // src/components/TabStrip/TabStrip.tsx
 import { forwardRef as forwardRef33, useCallback as useCallback11, useRef as useRef13 } from "react";
-import { semantic as t42, useInjectStyles as useInjectStyles22 } from "../../core/dist/index.js";
-import { jsx as jsx44, jsxs as jsxs28 } from "react/jsx-runtime";
+import { semantic as t41, useInjectStyles as useInjectStyles22 } from "../../core/dist/index.js";
+import { jsx as jsx43, jsxs as jsxs27 } from "react/jsx-runtime";
 var STYLES_ID = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
-  transition: color ${t42.transitionFast}, background ${t42.transitionFast}, border-color ${t42.transitionFast};
+  transition: color ${t41.transitionFast}, background ${t41.transitionFast}, border-color ${t41.transitionFast};
 }
 [data-tab-btn]:hover:not([aria-selected="true"]) {
-  color: ${t42.colorTextSecondary};
-  background: color-mix(in srgb, ${t42.colorBorder} 10%, transparent);
+  color: ${t41.colorTextSecondary};
+  background: color-mix(in srgb, ${t41.colorBorder} 10%, transparent);
 }
 `;
 var TabStrip = forwardRef33(
@@ -5414,7 +5366,7 @@ var TabStrip = forwardRef33(
       [tabs.length]
     );
     const isSm = size === "sm";
-    return /* @__PURE__ */ jsx44(
+    return /* @__PURE__ */ jsx43(
       "div",
       {
         ref,
@@ -5427,7 +5379,7 @@ var TabStrip = forwardRef33(
         },
         children: tabs.map((tab, i) => {
           const isActive = tab.key === activeKey;
-          return /* @__PURE__ */ jsxs28(
+          return /* @__PURE__ */ jsxs27(
             "button",
             {
               ref: (el) => {
@@ -5442,22 +5394,22 @@ var TabStrip = forwardRef33(
               style: {
                 display: "flex",
                 alignItems: "center",
-                gap: t42.spaceXs,
-                padding: isSm ? `${t42.spaceXs} ${t42.spaceSm}` : `${t42.spaceSm} ${t42.spaceMd}`,
+                gap: t41.spaceXs,
+                padding: isSm ? `${t41.spaceXs} ${t41.spaceSm}` : `${t41.spaceSm} ${t41.spaceMd}`,
                 border: "none",
-                borderBottom: `2px solid ${isActive ? t42.colorActionPrimary : "transparent"}`,
+                borderBottom: `2px solid ${isActive ? t41.colorActionPrimary : "transparent"}`,
                 borderRadius: 0,
-                background: isActive ? `color-mix(in srgb, ${t42.colorActionPrimary} 8%, transparent)` : "transparent",
-                color: isActive ? t42.colorActionPrimary : t42.colorTextMuted,
-                fontFamily: t42.fontSans,
-                fontSize: isSm ? t42.fontSizeXs : t42.fontSizeSm,
-                fontWeight: t42.fontWeightSemibold,
-                lineHeight: t42.lineHeightTight,
+                background: isActive ? `color-mix(in srgb, ${t41.colorActionPrimary} 8%, transparent)` : "transparent",
+                color: isActive ? t41.colorActionPrimary : t41.colorTextMuted,
+                fontFamily: t41.fontSans,
+                fontSize: isSm ? t41.fontSizeXs : t41.fontSizeSm,
+                fontWeight: t41.fontWeightSemibold,
+                lineHeight: t41.lineHeightTight,
                 cursor: "pointer",
                 whiteSpace: "nowrap"
               },
               children: [
-                tab.icon && /* @__PURE__ */ jsx44(
+                tab.icon && /* @__PURE__ */ jsx43(
                   "span",
                   {
                     className: "material-symbols-outlined",
@@ -5479,8 +5431,8 @@ var TabStrip = forwardRef33(
 
 // src/components/SectionHeader/SectionHeader.tsx
 import { forwardRef as forwardRef34 } from "react";
-import { semantic as t43 } from "../../core/dist/index.js";
-import { jsx as jsx45, jsxs as jsxs29 } from "react/jsx-runtime";
+import { semantic as t42 } from "../../core/dist/index.js";
+import { jsx as jsx44, jsxs as jsxs28 } from "react/jsx-runtime";
 var SectionHeader = forwardRef34(
   function SectionHeader2({
     title,
@@ -5491,7 +5443,7 @@ var SectionHeader = forwardRef34(
     spacing,
     ...rest
   }, ref) {
-    return /* @__PURE__ */ jsxs29(
+    return /* @__PURE__ */ jsxs28(
       "div",
       {
         ref,
@@ -5501,44 +5453,44 @@ var SectionHeader = forwardRef34(
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          gap: t43.spaceMd,
-          borderBottom: border ? `${t43.borderWidthDefault} solid ${t43.colorBorder}` : void 0,
-          paddingBottom: border ? t43.spaceMd : void 0,
+          gap: t42.spaceMd,
+          borderBottom: border ? `${t42.borderWidthDefault} solid ${t42.colorBorder}` : void 0,
+          paddingBottom: border ? t42.spaceMd : void 0,
           marginBottom: spacing ? spacingMap[spacing] : void 0
         },
         children: [
-          /* @__PURE__ */ jsxs29(
+          /* @__PURE__ */ jsxs28(
             "div",
             {
               style: {
                 display: "flex",
                 alignItems: "center",
-                gap: t43.spaceSm,
+                gap: t42.spaceSm,
                 minWidth: 0
               },
               children: [
-                icon && /* @__PURE__ */ jsx45(
+                icon && /* @__PURE__ */ jsx44(
                   "span",
                   {
                     className: "material-symbols-outlined",
                     style: {
                       fontSize: iconSizeMap.md,
-                      color: t43.colorTextSecondary,
+                      color: t42.colorTextSecondary,
                       lineHeight: 1
                     },
                     "aria-hidden": "true",
                     children: icon
                   }
                 ),
-                /* @__PURE__ */ jsx45(
+                /* @__PURE__ */ jsx44(
                   "span",
                   {
                     style: {
-                      fontFamily: t43.fontSans,
-                      fontWeight: t43.fontWeightSemibold,
-                      fontSize: t43.fontSizeBase,
-                      color: t43.colorText,
-                      lineHeight: t43.lineHeightTight,
+                      fontFamily: t42.fontSans,
+                      fontWeight: t42.fontWeightSemibold,
+                      fontSize: t42.fontSizeBase,
+                      color: t42.colorText,
+                      lineHeight: t42.lineHeightTight,
                       whiteSpace: "nowrap"
                     },
                     children: title
@@ -5548,13 +5500,13 @@ var SectionHeader = forwardRef34(
               ]
             }
           ),
-          trailing && /* @__PURE__ */ jsx45(
+          trailing && /* @__PURE__ */ jsx44(
             "div",
             {
               style: {
                 display: "flex",
                 alignItems: "center",
-                gap: t43.spaceSm,
+                gap: t42.spaceSm,
                 flexShrink: 0
               },
               children: trailing
@@ -5611,7 +5563,6 @@ export {
   IconTrash,
   IconWarning,
   Input,
-  MetadataTable,
   ModalShell,
   Overlay,
   PageHeader,

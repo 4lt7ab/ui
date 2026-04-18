@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- **BREAKING** — Retire `MetadataTable` component and its `MetadataTableProps` type. The component wrapped a simple `<dl>` the consumer already knows how to write. Delete the import; write the `<dl>/<dt>/<dd>` markup directly (using `sectionLabelStyle` from `@4lt7ab/ui` for the label styling if desired). See upgrade guide `01KPE1JZ93VM9QDK2QFM88GWBK` §2
 - **BREAKING** — Trim `AlertBanner.autoDismiss` prop. The component no longer owns dismiss timing; consumers wrap `onDismiss` in a `useEffect` + `setTimeout` (three lines). Internal `useEffect`/`useRef` timer code removed; demo switched to an external-timing example. See upgrade guide `01KPE1JZ93VM9QDK2QFM88GWBK` §5
 - Docs — remove KB document ULIDs from `CLAUDE.md`, `README.md`, and `packages/ui/README.md` retirement sections. The repo describes what was retired and why; the full design rationale is carried as `design`-type documents on the `4lt7ab/component-library` project in the Tab knowledgebase, not as opaque IDs in the repo. Surface-consolidation and modal-consolidation v0.3.0 design docs (`01KPD518FE48GGSBJFAHVPFMJH`, `01KPD518FGRWBYJTS348Y7SMCX`) attached to the project at the same time
 - **BREAKING** — Retire `SectionLabel` component. The uppercase + letter-spacing style block is now exported as `sectionLabelStyle: CSSProperties` from `@4lt7ab/ui` for consumers to apply to any element. See upgrade guide `01KPE1JZ93VM9QDK2QFM88GWBK` §1

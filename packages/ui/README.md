@@ -651,25 +651,6 @@ Declarative filter bar for pairing with Table. Accepts a filter config array des
 - `TextFilterConfig`: `{ type: 'text'; key: string; placeholder?: string; debounceMs?: number }` (default debounce 300ms)
 - `SelectFilterConfig`: `{ type: 'select'; key: string; placeholder?: string; options: Array<{ value: string; label: string }> }`
 
-### MetadataTable
-
-Vertical list of label/value pairs with optional section title. Common for detail pages.
-
-```tsx
-<MetadataTable
-  title="User Profile"
-  items={[
-    { label: 'Name', value: 'Ada Lovelace' },
-    { label: 'Role', value: <Badge variant="info">Admin</Badge> },
-  ]}
-/>
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `items` | `Array<{ label: string; value: ReactNode }>` | required | Label/value pairs to display |
-| `title` | `string` | — | Optional section heading |
-
 ### ChipPicker
 
 Multi-select toggle chip group with optional category grouping. Each chip is a pill-shaped button with `aria-pressed` for accessibility.

@@ -99,7 +99,6 @@ packages/
 │       │   ├── Icon/
 │       │   ├── IconButton/
 │       │   ├── Input/
-│       │   ├── MetadataTable/
 │       │   ├── ModalShell/
 │       │   ├── Overlay/
 │       │   ├── PageHeader/

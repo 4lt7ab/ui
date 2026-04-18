@@ -34,7 +34,6 @@ import { MarginNoteDemo } from './MarginNoteDemo';
 import { SideNoteDemo } from './SideNoteDemo';
 import { DateRangePickerDemo } from './DateRangePickerDemo';
 import { DatePickerDemo } from './DatePickerDemo';
-import { MetadataTableDemo } from './MetadataTableDemo';
 import { ErrorBoundaryDemo } from './ErrorBoundaryDemo';
 import { IconFontDemo } from './IconFontDemo';
 import { ToastDemo } from './ToastDemo';
@@ -79,7 +78,6 @@ export const demos: DemoEntry[] = [
   { name: 'PageShell', category: 'Layout', source: 'ui', component: PageShellDemo },
   { name: 'Table', category: 'Layout', source: 'ui', component: TableDemo },
   { name: 'TableFilters', category: 'Layout', source: 'ui', component: TableFiltersDemo },
-  { name: 'MetadataTable', category: 'Layout', source: 'ui', component: MetadataTableDemo },
   { name: 'Skeleton', category: 'Layout', source: 'ui', component: SkeletonDemo },
 
   // Action
@@ -147,7 +145,6 @@ export {
   ProseDemo, MarkdownDemo, ThinkingCycleDemo, LinkCardDemo, TableDemo,
   StatusDotDemo, ThemePickerDemo, EpigraphDemo, PullQuoteDemo,
   MarginNoteDemo, SideNoteDemo, DateRangePickerDemo, DatePickerDemo,
-  MetadataTableDemo,
   ErrorBoundaryDemo,
   IconFontDemo,
   ToastDemo,
