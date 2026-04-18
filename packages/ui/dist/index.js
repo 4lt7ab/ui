@@ -531,11 +531,11 @@ function CompactView() {
   }, [open, focusedIndex]);
   useEffect2(() => {
     if (open) {
-      const activeIdx = themeList.findIndex((t39) => t39.name === resolved);
+      const activeIdx = themeList.findIndex((t41) => t41.name === resolved);
       setFocusedIndex(activeIdx >= 0 ? activeIdx : 0);
     }
   }, [open]);
-  const currentTheme = themeList.find((t39) => t39.name === resolved);
+  const currentTheme = themeList.find((t41) => t41.name === resolved);
   return /* @__PURE__ */ jsxs2("div", { ref: containerRef, style: { position: "relative" }, onKeyDown: handleKeyDown, children: [
     /* @__PURE__ */ jsxs2(
       "button",
@@ -577,8 +577,8 @@ function CompactView() {
           zIndex: "var(--z-index-sticky)",
           boxShadow: "var(--shadow-md)"
         },
-        children: themeList.map((t39, idx) => {
-          const isActive = resolved === t39.name;
+        children: themeList.map((t41, idx) => {
+          const isActive = resolved === t41.name;
           const isFocused = focusedIndex === idx;
           const classes = [
             "alttab-tp-menu-item",
@@ -588,12 +588,12 @@ function CompactView() {
           return /* @__PURE__ */ jsxs2(
             "button",
             {
-              id: `alttab-tp-item-${t39.name}`,
+              id: `alttab-tp-item-${t41.name}`,
               role: "option",
               "aria-selected": isActive,
               className: classes,
               onClick: () => {
-                setTheme(t39.name);
+                setTheme(t41.name);
                 setOpen(false);
                 triggerRef.current?.focus();
               },
@@ -606,10 +606,10 @@ function CompactView() {
                   background: isActive ? "var(--color-action-primary)" : "var(--color-text-muted)",
                   flexShrink: 0
                 } }),
-                t39.label
+                t41.label
               ]
             },
-            t39.name
+            t41.name
           );
         })
       }
@@ -728,13 +728,13 @@ var Button = forwardRef3(
     "data-testid": dataTestId
   }, ref) {
     useInjectStyles2(SPINNER_STYLES_ID, spinnerCSS);
-    const isDisabled = disabled || loading;
+    const isDisabled2 = disabled || loading;
     const style = {
       ...baseStyles,
       ...variantStyles[variant],
       ...sizeStyles[size],
       ...iconOnly ? { padding: iconOnlyPadding[size], aspectRatio: "1", minWidth: 0 } : {},
-      ...isDisabled ? { opacity: 0.5, cursor: "not-allowed" } : {}
+      ...isDisabled2 ? { opacity: 0.5, cursor: "not-allowed" } : {}
     };
     const commonProps = {
       tabIndex,
@@ -756,7 +756,7 @@ var Button = forwardRef3(
         {
           ref,
           ...commonProps,
-          "aria-disabled": isDisabled || void 0,
+          "aria-disabled": isDisabled2 || void 0,
           children
         }
       );
@@ -770,7 +770,7 @@ var Button = forwardRef3(
         name,
         value,
         autoFocus,
-        disabled: isDisabled,
+        disabled: isDisabled2,
         ...commonProps,
         children: loading ? /* @__PURE__ */ jsx4("span", { className: "alttab-btn-spinner" }) : children
       }
@@ -2768,8 +2768,8 @@ var TableEmptyRow = forwardRef20(
 );
 
 // src/components/DateRangePicker/DateRangePicker.tsx
-import { forwardRef as forwardRef21, useState as useState5, useRef as useRef6, useCallback as useCallback5, useEffect as useEffect6 } from "react";
-import { semantic as t25, useInjectStyles as useInjectStyles9 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef21, useState as useState5, useRef as useRef7, useCallback as useCallback6, useEffect as useEffect7 } from "react";
+import { semantic as t27, useInjectStyles as useInjectStyles10 } from "../../core/dist/index.js";
 
 // src/components/Calendar/Calendar.tsx
 import {
@@ -2894,8 +2894,8 @@ function isSameDay(a, b) {
 function isInRange(date, from, to) {
   const d = stripTime(date).getTime();
   const f = stripTime(from).getTime();
-  const t39 = stripTime(to).getTime();
-  return d >= f && d <= t39;
+  const t41 = stripTime(to).getTime();
+  return d >= f && d <= t41;
 }
 function isDateDisabled(date, minDate, maxDate, disabledDates) {
   const d = stripTime(date).getTime();
@@ -3012,18 +3012,11 @@ function CalendarNav({
   );
 }
 
-// src/components/Calendar/index.ts
-var Calendar2 = {
-  Root: Calendar.Root,
-  Header: CalendarHeaderPrimitive,
-  Nav: CalendarNav
-};
+// src/components/Calendar/Grid.tsx
+import { useCallback as useCallback4, useMemo as useMemo3, useRef as useRef5, useEffect as useEffect6 } from "react";
+import { semantic as t24, useInjectStyles as useInjectStyles9 } from "../../core/dist/index.js";
 
-// src/components/DateRangePicker/CalendarGrid.tsx
-import { useCallback as useCallback4, useRef as useRef5 } from "react";
-import { semantic as t24 } from "../../core/dist/index.js";
-
-// src/components/DateRangePicker/DayCell.tsx
+// src/components/Calendar/Cell.tsx
 import { semantic as t23 } from "../../core/dist/index.js";
 import { jsx as jsx26 } from "react/jsx-runtime";
 var baseCellStyle = {
@@ -3044,61 +3037,143 @@ var baseCellStyle = {
   outline: "none",
   boxSizing: "border-box"
 };
-function DayCell({
+function computeBounds(ctx) {
+  if (!ctx.selected) return { start: null, end: null };
+  if (ctx.selected instanceof Date) {
+    return { start: ctx.selected, end: ctx.selected };
+  }
+  const a = ctx.selected.from;
+  const b = ctx.selected.to;
+  return a.getTime() <= b.getTime() ? { start: a, end: b } : { start: b, end: a };
+}
+function isDisabled(ctx, date) {
+  if (ctx.minDate) {
+    const min = new Date(
+      ctx.minDate.getFullYear(),
+      ctx.minDate.getMonth(),
+      ctx.minDate.getDate()
+    );
+    if (date.getTime() < min.getTime()) return true;
+  }
+  if (ctx.maxDate) {
+    const max = new Date(
+      ctx.maxDate.getFullYear(),
+      ctx.maxDate.getMonth(),
+      ctx.maxDate.getDate()
+    );
+    if (date.getTime() > max.getTime()) return true;
+  }
+  return ctx.disabledDate?.(date) ?? false;
+}
+function CalendarCell({
   date,
-  currentMonth,
-  today,
-  rangeStart,
-  rangeEnd,
-  isInRange: inRange,
-  isDisabled,
-  scopeClass,
-  onSelect,
-  onKeyDown,
-  tabIndex
+  children,
+  style,
+  className
 }) {
-  const isOutsideMonth = date.getMonth() !== currentMonth;
+  const ctx = useCalendarContext("Cell");
+  const today = /* @__PURE__ */ new Date();
+  const month = ctx.viewDate.getMonth();
+  const isOutsideMonth = date.getMonth() !== month;
   const isToday = isSameDay(date, today);
-  const isStart = rangeStart !== null && isSameDay(date, rangeStart);
-  const isEnd = rangeEnd !== null && isSameDay(date, rangeEnd);
+  const isFocused = isSameDay(date, ctx.focusedDate);
+  const { start, end } = computeBounds(ctx);
+  const isStart = start !== null && isSameDay(date, start);
+  const isEnd = end !== null && isSameDay(date, end);
   const isEndpoint = isStart || isEnd;
+  const inRange = start !== null && end !== null && isInRange(date, start, end);
+  const disabled = isDisabled(ctx, date);
   const cellStyle = {
     ...baseCellStyle,
     ...isOutsideMonth ? { color: t23.colorTextMuted, opacity: 0.5 } : {},
     ...isToday && !isEndpoint ? { border: `${t23.borderWidthDefault} solid ${t23.colorActionPrimary}` } : {},
-    ...inRange && !isEndpoint ? { background: `color-mix(in srgb, ${t23.colorActionPrimary} 15%, transparent)` } : {},
+    ...inRange && !isEndpoint ? {
+      background: `color-mix(in srgb, ${t23.colorActionPrimary} 15%, transparent)`
+    } : {},
     ...isEndpoint ? { background: t23.colorActionPrimary, color: t23.colorTextInverse } : {},
-    ...isDisabled ? {
+    ...disabled ? {
       color: t23.colorTextDisabled,
       pointerEvents: "none",
       cursor: "default",
       opacity: 0.5
-    } : {}
+    } : {},
+    ...style
   };
   const classNames = [
-    scopeClass + "-day",
-    ...isDisabled ? [] : [scopeClass + "-day--enabled"]
+    "alttab-calendar-day",
+    ...disabled ? [] : ["alttab-calendar-day--enabled"],
+    ...className ? [className] : []
   ].join(" ");
-  return /* @__PURE__ */ jsx26("td", { role: "gridcell", style: { padding: 0 }, children: /* @__PURE__ */ jsx26(
+  const iso = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+  return /* @__PURE__ */ jsx26(
     "button",
     {
       type: "button",
       className: classNames,
       style: cellStyle,
-      tabIndex,
-      "aria-selected": isEndpoint || inRange && !isDisabled || void 0,
-      "aria-disabled": isDisabled || void 0,
+      tabIndex: isFocused ? 0 : -1,
+      "aria-selected": isEndpoint || inRange && !disabled || void 0,
+      "aria-disabled": disabled || void 0,
+      "data-calendar-cell": iso,
       onClick: () => {
-        if (!isDisabled) onSelect(date);
+        if (disabled) return;
+        ctx.setFocusedDate(date);
+        ctx.onSelect(date);
       },
-      onKeyDown: (e) => onKeyDown(e, date),
-      children: date.getDate()
+      children: children ?? date.getDate()
     }
-  ) });
+  );
 }
 
-// src/components/DateRangePicker/CalendarGrid.tsx
+// src/components/Calendar/Grid.tsx
 import { jsx as jsx27, jsxs as jsxs12 } from "react/jsx-runtime";
+var GRID_STYLES_ID2 = "alttab-calendar";
+var gridCSS2 = (
+  /* css */
+  `
+  .alttab-calendar-day--enabled:hover {
+    background: ${t24.colorSurfaceRaised} !important;
+  }
+  .alttab-calendar-day--enabled:focus-visible {
+    outline: ${t24.focusRingWidth} solid ${t24.focusRingColor};
+    outline-offset: ${t24.focusRingOffset};
+  }
+`
+);
+function nextFocusedDate(date, key, shiftKey) {
+  const y = date.getFullYear();
+  const m = date.getMonth();
+  const d = date.getDate();
+  switch (key) {
+    case "ArrowLeft":
+      return new Date(y, m, d - 1);
+    case "ArrowRight":
+      return new Date(y, m, d + 1);
+    case "ArrowUp":
+      return new Date(y, m, d - 7);
+    case "ArrowDown":
+      return new Date(y, m, d + 7);
+    case "Home":
+      return new Date(y, m, d - date.getDay());
+    case "End":
+      return new Date(y, m, d + (6 - date.getDay()));
+    case "PageUp":
+      return shiftKey ? new Date(y - 1, m, d) : new Date(y, m - 1, d);
+    case "PageDown":
+      return shiftKey ? new Date(y + 1, m, d) : new Date(y, m + 1, d);
+    default:
+      return null;
+  }
+}
+function getHighlightBounds(ctx) {
+  if (!ctx.selected) return { start: null, end: null };
+  if (ctx.selected instanceof Date) {
+    return { start: ctx.selected, end: ctx.selected };
+  }
+  const a = ctx.selected.from;
+  const b = ctx.selected.to;
+  return a.getTime() <= b.getTime() ? { start: a, end: b } : { start: b, end: a };
+}
 var tableStyle = {
   borderCollapse: "collapse",
   width: "100%",
@@ -3111,6 +3186,229 @@ var weekdayHeaderStyle = {
   color: t24.colorTextMuted,
   textAlign: "center",
   padding: `${t24.spaceXs} 0`,
+  userSelect: "none"
+};
+function CalendarGridPrimitive({
+  "aria-label": ariaLabel = "Calendar",
+  onEscape,
+  children,
+  style,
+  className
+}) {
+  useInjectStyles9(GRID_STYLES_ID2, gridCSS2);
+  const ctx = useCalendarContext("Grid");
+  const tableRef = useRef5(null);
+  const todayRef = useRef5(/* @__PURE__ */ new Date());
+  const year = ctx.viewDate.getFullYear();
+  const month = ctx.viewDate.getMonth();
+  const grid = useMemo3(() => buildCalendarGrid(year, month), [year, month]);
+  const rows = useMemo3(() => {
+    const out = [];
+    for (let r = 0; r < 6; r++) {
+      out.push(grid.slice(r * 7, r * 7 + 7));
+    }
+    return out;
+  }, [grid]);
+  const { start: highlightStart, end: highlightEnd } = getHighlightBounds(ctx);
+  const isCellDisabled = useCallback4(
+    (date) => {
+      if (ctx.minDate && date.getTime() < stripTime2(ctx.minDate).getTime()) {
+        return true;
+      }
+      if (ctx.maxDate && date.getTime() > stripTime2(ctx.maxDate).getTime()) {
+        return true;
+      }
+      return ctx.disabledDate?.(date) ?? false;
+    },
+    [ctx.minDate, ctx.maxDate, ctx.disabledDate]
+  );
+  const handleKeyDown = useCallback4(
+    (e) => {
+      if (e.key === "Escape") {
+        if (onEscape) {
+          e.preventDefault();
+          onEscape();
+        }
+        return;
+      }
+      const target = e.target;
+      if (!target || target.tagName !== "BUTTON") return;
+      const iso = target.getAttribute("data-calendar-cell");
+      if (!iso) return;
+      const [yy, mm, dd] = iso.split("-").map(Number);
+      const from = new Date(yy, mm, dd);
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        if (isCellDisabled(from)) return;
+        if (ctx.mode === "single") {
+          ctx.onSelect(from);
+        } else {
+          ctx.onSelect(from);
+        }
+        return;
+      }
+      const next = nextFocusedDate(from, e.key, e.shiftKey);
+      if (!next) return;
+      e.preventDefault();
+      ctx.setFocusedDate(next);
+      if (next.getMonth() !== month || next.getFullYear() !== year) {
+        ctx.setViewDate(new Date(next.getFullYear(), next.getMonth(), 1));
+      }
+    },
+    [ctx, month, year, isCellDisabled, onEscape]
+  );
+  useEffect6(() => {
+    const table = tableRef.current;
+    if (!table) return;
+    const btn = table.querySelector('button[tabindex="0"]');
+    if (btn && document.activeElement?.closest('[role="grid"]') === table) {
+      btn.focus();
+    }
+  }, [ctx.focusedDate]);
+  return /* @__PURE__ */ jsxs12(
+    "table",
+    {
+      ref: tableRef,
+      role: "grid",
+      "aria-label": ariaLabel,
+      style: { ...tableStyle, ...style },
+      className,
+      onKeyDown: handleKeyDown,
+      children: [
+        /* @__PURE__ */ jsx27("thead", { children: /* @__PURE__ */ jsx27("tr", { children: WEEKDAY_LABELS.map((label) => /* @__PURE__ */ jsx27("th", { scope: "col", style: weekdayHeaderStyle, children: label }, label)) }) }),
+        /* @__PURE__ */ jsx27("tbody", { children: rows.map((row, ri) => /* @__PURE__ */ jsx27("tr", { children: row.map((date) => {
+          const isInMonth = date.getMonth() === month;
+          const isToday = isSameDay(date, todayRef.current);
+          const isFocused = isSameDay(date, ctx.focusedDate);
+          const disabled = isCellDisabled(date);
+          const isRangeStart = highlightStart !== null && isSameDay(date, highlightStart);
+          const isRangeEnd = highlightEnd !== null && isSameDay(date, highlightEnd);
+          const inRange = highlightStart !== null && highlightEnd !== null && isInRange(date, highlightStart, highlightEnd);
+          const isSelected = isRangeStart || isRangeEnd || inRange;
+          const renderArgs = {
+            date,
+            isInMonth,
+            isToday,
+            isFocused,
+            isSelected,
+            isRangeStart,
+            isRangeEnd,
+            isInRange: inRange,
+            isDisabled: disabled
+          };
+          const iso = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+          return /* @__PURE__ */ jsx27("td", { role: "gridcell", style: cellTdStyle, children: children ? children(renderArgs) : /* @__PURE__ */ jsx27(CalendarCell, { date }) }, iso);
+        }) }, ri)) })
+      ]
+    }
+  );
+}
+function stripTime2(d) {
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+var cellTdStyle = { padding: 0 };
+
+// src/components/Calendar/index.ts
+var Calendar2 = {
+  Root: Calendar.Root,
+  Header: CalendarHeaderPrimitive,
+  Nav: CalendarNav,
+  Grid: CalendarGridPrimitive,
+  Cell: CalendarCell
+};
+
+// src/components/DateRangePicker/CalendarGrid.tsx
+import { useCallback as useCallback5, useRef as useRef6 } from "react";
+import { semantic as t26 } from "../../core/dist/index.js";
+
+// src/components/DateRangePicker/DayCell.tsx
+import { semantic as t25 } from "../../core/dist/index.js";
+import { jsx as jsx28 } from "react/jsx-runtime";
+var baseCellStyle2 = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: t25.spaceXl,
+  height: t25.spaceXl,
+  border: "none",
+  borderRadius: t25.radiusSm,
+  fontSize: t25.fontSizeSm,
+  fontFamily: t25.fontSans,
+  cursor: "pointer",
+  background: "transparent",
+  color: t25.colorText,
+  padding: 0,
+  transition: "background 120ms ease, color 120ms ease",
+  outline: "none",
+  boxSizing: "border-box"
+};
+function DayCell({
+  date,
+  currentMonth,
+  today,
+  rangeStart,
+  rangeEnd,
+  isInRange: inRange,
+  isDisabled: isDisabled2,
+  scopeClass,
+  onSelect,
+  onKeyDown,
+  tabIndex
+}) {
+  const isOutsideMonth = date.getMonth() !== currentMonth;
+  const isToday = isSameDay(date, today);
+  const isStart = rangeStart !== null && isSameDay(date, rangeStart);
+  const isEnd = rangeEnd !== null && isSameDay(date, rangeEnd);
+  const isEndpoint = isStart || isEnd;
+  const cellStyle = {
+    ...baseCellStyle2,
+    ...isOutsideMonth ? { color: t25.colorTextMuted, opacity: 0.5 } : {},
+    ...isToday && !isEndpoint ? { border: `${t25.borderWidthDefault} solid ${t25.colorActionPrimary}` } : {},
+    ...inRange && !isEndpoint ? { background: `color-mix(in srgb, ${t25.colorActionPrimary} 15%, transparent)` } : {},
+    ...isEndpoint ? { background: t25.colorActionPrimary, color: t25.colorTextInverse } : {},
+    ...isDisabled2 ? {
+      color: t25.colorTextDisabled,
+      pointerEvents: "none",
+      cursor: "default",
+      opacity: 0.5
+    } : {}
+  };
+  const classNames = [
+    scopeClass + "-day",
+    ...isDisabled2 ? [] : [scopeClass + "-day--enabled"]
+  ].join(" ");
+  return /* @__PURE__ */ jsx28("td", { role: "gridcell", style: { padding: 0 }, children: /* @__PURE__ */ jsx28(
+    "button",
+    {
+      type: "button",
+      className: classNames,
+      style: cellStyle,
+      tabIndex,
+      "aria-selected": isEndpoint || inRange && !isDisabled2 || void 0,
+      "aria-disabled": isDisabled2 || void 0,
+      onClick: () => {
+        if (!isDisabled2) onSelect(date);
+      },
+      onKeyDown: (e) => onKeyDown(e, date),
+      children: date.getDate()
+    }
+  ) });
+}
+
+// src/components/DateRangePicker/CalendarGrid.tsx
+import { jsx as jsx29, jsxs as jsxs13 } from "react/jsx-runtime";
+var tableStyle2 = {
+  borderCollapse: "collapse",
+  width: "100%",
+  tableLayout: "fixed"
+};
+var weekdayHeaderStyle2 = {
+  fontSize: t26.fontSizeXs,
+  fontFamily: t26.fontSans,
+  fontWeight: t26.fontWeightMedium,
+  color: t26.colorTextMuted,
+  textAlign: "center",
+  padding: `${t26.spaceXs} 0`,
   userSelect: "none"
 };
 function CalendarGrid({
@@ -3126,13 +3424,13 @@ function CalendarGrid({
   onSelect,
   onFocusedDateChange
 }) {
-  const today = useRef5(/* @__PURE__ */ new Date()).current;
+  const today = useRef6(/* @__PURE__ */ new Date()).current;
   const grid = buildCalendarGrid(year, month);
   const rows = [];
   for (let r = 0; r < 6; r++) {
     rows.push(grid.slice(r * 7, r * 7 + 7));
   }
-  const handleKeyDown = useCallback4(
+  const handleKeyDown = useCallback5(
     (e, date) => {
       let next = null;
       switch (e.key) {
@@ -3167,14 +3465,14 @@ function CalendarGrid({
   );
   const sortedStart = rangeStart && rangeEnd ? rangeStart.getTime() <= rangeEnd.getTime() ? rangeStart : rangeEnd : rangeStart;
   const sortedEnd = rangeStart && rangeEnd ? rangeStart.getTime() <= rangeEnd.getTime() ? rangeEnd : rangeStart : rangeEnd;
-  return /* @__PURE__ */ jsxs12("table", { style: tableStyle, role: "grid", "aria-label": "Calendar", children: [
-    /* @__PURE__ */ jsx27("thead", { children: /* @__PURE__ */ jsx27("tr", { children: WEEKDAY_LABELS.map((label) => /* @__PURE__ */ jsx27("th", { scope: "col", style: weekdayHeaderStyle, children: label }, label)) }) }),
-    /* @__PURE__ */ jsx27("tbody", { children: rows.map((row, ri) => /* @__PURE__ */ jsx27("tr", { children: row.map((date) => {
+  return /* @__PURE__ */ jsxs13("table", { style: tableStyle2, role: "grid", "aria-label": "Calendar", children: [
+    /* @__PURE__ */ jsx29("thead", { children: /* @__PURE__ */ jsx29("tr", { children: WEEKDAY_LABELS.map((label) => /* @__PURE__ */ jsx29("th", { scope: "col", style: weekdayHeaderStyle2, children: label }, label)) }) }),
+    /* @__PURE__ */ jsx29("tbody", { children: rows.map((row, ri) => /* @__PURE__ */ jsx29("tr", { children: row.map((date) => {
       const key = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
       const disabled = isDateDisabled(date, minDate, maxDate, disabledDates);
       const inRange = sortedStart !== null && sortedEnd !== null && isInRange(date, sortedStart, sortedEnd);
       const isFocused = isSameDay(date, focusedDate);
-      return /* @__PURE__ */ jsx27(
+      return /* @__PURE__ */ jsx29(
         DayCell,
         {
           date,
@@ -3196,24 +3494,24 @@ function CalendarGrid({
 }
 
 // src/components/DateRangePicker/DateRangePicker.tsx
-import { jsx as jsx28, jsxs as jsxs13 } from "react/jsx-runtime";
+import { jsx as jsx30, jsxs as jsxs14 } from "react/jsx-runtime";
 var SCOPE = "alttab-drp";
 var injectedCSS = (
   /* css */
   `
   .${SCOPE}-day--enabled:hover {
-    background: ${t25.colorSurfaceRaised} !important;
+    background: ${t27.colorSurfaceRaised} !important;
   }
   .${SCOPE}-day--enabled:focus-visible {
-    outline: ${t25.focusRingWidth} solid ${t25.focusRingColor};
-    outline-offset: ${t25.focusRingOffset};
+    outline: ${t27.focusRingWidth} solid ${t27.focusRingColor};
+    outline-offset: ${t27.focusRingOffset};
   }
   .${SCOPE}-trigger:focus-visible {
-    border-color: ${t25.colorBorderFocused};
-    box-shadow: 0 0 0 ${t25.focusRingWidth} ${t25.focusRingColor};
+    border-color: ${t27.colorBorderFocused};
+    box-shadow: 0 0 0 ${t27.focusRingWidth} ${t27.focusRingColor};
   }
   .${SCOPE}-trigger:hover:not(:disabled) {
-    border-color: ${t25.colorBorderFocused};
+    border-color: ${t27.colorBorderFocused};
   }
 `
 );
@@ -3225,50 +3523,50 @@ var wrapperStyle2 = {
 var triggerBaseStyle2 = {
   display: "block",
   width: "100%",
-  padding: `${t25.spaceSm} ${t25.spaceMd}`,
-  fontSize: t25.fontSizeSm,
-  lineHeight: t25.lineHeightTight,
-  fontFamily: t25.fontSans,
-  color: t25.colorText,
-  background: t25.colorSurfaceInput,
-  border: `${t25.borderWidthDefault} solid ${t25.colorBorder}`,
-  borderRadius: t25.radiusMd,
+  padding: `${t27.spaceSm} ${t27.spaceMd}`,
+  fontSize: t27.fontSizeSm,
+  lineHeight: t27.lineHeightTight,
+  fontFamily: t27.fontSans,
+  color: t27.colorText,
+  background: t27.colorSurfaceInput,
+  border: `${t27.borderWidthDefault} solid ${t27.colorBorder}`,
+  borderRadius: t27.radiusMd,
   outline: "none",
-  transition: `border-color ${t25.transitionBase}, box-shadow ${t25.transitionBase}`,
+  transition: `border-color ${t27.transitionBase}, box-shadow ${t27.transitionBase}`,
   boxSizing: "border-box",
   cursor: "pointer",
   textAlign: "left"
 };
 var triggerErrorStyle = {
-  borderColor: t25.colorBorderError
+  borderColor: t27.colorBorderError
 };
 var triggerDisabledStyle = {
-  background: t25.colorSurfaceDisabled,
-  color: t25.colorTextDisabled,
+  background: t27.colorSurfaceDisabled,
+  color: t27.colorTextDisabled,
   cursor: "not-allowed"
 };
 var popoverStyle = {
   position: "absolute",
   top: "100%",
   left: 0,
-  zIndex: t25.zIndexDropdown,
-  marginTop: t25.spaceXs,
-  background: t25.colorSurfacePanel,
-  border: `${t25.borderWidthDefault} solid ${t25.colorBorder}`,
-  borderRadius: t25.radiusLg,
-  boxShadow: t25.shadowMd,
-  padding: t25.spaceMd,
+  zIndex: t27.zIndexDropdown,
+  marginTop: t27.spaceXs,
+  background: t27.colorSurfacePanel,
+  border: `${t27.borderWidthDefault} solid ${t27.colorBorder}`,
+  borderRadius: t27.radiusLg,
+  boxShadow: t27.shadowMd,
+  padding: t27.spaceMd,
   minWidth: 290,
   boxSizing: "border-box"
 };
 var placeholderStyle2 = {
-  color: t25.colorTextPlaceholder
+  color: t27.colorTextPlaceholder
 };
 var headerRowStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: `${t25.spaceXs} 0`
+  padding: `${t27.spaceXs} 0`
 };
 var DateRangePicker = forwardRef21(
   function DateRangePicker2({
@@ -3281,10 +3579,10 @@ var DateRangePicker = forwardRef21(
     hasError,
     disabled
   }, ref) {
-    useInjectStyles9(SCOPE, injectedCSS);
+    useInjectStyles10(SCOPE, injectedCSS);
     const [open, setOpen] = useState5(false);
     const [selectionStart, setSelectionStart] = useState5(null);
-    const containerRef = useRef6(null);
+    const containerRef = useRef7(null);
     const initialDate = value?.from ?? /* @__PURE__ */ new Date();
     const [viewDate, setViewDate] = useState5(
       () => new Date(initialDate.getFullYear(), initialDate.getMonth(), 1)
@@ -3292,11 +3590,11 @@ var DateRangePicker = forwardRef21(
     const [focusedDate, setFocusedDate] = useState5(
       value?.from ?? /* @__PURE__ */ new Date()
     );
-    const handleFocusedDateChange = useCallback5((date) => {
+    const handleFocusedDateChange = useCallback6((date) => {
       setFocusedDate(date);
       setViewDate(new Date(date.getFullYear(), date.getMonth(), 1));
     }, []);
-    useEffect6(() => {
+    useEffect7(() => {
       if (!open) return;
       const container = containerRef.current;
       if (!container) return;
@@ -3305,7 +3603,7 @@ var DateRangePicker = forwardRef21(
       );
       btn?.focus();
     }, [focusedDate, open]);
-    useEffect6(() => {
+    useEffect7(() => {
       if (!open) return;
       function handleMouseDown(e) {
         if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -3316,7 +3614,7 @@ var DateRangePicker = forwardRef21(
       document.addEventListener("mousedown", handleMouseDown);
       return () => document.removeEventListener("mousedown", handleMouseDown);
     }, [open]);
-    useEffect6(() => {
+    useEffect7(() => {
       if (!open) return;
       function handleKey(e) {
         if (e.key === "Escape") {
@@ -3327,7 +3625,7 @@ var DateRangePicker = forwardRef21(
       document.addEventListener("keydown", handleKey);
       return () => document.removeEventListener("keydown", handleKey);
     }, [open]);
-    const handleToggle = useCallback5(() => {
+    const handleToggle = useCallback6(() => {
       if (disabled) return;
       setOpen((prev) => {
         if (!prev) {
@@ -3339,7 +3637,7 @@ var DateRangePicker = forwardRef21(
         return !prev;
       });
     }, [disabled, value]);
-    const handleDaySelect = useCallback5(
+    const handleDaySelect = useCallback6(
       (date) => {
         if (selectionStart === null) {
           setSelectionStart(date);
@@ -3357,11 +3655,11 @@ var DateRangePicker = forwardRef21(
     if (value) {
       displayText = `${formatDate(value.from)} \u2013 ${formatDate(value.to)}`;
     } else {
-      displayText = /* @__PURE__ */ jsx28("span", { style: placeholderStyle2, children: placeholder });
+      displayText = /* @__PURE__ */ jsx30("span", { style: placeholderStyle2, children: placeholder });
     }
     const calendarStart = selectionStart ?? value?.from ?? null;
     const calendarEnd = selectionStart ? null : value?.to ?? null;
-    return /* @__PURE__ */ jsxs13(
+    return /* @__PURE__ */ jsxs14(
       "div",
       {
         ref: (node) => {
@@ -3371,7 +3669,7 @@ var DateRangePicker = forwardRef21(
         },
         style: wrapperStyle2,
         children: [
-          /* @__PURE__ */ jsx28(
+          /* @__PURE__ */ jsx30(
             "button",
             {
               type: "button",
@@ -3389,7 +3687,7 @@ var DateRangePicker = forwardRef21(
               children: displayText
             }
           ),
-          open && /* @__PURE__ */ jsx28("div", { style: popoverStyle, role: "dialog", "aria-label": "Date range picker", children: /* @__PURE__ */ jsxs13(
+          open && /* @__PURE__ */ jsx30("div", { style: popoverStyle, role: "dialog", "aria-label": "Date range picker", children: /* @__PURE__ */ jsxs14(
             Calendar2.Root,
             {
               mode: "range",
@@ -3401,12 +3699,12 @@ var DateRangePicker = forwardRef21(
               minDate,
               maxDate,
               children: [
-                /* @__PURE__ */ jsxs13("div", { style: headerRowStyle, children: [
-                  /* @__PURE__ */ jsx28(Calendar2.Nav, { direction: "prev" }),
-                  /* @__PURE__ */ jsx28(Calendar2.Header, {}),
-                  /* @__PURE__ */ jsx28(Calendar2.Nav, { direction: "next" })
+                /* @__PURE__ */ jsxs14("div", { style: headerRowStyle, children: [
+                  /* @__PURE__ */ jsx30(Calendar2.Nav, { direction: "prev" }),
+                  /* @__PURE__ */ jsx30(Calendar2.Header, {}),
+                  /* @__PURE__ */ jsx30(Calendar2.Nav, { direction: "next" })
                 ] }),
-                /* @__PURE__ */ jsx28(
+                /* @__PURE__ */ jsx30(
                   CalendarGrid,
                   {
                     year: viewDate.getFullYear(),
@@ -3432,26 +3730,26 @@ var DateRangePicker = forwardRef21(
 );
 
 // src/components/DatePicker/DatePicker.tsx
-import { forwardRef as forwardRef22, useState as useState6, useRef as useRef7, useCallback as useCallback6, useEffect as useEffect7 } from "react";
-import { semantic as t26, useInjectStyles as useInjectStyles10 } from "../../core/dist/index.js";
-import { jsx as jsx29, jsxs as jsxs14 } from "react/jsx-runtime";
+import { forwardRef as forwardRef22, useState as useState6, useRef as useRef8, useCallback as useCallback7, useEffect as useEffect8 } from "react";
+import { semantic as t28, useInjectStyles as useInjectStyles11 } from "../../core/dist/index.js";
+import { jsx as jsx31, jsxs as jsxs15 } from "react/jsx-runtime";
 var SCOPE2 = "alttab-dp";
 var injectedCSS2 = (
   /* css */
   `
   .${SCOPE2}-day--enabled:hover {
-    background: ${t26.colorSurfaceRaised} !important;
+    background: ${t28.colorSurfaceRaised} !important;
   }
   .${SCOPE2}-day--enabled:focus-visible {
-    outline: ${t26.focusRingWidth} solid ${t26.focusRingColor};
-    outline-offset: ${t26.focusRingOffset};
+    outline: ${t28.focusRingWidth} solid ${t28.focusRingColor};
+    outline-offset: ${t28.focusRingOffset};
   }
   .${SCOPE2}-trigger:focus-visible {
-    border-color: ${t26.colorBorderFocused};
-    box-shadow: 0 0 0 ${t26.focusRingWidth} ${t26.focusRingColor};
+    border-color: ${t28.colorBorderFocused};
+    box-shadow: 0 0 0 ${t28.focusRingWidth} ${t28.focusRingColor};
   }
   .${SCOPE2}-trigger:hover:not(:disabled) {
-    border-color: ${t26.colorBorderFocused};
+    border-color: ${t28.colorBorderFocused};
   }
 `
 );
@@ -3463,50 +3761,50 @@ var wrapperStyle3 = {
 var triggerBaseStyle3 = {
   display: "block",
   width: "100%",
-  padding: `${t26.spaceSm} ${t26.spaceMd}`,
-  fontSize: t26.fontSizeSm,
-  lineHeight: t26.lineHeightTight,
-  fontFamily: t26.fontSans,
-  color: t26.colorText,
-  background: t26.colorSurfaceInput,
-  border: `${t26.borderWidthDefault} solid ${t26.colorBorder}`,
-  borderRadius: t26.radiusMd,
+  padding: `${t28.spaceSm} ${t28.spaceMd}`,
+  fontSize: t28.fontSizeSm,
+  lineHeight: t28.lineHeightTight,
+  fontFamily: t28.fontSans,
+  color: t28.colorText,
+  background: t28.colorSurfaceInput,
+  border: `${t28.borderWidthDefault} solid ${t28.colorBorder}`,
+  borderRadius: t28.radiusMd,
   outline: "none",
-  transition: `border-color ${t26.transitionBase}, box-shadow ${t26.transitionBase}`,
+  transition: `border-color ${t28.transitionBase}, box-shadow ${t28.transitionBase}`,
   boxSizing: "border-box",
   cursor: "pointer",
   textAlign: "left"
 };
 var triggerErrorStyle2 = {
-  borderColor: t26.colorBorderError
+  borderColor: t28.colorBorderError
 };
 var triggerDisabledStyle2 = {
-  background: t26.colorSurfaceDisabled,
-  color: t26.colorTextDisabled,
+  background: t28.colorSurfaceDisabled,
+  color: t28.colorTextDisabled,
   cursor: "not-allowed"
 };
 var popoverStyle2 = {
   position: "absolute",
   top: "100%",
   left: 0,
-  zIndex: t26.zIndexDropdown,
-  marginTop: t26.spaceXs,
-  background: t26.colorSurfacePanel,
-  border: `${t26.borderWidthDefault} solid ${t26.colorBorder}`,
-  borderRadius: t26.radiusLg,
-  boxShadow: t26.shadowMd,
-  padding: t26.spaceMd,
+  zIndex: t28.zIndexDropdown,
+  marginTop: t28.spaceXs,
+  background: t28.colorSurfacePanel,
+  border: `${t28.borderWidthDefault} solid ${t28.colorBorder}`,
+  borderRadius: t28.radiusLg,
+  boxShadow: t28.shadowMd,
+  padding: t28.spaceMd,
   minWidth: 290,
   boxSizing: "border-box"
 };
 var placeholderStyle3 = {
-  color: t26.colorTextPlaceholder
+  color: t28.colorTextPlaceholder
 };
 var headerRowStyle2 = {
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: `${t26.spaceXs} 0`
+  padding: `${t28.spaceXs} 0`
 };
 var DatePicker = forwardRef22(
   function DatePicker2({
@@ -3519,19 +3817,19 @@ var DatePicker = forwardRef22(
     hasError,
     disabled
   }, ref) {
-    useInjectStyles10(SCOPE2, injectedCSS2);
+    useInjectStyles11(SCOPE2, injectedCSS2);
     const [open, setOpen] = useState6(false);
-    const containerRef = useRef7(null);
+    const containerRef = useRef8(null);
     const initialDate = value ?? /* @__PURE__ */ new Date();
     const [viewDate, setViewDate] = useState6(
       () => new Date(initialDate.getFullYear(), initialDate.getMonth(), 1)
     );
     const [focusedDate, setFocusedDate] = useState6(value ?? /* @__PURE__ */ new Date());
-    const handleFocusedDateChange = useCallback6((date) => {
+    const handleFocusedDateChange = useCallback7((date) => {
       setFocusedDate(date);
       setViewDate(new Date(date.getFullYear(), date.getMonth(), 1));
     }, []);
-    useEffect7(() => {
+    useEffect8(() => {
       if (!open) return;
       const container = containerRef.current;
       if (!container) return;
@@ -3540,7 +3838,7 @@ var DatePicker = forwardRef22(
       );
       btn?.focus();
     }, [focusedDate, open]);
-    useEffect7(() => {
+    useEffect8(() => {
       if (!open) return;
       function handleMouseDown(e) {
         if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -3550,7 +3848,7 @@ var DatePicker = forwardRef22(
       document.addEventListener("mousedown", handleMouseDown);
       return () => document.removeEventListener("mousedown", handleMouseDown);
     }, [open]);
-    useEffect7(() => {
+    useEffect8(() => {
       if (!open) return;
       function handleKey(e) {
         if (e.key === "Escape") {
@@ -3560,7 +3858,7 @@ var DatePicker = forwardRef22(
       document.addEventListener("keydown", handleKey);
       return () => document.removeEventListener("keydown", handleKey);
     }, [open]);
-    const handleToggle = useCallback6(() => {
+    const handleToggle = useCallback7(() => {
       if (disabled) return;
       setOpen((prev) => {
         if (!prev) {
@@ -3571,7 +3869,7 @@ var DatePicker = forwardRef22(
         return !prev;
       });
     }, [disabled, value]);
-    const handleDaySelect = useCallback6(
+    const handleDaySelect = useCallback7(
       (date) => {
         onChange(date);
         setOpen(false);
@@ -3582,9 +3880,9 @@ var DatePicker = forwardRef22(
     if (value) {
       displayText = formatDate(value);
     } else {
-      displayText = /* @__PURE__ */ jsx29("span", { style: placeholderStyle3, children: placeholder });
+      displayText = /* @__PURE__ */ jsx31("span", { style: placeholderStyle3, children: placeholder });
     }
-    return /* @__PURE__ */ jsxs14(
+    return /* @__PURE__ */ jsxs15(
       "div",
       {
         ref: (node) => {
@@ -3594,7 +3892,7 @@ var DatePicker = forwardRef22(
         },
         style: wrapperStyle3,
         children: [
-          /* @__PURE__ */ jsx29(
+          /* @__PURE__ */ jsx31(
             "button",
             {
               type: "button",
@@ -3612,7 +3910,7 @@ var DatePicker = forwardRef22(
               children: displayText
             }
           ),
-          open && /* @__PURE__ */ jsx29("div", { style: popoverStyle2, role: "dialog", "aria-label": "Date picker", children: /* @__PURE__ */ jsxs14(
+          open && /* @__PURE__ */ jsx31("div", { style: popoverStyle2, role: "dialog", "aria-label": "Date picker", children: /* @__PURE__ */ jsxs15(
             Calendar2.Root,
             {
               mode: "single",
@@ -3624,12 +3922,12 @@ var DatePicker = forwardRef22(
               minDate,
               maxDate,
               children: [
-                /* @__PURE__ */ jsxs14("div", { style: headerRowStyle2, children: [
-                  /* @__PURE__ */ jsx29(Calendar2.Nav, { direction: "prev" }),
-                  /* @__PURE__ */ jsx29(Calendar2.Header, {}),
-                  /* @__PURE__ */ jsx29(Calendar2.Nav, { direction: "next" })
+                /* @__PURE__ */ jsxs15("div", { style: headerRowStyle2, children: [
+                  /* @__PURE__ */ jsx31(Calendar2.Nav, { direction: "prev" }),
+                  /* @__PURE__ */ jsx31(Calendar2.Header, {}),
+                  /* @__PURE__ */ jsx31(Calendar2.Nav, { direction: "next" })
                 ] }),
-                /* @__PURE__ */ jsx29(
+                /* @__PURE__ */ jsx31(
                   CalendarGrid,
                   {
                     year: viewDate.getFullYear(),
@@ -3656,8 +3954,8 @@ var DatePicker = forwardRef22(
 
 // src/components/ErrorBoundary/ErrorBoundary.tsx
 import React from "react";
-import { semantic as t27 } from "../../core/dist/index.js";
-import { jsx as jsx30, jsxs as jsxs15 } from "react/jsx-runtime";
+import { semantic as t29 } from "../../core/dist/index.js";
+import { jsx as jsx32, jsxs as jsxs16 } from "react/jsx-runtime";
 var ErrorBoundary = class extends React.Component {
   constructor(props) {
     super(props);
@@ -3681,43 +3979,43 @@ var ErrorBoundary = class extends React.Component {
     if (fallback) {
       return fallback({ error, resetErrorBoundary: this.resetErrorBoundary });
     }
-    return /* @__PURE__ */ jsx30("div", { style: { borderColor: t27.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: t27.radiusLg }, children: /* @__PURE__ */ jsx30(
+    return /* @__PURE__ */ jsx32("div", { style: { borderColor: t29.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: t29.radiusLg }, children: /* @__PURE__ */ jsx32(
       Card,
       {
         variant: "flat",
         padding: "lg",
-        children: /* @__PURE__ */ jsxs15("div", { style: { display: "flex", flexDirection: "column", gap: t27.spaceMd }, children: [
-          /* @__PURE__ */ jsx30("div", { style: { display: "flex", alignItems: "center", gap: t27.spaceSm }, children: /* @__PURE__ */ jsx30(
+        children: /* @__PURE__ */ jsxs16("div", { style: { display: "flex", flexDirection: "column", gap: t29.spaceMd }, children: [
+          /* @__PURE__ */ jsx32("div", { style: { display: "flex", alignItems: "center", gap: t29.spaceSm }, children: /* @__PURE__ */ jsx32(
             "span",
             {
               style: {
-                fontSize: t27.fontSizeLg,
-                color: t27.colorError,
-                fontWeight: t27.fontWeightSemibold,
-                fontFamily: t27.fontSans
+                fontSize: t29.fontSizeLg,
+                color: t29.colorError,
+                fontWeight: t29.fontWeightSemibold,
+                fontFamily: t29.fontSans
               },
               children: "Something went wrong"
             }
           ) }),
-          /* @__PURE__ */ jsx30(
+          /* @__PURE__ */ jsx32(
             "p",
             {
               style: {
                 margin: 0,
-                fontFamily: t27.fontMono,
-                fontSize: t27.fontSizeSm,
-                lineHeight: t27.lineHeightBase,
-                color: t27.colorText,
-                background: t27.colorSurfaceRaised,
-                padding: t27.spaceSm,
-                borderRadius: t27.radiusMd,
+                fontFamily: t29.fontMono,
+                fontSize: t29.fontSizeSm,
+                lineHeight: t29.lineHeightBase,
+                color: t29.colorText,
+                background: t29.colorSurfaceRaised,
+                padding: t29.spaceSm,
+                borderRadius: t29.radiusMd,
                 wordBreak: "break-word"
               },
               children: error.message
             }
           ),
-          error.stack && /* @__PURE__ */ jsxs15("div", { children: [
-            /* @__PURE__ */ jsx30(
+          error.stack && /* @__PURE__ */ jsxs16("div", { children: [
+            /* @__PURE__ */ jsx32(
               "button",
               {
                 type: "button",
@@ -3726,27 +4024,27 @@ var ErrorBoundary = class extends React.Component {
                   background: "none",
                   border: "none",
                   padding: 0,
-                  fontFamily: t27.fontSans,
-                  fontSize: t27.fontSizeSm,
-                  color: t27.colorTextMuted,
+                  fontFamily: t29.fontSans,
+                  fontSize: t29.fontSizeSm,
+                  color: t29.colorTextMuted,
                   cursor: "pointer",
                   textDecoration: "underline"
                 },
                 children: showStack ? "Hide stack trace" : "Show stack trace"
               }
             ),
-            showStack && /* @__PURE__ */ jsx30(
+            showStack && /* @__PURE__ */ jsx32(
               "pre",
               {
                 style: {
-                  marginTop: t27.spaceSm,
-                  fontFamily: t27.fontMono,
-                  fontSize: t27.fontSizeXs,
-                  lineHeight: t27.lineHeightBase,
-                  color: t27.colorTextSecondary,
-                  background: t27.colorSurfaceRaised,
-                  padding: t27.spaceSm,
-                  borderRadius: t27.radiusMd,
+                  marginTop: t29.spaceSm,
+                  fontFamily: t29.fontMono,
+                  fontSize: t29.fontSizeXs,
+                  lineHeight: t29.lineHeightBase,
+                  color: t29.colorTextSecondary,
+                  background: t29.colorSurfaceRaised,
+                  padding: t29.spaceSm,
+                  borderRadius: t29.radiusMd,
                   overflow: "auto",
                   maxHeight: "200px",
                   whiteSpace: "pre-wrap",
@@ -3756,7 +4054,7 @@ var ErrorBoundary = class extends React.Component {
               }
             )
           ] }),
-          /* @__PURE__ */ jsx30("div", { children: /* @__PURE__ */ jsx30(Button, { variant: "secondary", size: "sm", onClick: this.resetErrorBoundary, children: "Try again" }) })
+          /* @__PURE__ */ jsx32("div", { children: /* @__PURE__ */ jsx32(Button, { variant: "secondary", size: "sm", onClick: this.resetErrorBoundary, children: "Try again" }) })
         ] })
       }
     ) });
@@ -3766,15 +4064,15 @@ var ErrorBoundary = class extends React.Component {
 // src/components/Toast/Toast.tsx
 import {
   createContext as createContext4,
-  useCallback as useCallback7,
+  useCallback as useCallback8,
   useContext as useContext4,
-  useEffect as useEffect8,
-  useRef as useRef8,
+  useEffect as useEffect9,
+  useRef as useRef9,
   useState as useState7
 } from "react";
 import { createPortal as createPortal2 } from "react-dom";
-import { semantic as t28, useInjectStyles as useInjectStyles11 } from "../../core/dist/index.js";
-import { jsx as jsx31, jsxs as jsxs16 } from "react/jsx-runtime";
+import { semantic as t30, useInjectStyles as useInjectStyles12 } from "../../core/dist/index.js";
+import { jsx as jsx33, jsxs as jsxs17 } from "react/jsx-runtime";
 var ToastContext = createContext4(null);
 function useToast() {
   const ctx = useContext4(ToastContext);
@@ -3830,10 +4128,10 @@ var toastCSS = `
 }
 `;
 var typeColors = {
-  success: { bg: t28.colorSuccessBg, fg: t28.colorSuccess, border: t28.colorSuccess },
-  error: { bg: t28.colorErrorBg, fg: t28.colorError, border: t28.colorError },
-  info: { bg: t28.colorInfoBg, fg: t28.colorInfo, border: t28.colorInfo },
-  warning: { bg: t28.colorWarningBg, fg: t28.colorWarning, border: t28.colorWarning }
+  success: { bg: t30.colorSuccessBg, fg: t30.colorSuccess, border: t30.colorSuccess },
+  error: { bg: t30.colorErrorBg, fg: t30.colorError, border: t30.colorError },
+  info: { bg: t30.colorInfoBg, fg: t30.colorInfo, border: t30.colorInfo },
+  warning: { bg: t30.colorWarningBg, fg: t30.colorWarning, border: t30.colorWarning }
 };
 function ToastMessage({
   item,
@@ -3841,17 +4139,17 @@ function ToastMessage({
 }) {
   const [exiting, setExiting] = useState7(false);
   const [paused, setPaused] = useState7(false);
-  const timerRef = useRef8(null);
-  const startedAtRef = useRef8(0);
-  const remainingRef = useRef8(item.duration);
+  const timerRef = useRef9(null);
+  const startedAtRef = useRef9(0);
+  const remainingRef = useRef9(item.duration);
   const autoDismiss = item.duration > 0;
-  const clearTimer = useCallback7(() => {
+  const clearTimer = useCallback8(() => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
     }
   }, []);
-  const startTimer = useCallback7(() => {
+  const startTimer = useCallback8(() => {
     if (!autoDismiss || remainingRef.current <= 0) return;
     clearTimer();
     startedAtRef.current = Date.now();
@@ -3860,14 +4158,14 @@ function ToastMessage({
     }, remainingRef.current);
     setPaused(false);
   }, [autoDismiss, clearTimer]);
-  const pauseTimer = useCallback7(() => {
+  const pauseTimer = useCallback8(() => {
     if (!autoDismiss || !timerRef.current) return;
     const elapsed = Date.now() - startedAtRef.current;
     remainingRef.current = Math.max(0, remainingRef.current - elapsed);
     clearTimer();
     setPaused(true);
   }, [autoDismiss, clearTimer]);
-  useEffect8(() => {
+  useEffect9(() => {
     startTimer();
     return clearTimer;
   }, []);
@@ -3877,7 +4175,7 @@ function ToastMessage({
     }
   };
   const colors = typeColors[item.type];
-  return /* @__PURE__ */ jsxs16(
+  return /* @__PURE__ */ jsxs17(
     "div",
     {
       role: "status",
@@ -3891,19 +4189,19 @@ function ToastMessage({
         position: "relative",
         display: "flex",
         alignItems: "center",
-        gap: t28.spaceSm,
-        padding: `${t28.spaceSm} ${t28.spaceMd}`,
-        paddingBottom: autoDismiss ? `calc(${t28.spaceSm} + 2px)` : t28.spaceSm,
-        backgroundColor: t28.colorSurfaceSolid,
+        gap: t30.spaceSm,
+        padding: `${t30.spaceSm} ${t30.spaceMd}`,
+        paddingBottom: autoDismiss ? `calc(${t30.spaceSm} + 2px)` : t30.spaceSm,
+        backgroundColor: t30.colorSurfaceSolid,
         backgroundImage: `linear-gradient(${colors.bg}, ${colors.bg})`,
         color: colors.fg,
-        borderRadius: t28.radiusMd,
-        borderLeft: `${t28.borderWidthAccent} solid ${colors.border}`,
-        boxShadow: t28.shadowMd,
-        fontSize: t28.fontSizeSm,
-        fontFamily: t28.fontSans,
-        fontWeight: t28.fontWeightMedium,
-        lineHeight: t28.lineHeightBase,
+        borderRadius: t30.radiusMd,
+        borderLeft: `${t30.borderWidthAccent} solid ${colors.border}`,
+        boxShadow: t30.shadowMd,
+        fontSize: t30.fontSizeSm,
+        fontFamily: t30.fontSans,
+        fontWeight: t30.fontWeightMedium,
+        lineHeight: t30.lineHeightBase,
         pointerEvents: "auto",
         animation: exiting ? "toast-fade-out 200ms ease forwards" : "toast-slide-in 250ms ease",
         maxWidth: "24rem",
@@ -3912,8 +4210,8 @@ function ToastMessage({
       },
       onAnimationEnd: handleAnimationEnd,
       children: [
-        /* @__PURE__ */ jsx31("span", { style: { flex: 1 }, children: item.message }),
-        /* @__PURE__ */ jsx31(
+        /* @__PURE__ */ jsx33("span", { style: { flex: 1 }, children: item.message }),
+        /* @__PURE__ */ jsx33(
           "button",
           {
             onClick: () => setExiting(true),
@@ -3931,16 +4229,16 @@ function ToastMessage({
               justifyContent: "center",
               width: "1.25rem",
               height: "1.25rem",
-              borderRadius: t28.radiusSm,
+              borderRadius: t30.radiusSm,
               color: colors.fg,
               opacity: 0.7,
-              fontSize: t28.fontSizeSm,
+              fontSize: t30.fontSizeSm,
               lineHeight: 1
             },
             children: "\xD7"
           }
         ),
-        autoDismiss && /* @__PURE__ */ jsx31(
+        autoDismiss && /* @__PURE__ */ jsx33(
           "span",
           {
             "data-toast-timer": "",
@@ -3961,20 +4259,20 @@ function ToastContainer({
   onDismiss,
   position
 }) {
-  useInjectStyles11(STYLE_ID, toastCSS);
+  useInjectStyles12(STYLE_ID, toastCSS);
   if (toasts.length === 0) return null;
   const positionStyles = {
     position: "fixed",
-    zIndex: t28.zIndexToast,
+    zIndex: t30.zIndexToast,
     display: "flex",
     flexDirection: "column",
-    gap: t28.spaceSm,
+    gap: t30.spaceSm,
     pointerEvents: "none",
-    ...position.startsWith("top") ? { top: t28.spaceLg } : { bottom: t28.spaceLg },
-    ...position.endsWith("right") ? { right: t28.spaceLg } : { left: t28.spaceLg }
+    ...position.startsWith("top") ? { top: t30.spaceLg } : { bottom: t30.spaceLg },
+    ...position.endsWith("right") ? { right: t30.spaceLg } : { left: t30.spaceLg }
   };
   return createPortal2(
-    /* @__PURE__ */ jsx31("div", { "aria-live": "polite", style: positionStyles, children: toasts.map((item) => /* @__PURE__ */ jsx31(ToastMessage, { item, onDismiss }, item.id)) }),
+    /* @__PURE__ */ jsx33("div", { "aria-live": "polite", style: positionStyles, children: toasts.map((item) => /* @__PURE__ */ jsx33(ToastMessage, { item, onDismiss }, item.id)) }),
     document.body
   );
 }
@@ -3984,10 +4282,10 @@ function ToastProvider({
   position = "top-right"
 }) {
   const [toasts, setToasts] = useState7([]);
-  const dismiss = useCallback7((id) => {
-    setToasts((prev) => prev.filter((t39) => t39.id !== id));
+  const dismiss = useCallback8((id) => {
+    setToasts((prev) => prev.filter((t41) => t41.id !== id));
   }, []);
-  const showToast = useCallback7(
+  const showToast = useCallback8(
     (message, typeOrOptions) => {
       const opts = typeof typeOrOptions === "string" ? { type: typeOrOptions } : typeOrOptions ?? {};
       const item = {
@@ -4000,25 +4298,25 @@ function ToastProvider({
     },
     []
   );
-  return /* @__PURE__ */ jsxs16(ToastContext.Provider, { value: { showToast }, children: [
+  return /* @__PURE__ */ jsxs17(ToastContext.Provider, { value: { showToast }, children: [
     children,
-    /* @__PURE__ */ jsx31(ToastContainer, { toasts, onDismiss: dismiss, position })
+    /* @__PURE__ */ jsx33(ToastContainer, { toasts, onDismiss: dismiss, position })
   ] });
 }
 
 // src/components/Combobox/Combobox.tsx
 import {
   createContext as createContext5,
-  useCallback as useCallback8,
+  useCallback as useCallback9,
   useContext as useContext5,
-  useEffect as useEffect9,
+  useEffect as useEffect10,
   useId as useId7,
-  useMemo as useMemo3,
-  useRef as useRef9,
+  useMemo as useMemo4,
+  useRef as useRef10,
   useState as useState8
 } from "react";
-import { semantic as t29, useInjectStyles as useInjectStyles12 } from "../../core/dist/index.js";
-import { jsx as jsx32 } from "react/jsx-runtime";
+import { semantic as t31, useInjectStyles as useInjectStyles13 } from "../../core/dist/index.js";
+import { jsx as jsx34 } from "react/jsx-runtime";
 var COMBOBOX_STYLES_ID = "alttab-combobox";
 var comboboxCSS = (
   /* css */
@@ -4080,7 +4378,7 @@ function Root3({
   hasError = false,
   children
 }) {
-  useInjectStyles12(COMBOBOX_STYLES_ID, comboboxCSS);
+  useInjectStyles13(COMBOBOX_STYLES_ID, comboboxCSS);
   const instanceId = useId7();
   const listboxId = `${instanceId}-listbox`;
   const [internalValue, setInternalValue] = useState8(defaultValue ?? "");
@@ -4089,11 +4387,11 @@ function Root3({
   const [open, setOpen] = useState8(false);
   const [focusedValue, setFocusedValue] = useState8(null);
   const [dropDirection, setDropDirection] = useState8("down");
-  const containerRef = useRef9(null);
-  const inputRef = useRef9(null);
-  const suppressNextOpenRef = useRef9(false);
+  const containerRef = useRef10(null);
+  const inputRef = useRef10(null);
+  const suppressNextOpenRef = useRef10(false);
   const [items, setItems] = useState8([]);
-  const registerItem = useCallback8((item) => {
+  const registerItem = useCallback9((item) => {
     setItems((prev) => {
       if (prev.some((p) => p.value === item.value)) {
         return prev.map((p) => p.value === item.value ? item : p);
@@ -4101,17 +4399,17 @@ function Root3({
       return [...prev, item];
     });
   }, []);
-  const unregisterItem = useCallback8((itemValue) => {
+  const unregisterItem = useCallback9((itemValue) => {
     setItems((prev) => prev.filter((p) => p.value !== itemValue));
   }, []);
-  const setValue = useCallback8(
+  const setValue = useCallback9(
     (next) => {
       if (!isControlled) setInternalValue(next);
       onValueChange?.(next);
     },
     [isControlled, onValueChange]
   );
-  const calculateDirection = useCallback8(() => {
+  const calculateDirection = useCallback9(() => {
     const input = inputRef.current;
     if (!input) return;
     const rect = input.getBoundingClientRect();
@@ -4122,17 +4420,17 @@ function Root3({
       spaceBelow >= estimatedHeight ? "down" : spaceAbove > spaceBelow ? "up" : "down"
     );
   }, [items.length]);
-  const openMenu = useCallback8(() => {
+  const openMenu = useCallback9(() => {
     if (disabled) return;
     calculateDirection();
     setOpen(true);
     setFocusedValue(null);
   }, [disabled, calculateDirection]);
-  const closeMenu = useCallback8(() => {
+  const closeMenu = useCallback9(() => {
     setOpen(false);
     setFocusedValue(null);
   }, []);
-  const selectItem = useCallback8(
+  const selectItem = useCallback9(
     (itemValue) => {
       const item = items.find((i) => i.value === itemValue);
       if (!item) return;
@@ -4146,7 +4444,7 @@ function Root3({
     },
     [items, setValue, onSelect, closeMenu]
   );
-  useEffect9(() => {
+  useEffect10(() => {
     if (!open) return;
     function handleMouseDown(e) {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -4156,7 +4454,7 @@ function Root3({
     document.addEventListener("mousedown", handleMouseDown);
     return () => document.removeEventListener("mousedown", handleMouseDown);
   }, [open, closeMenu]);
-  const handleKeyDown = useCallback8(
+  const handleKeyDown = useCallback9(
     (e) => {
       if (e.key === "Escape") {
         if (open) {
@@ -4209,7 +4507,7 @@ function Root3({
     [open, openMenu, closeMenu, focusedValue, items, selectItem]
   );
   suppressNextOpenRef.__combobox_shared = true;
-  const ctx = useMemo3(
+  const ctx = useMemo4(
     () => ({
       value,
       setValue,
@@ -4248,7 +4546,7 @@ function Root3({
     ]
   );
   ctx.__suppressNextOpen = suppressNextOpenRef;
-  return /* @__PURE__ */ jsx32(ComboboxContext.Provider, { value: ctx, children: /* @__PURE__ */ jsx32("div", { ref: containerRef, style: wrapperStyle4, onKeyDown: handleKeyDown, children }) });
+  return /* @__PURE__ */ jsx34(ComboboxContext.Provider, { value: ctx, children: /* @__PURE__ */ jsx34("div", { ref: containerRef, style: wrapperStyle4, onKeyDown: handleKeyDown, children }) });
 }
 function Input3({
   placeholder,
@@ -4285,14 +4583,14 @@ function Input3({
   } = ctx;
   const suppressNextOpenRef = ctx.__suppressNextOpen;
   const activedescendant = open && focusedValue ? `${instanceId}-opt-${focusedValue}` : void 0;
-  const handleChange = useCallback8(
+  const handleChange = useCallback9(
     (e) => {
       setValue(e.target.value);
       if (!open) openMenu();
     },
     [setValue, open, openMenu]
   );
-  const handleFocus = useCallback8(
+  const handleFocus = useCallback9(
     (e) => {
       if (suppressNextOpenRef.current) {
         suppressNextOpenRef.current = false;
@@ -4303,7 +4601,7 @@ function Input3({
     },
     [disabled, items.length, openMenu, onFocusProp, suppressNextOpenRef]
   );
-  return /* @__PURE__ */ jsx32(
+  return /* @__PURE__ */ jsx34(
     "input",
     {
       ref: inputRef,
@@ -4346,8 +4644,8 @@ function Input3({
 }
 function List({ children }) {
   const { open, listboxId, dropDirection, focusedValue } = useComboboxContext("List");
-  const ref = useRef9(null);
-  useEffect9(() => {
+  const ref = useRef10(null);
+  useEffect10(() => {
     if (!open || !focusedValue) return;
     const menu = ref.current;
     if (!menu) return;
@@ -4361,15 +4659,15 @@ function List({ children }) {
     top: "100%",
     left: 0,
     right: 0,
-    marginTop: t29.spaceXs
+    marginTop: t31.spaceXs
   } : {
     position: "absolute",
     bottom: "100%",
     left: 0,
     right: 0,
-    marginBottom: t29.spaceXs
+    marginBottom: t31.spaceXs
   };
-  return /* @__PURE__ */ jsx32(
+  return /* @__PURE__ */ jsx34(
     "div",
     {
       ref,
@@ -4378,12 +4676,12 @@ function List({ children }) {
       hidden: !open,
       style: open ? {
         ...positionStyle,
-        background: t29.colorSurfacePanel,
-        border: `${t29.borderWidthDefault} solid ${t29.colorBorder}`,
-        borderRadius: t29.radiusMd,
-        padding: t29.spaceXs,
-        zIndex: t29.zIndexSticky,
-        boxShadow: t29.shadowMd,
+        background: t31.colorSurfacePanel,
+        border: `${t31.borderWidthDefault} solid ${t31.colorBorder}`,
+        borderRadius: t31.radiusMd,
+        padding: t31.spaceXs,
+        zIndex: t31.zIndexSticky,
+        boxShadow: t31.shadowMd,
         maxHeight: "16rem",
         overflowY: "auto",
         boxSizing: "border-box"
@@ -4407,7 +4705,7 @@ function Item2({
     instanceId
   } = useComboboxContext("Item");
   const resolvedText = textValue ?? (typeof children === "string" ? children : value);
-  useEffect9(() => {
+  useEffect10(() => {
     registerItem({ value, textValue: resolvedText });
     return () => unregisterItem(value);
   }, [value, resolvedText, registerItem, unregisterItem]);
@@ -4418,7 +4716,7 @@ function Item2({
     isFocused ? "alttab-combobox-option--focused" : "",
     isSelected ? "alttab-combobox-option--selected" : ""
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ jsx32(
+  return /* @__PURE__ */ jsx34(
     "button",
     {
       type: "button",
@@ -4434,15 +4732,15 @@ function Item2({
   );
 }
 function Empty({ children }) {
-  return /* @__PURE__ */ jsx32(
+  return /* @__PURE__ */ jsx34(
     "div",
     {
       role: "presentation",
       style: {
-        padding: `${t29.spaceXs} ${t29.spaceSm}`,
-        fontSize: t29.fontSizeSm,
-        color: t29.colorTextMuted,
-        fontFamily: t29.fontSans
+        padding: `${t31.spaceXs} ${t31.spaceSm}`,
+        fontSize: t31.fontSizeSm,
+        color: t31.colorTextMuted,
+        fontFamily: t31.fontSans
       },
       children
     }
@@ -4456,24 +4754,24 @@ var wrapperStyle4 = {
 var inputBaseStyle = {
   display: "block",
   width: "100%",
-  padding: `${t29.spaceSm} ${t29.spaceMd}`,
-  fontSize: t29.fontSizeSm,
-  lineHeight: t29.lineHeightTight,
-  fontFamily: t29.fontSans,
-  color: t29.colorText,
-  background: t29.colorSurfaceInput,
-  border: `${t29.borderWidthDefault} solid ${t29.colorBorder}`,
-  borderRadius: t29.radiusMd,
+  padding: `${t31.spaceSm} ${t31.spaceMd}`,
+  fontSize: t31.fontSizeSm,
+  lineHeight: t31.lineHeightTight,
+  fontFamily: t31.fontSans,
+  color: t31.colorText,
+  background: t31.colorSurfaceInput,
+  border: `${t31.borderWidthDefault} solid ${t31.colorBorder}`,
+  borderRadius: t31.radiusMd,
   outline: "none",
-  transition: `border-color ${t29.transitionBase}, box-shadow ${t29.transitionBase}`,
+  transition: `border-color ${t31.transitionBase}, box-shadow ${t31.transitionBase}`,
   boxSizing: "border-box"
 };
 var errorBorderStyle4 = {
-  borderColor: t29.colorBorderError
+  borderColor: t31.colorBorderError
 };
 var disabledStyle4 = {
-  background: t29.colorSurfaceDisabled,
-  color: t29.colorTextDisabled,
+  background: t31.colorSurfaceDisabled,
+  color: t31.colorTextDisabled,
   cursor: "not-allowed"
 };
 var Combobox = {
@@ -4485,9 +4783,9 @@ var Combobox = {
 };
 
 // src/components/TableFilters/TableFilters.tsx
-import { useState as useState9, useEffect as useEffect10, useRef as useRef10, useCallback as useCallback9 } from "react";
-import { semantic as t30 } from "../../core/dist/index.js";
-import { jsx as jsx33, jsxs as jsxs17 } from "react/jsx-runtime";
+import { useState as useState9, useEffect as useEffect11, useRef as useRef11, useCallback as useCallback10 } from "react";
+import { semantic as t32 } from "../../core/dist/index.js";
+import { jsx as jsx35, jsxs as jsxs18 } from "react/jsx-runtime";
 function DebouncedTextFilter({
   config,
   value,
@@ -4495,11 +4793,11 @@ function DebouncedTextFilter({
 }) {
   const delay = config.debounceMs ?? 300;
   const [local, setLocal] = useState9(value);
-  const timerRef = useRef10(null);
-  useEffect10(() => {
+  const timerRef = useRef11(null);
+  useEffect11(() => {
     setLocal(value);
   }, [value]);
-  const handleChange = useCallback9(
+  const handleChange = useCallback10(
     (e) => {
       const next = e.target.value;
       setLocal(next);
@@ -4510,12 +4808,12 @@ function DebouncedTextFilter({
     },
     [config.key, delay, onCommit]
   );
-  useEffect10(() => {
+  useEffect11(() => {
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
   }, []);
-  return /* @__PURE__ */ jsx33("div", { style: { minWidth: "10rem", flex: "1 1 10rem" }, children: /* @__PURE__ */ jsx33(
+  return /* @__PURE__ */ jsx35("div", { style: { minWidth: "10rem", flex: "1 1 10rem" }, children: /* @__PURE__ */ jsx35(
     Input,
     {
       value: local,
@@ -4529,15 +4827,15 @@ function SelectFilter({
   value,
   onCommit
 }) {
-  const handleValueChange = useCallback9(
+  const handleValueChange = useCallback10(
     (next) => {
       onCommit(config.key, next);
     },
     [config.key, onCommit]
   );
-  return /* @__PURE__ */ jsx33("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ jsxs17(Select.Root, { value, onValueChange: handleValueChange, children: [
-    /* @__PURE__ */ jsx33(Select.Trigger, { children: /* @__PURE__ */ jsx33(Select.Value, { placeholder: config.placeholder }) }),
-    /* @__PURE__ */ jsx33(Select.Content, { children: config.options.map((opt) => /* @__PURE__ */ jsx33(Select.Item, { value: opt.value, children: opt.label }, opt.value)) })
+  return /* @__PURE__ */ jsx35("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ jsxs18(Select.Root, { value, onValueChange: handleValueChange, children: [
+    /* @__PURE__ */ jsx35(Select.Trigger, { children: /* @__PURE__ */ jsx35(Select.Value, { placeholder: config.placeholder }) }),
+    /* @__PURE__ */ jsx35(Select.Content, { children: config.options.map((opt) => /* @__PURE__ */ jsx35(Select.Item, { value: opt.value, children: opt.label }, opt.value)) })
   ] }) });
 }
 function TableFilters({
@@ -4547,19 +4845,19 @@ function TableFilters({
   style,
   ...props
 }) {
-  const handleCommit = useCallback9(
+  const handleCommit = useCallback10(
     (key, value) => {
       onChange({ ...values, [key]: value });
     },
     [values, onChange]
   );
-  return /* @__PURE__ */ jsx33(
+  return /* @__PURE__ */ jsx35(
     "div",
     {
       style: {
         display: "flex",
         flexWrap: "wrap",
-        gap: t30.spaceSm,
+        gap: t32.spaceSm,
         alignItems: "flex-start",
         ...style
       },
@@ -4567,7 +4865,7 @@ function TableFilters({
       children: filters.map((filter) => {
         const val = values[filter.key] ?? "";
         if (filter.type === "text") {
-          return /* @__PURE__ */ jsx33(
+          return /* @__PURE__ */ jsx35(
             DebouncedTextFilter,
             {
               config: filter,
@@ -4577,7 +4875,7 @@ function TableFilters({
             filter.key
           );
         }
-        return /* @__PURE__ */ jsx33(
+        return /* @__PURE__ */ jsx35(
           SelectFilter,
           {
             config: filter,
@@ -4592,9 +4890,9 @@ function TableFilters({
 }
 
 // src/components/ChipPicker/ChipPicker.tsx
-import { useCallback as useCallback10, useId as useId8, useState as useState10 } from "react";
-import { semantic as t31, useInjectStyles as useInjectStyles13 } from "../../core/dist/index.js";
-import { jsx as jsx34, jsxs as jsxs18 } from "react/jsx-runtime";
+import { useCallback as useCallback11, useId as useId8, useState as useState10 } from "react";
+import { semantic as t33, useInjectStyles as useInjectStyles14 } from "../../core/dist/index.js";
+import { jsx as jsx36, jsxs as jsxs19 } from "react/jsx-runtime";
 function ChipPicker({
   items,
   selected: controlledSelected,
@@ -4609,24 +4907,24 @@ function ChipPicker({
     () => defaultSelected ?? []
   );
   const selected = isControlled ? controlledSelected : internalSelected;
-  const applySelection = useCallback10(
+  const applySelection = useCallback11(
     (next) => {
       if (!isControlled) setInternalSelected(next);
       onChange?.(next);
     },
     [isControlled, onChange]
   );
-  useInjectStyles13(
+  useInjectStyles14(
     styleId,
     `[data-chip-picker-id="${styleId}"] button:hover {
-      background: ${t31.colorSurfaceRaised} !important;
+      background: ${t33.colorSurfaceRaised} !important;
     }
     [data-chip-picker-id="${styleId}"] button[aria-pressed="true"]:hover {
-      background: ${t31.colorActionSecondaryHover} !important;
+      background: ${t33.colorActionSecondaryHover} !important;
     }
     [data-chip-picker-id="${styleId}"] button:focus-visible {
-      outline: ${t31.focusRingWidth} solid ${t31.focusRingColor};
-      outline-offset: ${t31.focusRingOffset};
+      outline: ${t33.focusRingWidth} solid ${t33.focusRingColor};
+      outline-offset: ${t33.focusRingOffset};
     }`
   );
   const toggle = (value) => {
@@ -4656,30 +4954,30 @@ function ChipPicker({
   const chipStyle = (isSelected) => ({
     display: "inline-flex",
     alignItems: "center",
-    padding: `${t31.spaceXs} ${t31.spaceSm}`,
-    fontSize: t31.fontSizeSm,
-    fontFamily: t31.fontSans,
-    fontWeight: t31.fontWeightMedium,
-    lineHeight: t31.lineHeightTight,
-    color: isSelected ? t31.colorActionPrimary : t31.colorText,
-    background: isSelected ? t31.colorActionSecondary : "transparent",
-    border: `${t31.borderWidthDefault} solid ${isSelected ? t31.colorActionPrimary : t31.colorBorder}`,
-    borderRadius: t31.radiusFull,
+    padding: `${t33.spaceXs} ${t33.spaceSm}`,
+    fontSize: t33.fontSizeSm,
+    fontFamily: t33.fontSans,
+    fontWeight: t33.fontWeightMedium,
+    lineHeight: t33.lineHeightTight,
+    color: isSelected ? t33.colorActionPrimary : t33.colorText,
+    background: isSelected ? t33.colorActionSecondary : "transparent",
+    border: `${t33.borderWidthDefault} solid ${isSelected ? t33.colorActionPrimary : t33.colorBorder}`,
+    borderRadius: t33.radiusFull,
     cursor: "pointer",
-    transition: `background ${t31.transitionFast}, border-color ${t31.transitionFast}, color ${t31.transitionFast}`,
+    transition: `background ${t33.transitionFast}, border-color ${t33.transitionFast}, color ${t33.transitionFast}`,
     outline: "none"
   });
-  const renderChips = (chips) => /* @__PURE__ */ jsx34(
+  const renderChips = (chips) => /* @__PURE__ */ jsx36(
     "div",
     {
       style: {
         display: "flex",
         flexWrap: "wrap",
-        gap: t31.spaceSm
+        gap: t33.spaceSm
       },
       children: chips.map((item) => {
         const isSelected = selected.includes(item.value);
-        return /* @__PURE__ */ jsx34(
+        return /* @__PURE__ */ jsx36(
           "button",
           {
             type: "button",
@@ -4693,7 +4991,7 @@ function ChipPicker({
       })
     }
   );
-  return /* @__PURE__ */ jsx34(
+  return /* @__PURE__ */ jsx36(
     "div",
     {
       "data-chip-picker-id": styleId,
@@ -4702,10 +5000,10 @@ function ChipPicker({
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: t31.spaceMd
+        gap: t33.spaceMd
       },
-      children: groups.map((group, i) => /* @__PURE__ */ jsxs18("div", { style: { display: "flex", flexDirection: "column", gap: t31.spaceSm }, children: [
-        group.label !== null && /* @__PURE__ */ jsx34("div", { style: i > 0 ? { marginTop: t31.spaceXs } : void 0, children: /* @__PURE__ */ jsx34("div", { style: sectionLabelStyle, children: group.label }) }),
+      children: groups.map((group, i) => /* @__PURE__ */ jsxs19("div", { style: { display: "flex", flexDirection: "column", gap: t33.spaceSm }, children: [
+        group.label !== null && /* @__PURE__ */ jsx36("div", { style: i > 0 ? { marginTop: t33.spaceXs } : void 0, children: /* @__PURE__ */ jsx36("div", { style: sectionLabelStyle, children: group.label }) }),
         renderChips(group.chips)
       ] }, group.label ?? "__ungrouped"))
     }
@@ -4713,14 +5011,14 @@ function ChipPicker({
 }
 
 // src/components/SearchInput/SearchInput.tsx
-import { forwardRef as forwardRef23, useState as useState11, useEffect as useEffect11, useRef as useRef11, useCallback as useCallback11 } from "react";
-import { semantic as t32, useInjectStyles as useInjectStyles14 } from "../../core/dist/index.js";
-import { jsx as jsx35, jsxs as jsxs19 } from "react/jsx-runtime";
+import { forwardRef as forwardRef23, useState as useState11, useEffect as useEffect12, useRef as useRef12, useCallback as useCallback12 } from "react";
+import { semantic as t34, useInjectStyles as useInjectStyles15 } from "../../core/dist/index.js";
+import { jsx as jsx37, jsxs as jsxs20 } from "react/jsx-runtime";
 var STYLE_ID2 = "4lt7ab-search-input";
 var hoverFocusCSS = `
   .search-input-wrapper:focus-within {
-    border-color: ${t32.colorBorderFocused};
-    box-shadow: 0 0 0 ${t32.focusRingWidth} ${t32.focusRingColor};
+    border-color: ${t34.colorBorderFocused};
+    box-shadow: 0 0 0 ${t34.focusRingWidth} ${t34.focusRingColor};
   }
   @media (prefers-reduced-motion: reduce) {
     .search-input-wrapper {
@@ -4731,17 +5029,17 @@ var hoverFocusCSS = `
 var wrapperStyle5 = {
   display: "flex",
   alignItems: "center",
-  gap: t32.spaceXs,
+  gap: t34.spaceXs,
   width: "100%",
-  padding: `${t32.spaceSm} ${t32.spaceMd}`,
-  fontSize: t32.fontSizeSm,
-  lineHeight: t32.lineHeightTight,
-  fontFamily: t32.fontSans,
-  color: t32.colorText,
-  background: t32.colorSurfaceInput,
-  border: `${t32.borderWidthDefault} solid ${t32.colorBorder}`,
-  borderRadius: t32.radiusMd,
-  transition: `border-color ${t32.transitionBase}, box-shadow ${t32.transitionBase}`,
+  padding: `${t34.spaceSm} ${t34.spaceMd}`,
+  fontSize: t34.fontSizeSm,
+  lineHeight: t34.lineHeightTight,
+  fontFamily: t34.fontSans,
+  color: t34.colorText,
+  background: t34.colorSurfaceInput,
+  border: `${t34.borderWidthDefault} solid ${t34.colorBorder}`,
+  borderRadius: t34.radiusMd,
+  transition: `border-color ${t34.transitionBase}, box-shadow ${t34.transitionBase}`,
   boxSizing: "border-box"
 };
 var inputStyle = {
@@ -4757,8 +5055,8 @@ var inputStyle = {
   padding: 0
 };
 var disabledWrapperStyle = {
-  background: t32.colorSurfaceDisabled,
-  color: t32.colorTextDisabled,
+  background: t34.colorSurfaceDisabled,
+  color: t34.colorTextDisabled,
   cursor: "not-allowed"
 };
 var SearchInput = forwardRef23(
@@ -4778,15 +5076,15 @@ var SearchInput = forwardRef23(
     "aria-describedby": ariaDescribedBy,
     "data-testid": dataTestId
   }, ref) {
-    useInjectStyles14(STYLE_ID2, hoverFocusCSS);
+    useInjectStyles15(STYLE_ID2, hoverFocusCSS);
     const [localValue, setLocalValue] = useState11(value);
-    const timerRef = useRef11(null);
-    const onSearchRef = useRef11(onSearch);
+    const timerRef = useRef12(null);
+    const onSearchRef = useRef12(onSearch);
     onSearchRef.current = onSearch;
-    useEffect11(() => {
+    useEffect12(() => {
       setLocalValue(value);
     }, [value]);
-    const handleChange = useCallback11((e) => {
+    const handleChange = useCallback12((e) => {
       const next = e.target.value;
       setLocalValue(next);
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -4794,12 +5092,12 @@ var SearchInput = forwardRef23(
         onSearchRef.current(next);
       }, debounceMs);
     }, [debounceMs]);
-    useEffect11(() => {
+    useEffect12(() => {
       return () => {
         if (timerRef.current) clearTimeout(timerRef.current);
       };
     }, []);
-    return /* @__PURE__ */ jsxs19(
+    return /* @__PURE__ */ jsxs20(
       "div",
       {
         className: "search-input-wrapper",
@@ -4809,8 +5107,8 @@ var SearchInput = forwardRef23(
           ...disabled ? disabledWrapperStyle : {}
         },
         children: [
-          /* @__PURE__ */ jsx35("span", { style: { color: t32.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ jsx35(Icon, { name: "search", size: "sm" }) }),
-          /* @__PURE__ */ jsx35(
+          /* @__PURE__ */ jsx37("span", { style: { color: t34.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ jsx37(Icon, { name: "search", size: "sm" }) }),
+          /* @__PURE__ */ jsx37(
             "input",
             {
               ref,
@@ -4829,7 +5127,7 @@ var SearchInput = forwardRef23(
               style: inputStyle
             }
           ),
-          trailing && /* @__PURE__ */ jsx35("div", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: trailing })
+          trailing && /* @__PURE__ */ jsx37("div", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: trailing })
         ]
       }
     );
@@ -4837,18 +5135,18 @@ var SearchInput = forwardRef23(
 );
 
 // src/components/SegmentedControl/SegmentedControl.tsx
-import { useCallback as useCallback12, useLayoutEffect, useRef as useRef12, useState as useState12 } from "react";
-import { semantic as t33, useInjectStyles as useInjectStyles15 } from "../../core/dist/index.js";
-import { jsx as jsx36, jsxs as jsxs20 } from "react/jsx-runtime";
+import { useCallback as useCallback13, useLayoutEffect, useRef as useRef13, useState as useState12 } from "react";
+import { semantic as t35, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
+import { jsx as jsx38, jsxs as jsxs21 } from "react/jsx-runtime";
 var STYLE_ID3 = "4lt7ab-segmented-control";
 var hoverCSS = `
   .segmented-ctrl-btn:hover:not([aria-pressed="true"]) {
-    color: ${t33.colorText};
+    color: ${t35.colorText};
   }
   .segmented-ctrl-btn:focus-visible {
-    outline: ${t33.focusRingWidth} solid ${t33.focusRingColor};
-    outline-offset: ${t33.focusRingOffset};
-    border-radius: ${t33.radiusFull};
+    outline: ${t35.focusRingWidth} solid ${t35.focusRingColor};
+    outline-offset: ${t35.focusRingOffset};
+    border-radius: ${t35.radiusFull};
     z-index: 2;
   }
   @media (prefers-reduced-motion: reduce) {
@@ -4869,23 +5167,23 @@ function SegmentedControl({
   size = "md",
   "aria-label": ariaLabel
 }) {
-  useInjectStyles15(STYLE_ID3, hoverCSS);
+  useInjectStyles16(STYLE_ID3, hoverCSS);
   const isControlled = controlledValue !== void 0;
   const [internalValue, setInternalValue] = useState12(
     () => defaultValue ?? segments[0]?.value ?? ""
   );
   const value = isControlled ? controlledValue : internalValue;
-  const handleSelect = useCallback12(
+  const handleSelect = useCallback13(
     (next) => {
       if (!isControlled) setInternalValue(next);
       onChange?.(next);
     },
     [isControlled, onChange]
   );
-  const containerRef = useRef12(null);
+  const containerRef = useRef13(null);
   const [indicator, setIndicator] = useState12(null);
   const s = sizes[size];
-  const updateIndicator = useCallback12(() => {
+  const updateIndicator = useCallback13(() => {
     const container = containerRef.current;
     if (!container) return;
     const activeBtn = container.querySelector('[aria-pressed="true"]');
@@ -4908,7 +5206,7 @@ function SegmentedControl({
     if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, [updateIndicator]);
-  return /* @__PURE__ */ jsxs20(
+  return /* @__PURE__ */ jsxs21(
     "div",
     {
       ref: containerRef,
@@ -4919,14 +5217,14 @@ function SegmentedControl({
         display: "inline-flex",
         alignItems: "center",
         height: s.height,
-        background: t33.colorSurfaceInput,
-        borderRadius: t33.radiusFull,
-        border: `${t33.borderWidthDefault} solid ${t33.colorBorder}`,
+        background: t35.colorSurfaceInput,
+        borderRadius: t35.radiusFull,
+        border: `${t35.borderWidthDefault} solid ${t35.colorBorder}`,
         padding: 2,
         boxSizing: "border-box"
       },
       children: [
-        indicator && /* @__PURE__ */ jsx36(
+        indicator && /* @__PURE__ */ jsx38(
           "div",
           {
             className: "segmented-ctrl-indicator",
@@ -4936,9 +5234,9 @@ function SegmentedControl({
               left: indicator.left,
               width: indicator.width,
               height: s.height - 6,
-              borderRadius: t33.radiusFull,
-              background: t33.colorActionPrimary,
-              transition: `left ${t33.transitionSlow}, width ${t33.transitionSlow}`,
+              borderRadius: t35.radiusFull,
+              background: t35.colorActionPrimary,
+              transition: `left ${t35.transitionSlow}, width ${t35.transitionSlow}`,
               pointerEvents: "none"
             }
           }
@@ -4947,7 +5245,7 @@ function SegmentedControl({
           const isActive = seg.value === value;
           const hasIcon = !!seg.icon;
           const iconOnly = hasIcon && !seg.label;
-          return /* @__PURE__ */ jsxs20(
+          return /* @__PURE__ */ jsxs21(
             "button",
             {
               type: "button",
@@ -4960,24 +5258,24 @@ function SegmentedControl({
                 display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "center",
-                gap: t33.spaceXs,
+                gap: t35.spaceXs,
                 height: s.height - 6,
                 padding: iconOnly ? `0 ${s.px - 2}px` : `0 ${s.px}px`,
                 border: "none",
-                borderRadius: t33.radiusFull,
+                borderRadius: t35.radiusFull,
                 background: "transparent",
-                color: isActive ? t33.colorTextInverse : t33.colorTextMuted,
+                color: isActive ? t35.colorTextInverse : t35.colorTextMuted,
                 fontSize: s.fontSize,
-                fontFamily: t33.fontSans,
-                fontWeight: isActive ? t33.fontWeightSemibold : t33.fontWeightNormal,
+                fontFamily: t35.fontSans,
+                fontWeight: isActive ? t35.fontWeightSemibold : t35.fontWeightNormal,
                 cursor: "pointer",
-                transition: `color ${t33.transitionBase}`,
+                transition: `color ${t35.transitionBase}`,
                 whiteSpace: "nowrap",
                 lineHeight: 1
               },
               children: [
-                hasIcon && /* @__PURE__ */ jsx36(Icon, { name: seg.icon, size: s.iconSize }),
-                seg.label && /* @__PURE__ */ jsx36("span", { children: seg.label })
+                hasIcon && /* @__PURE__ */ jsx38(Icon, { name: seg.icon, size: s.iconSize }),
+                seg.label && /* @__PURE__ */ jsx38("span", { children: seg.label })
               ]
             },
             seg.value
@@ -4990,8 +5288,8 @@ function SegmentedControl({
 
 // src/components/AlertBanner/AlertBanner.tsx
 import { forwardRef as forwardRef24 } from "react";
-import { semantic as t34, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
-import { jsx as jsx37, jsxs as jsxs21 } from "react/jsx-runtime";
+import { semantic as t36, useInjectStyles as useInjectStyles17 } from "../../core/dist/index.js";
+import { jsx as jsx39, jsxs as jsxs22 } from "react/jsx-runtime";
 var STYLE_ID4 = "4lt7ab-alert-banner";
 var alertBannerCSS = `
 @keyframes alert-banner-slide-in {
@@ -5009,23 +5307,23 @@ var alertBannerCSS = `
 }
 `;
 var variantColors2 = {
-  info: { bg: t34.colorInfoBg, fg: t34.colorInfo, border: t34.colorInfo },
-  warning: { bg: t34.colorWarningBg, fg: t34.colorWarning, border: t34.colorWarning },
-  error: { bg: t34.colorErrorBg, fg: t34.colorError, border: t34.colorError },
-  success: { bg: t34.colorSuccessBg, fg: t34.colorSuccess, border: t34.colorSuccess }
+  info: { bg: t36.colorInfoBg, fg: t36.colorInfo, border: t36.colorInfo },
+  warning: { bg: t36.colorWarningBg, fg: t36.colorWarning, border: t36.colorWarning },
+  error: { bg: t36.colorErrorBg, fg: t36.colorError, border: t36.colorError },
+  success: { bg: t36.colorSuccessBg, fg: t36.colorSuccess, border: t36.colorSuccess }
 };
 var defaultIcons = {
-  info: /* @__PURE__ */ jsx37(IconInfo, { size: 20 }),
-  warning: /* @__PURE__ */ jsx37(IconWarning, { size: 20 }),
-  error: /* @__PURE__ */ jsx37(IconError, { size: 20 }),
-  success: /* @__PURE__ */ jsx37(IconCheckCircle, { size: 20 })
+  info: /* @__PURE__ */ jsx39(IconInfo, { size: 20 }),
+  warning: /* @__PURE__ */ jsx39(IconWarning, { size: 20 }),
+  error: /* @__PURE__ */ jsx39(IconError, { size: 20 }),
+  success: /* @__PURE__ */ jsx39(IconCheckCircle, { size: 20 })
 };
 var AlertBanner = forwardRef24(
   function AlertBanner2({ variant, children, onDismiss, icon }, ref) {
-    useInjectStyles16(STYLE_ID4, alertBannerCSS);
+    useInjectStyles17(STYLE_ID4, alertBannerCSS);
     const colors = variantColors2[variant];
     const resolvedIcon = icon !== void 0 ? icon : defaultIcons[variant];
-    return /* @__PURE__ */ jsxs21(
+    return /* @__PURE__ */ jsxs22(
       "div",
       {
         ref,
@@ -5033,23 +5331,23 @@ var AlertBanner = forwardRef24(
         style: {
           display: "flex",
           alignItems: "center",
-          gap: t34.spaceSm,
+          gap: t36.spaceSm,
           width: "100%",
-          padding: `${t34.spaceSm} ${t34.spaceMd}`,
+          padding: `${t36.spaceSm} ${t36.spaceMd}`,
           background: colors.bg,
           color: colors.fg,
-          borderBottom: `${t34.borderWidthThick} solid ${colors.border}`,
-          fontFamily: t34.fontSans,
-          fontSize: t34.fontSizeSm,
-          fontWeight: t34.fontWeightMedium,
-          lineHeight: t34.lineHeightBase,
+          borderBottom: `${t36.borderWidthThick} solid ${colors.border}`,
+          fontFamily: t36.fontSans,
+          fontSize: t36.fontSizeSm,
+          fontWeight: t36.fontWeightMedium,
+          lineHeight: t36.lineHeightBase,
           boxSizing: "border-box",
           animation: "alert-banner-slide-in 250ms ease"
         },
         children: [
-          resolvedIcon && /* @__PURE__ */ jsx37("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
-          /* @__PURE__ */ jsx37("span", { style: { flex: 1 }, children }),
-          onDismiss && /* @__PURE__ */ jsx37(
+          resolvedIcon && /* @__PURE__ */ jsx39("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
+          /* @__PURE__ */ jsx39("span", { style: { flex: 1 }, children }),
+          onDismiss && /* @__PURE__ */ jsx39(
             "button",
             {
               className: "alert-banner-dismiss",
@@ -5068,10 +5366,10 @@ var AlertBanner = forwardRef24(
                 justifyContent: "center",
                 width: "1.5rem",
                 height: "1.5rem",
-                borderRadius: t34.radiusSm,
+                borderRadius: t36.radiusSm,
                 color: colors.fg,
                 opacity: 0.7,
-                fontSize: t34.fontSizeLg,
+                fontSize: t36.fontSizeLg,
                 lineHeight: 1
               },
               children: "\xD7"
@@ -5085,8 +5383,8 @@ var AlertBanner = forwardRef24(
 
 // src/components/TopBar/TopBar.tsx
 import { createContext as createContext6, forwardRef as forwardRef25, useContext as useContext6 } from "react";
-import { semantic as t35, useInjectStyles as useInjectStyles17, Slot as Slot3 } from "../../core/dist/index.js";
-import { jsx as jsx38 } from "react/jsx-runtime";
+import { semantic as t37, useInjectStyles as useInjectStyles18, Slot as Slot3 } from "../../core/dist/index.js";
+import { jsx as jsx40 } from "react/jsx-runtime";
 var TopBarContext = createContext6(null);
 function useTopBarContext(component) {
   const ctx = useContext6(TopBarContext);
@@ -5109,23 +5407,23 @@ var TOPBAR_CSS = `
     right: 0;
     height: 2px;
     background: transparent;
-    transition: background ${t35.transitionBase};
+    transition: background ${t37.transitionBase};
   }
   [data-topbar-link]:hover::after {
-    background: ${t35.colorBorder};
+    background: ${t37.colorBorder};
   }
   [data-topbar-link][data-active]::after {
-    background: ${t35.colorActionPrimary};
+    background: ${t37.colorActionPrimary};
   }
   [data-topbar-link]:hover {
-    color: ${t35.colorText};
+    color: ${t37.colorText};
   }
 `;
 var TopBarRoot = forwardRef25(
   function TopBarRoot2({ children, sticky = false, ...rest }, ref) {
-    useInjectStyles17(TOPBAR_STYLES_ID, TOPBAR_CSS);
-    const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: t35.zIndexSticky } : {};
-    return /* @__PURE__ */ jsx38(TopBarContext.Provider, { value: true, children: /* @__PURE__ */ jsx38(
+    useInjectStyles18(TOPBAR_STYLES_ID, TOPBAR_CSS);
+    const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: t37.zIndexSticky } : {};
+    return /* @__PURE__ */ jsx40(TopBarContext.Provider, { value: true, children: /* @__PURE__ */ jsx40(
       "header",
       {
         ref,
@@ -5135,11 +5433,11 @@ var TopBarRoot = forwardRef25(
         style: {
           display: "flex",
           alignItems: "center",
-          height: t35.space2xl,
-          padding: `0 ${t35.spaceMd}`,
-          background: t35.colorSurface,
-          borderBottom: `${t35.borderWidthDefault} solid ${t35.colorBorder}`,
-          fontFamily: t35.fontSans,
+          height: t37.space2xl,
+          padding: `0 ${t37.spaceMd}`,
+          background: t37.colorSurface,
+          borderBottom: `${t37.borderWidthDefault} solid ${t37.colorBorder}`,
+          fontFamily: t37.fontSans,
           ...stickyStyle
         },
         children
@@ -5149,16 +5447,16 @@ var TopBarRoot = forwardRef25(
 );
 function TopBarLeading({ children }) {
   useTopBarContext("Leading");
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx40(
     "div",
     {
       style: {
         display: "flex",
         alignItems: "center",
-        fontWeight: t35.fontWeightBold,
-        fontSize: t35.fontSizeSm,
-        color: t35.colorText,
-        marginRight: t35.spaceLg,
+        fontWeight: t37.fontWeightBold,
+        fontSize: t37.fontSizeSm,
+        color: t37.colorText,
+        marginRight: t37.spaceLg,
         whiteSpace: "nowrap",
         flexShrink: 0
       },
@@ -5168,14 +5466,14 @@ function TopBarLeading({ children }) {
 }
 function TopBarNav({ children, "aria-label": ariaLabel = "Primary" }) {
   useTopBarContext("Nav");
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx40(
     "nav",
     {
       "aria-label": ariaLabel,
       style: {
         display: "flex",
         alignItems: "center",
-        gap: t35.spaceXs,
+        gap: t37.spaceXs,
         height: "100%",
         flex: 1,
         minWidth: 0
@@ -5189,19 +5487,19 @@ var TopBarLink = forwardRef25(function TopBarLink2({ active = false, asChild = f
   const style = {
     display: "inline-flex",
     alignItems: "center",
-    gap: t35.spaceXs,
+    gap: t37.spaceXs,
     height: "100%",
-    padding: `0 ${t35.spaceSm}`,
+    padding: `0 ${t37.spaceSm}`,
     border: "none",
     background: "transparent",
-    color: active ? t35.colorActionPrimary : t35.colorTextMuted,
-    fontSize: t35.fontSizeSm,
-    fontFamily: t35.fontSans,
-    fontWeight: active ? t35.fontWeightSemibold : t35.fontWeightNormal,
+    color: active ? t37.colorActionPrimary : t37.colorTextMuted,
+    fontSize: t37.fontSizeSm,
+    fontFamily: t37.fontSans,
+    fontWeight: active ? t37.fontWeightSemibold : t37.fontWeightNormal,
     cursor: "pointer",
     whiteSpace: "nowrap",
     textDecoration: "none",
-    transition: `color ${t35.transitionBase}`,
+    transition: `color ${t37.transitionBase}`,
     boxSizing: "border-box"
   };
   const commonProps = {
@@ -5212,19 +5510,19 @@ var TopBarLink = forwardRef25(function TopBarLink2({ active = false, asChild = f
     style
   };
   if (asChild) {
-    return /* @__PURE__ */ jsx38(Slot3, { ref, ...commonProps, children });
+    return /* @__PURE__ */ jsx40(Slot3, { ref, ...commonProps, children });
   }
-  return /* @__PURE__ */ jsx38("button", { ref, type: "button", ...commonProps, children });
+  return /* @__PURE__ */ jsx40("button", { ref, type: "button", ...commonProps, children });
 });
 function TopBarTrailing({ children }) {
   useTopBarContext("Trailing");
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx40(
     "div",
     {
       style: {
         display: "flex",
         alignItems: "center",
-        gap: t35.spaceSm,
+        gap: t37.spaceSm,
         marginLeft: "auto",
         flexShrink: 0
       },
@@ -5242,15 +5540,15 @@ var TopBar = {
 
 // src/components/Surface/Surface.tsx
 import { createElement, forwardRef as forwardRef26 } from "react";
-import { semantic as t36 } from "../../core/dist/index.js";
+import { semantic as t38 } from "../../core/dist/index.js";
 var levelMap = {
-  page: t36.colorSurfacePage,
-  default: t36.colorSurface,
-  solid: t36.colorSurfaceSolid,
-  raised: t36.colorSurfaceRaised,
-  panel: t36.colorSurfacePanel,
-  input: t36.colorSurfaceInput,
-  overlay: t36.colorSurfaceOverlay
+  page: t38.colorSurfacePage,
+  default: t38.colorSurface,
+  solid: t38.colorSurfaceSolid,
+  raised: t38.colorSurfaceRaised,
+  panel: t38.colorSurfacePanel,
+  input: t38.colorSurfaceInput,
+  overlay: t38.colorSurfaceOverlay
 };
 var Surface = forwardRef26(
   function Surface2({
@@ -5264,7 +5562,7 @@ var Surface = forwardRef26(
     children,
     ...rest
   }, ref) {
-    const borderValue = border === true ? `${t36.borderWidthDefault} solid ${t36.colorBorder}` : typeof border === "string" ? `${t36.borderWidthDefault} solid ${semanticColorMap[border]}` : void 0;
+    const borderValue = border === true ? `${t38.borderWidthDefault} solid ${t38.colorBorder}` : typeof border === "string" ? `${t38.borderWidthDefault} solid ${semanticColorMap[border]}` : void 0;
     const tintBg = tint ? `color-mix(in srgb, ${semanticColorMap[tint]} 10%, transparent)` : void 0;
     return createElement(
       as,
@@ -5280,7 +5578,7 @@ var Surface = forwardRef26(
           borderRadius: radiusMap[radius],
           border: borderValue,
           boxShadow: shadow ? shadowMap[shadow] : void 0,
-          color: t36.colorText
+          color: t38.colorText
         }
       },
       children
@@ -5290,7 +5588,7 @@ var Surface = forwardRef26(
 
 // src/components/Grid/Grid.tsx
 import { forwardRef as forwardRef27 } from "react";
-import { jsx as jsx39 } from "react/jsx-runtime";
+import { jsx as jsx41 } from "react/jsx-runtime";
 var Grid = forwardRef27(
   function Grid2({
     minColumnWidth = 300,
@@ -5301,7 +5599,7 @@ var Grid = forwardRef27(
   }, ref) {
     const minWidth = `${minColumnWidth}px`;
     const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
-    return /* @__PURE__ */ jsx39(
+    return /* @__PURE__ */ jsx41(
       "div",
       {
         ref,
@@ -5320,8 +5618,8 @@ var Grid = forwardRef27(
 
 // src/components/Divider/Divider.tsx
 import { forwardRef as forwardRef28 } from "react";
-import { semantic as t37 } from "../../core/dist/index.js";
-import { jsx as jsx40 } from "react/jsx-runtime";
+import { semantic as t39 } from "../../core/dist/index.js";
+import { jsx as jsx42 } from "react/jsx-runtime";
 var Divider = forwardRef28(
   function Divider2({
     orientation = "horizontal",
@@ -5330,10 +5628,10 @@ var Divider = forwardRef28(
     ...rest
   }, ref) {
     const resolvedOpacity = dividerOpacityMap[opacity];
-    const bg = `color-mix(in srgb, ${t37.colorBorder} ${resolvedOpacity}%, transparent)`;
+    const bg = `color-mix(in srgb, ${t39.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
     const isHorizontal = orientation === "horizontal";
-    return /* @__PURE__ */ jsx40(
+    return /* @__PURE__ */ jsx42(
       "div",
       {
         ref,
@@ -5354,17 +5652,17 @@ var Divider = forwardRef28(
 );
 
 // src/components/TabStrip/TabStrip.tsx
-import { forwardRef as forwardRef29, useCallback as useCallback13, useRef as useRef13 } from "react";
-import { semantic as t38, useInjectStyles as useInjectStyles18 } from "../../core/dist/index.js";
-import { jsx as jsx41, jsxs as jsxs22 } from "react/jsx-runtime";
+import { forwardRef as forwardRef29, useCallback as useCallback14, useRef as useRef14 } from "react";
+import { semantic as t40, useInjectStyles as useInjectStyles19 } from "../../core/dist/index.js";
+import { jsx as jsx43, jsxs as jsxs23 } from "react/jsx-runtime";
 var STYLES_ID = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
-  transition: color ${t38.transitionFast}, background ${t38.transitionFast}, border-color ${t38.transitionFast};
+  transition: color ${t40.transitionFast}, background ${t40.transitionFast}, border-color ${t40.transitionFast};
 }
 [data-tab-btn]:hover:not([aria-selected="true"]) {
-  color: ${t38.colorTextSecondary};
-  background: color-mix(in srgb, ${t38.colorBorder} 10%, transparent);
+  color: ${t40.colorTextSecondary};
+  background: color-mix(in srgb, ${t40.colorBorder} 10%, transparent);
 }
 `;
 var TabStrip = forwardRef29(
@@ -5376,9 +5674,9 @@ var TabStrip = forwardRef29(
     size = "md",
     ...rest
   }, ref) {
-    useInjectStyles18(STYLES_ID, STYLES_CSS);
-    const tabRefs = useRef13([]);
-    const handleClick = useCallback13(
+    useInjectStyles19(STYLES_ID, STYLES_CSS);
+    const tabRefs = useRef14([]);
+    const handleClick = useCallback14(
       (key) => {
         if (key === activeKey && allowDeselect) {
           onChange(null);
@@ -5388,7 +5686,7 @@ var TabStrip = forwardRef29(
       },
       [activeKey, allowDeselect, onChange]
     );
-    const handleKeyDown = useCallback13(
+    const handleKeyDown = useCallback14(
       (e, index) => {
         let nextIndex = null;
         if (e.key === "ArrowRight") {
@@ -5408,7 +5706,7 @@ var TabStrip = forwardRef29(
       [tabs.length]
     );
     const isSm = size === "sm";
-    return /* @__PURE__ */ jsx41(
+    return /* @__PURE__ */ jsx43(
       "div",
       {
         ref,
@@ -5421,7 +5719,7 @@ var TabStrip = forwardRef29(
         },
         children: tabs.map((tab, i) => {
           const isActive = tab.key === activeKey;
-          return /* @__PURE__ */ jsxs22(
+          return /* @__PURE__ */ jsxs23(
             "button",
             {
               ref: (el) => {
@@ -5436,22 +5734,22 @@ var TabStrip = forwardRef29(
               style: {
                 display: "flex",
                 alignItems: "center",
-                gap: t38.spaceXs,
-                padding: isSm ? `${t38.spaceXs} ${t38.spaceSm}` : `${t38.spaceSm} ${t38.spaceMd}`,
+                gap: t40.spaceXs,
+                padding: isSm ? `${t40.spaceXs} ${t40.spaceSm}` : `${t40.spaceSm} ${t40.spaceMd}`,
                 border: "none",
-                borderBottom: `2px solid ${isActive ? t38.colorActionPrimary : "transparent"}`,
+                borderBottom: `2px solid ${isActive ? t40.colorActionPrimary : "transparent"}`,
                 borderRadius: 0,
-                background: isActive ? `color-mix(in srgb, ${t38.colorActionPrimary} 8%, transparent)` : "transparent",
-                color: isActive ? t38.colorActionPrimary : t38.colorTextMuted,
-                fontFamily: t38.fontSans,
-                fontSize: isSm ? t38.fontSizeXs : t38.fontSizeSm,
-                fontWeight: t38.fontWeightSemibold,
-                lineHeight: t38.lineHeightTight,
+                background: isActive ? `color-mix(in srgb, ${t40.colorActionPrimary} 8%, transparent)` : "transparent",
+                color: isActive ? t40.colorActionPrimary : t40.colorTextMuted,
+                fontFamily: t40.fontSans,
+                fontSize: isSm ? t40.fontSizeXs : t40.fontSizeSm,
+                fontWeight: t40.fontWeightSemibold,
+                lineHeight: t40.lineHeightTight,
                 cursor: "pointer",
                 whiteSpace: "nowrap"
               },
               children: [
-                tab.icon && /* @__PURE__ */ jsx41(
+                tab.icon && /* @__PURE__ */ jsx43(
                   "span",
                   {
                     className: "material-symbols-outlined",
@@ -5556,6 +5854,7 @@ export {
   modalFooterStyle,
   modalHeadingStyle,
   modalWidthMap,
+  nextFocusedDate,
   progressBarHeightMap,
   radiusMap,
   sectionLabelStyle,
