@@ -3535,10 +3535,92 @@ var DatePicker = forwardRef22(
   }
 );
 
+// src/components/Calendar/Calendar.tsx
+import {
+  createContext as createContext3,
+  useCallback as useCallback6,
+  useContext as useContext3,
+  useMemo as useMemo2,
+  useState as useState6
+} from "react";
+import { jsx as jsx28 } from "react/jsx-runtime";
+var CalendarContext = createContext3(null);
+function useCalendarContext(part = "child") {
+  const ctx = useContext3(CalendarContext);
+  if (!ctx) {
+    throw new Error(
+      `Calendar.${part} must be rendered inside <Calendar.Root>.`
+    );
+  }
+  return ctx;
+}
+function seedFocusedDate(selected) {
+  if (!selected) return void 0;
+  if (selected instanceof Date) return selected;
+  return selected.from;
+}
+function Root2({
+  mode = "single",
+  selected,
+  onSelect,
+  minDate,
+  maxDate,
+  disabledDate,
+  focusedDate: focusedDateProp,
+  defaultFocusedDate,
+  onFocusedDateChange,
+  children
+}) {
+  const [focusedDateState, setFocusedDateState] = useState6(
+    () => defaultFocusedDate ?? seedFocusedDate(selected) ?? /* @__PURE__ */ new Date()
+  );
+  const isControlled = focusedDateProp !== void 0;
+  const focusedDate = isControlled ? focusedDateProp : focusedDateState;
+  const setFocusedDate = useCallback6(
+    (date) => {
+      if (!isControlled) setFocusedDateState(date);
+      onFocusedDateChange?.(date);
+    },
+    [isControlled, onFocusedDateChange]
+  );
+  const handleSelect = useCallback6(
+    (value) => {
+      onSelect?.(value);
+    },
+    [onSelect]
+  );
+  const ctx = useMemo2(
+    () => ({
+      mode,
+      selected,
+      onSelect: handleSelect,
+      minDate,
+      maxDate,
+      disabledDate,
+      focusedDate,
+      setFocusedDate
+    }),
+    [
+      mode,
+      selected,
+      handleSelect,
+      minDate,
+      maxDate,
+      disabledDate,
+      focusedDate,
+      setFocusedDate
+    ]
+  );
+  return /* @__PURE__ */ jsx28(CalendarContext.Provider, { value: ctx, children });
+}
+var Calendar = {
+  Root: Root2
+};
+
 // src/components/ErrorBoundary/ErrorBoundary.tsx
 import React from "react";
 import { semantic as t27 } from "../../core/dist/index.js";
-import { jsx as jsx28, jsxs as jsxs16 } from "react/jsx-runtime";
+import { jsx as jsx29, jsxs as jsxs16 } from "react/jsx-runtime";
 var ErrorBoundary = class extends React.Component {
   constructor(props) {
     super(props);
@@ -3562,13 +3644,13 @@ var ErrorBoundary = class extends React.Component {
     if (fallback) {
       return fallback({ error, resetErrorBoundary: this.resetErrorBoundary });
     }
-    return /* @__PURE__ */ jsx28("div", { style: { borderColor: t27.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: t27.radiusLg }, children: /* @__PURE__ */ jsx28(
+    return /* @__PURE__ */ jsx29("div", { style: { borderColor: t27.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: t27.radiusLg }, children: /* @__PURE__ */ jsx29(
       Card,
       {
         variant: "flat",
         padding: "lg",
         children: /* @__PURE__ */ jsxs16("div", { style: { display: "flex", flexDirection: "column", gap: t27.spaceMd }, children: [
-          /* @__PURE__ */ jsx28("div", { style: { display: "flex", alignItems: "center", gap: t27.spaceSm }, children: /* @__PURE__ */ jsx28(
+          /* @__PURE__ */ jsx29("div", { style: { display: "flex", alignItems: "center", gap: t27.spaceSm }, children: /* @__PURE__ */ jsx29(
             "span",
             {
               style: {
@@ -3580,7 +3662,7 @@ var ErrorBoundary = class extends React.Component {
               children: "Something went wrong"
             }
           ) }),
-          /* @__PURE__ */ jsx28(
+          /* @__PURE__ */ jsx29(
             "p",
             {
               style: {
@@ -3598,7 +3680,7 @@ var ErrorBoundary = class extends React.Component {
             }
           ),
           error.stack && /* @__PURE__ */ jsxs16("div", { children: [
-            /* @__PURE__ */ jsx28(
+            /* @__PURE__ */ jsx29(
               "button",
               {
                 type: "button",
@@ -3616,7 +3698,7 @@ var ErrorBoundary = class extends React.Component {
                 children: showStack ? "Hide stack trace" : "Show stack trace"
               }
             ),
-            showStack && /* @__PURE__ */ jsx28(
+            showStack && /* @__PURE__ */ jsx29(
               "pre",
               {
                 style: {
@@ -3637,7 +3719,7 @@ var ErrorBoundary = class extends React.Component {
               }
             )
           ] }),
-          /* @__PURE__ */ jsx28("div", { children: /* @__PURE__ */ jsx28(Button, { variant: "secondary", size: "sm", onClick: this.resetErrorBoundary, children: "Try again" }) })
+          /* @__PURE__ */ jsx29("div", { children: /* @__PURE__ */ jsx29(Button, { variant: "secondary", size: "sm", onClick: this.resetErrorBoundary, children: "Try again" }) })
         ] })
       }
     ) });
@@ -3646,19 +3728,19 @@ var ErrorBoundary = class extends React.Component {
 
 // src/components/Toast/Toast.tsx
 import {
-  createContext as createContext3,
-  useCallback as useCallback6,
-  useContext as useContext3,
+  createContext as createContext4,
+  useCallback as useCallback7,
+  useContext as useContext4,
   useEffect as useEffect8,
   useRef as useRef8,
-  useState as useState6
+  useState as useState7
 } from "react";
 import { createPortal as createPortal2 } from "react-dom";
 import { semantic as t28, useInjectStyles as useInjectStyles11 } from "../../core/dist/index.js";
-import { jsx as jsx29, jsxs as jsxs17 } from "react/jsx-runtime";
-var ToastContext = createContext3(null);
+import { jsx as jsx30, jsxs as jsxs17 } from "react/jsx-runtime";
+var ToastContext = createContext4(null);
 function useToast() {
-  const ctx = useContext3(ToastContext);
+  const ctx = useContext4(ToastContext);
   if (!ctx) {
     throw new Error("useToast must be used within a <ToastProvider>");
   }
@@ -3720,19 +3802,19 @@ function ToastMessage({
   item,
   onDismiss
 }) {
-  const [exiting, setExiting] = useState6(false);
-  const [paused, setPaused] = useState6(false);
+  const [exiting, setExiting] = useState7(false);
+  const [paused, setPaused] = useState7(false);
   const timerRef = useRef8(null);
   const startedAtRef = useRef8(0);
   const remainingRef = useRef8(item.duration);
   const autoDismiss = item.duration > 0;
-  const clearTimer = useCallback6(() => {
+  const clearTimer = useCallback7(() => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
     }
   }, []);
-  const startTimer = useCallback6(() => {
+  const startTimer = useCallback7(() => {
     if (!autoDismiss || remainingRef.current <= 0) return;
     clearTimer();
     startedAtRef.current = Date.now();
@@ -3741,7 +3823,7 @@ function ToastMessage({
     }, remainingRef.current);
     setPaused(false);
   }, [autoDismiss, clearTimer]);
-  const pauseTimer = useCallback6(() => {
+  const pauseTimer = useCallback7(() => {
     if (!autoDismiss || !timerRef.current) return;
     const elapsed = Date.now() - startedAtRef.current;
     remainingRef.current = Math.max(0, remainingRef.current - elapsed);
@@ -3793,8 +3875,8 @@ function ToastMessage({
       },
       onAnimationEnd: handleAnimationEnd,
       children: [
-        /* @__PURE__ */ jsx29("span", { style: { flex: 1 }, children: item.message }),
-        /* @__PURE__ */ jsx29(
+        /* @__PURE__ */ jsx30("span", { style: { flex: 1 }, children: item.message }),
+        /* @__PURE__ */ jsx30(
           "button",
           {
             onClick: () => setExiting(true),
@@ -3821,7 +3903,7 @@ function ToastMessage({
             children: "\xD7"
           }
         ),
-        autoDismiss && /* @__PURE__ */ jsx29(
+        autoDismiss && /* @__PURE__ */ jsx30(
           "span",
           {
             "data-toast-timer": "",
@@ -3855,7 +3937,7 @@ function ToastContainer({
     ...position.endsWith("right") ? { right: t28.spaceLg } : { left: t28.spaceLg }
   };
   return createPortal2(
-    /* @__PURE__ */ jsx29("div", { "aria-live": "polite", style: positionStyles, children: toasts.map((item) => /* @__PURE__ */ jsx29(ToastMessage, { item, onDismiss }, item.id)) }),
+    /* @__PURE__ */ jsx30("div", { "aria-live": "polite", style: positionStyles, children: toasts.map((item) => /* @__PURE__ */ jsx30(ToastMessage, { item, onDismiss }, item.id)) }),
     document.body
   );
 }
@@ -3864,11 +3946,11 @@ function ToastProvider({
   children,
   position = "top-right"
 }) {
-  const [toasts, setToasts] = useState6([]);
-  const dismiss = useCallback6((id) => {
+  const [toasts, setToasts] = useState7([]);
+  const dismiss = useCallback7((id) => {
     setToasts((prev) => prev.filter((t39) => t39.id !== id));
   }, []);
-  const showToast = useCallback6(
+  const showToast = useCallback7(
     (message, typeOrOptions) => {
       const opts = typeof typeOrOptions === "string" ? { type: typeOrOptions } : typeOrOptions ?? {};
       const item = {
@@ -3883,23 +3965,23 @@ function ToastProvider({
   );
   return /* @__PURE__ */ jsxs17(ToastContext.Provider, { value: { showToast }, children: [
     children,
-    /* @__PURE__ */ jsx29(ToastContainer, { toasts, onDismiss: dismiss, position })
+    /* @__PURE__ */ jsx30(ToastContainer, { toasts, onDismiss: dismiss, position })
   ] });
 }
 
 // src/components/Combobox/Combobox.tsx
 import {
-  createContext as createContext4,
-  useCallback as useCallback7,
-  useContext as useContext4,
+  createContext as createContext5,
+  useCallback as useCallback8,
+  useContext as useContext5,
   useEffect as useEffect9,
   useId as useId7,
-  useMemo as useMemo2,
+  useMemo as useMemo3,
   useRef as useRef9,
-  useState as useState7
+  useState as useState8
 } from "react";
 import { semantic as t29, useInjectStyles as useInjectStyles12 } from "../../core/dist/index.js";
-import { jsx as jsx30 } from "react/jsx-runtime";
+import { jsx as jsx31 } from "react/jsx-runtime";
 var COMBOBOX_STYLES_ID = "alttab-combobox";
 var comboboxCSS = (
   /* css */
@@ -3942,9 +4024,9 @@ var comboboxCSS = (
   }
 `
 );
-var ComboboxContext = createContext4(null);
+var ComboboxContext = createContext5(null);
 function useComboboxContext(part) {
-  const ctx = useContext4(ComboboxContext);
+  const ctx = useContext5(ComboboxContext);
   if (!ctx) {
     throw new Error(
       `Combobox.${part} must be rendered inside <Combobox.Root>. See the upgrade guide for the 0.4.0 compound API.`
@@ -3952,7 +4034,7 @@ function useComboboxContext(part) {
   }
   return ctx;
 }
-function Root2({
+function Root3({
   value: controlledValue,
   defaultValue,
   onValueChange,
@@ -3964,17 +4046,17 @@ function Root2({
   useInjectStyles12(COMBOBOX_STYLES_ID, comboboxCSS);
   const instanceId = useId7();
   const listboxId = `${instanceId}-listbox`;
-  const [internalValue, setInternalValue] = useState7(defaultValue ?? "");
+  const [internalValue, setInternalValue] = useState8(defaultValue ?? "");
   const isControlled = controlledValue !== void 0;
   const value = isControlled ? controlledValue : internalValue;
-  const [open, setOpen] = useState7(false);
-  const [focusedValue, setFocusedValue] = useState7(null);
-  const [dropDirection, setDropDirection] = useState7("down");
+  const [open, setOpen] = useState8(false);
+  const [focusedValue, setFocusedValue] = useState8(null);
+  const [dropDirection, setDropDirection] = useState8("down");
   const containerRef = useRef9(null);
   const inputRef = useRef9(null);
   const suppressNextOpenRef = useRef9(false);
-  const [items, setItems] = useState7([]);
-  const registerItem = useCallback7((item) => {
+  const [items, setItems] = useState8([]);
+  const registerItem = useCallback8((item) => {
     setItems((prev) => {
       if (prev.some((p) => p.value === item.value)) {
         return prev.map((p) => p.value === item.value ? item : p);
@@ -3982,17 +4064,17 @@ function Root2({
       return [...prev, item];
     });
   }, []);
-  const unregisterItem = useCallback7((itemValue) => {
+  const unregisterItem = useCallback8((itemValue) => {
     setItems((prev) => prev.filter((p) => p.value !== itemValue));
   }, []);
-  const setValue = useCallback7(
+  const setValue = useCallback8(
     (next) => {
       if (!isControlled) setInternalValue(next);
       onValueChange?.(next);
     },
     [isControlled, onValueChange]
   );
-  const calculateDirection = useCallback7(() => {
+  const calculateDirection = useCallback8(() => {
     const input = inputRef.current;
     if (!input) return;
     const rect = input.getBoundingClientRect();
@@ -4003,17 +4085,17 @@ function Root2({
       spaceBelow >= estimatedHeight ? "down" : spaceAbove > spaceBelow ? "up" : "down"
     );
   }, [items.length]);
-  const openMenu = useCallback7(() => {
+  const openMenu = useCallback8(() => {
     if (disabled) return;
     calculateDirection();
     setOpen(true);
     setFocusedValue(null);
   }, [disabled, calculateDirection]);
-  const closeMenu = useCallback7(() => {
+  const closeMenu = useCallback8(() => {
     setOpen(false);
     setFocusedValue(null);
   }, []);
-  const selectItem = useCallback7(
+  const selectItem = useCallback8(
     (itemValue) => {
       const item = items.find((i) => i.value === itemValue);
       if (!item) return;
@@ -4037,7 +4119,7 @@ function Root2({
     document.addEventListener("mousedown", handleMouseDown);
     return () => document.removeEventListener("mousedown", handleMouseDown);
   }, [open, closeMenu]);
-  const handleKeyDown = useCallback7(
+  const handleKeyDown = useCallback8(
     (e) => {
       if (e.key === "Escape") {
         if (open) {
@@ -4090,7 +4172,7 @@ function Root2({
     [open, openMenu, closeMenu, focusedValue, items, selectItem]
   );
   suppressNextOpenRef.__combobox_shared = true;
-  const ctx = useMemo2(
+  const ctx = useMemo3(
     () => ({
       value,
       setValue,
@@ -4129,7 +4211,7 @@ function Root2({
     ]
   );
   ctx.__suppressNextOpen = suppressNextOpenRef;
-  return /* @__PURE__ */ jsx30(ComboboxContext.Provider, { value: ctx, children: /* @__PURE__ */ jsx30("div", { ref: containerRef, style: wrapperStyle4, onKeyDown: handleKeyDown, children }) });
+  return /* @__PURE__ */ jsx31(ComboboxContext.Provider, { value: ctx, children: /* @__PURE__ */ jsx31("div", { ref: containerRef, style: wrapperStyle4, onKeyDown: handleKeyDown, children }) });
 }
 function Input3({
   placeholder,
@@ -4166,14 +4248,14 @@ function Input3({
   } = ctx;
   const suppressNextOpenRef = ctx.__suppressNextOpen;
   const activedescendant = open && focusedValue ? `${instanceId}-opt-${focusedValue}` : void 0;
-  const handleChange = useCallback7(
+  const handleChange = useCallback8(
     (e) => {
       setValue(e.target.value);
       if (!open) openMenu();
     },
     [setValue, open, openMenu]
   );
-  const handleFocus = useCallback7(
+  const handleFocus = useCallback8(
     (e) => {
       if (suppressNextOpenRef.current) {
         suppressNextOpenRef.current = false;
@@ -4184,7 +4266,7 @@ function Input3({
     },
     [disabled, items.length, openMenu, onFocusProp, suppressNextOpenRef]
   );
-  return /* @__PURE__ */ jsx30(
+  return /* @__PURE__ */ jsx31(
     "input",
     {
       ref: inputRef,
@@ -4250,7 +4332,7 @@ function List({ children }) {
     right: 0,
     marginBottom: t29.spaceXs
   };
-  return /* @__PURE__ */ jsx30(
+  return /* @__PURE__ */ jsx31(
     "div",
     {
       ref,
@@ -4299,7 +4381,7 @@ function Item2({
     isFocused ? "alttab-combobox-option--focused" : "",
     isSelected ? "alttab-combobox-option--selected" : ""
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ jsx30(
+  return /* @__PURE__ */ jsx31(
     "button",
     {
       type: "button",
@@ -4315,7 +4397,7 @@ function Item2({
   );
 }
 function Empty({ children }) {
-  return /* @__PURE__ */ jsx30(
+  return /* @__PURE__ */ jsx31(
     "div",
     {
       role: "presentation",
@@ -4358,7 +4440,7 @@ var disabledStyle4 = {
   cursor: "not-allowed"
 };
 var Combobox = {
-  Root: Root2,
+  Root: Root3,
   Input: Input3,
   List,
   Item: Item2,
@@ -4366,21 +4448,21 @@ var Combobox = {
 };
 
 // src/components/TableFilters/TableFilters.tsx
-import { useState as useState8, useEffect as useEffect10, useRef as useRef10, useCallback as useCallback8 } from "react";
+import { useState as useState9, useEffect as useEffect10, useRef as useRef10, useCallback as useCallback9 } from "react";
 import { semantic as t30 } from "../../core/dist/index.js";
-import { jsx as jsx31, jsxs as jsxs18 } from "react/jsx-runtime";
+import { jsx as jsx32, jsxs as jsxs18 } from "react/jsx-runtime";
 function DebouncedTextFilter({
   config,
   value,
   onCommit
 }) {
   const delay = config.debounceMs ?? 300;
-  const [local, setLocal] = useState8(value);
+  const [local, setLocal] = useState9(value);
   const timerRef = useRef10(null);
   useEffect10(() => {
     setLocal(value);
   }, [value]);
-  const handleChange = useCallback8(
+  const handleChange = useCallback9(
     (e) => {
       const next = e.target.value;
       setLocal(next);
@@ -4396,7 +4478,7 @@ function DebouncedTextFilter({
       if (timerRef.current) clearTimeout(timerRef.current);
     };
   }, []);
-  return /* @__PURE__ */ jsx31("div", { style: { minWidth: "10rem", flex: "1 1 10rem" }, children: /* @__PURE__ */ jsx31(
+  return /* @__PURE__ */ jsx32("div", { style: { minWidth: "10rem", flex: "1 1 10rem" }, children: /* @__PURE__ */ jsx32(
     Input,
     {
       value: local,
@@ -4410,15 +4492,15 @@ function SelectFilter({
   value,
   onCommit
 }) {
-  const handleValueChange = useCallback8(
+  const handleValueChange = useCallback9(
     (next) => {
       onCommit(config.key, next);
     },
     [config.key, onCommit]
   );
-  return /* @__PURE__ */ jsx31("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ jsxs18(Select.Root, { value, onValueChange: handleValueChange, children: [
-    /* @__PURE__ */ jsx31(Select.Trigger, { children: /* @__PURE__ */ jsx31(Select.Value, { placeholder: config.placeholder }) }),
-    /* @__PURE__ */ jsx31(Select.Content, { children: config.options.map((opt) => /* @__PURE__ */ jsx31(Select.Item, { value: opt.value, children: opt.label }, opt.value)) })
+  return /* @__PURE__ */ jsx32("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ jsxs18(Select.Root, { value, onValueChange: handleValueChange, children: [
+    /* @__PURE__ */ jsx32(Select.Trigger, { children: /* @__PURE__ */ jsx32(Select.Value, { placeholder: config.placeholder }) }),
+    /* @__PURE__ */ jsx32(Select.Content, { children: config.options.map((opt) => /* @__PURE__ */ jsx32(Select.Item, { value: opt.value, children: opt.label }, opt.value)) })
   ] }) });
 }
 function TableFilters({
@@ -4428,13 +4510,13 @@ function TableFilters({
   style,
   ...props
 }) {
-  const handleCommit = useCallback8(
+  const handleCommit = useCallback9(
     (key, value) => {
       onChange({ ...values, [key]: value });
     },
     [values, onChange]
   );
-  return /* @__PURE__ */ jsx31(
+  return /* @__PURE__ */ jsx32(
     "div",
     {
       style: {
@@ -4448,7 +4530,7 @@ function TableFilters({
       children: filters.map((filter) => {
         const val = values[filter.key] ?? "";
         if (filter.type === "text") {
-          return /* @__PURE__ */ jsx31(
+          return /* @__PURE__ */ jsx32(
             DebouncedTextFilter,
             {
               config: filter,
@@ -4458,7 +4540,7 @@ function TableFilters({
             filter.key
           );
         }
-        return /* @__PURE__ */ jsx31(
+        return /* @__PURE__ */ jsx32(
           SelectFilter,
           {
             config: filter,
@@ -4473,9 +4555,9 @@ function TableFilters({
 }
 
 // src/components/ChipPicker/ChipPicker.tsx
-import { useCallback as useCallback9, useId as useId8, useState as useState9 } from "react";
+import { useCallback as useCallback10, useId as useId8, useState as useState10 } from "react";
 import { semantic as t31, useInjectStyles as useInjectStyles13 } from "../../core/dist/index.js";
-import { jsx as jsx32, jsxs as jsxs19 } from "react/jsx-runtime";
+import { jsx as jsx33, jsxs as jsxs19 } from "react/jsx-runtime";
 function ChipPicker({
   items,
   selected: controlledSelected,
@@ -4486,11 +4568,11 @@ function ChipPicker({
   const uid = useId8();
   const styleId = `chip-picker-${uid.replace(/:/g, "")}`;
   const isControlled = controlledSelected !== void 0;
-  const [internalSelected, setInternalSelected] = useState9(
+  const [internalSelected, setInternalSelected] = useState10(
     () => defaultSelected ?? []
   );
   const selected = isControlled ? controlledSelected : internalSelected;
-  const applySelection = useCallback9(
+  const applySelection = useCallback10(
     (next) => {
       if (!isControlled) setInternalSelected(next);
       onChange?.(next);
@@ -4550,7 +4632,7 @@ function ChipPicker({
     transition: `background ${t31.transitionFast}, border-color ${t31.transitionFast}, color ${t31.transitionFast}`,
     outline: "none"
   });
-  const renderChips = (chips) => /* @__PURE__ */ jsx32(
+  const renderChips = (chips) => /* @__PURE__ */ jsx33(
     "div",
     {
       style: {
@@ -4560,7 +4642,7 @@ function ChipPicker({
       },
       children: chips.map((item) => {
         const isSelected = selected.includes(item.value);
-        return /* @__PURE__ */ jsx32(
+        return /* @__PURE__ */ jsx33(
           "button",
           {
             type: "button",
@@ -4574,7 +4656,7 @@ function ChipPicker({
       })
     }
   );
-  return /* @__PURE__ */ jsx32(
+  return /* @__PURE__ */ jsx33(
     "div",
     {
       "data-chip-picker-id": styleId,
@@ -4586,7 +4668,7 @@ function ChipPicker({
         gap: t31.spaceMd
       },
       children: groups.map((group, i) => /* @__PURE__ */ jsxs19("div", { style: { display: "flex", flexDirection: "column", gap: t31.spaceSm }, children: [
-        group.label !== null && /* @__PURE__ */ jsx32("div", { style: i > 0 ? { marginTop: t31.spaceXs } : void 0, children: /* @__PURE__ */ jsx32("div", { style: sectionLabelStyle, children: group.label }) }),
+        group.label !== null && /* @__PURE__ */ jsx33("div", { style: i > 0 ? { marginTop: t31.spaceXs } : void 0, children: /* @__PURE__ */ jsx33("div", { style: sectionLabelStyle, children: group.label }) }),
         renderChips(group.chips)
       ] }, group.label ?? "__ungrouped"))
     }
@@ -4594,9 +4676,9 @@ function ChipPicker({
 }
 
 // src/components/SearchInput/SearchInput.tsx
-import { forwardRef as forwardRef23, useState as useState10, useEffect as useEffect11, useRef as useRef11, useCallback as useCallback10 } from "react";
+import { forwardRef as forwardRef23, useState as useState11, useEffect as useEffect11, useRef as useRef11, useCallback as useCallback11 } from "react";
 import { semantic as t32, useInjectStyles as useInjectStyles14 } from "../../core/dist/index.js";
-import { jsx as jsx33, jsxs as jsxs20 } from "react/jsx-runtime";
+import { jsx as jsx34, jsxs as jsxs20 } from "react/jsx-runtime";
 var STYLE_ID2 = "4lt7ab-search-input";
 var hoverFocusCSS = `
   .search-input-wrapper:focus-within {
@@ -4660,14 +4742,14 @@ var SearchInput = forwardRef23(
     "data-testid": dataTestId
   }, ref) {
     useInjectStyles14(STYLE_ID2, hoverFocusCSS);
-    const [localValue, setLocalValue] = useState10(value);
+    const [localValue, setLocalValue] = useState11(value);
     const timerRef = useRef11(null);
     const onSearchRef = useRef11(onSearch);
     onSearchRef.current = onSearch;
     useEffect11(() => {
       setLocalValue(value);
     }, [value]);
-    const handleChange = useCallback10((e) => {
+    const handleChange = useCallback11((e) => {
       const next = e.target.value;
       setLocalValue(next);
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -4690,8 +4772,8 @@ var SearchInput = forwardRef23(
           ...disabled ? disabledWrapperStyle : {}
         },
         children: [
-          /* @__PURE__ */ jsx33("span", { style: { color: t32.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ jsx33(Icon, { name: "search", size: "sm" }) }),
-          /* @__PURE__ */ jsx33(
+          /* @__PURE__ */ jsx34("span", { style: { color: t32.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ jsx34(Icon, { name: "search", size: "sm" }) }),
+          /* @__PURE__ */ jsx34(
             "input",
             {
               ref,
@@ -4710,7 +4792,7 @@ var SearchInput = forwardRef23(
               style: inputStyle
             }
           ),
-          trailing && /* @__PURE__ */ jsx33("div", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: trailing })
+          trailing && /* @__PURE__ */ jsx34("div", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: trailing })
         ]
       }
     );
@@ -4718,9 +4800,9 @@ var SearchInput = forwardRef23(
 );
 
 // src/components/SegmentedControl/SegmentedControl.tsx
-import { useCallback as useCallback11, useLayoutEffect, useRef as useRef12, useState as useState11 } from "react";
+import { useCallback as useCallback12, useLayoutEffect, useRef as useRef12, useState as useState12 } from "react";
 import { semantic as t33, useInjectStyles as useInjectStyles15 } from "../../core/dist/index.js";
-import { jsx as jsx34, jsxs as jsxs21 } from "react/jsx-runtime";
+import { jsx as jsx35, jsxs as jsxs21 } from "react/jsx-runtime";
 var STYLE_ID3 = "4lt7ab-segmented-control";
 var hoverCSS = `
   .segmented-ctrl-btn:hover:not([aria-pressed="true"]) {
@@ -4752,11 +4834,11 @@ function SegmentedControl({
 }) {
   useInjectStyles15(STYLE_ID3, hoverCSS);
   const isControlled = controlledValue !== void 0;
-  const [internalValue, setInternalValue] = useState11(
+  const [internalValue, setInternalValue] = useState12(
     () => defaultValue ?? segments[0]?.value ?? ""
   );
   const value = isControlled ? controlledValue : internalValue;
-  const handleSelect = useCallback11(
+  const handleSelect = useCallback12(
     (next) => {
       if (!isControlled) setInternalValue(next);
       onChange?.(next);
@@ -4764,9 +4846,9 @@ function SegmentedControl({
     [isControlled, onChange]
   );
   const containerRef = useRef12(null);
-  const [indicator, setIndicator] = useState11(null);
+  const [indicator, setIndicator] = useState12(null);
   const s = sizes[size];
-  const updateIndicator = useCallback11(() => {
+  const updateIndicator = useCallback12(() => {
     const container = containerRef.current;
     if (!container) return;
     const activeBtn = container.querySelector('[aria-pressed="true"]');
@@ -4807,7 +4889,7 @@ function SegmentedControl({
         boxSizing: "border-box"
       },
       children: [
-        indicator && /* @__PURE__ */ jsx34(
+        indicator && /* @__PURE__ */ jsx35(
           "div",
           {
             className: "segmented-ctrl-indicator",
@@ -4857,8 +4939,8 @@ function SegmentedControl({
                 lineHeight: 1
               },
               children: [
-                hasIcon && /* @__PURE__ */ jsx34(Icon, { name: seg.icon, size: s.iconSize }),
-                seg.label && /* @__PURE__ */ jsx34("span", { children: seg.label })
+                hasIcon && /* @__PURE__ */ jsx35(Icon, { name: seg.icon, size: s.iconSize }),
+                seg.label && /* @__PURE__ */ jsx35("span", { children: seg.label })
               ]
             },
             seg.value
@@ -4872,7 +4954,7 @@ function SegmentedControl({
 // src/components/AlertBanner/AlertBanner.tsx
 import { forwardRef as forwardRef24 } from "react";
 import { semantic as t34, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
-import { jsx as jsx35, jsxs as jsxs22 } from "react/jsx-runtime";
+import { jsx as jsx36, jsxs as jsxs22 } from "react/jsx-runtime";
 var STYLE_ID4 = "4lt7ab-alert-banner";
 var alertBannerCSS = `
 @keyframes alert-banner-slide-in {
@@ -4896,10 +4978,10 @@ var variantColors2 = {
   success: { bg: t34.colorSuccessBg, fg: t34.colorSuccess, border: t34.colorSuccess }
 };
 var defaultIcons = {
-  info: /* @__PURE__ */ jsx35(IconInfo, { size: 20 }),
-  warning: /* @__PURE__ */ jsx35(IconWarning, { size: 20 }),
-  error: /* @__PURE__ */ jsx35(IconError, { size: 20 }),
-  success: /* @__PURE__ */ jsx35(IconCheckCircle, { size: 20 })
+  info: /* @__PURE__ */ jsx36(IconInfo, { size: 20 }),
+  warning: /* @__PURE__ */ jsx36(IconWarning, { size: 20 }),
+  error: /* @__PURE__ */ jsx36(IconError, { size: 20 }),
+  success: /* @__PURE__ */ jsx36(IconCheckCircle, { size: 20 })
 };
 var AlertBanner = forwardRef24(
   function AlertBanner2({ variant, children, onDismiss, icon }, ref) {
@@ -4928,9 +5010,9 @@ var AlertBanner = forwardRef24(
           animation: "alert-banner-slide-in 250ms ease"
         },
         children: [
-          resolvedIcon && /* @__PURE__ */ jsx35("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
-          /* @__PURE__ */ jsx35("span", { style: { flex: 1 }, children }),
-          onDismiss && /* @__PURE__ */ jsx35(
+          resolvedIcon && /* @__PURE__ */ jsx36("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
+          /* @__PURE__ */ jsx36("span", { style: { flex: 1 }, children }),
+          onDismiss && /* @__PURE__ */ jsx36(
             "button",
             {
               className: "alert-banner-dismiss",
@@ -4965,12 +5047,12 @@ var AlertBanner = forwardRef24(
 );
 
 // src/components/TopBar/TopBar.tsx
-import { createContext as createContext5, forwardRef as forwardRef25, useContext as useContext5 } from "react";
+import { createContext as createContext6, forwardRef as forwardRef25, useContext as useContext6 } from "react";
 import { semantic as t35, useInjectStyles as useInjectStyles17, Slot as Slot3 } from "../../core/dist/index.js";
-import { jsx as jsx36 } from "react/jsx-runtime";
-var TopBarContext = createContext5(null);
+import { jsx as jsx37 } from "react/jsx-runtime";
+var TopBarContext = createContext6(null);
 function useTopBarContext(component) {
-  const ctx = useContext5(TopBarContext);
+  const ctx = useContext6(TopBarContext);
   if (ctx === null) {
     throw new Error(
       `[@4lt7ab/ui] <TopBar.${component}> must be rendered inside <TopBar.Root>.`
@@ -5006,7 +5088,7 @@ var TopBarRoot = forwardRef25(
   function TopBarRoot2({ children, sticky = false, ...rest }, ref) {
     useInjectStyles17(TOPBAR_STYLES_ID, TOPBAR_CSS);
     const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: t35.zIndexSticky } : {};
-    return /* @__PURE__ */ jsx36(TopBarContext.Provider, { value: true, children: /* @__PURE__ */ jsx36(
+    return /* @__PURE__ */ jsx37(TopBarContext.Provider, { value: true, children: /* @__PURE__ */ jsx37(
       "header",
       {
         ref,
@@ -5030,7 +5112,7 @@ var TopBarRoot = forwardRef25(
 );
 function TopBarLeading({ children }) {
   useTopBarContext("Leading");
-  return /* @__PURE__ */ jsx36(
+  return /* @__PURE__ */ jsx37(
     "div",
     {
       style: {
@@ -5049,7 +5131,7 @@ function TopBarLeading({ children }) {
 }
 function TopBarNav({ children, "aria-label": ariaLabel = "Primary" }) {
   useTopBarContext("Nav");
-  return /* @__PURE__ */ jsx36(
+  return /* @__PURE__ */ jsx37(
     "nav",
     {
       "aria-label": ariaLabel,
@@ -5093,13 +5175,13 @@ var TopBarLink = forwardRef25(function TopBarLink2({ active = false, asChild = f
     style
   };
   if (asChild) {
-    return /* @__PURE__ */ jsx36(Slot3, { ref, ...commonProps, children });
+    return /* @__PURE__ */ jsx37(Slot3, { ref, ...commonProps, children });
   }
-  return /* @__PURE__ */ jsx36("button", { ref, type: "button", ...commonProps, children });
+  return /* @__PURE__ */ jsx37("button", { ref, type: "button", ...commonProps, children });
 });
 function TopBarTrailing({ children }) {
   useTopBarContext("Trailing");
-  return /* @__PURE__ */ jsx36(
+  return /* @__PURE__ */ jsx37(
     "div",
     {
       style: {
@@ -5171,7 +5253,7 @@ var Surface = forwardRef26(
 
 // src/components/Grid/Grid.tsx
 import { forwardRef as forwardRef27 } from "react";
-import { jsx as jsx37 } from "react/jsx-runtime";
+import { jsx as jsx38 } from "react/jsx-runtime";
 var Grid = forwardRef27(
   function Grid2({
     minColumnWidth = 300,
@@ -5182,7 +5264,7 @@ var Grid = forwardRef27(
   }, ref) {
     const minWidth = `${minColumnWidth}px`;
     const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
-    return /* @__PURE__ */ jsx37(
+    return /* @__PURE__ */ jsx38(
       "div",
       {
         ref,
@@ -5202,7 +5284,7 @@ var Grid = forwardRef27(
 // src/components/Divider/Divider.tsx
 import { forwardRef as forwardRef28 } from "react";
 import { semantic as t37 } from "../../core/dist/index.js";
-import { jsx as jsx38 } from "react/jsx-runtime";
+import { jsx as jsx39 } from "react/jsx-runtime";
 var Divider = forwardRef28(
   function Divider2({
     orientation = "horizontal",
@@ -5214,7 +5296,7 @@ var Divider = forwardRef28(
     const bg = `color-mix(in srgb, ${t37.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
     const isHorizontal = orientation === "horizontal";
-    return /* @__PURE__ */ jsx38(
+    return /* @__PURE__ */ jsx39(
       "div",
       {
         ref,
@@ -5235,9 +5317,9 @@ var Divider = forwardRef28(
 );
 
 // src/components/TabStrip/TabStrip.tsx
-import { forwardRef as forwardRef29, useCallback as useCallback12, useRef as useRef13 } from "react";
+import { forwardRef as forwardRef29, useCallback as useCallback13, useRef as useRef13 } from "react";
 import { semantic as t38, useInjectStyles as useInjectStyles18 } from "../../core/dist/index.js";
-import { jsx as jsx39, jsxs as jsxs23 } from "react/jsx-runtime";
+import { jsx as jsx40, jsxs as jsxs23 } from "react/jsx-runtime";
 var STYLES_ID = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
@@ -5259,7 +5341,7 @@ var TabStrip = forwardRef29(
   }, ref) {
     useInjectStyles18(STYLES_ID, STYLES_CSS);
     const tabRefs = useRef13([]);
-    const handleClick = useCallback12(
+    const handleClick = useCallback13(
       (key) => {
         if (key === activeKey && allowDeselect) {
           onChange(null);
@@ -5269,7 +5351,7 @@ var TabStrip = forwardRef29(
       },
       [activeKey, allowDeselect, onChange]
     );
-    const handleKeyDown = useCallback12(
+    const handleKeyDown = useCallback13(
       (e, index) => {
         let nextIndex = null;
         if (e.key === "ArrowRight") {
@@ -5289,7 +5371,7 @@ var TabStrip = forwardRef29(
       [tabs.length]
     );
     const isSm = size === "sm";
-    return /* @__PURE__ */ jsx39(
+    return /* @__PURE__ */ jsx40(
       "div",
       {
         ref,
@@ -5332,7 +5414,7 @@ var TabStrip = forwardRef29(
                 whiteSpace: "nowrap"
               },
               children: [
-                tab.icon && /* @__PURE__ */ jsx39(
+                tab.icon && /* @__PURE__ */ jsx40(
                   "span",
                   {
                     className: "material-symbols-outlined",
@@ -5355,6 +5437,7 @@ export {
   AlertBanner,
   Badge,
   Button,
+  Calendar,
   Card,
   CardSkeleton,
   ChipPicker,
@@ -5443,6 +5526,7 @@ export {
   shadowMap,
   spacingMap,
   tagChipStyle,
+  useCalendarContext,
   useFocusTrap,
   useToast
 };

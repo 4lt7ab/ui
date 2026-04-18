@@ -33,6 +33,7 @@ import { MarginNoteDemo } from './MarginNoteDemo';
 import { SideNoteDemo } from './SideNoteDemo';
 import { DateRangePickerDemo } from './DateRangePickerDemo';
 import { DatePickerDemo } from './DatePickerDemo';
+import { CalendarDemo } from './CalendarDemo';
 import { ErrorBoundaryDemo } from './ErrorBoundaryDemo';
 import { IconFontDemo } from './IconFontDemo';
 import { ToastDemo } from './ToastDemo';
@@ -103,6 +104,7 @@ export const demos: DemoEntry[] = [
   { name: 'Select', category: 'Form', source: 'ui', component: SelectDemo },
   { name: 'DatePicker', category: 'Form', source: 'ui', component: DatePickerDemo },
   { name: 'DateRangePicker', category: 'Form', source: 'ui', component: DateRangePickerDemo },
+  { name: 'Calendar', category: 'Form', source: 'ui', component: CalendarDemo },
   { name: 'Combobox', category: 'Form', source: 'ui', component: ComboboxDemo },
   { name: 'ChipPicker', category: 'Form', source: 'ui', component: ChipPickerDemo },
   { name: 'SearchInput', category: 'Form', source: 'ui', component: SearchInputDemo },
@@ -136,7 +138,7 @@ export {
   ModalDemo, OverlayDemo, ConfirmDialogDemo, ContainerDemo,
   ProseDemo, MarkdownDemo, ThinkingCycleDemo, LinkCardDemo, TableDemo,
   StatusDotDemo, ThemePickerDemo, EpigraphDemo, PullQuoteDemo,
-  MarginNoteDemo, SideNoteDemo, DateRangePickerDemo, DatePickerDemo,
+  MarginNoteDemo, SideNoteDemo, DateRangePickerDemo, DatePickerDemo, CalendarDemo,
   ErrorBoundaryDemo,
   IconFontDemo,
   ToastDemo,

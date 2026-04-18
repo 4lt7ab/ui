@@ -36,6 +36,7 @@ export * from './components/StatusDot';
 export * from './components/Table';
 export * from './components/DateRangePicker';
 export * from './components/DatePicker';
+export * from './components/Calendar';
 export * from './components/ErrorBoundary';
 export * from './components/Toast';
 export * from './components/Combobox';
