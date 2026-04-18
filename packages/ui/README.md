@@ -128,24 +128,39 @@ Extends `TextareaHTMLAttributes<HTMLTextAreaElement>`.
 
 Dropdown select with options or custom children.
 
+Compound API. `Select.Root` owns state + context; the parts are the rendered DOM.
+
 ```tsx
-<Select
-  options={[
-    { value: 'a', label: 'Option A' },
-    { value: 'b', label: 'Option B', disabled: true },
-  ]}
-  placeholder="Choose one"
-/>
+<Select.Root value={value} onValueChange={setValue} name="role">
+  <Select.Trigger aria-label="Role">
+    <Select.Value placeholder="Choose one" />
+  </Select.Trigger>
+  <Select.Content>
+    <Select.Item value="a">Option A</Select.Item>
+    <Select.Item value="b" disabled>Option B</Select.Item>
+  </Select.Content>
+</Select.Root>
 ```
+
+**`Select.Root`**
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `options` | `SelectOption[]` | — | Options to render (ignored when children provided) |
-| `children` | `ReactNode` | — | Custom option/optgroup elements |
-| `placeholder` | `string` | — | Shown as a disabled first option |
-| `hasError` | `boolean` | `false` | Renders error border styling |
+| `value` | `string` | — | Controlled selected value |
+| `defaultValue` | `string` | — | Uncontrolled initial value |
+| `onValueChange` | `(value: string) => void` | — | Called when the user picks a new value |
+| `onChange` | `(event: { target: { value, name } }) => void` | — | Legacy-shaped handler shim. Prefer `onValueChange` |
+| `disabled` | `boolean` | `false` | Disables the trigger and blocks opening |
+| `hasError` | `boolean` | `false` | Applies error border styling |
+| `name`, `required`, `id`, `form` | — | — | Forwarded to a hidden native `<select>` so the value participates in form submission |
 
-`SelectOption`: `{ value: string; label: string; disabled?: boolean }`
+**`Select.Trigger`** — `aria-label`, `aria-labelledby`, `aria-describedby`, `data-testid`, `tabIndex`; children typically `<Select.Value />`.
+
+**`Select.Value`** — `placeholder?: string`.
+
+**`Select.Item`** — `value: string`, `disabled?: boolean`, `textValue?: string` (explicit label for non-string children). Children are the rendered label.
+
+See the `Select` demo for controlled / uncontrolled, error state, and rich-item examples. Migration from the pre-0.4 flat API is in the [v0.4 upgrade guide §10](#) in the knowledgebase.
 
 ### Combobox
 

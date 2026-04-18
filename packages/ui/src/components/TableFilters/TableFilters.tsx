@@ -112,21 +112,27 @@ function SelectFilter({
   value: string;
   onCommit: (key: string, value: string) => void;
 }): React.JSX.Element {
-  const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>): void => {
-      onCommit(config.key, e.target.value);
+  const handleValueChange = useCallback(
+    (next: string): void => {
+      onCommit(config.key, next);
     },
     [config.key, onCommit],
   );
 
   return (
     <div style={{ minWidth: '8rem', flex: '0 1 12rem' }}>
-      <Select
-        value={value}
-        onChange={handleChange}
-        options={config.options}
-        placeholder={config.placeholder}
-      />
+      <Select.Root value={value} onValueChange={handleValueChange}>
+        <Select.Trigger>
+          <Select.Value placeholder={config.placeholder} />
+        </Select.Trigger>
+        <Select.Content>
+          {config.options.map((opt) => (
+            <Select.Item key={opt.value} value={opt.value}>
+              {opt.label}
+            </Select.Item>
+          ))}
+        </Select.Content>
+      </Select.Root>
     </div>
   );
 }

@@ -1355,131 +1355,98 @@ var selectCSS = (
   }
 `
 );
-function getOptions(options) {
-  return options ?? [];
+var SelectContext = (0, import_react10.createContext)(null);
+function useSelectContext(part) {
+  const ctx = (0, import_react10.useContext)(SelectContext);
+  if (!ctx) {
+    throw new Error(
+      `Select.${part} must be rendered inside <Select.Root>. See the upgrade guide for the 0.4.0 compound API.`
+    );
+  }
+  return ctx;
 }
-function findLabel(options, value) {
-  return options.find((o) => o.value === value)?.label;
-}
-var Select = (0, import_react10.forwardRef)(function Select2({
-  options,
-  children,
-  placeholder,
-  hasError,
-  disabled,
+function Root({
   value: controlledValue,
   defaultValue,
+  onValueChange,
   onChange,
-  onFocus,
-  onBlur,
+  disabled = false,
+  hasError = false,
   name,
   required,
   id,
   form,
-  tabIndex,
-  "aria-label": ariaLabel,
-  "aria-labelledby": ariaLabelledBy,
-  "aria-describedby": ariaDescribedBy,
-  "aria-invalid": ariaInvalid,
-  "data-testid": dataTestId
-}, ref) {
+  children
+}) {
   (0, import_core9.useInjectStyles)(SELECT_STYLES_ID, selectCSS);
-  const optionList = getOptions(options);
-  const [open, setOpen] = (0, import_react10.useState)(false);
-  const [focusedIndex, setFocusedIndex] = (0, import_react10.useState)(-1);
-  const [internalValue, setInternalValue] = (0, import_react10.useState)(
-    () => defaultValue ?? ""
-  );
+  const instanceId = (0, import_react10.useId)();
+  const listboxId = `${instanceId}-listbox`;
+  const [internalValue, setInternalValue] = (0, import_react10.useState)(defaultValue ?? "");
   const isControlled = controlledValue !== void 0;
-  const currentValue = isControlled ? controlledValue : internalValue;
+  const value = isControlled ? controlledValue : internalValue;
+  const [open, setOpen] = (0, import_react10.useState)(false);
+  const [focusedValue, setFocusedValue] = (0, import_react10.useState)(null);
+  const [dropDirection, setDropDirection] = (0, import_react10.useState)("down");
   const containerRef = (0, import_react10.useRef)(null);
   const triggerRef = (0, import_react10.useRef)(null);
-  const menuRef = (0, import_react10.useRef)(null);
-  const hiddenSelectRef = (0, import_react10.useRef)(null);
-  const [dropDirection, setDropDirection] = (0, import_react10.useState)("down");
-  (0, import_react10.useEffect)(() => {
-    if (!ref) return;
-    if (typeof ref === "function") {
-      ref(hiddenSelectRef.current);
-    } else {
-      ref.current = hiddenSelectRef.current;
-    }
-  }, [ref]);
-  if (children) {
-    return /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { style: wrapperStyle, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(
-        "select",
-        {
-          ref: hiddenSelectRef,
-          "aria-invalid": ariaInvalid ?? (hasError || void 0),
-          "aria-label": ariaLabel,
-          "aria-labelledby": ariaLabelledBy,
-          "aria-describedby": ariaDescribedBy,
-          name,
-          id,
-          form,
-          required,
-          tabIndex,
-          value: controlledValue,
-          defaultValue,
-          onChange,
-          onFocus,
-          onBlur,
-          disabled,
-          "data-testid": dataTestId,
-          style: {
-            ...triggerBaseStyle,
-            ...hasError ? errorBorderStyle3 : {},
-            ...disabled ? disabledStyle3 : {}
-          },
-          children: [
-            placeholder && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("option", { value: "", disabled: true, children: placeholder }),
-            children
-          ]
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { "aria-hidden": true, style: chevronStyle, children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(ChevronSVG, {}) })
-    ] });
-  }
+  const [items, setItems] = (0, import_react10.useState)([]);
+  const registerItem = (0, import_react10.useCallback)((item) => {
+    setItems((prev) => {
+      if (prev.some((p) => p.value === item.value)) {
+        return prev.map((p) => p.value === item.value ? item : p);
+      }
+      return [...prev, item];
+    });
+  }, []);
+  const unregisterItem = (0, import_react10.useCallback)((itemValue) => {
+    setItems((prev) => prev.filter((p) => p.value !== itemValue));
+  }, []);
+  const setValue = (0, import_react10.useCallback)(
+    (next, fromUser) => {
+      if (!isControlled) setInternalValue(next);
+      if (fromUser) {
+        onValueChange?.(next);
+        onChange?.({ target: { value: next, name } });
+      }
+    },
+    [isControlled, onValueChange, onChange, name]
+  );
   const calculateDirection = (0, import_react10.useCallback)(() => {
     const trigger = triggerRef.current;
     if (!trigger) return;
     const rect = trigger.getBoundingClientRect();
     const spaceBelow = window.innerHeight - rect.bottom;
     const spaceAbove = rect.top;
-    const estimatedHeight = Math.min(optionList.length * 32 + 8, 256);
-    setDropDirection(spaceBelow >= estimatedHeight ? "down" : spaceAbove > spaceBelow ? "up" : "down");
-  }, [optionList.length]);
+    const estimatedHeight = Math.min(items.length * 32 + 8, 256);
+    setDropDirection(
+      spaceBelow >= estimatedHeight ? "down" : spaceAbove > spaceBelow ? "up" : "down"
+    );
+  }, [items.length]);
   const openMenu = (0, import_react10.useCallback)(() => {
     if (disabled) return;
     calculateDirection();
     setOpen(true);
-    const activeIdx = optionList.findIndex((o) => o.value === currentValue);
-    setFocusedIndex(activeIdx >= 0 ? activeIdx : 0);
-  }, [disabled, calculateDirection, optionList, currentValue]);
+    const current = items.find((i) => i.value === value && !i.disabled);
+    const firstEnabled = items.find((i) => !i.disabled);
+    setFocusedValue((current ?? firstEnabled)?.value ?? null);
+  }, [disabled, calculateDirection, items, value]);
   const closeMenu = (0, import_react10.useCallback)(() => {
     setOpen(false);
-    setFocusedIndex(-1);
+    setFocusedValue(null);
   }, []);
-  const selectOption = (0, import_react10.useCallback)(
-    (opt) => {
-      if (opt.disabled) return;
-      if (!isControlled) {
-        setInternalValue(opt.value);
-      }
-      if (onChange && hiddenSelectRef.current) {
-        const nativeSelect = hiddenSelectRef.current;
-        const nativeSetter = Object.getOwnPropertyDescriptor(
-          HTMLSelectElement.prototype,
-          "value"
-        )?.set;
-        nativeSetter?.call(nativeSelect, opt.value);
-        onChange({ target: nativeSelect });
-      }
+  const toggleMenu = (0, import_react10.useCallback)(() => {
+    if (open) closeMenu();
+    else openMenu();
+  }, [open, openMenu, closeMenu]);
+  const selectItem = (0, import_react10.useCallback)(
+    (itemValue) => {
+      const item = items.find((i) => i.value === itemValue);
+      if (!item || item.disabled) return;
+      setValue(item.value, true);
       closeMenu();
       triggerRef.current?.focus();
     },
-    [isControlled, onChange, closeMenu]
+    [items, setValue, closeMenu]
   );
   (0, import_react10.useEffect)(() => {
     if (!open) return;
@@ -1491,18 +1458,14 @@ var Select = (0, import_react10.forwardRef)(function Select2({
     document.addEventListener("mousedown", handleMouseDown);
     return () => document.removeEventListener("mousedown", handleMouseDown);
   }, [open, closeMenu]);
-  (0, import_react10.useEffect)(() => {
-    if (!open || focusedIndex < 0) return;
-    const menu = menuRef.current;
-    if (!menu) return;
-    const items = menu.querySelectorAll('[role="option"]');
-    items[focusedIndex]?.scrollIntoView({ block: "nearest" });
-  }, [open, focusedIndex]);
   const handleKeyDown = (0, import_react10.useCallback)(
     (e) => {
       if (e.key === "Escape") {
-        closeMenu();
-        triggerRef.current?.focus();
+        if (open) {
+          e.preventDefault();
+          closeMenu();
+          triggerRef.current?.focus();
+        }
         return;
       }
       if (!open) {
@@ -1512,49 +1475,194 @@ var Select = (0, import_react10.forwardRef)(function Select2({
         }
         return;
       }
-      const enabledIndices = optionList.map((o, i) => o.disabled ? -1 : i).filter((i) => i >= 0);
+      const enabled = items.filter((i) => !i.disabled);
+      if (enabled.length === 0) return;
+      const currentIdx = focusedValue ? enabled.findIndex((i) => i.value === focusedValue) : -1;
       switch (e.key) {
         case "ArrowDown": {
           e.preventDefault();
-          const currentPos = enabledIndices.indexOf(focusedIndex);
-          const next = currentPos < enabledIndices.length - 1 ? enabledIndices[currentPos + 1] : enabledIndices[0];
-          setFocusedIndex(next);
+          const next = currentIdx < enabled.length - 1 && currentIdx >= 0 ? enabled[currentIdx + 1] : enabled[0];
+          setFocusedValue(next.value);
           break;
         }
         case "ArrowUp": {
           e.preventDefault();
-          const currentPos = enabledIndices.indexOf(focusedIndex);
-          const prev = currentPos > 0 ? enabledIndices[currentPos - 1] : enabledIndices[enabledIndices.length - 1];
-          setFocusedIndex(prev);
+          const prev = currentIdx > 0 ? enabled[currentIdx - 1] : enabled[enabled.length - 1];
+          setFocusedValue(prev.value);
           break;
         }
-        case "Enter":
-        case " ":
-          e.preventDefault();
-          if (focusedIndex >= 0 && focusedIndex < optionList.length) {
-            selectOption(optionList[focusedIndex]);
-          }
-          break;
         case "Home":
           e.preventDefault();
-          if (enabledIndices.length > 0) setFocusedIndex(enabledIndices[0]);
+          setFocusedValue(enabled[0].value);
           break;
         case "End":
           e.preventDefault();
-          if (enabledIndices.length > 0)
-            setFocusedIndex(enabledIndices[enabledIndices.length - 1]);
+          setFocusedValue(enabled[enabled.length - 1].value);
+          break;
+        case "Enter":
+        case " ":
+          e.preventDefault();
+          if (focusedValue) selectItem(focusedValue);
           break;
         case "Tab":
           closeMenu();
           break;
       }
     },
-    [open, openMenu, closeMenu, focusedIndex, optionList, selectOption]
+    [open, openMenu, closeMenu, focusedValue, items, selectItem]
   );
-  const displayLabel = findLabel(optionList, currentValue);
-  const showPlaceholder = !displayLabel && !!placeholder;
-  const listboxId = id ? `${id}-listbox` : void 0;
-  const menuStyle = dropDirection === "down" ? {
+  const ctx = (0, import_react10.useMemo)(
+    () => ({
+      value,
+      setValue,
+      open,
+      openMenu,
+      closeMenu,
+      toggleMenu,
+      disabled,
+      hasError,
+      focusedValue,
+      setFocusedValue,
+      items,
+      registerItem,
+      unregisterItem,
+      listboxId,
+      instanceId,
+      triggerRef,
+      dropDirection,
+      selectItem
+    }),
+    [
+      value,
+      setValue,
+      open,
+      openMenu,
+      closeMenu,
+      toggleMenu,
+      disabled,
+      hasError,
+      focusedValue,
+      items,
+      registerItem,
+      unregisterItem,
+      listboxId,
+      instanceId,
+      dropDirection,
+      selectItem
+    ]
+  );
+  return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(SelectContext.Provider, { value: ctx, children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(
+    "div",
+    {
+      ref: containerRef,
+      style: wrapperStyle,
+      onKeyDown: handleKeyDown,
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(
+          "select",
+          {
+            name,
+            id,
+            form,
+            required,
+            disabled,
+            value,
+            onChange: () => {
+            },
+            tabIndex: -1,
+            "aria-hidden": true,
+            style: hiddenSelectStyle,
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("option", { value: "" }),
+              items.map((item) => /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+                "option",
+                {
+                  value: item.value,
+                  disabled: item.disabled,
+                  children: item.label
+                },
+                item.value
+              ))
+            ]
+          }
+        ),
+        children
+      ]
+    }
+  ) });
+}
+function Trigger({
+  children,
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
+  "aria-describedby": ariaDescribedBy,
+  "data-testid": dataTestId,
+  tabIndex
+}) {
+  const ctx = useSelectContext("Trigger");
+  const {
+    open,
+    toggleMenu,
+    disabled,
+    hasError,
+    focusedValue,
+    items,
+    listboxId,
+    instanceId,
+    triggerRef
+  } = ctx;
+  const activeDescendant = open && focusedValue ? `${instanceId}-opt-${focusedValue}` : void 0;
+  const hasSelection = items.some((i) => i.value === ctx.value);
+  return /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(
+    "button",
+    {
+      ref: triggerRef,
+      type: "button",
+      className: "alttab-select-trigger",
+      role: "combobox",
+      "aria-expanded": open,
+      "aria-haspopup": "listbox",
+      "aria-controls": listboxId,
+      "aria-invalid": hasError || void 0,
+      "aria-label": ariaLabel,
+      "aria-labelledby": ariaLabelledBy,
+      "aria-describedby": ariaDescribedBy,
+      "aria-activedescendant": activeDescendant,
+      disabled,
+      tabIndex,
+      onClick: toggleMenu,
+      "data-testid": dataTestId,
+      style: {
+        ...triggerBaseStyle,
+        ...hasError ? errorBorderStyle3 : {},
+        ...disabled ? disabledStyle3 : {},
+        ...hasSelection ? {} : placeholderStyle
+      },
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { style: triggerTextStyle, children }),
+        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { "aria-hidden": true, style: chevronStyle, children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(ChevronSVG, { rotated: open }) })
+      ]
+    }
+  );
+}
+function Value({ placeholder }) {
+  const { value, items } = useSelectContext("Value");
+  const selected = items.find((i) => i.value === value);
+  return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_jsx_runtime10.Fragment, { children: selected?.label ?? placeholder ?? "\xA0" });
+}
+function Content({ children }) {
+  const { open, listboxId, dropDirection, focusedValue } = useSelectContext("Content");
+  const ref = (0, import_react10.useRef)(null);
+  (0, import_react10.useEffect)(() => {
+    if (!open || !focusedValue) return;
+    const menu = ref.current;
+    if (!menu) return;
+    const focused = menu.querySelector(
+      `[data-value="${CSS.escape(focusedValue)}"]`
+    );
+    focused?.scrollIntoView({ block: "nearest" });
+  }, [open, focusedValue]);
+  const positionStyle = dropDirection === "down" ? {
     position: "absolute",
     top: "100%",
     left: 0,
@@ -1567,115 +1675,94 @@ var Select = (0, import_react10.forwardRef)(function Select2({
     right: 0,
     marginBottom: import_core9.semantic.spaceXs
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { ref: containerRef, style: wrapperStyle, onKeyDown: handleKeyDown, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(
-      "select",
-      {
-        ref: hiddenSelectRef,
-        name,
-        value: currentValue,
-        onChange: () => {
-        },
-        disabled,
-        tabIndex: -1,
-        "aria-hidden": true,
-        style: {
-          position: "absolute",
-          width: 0,
-          height: 0,
-          overflow: "hidden",
-          opacity: 0,
-          pointerEvents: "none"
-        },
-        children: [
-          placeholder && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("option", { value: "", disabled: true, children: placeholder }),
-          optionList.map((opt) => /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("option", { value: opt.value, disabled: opt.disabled, children: opt.label }, opt.value))
-        ]
-      }
-    ),
-    /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
-      "button",
-      {
-        ref: triggerRef,
-        type: "button",
-        className: "alttab-select-trigger",
-        role: "combobox",
-        "aria-expanded": open,
-        "aria-haspopup": "listbox",
-        "aria-controls": listboxId,
-        "aria-invalid": hasError || void 0,
-        "aria-label": ariaLabel,
-        "aria-labelledby": ariaLabelledBy,
-        "aria-activedescendant": open && focusedIndex >= 0 ? `alttab-select-opt-${optionList[focusedIndex]?.value}` : void 0,
-        disabled,
-        onClick: () => open ? closeMenu() : openMenu(),
-        "data-testid": dataTestId,
-        style: {
-          ...triggerBaseStyle,
-          ...hasError ? errorBorderStyle3 : {},
-          ...disabled ? disabledStyle3 : {},
-          ...showPlaceholder ? placeholderStyle : {}
-        },
-        children: displayLabel ?? placeholder ?? "\xA0"
-      }
-    ),
-    /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { "aria-hidden": true, style: chevronStyle, children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(ChevronSVG, { rotated: open }) }),
-    open && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
-      "div",
-      {
-        ref: menuRef,
-        id: listboxId,
-        role: "listbox",
-        style: {
-          ...menuStyle,
-          background: import_core9.semantic.colorSurfacePanel,
-          border: `${import_core9.semantic.borderWidthDefault} solid ${import_core9.semantic.colorBorder}`,
-          borderRadius: import_core9.semantic.radiusMd,
-          padding: import_core9.semantic.spaceXs,
-          zIndex: import_core9.semantic.zIndexSticky,
-          boxShadow: import_core9.semantic.shadowMd,
-          maxHeight: "16rem",
-          overflowY: "auto",
-          boxSizing: "border-box"
-        },
-        children: optionList.map((opt, idx) => {
-          const isSelected = opt.value === currentValue;
-          const isFocused = focusedIndex === idx;
-          const classes = [
-            "alttab-select-option",
-            isSelected ? "alttab-select-option--selected" : "",
-            isFocused ? "alttab-select-option--focused" : "",
-            opt.disabled ? "alttab-select-option--disabled" : ""
-          ].filter(Boolean).join(" ");
-          return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
-            "button",
-            {
-              id: `alttab-select-opt-${opt.value}`,
-              type: "button",
-              role: "option",
-              "aria-selected": isSelected,
-              "aria-disabled": opt.disabled || void 0,
-              className: classes,
-              onClick: () => selectOption(opt),
-              onMouseEnter: () => {
-                if (!opt.disabled) setFocusedIndex(idx);
-              },
-              children: opt.label
-            },
-            opt.value
-          );
-        })
-      }
-    )
-  ] });
-});
+  return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+    "div",
+    {
+      ref,
+      id: listboxId,
+      role: "listbox",
+      hidden: !open,
+      style: open ? {
+        ...positionStyle,
+        background: import_core9.semantic.colorSurfacePanel,
+        border: `${import_core9.semantic.borderWidthDefault} solid ${import_core9.semantic.colorBorder}`,
+        borderRadius: import_core9.semantic.radiusMd,
+        padding: import_core9.semantic.spaceXs,
+        zIndex: import_core9.semantic.zIndexSticky,
+        boxShadow: import_core9.semantic.shadowMd,
+        maxHeight: "16rem",
+        overflowY: "auto",
+        boxSizing: "border-box"
+      } : void 0,
+      children
+    }
+  );
+}
+function Item({
+  value,
+  disabled = false,
+  textValue,
+  children
+}) {
+  const ctx = useSelectContext("Item");
+  const {
+    value: selectedValue,
+    focusedValue,
+    setFocusedValue,
+    selectItem,
+    registerItem,
+    unregisterItem,
+    instanceId
+  } = ctx;
+  const resolvedLabel = textValue ?? (typeof children === "string" ? children : value);
+  (0, import_react10.useEffect)(() => {
+    registerItem({ value, label: resolvedLabel, disabled });
+    return () => unregisterItem(value);
+  }, [value, resolvedLabel, disabled, registerItem, unregisterItem]);
+  const isSelected = selectedValue === value;
+  const isFocused = focusedValue === value;
+  const classes = [
+    "alttab-select-option",
+    isSelected ? "alttab-select-option--selected" : "",
+    isFocused ? "alttab-select-option--focused" : "",
+    disabled ? "alttab-select-option--disabled" : ""
+  ].filter(Boolean).join(" ");
+  return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+    "button",
+    {
+      type: "button",
+      role: "option",
+      id: `${instanceId}-opt-${value}`,
+      "data-value": value,
+      "aria-selected": isSelected,
+      "aria-disabled": disabled || void 0,
+      className: classes,
+      onClick: () => selectItem(value),
+      onMouseEnter: () => {
+        if (!disabled) setFocusedValue(value);
+      },
+      children
+    }
+  );
+}
 var wrapperStyle = {
   position: "relative",
   display: "block",
   width: "100%"
 };
+var hiddenSelectStyle = {
+  position: "absolute",
+  width: 0,
+  height: 0,
+  overflow: "hidden",
+  opacity: 0,
+  pointerEvents: "none"
+};
 var triggerBaseStyle = {
-  display: "block",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  gap: import_core9.semantic.spaceSm,
   width: "100%",
   padding: `${import_core9.semantic.spaceSm} ${import_core9.semantic.spaceMd}`,
   fontSize: import_core9.semantic.fontSizeSm,
@@ -1689,20 +1776,22 @@ var triggerBaseStyle = {
   transition: `border-color ${import_core9.semantic.transitionBase}, box-shadow ${import_core9.semantic.transitionBase}`,
   boxSizing: "border-box",
   cursor: "pointer",
-  textAlign: "left",
-  // Space for custom chevron
-  paddingRight: import_core9.semantic.space2xl
+  textAlign: "left"
+};
+var triggerTextStyle = {
+  flex: "1 1 auto",
+  minWidth: 0,
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap"
 };
 var chevronStyle = {
-  position: "absolute",
-  right: import_core9.semantic.spaceSm,
-  top: import_core9.semantic.spaceSm,
+  flex: "0 0 auto",
   pointerEvents: "none",
   color: import_core9.semantic.colorTextSecondary,
-  display: "flex",
+  display: "inline-flex",
   alignItems: "center",
-  justifyContent: "center",
-  height: `calc(${import_core9.semantic.fontSizeSm} * ${import_core9.semantic.lineHeightTight})`
+  justifyContent: "center"
 };
 var errorBorderStyle3 = {
   borderColor: import_core9.semantic.colorBorderError
@@ -1738,6 +1827,13 @@ function ChevronSVG({ rotated }) {
     }
   );
 }
+var Select = {
+  Root,
+  Trigger,
+  Value,
+  Content,
+  Item
+};
 
 // src/components/Badge/Badge.tsx
 var import_react11 = require("react");
@@ -4327,21 +4423,16 @@ function SelectFilter({
   value,
   onCommit
 }) {
-  const handleChange = (0, import_react30.useCallback)(
-    (e) => {
-      onCommit(config.key, e.target.value);
+  const handleValueChange = (0, import_react30.useCallback)(
+    (next) => {
+      onCommit(config.key, next);
     },
     [config.key, onCommit]
   );
-  return /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-    Select,
-    {
-      value,
-      onChange: handleChange,
-      options: config.options,
-      placeholder: config.placeholder
-    }
-  ) });
+  return /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(Select.Root, { value, onValueChange: handleValueChange, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(Select.Trigger, { children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(Select.Value, { placeholder: config.placeholder }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(Select.Content, { children: config.options.map((opt) => /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(Select.Item, { value: opt.value, children: opt.label }, opt.value)) })
+  ] }) });
 }
 function TableFilters({
   filters,

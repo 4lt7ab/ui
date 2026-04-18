@@ -117,15 +117,16 @@ export function AnalyticsDashboard(): React.JSX.Element {
           </div>
           <div style={{ minWidth: 140 }}>
             <Field label="Granularity">
-              <Select
-                value={granularity}
-                onChange={(e) => setGranularity(e.target.value)}
-                options={[
-                  { value: 'daily', label: 'Daily' },
-                  { value: 'weekly', label: 'Weekly' },
-                  { value: 'monthly', label: 'Monthly' },
-                ]}
-              />
+              <Select.Root value={granularity} onValueChange={setGranularity}>
+                <Select.Trigger>
+                  <Select.Value />
+                </Select.Trigger>
+                <Select.Content>
+                  <Select.Item value="daily">Daily</Select.Item>
+                  <Select.Item value="weekly">Weekly</Select.Item>
+                  <Select.Item value="monthly">Monthly</Select.Item>
+                </Select.Content>
+              </Select.Root>
             </Field>
           </div>
           <Button variant="primary" size="sm">Export</Button>

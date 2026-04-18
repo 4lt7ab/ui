@@ -306,45 +306,84 @@ interface TextareaProps {
 }
 declare const Textarea: React.ForwardRefExoticComponent<Omit<TextareaProps, "ref"> & React.RefAttributes<HTMLTextAreaElement>>;
 import { ReactNode as ReactNode6 } from "react";
-/** A single option in the Select dropdown. */
-interface SelectOption {
-	/** The value submitted with the form. */
-	value: string;
-	/** Display text shown in the dropdown. */
-	label: string;
-	/** Whether this option is disabled. */
+interface SelectRootProps {
+	/** The current selected value (controlled). */
+	value?: string;
+	/** Initial value for uncontrolled usage. */
+	defaultValue?: string;
+	/** Called when the user selects a new value. */
+	onValueChange?: (value: string) => void;
+	/** Legacy change handler shape — fires with a synthetic event whose target.value is the new value. Prefer onValueChange. */
+	onChange?: (event: {
+		target: {
+			value: string;
+			name?: string;
+		};
+	}) => void;
+	/** When true, disables the trigger and blocks opening. */
 	disabled?: boolean;
-}
-/** A custom dropdown select with viewport-aware positioning. */
-interface SelectProps {
-	/** Options to render. Ignored when `children` is provided. */
-	options?: SelectOption[];
-	/** Custom option/optgroup elements. When provided, `options` is ignored. */
-	children?: ReactNode6;
-	/** Optional placeholder shown as a first disabled option. */
-	placeholder?: string;
-	/** Renders error border styling. Typically driven by a parent Field.
-	* @default false
-	*/
+	/** When true, applies error border styling. Typically driven by a parent Field. */
 	hasError?: boolean;
-	value?: string | number | readonly string[];
-	defaultValue?: string | number | readonly string[];
-	onChange?: React.ChangeEventHandler<HTMLSelectElement>;
-	onFocus?: React.FocusEventHandler<HTMLSelectElement>;
-	onBlur?: React.FocusEventHandler<HTMLSelectElement>;
+	/** Form field name. A hidden native <select> is rendered so the value submits with the surrounding form. */
 	name?: string;
-	disabled?: boolean;
+	/** Marks the hidden native select as required. */
 	required?: boolean;
+	/** DOM id for the hidden native select (used by a wrapping <Field>'s htmlFor). */
 	id?: string;
+	/** Form id for the hidden native select. */
 	form?: string;
-	tabIndex?: number;
+	/** Subtree containing Trigger + Content. */
+	children: ReactNode6;
+}
+interface SelectTriggerProps {
+	/** Usually `<Select.Value placeholder="…" />`. Any ReactNode works. */
+	children: ReactNode6;
 	"aria-label"?: string;
 	"aria-labelledby"?: string;
 	"aria-describedby"?: string;
-	"aria-invalid"?: boolean;
 	"data-testid"?: string;
+	tabIndex?: number;
 }
-declare const Select: React.ForwardRefExoticComponent<Omit<SelectProps, "ref"> & React.RefAttributes<HTMLSelectElement>>;
+interface SelectValueProps {
+	/** Shown when no value is selected. */
+	placeholder?: string;
+}
+interface SelectContentProps {
+	children: ReactNode6;
+}
+interface SelectItemProps {
+	/** The value submitted when this item is selected. */
+	value: string;
+	/** When true, the item is unselectable and skipped by keyboard nav. */
+	disabled?: boolean;
+	/**
+	* Optional explicit string label for registration (used by Select.Value
+	* and the hidden native <option>). Defaults to `children` when `children`
+	* is a string.
+	*/
+	textValue?: string;
+	/** Display content. Usually the label string. */
+	children: ReactNode6;
+}
+/**
+* Compound Select. Use as:
+*
+* ```tsx
+* <Select.Root value={v} onValueChange={setV}>
+*   <Select.Trigger aria-label="Role">
+*     <Select.Value placeholder="Pick one..." />
+*   </Select.Trigger>
+*   <Select.Content>
+*     <Select.Item value="admin">Admin</Select.Item>
+*     <Select.Item value="viewer" disabled>Viewer</Select.Item>
+*   </Select.Content>
+* </Select.Root>
+* ```
+*
+* Form submission: `<Select.Root name="role">` renders a hidden native
+* `<select>` so the value participates in native form submission.
+*/
+declare const Select: {};
 import { ReactNode as ReactNode7 } from "react";
 /** Semantic color variant for badges. */
 type BadgeVariant = "default" | "primary" | "success" | "warning" | "error" | "info";
@@ -1390,4 +1429,4 @@ interface TabStripProps extends BaseComponentProps {
 	size?: "sm" | "md";
 }
 declare const TabStrip: React.ForwardRefExoticComponent<Omit<TabStripProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-export { useToast, useFocusTrap, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectProps, SelectOption, SelectFilterConfig, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PillSelectProps, PillSelectOption, PillSelect, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxProps, ComboboxOption, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };
+export { useToast, useFocusTrap, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectValueProps, SelectTriggerProps, SelectRootProps, SelectItemProps, SelectFilterConfig, SelectContentProps, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PillSelectProps, PillSelectOption, PillSelect, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxProps, ComboboxOption, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };

@@ -1,49 +1,18 @@
-import { forwardRef, useState, useEffect, useRef, useCallback } from 'react';
-import { semantic as t, useInjectStyles } from '@4lt7ab/core';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import type { ReactNode } from 'react';
-
-/** A single option in the Select dropdown. */
-export interface SelectOption {
-  /** The value submitted with the form. */
-  value: string;
-  /** Display text shown in the dropdown. */
-  label: string;
-  /** Whether this option is disabled. */
-  disabled?: boolean;
-}
-
-/** A custom dropdown select with viewport-aware positioning. */
-export interface SelectProps {
-  /** Options to render. Ignored when `children` is provided. */
-  options?: SelectOption[];
-  /** Custom option/optgroup elements. When provided, `options` is ignored. */
-  children?: ReactNode;
-  /** Optional placeholder shown as a first disabled option. */
-  placeholder?: string;
-  /** Renders error border styling. Typically driven by a parent Field.
-   * @default false
-   */
-  hasError?: boolean;
-  value?: string | number | readonly string[];
-  defaultValue?: string | number | readonly string[];
-  onChange?: React.ChangeEventHandler<HTMLSelectElement>;
-  onFocus?: React.FocusEventHandler<HTMLSelectElement>;
-  onBlur?: React.FocusEventHandler<HTMLSelectElement>;
-  name?: string;
-  disabled?: boolean;
-  required?: boolean;
-  id?: string;
-  form?: string;
-  tabIndex?: number;
-  'aria-label'?: string;
-  'aria-labelledby'?: string;
-  'aria-describedby'?: string;
-  'aria-invalid'?: boolean;
-  'data-testid'?: string;
-}
+import { semantic as t, useInjectStyles } from '@4lt7ab/core';
 
 // ---------------------------------------------------------------------------
-// Injected CSS for hover/focus states
+// Injected CSS
 // ---------------------------------------------------------------------------
 
 const SELECT_STYLES_ID = 'alttab-select';
@@ -90,182 +59,181 @@ const selectCSS = /* css */ `
 `;
 
 // ---------------------------------------------------------------------------
-// Helpers
+// Context
 // ---------------------------------------------------------------------------
 
-/** Extract flat option list from the `options` prop. */
-function getOptions(options?: SelectOption[]): SelectOption[] {
-  return options ?? [];
+interface RegisteredItem {
+  value: string;
+  label: string;
+  disabled: boolean;
 }
 
-/** Find the label for a value in the options list. */
-function findLabel(options: SelectOption[], value: string): string | undefined {
-  return options.find((o) => o.value === value)?.label;
+interface SelectContextValue {
+  value: string;
+  setValue: (v: string, fromUser: boolean) => void;
+  open: boolean;
+  openMenu: () => void;
+  closeMenu: () => void;
+  toggleMenu: () => void;
+  disabled: boolean;
+  hasError: boolean;
+  focusedValue: string | null;
+  setFocusedValue: (v: string | null) => void;
+  items: RegisteredItem[];
+  registerItem: (item: RegisteredItem) => void;
+  unregisterItem: (value: string) => void;
+  listboxId: string;
+  instanceId: string;
+  triggerRef: React.RefObject<HTMLButtonElement | null>;
+  dropDirection: 'down' | 'up';
+  selectItem: (value: string) => void;
+}
+
+const SelectContext = createContext<SelectContextValue | null>(null);
+
+function useSelectContext(part: string): SelectContextValue {
+  const ctx = useContext(SelectContext);
+  if (!ctx) {
+    throw new Error(
+      `Select.${part} must be rendered inside <Select.Root>. See the upgrade guide for the 0.4.0 compound API.`,
+    );
+  }
+  return ctx;
 }
 
 // ---------------------------------------------------------------------------
-// Component
+// Select.Root
 // ---------------------------------------------------------------------------
 
-export const Select: React.ForwardRefExoticComponent<
-  Omit<SelectProps, 'ref'> & React.RefAttributes<HTMLSelectElement>
-> = forwardRef<HTMLSelectElement, SelectProps>(function Select(
-  {
-    options,
-    children,
-    placeholder,
-    hasError,
-    disabled,
-    value: controlledValue,
-    defaultValue,
-    onChange,
-    onFocus,
-    onBlur,
-    name,
-    required,
-    id,
-    form,
-    tabIndex,
-    'aria-label': ariaLabel,
-    'aria-labelledby': ariaLabelledBy,
-    'aria-describedby': ariaDescribedBy,
-    'aria-invalid': ariaInvalid,
-    'data-testid': dataTestId,
-  },
-  ref,
-): React.JSX.Element {
+export interface SelectRootProps {
+  /** The current selected value (controlled). */
+  value?: string;
+  /** Initial value for uncontrolled usage. */
+  defaultValue?: string;
+  /** Called when the user selects a new value. */
+  onValueChange?: (value: string) => void;
+  /** Legacy change handler shape — fires with a synthetic event whose target.value is the new value. Prefer onValueChange. */
+  onChange?: (event: { target: { value: string; name?: string } }) => void;
+  /** When true, disables the trigger and blocks opening. */
+  disabled?: boolean;
+  /** When true, applies error border styling. Typically driven by a parent Field. */
+  hasError?: boolean;
+  /** Form field name. A hidden native <select> is rendered so the value submits with the surrounding form. */
+  name?: string;
+  /** Marks the hidden native select as required. */
+  required?: boolean;
+  /** DOM id for the hidden native select (used by a wrapping <Field>'s htmlFor). */
+  id?: string;
+  /** Form id for the hidden native select. */
+  form?: string;
+  /** Subtree containing Trigger + Content. */
+  children: ReactNode;
+}
+
+function Root({
+  value: controlledValue,
+  defaultValue,
+  onValueChange,
+  onChange,
+  disabled = false,
+  hasError = false,
+  name,
+  required,
+  id,
+  form,
+  children,
+}: SelectRootProps): React.JSX.Element {
   useInjectStyles(SELECT_STYLES_ID, selectCSS);
 
-  // -- State -----------------------------------------------------------------
+  const instanceId = useId();
+  const listboxId = `${instanceId}-listbox`;
 
-  const optionList = getOptions(options);
-  const [open, setOpen] = useState(false);
-  const [focusedIndex, setFocusedIndex] = useState(-1);
-  const [internalValue, setInternalValue] = useState<string>(
-    () => (defaultValue as string) ?? '',
-  );
-
+  const [internalValue, setInternalValue] = useState<string>(defaultValue ?? '');
   const isControlled = controlledValue !== undefined;
-  const currentValue = isControlled ? (controlledValue as string) : internalValue;
+  const value = isControlled ? controlledValue : internalValue;
 
-  // -- Refs ------------------------------------------------------------------
+  const [open, setOpen] = useState(false);
+  const [focusedValue, setFocusedValue] = useState<string | null>(null);
+  const [dropDirection, setDropDirection] = useState<'down' | 'up'>('down');
 
   const containerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
-  const hiddenSelectRef = useRef<HTMLSelectElement>(null);
-  const [dropDirection, setDropDirection] = useState<'down' | 'up'>('down');
 
-  // Merge hidden select ref with forwarded ref
-  useEffect(() => {
-    if (!ref) return;
-    if (typeof ref === 'function') {
-      ref(hiddenSelectRef.current);
-    } else {
-      (ref as React.MutableRefObject<HTMLSelectElement | null>).current =
-        hiddenSelectRef.current;
-    }
-  }, [ref]);
+  // Registered items — Items self-register on mount, in DOM order.
+  const [items, setItems] = useState<RegisteredItem[]>([]);
+  const registerItem = useCallback((item: RegisteredItem): void => {
+    setItems((prev) => {
+      if (prev.some((p) => p.value === item.value)) {
+        return prev.map((p) => (p.value === item.value ? item : p));
+      }
+      return [...prev, item];
+    });
+  }, []);
+  const unregisterItem = useCallback((itemValue: string): void => {
+    setItems((prev) => prev.filter((p) => p.value !== itemValue));
+  }, []);
 
-  // -- If children are provided, fall back to native <select> ----------------
-  // Custom positioning only works with the `options` prop. When `children`
-  // are provided (optgroup, etc.), render the native select as before.
+  // Value setter — internal for both user-driven selection and programmatic syncs.
+  const setValue = useCallback(
+    (next: string, fromUser: boolean): void => {
+      if (!isControlled) setInternalValue(next);
+      if (fromUser) {
+        onValueChange?.(next);
+        onChange?.({ target: { value: next, name } });
+      }
+    },
+    [isControlled, onValueChange, onChange, name],
+  );
 
-  if (children) {
-    return (
-      <div style={wrapperStyle}>
-        <select
-          ref={hiddenSelectRef}
-          aria-invalid={ariaInvalid ?? (hasError || undefined)}
-          aria-label={ariaLabel}
-          aria-labelledby={ariaLabelledBy}
-          aria-describedby={ariaDescribedBy}
-          name={name}
-          id={id}
-          form={form}
-          required={required}
-          tabIndex={tabIndex}
-          value={controlledValue}
-          defaultValue={defaultValue}
-          onChange={onChange}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          disabled={disabled}
-          data-testid={dataTestId}
-          style={{
-            ...triggerBaseStyle,
-            ...(hasError ? errorBorderStyle : {}),
-            ...(disabled ? disabledStyle : {}),
-          }}
-        >
-          {placeholder && (
-            <option value="" disabled>
-              {placeholder}
-            </option>
-          )}
-          {children}
-        </select>
-        <span aria-hidden style={chevronStyle}>
-          <ChevronSVG />
-        </span>
-      </div>
-    );
-  }
-
-  // -- Dropdown positioning --------------------------------------------------
-
+  // Viewport-aware drop direction — estimated height from registered items.
   const calculateDirection = useCallback((): void => {
     const trigger = triggerRef.current;
     if (!trigger) return;
     const rect = trigger.getBoundingClientRect();
     const spaceBelow = window.innerHeight - rect.bottom;
     const spaceAbove = rect.top;
-    // Estimate dropdown height: each option ~32px + padding
-    const estimatedHeight = Math.min(optionList.length * 32 + 8, 256);
-    setDropDirection(spaceBelow >= estimatedHeight ? 'down' : spaceAbove > spaceBelow ? 'up' : 'down');
-  }, [optionList.length]);
-
-  // -- Open/close logic ------------------------------------------------------
+    const estimatedHeight = Math.min(items.length * 32 + 8, 256);
+    setDropDirection(
+      spaceBelow >= estimatedHeight
+        ? 'down'
+        : spaceAbove > spaceBelow
+          ? 'up'
+          : 'down',
+    );
+  }, [items.length]);
 
   const openMenu = useCallback((): void => {
     if (disabled) return;
     calculateDirection();
     setOpen(true);
-    const activeIdx = optionList.findIndex((o) => o.value === currentValue);
-    setFocusedIndex(activeIdx >= 0 ? activeIdx : 0);
-  }, [disabled, calculateDirection, optionList, currentValue]);
+    // Focus the current value if present, otherwise the first enabled item.
+    const current = items.find((i) => i.value === value && !i.disabled);
+    const firstEnabled = items.find((i) => !i.disabled);
+    setFocusedValue((current ?? firstEnabled)?.value ?? null);
+  }, [disabled, calculateDirection, items, value]);
 
   const closeMenu = useCallback((): void => {
     setOpen(false);
-    setFocusedIndex(-1);
+    setFocusedValue(null);
   }, []);
 
-  const selectOption = useCallback(
-    (opt: SelectOption): void => {
-      if (opt.disabled) return;
-      if (!isControlled) {
-        setInternalValue(opt.value);
-      }
-      // Call onChange directly — dispatching a native event on the hidden
-      // <select> doesn't work because React's event delegation picks up
-      // the noop onChange handler on that element instead of the consumer's.
-      if (onChange && hiddenSelectRef.current) {
-        const nativeSelect = hiddenSelectRef.current;
-        const nativeSetter = Object.getOwnPropertyDescriptor(
-          HTMLSelectElement.prototype,
-          'value',
-        )?.set;
-        nativeSetter?.call(nativeSelect, opt.value);
-        onChange({ target: nativeSelect } as React.ChangeEvent<HTMLSelectElement>);
-      }
+  const toggleMenu = useCallback((): void => {
+    if (open) closeMenu();
+    else openMenu();
+  }, [open, openMenu, closeMenu]);
+
+  const selectItem = useCallback(
+    (itemValue: string): void => {
+      const item = items.find((i) => i.value === itemValue);
+      if (!item || item.disabled) return;
+      setValue(item.value, true);
       closeMenu();
       triggerRef.current?.focus();
     },
-    [isControlled, onChange, closeMenu],
+    [items, setValue, closeMenu],
   );
 
-  // -- Close on outside click ------------------------------------------------
-
+  // Close on outside mousedown.
   useEffect(() => {
     if (!open) return;
     function handleMouseDown(e: MouseEvent): void {
@@ -280,23 +248,15 @@ export const Select: React.ForwardRefExoticComponent<
     return () => document.removeEventListener('mousedown', handleMouseDown);
   }, [open, closeMenu]);
 
-  // -- Scroll focused item into view -----------------------------------------
-
-  useEffect(() => {
-    if (!open || focusedIndex < 0) return;
-    const menu = menuRef.current;
-    if (!menu) return;
-    const items = menu.querySelectorAll('[role="option"]');
-    items[focusedIndex]?.scrollIntoView({ block: 'nearest' });
-  }, [open, focusedIndex]);
-
-  // -- Keyboard navigation ---------------------------------------------------
-
+  // Keyboard navigation — attached to the wrapper so Trigger + Content both route keys through here.
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent): void => {
       if (e.key === 'Escape') {
-        closeMenu();
-        triggerRef.current?.focus();
+        if (open) {
+          e.preventDefault();
+          closeMenu();
+          triggerRef.current?.focus();
+        }
         return;
       }
 
@@ -313,64 +273,250 @@ export const Select: React.ForwardRefExoticComponent<
         return;
       }
 
-      const enabledIndices = optionList
-        .map((o, i) => (o.disabled ? -1 : i))
-        .filter((i) => i >= 0);
+      const enabled = items.filter((i) => !i.disabled);
+      if (enabled.length === 0) return;
+      const currentIdx = focusedValue
+        ? enabled.findIndex((i) => i.value === focusedValue)
+        : -1;
 
       switch (e.key) {
         case 'ArrowDown': {
           e.preventDefault();
-          const currentPos = enabledIndices.indexOf(focusedIndex);
           const next =
-            currentPos < enabledIndices.length - 1
-              ? enabledIndices[currentPos + 1]
-              : enabledIndices[0];
-          setFocusedIndex(next);
+            currentIdx < enabled.length - 1 && currentIdx >= 0
+              ? enabled[currentIdx + 1]
+              : enabled[0];
+          setFocusedValue(next.value);
           break;
         }
         case 'ArrowUp': {
           e.preventDefault();
-          const currentPos = enabledIndices.indexOf(focusedIndex);
           const prev =
-            currentPos > 0
-              ? enabledIndices[currentPos - 1]
-              : enabledIndices[enabledIndices.length - 1];
-          setFocusedIndex(prev);
+            currentIdx > 0
+              ? enabled[currentIdx - 1]
+              : enabled[enabled.length - 1];
+          setFocusedValue(prev.value);
           break;
         }
-        case 'Enter':
-        case ' ':
-          e.preventDefault();
-          if (focusedIndex >= 0 && focusedIndex < optionList.length) {
-            selectOption(optionList[focusedIndex]);
-          }
-          break;
         case 'Home':
           e.preventDefault();
-          if (enabledIndices.length > 0) setFocusedIndex(enabledIndices[0]);
+          setFocusedValue(enabled[0].value);
           break;
         case 'End':
           e.preventDefault();
-          if (enabledIndices.length > 0)
-            setFocusedIndex(enabledIndices[enabledIndices.length - 1]);
+          setFocusedValue(enabled[enabled.length - 1].value);
+          break;
+        case 'Enter':
+        case ' ':
+          e.preventDefault();
+          if (focusedValue) selectItem(focusedValue);
           break;
         case 'Tab':
           closeMenu();
           break;
       }
     },
-    [open, openMenu, closeMenu, focusedIndex, optionList, selectOption],
+    [open, openMenu, closeMenu, focusedValue, items, selectItem],
   );
 
-  // -- Derived display values ------------------------------------------------
+  const ctx = useMemo<SelectContextValue>(
+    () => ({
+      value,
+      setValue,
+      open,
+      openMenu,
+      closeMenu,
+      toggleMenu,
+      disabled,
+      hasError,
+      focusedValue,
+      setFocusedValue,
+      items,
+      registerItem,
+      unregisterItem,
+      listboxId,
+      instanceId,
+      triggerRef,
+      dropDirection,
+      selectItem,
+    }),
+    [
+      value,
+      setValue,
+      open,
+      openMenu,
+      closeMenu,
+      toggleMenu,
+      disabled,
+      hasError,
+      focusedValue,
+      items,
+      registerItem,
+      unregisterItem,
+      listboxId,
+      instanceId,
+      dropDirection,
+      selectItem,
+    ],
+  );
 
-  const displayLabel = findLabel(optionList, currentValue);
-  const showPlaceholder = !displayLabel && !!placeholder;
-  const listboxId = id ? `${id}-listbox` : undefined;
+  return (
+    <SelectContext.Provider value={ctx}>
+      <div
+        ref={containerRef}
+        style={wrapperStyle}
+        onKeyDown={handleKeyDown}
+      >
+        {/* Hidden native select for form submission. */}
+        <select
+          name={name}
+          id={id}
+          form={form}
+          required={required}
+          disabled={disabled}
+          value={value}
+          onChange={() => {
+            /* noop -- controlled by custom UI */
+          }}
+          tabIndex={-1}
+          aria-hidden
+          style={hiddenSelectStyle}
+        >
+          {/* Always emit an empty option so an un-selected state is submittable. */}
+          <option value="" />
+          {items.map((item) => (
+            <option
+              key={item.value}
+              value={item.value}
+              disabled={item.disabled}
+            >
+              {item.label}
+            </option>
+          ))}
+        </select>
 
-  // -- Dropdown menu style ---------------------------------------------------
+        {children}
+      </div>
+    </SelectContext.Provider>
+  );
+}
 
-  const menuStyle: React.CSSProperties =
+// ---------------------------------------------------------------------------
+// Select.Trigger
+// ---------------------------------------------------------------------------
+
+export interface SelectTriggerProps {
+  /** Usually `<Select.Value placeholder="…" />`. Any ReactNode works. */
+  children: ReactNode;
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
+  'aria-describedby'?: string;
+  'data-testid'?: string;
+  tabIndex?: number;
+}
+
+function Trigger({
+  children,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledBy,
+  'aria-describedby': ariaDescribedBy,
+  'data-testid': dataTestId,
+  tabIndex,
+}: SelectTriggerProps): React.JSX.Element {
+  const ctx = useSelectContext('Trigger');
+  const {
+    open,
+    toggleMenu,
+    disabled,
+    hasError,
+    focusedValue,
+    items,
+    listboxId,
+    instanceId,
+    triggerRef,
+  } = ctx;
+
+  const activeDescendant =
+    open && focusedValue
+      ? `${instanceId}-opt-${focusedValue}`
+      : undefined;
+  // A trigger is "empty" (showing placeholder) when no item matches the current value.
+  const hasSelection = items.some((i) => i.value === ctx.value);
+
+  return (
+    <button
+      ref={triggerRef}
+      type="button"
+      className="alttab-select-trigger"
+      role="combobox"
+      aria-expanded={open}
+      aria-haspopup="listbox"
+      aria-controls={listboxId}
+      aria-invalid={hasError || undefined}
+      aria-label={ariaLabel}
+      aria-labelledby={ariaLabelledBy}
+      aria-describedby={ariaDescribedBy}
+      aria-activedescendant={activeDescendant}
+      disabled={disabled}
+      tabIndex={tabIndex}
+      onClick={toggleMenu}
+      data-testid={dataTestId}
+      style={{
+        ...triggerBaseStyle,
+        ...(hasError ? errorBorderStyle : {}),
+        ...(disabled ? disabledStyle : {}),
+        ...(hasSelection ? {} : placeholderStyle),
+      }}
+    >
+      <span style={triggerTextStyle}>{children}</span>
+      <span aria-hidden style={chevronStyle}>
+        <ChevronSVG rotated={open} />
+      </span>
+    </button>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Select.Value
+// ---------------------------------------------------------------------------
+
+export interface SelectValueProps {
+  /** Shown when no value is selected. */
+  placeholder?: string;
+}
+
+function Value({ placeholder }: SelectValueProps): React.JSX.Element {
+  const { value, items } = useSelectContext('Value');
+  const selected = items.find((i) => i.value === value);
+  // Render NBSP when nothing to show so the trigger keeps its line height.
+  return <>{selected?.label ?? placeholder ?? '\u00A0'}</>;
+}
+
+// ---------------------------------------------------------------------------
+// Select.Content
+// ---------------------------------------------------------------------------
+
+export interface SelectContentProps {
+  children: ReactNode;
+}
+
+function Content({ children }: SelectContentProps): React.JSX.Element {
+  const { open, listboxId, dropDirection, focusedValue } =
+    useSelectContext('Content');
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Scroll focused item into view when keyboard nav moves.
+  useEffect(() => {
+    if (!open || !focusedValue) return;
+    const menu = ref.current;
+    if (!menu) return;
+    const focused = menu.querySelector<HTMLElement>(
+      `[data-value="${CSS.escape(focusedValue)}"]`,
+    );
+    focused?.scrollIntoView({ block: 'nearest' });
+  }, [open, focusedValue]);
+
+  const positionStyle: React.CSSProperties =
     dropDirection === 'down'
       ? {
           position: 'absolute',
@@ -387,131 +533,112 @@ export const Select: React.ForwardRefExoticComponent<
           marginBottom: t.spaceXs,
         };
 
-  // -- Render ----------------------------------------------------------------
-
+  // Always render — Items register with Root on mount, and must stay
+  // registered across open/close so the first keyboard open knows the
+  // item list. The `hidden` attribute removes the listbox from the
+  // accessibility tree when closed.
   return (
-    <div ref={containerRef} style={wrapperStyle} onKeyDown={handleKeyDown}>
-      {/* Hidden native select for form submission and ref compatibility */}
-      <select
-        ref={hiddenSelectRef}
-        name={name}
-        value={currentValue}
-        onChange={() => {
-          /* noop -- controlled by custom UI */
-        }}
-        disabled={disabled}
-        tabIndex={-1}
-        aria-hidden
-        style={{
-          position: 'absolute',
-          width: 0,
-          height: 0,
-          overflow: 'hidden',
-          opacity: 0,
-          pointerEvents: 'none',
-        }}
-      >
-        {placeholder && (
-          <option value="" disabled>
-            {placeholder}
-          </option>
-        )}
-        {optionList.map((opt) => (
-          <option key={opt.value} value={opt.value} disabled={opt.disabled}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
-
-      {/* Custom trigger button */}
-      <button
-        ref={triggerRef}
-        type="button"
-        className="alttab-select-trigger"
-        role="combobox"
-        aria-expanded={open}
-        aria-haspopup="listbox"
-        aria-controls={listboxId}
-        aria-invalid={hasError || undefined}
-        aria-label={ariaLabel}
-        aria-labelledby={ariaLabelledBy}
-        aria-activedescendant={
-          open && focusedIndex >= 0
-            ? `alttab-select-opt-${optionList[focusedIndex]?.value}`
-            : undefined
-        }
-        disabled={disabled}
-        onClick={() => (open ? closeMenu() : openMenu())}
-        data-testid={dataTestId}
-        style={{
-          ...triggerBaseStyle,
-          ...(hasError ? errorBorderStyle : {}),
-          ...(disabled ? disabledStyle : {}),
-          ...(showPlaceholder ? placeholderStyle : {}),
-        }}
-      >
-        {displayLabel ?? placeholder ?? '\u00A0'}
-      </button>
-
-      {/* Chevron icon */}
-      <span aria-hidden style={chevronStyle}>
-        <ChevronSVG rotated={open} />
-      </span>
-
-      {/* Dropdown listbox */}
-      {open && (
-        <div
-          ref={menuRef}
-          id={listboxId}
-          role="listbox"
-          style={{
-            ...menuStyle,
-            background: t.colorSurfacePanel,
-            border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
-            borderRadius: t.radiusMd,
-            padding: t.spaceXs,
-            zIndex: t.zIndexSticky,
-            boxShadow: t.shadowMd,
-            maxHeight: '16rem',
-            overflowY: 'auto',
-            boxSizing: 'border-box',
-          }}
-        >
-          {optionList.map((opt, idx) => {
-            const isSelected = opt.value === currentValue;
-            const isFocused = focusedIndex === idx;
-            const classes = [
-              'alttab-select-option',
-              isSelected ? 'alttab-select-option--selected' : '',
-              isFocused ? 'alttab-select-option--focused' : '',
-              opt.disabled ? 'alttab-select-option--disabled' : '',
-            ]
-              .filter(Boolean)
-              .join(' ');
-
-            return (
-              <button
-                key={opt.value}
-                id={`alttab-select-opt-${opt.value}`}
-                type="button"
-                role="option"
-                aria-selected={isSelected}
-                aria-disabled={opt.disabled || undefined}
-                className={classes}
-                onClick={() => selectOption(opt)}
-                onMouseEnter={() => {
-                  if (!opt.disabled) setFocusedIndex(idx);
-                }}
-              >
-                {opt.label}
-              </button>
-            );
-          })}
-        </div>
-      )}
+    <div
+      ref={ref}
+      id={listboxId}
+      role="listbox"
+      hidden={!open}
+      style={
+        open
+          ? {
+              ...positionStyle,
+              background: t.colorSurfacePanel,
+              border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
+              borderRadius: t.radiusMd,
+              padding: t.spaceXs,
+              zIndex: t.zIndexSticky,
+              boxShadow: t.shadowMd,
+              maxHeight: '16rem',
+              overflowY: 'auto',
+              boxSizing: 'border-box',
+            }
+          : undefined
+      }
+    >
+      {children}
     </div>
   );
-});
+}
+
+// ---------------------------------------------------------------------------
+// Select.Item
+// ---------------------------------------------------------------------------
+
+export interface SelectItemProps {
+  /** The value submitted when this item is selected. */
+  value: string;
+  /** When true, the item is unselectable and skipped by keyboard nav. */
+  disabled?: boolean;
+  /**
+   * Optional explicit string label for registration (used by Select.Value
+   * and the hidden native <option>). Defaults to `children` when `children`
+   * is a string.
+   */
+  textValue?: string;
+  /** Display content. Usually the label string. */
+  children: ReactNode;
+}
+
+function Item({
+  value,
+  disabled = false,
+  textValue,
+  children,
+}: SelectItemProps): React.JSX.Element {
+  const ctx = useSelectContext('Item');
+  const {
+    value: selectedValue,
+    focusedValue,
+    setFocusedValue,
+    selectItem,
+    registerItem,
+    unregisterItem,
+    instanceId,
+  } = ctx;
+
+  const resolvedLabel =
+    textValue ?? (typeof children === 'string' ? children : value);
+
+  // Register with Root on mount, update on label/disabled change, unregister on unmount.
+  useEffect(() => {
+    registerItem({ value, label: resolvedLabel, disabled });
+    return () => unregisterItem(value);
+  }, [value, resolvedLabel, disabled, registerItem, unregisterItem]);
+
+  const isSelected = selectedValue === value;
+  const isFocused = focusedValue === value;
+  const classes = [
+    'alttab-select-option',
+    isSelected ? 'alttab-select-option--selected' : '',
+    isFocused ? 'alttab-select-option--focused' : '',
+    disabled ? 'alttab-select-option--disabled' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  return (
+    <button
+      type="button"
+      role="option"
+      id={`${instanceId}-opt-${value}`}
+      data-value={value}
+      aria-selected={isSelected}
+      aria-disabled={disabled || undefined}
+      className={classes}
+      onClick={() => selectItem(value)}
+      onMouseEnter={() => {
+        if (!disabled) setFocusedValue(value);
+      }}
+    >
+      {children}
+    </button>
+  );
+}
 
 // ---------------------------------------------------------------------------
 // Shared styles
@@ -523,8 +650,20 @@ const wrapperStyle: React.CSSProperties = {
   width: '100%',
 };
 
+const hiddenSelectStyle: React.CSSProperties = {
+  position: 'absolute',
+  width: 0,
+  height: 0,
+  overflow: 'hidden',
+  opacity: 0,
+  pointerEvents: 'none',
+};
+
 const triggerBaseStyle: React.CSSProperties = {
-  display: 'block',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: t.spaceSm,
   width: '100%',
   padding: `${t.spaceSm} ${t.spaceMd}`,
   fontSize: t.fontSizeSm,
@@ -539,20 +678,23 @@ const triggerBaseStyle: React.CSSProperties = {
   boxSizing: 'border-box' as const,
   cursor: 'pointer',
   textAlign: 'left' as const,
-  // Space for custom chevron
-  paddingRight: t.space2xl,
+};
+
+const triggerTextStyle: React.CSSProperties = {
+  flex: '1 1 auto',
+  minWidth: 0,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
 };
 
 const chevronStyle: React.CSSProperties = {
-  position: 'absolute',
-  right: t.spaceSm,
-  top: t.spaceSm,
+  flex: '0 0 auto',
   pointerEvents: 'none',
   color: t.colorTextSecondary,
-  display: 'flex',
+  display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  height: `calc(${t.fontSizeSm} * ${t.lineHeightTight})`,
 };
 
 const errorBorderStyle: React.CSSProperties = {
@@ -570,7 +712,7 @@ const placeholderStyle: React.CSSProperties = {
 };
 
 // ---------------------------------------------------------------------------
-// Chevron SVG sub-component
+// Chevron SVG
 // ---------------------------------------------------------------------------
 
 function ChevronSVG({ rotated }: { rotated?: boolean }): React.JSX.Element {
@@ -593,3 +735,33 @@ function ChevronSVG({ rotated }: { rotated?: boolean }): React.JSX.Element {
     </svg>
   );
 }
+
+// ---------------------------------------------------------------------------
+// Compound export
+// ---------------------------------------------------------------------------
+
+/**
+ * Compound Select. Use as:
+ *
+ * ```tsx
+ * <Select.Root value={v} onValueChange={setV}>
+ *   <Select.Trigger aria-label="Role">
+ *     <Select.Value placeholder="Pick one..." />
+ *   </Select.Trigger>
+ *   <Select.Content>
+ *     <Select.Item value="admin">Admin</Select.Item>
+ *     <Select.Item value="viewer" disabled>Viewer</Select.Item>
+ *   </Select.Content>
+ * </Select.Root>
+ * ```
+ *
+ * Form submission: `<Select.Root name="role">` renders a hidden native
+ * `<select>` so the value participates in native form submission.
+ */
+export const Select = {
+  Root,
+  Trigger,
+  Value,
+  Content,
+  Item,
+};

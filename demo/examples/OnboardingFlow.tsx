@@ -9,7 +9,6 @@ import {
 // ---------------------------------------------------------------------------
 
 const ROLE_OPTIONS = [
-  { value: '', label: 'Select a role\u2026' },
   { value: 'engineering', label: 'Engineering' },
   { value: 'design', label: 'Design' },
   { value: 'product', label: 'Product' },
@@ -51,7 +50,16 @@ function StepWorkspace({ name, onName, role, onRole }: {
         />
       </Field>
       <Field label="Your role">
-        <Select value={role} onChange={(e) => onRole(e.target.value)} options={ROLE_OPTIONS} />
+        <Select.Root value={role} onValueChange={onRole}>
+          <Select.Trigger>
+            <Select.Value placeholder="Select a role\u2026" />
+          </Select.Trigger>
+          <Select.Content>
+            {ROLE_OPTIONS.map((o) => (
+              <Select.Item key={o.value} value={o.value}>{o.label}</Select.Item>
+            ))}
+          </Select.Content>
+        </Select.Root>
       </Field>
     </Stack>
   );
@@ -89,11 +97,16 @@ function StepTeam({ email, onEmail, emailRole, onEmailRole, members, onAdd, onRe
         </div>
         <div>
           <Field label="Role">
-            <Select
-              value={emailRole}
-              onChange={(e) => onEmailRole(e.target.value)}
-              options={ROLE_OPTIONS.filter((o) => o.value !== '')}
-            />
+            <Select.Root value={emailRole} onValueChange={onEmailRole}>
+              <Select.Trigger>
+                <Select.Value />
+              </Select.Trigger>
+              <Select.Content>
+                {ROLE_OPTIONS.map((o) => (
+                  <Select.Item key={o.value} value={o.value}>{o.label}</Select.Item>
+                ))}
+              </Select.Content>
+            </Select.Root>
           </Field>
         </div>
         <Button variant="secondary" onClick={onAdd}>Add</Button>
@@ -147,7 +160,16 @@ function StepPreferences({ plan, onPlan, description, onDescription, workspaceNa
       </Stack>
 
       <Field label="Plan">
-        <Select value={plan} onChange={(e) => onPlan(e.target.value)} options={PLAN_OPTIONS} />
+        <Select.Root value={plan} onValueChange={onPlan}>
+          <Select.Trigger>
+            <Select.Value />
+          </Select.Trigger>
+          <Select.Content>
+            {PLAN_OPTIONS.map((o) => (
+              <Select.Item key={o.value} value={o.value}>{o.label}</Select.Item>
+            ))}
+          </Select.Content>
+        </Select.Root>
       </Field>
 
       <Field label="What will you use this workspace for?" help="Optional \u2014 helps us customize your experience">

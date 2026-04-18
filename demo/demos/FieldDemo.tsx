@@ -67,15 +67,16 @@ export function FieldDemo(): React.JSX.Element {
               <Textarea id="field-child-textarea" placeholder="Write something longer..." rows={3} />
             </Field>
             <Field label="Select" htmlFor="field-child-select">
-              <Select
-                id="field-child-select"
-                placeholder="Pick one..."
-                options={[
-                  { value: 'a', label: 'Option A' },
-                  { value: 'b', label: 'Option B' },
-                  { value: 'c', label: 'Option C' },
-                ]}
-              />
+              <Select.Root id="field-child-select">
+                <Select.Trigger>
+                  <Select.Value placeholder="Pick one..." />
+                </Select.Trigger>
+                <Select.Content>
+                  <Select.Item value="a">Option A</Select.Item>
+                  <Select.Item value="b">Option B</Select.Item>
+                  <Select.Item value="c">Option C</Select.Item>
+                </Select.Content>
+              </Select.Root>
             </Field>
           </Stack>
         </div>
@@ -111,16 +112,17 @@ export function FieldDemo(): React.JSX.Element {
                   <Input id="contact-email" type="email" placeholder="jane@example.com" />
                 </Field>
                 <Field label="Subject" htmlFor="contact-subject">
-                  <Select
-                    id="contact-subject"
-                    placeholder="Choose a topic..."
-                    options={[
-                      { value: 'general', label: 'General inquiry' },
-                      { value: 'support', label: 'Technical support' },
-                      { value: 'billing', label: 'Billing question' },
-                      { value: 'feedback', label: 'Feedback' },
-                    ]}
-                  />
+                  <Select.Root id="contact-subject">
+                    <Select.Trigger>
+                      <Select.Value placeholder="Choose a topic..." />
+                    </Select.Trigger>
+                    <Select.Content>
+                      <Select.Item value="general">General inquiry</Select.Item>
+                      <Select.Item value="support">Technical support</Select.Item>
+                      <Select.Item value="billing">Billing question</Select.Item>
+                      <Select.Item value="feedback">Feedback</Select.Item>
+                    </Select.Content>
+                  </Select.Root>
                 </Field>
                 <Field label="Message" htmlFor="contact-message" help="Markdown is supported.">
                   <Textarea id="contact-message" placeholder="How can we help?" rows={4} />

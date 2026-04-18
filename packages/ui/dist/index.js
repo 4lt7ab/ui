@@ -1178,9 +1178,18 @@ var Textarea = forwardRef8(
 );
 
 // src/components/Select/Select.tsx
-import { forwardRef as forwardRef9, useState as useState2, useEffect as useEffect4, useRef as useRef3, useCallback as useCallback2 } from "react";
+import {
+  createContext as createContext2,
+  useCallback as useCallback2,
+  useContext as useContext2,
+  useEffect as useEffect4,
+  useId as useId2,
+  useMemo,
+  useRef as useRef3,
+  useState as useState2
+} from "react";
 import { semantic as t7, useInjectStyles as useInjectStyles4 } from "../../core/dist/index.js";
-import { jsx as jsx10, jsxs as jsxs4 } from "react/jsx-runtime";
+import { Fragment, jsx as jsx10, jsxs as jsxs4 } from "react/jsx-runtime";
 var SELECT_STYLES_ID = "alttab-select";
 var selectCSS = (
   /* css */
@@ -1225,131 +1234,98 @@ var selectCSS = (
   }
 `
 );
-function getOptions(options) {
-  return options ?? [];
+var SelectContext = createContext2(null);
+function useSelectContext(part) {
+  const ctx = useContext2(SelectContext);
+  if (!ctx) {
+    throw new Error(
+      `Select.${part} must be rendered inside <Select.Root>. See the upgrade guide for the 0.4.0 compound API.`
+    );
+  }
+  return ctx;
 }
-function findLabel(options, value) {
-  return options.find((o) => o.value === value)?.label;
-}
-var Select = forwardRef9(function Select2({
-  options,
-  children,
-  placeholder,
-  hasError,
-  disabled,
+function Root({
   value: controlledValue,
   defaultValue,
+  onValueChange,
   onChange,
-  onFocus,
-  onBlur,
+  disabled = false,
+  hasError = false,
   name,
   required,
   id,
   form,
-  tabIndex,
-  "aria-label": ariaLabel,
-  "aria-labelledby": ariaLabelledBy,
-  "aria-describedby": ariaDescribedBy,
-  "aria-invalid": ariaInvalid,
-  "data-testid": dataTestId
-}, ref) {
+  children
+}) {
   useInjectStyles4(SELECT_STYLES_ID, selectCSS);
-  const optionList = getOptions(options);
-  const [open, setOpen] = useState2(false);
-  const [focusedIndex, setFocusedIndex] = useState2(-1);
-  const [internalValue, setInternalValue] = useState2(
-    () => defaultValue ?? ""
-  );
+  const instanceId = useId2();
+  const listboxId = `${instanceId}-listbox`;
+  const [internalValue, setInternalValue] = useState2(defaultValue ?? "");
   const isControlled = controlledValue !== void 0;
-  const currentValue = isControlled ? controlledValue : internalValue;
+  const value = isControlled ? controlledValue : internalValue;
+  const [open, setOpen] = useState2(false);
+  const [focusedValue, setFocusedValue] = useState2(null);
+  const [dropDirection, setDropDirection] = useState2("down");
   const containerRef = useRef3(null);
   const triggerRef = useRef3(null);
-  const menuRef = useRef3(null);
-  const hiddenSelectRef = useRef3(null);
-  const [dropDirection, setDropDirection] = useState2("down");
-  useEffect4(() => {
-    if (!ref) return;
-    if (typeof ref === "function") {
-      ref(hiddenSelectRef.current);
-    } else {
-      ref.current = hiddenSelectRef.current;
-    }
-  }, [ref]);
-  if (children) {
-    return /* @__PURE__ */ jsxs4("div", { style: wrapperStyle, children: [
-      /* @__PURE__ */ jsxs4(
-        "select",
-        {
-          ref: hiddenSelectRef,
-          "aria-invalid": ariaInvalid ?? (hasError || void 0),
-          "aria-label": ariaLabel,
-          "aria-labelledby": ariaLabelledBy,
-          "aria-describedby": ariaDescribedBy,
-          name,
-          id,
-          form,
-          required,
-          tabIndex,
-          value: controlledValue,
-          defaultValue,
-          onChange,
-          onFocus,
-          onBlur,
-          disabled,
-          "data-testid": dataTestId,
-          style: {
-            ...triggerBaseStyle,
-            ...hasError ? errorBorderStyle3 : {},
-            ...disabled ? disabledStyle3 : {}
-          },
-          children: [
-            placeholder && /* @__PURE__ */ jsx10("option", { value: "", disabled: true, children: placeholder }),
-            children
-          ]
-        }
-      ),
-      /* @__PURE__ */ jsx10("span", { "aria-hidden": true, style: chevronStyle, children: /* @__PURE__ */ jsx10(ChevronSVG, {}) })
-    ] });
-  }
+  const [items, setItems] = useState2([]);
+  const registerItem = useCallback2((item) => {
+    setItems((prev) => {
+      if (prev.some((p) => p.value === item.value)) {
+        return prev.map((p) => p.value === item.value ? item : p);
+      }
+      return [...prev, item];
+    });
+  }, []);
+  const unregisterItem = useCallback2((itemValue) => {
+    setItems((prev) => prev.filter((p) => p.value !== itemValue));
+  }, []);
+  const setValue = useCallback2(
+    (next, fromUser) => {
+      if (!isControlled) setInternalValue(next);
+      if (fromUser) {
+        onValueChange?.(next);
+        onChange?.({ target: { value: next, name } });
+      }
+    },
+    [isControlled, onValueChange, onChange, name]
+  );
   const calculateDirection = useCallback2(() => {
     const trigger = triggerRef.current;
     if (!trigger) return;
     const rect = trigger.getBoundingClientRect();
     const spaceBelow = window.innerHeight - rect.bottom;
     const spaceAbove = rect.top;
-    const estimatedHeight = Math.min(optionList.length * 32 + 8, 256);
-    setDropDirection(spaceBelow >= estimatedHeight ? "down" : spaceAbove > spaceBelow ? "up" : "down");
-  }, [optionList.length]);
+    const estimatedHeight = Math.min(items.length * 32 + 8, 256);
+    setDropDirection(
+      spaceBelow >= estimatedHeight ? "down" : spaceAbove > spaceBelow ? "up" : "down"
+    );
+  }, [items.length]);
   const openMenu = useCallback2(() => {
     if (disabled) return;
     calculateDirection();
     setOpen(true);
-    const activeIdx = optionList.findIndex((o) => o.value === currentValue);
-    setFocusedIndex(activeIdx >= 0 ? activeIdx : 0);
-  }, [disabled, calculateDirection, optionList, currentValue]);
+    const current = items.find((i) => i.value === value && !i.disabled);
+    const firstEnabled = items.find((i) => !i.disabled);
+    setFocusedValue((current ?? firstEnabled)?.value ?? null);
+  }, [disabled, calculateDirection, items, value]);
   const closeMenu = useCallback2(() => {
     setOpen(false);
-    setFocusedIndex(-1);
+    setFocusedValue(null);
   }, []);
-  const selectOption = useCallback2(
-    (opt) => {
-      if (opt.disabled) return;
-      if (!isControlled) {
-        setInternalValue(opt.value);
-      }
-      if (onChange && hiddenSelectRef.current) {
-        const nativeSelect = hiddenSelectRef.current;
-        const nativeSetter = Object.getOwnPropertyDescriptor(
-          HTMLSelectElement.prototype,
-          "value"
-        )?.set;
-        nativeSetter?.call(nativeSelect, opt.value);
-        onChange({ target: nativeSelect });
-      }
+  const toggleMenu = useCallback2(() => {
+    if (open) closeMenu();
+    else openMenu();
+  }, [open, openMenu, closeMenu]);
+  const selectItem = useCallback2(
+    (itemValue) => {
+      const item = items.find((i) => i.value === itemValue);
+      if (!item || item.disabled) return;
+      setValue(item.value, true);
       closeMenu();
       triggerRef.current?.focus();
     },
-    [isControlled, onChange, closeMenu]
+    [items, setValue, closeMenu]
   );
   useEffect4(() => {
     if (!open) return;
@@ -1361,18 +1337,14 @@ var Select = forwardRef9(function Select2({
     document.addEventListener("mousedown", handleMouseDown);
     return () => document.removeEventListener("mousedown", handleMouseDown);
   }, [open, closeMenu]);
-  useEffect4(() => {
-    if (!open || focusedIndex < 0) return;
-    const menu = menuRef.current;
-    if (!menu) return;
-    const items = menu.querySelectorAll('[role="option"]');
-    items[focusedIndex]?.scrollIntoView({ block: "nearest" });
-  }, [open, focusedIndex]);
   const handleKeyDown = useCallback2(
     (e) => {
       if (e.key === "Escape") {
-        closeMenu();
-        triggerRef.current?.focus();
+        if (open) {
+          e.preventDefault();
+          closeMenu();
+          triggerRef.current?.focus();
+        }
         return;
       }
       if (!open) {
@@ -1382,49 +1354,194 @@ var Select = forwardRef9(function Select2({
         }
         return;
       }
-      const enabledIndices = optionList.map((o, i) => o.disabled ? -1 : i).filter((i) => i >= 0);
+      const enabled = items.filter((i) => !i.disabled);
+      if (enabled.length === 0) return;
+      const currentIdx = focusedValue ? enabled.findIndex((i) => i.value === focusedValue) : -1;
       switch (e.key) {
         case "ArrowDown": {
           e.preventDefault();
-          const currentPos = enabledIndices.indexOf(focusedIndex);
-          const next = currentPos < enabledIndices.length - 1 ? enabledIndices[currentPos + 1] : enabledIndices[0];
-          setFocusedIndex(next);
+          const next = currentIdx < enabled.length - 1 && currentIdx >= 0 ? enabled[currentIdx + 1] : enabled[0];
+          setFocusedValue(next.value);
           break;
         }
         case "ArrowUp": {
           e.preventDefault();
-          const currentPos = enabledIndices.indexOf(focusedIndex);
-          const prev = currentPos > 0 ? enabledIndices[currentPos - 1] : enabledIndices[enabledIndices.length - 1];
-          setFocusedIndex(prev);
+          const prev = currentIdx > 0 ? enabled[currentIdx - 1] : enabled[enabled.length - 1];
+          setFocusedValue(prev.value);
           break;
         }
-        case "Enter":
-        case " ":
-          e.preventDefault();
-          if (focusedIndex >= 0 && focusedIndex < optionList.length) {
-            selectOption(optionList[focusedIndex]);
-          }
-          break;
         case "Home":
           e.preventDefault();
-          if (enabledIndices.length > 0) setFocusedIndex(enabledIndices[0]);
+          setFocusedValue(enabled[0].value);
           break;
         case "End":
           e.preventDefault();
-          if (enabledIndices.length > 0)
-            setFocusedIndex(enabledIndices[enabledIndices.length - 1]);
+          setFocusedValue(enabled[enabled.length - 1].value);
+          break;
+        case "Enter":
+        case " ":
+          e.preventDefault();
+          if (focusedValue) selectItem(focusedValue);
           break;
         case "Tab":
           closeMenu();
           break;
       }
     },
-    [open, openMenu, closeMenu, focusedIndex, optionList, selectOption]
+    [open, openMenu, closeMenu, focusedValue, items, selectItem]
   );
-  const displayLabel = findLabel(optionList, currentValue);
-  const showPlaceholder = !displayLabel && !!placeholder;
-  const listboxId = id ? `${id}-listbox` : void 0;
-  const menuStyle = dropDirection === "down" ? {
+  const ctx = useMemo(
+    () => ({
+      value,
+      setValue,
+      open,
+      openMenu,
+      closeMenu,
+      toggleMenu,
+      disabled,
+      hasError,
+      focusedValue,
+      setFocusedValue,
+      items,
+      registerItem,
+      unregisterItem,
+      listboxId,
+      instanceId,
+      triggerRef,
+      dropDirection,
+      selectItem
+    }),
+    [
+      value,
+      setValue,
+      open,
+      openMenu,
+      closeMenu,
+      toggleMenu,
+      disabled,
+      hasError,
+      focusedValue,
+      items,
+      registerItem,
+      unregisterItem,
+      listboxId,
+      instanceId,
+      dropDirection,
+      selectItem
+    ]
+  );
+  return /* @__PURE__ */ jsx10(SelectContext.Provider, { value: ctx, children: /* @__PURE__ */ jsxs4(
+    "div",
+    {
+      ref: containerRef,
+      style: wrapperStyle,
+      onKeyDown: handleKeyDown,
+      children: [
+        /* @__PURE__ */ jsxs4(
+          "select",
+          {
+            name,
+            id,
+            form,
+            required,
+            disabled,
+            value,
+            onChange: () => {
+            },
+            tabIndex: -1,
+            "aria-hidden": true,
+            style: hiddenSelectStyle,
+            children: [
+              /* @__PURE__ */ jsx10("option", { value: "" }),
+              items.map((item) => /* @__PURE__ */ jsx10(
+                "option",
+                {
+                  value: item.value,
+                  disabled: item.disabled,
+                  children: item.label
+                },
+                item.value
+              ))
+            ]
+          }
+        ),
+        children
+      ]
+    }
+  ) });
+}
+function Trigger({
+  children,
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
+  "aria-describedby": ariaDescribedBy,
+  "data-testid": dataTestId,
+  tabIndex
+}) {
+  const ctx = useSelectContext("Trigger");
+  const {
+    open,
+    toggleMenu,
+    disabled,
+    hasError,
+    focusedValue,
+    items,
+    listboxId,
+    instanceId,
+    triggerRef
+  } = ctx;
+  const activeDescendant = open && focusedValue ? `${instanceId}-opt-${focusedValue}` : void 0;
+  const hasSelection = items.some((i) => i.value === ctx.value);
+  return /* @__PURE__ */ jsxs4(
+    "button",
+    {
+      ref: triggerRef,
+      type: "button",
+      className: "alttab-select-trigger",
+      role: "combobox",
+      "aria-expanded": open,
+      "aria-haspopup": "listbox",
+      "aria-controls": listboxId,
+      "aria-invalid": hasError || void 0,
+      "aria-label": ariaLabel,
+      "aria-labelledby": ariaLabelledBy,
+      "aria-describedby": ariaDescribedBy,
+      "aria-activedescendant": activeDescendant,
+      disabled,
+      tabIndex,
+      onClick: toggleMenu,
+      "data-testid": dataTestId,
+      style: {
+        ...triggerBaseStyle,
+        ...hasError ? errorBorderStyle3 : {},
+        ...disabled ? disabledStyle3 : {},
+        ...hasSelection ? {} : placeholderStyle
+      },
+      children: [
+        /* @__PURE__ */ jsx10("span", { style: triggerTextStyle, children }),
+        /* @__PURE__ */ jsx10("span", { "aria-hidden": true, style: chevronStyle, children: /* @__PURE__ */ jsx10(ChevronSVG, { rotated: open }) })
+      ]
+    }
+  );
+}
+function Value({ placeholder }) {
+  const { value, items } = useSelectContext("Value");
+  const selected = items.find((i) => i.value === value);
+  return /* @__PURE__ */ jsx10(Fragment, { children: selected?.label ?? placeholder ?? "\xA0" });
+}
+function Content({ children }) {
+  const { open, listboxId, dropDirection, focusedValue } = useSelectContext("Content");
+  const ref = useRef3(null);
+  useEffect4(() => {
+    if (!open || !focusedValue) return;
+    const menu = ref.current;
+    if (!menu) return;
+    const focused = menu.querySelector(
+      `[data-value="${CSS.escape(focusedValue)}"]`
+    );
+    focused?.scrollIntoView({ block: "nearest" });
+  }, [open, focusedValue]);
+  const positionStyle = dropDirection === "down" ? {
     position: "absolute",
     top: "100%",
     left: 0,
@@ -1437,115 +1554,94 @@ var Select = forwardRef9(function Select2({
     right: 0,
     marginBottom: t7.spaceXs
   };
-  return /* @__PURE__ */ jsxs4("div", { ref: containerRef, style: wrapperStyle, onKeyDown: handleKeyDown, children: [
-    /* @__PURE__ */ jsxs4(
-      "select",
-      {
-        ref: hiddenSelectRef,
-        name,
-        value: currentValue,
-        onChange: () => {
-        },
-        disabled,
-        tabIndex: -1,
-        "aria-hidden": true,
-        style: {
-          position: "absolute",
-          width: 0,
-          height: 0,
-          overflow: "hidden",
-          opacity: 0,
-          pointerEvents: "none"
-        },
-        children: [
-          placeholder && /* @__PURE__ */ jsx10("option", { value: "", disabled: true, children: placeholder }),
-          optionList.map((opt) => /* @__PURE__ */ jsx10("option", { value: opt.value, disabled: opt.disabled, children: opt.label }, opt.value))
-        ]
-      }
-    ),
-    /* @__PURE__ */ jsx10(
-      "button",
-      {
-        ref: triggerRef,
-        type: "button",
-        className: "alttab-select-trigger",
-        role: "combobox",
-        "aria-expanded": open,
-        "aria-haspopup": "listbox",
-        "aria-controls": listboxId,
-        "aria-invalid": hasError || void 0,
-        "aria-label": ariaLabel,
-        "aria-labelledby": ariaLabelledBy,
-        "aria-activedescendant": open && focusedIndex >= 0 ? `alttab-select-opt-${optionList[focusedIndex]?.value}` : void 0,
-        disabled,
-        onClick: () => open ? closeMenu() : openMenu(),
-        "data-testid": dataTestId,
-        style: {
-          ...triggerBaseStyle,
-          ...hasError ? errorBorderStyle3 : {},
-          ...disabled ? disabledStyle3 : {},
-          ...showPlaceholder ? placeholderStyle : {}
-        },
-        children: displayLabel ?? placeholder ?? "\xA0"
-      }
-    ),
-    /* @__PURE__ */ jsx10("span", { "aria-hidden": true, style: chevronStyle, children: /* @__PURE__ */ jsx10(ChevronSVG, { rotated: open }) }),
-    open && /* @__PURE__ */ jsx10(
-      "div",
-      {
-        ref: menuRef,
-        id: listboxId,
-        role: "listbox",
-        style: {
-          ...menuStyle,
-          background: t7.colorSurfacePanel,
-          border: `${t7.borderWidthDefault} solid ${t7.colorBorder}`,
-          borderRadius: t7.radiusMd,
-          padding: t7.spaceXs,
-          zIndex: t7.zIndexSticky,
-          boxShadow: t7.shadowMd,
-          maxHeight: "16rem",
-          overflowY: "auto",
-          boxSizing: "border-box"
-        },
-        children: optionList.map((opt, idx) => {
-          const isSelected = opt.value === currentValue;
-          const isFocused = focusedIndex === idx;
-          const classes = [
-            "alttab-select-option",
-            isSelected ? "alttab-select-option--selected" : "",
-            isFocused ? "alttab-select-option--focused" : "",
-            opt.disabled ? "alttab-select-option--disabled" : ""
-          ].filter(Boolean).join(" ");
-          return /* @__PURE__ */ jsx10(
-            "button",
-            {
-              id: `alttab-select-opt-${opt.value}`,
-              type: "button",
-              role: "option",
-              "aria-selected": isSelected,
-              "aria-disabled": opt.disabled || void 0,
-              className: classes,
-              onClick: () => selectOption(opt),
-              onMouseEnter: () => {
-                if (!opt.disabled) setFocusedIndex(idx);
-              },
-              children: opt.label
-            },
-            opt.value
-          );
-        })
-      }
-    )
-  ] });
-});
+  return /* @__PURE__ */ jsx10(
+    "div",
+    {
+      ref,
+      id: listboxId,
+      role: "listbox",
+      hidden: !open,
+      style: open ? {
+        ...positionStyle,
+        background: t7.colorSurfacePanel,
+        border: `${t7.borderWidthDefault} solid ${t7.colorBorder}`,
+        borderRadius: t7.radiusMd,
+        padding: t7.spaceXs,
+        zIndex: t7.zIndexSticky,
+        boxShadow: t7.shadowMd,
+        maxHeight: "16rem",
+        overflowY: "auto",
+        boxSizing: "border-box"
+      } : void 0,
+      children
+    }
+  );
+}
+function Item({
+  value,
+  disabled = false,
+  textValue,
+  children
+}) {
+  const ctx = useSelectContext("Item");
+  const {
+    value: selectedValue,
+    focusedValue,
+    setFocusedValue,
+    selectItem,
+    registerItem,
+    unregisterItem,
+    instanceId
+  } = ctx;
+  const resolvedLabel = textValue ?? (typeof children === "string" ? children : value);
+  useEffect4(() => {
+    registerItem({ value, label: resolvedLabel, disabled });
+    return () => unregisterItem(value);
+  }, [value, resolvedLabel, disabled, registerItem, unregisterItem]);
+  const isSelected = selectedValue === value;
+  const isFocused = focusedValue === value;
+  const classes = [
+    "alttab-select-option",
+    isSelected ? "alttab-select-option--selected" : "",
+    isFocused ? "alttab-select-option--focused" : "",
+    disabled ? "alttab-select-option--disabled" : ""
+  ].filter(Boolean).join(" ");
+  return /* @__PURE__ */ jsx10(
+    "button",
+    {
+      type: "button",
+      role: "option",
+      id: `${instanceId}-opt-${value}`,
+      "data-value": value,
+      "aria-selected": isSelected,
+      "aria-disabled": disabled || void 0,
+      className: classes,
+      onClick: () => selectItem(value),
+      onMouseEnter: () => {
+        if (!disabled) setFocusedValue(value);
+      },
+      children
+    }
+  );
+}
 var wrapperStyle = {
   position: "relative",
   display: "block",
   width: "100%"
 };
+var hiddenSelectStyle = {
+  position: "absolute",
+  width: 0,
+  height: 0,
+  overflow: "hidden",
+  opacity: 0,
+  pointerEvents: "none"
+};
 var triggerBaseStyle = {
-  display: "block",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  gap: t7.spaceSm,
   width: "100%",
   padding: `${t7.spaceSm} ${t7.spaceMd}`,
   fontSize: t7.fontSizeSm,
@@ -1559,20 +1655,22 @@ var triggerBaseStyle = {
   transition: `border-color ${t7.transitionBase}, box-shadow ${t7.transitionBase}`,
   boxSizing: "border-box",
   cursor: "pointer",
-  textAlign: "left",
-  // Space for custom chevron
-  paddingRight: t7.space2xl
+  textAlign: "left"
+};
+var triggerTextStyle = {
+  flex: "1 1 auto",
+  minWidth: 0,
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap"
 };
 var chevronStyle = {
-  position: "absolute",
-  right: t7.spaceSm,
-  top: t7.spaceSm,
+  flex: "0 0 auto",
   pointerEvents: "none",
   color: t7.colorTextSecondary,
-  display: "flex",
+  display: "inline-flex",
   alignItems: "center",
-  justifyContent: "center",
-  height: `calc(${t7.fontSizeSm} * ${t7.lineHeightTight})`
+  justifyContent: "center"
 };
 var errorBorderStyle3 = {
   borderColor: t7.colorBorderError
@@ -1608,9 +1706,16 @@ function ChevronSVG({ rotated }) {
     }
   );
 }
+var Select = {
+  Root,
+  Trigger,
+  Value,
+  Content,
+  Item
+};
 
 // src/components/Badge/Badge.tsx
-import { forwardRef as forwardRef10 } from "react";
+import { forwardRef as forwardRef9 } from "react";
 import { semantic as t8 } from "../../core/dist/index.js";
 import { jsx as jsx11 } from "react/jsx-runtime";
 var variantStyles3 = {
@@ -1662,7 +1767,7 @@ var xsBaseStyles = {
   letterSpacing: t8.letterSpacingWide,
   textTransform: "lowercase"
 };
-var Badge = forwardRef10(
+var Badge = forwardRef9(
   function Badge2({
     children,
     variant = "default",
@@ -1688,9 +1793,9 @@ var Badge = forwardRef10(
 );
 
 // src/components/IconButton/IconButton.tsx
-import { forwardRef as forwardRef11, useId as useId2 } from "react";
+import { forwardRef as forwardRef10, useId as useId3 } from "react";
 import { semantic as t9, useInjectStyles as useInjectStyles5, Slot as Slot2 } from "../../core/dist/index.js";
-import { Fragment, jsx as jsx12, jsxs as jsxs5 } from "react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx12, jsxs as jsxs5 } from "react/jsx-runtime";
 var buttonSizeMap = {
   sm: 28,
   md: 36,
@@ -1701,7 +1806,7 @@ var iconSizeForButton = {
   md: "md",
   lg: "lg"
 };
-var IconButton = forwardRef11(
+var IconButton = forwardRef10(
   function IconButton2({
     icon,
     size = "md",
@@ -1721,7 +1826,7 @@ var IconButton = forwardRef11(
     "aria-controls": ariaControls,
     "data-testid": dataTestId
   }, ref) {
-    const uid = useId2();
+    const uid = useId3();
     const styleId = `icon-btn-${uid.replace(/:/g, "")}`;
     useInjectStyles5(
       styleId,
@@ -1748,7 +1853,7 @@ var IconButton = forwardRef11(
       cursor: "pointer",
       padding: 0
     };
-    const iconAndBadge = /* @__PURE__ */ jsxs5(Fragment, { children: [
+    const iconAndBadge = /* @__PURE__ */ jsxs5(Fragment2, { children: [
       /* @__PURE__ */ jsx12(Icon, { name: icon, size: iconSizeForButton[size], fontClass }),
       badge && /* @__PURE__ */ jsx12(
         "span",
@@ -1796,10 +1901,10 @@ var IconButton = forwardRef11(
 );
 
 // src/components/Overlay/Overlay.tsx
-import { forwardRef as forwardRef12 } from "react";
+import { forwardRef as forwardRef11 } from "react";
 import { semantic as t10 } from "../../core/dist/index.js";
 import { jsx as jsx13 } from "react/jsx-runtime";
-var Overlay = forwardRef12(
+var Overlay = forwardRef11(
   function Overlay2({
     onClick,
     zIndex = t10.zIndexSticky
@@ -1822,7 +1927,7 @@ var Overlay = forwardRef12(
 );
 
 // src/components/Skeleton/Skeleton.tsx
-import { forwardRef as forwardRef13 } from "react";
+import { forwardRef as forwardRef12 } from "react";
 import { semantic as t11, useInjectStyles as useInjectStyles6, useThemeRhythm as useThemeRhythm2 } from "../../core/dist/index.js";
 import { jsx as jsx14, jsxs as jsxs6 } from "react/jsx-runtime";
 var SKELETON_STYLES_ID = "4lt7ab-skeleton-pulse";
@@ -1864,7 +1969,7 @@ ${staggerRules.join("\n")}
 }
 `;
 })();
-var Skeleton = forwardRef13(
+var Skeleton = forwardRef12(
   function Skeleton2({
     width = "100%",
     height = 16,
@@ -1889,7 +1994,7 @@ var Skeleton = forwardRef13(
     );
   }
 );
-var CardSkeleton = forwardRef13(
+var CardSkeleton = forwardRef12(
   function CardSkeleton2(_props, ref) {
     return /* @__PURE__ */ jsxs6(
       "div",
@@ -1913,7 +2018,7 @@ var CardSkeleton = forwardRef13(
     );
   }
 );
-var RowSkeleton = forwardRef13(
+var RowSkeleton = forwardRef12(
   function RowSkeleton2(_props, ref) {
     return /* @__PURE__ */ jsxs6(
       "div",
@@ -1939,10 +2044,10 @@ var RowSkeleton = forwardRef13(
 );
 
 // src/components/ProgressBar/ProgressBar.tsx
-import { forwardRef as forwardRef14 } from "react";
+import { forwardRef as forwardRef13 } from "react";
 import { semantic as t12 } from "../../core/dist/index.js";
 import { jsx as jsx15 } from "react/jsx-runtime";
-var ProgressBar = forwardRef14(
+var ProgressBar = forwardRef13(
   function ProgressBar2({
     segments,
     height = "md",
@@ -1988,10 +2093,10 @@ var ProgressBar = forwardRef14(
 );
 
 // src/components/EmptyState/EmptyState.tsx
-import { forwardRef as forwardRef15 } from "react";
+import { forwardRef as forwardRef14 } from "react";
 import { semantic as t13 } from "../../core/dist/index.js";
 import { jsx as jsx16, jsxs as jsxs7 } from "react/jsx-runtime";
-var EmptyState = forwardRef15(
+var EmptyState = forwardRef14(
   function EmptyState2({
     icon,
     message,
@@ -2024,7 +2129,7 @@ var EmptyState = forwardRef15(
 );
 
 // src/components/Pagination/Pagination.tsx
-import { forwardRef as forwardRef16 } from "react";
+import { forwardRef as forwardRef15 } from "react";
 import { semantic as t14 } from "../../core/dist/index.js";
 import { jsx as jsx17, jsxs as jsxs8 } from "react/jsx-runtime";
 var defaultLabels = {
@@ -2032,7 +2137,7 @@ var defaultLabels = {
   next: "Next",
   pageOf: (page, total) => `Page ${page} of ${total}`
 };
-var Pagination = forwardRef16(
+var Pagination = forwardRef15(
   function Pagination2({
     page,
     totalPages,
@@ -2095,10 +2200,10 @@ var Pagination = forwardRef16(
 );
 
 // src/components/Header/Header.tsx
-import { forwardRef as forwardRef17 } from "react";
+import { forwardRef as forwardRef16 } from "react";
 import { semantic as t15 } from "../../core/dist/index.js";
 import { jsx as jsx18, jsxs as jsxs9 } from "react/jsx-runtime";
-var Header = forwardRef17(
+var Header = forwardRef16(
   function Header2({ title, level = "section", subtitle, indicator, trailing }, ref) {
     const isPage = level === "page";
     const Tag = isPage ? "h1" : "h2";
@@ -2141,10 +2246,10 @@ var Header = forwardRef17(
 );
 
 // src/components/TagChip/TagChip.tsx
-import { forwardRef as forwardRef18 } from "react";
+import { forwardRef as forwardRef17 } from "react";
 import { semantic as t16 } from "../../core/dist/index.js";
 import { jsx as jsx19, jsxs as jsxs10 } from "react/jsx-runtime";
-var TagChip = forwardRef18(
+var TagChip = forwardRef17(
   function TagChip2({
     name,
     prefix,
@@ -2187,10 +2292,10 @@ var TagChip = forwardRef18(
 );
 
 // src/components/ModalShell/ModalShell.tsx
-import { forwardRef as forwardRef19, useEffect as useEffect5, useId as useId3, useRef as useRef4 } from "react";
+import { forwardRef as forwardRef18, useEffect as useEffect5, useId as useId4, useRef as useRef4 } from "react";
 import { createPortal } from "react-dom";
 import { semantic as t17 } from "../../core/dist/index.js";
-import { Fragment as Fragment2, jsx as jsx20, jsxs as jsxs11 } from "react/jsx-runtime";
+import { Fragment as Fragment3, jsx as jsx20, jsxs as jsxs11 } from "react/jsx-runtime";
 var modalHeadingStyle = Object.freeze({
   margin: 0,
   fontWeight: t17.fontWeightSemibold,
@@ -2211,7 +2316,7 @@ var FOCUSABLE_SELECTOR2 = [
   "textarea:not(:disabled)",
   '[tabindex]:not([tabindex="-1"])'
 ].join(", ");
-var ModalShell = forwardRef19(
+var ModalShell = forwardRef18(
   function ModalShell2({
     onClose,
     children,
@@ -2221,7 +2326,7 @@ var ModalShell = forwardRef19(
     "aria-label": ariaLabel,
     role = "dialog"
   }, ref) {
-    const generatedId = useId3();
+    const generatedId = useId4();
     const resolvedLabelId = titleId ?? generatedId;
     const internalRef = useRef4(null);
     const setRefs = (node) => {
@@ -2258,7 +2363,7 @@ var ModalShell = forwardRef19(
       return () => document.removeEventListener("keydown", handleKeyDown);
     }, [onClose]);
     return createPortal(
-      /* @__PURE__ */ jsxs11(Fragment2, { children: [
+      /* @__PURE__ */ jsxs11(Fragment3, { children: [
         /* @__PURE__ */ jsx20(Overlay, { onClick: onClose, zIndex }),
         /* @__PURE__ */ jsx20(
           "div",
@@ -2320,7 +2425,7 @@ var sectionLabelStyle = {
 };
 
 // src/components/ConfirmDialog/ConfirmDialog.tsx
-import { forwardRef as forwardRef20, useId as useId4, useState as useState3 } from "react";
+import { forwardRef as forwardRef19, useId as useId5, useState as useState3 } from "react";
 import { semantic as t19 } from "../../core/dist/index.js";
 import { jsx as jsx21, jsxs as jsxs12 } from "react/jsx-runtime";
 var variantButtonMap = {
@@ -2328,7 +2433,7 @@ var variantButtonMap = {
   info: "primary",
   warning: "primary"
 };
-var ConfirmDialog = forwardRef20(
+var ConfirmDialog = forwardRef19(
   function ConfirmDialog2({
     title,
     message,
@@ -2339,7 +2444,7 @@ var ConfirmDialog = forwardRef20(
     variant = "destructive"
   }, ref) {
     const [loading, setLoading] = useState3(false);
-    const titleId = useId4();
+    const titleId = useId5();
     const handleConfirm = async () => {
       setLoading(true);
       try {
@@ -2379,7 +2484,7 @@ var ConfirmDialog = forwardRef20(
 );
 
 // src/components/StatusDot/StatusDot.tsx
-import { forwardRef as forwardRef21 } from "react";
+import { forwardRef as forwardRef20 } from "react";
 import { semantic as t20, useInjectStyles as useInjectStyles7, useThemeRhythm as useThemeRhythm3 } from "../../core/dist/index.js";
 import { jsx as jsx22 } from "react/jsx-runtime";
 var variantColors = {
@@ -2412,7 +2517,7 @@ var PULSE_STYLES_CSS = `
   }
 }
 `;
-var StatusDot = forwardRef21(
+var StatusDot = forwardRef20(
   function StatusDot2({
     variant = "default",
     size = "md",
@@ -2451,7 +2556,7 @@ var StatusDot = forwardRef21(
 );
 
 // src/components/Table/Table.tsx
-import { forwardRef as forwardRef22, Children, isValidElement as isValidElement2, cloneElement as cloneElement2 } from "react";
+import { forwardRef as forwardRef21, Children, isValidElement as isValidElement2, cloneElement as cloneElement2 } from "react";
 import { semantic as t21 } from "../../core/dist/index.js";
 import { useInjectStyles as useInjectStyles8 } from "../../core/dist/index.js";
 import { jsx as jsx23 } from "react/jsx-runtime";
@@ -2492,7 +2597,7 @@ var wrapperVariants = {
   },
   flat: {}
 };
-var Table = forwardRef22(
+var Table = forwardRef21(
   function Table2({
     variant = "default",
     density = "md",
@@ -2525,12 +2630,12 @@ var Table = forwardRef22(
     );
   }
 );
-var TableHeader = forwardRef22(
+var TableHeader = forwardRef21(
   function TableHeader2({ children }, ref) {
     return /* @__PURE__ */ jsx23("thead", { ref, children: /* @__PURE__ */ jsx23("tr", { children }) });
   }
 );
-var TableHeaderCell = forwardRef22(
+var TableHeaderCell = forwardRef21(
   function TableHeaderCell2({
     align = "left",
     width,
@@ -2559,7 +2664,7 @@ var TableHeaderCell = forwardRef22(
     );
   }
 );
-var TableBody = forwardRef22(
+var TableBody = forwardRef21(
   function TableBody2({ children }, ref) {
     let dataRowIndex = 0;
     const styledChildren = Children.map(children, (child) => {
@@ -2583,7 +2688,7 @@ var TableBody = forwardRef22(
     return /* @__PURE__ */ jsx23("tbody", { ref, children: styledChildren });
   }
 );
-var TableRow = forwardRef22(
+var TableRow = forwardRef21(
   function TableRow2({
     selected = false,
     hoverable = false,
@@ -2613,7 +2718,7 @@ var TableRow = forwardRef22(
     );
   }
 );
-var TableCell = forwardRef22(
+var TableCell = forwardRef21(
   function TableCell2({
     align = "left",
     truncate = false,
@@ -2646,7 +2751,7 @@ var TableCell = forwardRef22(
     );
   }
 );
-var TableGroupHeader = forwardRef22(
+var TableGroupHeader = forwardRef21(
   function TableGroupHeader2({
     colSpan,
     children
@@ -2673,7 +2778,7 @@ var TableGroupHeader = forwardRef22(
     ) });
   }
 );
-var TableEmptyRow = forwardRef22(
+var TableEmptyRow = forwardRef21(
   function TableEmptyRow2({
     colSpan,
     children
@@ -2695,7 +2800,7 @@ var TableEmptyRow = forwardRef22(
 );
 
 // src/components/DateRangePicker/DateRangePicker.tsx
-import { forwardRef as forwardRef23, useState as useState4, useRef as useRef6, useCallback as useCallback4, useEffect as useEffect6 } from "react";
+import { forwardRef as forwardRef22, useState as useState4, useRef as useRef6, useCallback as useCallback4, useEffect as useEffect6 } from "react";
 import { semantic as t25, useInjectStyles as useInjectStyles9 } from "../../core/dist/index.js";
 
 // src/components/DateRangePicker/CalendarHeader.tsx
@@ -3064,7 +3169,7 @@ var popoverStyle = {
 var placeholderStyle2 = {
   color: t25.colorTextPlaceholder
 };
-var DateRangePicker = forwardRef23(
+var DateRangePicker = forwardRef22(
   function DateRangePicker2({
     value,
     onChange,
@@ -3236,7 +3341,7 @@ var DateRangePicker = forwardRef23(
 );
 
 // src/components/DatePicker/DatePicker.tsx
-import { forwardRef as forwardRef24, useState as useState5, useRef as useRef7, useCallback as useCallback5, useEffect as useEffect7 } from "react";
+import { forwardRef as forwardRef23, useState as useState5, useRef as useRef7, useCallback as useCallback5, useEffect as useEffect7 } from "react";
 import { semantic as t26, useInjectStyles as useInjectStyles10 } from "../../core/dist/index.js";
 import { jsx as jsx28, jsxs as jsxs16 } from "react/jsx-runtime";
 var SCOPE2 = "alttab-dp";
@@ -3306,7 +3411,7 @@ var popoverStyle2 = {
 var placeholderStyle3 = {
   color: t26.colorTextPlaceholder
 };
-var DatePicker = forwardRef24(
+var DatePicker = forwardRef23(
   function DatePicker2({
     value,
     onChange,
@@ -3573,9 +3678,9 @@ var ErrorBoundary = class extends React.Component {
 
 // src/components/Toast/Toast.tsx
 import {
-  createContext as createContext2,
+  createContext as createContext3,
   useCallback as useCallback6,
-  useContext as useContext2,
+  useContext as useContext3,
   useEffect as useEffect8,
   useRef as useRef8,
   useState as useState6
@@ -3583,9 +3688,9 @@ import {
 import { createPortal as createPortal2 } from "react-dom";
 import { semantic as t28, useInjectStyles as useInjectStyles11 } from "../../core/dist/index.js";
 import { jsx as jsx30, jsxs as jsxs18 } from "react/jsx-runtime";
-var ToastContext = createContext2(null);
+var ToastContext = createContext3(null);
 function useToast() {
-  const ctx = useContext2(ToastContext);
+  const ctx = useContext3(ToastContext);
   if (!ctx) {
     throw new Error("useToast must be used within a <ToastProvider>");
   }
@@ -3815,7 +3920,7 @@ function ToastProvider({
 }
 
 // src/components/Combobox/Combobox.tsx
-import { forwardRef as forwardRef25, useState as useState7, useEffect as useEffect9, useRef as useRef9, useCallback as useCallback7, useMemo } from "react";
+import { forwardRef as forwardRef24, useState as useState7, useEffect as useEffect9, useRef as useRef9, useCallback as useCallback7, useMemo as useMemo2 } from "react";
 import { semantic as t29, useInjectStyles as useInjectStyles12 } from "../../core/dist/index.js";
 import { jsx as jsx31, jsxs as jsxs19 } from "react/jsx-runtime";
 var COMBOBOX_STYLES_ID = "alttab-combobox";
@@ -3856,7 +3961,7 @@ var comboboxCSS = (
   }
 `
 );
-var Combobox = forwardRef25(function Combobox2({
+var Combobox = forwardRef24(function Combobox2({
   options,
   value,
   onChange,
@@ -3899,7 +4004,7 @@ var Combobox = forwardRef25(function Combobox2({
       ref.current = inputRef.current;
     }
   }, [ref]);
-  const filtered = useMemo(() => {
+  const filtered = useMemo2(() => {
     if (!value) return options;
     const lower = value.toLowerCase();
     return options.filter((o) => o.label.toLowerCase().includes(lower));
@@ -4162,7 +4267,7 @@ var disabledStyle4 = {
 // src/components/TableFilters/TableFilters.tsx
 import { useState as useState8, useEffect as useEffect10, useRef as useRef10, useCallback as useCallback8 } from "react";
 import { semantic as t30 } from "../../core/dist/index.js";
-import { jsx as jsx32 } from "react/jsx-runtime";
+import { jsx as jsx32, jsxs as jsxs20 } from "react/jsx-runtime";
 function DebouncedTextFilter({
   config,
   value,
@@ -4204,21 +4309,16 @@ function SelectFilter({
   value,
   onCommit
 }) {
-  const handleChange = useCallback8(
-    (e) => {
-      onCommit(config.key, e.target.value);
+  const handleValueChange = useCallback8(
+    (next) => {
+      onCommit(config.key, next);
     },
     [config.key, onCommit]
   );
-  return /* @__PURE__ */ jsx32("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ jsx32(
-    Select,
-    {
-      value,
-      onChange: handleChange,
-      options: config.options,
-      placeholder: config.placeholder
-    }
-  ) });
+  return /* @__PURE__ */ jsx32("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ jsxs20(Select.Root, { value, onValueChange: handleValueChange, children: [
+    /* @__PURE__ */ jsx32(Select.Trigger, { children: /* @__PURE__ */ jsx32(Select.Value, { placeholder: config.placeholder }) }),
+    /* @__PURE__ */ jsx32(Select.Content, { children: config.options.map((opt) => /* @__PURE__ */ jsx32(Select.Item, { value: opt.value, children: opt.label }, opt.value)) })
+  ] }) });
 }
 function TableFilters({
   filters,
@@ -4272,15 +4372,15 @@ function TableFilters({
 }
 
 // src/components/ChipPicker/ChipPicker.tsx
-import { useId as useId6 } from "react";
+import { useId as useId7 } from "react";
 import { semantic as t31, useInjectStyles as useInjectStyles13 } from "../../core/dist/index.js";
-import { jsx as jsx33, jsxs as jsxs20 } from "react/jsx-runtime";
+import { jsx as jsx33, jsxs as jsxs21 } from "react/jsx-runtime";
 function ChipPicker({
   items,
   selected,
   onChange
 }) {
-  const uid = useId6();
+  const uid = useId7();
   const styleId = `chip-picker-${uid.replace(/:/g, "")}`;
   useInjectStyles13(
     styleId,
@@ -4368,7 +4468,7 @@ function ChipPicker({
         flexDirection: "column",
         gap: t31.spaceMd
       },
-      children: groups.map((group, i) => /* @__PURE__ */ jsxs20("div", { style: { display: "flex", flexDirection: "column", gap: t31.spaceSm }, children: [
+      children: groups.map((group, i) => /* @__PURE__ */ jsxs21("div", { style: { display: "flex", flexDirection: "column", gap: t31.spaceSm }, children: [
         group.label !== null && /* @__PURE__ */ jsx33("div", { style: i > 0 ? { marginTop: t31.spaceXs } : void 0, children: /* @__PURE__ */ jsx33("div", { style: sectionLabelStyle, children: group.label }) }),
         renderChips(group.chips)
       ] }, group.label ?? "__ungrouped"))
@@ -4377,9 +4477,9 @@ function ChipPicker({
 }
 
 // src/components/SearchInput/SearchInput.tsx
-import { forwardRef as forwardRef26, useState as useState9, useEffect as useEffect11, useRef as useRef11, useCallback as useCallback9 } from "react";
+import { forwardRef as forwardRef25, useState as useState9, useEffect as useEffect11, useRef as useRef11, useCallback as useCallback9 } from "react";
 import { semantic as t32, useInjectStyles as useInjectStyles14 } from "../../core/dist/index.js";
-import { jsx as jsx34, jsxs as jsxs21 } from "react/jsx-runtime";
+import { jsx as jsx34, jsxs as jsxs22 } from "react/jsx-runtime";
 var STYLE_ID2 = "4lt7ab-search-input";
 var hoverFocusCSS = `
   .search-input-wrapper:focus-within {
@@ -4425,7 +4525,7 @@ var disabledWrapperStyle = {
   color: t32.colorTextDisabled,
   cursor: "not-allowed"
 };
-var SearchInput = forwardRef26(
+var SearchInput = forwardRef25(
   function SearchInput2({
     value,
     onSearch,
@@ -4463,7 +4563,7 @@ var SearchInput = forwardRef26(
         if (timerRef.current) clearTimeout(timerRef.current);
       };
     }, []);
-    return /* @__PURE__ */ jsxs21(
+    return /* @__PURE__ */ jsxs22(
       "div",
       {
         className: "search-input-wrapper",
@@ -4503,7 +4603,7 @@ var SearchInput = forwardRef26(
 // src/components/SegmentedControl/SegmentedControl.tsx
 import { useRef as useRef12, useLayoutEffect, useState as useState10, useCallback as useCallback10 } from "react";
 import { semantic as t33, useInjectStyles as useInjectStyles15 } from "../../core/dist/index.js";
-import { jsx as jsx35, jsxs as jsxs22 } from "react/jsx-runtime";
+import { jsx as jsx35, jsxs as jsxs23 } from "react/jsx-runtime";
 var STYLE_ID3 = "4lt7ab-segmented-control";
 var hoverCSS = `
   .segmented-ctrl-btn:hover:not([aria-pressed="true"]) {
@@ -4558,7 +4658,7 @@ function SegmentedControl({
     if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, [updateIndicator]);
-  return /* @__PURE__ */ jsxs22(
+  return /* @__PURE__ */ jsxs23(
     "div",
     {
       ref: containerRef,
@@ -4596,7 +4696,7 @@ function SegmentedControl({
           const isActive = seg.value === value;
           const hasIcon = !!seg.icon;
           const iconOnly = hasIcon && !seg.label;
-          return /* @__PURE__ */ jsxs22(
+          return /* @__PURE__ */ jsxs23(
             "button",
             {
               type: "button",
@@ -4638,9 +4738,9 @@ function SegmentedControl({
 }
 
 // src/components/AlertBanner/AlertBanner.tsx
-import { forwardRef as forwardRef27 } from "react";
+import { forwardRef as forwardRef26 } from "react";
 import { semantic as t34, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
-import { jsx as jsx36, jsxs as jsxs23 } from "react/jsx-runtime";
+import { jsx as jsx36, jsxs as jsxs24 } from "react/jsx-runtime";
 var STYLE_ID4 = "4lt7ab-alert-banner";
 var alertBannerCSS = `
 @keyframes alert-banner-slide-in {
@@ -4669,12 +4769,12 @@ var defaultIcons = {
   error: /* @__PURE__ */ jsx36(IconError, { size: 20 }),
   success: /* @__PURE__ */ jsx36(IconCheckCircle, { size: 20 })
 };
-var AlertBanner = forwardRef27(
+var AlertBanner = forwardRef26(
   function AlertBanner2({ variant, children, onDismiss, icon }, ref) {
     useInjectStyles16(STYLE_ID4, alertBannerCSS);
     const colors = variantColors2[variant];
     const resolvedIcon = icon !== void 0 ? icon : defaultIcons[variant];
-    return /* @__PURE__ */ jsxs23(
+    return /* @__PURE__ */ jsxs24(
       "div",
       {
         ref,
@@ -4733,12 +4833,12 @@ var AlertBanner = forwardRef27(
 );
 
 // src/components/TopBar/TopBar.tsx
-import { createContext as createContext3, forwardRef as forwardRef28, useContext as useContext3 } from "react";
+import { createContext as createContext4, forwardRef as forwardRef27, useContext as useContext4 } from "react";
 import { semantic as t35, useInjectStyles as useInjectStyles17, Slot as Slot3 } from "../../core/dist/index.js";
 import { jsx as jsx37 } from "react/jsx-runtime";
-var TopBarContext = createContext3(null);
+var TopBarContext = createContext4(null);
 function useTopBarContext(component) {
-  const ctx = useContext3(TopBarContext);
+  const ctx = useContext4(TopBarContext);
   if (ctx === null) {
     throw new Error(
       `[@4lt7ab/ui] <TopBar.${component}> must be rendered inside <TopBar.Root>.`
@@ -4770,7 +4870,7 @@ var TOPBAR_CSS = `
     color: ${t35.colorText};
   }
 `;
-var TopBarRoot = forwardRef28(
+var TopBarRoot = forwardRef27(
   function TopBarRoot2({ children, sticky = false, ...rest }, ref) {
     useInjectStyles17(TOPBAR_STYLES_ID, TOPBAR_CSS);
     const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: t35.zIndexSticky } : {};
@@ -4833,7 +4933,7 @@ function TopBarNav({ children, "aria-label": ariaLabel = "Primary" }) {
     }
   );
 }
-var TopBarLink = forwardRef28(function TopBarLink2({ active = false, asChild = false, onClick, children }, ref) {
+var TopBarLink = forwardRef27(function TopBarLink2({ active = false, asChild = false, onClick, children }, ref) {
   useTopBarContext("Link");
   const style = {
     display: "inline-flex",
@@ -4890,9 +4990,9 @@ var TopBar = {
 };
 
 // src/components/PillSelect/PillSelect.tsx
-import { useId as useId7 } from "react";
+import { useId as useId8 } from "react";
 import { semantic as t36, useInjectStyles as useInjectStyles18 } from "../../core/dist/index.js";
-import { jsx as jsx38, jsxs as jsxs24 } from "react/jsx-runtime";
+import { jsx as jsx38, jsxs as jsxs25 } from "react/jsx-runtime";
 function PillSelect({
   value,
   options,
@@ -4900,7 +5000,7 @@ function PillSelect({
   ariaLabel,
   active: activeProp
 }) {
-  const uid = useId7();
+  const uid = useId8();
   const styleId = `pill-select-${uid.replace(/:/g, "")}`;
   const isActive = activeProp ?? !!value;
   useInjectStyles18(
@@ -4909,7 +5009,7 @@ function PillSelect({
       border-color: ${t36.colorActionPrimary};
     }`
   );
-  return /* @__PURE__ */ jsxs24(
+  return /* @__PURE__ */ jsxs25(
     "div",
     {
       "data-pill-select-id": styleId,
@@ -4968,7 +5068,7 @@ function PillSelect({
 }
 
 // src/components/Surface/Surface.tsx
-import { createElement, forwardRef as forwardRef29 } from "react";
+import { createElement, forwardRef as forwardRef28 } from "react";
 import { semantic as t37 } from "../../core/dist/index.js";
 var levelMap = {
   page: t37.colorSurfacePage,
@@ -4979,7 +5079,7 @@ var levelMap = {
   input: t37.colorSurfaceInput,
   overlay: t37.colorSurfaceOverlay
 };
-var Surface = forwardRef29(
+var Surface = forwardRef28(
   function Surface2({
     level = "solid",
     tint,
@@ -5016,9 +5116,9 @@ var Surface = forwardRef29(
 );
 
 // src/components/Grid/Grid.tsx
-import { forwardRef as forwardRef30 } from "react";
+import { forwardRef as forwardRef29 } from "react";
 import { jsx as jsx39 } from "react/jsx-runtime";
-var Grid = forwardRef30(
+var Grid = forwardRef29(
   function Grid2({
     minColumnWidth = 300,
     columns,
@@ -5046,10 +5146,10 @@ var Grid = forwardRef30(
 );
 
 // src/components/Divider/Divider.tsx
-import { forwardRef as forwardRef31 } from "react";
+import { forwardRef as forwardRef30 } from "react";
 import { semantic as t38 } from "../../core/dist/index.js";
 import { jsx as jsx40 } from "react/jsx-runtime";
-var Divider = forwardRef31(
+var Divider = forwardRef30(
   function Divider2({
     orientation = "horizontal",
     opacity = "default",
@@ -5081,9 +5181,9 @@ var Divider = forwardRef31(
 );
 
 // src/components/TabStrip/TabStrip.tsx
-import { forwardRef as forwardRef32, useCallback as useCallback11, useRef as useRef13 } from "react";
+import { forwardRef as forwardRef31, useCallback as useCallback11, useRef as useRef13 } from "react";
 import { semantic as t39, useInjectStyles as useInjectStyles19 } from "../../core/dist/index.js";
-import { jsx as jsx41, jsxs as jsxs25 } from "react/jsx-runtime";
+import { jsx as jsx41, jsxs as jsxs26 } from "react/jsx-runtime";
 var STYLES_ID = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
@@ -5094,7 +5194,7 @@ var STYLES_CSS = `
   background: color-mix(in srgb, ${t39.colorBorder} 10%, transparent);
 }
 `;
-var TabStrip = forwardRef32(
+var TabStrip = forwardRef31(
   function TabStrip2({
     tabs,
     activeKey,
@@ -5148,7 +5248,7 @@ var TabStrip = forwardRef32(
         },
         children: tabs.map((tab, i) => {
           const isActive = tab.key === activeKey;
-          return /* @__PURE__ */ jsxs25(
+          return /* @__PURE__ */ jsxs26(
             "button",
             {
               ref: (el) => {

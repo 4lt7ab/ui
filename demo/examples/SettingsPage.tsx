@@ -28,16 +28,17 @@ export function SettingsPage(): React.JSX.Element {
             <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           </Field>
           <Field label="Timezone">
-            <Select
-              value={timezone}
-              onChange={(e) => setTimezone(e.target.value)}
-              options={[
-                { value: 'utc', label: 'UTC' },
-                { value: 'est', label: 'Eastern (EST)' },
-                { value: 'pst', label: 'Pacific (PST)' },
-                { value: 'cet', label: 'Central European (CET)' },
-              ]}
-            />
+            <Select.Root value={timezone} onValueChange={setTimezone}>
+              <Select.Trigger>
+                <Select.Value />
+              </Select.Trigger>
+              <Select.Content>
+                <Select.Item value="utc">UTC</Select.Item>
+                <Select.Item value="est">Eastern (EST)</Select.Item>
+                <Select.Item value="pst">Pacific (PST)</Select.Item>
+                <Select.Item value="cet">Central European (CET)</Select.Item>
+              </Select.Content>
+            </Select.Root>
           </Field>
           <Field label="Bio">
             <Textarea value={bio} onChange={(e) => setBio(e.target.value)} rows={3} />
