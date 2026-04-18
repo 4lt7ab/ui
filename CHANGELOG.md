@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.33
+
 ## v0.2.32
 
 - Add `Calendar.Root` + `useCalendarContext()` to `@4lt7ab/ui` — the state-owning primitive for the upcoming compound Calendar API. Root owns mode (`'single' | 'range'`), selection, min/max, a `disabledDate` predicate, focused-date state (controlled or uncontrolled via `defaultFocusedDate` + `onFocusedDateChange`), and visible-month state (`viewDate` + `defaultViewDate` + `onViewDateChange`). Exposes the full API via context so downstream primitives (Grid, Cell — landing in subsequent slices) can register against it. Part of the calendar-compound refactor sequence (tracking group `calendar-compound`)
