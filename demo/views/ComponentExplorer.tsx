@@ -52,7 +52,7 @@ const CATEGORIES: CategoryDef[] = [
     name: 'Layout',
     components: [
       { name: 'Stack', source: 'ui', Demo: StackDemo },
-      { name: 'Container', source: 'content', Demo: ContainerDemo },
+      { name: 'Container', source: 'ui', Demo: ContainerDemo },
       { name: 'Card', source: 'ui', Demo: CardDemo },
       { name: 'ExpandableCard', source: 'ui', Demo: ExpandableCardDemo },
       { name: 'TopBar', source: 'ui', Demo: TopBarDemo },

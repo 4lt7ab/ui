@@ -96,6 +96,24 @@ Flex layout primitive with gap and direction.
 
 Extends `HTMLAttributes<HTMLDivElement>`.
 
+### Container
+
+Centered content wrapper with a max-width constraint and horizontal padding presets. Width presets match the content reading breakpoints (`prose` = 680px, `wide` = 900px).
+
+```tsx
+<Container width="prose">...</Container>
+<Container width="wide" padding="lg">...</Container>
+<Container width="full" padding="none">...</Container>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `width` | `'narrow' \| 'prose' \| 'wide' \| 'full'` | `'prose'` | Named width preset (narrow: 32rem, prose: 680px, wide: 900px, full: 100%) |
+| `padding` | `'none' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Horizontal padding preset (none: 0, sm: 0.75rem, md: 1.5rem, lg: 3rem) |
+| `children` | `ReactNode` | *required* | Container content |
+
+Moved from `@4lt7ab/content` in v0.4.0 — `Container` is a general layout primitive, not prose-specific.
+
 ### Input
 
 Text input with theme-aware styling.

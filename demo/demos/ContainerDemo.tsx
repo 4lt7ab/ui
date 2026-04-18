@@ -1,5 +1,4 @@
-import { Container } from '@4lt7ab/content';
-import { Stack } from '@4lt7ab/ui';
+import { Container, Stack } from '@4lt7ab/ui';
 import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
 
 const box: React.CSSProperties = {

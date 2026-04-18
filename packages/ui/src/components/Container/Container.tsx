@@ -1,14 +1,17 @@
 import { forwardRef } from 'react';
 import type { ReactNode } from 'react';
-import { BREAKPOINT_PROSE, BREAKPOINT_WIDE } from '../../constants';
 
 /** Named width preset for the Container. */
 export type ContainerWidth = 'narrow' | 'prose' | 'wide' | 'full';
 
+// Breakpoint values match `BREAKPOINT_PROSE` / `BREAKPOINT_WIDE` exported from
+// `@4lt7ab/content` (where Prose/MarginNote still consume them for responsive
+// CSS). Inlined here so this layout primitive stays self-contained in @4lt7ab/ui
+// without cross-package constant imports.
 const widthMap: Record<ContainerWidth, string> = {
   narrow: '32rem',
-  prose: BREAKPOINT_PROSE,
-  wide: BREAKPOINT_WIDE,
+  prose: '680px',
+  wide: '900px',
   full: '100%',
 };
 

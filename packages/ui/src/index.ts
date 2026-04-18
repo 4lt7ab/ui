@@ -51,6 +51,7 @@ export * from './components/TopBar';
 export * from './components/Surface';
 export * from './components/Grid';
 export * from './components/Divider';
+export * from './components/Container';
 
 // Molecules
 export * from './components/TabStrip';

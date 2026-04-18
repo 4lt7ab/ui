@@ -1,4 +1,5 @@
-import { Container, Markdown } from '@4lt7ab/content';
+import { Markdown } from '@4lt7ab/content';
+import { Container } from '@4lt7ab/ui';
 import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
 
 const props: PropMeta[] = [

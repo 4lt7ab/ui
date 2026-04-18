@@ -22,33 +22,8 @@ declare const MIX_HOVER = "8%";
 /** Badge/tag background tint. */
 declare const MIX_BADGE = "14%";
 import { ReactNode } from "react";
-/** Named width preset for the Container. */
-type ContainerWidth = "narrow" | "prose" | "wide" | "full";
-/** Horizontal padding preset for the Container. */
-type ContainerPadding = "none" | "sm" | "md" | "lg";
-/** A centered content wrapper with max-width constraint. */
-interface ContainerProps {
-	/** Named width preset.
-	* - `narrow` — 32rem, compact layouts
-	* - `prose` — 680px, optimized for reading
-	* - `wide` — 900px, for wider layouts
-	* - `full` — 100%, no max-width constraint
-	* @default 'prose'
-	*/
-	width?: ContainerWidth;
-	/** Horizontal padding preset.
-	* @default 'md'
-	*/
-	padding?: ContainerPadding;
-	/** Container content. */
-	children: ReactNode;
-	id?: string;
-	"data-testid"?: string;
-}
-declare const Container: React.ForwardRefExoticComponent<Omit<ContainerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode2 } from "react";
 interface ProseProps {
-	children: ReactNode2;
+	children: ReactNode;
 	id?: string;
 	"data-testid"?: string;
 }
@@ -72,11 +47,11 @@ interface MarkdownProps {
 * Styled independently from Prose — uses the `.alttab-markdown` namespace.
 */
 declare function Markdown({ children, id, "data-testid": dataTestId }: MarkdownProps): React.JSX.Element;
-import { ReactNode as ReactNode3 } from "react";
+import { ReactNode as ReactNode2 } from "react";
 type QuoteVariant = "pull" | "epigraph";
 interface QuoteProps {
 	/** The quote text. Rendered in serif italic. */
-	children: ReactNode3;
+	children: ReactNode2;
 	/**
 	* Visual treatment.
 	* - `'pull'` (default) — in-flow pull quote with horizontal rules. Must be
@@ -88,7 +63,7 @@ interface QuoteProps {
 	*/
 	variant?: QuoteVariant;
 	/** Attribution line (author, source). Rendered in a `<footer>` below the quote. */
-	cite?: ReactNode3;
+	cite?: ReactNode2;
 }
 /**
 * Serif-italic blockquote with two visual treatments selected via `variant`:
@@ -104,9 +79,9 @@ interface QuoteProps {
 * harmless on either variant.
 */
 declare const Quote: React.ForwardRefExoticComponent<Omit<QuoteProps, "ref"> & React.RefAttributes<HTMLQuoteElement>>;
-import { ReactNode as ReactNode4 } from "react";
+import { ReactNode as ReactNode3 } from "react";
 interface PullQuoteProps {
-	children: ReactNode4;
+	children: ReactNode3;
 }
 /**
 * @deprecated Use `<Quote variant="pull">` instead. `PullQuote` is a
@@ -117,9 +92,9 @@ interface PullQuoteProps {
 * used inside `<Prose>` for styling.
 */
 declare const PullQuote: React.ForwardRefExoticComponent<Omit<PullQuoteProps, "ref"> & React.RefAttributes<HTMLQuoteElement>>;
-import { ReactNode as ReactNode5 } from "react";
+import { ReactNode as ReactNode4 } from "react";
 interface MarginNoteProps {
-	children: ReactNode5;
+	children: ReactNode4;
 	/**
 	* Which margin the note floats into on wide screens (>=BREAKPOINT_MARGIN_NOTES).
 	* On narrow screens the note is always inline and the `side` only affects
@@ -134,9 +109,9 @@ interface MarginNoteProps {
 * (default) or right. Must be used inside `<Prose>` for styling and positioning.
 */
 declare const MarginNote: React.ForwardRefExoticComponent<Omit<MarginNoteProps, "ref"> & React.RefAttributes<HTMLElement>>;
-import { ReactNode as ReactNode6 } from "react";
+import { ReactNode as ReactNode5 } from "react";
 interface SideNoteProps {
-	children: ReactNode6;
+	children: ReactNode5;
 }
 /**
 * @deprecated Use `<MarginNote side="right">` instead. `SideNote` is a
@@ -144,12 +119,12 @@ interface SideNoteProps {
 * removed in a future major release.
 */
 declare const SideNote: React.ForwardRefExoticComponent<Omit<SideNoteProps, "ref"> & React.RefAttributes<HTMLElement>>;
-import { ReactNode as ReactNode7 } from "react";
+import { ReactNode as ReactNode6 } from "react";
 interface EpigraphProps {
 	/** The quote text. */
-	children: ReactNode7;
+	children: ReactNode6;
 	/** Attribution line (author, source). */
-	cite?: ReactNode7;
+	cite?: ReactNode6;
 }
 /**
 * @deprecated Use `<Quote variant="epigraph">` instead. `Epigraph` is a
@@ -161,12 +136,12 @@ interface EpigraphProps {
 * and outside `<Prose>`.
 */
 declare const Epigraph: React.ForwardRefExoticComponent<Omit<EpigraphProps, "ref"> & React.RefAttributes<HTMLQuoteElement>>;
-import { ReactNode as ReactNode8 } from "react";
+import { ReactNode as ReactNode7 } from "react";
 interface LinkCardProps {
 	/** Card title — rendered in serif. */
-	title: ReactNode8;
+	title: ReactNode7;
 	/** Optional description — rendered smaller in muted text. */
-	description?: ReactNode8;
+	description?: ReactNode7;
 	/** Whether link opens in a new tab. */
 	external?: boolean;
 	href?: string;
@@ -232,4 +207,4 @@ interface ThinkingCycleProps {
 * Usage: Building with AI tools is <ThinkingCycle words={['powerful', 'wild']} />.
 */
 declare const ThinkingCycle: React.ForwardRefExoticComponent<Omit<ThinkingCycleProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
-export { ThinkingCycleProps, ThinkingCycle, TextSectionProps, TextSection, SideNoteProps, SideNote, QuoteVariant, QuoteProps, Quote, PullQuoteProps, PullQuote, ProseProps, Prose, PROSE_H2_SIZE, PROSE_H1_SIZE, PROSE_CODE_SIZE, PROSE_BODY_SIZE, PROSE_BLOCKQUOTE_SIZE, MarkdownProps, Markdown, MarginNoteProps, MarginNote, MIX_SUBTLE, MIX_HOVER, MIX_BADGE, LinkCardProps, LinkCard, EpigraphProps, Epigraph, ContainerWidth, ContainerProps, ContainerPadding, Container, BREAKPOINT_WIDE, BREAKPOINT_PROSE, BREAKPOINT_MARGIN_NOTES };
+export { ThinkingCycleProps, ThinkingCycle, TextSectionProps, TextSection, SideNoteProps, SideNote, QuoteVariant, QuoteProps, Quote, PullQuoteProps, PullQuote, ProseProps, Prose, PROSE_H2_SIZE, PROSE_H1_SIZE, PROSE_CODE_SIZE, PROSE_BODY_SIZE, PROSE_BLOCKQUOTE_SIZE, MarkdownProps, Markdown, MarginNoteProps, MarginNote, MIX_SUBTLE, MIX_HOVER, MIX_BADGE, LinkCardProps, LinkCard, EpigraphProps, Epigraph, BREAKPOINT_WIDE, BREAKPOINT_PROSE, BREAKPOINT_MARGIN_NOTES };

@@ -21,7 +21,8 @@ Peer dependencies: `@4lt7ab/core`, `react`, `react-dom` ^19.0.0, `react-markdown
 
 ```tsx
 import { ThemeProvider } from '@4lt7ab/ui/core';
-import { Container, Prose } from '@4lt7ab/ui/content';
+import { Container } from '@4lt7ab/ui/ui';
+import { Prose } from '@4lt7ab/ui/content';
 
 function BlogPost() {
   return (
@@ -37,27 +38,11 @@ function BlogPost() {
 }
 ```
 
+> `Container` moved to `@4lt7ab/ui` in v0.4.0 — it's a general layout primitive, not prose-specific. Import it from `@4lt7ab/ui/ui` (or `@4lt7ab/ui` if you use the bare package name). See the 0.4.0 upgrade guide for the one-line import-path migration.
+
 ---
 
 ## Components
-
-### Container
-
-Width-constrained wrapper for centering content.
-
-```tsx
-<Container width="prose">...</Container>
-<Container width="wide">...</Container>
-<Container maxWidth="1200px" padding="2rem">...</Container>
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `width` | `'prose' \| 'wide'` | `'prose'` | Named width preset (prose: 680px, wide: 900px) |
-| `maxWidth` | `string` | — | Arbitrary max-width (overrides `width`) |
-| `padding` | `string` | `'1.5rem'` | Horizontal padding |
-
-Extends `HTMLAttributes<HTMLDivElement>`.
 
 ### Prose
 

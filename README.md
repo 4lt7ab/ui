@@ -34,8 +34,8 @@ Import from the subpath you need:
 
 ```ts
 import { ThemeProvider, useTheme } from '@4lt7ab/ui/core';
-import { Button, Card } from '@4lt7ab/ui/ui';
-import { Prose, Container } from '@4lt7ab/ui/content';
+import { Button, Card, Container } from '@4lt7ab/ui/ui';
+import { Prose } from '@4lt7ab/ui/content';
 import { ThemeBackground } from '@4lt7ab/ui/animations';
 ```
 
@@ -45,8 +45,8 @@ import { ThemeBackground } from '@4lt7ab/ui/animations';
 
 ```tsx
 import { ThemeProvider } from '@4lt7ab/ui/core';
-import { Button, Card } from '@4lt7ab/ui/ui';
-import { Prose, Container } from '@4lt7ab/ui/content';
+import { Button, Card, Container } from '@4lt7ab/ui/ui';
+import { Prose } from '@4lt7ab/ui/content';
 import { ThemeBackground } from '@4lt7ab/ui/animations';
 
 function App() {

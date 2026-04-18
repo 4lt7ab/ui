@@ -89,6 +89,7 @@ packages/
 │       │   ├── ChipPicker/
 │       │   ├── Combobox/
 │       │   ├── ConfirmDialog/
+│       │   ├── Container/
 │       │   ├── DatePicker/
 │       │   ├── DateRangePicker/
 │       │   ├── Divider/
@@ -124,7 +125,6 @@ packages/
 ├── content/
 │   └── src/
 │       ├── components/
-│       │   ├── Container/
 │       │   ├── Epigraph/
 │       │   ├── LinkCard/
 │       │   ├── MarginNote/

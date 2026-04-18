@@ -1,9 +1,6 @@
 // Constants
 export * from './constants';
 
-// Layout
-export * from './components/Container';
-
 // Prose & Content
 export * from './components/Prose';
 export * from './components/Markdown';

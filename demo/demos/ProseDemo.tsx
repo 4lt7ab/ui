@@ -1,4 +1,5 @@
-import { Prose, PullQuote, MarginNote, SideNote, Epigraph, Container } from '@4lt7ab/content';
+import { Prose, PullQuote, MarginNote, SideNote, Epigraph } from '@4lt7ab/content';
+import { Container } from '@4lt7ab/ui';
 import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
 
 const props: PropMeta[] = [

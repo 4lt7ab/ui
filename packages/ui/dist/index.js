@@ -5438,10 +5438,53 @@ var Divider = forwardRef28(
   }
 );
 
+// src/components/Container/Container.tsx
+import { forwardRef as forwardRef29 } from "react";
+import { jsx as jsx41 } from "react/jsx-runtime";
+var widthMap = {
+  narrow: "32rem",
+  prose: "680px",
+  wide: "900px",
+  full: "100%"
+};
+var paddingMap2 = {
+  none: "0",
+  sm: "0.75rem",
+  md: "1.5rem",
+  lg: "3rem"
+};
+var Container = forwardRef29(
+  function Container2({
+    width = "prose",
+    padding = "md",
+    children,
+    id,
+    "data-testid": dataTestId
+  }, ref) {
+    return /* @__PURE__ */ jsx41(
+      "div",
+      {
+        ref,
+        id,
+        "data-testid": dataTestId,
+        style: {
+          boxSizing: "border-box",
+          width: "100%",
+          maxWidth: widthMap[width],
+          marginInline: "auto",
+          paddingInline: paddingMap2[padding],
+          overflow: "visible"
+        },
+        children
+      }
+    );
+  }
+);
+
 // src/components/TabStrip/TabStrip.tsx
-import { forwardRef as forwardRef29, useCallback as useCallback13, useRef as useRef13 } from "react";
+import { forwardRef as forwardRef30, useCallback as useCallback13, useRef as useRef13 } from "react";
 import { semantic as t38, useInjectStyles as useInjectStyles19 } from "../../core/dist/index.js";
-import { jsx as jsx41, jsxs as jsxs22 } from "react/jsx-runtime";
+import { jsx as jsx42, jsxs as jsxs22 } from "react/jsx-runtime";
 var STYLES_ID = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
@@ -5452,7 +5495,7 @@ var STYLES_CSS = `
   background: color-mix(in srgb, ${t38.colorBorder} 10%, transparent);
 }
 `;
-var TabStrip = forwardRef29(
+var TabStrip = forwardRef30(
   function TabStrip2({
     tabs,
     activeKey,
@@ -5493,7 +5536,7 @@ var TabStrip = forwardRef29(
       [tabs.length]
     );
     const isSm = size === "sm";
-    return /* @__PURE__ */ jsx41(
+    return /* @__PURE__ */ jsx42(
       "div",
       {
         ref,
@@ -5536,7 +5579,7 @@ var TabStrip = forwardRef29(
                 whiteSpace: "nowrap"
               },
               children: [
-                tab.icon && /* @__PURE__ */ jsx41(
+                tab.icon && /* @__PURE__ */ jsx42(
                   "span",
                   {
                     className: "material-symbols-outlined",
@@ -5565,6 +5608,7 @@ export {
   ChipPicker,
   Combobox,
   ConfirmDialog,
+  Container,
   DatePicker,
   DateRangePicker,
   Divider,

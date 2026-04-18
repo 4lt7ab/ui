@@ -68,6 +68,7 @@ export const demos: DemoEntry[] = [
   { name: 'Surface', category: 'Layout', source: 'ui', component: SurfaceDemo },
   { name: 'Grid', category: 'Layout', source: 'ui', component: GridDemo },
   { name: 'Divider', category: 'Layout', source: 'ui', component: DividerDemo },
+  { name: 'Container', category: 'Layout', source: 'ui', component: ContainerDemo },
   { name: 'Stack', category: 'Layout', source: 'ui', component: StackDemo },
   { name: 'Card', category: 'Layout', source: 'ui', component: CardDemo },
   { name: 'ExpandableCard', category: 'Layout', source: 'ui', component: ExpandableCardDemo },
@@ -116,7 +117,6 @@ export const demos: DemoEntry[] = [
   { name: 'SegmentedControl', category: 'Action', source: 'ui', component: SegmentedControlDemo },
 
   // ── @4lt7ab/ui/content ──
-  { name: 'Container', category: 'Layout', source: 'content', component: ContainerDemo },
   { name: 'Prose', category: 'Layout', source: 'content', component: ProseDemo },
   { name: 'Markdown', category: 'Layout', source: 'content', component: MarkdownDemo },
   { name: 'Epigraph', category: 'Layout', source: 'content', component: EpigraphDemo },

@@ -40,6 +40,7 @@ __export(index_exports, {
   ChipPicker: () => ChipPicker,
   Combobox: () => Combobox,
   ConfirmDialog: () => ConfirmDialog,
+  Container: () => Container,
   DatePicker: () => DatePicker,
   DateRangePicker: () => DateRangePicker,
   Divider: () => Divider,
@@ -5532,10 +5533,53 @@ var Divider = (0, import_react38.forwardRef)(
   }
 );
 
-// src/components/TabStrip/TabStrip.tsx
+// src/components/Container/Container.tsx
 var import_react39 = require("react");
-var import_core41 = require("../../core/dist/index.cjs");
 var import_jsx_runtime41 = require("react/jsx-runtime");
+var widthMap = {
+  narrow: "32rem",
+  prose: "680px",
+  wide: "900px",
+  full: "100%"
+};
+var paddingMap2 = {
+  none: "0",
+  sm: "0.75rem",
+  md: "1.5rem",
+  lg: "3rem"
+};
+var Container = (0, import_react39.forwardRef)(
+  function Container2({
+    width = "prose",
+    padding = "md",
+    children,
+    id,
+    "data-testid": dataTestId
+  }, ref) {
+    return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+      "div",
+      {
+        ref,
+        id,
+        "data-testid": dataTestId,
+        style: {
+          boxSizing: "border-box",
+          width: "100%",
+          maxWidth: widthMap[width],
+          marginInline: "auto",
+          paddingInline: paddingMap2[padding],
+          overflow: "visible"
+        },
+        children
+      }
+    );
+  }
+);
+
+// src/components/TabStrip/TabStrip.tsx
+var import_react40 = require("react");
+var import_core41 = require("../../core/dist/index.cjs");
+var import_jsx_runtime42 = require("react/jsx-runtime");
 var STYLES_ID = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
@@ -5546,7 +5590,7 @@ var STYLES_CSS = `
   background: color-mix(in srgb, ${import_core41.semantic.colorBorder} 10%, transparent);
 }
 `;
-var TabStrip = (0, import_react39.forwardRef)(
+var TabStrip = (0, import_react40.forwardRef)(
   function TabStrip2({
     tabs,
     activeKey,
@@ -5556,8 +5600,8 @@ var TabStrip = (0, import_react39.forwardRef)(
     ...rest
   }, ref) {
     (0, import_core41.useInjectStyles)(STYLES_ID, STYLES_CSS);
-    const tabRefs = (0, import_react39.useRef)([]);
-    const handleClick = (0, import_react39.useCallback)(
+    const tabRefs = (0, import_react40.useRef)([]);
+    const handleClick = (0, import_react40.useCallback)(
       (key) => {
         if (key === activeKey && allowDeselect) {
           onChange(null);
@@ -5567,7 +5611,7 @@ var TabStrip = (0, import_react39.forwardRef)(
       },
       [activeKey, allowDeselect, onChange]
     );
-    const handleKeyDown = (0, import_react39.useCallback)(
+    const handleKeyDown = (0, import_react40.useCallback)(
       (e, index) => {
         let nextIndex = null;
         if (e.key === "ArrowRight") {
@@ -5587,7 +5631,7 @@ var TabStrip = (0, import_react39.forwardRef)(
       [tabs.length]
     );
     const isSm = size === "sm";
-    return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
       "div",
       {
         ref,
@@ -5600,7 +5644,7 @@ var TabStrip = (0, import_react39.forwardRef)(
         },
         children: tabs.map((tab, i) => {
           const isActive = tab.key === activeKey;
-          return /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)(
+          return /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)(
             "button",
             {
               ref: (el) => {
@@ -5630,7 +5674,7 @@ var TabStrip = (0, import_react39.forwardRef)(
                 whiteSpace: "nowrap"
               },
               children: [
-                tab.icon && /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+                tab.icon && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
                   "span",
                   {
                     className: "material-symbols-outlined",
