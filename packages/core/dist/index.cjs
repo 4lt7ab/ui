@@ -45,6 +45,7 @@ __export(exports_src, {
   useTheme: () => useTheme,
   usePageBackground: () => usePageBackground,
   useInjectStyles: () => useInjectStyles,
+  useDisclosure: () => useDisclosure,
   typography: () => typography,
   tokenToCssProperty: () => tokenToCssProperty,
   synthwaveTheme: () => synthwaveTheme,
@@ -1274,6 +1275,45 @@ function usePageBackground() {
       document.body.style.color = prevBodyColorRef.current;
     };
   }, [resolved]);
+}
+// src/utils/useDisclosure.ts
+var import_react4 = require("react");
+function useDisclosure(options = {}) {
+  const { defaultOpen = false, open: controlledOpen, onOpenChange } = options;
+  const [internalOpen, setInternalOpen] = import_react4.useState(defaultOpen);
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen : internalOpen;
+  const contentId = import_react4.useId();
+  const setOpen = import_react4.useCallback((next) => {
+    if (!isControlled)
+      setInternalOpen(next);
+    onOpenChange?.(next);
+  }, [isControlled, onOpenChange]);
+  const onToggle = import_react4.useCallback(() => {
+    setOpen(!open);
+  }, [open, setOpen]);
+  const onOpen = import_react4.useCallback(() => {
+    setOpen(true);
+  }, [setOpen]);
+  const onClose = import_react4.useCallback(() => {
+    setOpen(false);
+  }, [setOpen]);
+  return {
+    open,
+    onToggle,
+    onOpen,
+    onClose,
+    triggerProps: {
+      "aria-expanded": open,
+      "aria-controls": contentId,
+      onClick: onToggle
+    },
+    contentProps: {
+      id: contentId,
+      role: "region",
+      hidden: !open
+    }
+  };
 }
 // src/tokens/primitives.ts
 var colors = {

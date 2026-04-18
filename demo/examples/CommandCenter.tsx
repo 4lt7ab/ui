@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import {
   PageHeader, Card, Stack, Button, Badge, StatusDot, Icon, IconButton,
-  ProgressBar, Pagination, TagChip, ExpandableCard, Skeleton, RowSkeleton,
+  ProgressBar, Pagination, TagChip, Skeleton, RowSkeleton,
   Table, TableHeader, TableHeaderCell, TableBody, TableRow, TableCell,
 } from '@4lt7ab/ui';
+import { DisclosureCard } from '../components/DisclosureCard';
 
 // ---------------------------------------------------------------------------
 // Data
@@ -273,7 +274,7 @@ export function CommandCenter(): React.JSX.Element {
           </Stack>
 
           {/* Recent incidents */}
-          <ExpandableCard
+          <DisclosureCard
             title="Recent Incidents"
             defaultOpen
             headerAction={<Badge variant="error">{INCIDENTS.length}</Badge>}
@@ -307,7 +308,7 @@ export function CommandCenter(): React.JSX.Element {
                 </div>
               ))}
             </Stack>
-          </ExpandableCard>
+          </DisclosureCard>
         </Stack>
       )}
 

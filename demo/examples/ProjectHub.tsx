@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import {
-  Card, ExpandableCard, Badge, Button, IconButton, Icon,
+  Card, Badge, Button, IconButton, Icon,
   ModalShell, ConfirmDialog, EmptyState, Stack, PageHeader,
   ProgressBar, TagChip, Pagination, ThemePicker,
   Table, TableHeader, TableHeaderCell, TableBody, TableRow, TableCell,
 } from '@4lt7ab/ui';
 import type { IconName } from '@4lt7ab/ui';
+import { DisclosureCard } from '../components/DisclosureCard';
 
 // ---------------------------------------------------------------------------
 // Data
@@ -213,7 +214,7 @@ function ProjectDetail({ project, onClose, onDelete }: {
         </Stack>
 
         {/* Overview */}
-        <ExpandableCard title="Overview" defaultOpen variant="flat">
+        <DisclosureCard title="Overview" defaultOpen variant="flat">
           <Stack gap="md">
             <Stack gap="xs">
               <Stack direction="horizontal" justify="space-between">
@@ -236,10 +237,10 @@ function ProjectDetail({ project, onClose, onDelete }: {
               ))}
             </Stack>
           </Stack>
-        </ExpandableCard>
+        </DisclosureCard>
 
         {/* Tasks */}
-        <ExpandableCard
+        <DisclosureCard
           title="Tasks"
           defaultOpen
           variant="flat"
@@ -269,7 +270,7 @@ function ProjectDetail({ project, onClose, onDelete }: {
           ) : (
             <EmptyState icon="check-circle" message="No tasks \u2014 this project is complete" />
           )}
-        </ExpandableCard>
+        </DisclosureCard>
       </Stack>
     </ModalShell>
   );

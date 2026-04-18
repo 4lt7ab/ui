@@ -93,7 +93,6 @@ packages/
 │       │   ├── Divider/
 │       │   ├── EmptyState/
 │       │   ├── ErrorBoundary/
-│       │   ├── ExpandableCard/
 │       │   ├── Field/
 │       │   ├── Grid/
 │       │   ├── Icon/
@@ -245,7 +244,7 @@ Tests use **vitest** + **@testing-library/react** + **jsdom**. Config lives in `
 Tests are being added incrementally. Prioritize components with the most logic and interaction surface:
 
 1. **High** — ModalShell, Select, Combobox, DatePicker, DateRangePicker, useFocusTrap
-2. **Medium** — ConfirmDialog, Toast, SearchInput, Pagination, SegmentedControl, ExpandableCard
+2. **Medium** — ConfirmDialog, Toast, SearchInput, Pagination, SegmentedControl
 3. **Low** — Presentational components (Badge, Card, Stack, Skeleton, etc.)
 
 Pure utility functions (dateUtils, token helpers) should always have tests.

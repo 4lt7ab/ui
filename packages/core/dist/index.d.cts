@@ -42,6 +42,54 @@ declare function staggerStyle(index: number, options?: StaggerOptions): CSSPrope
 * ```
 */
 declare function usePageBackground(): void;
+/** Options for the {@link useDisclosure} hook. */
+interface UseDisclosureOptions {
+	/** Initial open state when uncontrolled. @default false */
+	defaultOpen?: boolean;
+	/** Controlled open state. When provided, the hook is controlled. */
+	open?: boolean;
+	/** Called when the open state changes. Receives the next open value. */
+	onOpenChange?: (open: boolean) => void;
+}
+/** Props to spread on a trigger element (button). Wires `aria-expanded`, `aria-controls`, and `onClick`. */
+interface UseDisclosureTriggerProps {
+	"aria-expanded": boolean;
+	"aria-controls": string;
+	onClick: () => void;
+}
+/** Props to spread on a content region. Wires `id`, `role="region"`, and `hidden` when closed. */
+interface UseDisclosureContentProps {
+	id: string;
+	role: "region";
+	hidden: boolean;
+}
+/** Return value of {@link useDisclosure}. */
+interface UseDisclosureReturn {
+	/** Current open state. */
+	open: boolean;
+	/** Toggle open ↔ closed. */
+	onToggle: () => void;
+	/** Force open. */
+	onOpen: () => void;
+	/** Force closed. */
+	onClose: () => void;
+	/** Spread on the trigger element. */
+	triggerProps: UseDisclosureTriggerProps;
+	/** Spread on the collapsible content region. */
+	contentProps: UseDisclosureContentProps;
+}
+/**
+* Boolean open/closed state with ARIA wiring for a disclosure widget
+* (ExpandableCard, Accordion, Collapsible, etc.). Supports controlled
+* and uncontrolled use: pass `open` + `onOpenChange` for controlled,
+* or just `defaultOpen` for uncontrolled.
+*
+* The returned `triggerProps` / `contentProps` wire up `aria-expanded`,
+* `aria-controls`, and the shared `id` so the consumer doesn't have to
+* generate it. Consumers that need the id directly can read it from
+* `contentProps.id`.
+*/
+declare function useDisclosure(options?: UseDisclosureOptions): UseDisclosureReturn;
 /**
 * Primitive tokens — raw design values with no semantic meaning.
 * These are the palette. Components never reference these directly.
@@ -671,4 +719,4 @@ declare const pipboyTheme: ThemeDefinition;
 declare const neuralTheme: ThemeDefinition;
 declare const pacmanTheme: ThemeDefinition;
 declare const blackHoleTheme: ThemeDefinition;
-export { warmSandTheme, useThemeRhythm, useTheme, usePageBackground, useInjectStyles, typography, tokenToCssProperty, synthwaveTheme, staggerStyle, spacing, slateTheme, shadows, setActiveRhythm, semantic, radii, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, coralTheme, colors, blackHoleTheme, Typography, ThemeTokens, ThemeRhythmHandle, ThemeRhythm, ThemeProviderProps, ThemeProvider, ThemeDefinition, ThemeContextValue, Theme, StaggerOptions, Spacing, Shadows, SemanticTokens, ResolvedTheme, Radii, KEYFRAMES, Colors };
+export { warmSandTheme, useThemeRhythm, useTheme, usePageBackground, useInjectStyles, useDisclosure, typography, tokenToCssProperty, synthwaveTheme, staggerStyle, spacing, slateTheme, shadows, setActiveRhythm, semantic, radii, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, coralTheme, colors, blackHoleTheme, UseDisclosureTriggerProps, UseDisclosureReturn, UseDisclosureOptions, UseDisclosureContentProps, Typography, ThemeTokens, ThemeRhythmHandle, ThemeRhythm, ThemeProviderProps, ThemeProvider, ThemeDefinition, ThemeContextValue, Theme, StaggerOptions, Spacing, Shadows, SemanticTokens, ResolvedTheme, Radii, KEYFRAMES, Colors };

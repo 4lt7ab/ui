@@ -550,25 +550,6 @@ Removable tag/chip.
 | `name` | `string` | *required* | Tag display text |
 | `onRemove` | `() => void` | — | When provided, renders a close button |
 
-### ExpandableCard
-
-Card with a collapsible content section. Works controlled or uncontrolled.
-
-```tsx
-<ExpandableCard title="Advanced Settings" defaultOpen={false}>
-  <p>Hidden content revealed on toggle.</p>
-</ExpandableCard>
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `title` | `string` | *required* | Header text |
-| `defaultOpen` | `boolean` | `false` | Initial state (uncontrolled) |
-| `open` | `boolean` | — | Controlled open state |
-| `onToggle` | `(open: boolean) => void` | — | Called when state changes |
-| `variant` | `CardVariant` | `'default'` | Underlying Card variant |
-| `headerAction` | `ReactNode` | — | Content in the header row, right of title |
-
 ### Table
 
 Compound table component supporting row selection, hover states, group headers, and empty states.

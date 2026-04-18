@@ -1,15 +1,75 @@
-import { useState } from 'react';
-import { ExpandableCard, Badge, Button, Stack } from '@4lt7ab/ui';
+import { useState, type ReactNode } from 'react';
+import { Card, Badge, Button, Stack } from '@4lt7ab/ui';
+import { semantic as t, useDisclosure } from '@4lt7ab/core';
+import type { UseDisclosureOptions } from '@4lt7ab/core';
+import { IconChevronRight } from '@4lt7ab/ui';
 import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
 
+// ---------------------------------------------------------------------------
+// Disclosure primitive rebuilt as a Card + useDisclosure composition.
+// This replaces the retired ExpandableCard. Consumers own the chevron,
+// the label, and any header action; the hook owns state and ARIA wiring.
+// ---------------------------------------------------------------------------
+
+interface DisclosureCardProps extends UseDisclosureOptions {
+  title: string;
+  children: ReactNode;
+  headerAction?: ReactNode;
+}
+
+function DisclosureCard({ title, children, headerAction, ...options }: DisclosureCardProps): React.JSX.Element {
+  const { open, triggerProps, contentProps } = useDisclosure(options);
+
+  return (
+    <Card padding="xs">
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <button
+          type="button"
+          {...triggerProps}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: t.spaceSm,
+            padding: `${t.spaceSm} ${t.spaceMd}`,
+            cursor: 'pointer',
+            borderRadius: t.radiusMd,
+            background: 'none',
+            border: 'none',
+            color: 'inherit',
+            font: 'inherit',
+            flex: 1,
+            textAlign: 'left',
+          }}
+        >
+          <span
+            style={{
+              display: 'inline-flex',
+              transition: 'transform 150ms ease-out',
+              transform: open ? 'rotate(90deg)' : 'rotate(0deg)',
+            }}
+          >
+            <IconChevronRight size={20} />
+          </span>
+          <span style={{ fontWeight: t.fontWeightSemibold, fontFamily: t.fontSans, color: t.colorText, fontSize: t.fontSizeSm }}>
+            {title}
+          </span>
+        </button>
+        {headerAction && <div style={{ padding: `0 ${t.spaceMd}` }}>{headerAction}</div>}
+      </div>
+      <div {...contentProps} style={{ padding: `${t.spaceSm} ${t.spaceMd} ${t.spaceMd}` }}>
+        {children}
+      </div>
+    </Card>
+  );
+}
+
 const props: PropMeta[] = [
-  { name: 'title', type: 'string', required: true, description: 'Header text shown alongside the chevron toggle.' },
-  { name: 'children', type: 'ReactNode', required: true, description: 'Collapsible body content.' },
-  { name: 'defaultOpen', type: 'boolean', default: 'false', description: 'Initial open state when uncontrolled.' },
-  { name: 'open', type: 'boolean', description: 'Controlled open state. When provided, the component is fully controlled.' },
-  { name: 'onToggle', type: '(open: boolean) => void', description: 'Called when the open state changes. Receives the next open value.' },
-  { name: 'variant', type: "'default' | 'flat' | 'elevated' | 'live'", default: "'default'", description: 'Card surface variant passed to the underlying Card.' },
-  { name: 'headerAction', type: 'ReactNode', description: 'Content rendered in the header row to the right of the title.' },
+  { name: 'defaultOpen', type: 'boolean', default: 'false', description: 'useDisclosure option. Initial open state when uncontrolled.' },
+  { name: 'open', type: 'boolean', description: 'useDisclosure option. Controlled open state; when provided, the hook is controlled.' },
+  { name: 'onOpenChange', type: '(open: boolean) => void', description: 'useDisclosure option. Fires with the next open value.' },
+  { name: 'triggerProps', type: "{ 'aria-expanded', 'aria-controls', onClick }", description: 'Return value. Spread onto the trigger button.' },
+  { name: 'contentProps', type: "{ id, role: 'region', hidden }", description: 'Return value. Spread onto the collapsible region.' },
+  { name: 'open / onToggle / onOpen / onClose', type: 'boolean | () => void', description: 'Return value. State + handlers if you need them directly.' },
 ];
 
 export function ExpandableCardDemo(): React.JSX.Element {
@@ -17,69 +77,49 @@ export function ExpandableCardDemo(): React.JSX.Element {
 
   return (
     <DocBlock props={props}>
-      <PropDemo name="title" description="The text shown in the clickable header row, alongside the chevron indicator.">
-        <ExpandableCard title="Project Details">
-          <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
+      <PropDemo name="composition" description="ExpandableCard was retired in 0.4.0. The replacement is Card + useDisclosure (from @4lt7ab/core). The hook owns state + ARIA wiring; the consumer composes the chevron, label, and body.">
+        <DisclosureCard title="Project Details">
+          <p style={{ margin: 0, fontSize: t.fontSizeSm, color: t.colorTextSecondary }}>
             This content is hidden by default and revealed when the header is clicked.
-            The chevron rotates to indicate open/closed state.
+            useDisclosure wires aria-expanded, aria-controls, and hidden automatically.
           </p>
-        </ExpandableCard>
+        </DisclosureCard>
       </PropDemo>
 
-      <PropDemo name="defaultOpen" description="Sets the initial open state for uncontrolled usage. The card starts expanded when true.">
-        <ExpandableCard title="Release Notes" defaultOpen>
+      <PropDemo name="defaultOpen" description="Pass useDisclosure({ defaultOpen: true }) for uncontrolled 'starts open' behavior.">
+        <DisclosureCard title="Release Notes" defaultOpen>
           <Stack gap="xs">
-            <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
-              v2.1.0 - Added new Badge, Icon, and ExpandableCard components.
+            <p style={{ margin: 0, fontSize: t.fontSizeSm, color: t.colorTextSecondary }}>
+              v0.4.0 — ExpandableCard retired; useDisclosure hook extracted to @4lt7ab/core.
             </p>
-            <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
-              v2.0.0 - Complete token system redesign.
+            <p style={{ margin: 0, fontSize: t.fontSizeSm, color: t.colorTextSecondary }}>
+              v0.3.0 — ThemeSurface, StatCard, FormModal, ShortcutHelpModal retired.
             </p>
           </Stack>
-        </ExpandableCard>
+        </DisclosureCard>
       </PropDemo>
 
-      <PropDemo name="open / onToggle" description="Controlled mode. The parent manages open state via the open prop and responds to changes via onToggle.">
+      <PropDemo name="open / onOpenChange" description="Controlled mode. Pass open + onOpenChange; the hook defers to the parent.">
         <Stack gap="sm">
           <Button size="sm" onClick={() => setControlled((o) => !o)}>
             {controlled ? 'Close' : 'Open'} externally
           </Button>
-          <ExpandableCard
-            title="Controlled Card"
-            open={controlled}
-            onToggle={setControlled}
-          >
-            <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
-              This card is controlled via the open prop and toggled by an external button.
+          <DisclosureCard title="Controlled Card" open={controlled} onOpenChange={setControlled}>
+            <p style={{ margin: 0, fontSize: t.fontSizeSm, color: t.colorTextSecondary }}>
+              Controlled via the open prop and toggled by an external button.
             </p>
-          </ExpandableCard>
+          </DisclosureCard>
         </Stack>
       </PropDemo>
 
-      <PropDemo name="variant" description="Passes through to the underlying Card component to control visual treatment.">
-        <Stack gap="md">
-          {(['default', 'flat', 'elevated'] as const).map((v) => (
-            <ExpandableCard key={v} title={`variant="${v}"`} variant={v} defaultOpen>
-              <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
-                Card with {v} variant styling.
-              </p>
-            </ExpandableCard>
-          ))}
-        </Stack>
-      </PropDemo>
-
-      <PropDemo name="headerAction" description="Renders content in the header row to the right of the title, such as badges or action buttons.">
-        <ExpandableCard
-          title="Active Tasks"
-          defaultOpen
-          headerAction={<Badge variant="info">3 items</Badge>}
-        >
+      <PropDemo name="headerAction slot" description="The composition owns its own slots — drop any element next to the title.">
+        <DisclosureCard title="Active Tasks" defaultOpen headerAction={<Badge variant="info">3 items</Badge>}>
           <Stack gap="xs">
-            <span style={{ fontSize: '0.875rem' }}>Review pull request #42</span>
-            <span style={{ fontSize: '0.875rem' }}>Update documentation</span>
-            <span style={{ fontSize: '0.875rem' }}>Fix CI pipeline</span>
+            <span style={{ fontSize: t.fontSizeSm }}>Review pull request #42</span>
+            <span style={{ fontSize: t.fontSizeSm }}>Update documentation</span>
+            <span style={{ fontSize: t.fontSizeSm }}>Fix CI pipeline</span>
           </Stack>
-        </ExpandableCard>
+        </DisclosureCard>
       </PropDemo>
     </DocBlock>
   );

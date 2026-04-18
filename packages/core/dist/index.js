@@ -1215,6 +1215,45 @@ function usePageBackground() {
     };
   }, [resolved]);
 }
+// src/utils/useDisclosure.ts
+import { useCallback as useCallback2, useId, useState as useState2 } from "react";
+function useDisclosure(options = {}) {
+  const { defaultOpen = false, open: controlledOpen, onOpenChange } = options;
+  const [internalOpen, setInternalOpen] = useState2(defaultOpen);
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen : internalOpen;
+  const contentId = useId();
+  const setOpen = useCallback2((next) => {
+    if (!isControlled)
+      setInternalOpen(next);
+    onOpenChange?.(next);
+  }, [isControlled, onOpenChange]);
+  const onToggle = useCallback2(() => {
+    setOpen(!open);
+  }, [open, setOpen]);
+  const onOpen = useCallback2(() => {
+    setOpen(true);
+  }, [setOpen]);
+  const onClose = useCallback2(() => {
+    setOpen(false);
+  }, [setOpen]);
+  return {
+    open,
+    onToggle,
+    onOpen,
+    onClose,
+    triggerProps: {
+      "aria-expanded": open,
+      "aria-controls": contentId,
+      onClick: onToggle
+    },
+    contentProps: {
+      id: contentId,
+      role: "region",
+      hidden: !open
+    }
+  };
+}
 // src/tokens/primitives.ts
 var colors = {
   gray50: "#f9fafb",
@@ -1423,6 +1462,7 @@ export {
   useTheme,
   usePageBackground,
   useInjectStyles,
+  useDisclosure,
   typography,
   tokenToCssProperty,
   synthwaveTheme,

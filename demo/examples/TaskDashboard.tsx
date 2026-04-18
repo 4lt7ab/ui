@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import {
-  PageHeader, Card, ExpandableCard, Badge, ProgressBar,
+  PageHeader, Card, Badge, ProgressBar,
   Stack, Button, EmptyState, Skeleton,
 } from '@4lt7ab/ui';
+import { DisclosureCard } from '../components/DisclosureCard';
 
 const tasks = [
   { id: 1, title: 'Design token audit', status: 'success' as const, label: 'Done' },
@@ -45,7 +46,7 @@ export function TaskDashboard(): React.JSX.Element {
         </Stack>
       </Card>
 
-      <ExpandableCard title="Active tasks" defaultOpen headerAction={<Badge variant="info">4</Badge>}>
+      <DisclosureCard title="Active tasks" defaultOpen headerAction={<Badge variant="info">4</Badge>}>
         <Stack gap="sm">
           {tasks.map((task) => (
             <div key={task.id} style={{ padding: 'var(--space-sm) 0', borderBottom: '1px solid var(--color-border)' }}>
@@ -57,11 +58,11 @@ export function TaskDashboard(): React.JSX.Element {
             </div>
           ))}
         </Stack>
-      </ExpandableCard>
+      </DisclosureCard>
 
-      <ExpandableCard title="Completed (archived)">
+      <DisclosureCard title="Completed (archived)">
         <EmptyState icon="check-circle" message="Completed tasks from previous sprints will appear here." />
-      </ExpandableCard>
+      </DisclosureCard>
 
       {loading && (
         <Card>

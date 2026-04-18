@@ -2,6 +2,7 @@
 export * from './utils/useInjectStyles';
 export * from './utils/staggerStyle';
 export * from './utils/usePageBackground';
+export * from './utils/useDisclosure';
 
 // Tokens
 export * from './tokens';
