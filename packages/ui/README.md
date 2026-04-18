@@ -244,6 +244,69 @@ const [range, setRange] = useState<DateRange | undefined>();
 
 `DateRange`: `{ from: Date; to: Date }`
 
+### Calendar
+
+Compound primitive for building custom calendar UIs. `DatePicker` and `DateRangePicker` are thin compositions over this — consumers who need a different trigger, a non-popover placement, multi-month layouts, or custom cell rendering can drop down to `Calendar.*` directly.
+
+```tsx
+import { Calendar } from '@4lt7ab/ui';
+
+const [date, setDate] = useState<Date | undefined>();
+
+<Calendar.Root mode="single" selected={date} onSelect={(v) => setDate(v as Date | undefined)}>
+  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+    <Calendar.Nav direction="prev" />
+    <Calendar.Header />
+    <Calendar.Nav direction="next" />
+  </div>
+  <Calendar.Grid />
+</Calendar.Root>
+```
+
+**Primitives:**
+
+| Component | Role | Notes |
+|-----------|------|-------|
+| `Calendar.Root` | State + context provider | Owns `mode`, `selected`, `focusedDate`, and `viewDate` (the visible month). Focused/view state is controlled (via `focusedDate` / `viewDate` + `on*Change`) or uncontrolled (via `defaultFocusedDate` / `defaultViewDate`). |
+| `Calendar.Header` | Month/year label | Renders as a single `<span aria-live="polite">`. Optional render-prop child for custom formatting: `<Calendar.Header>{({year, month}) => …}</Calendar.Header>`. |
+| `Calendar.Nav` | Month navigation button | Props: `direction: 'prev' \| 'next'`, optional `step` (defaults to `1` month; pass `12` for year-jump). Renders as an `IconButton` with a chevron. |
+| `Calendar.Grid` | 6×7 day grid | `role="grid"`. Owns keyboard nav, roving tabindex, and auto-scrolls `viewDate` when focus crosses a month boundary. Accepts optional `onEscape` for picker contexts and a children render-prop for custom cell rendering. |
+| `Calendar.Cell` | Single day cell | Default renderer used by `Calendar.Grid`. Also usable standalone inside the render-prop. Pass-through props for `onMouseEnter` / `onMouseLeave` / `onFocus` / `onBlur` support range-preview and similar patterns. |
+
+**`Calendar.Root` props:**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `mode` | `'single' \| 'range'` | `'single'` | Selection mode |
+| `selected` | `Date \| { from: Date; to: Date } \| undefined` | — | Current selection. Shape depends on `mode` |
+| `onSelect` | `(value) => void` | — | Fired when a cell commits (`Enter` / `Space` / click) |
+| `minDate` / `maxDate` | `Date` | — | Inclusive bounds |
+| `disabledDate` | `(date: Date) => boolean` | — | Per-date disable predicate |
+| `focusedDate` / `defaultFocusedDate` | `Date` | today | Roving tabindex target (controlled / uncontrolled) |
+| `onFocusedDateChange` | `(d: Date) => void` | — | Fires whenever focus moves |
+| `viewDate` / `defaultViewDate` | `Date` | focused date | Visible month's first day (controlled / uncontrolled) |
+| `onViewDateChange` | `(d: Date) => void` | — | Fires when the visible month changes |
+
+**Keyboard (on `Calendar.Grid`):** WAI-ARIA APG *grid* pattern.
+
+| Key | Action |
+|-----|--------|
+| `ArrowLeft` / `ArrowRight` | Move focus ±1 day |
+| `ArrowUp` / `ArrowDown` | Move focus ±1 week |
+| `Home` / `End` | Move focus to Sunday / Saturday of the focused row |
+| `PageUp` / `PageDown` | Move focus ±1 month |
+| `Shift + PageUp` / `Shift + PageDown` | Move focus ±1 year |
+| `Enter` / `Space` | Commit the focused date via `onSelect` |
+| `Escape` | Calls `onEscape` if provided (picker popovers use this to close) |
+
+When focus crosses a month boundary (e.g. `ArrowDown` on the last April row), `Calendar.Grid` automatically scrolls `viewDate` so the focused cell stays visible.
+
+**ARIA:**
+
+- `Calendar.Grid` is `role="grid"` with configurable `aria-label` (defaults to `"Calendar"`).
+- Each `Calendar.Cell` wraps a `<button>` in a `<td role="gridcell">`. The button uses `aria-selected`, `aria-disabled`, and a roving `tabindex` (`0` for the focused cell, `-1` otherwise).
+- `Calendar.Header` renders as `<span aria-live="polite">` so month changes are announced.
+
 ### Field
 
 Label + input wrapper with error and help text.
