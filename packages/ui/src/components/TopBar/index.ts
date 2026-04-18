@@ -1,2 +1,15 @@
-export { TopBar } from './TopBar';
-export type { TopBarProps, NavItem } from './TopBar';
+export {
+  TopBar,
+  TopBarRoot,
+  TopBarLeading,
+  TopBarNav,
+  TopBarLink,
+  TopBarTrailing,
+} from './TopBar';
+export type {
+  TopBarRootProps,
+  TopBarLeadingProps,
+  TopBarNavProps,
+  TopBarLinkProps,
+  TopBarTrailingProps,
+} from './TopBar';

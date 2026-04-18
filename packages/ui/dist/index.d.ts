@@ -1077,35 +1077,72 @@ interface AlertBannerProps {
 */
 declare const AlertBanner: React.ForwardRefExoticComponent<Omit<AlertBannerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 import { ReactNode as ReactNode18 } from "react";
-/** A single navigation entry in the TopBar. */
-interface NavItem {
-	/** Display label. */
-	label: string;
-	/** Route path — matched against `activePath` to determine active state. */
-	path: string;
-	/** Optional leading icon (any ReactNode). */
-	icon?: ReactNode18;
-}
-/** App-level navigation header with title, nav items, and trailing slot. */
-interface TopBarProps extends BaseComponentProps {
+/** Props for {@link TopBarRoot}. */
+interface TopBarRootProps extends BaseComponentProps {
 	/** Accessible label for the header landmark. */
 	"aria-label"?: string;
-	/** Logo or app title — rendered in the leading slot. */
-	title: ReactNode18;
-	/** Navigation items displayed as horizontal buttons. */
-	items?: NavItem[];
-	/** The currently active path. Compared against each item's `path`. */
-	activePath?: string;
-	/** Called when a nav item is clicked. Consumer handles routing. */
-	onNavigate?: (path: string) => void;
-	/** Content rendered in the trailing slot (e.g. ThemePicker, avatar). */
-	trailing?: ReactNode18;
+	/** Children — typically `<TopBar.Leading>`, `<TopBar.Nav>`, `<TopBar.Trailing>`. */
+	children?: ReactNode18;
 	/** Sticks to the top of the viewport on scroll.
 	* @default false
 	*/
 	sticky?: boolean;
 }
-declare const TopBar: React.ForwardRefExoticComponent<Omit<TopBarProps, "ref"> & React.RefAttributes<HTMLElement>>;
+declare const TopBarRoot: React.ForwardRefExoticComponent<Omit<TopBarRootProps, "ref"> & React.RefAttributes<HTMLElement>>;
+interface TopBarLeadingProps {
+	children?: ReactNode18;
+}
+declare function TopBarLeading({ children }: TopBarLeadingProps): React.JSX.Element;
+interface TopBarNavProps {
+	children?: ReactNode18;
+	/** Accessible label for the nav region. @default 'Primary' */
+	"aria-label"?: string;
+}
+declare function TopBarNav({ children, "aria-label": ariaLabel }: TopBarNavProps): React.JSX.Element;
+interface TopBarLinkProps {
+	/** Marks this link as the active route. Applies accent color + underline + aria-current="page". */
+	active?: boolean;
+	/**
+	* Render as the single child element instead of a `<button>`. Merges
+	* the link's style + data-attrs + ref into the child — plug in your
+	* router's Link, a plain `<a>`, or anything that can receive props.
+	* @default false
+	*/
+	asChild?: boolean;
+	/** Called when the link is clicked (when not asChild; consumer's element handles its own events otherwise). */
+	onClick?: React.MouseEventHandler<HTMLElement>;
+	children?: ReactNode18;
+}
+declare const TopBarLink: React.ForwardRefExoticComponent<TopBarLinkProps & React.RefAttributes<HTMLElement>>;
+interface TopBarTrailingProps {
+	children?: ReactNode18;
+}
+declare function TopBarTrailing({ children }: TopBarTrailingProps): React.JSX.Element;
+/**
+* Compound app-level navigation header. Consumer composes `<TopBar.Root>`
+* with `<TopBar.Leading>`, `<TopBar.Nav>` + `<TopBar.Link>`, and
+* `<TopBar.Trailing>`. Links support `asChild` for router integration —
+* routing is entirely the consumer's concern.
+*
+* @example
+* ```tsx
+* <TopBar.Root aria-label="Main" sticky>
+*   <TopBar.Leading>My App</TopBar.Leading>
+*   <TopBar.Nav>
+*     <TopBar.Link asChild active>
+*       <a href="/home">Home</a>
+*     </TopBar.Link>
+*     <TopBar.Link asChild>
+*       <a href="/projects">Projects</a>
+*     </TopBar.Link>
+*   </TopBar.Nav>
+*   <TopBar.Trailing>
+*     <ThemePicker />
+*   </TopBar.Trailing>
+* </TopBar.Root>
+* ```
+*/
+declare const TopBar: {};
 /** A single option in a PillSelect. */
 interface PillSelectOption {
 	/** The option value. */
@@ -1353,4 +1390,4 @@ interface TabStripProps extends BaseComponentProps {
 	size?: "sm" | "md";
 }
 declare const TabStrip: React.ForwardRefExoticComponent<Omit<TabStripProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-export { useToast, useFocusTrap, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarProps, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectProps, SelectOption, SelectFilterConfig, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PillSelectProps, PillSelectOption, PillSelect, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, NavItem, ModalWidth, ModalShellProps, ModalShell, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxProps, ComboboxOption, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };
+export { useToast, useFocusTrap, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectProps, SelectOption, SelectFilterConfig, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PillSelectProps, PillSelectOption, PillSelect, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxProps, ComboboxOption, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };

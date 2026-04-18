@@ -4733,15 +4733,24 @@ var AlertBanner = forwardRef27(
 );
 
 // src/components/TopBar/TopBar.tsx
-import { forwardRef as forwardRef28 } from "react";
-import { semantic as t35, useInjectStyles as useInjectStyles17 } from "../../core/dist/index.js";
-import { jsx as jsx37, jsxs as jsxs24 } from "react/jsx-runtime";
-var TOPBAR_STYLES_ID = "4lt7ab-topbar";
+import { createContext as createContext3, forwardRef as forwardRef28, useContext as useContext3 } from "react";
+import { semantic as t35, useInjectStyles as useInjectStyles17, Slot as Slot3 } from "../../core/dist/index.js";
+import { jsx as jsx37 } from "react/jsx-runtime";
+var TopBarContext = createContext3(null);
+function useTopBarContext(component) {
+  const ctx = useContext3(TopBarContext);
+  if (ctx === null) {
+    throw new Error(
+      `[@4lt7ab/ui] <TopBar.${component}> must be rendered inside <TopBar.Root>.`
+    );
+  }
+}
+var TOPBAR_STYLES_ID = "4lt7ab-topbar-v2";
 var TOPBAR_CSS = `
-  .topbar-nav-item {
+  [data-topbar-link] {
     position: relative;
   }
-  .topbar-nav-item::after {
+  [data-topbar-link]::after {
     content: '';
     position: absolute;
     bottom: -1px;
@@ -4751,29 +4760,21 @@ var TOPBAR_CSS = `
     background: transparent;
     transition: background ${t35.transitionBase};
   }
-  .topbar-nav-item:hover::after {
+  [data-topbar-link]:hover::after {
     background: ${t35.colorBorder};
   }
-  .topbar-nav-item[data-active]::after {
+  [data-topbar-link][data-active]::after {
     background: ${t35.colorActionPrimary};
   }
-  .topbar-nav-item:hover {
+  [data-topbar-link]:hover {
     color: ${t35.colorText};
   }
 `;
-var TopBar = forwardRef28(
-  function TopBar2({
-    title,
-    items = [],
-    activePath,
-    onNavigate,
-    trailing,
-    sticky = false,
-    ...rest
-  }, ref) {
+var TopBarRoot = forwardRef28(
+  function TopBarRoot2({ children, sticky = false, ...rest }, ref) {
     useInjectStyles17(TOPBAR_STYLES_ID, TOPBAR_CSS);
     const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: t35.zIndexSticky } : {};
-    return /* @__PURE__ */ jsxs24(
+    return /* @__PURE__ */ jsx37(TopBarContext.Provider, { value: true, children: /* @__PURE__ */ jsx37(
       "header",
       {
         ref,
@@ -4790,94 +4791,108 @@ var TopBar = forwardRef28(
           fontFamily: t35.fontSans,
           ...stickyStyle
         },
-        children: [
-          /* @__PURE__ */ jsx37(
-            "div",
-            {
-              style: {
-                display: "flex",
-                alignItems: "center",
-                fontWeight: t35.fontWeightBold,
-                fontSize: t35.fontSizeSm,
-                color: t35.colorText,
-                marginRight: t35.spaceLg,
-                whiteSpace: "nowrap",
-                flexShrink: 0
-              },
-              children: title
-            }
-          ),
-          items.length > 0 && /* @__PURE__ */ jsx37(
-            "nav",
-            {
-              style: {
-                display: "flex",
-                alignItems: "center",
-                gap: t35.spaceXs,
-                height: "100%",
-                flex: 1,
-                minWidth: 0
-              },
-              children: items.map((item) => {
-                const isActive = activePath === item.path;
-                return /* @__PURE__ */ jsxs24(
-                  "button",
-                  {
-                    type: "button",
-                    className: "topbar-nav-item",
-                    onClick: () => onNavigate?.(item.path),
-                    "aria-current": isActive ? "page" : void 0,
-                    "data-active": isActive || void 0,
-                    style: {
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: t35.spaceXs,
-                      height: "100%",
-                      padding: `0 ${t35.spaceSm}`,
-                      border: "none",
-                      background: "transparent",
-                      color: isActive ? t35.colorActionPrimary : t35.colorTextMuted,
-                      fontSize: t35.fontSizeSm,
-                      fontFamily: t35.fontSans,
-                      fontWeight: isActive ? t35.fontWeightSemibold : t35.fontWeightNormal,
-                      cursor: "pointer",
-                      whiteSpace: "nowrap",
-                      transition: `color ${t35.transitionBase}`,
-                      boxSizing: "border-box"
-                    },
-                    children: [
-                      item.icon,
-                      item.label
-                    ]
-                  },
-                  item.path
-                );
-              })
-            }
-          ),
-          trailing && /* @__PURE__ */ jsx37(
-            "div",
-            {
-              style: {
-                display: "flex",
-                alignItems: "center",
-                gap: t35.spaceSm,
-                marginLeft: "auto",
-                flexShrink: 0
-              },
-              children: trailing
-            }
-          )
-        ]
+        children
       }
-    );
+    ) });
   }
 );
+function TopBarLeading({ children }) {
+  useTopBarContext("Leading");
+  return /* @__PURE__ */ jsx37(
+    "div",
+    {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        fontWeight: t35.fontWeightBold,
+        fontSize: t35.fontSizeSm,
+        color: t35.colorText,
+        marginRight: t35.spaceLg,
+        whiteSpace: "nowrap",
+        flexShrink: 0
+      },
+      children
+    }
+  );
+}
+function TopBarNav({ children, "aria-label": ariaLabel = "Primary" }) {
+  useTopBarContext("Nav");
+  return /* @__PURE__ */ jsx37(
+    "nav",
+    {
+      "aria-label": ariaLabel,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: t35.spaceXs,
+        height: "100%",
+        flex: 1,
+        minWidth: 0
+      },
+      children
+    }
+  );
+}
+var TopBarLink = forwardRef28(function TopBarLink2({ active = false, asChild = false, onClick, children }, ref) {
+  useTopBarContext("Link");
+  const style = {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: t35.spaceXs,
+    height: "100%",
+    padding: `0 ${t35.spaceSm}`,
+    border: "none",
+    background: "transparent",
+    color: active ? t35.colorActionPrimary : t35.colorTextMuted,
+    fontSize: t35.fontSizeSm,
+    fontFamily: t35.fontSans,
+    fontWeight: active ? t35.fontWeightSemibold : t35.fontWeightNormal,
+    cursor: "pointer",
+    whiteSpace: "nowrap",
+    textDecoration: "none",
+    transition: `color ${t35.transitionBase}`,
+    boxSizing: "border-box"
+  };
+  const commonProps = {
+    "data-topbar-link": "",
+    "data-active": active || void 0,
+    "aria-current": active ? "page" : void 0,
+    onClick,
+    style
+  };
+  if (asChild) {
+    return /* @__PURE__ */ jsx37(Slot3, { ref, ...commonProps, children });
+  }
+  return /* @__PURE__ */ jsx37("button", { ref, type: "button", ...commonProps, children });
+});
+function TopBarTrailing({ children }) {
+  useTopBarContext("Trailing");
+  return /* @__PURE__ */ jsx37(
+    "div",
+    {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: t35.spaceSm,
+        marginLeft: "auto",
+        flexShrink: 0
+      },
+      children
+    }
+  );
+}
+var TopBar = {
+  Root: TopBarRoot,
+  Leading: TopBarLeading,
+  Nav: TopBarNav,
+  Link: TopBarLink,
+  Trailing: TopBarTrailing
+};
 
 // src/components/PillSelect/PillSelect.tsx
 import { useId as useId7 } from "react";
 import { semantic as t36, useInjectStyles as useInjectStyles18 } from "../../core/dist/index.js";
-import { jsx as jsx38, jsxs as jsxs25 } from "react/jsx-runtime";
+import { jsx as jsx38, jsxs as jsxs24 } from "react/jsx-runtime";
 function PillSelect({
   value,
   options,
@@ -4894,7 +4909,7 @@ function PillSelect({
       border-color: ${t36.colorActionPrimary};
     }`
   );
-  return /* @__PURE__ */ jsxs25(
+  return /* @__PURE__ */ jsxs24(
     "div",
     {
       "data-pill-select-id": styleId,
@@ -5068,7 +5083,7 @@ var Divider = forwardRef31(
 // src/components/TabStrip/TabStrip.tsx
 import { forwardRef as forwardRef32, useCallback as useCallback11, useRef as useRef13 } from "react";
 import { semantic as t39, useInjectStyles as useInjectStyles19 } from "../../core/dist/index.js";
-import { jsx as jsx41, jsxs as jsxs26 } from "react/jsx-runtime";
+import { jsx as jsx41, jsxs as jsxs25 } from "react/jsx-runtime";
 var STYLES_ID = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
@@ -5133,7 +5148,7 @@ var TabStrip = forwardRef32(
         },
         children: tabs.map((tab, i) => {
           const isActive = tab.key === activeKey;
-          return /* @__PURE__ */ jsxs26(
+          return /* @__PURE__ */ jsxs25(
             "button",
             {
               ref: (el) => {
@@ -5256,6 +5271,11 @@ export {
   ThemePicker,
   ToastProvider,
   TopBar,
+  TopBarLeading,
+  TopBarLink,
+  TopBarNav,
+  TopBarRoot,
+  TopBarTrailing,
   alignMap,
   dividerOpacityMap,
   iconRegistry,

@@ -104,6 +104,11 @@ __export(index_exports, {
   ThemePicker: () => ThemePicker,
   ToastProvider: () => ToastProvider,
   TopBar: () => TopBar,
+  TopBarLeading: () => TopBarLeading,
+  TopBarLink: () => TopBarLink,
+  TopBarNav: () => TopBarNav,
+  TopBarRoot: () => TopBarRoot,
+  TopBarTrailing: () => TopBarTrailing,
   alignMap: () => alignMap,
   dividerOpacityMap: () => dividerOpacityMap,
   iconRegistry: () => iconRegistry,
@@ -4854,12 +4859,21 @@ var AlertBanner = (0, import_react34.forwardRef)(
 var import_react35 = require("react");
 var import_core38 = require("../../core/dist/index.cjs");
 var import_jsx_runtime37 = require("react/jsx-runtime");
-var TOPBAR_STYLES_ID = "4lt7ab-topbar";
+var TopBarContext = (0, import_react35.createContext)(null);
+function useTopBarContext(component) {
+  const ctx = (0, import_react35.useContext)(TopBarContext);
+  if (ctx === null) {
+    throw new Error(
+      `[@4lt7ab/ui] <TopBar.${component}> must be rendered inside <TopBar.Root>.`
+    );
+  }
+}
+var TOPBAR_STYLES_ID = "4lt7ab-topbar-v2";
 var TOPBAR_CSS = `
-  .topbar-nav-item {
+  [data-topbar-link] {
     position: relative;
   }
-  .topbar-nav-item::after {
+  [data-topbar-link]::after {
     content: '';
     position: absolute;
     bottom: -1px;
@@ -4869,29 +4883,21 @@ var TOPBAR_CSS = `
     background: transparent;
     transition: background ${import_core38.semantic.transitionBase};
   }
-  .topbar-nav-item:hover::after {
+  [data-topbar-link]:hover::after {
     background: ${import_core38.semantic.colorBorder};
   }
-  .topbar-nav-item[data-active]::after {
+  [data-topbar-link][data-active]::after {
     background: ${import_core38.semantic.colorActionPrimary};
   }
-  .topbar-nav-item:hover {
+  [data-topbar-link]:hover {
     color: ${import_core38.semantic.colorText};
   }
 `;
-var TopBar = (0, import_react35.forwardRef)(
-  function TopBar2({
-    title,
-    items = [],
-    activePath,
-    onNavigate,
-    trailing,
-    sticky = false,
-    ...rest
-  }, ref) {
+var TopBarRoot = (0, import_react35.forwardRef)(
+  function TopBarRoot2({ children, sticky = false, ...rest }, ref) {
     (0, import_core38.useInjectStyles)(TOPBAR_STYLES_ID, TOPBAR_CSS);
     const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: import_core38.semantic.zIndexSticky } : {};
-    return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(TopBarContext.Provider, { value: true, children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
       "header",
       {
         ref,
@@ -4908,89 +4914,103 @@ var TopBar = (0, import_react35.forwardRef)(
           fontFamily: import_core38.semantic.fontSans,
           ...stickyStyle
         },
-        children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "div",
-            {
-              style: {
-                display: "flex",
-                alignItems: "center",
-                fontWeight: import_core38.semantic.fontWeightBold,
-                fontSize: import_core38.semantic.fontSizeSm,
-                color: import_core38.semantic.colorText,
-                marginRight: import_core38.semantic.spaceLg,
-                whiteSpace: "nowrap",
-                flexShrink: 0
-              },
-              children: title
-            }
-          ),
-          items.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "nav",
-            {
-              style: {
-                display: "flex",
-                alignItems: "center",
-                gap: import_core38.semantic.spaceXs,
-                height: "100%",
-                flex: 1,
-                minWidth: 0
-              },
-              children: items.map((item) => {
-                const isActive = activePath === item.path;
-                return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(
-                  "button",
-                  {
-                    type: "button",
-                    className: "topbar-nav-item",
-                    onClick: () => onNavigate?.(item.path),
-                    "aria-current": isActive ? "page" : void 0,
-                    "data-active": isActive || void 0,
-                    style: {
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: import_core38.semantic.spaceXs,
-                      height: "100%",
-                      padding: `0 ${import_core38.semantic.spaceSm}`,
-                      border: "none",
-                      background: "transparent",
-                      color: isActive ? import_core38.semantic.colorActionPrimary : import_core38.semantic.colorTextMuted,
-                      fontSize: import_core38.semantic.fontSizeSm,
-                      fontFamily: import_core38.semantic.fontSans,
-                      fontWeight: isActive ? import_core38.semantic.fontWeightSemibold : import_core38.semantic.fontWeightNormal,
-                      cursor: "pointer",
-                      whiteSpace: "nowrap",
-                      transition: `color ${import_core38.semantic.transitionBase}`,
-                      boxSizing: "border-box"
-                    },
-                    children: [
-                      item.icon,
-                      item.label
-                    ]
-                  },
-                  item.path
-                );
-              })
-            }
-          ),
-          trailing && /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "div",
-            {
-              style: {
-                display: "flex",
-                alignItems: "center",
-                gap: import_core38.semantic.spaceSm,
-                marginLeft: "auto",
-                flexShrink: 0
-              },
-              children: trailing
-            }
-          )
-        ]
+        children
       }
-    );
+    ) });
   }
 );
+function TopBarLeading({ children }) {
+  useTopBarContext("Leading");
+  return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
+    "div",
+    {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        fontWeight: import_core38.semantic.fontWeightBold,
+        fontSize: import_core38.semantic.fontSizeSm,
+        color: import_core38.semantic.colorText,
+        marginRight: import_core38.semantic.spaceLg,
+        whiteSpace: "nowrap",
+        flexShrink: 0
+      },
+      children
+    }
+  );
+}
+function TopBarNav({ children, "aria-label": ariaLabel = "Primary" }) {
+  useTopBarContext("Nav");
+  return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
+    "nav",
+    {
+      "aria-label": ariaLabel,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: import_core38.semantic.spaceXs,
+        height: "100%",
+        flex: 1,
+        minWidth: 0
+      },
+      children
+    }
+  );
+}
+var TopBarLink = (0, import_react35.forwardRef)(function TopBarLink2({ active = false, asChild = false, onClick, children }, ref) {
+  useTopBarContext("Link");
+  const style = {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: import_core38.semantic.spaceXs,
+    height: "100%",
+    padding: `0 ${import_core38.semantic.spaceSm}`,
+    border: "none",
+    background: "transparent",
+    color: active ? import_core38.semantic.colorActionPrimary : import_core38.semantic.colorTextMuted,
+    fontSize: import_core38.semantic.fontSizeSm,
+    fontFamily: import_core38.semantic.fontSans,
+    fontWeight: active ? import_core38.semantic.fontWeightSemibold : import_core38.semantic.fontWeightNormal,
+    cursor: "pointer",
+    whiteSpace: "nowrap",
+    textDecoration: "none",
+    transition: `color ${import_core38.semantic.transitionBase}`,
+    boxSizing: "border-box"
+  };
+  const commonProps = {
+    "data-topbar-link": "",
+    "data-active": active || void 0,
+    "aria-current": active ? "page" : void 0,
+    onClick,
+    style
+  };
+  if (asChild) {
+    return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_core38.Slot, { ref, ...commonProps, children });
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("button", { ref, type: "button", ...commonProps, children });
+});
+function TopBarTrailing({ children }) {
+  useTopBarContext("Trailing");
+  return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
+    "div",
+    {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: import_core38.semantic.spaceSm,
+        marginLeft: "auto",
+        flexShrink: 0
+      },
+      children
+    }
+  );
+}
+var TopBar = {
+  Root: TopBarRoot,
+  Leading: TopBarLeading,
+  Nav: TopBarNav,
+  Link: TopBarLink,
+  Trailing: TopBarTrailing
+};
 
 // src/components/PillSelect/PillSelect.tsx
 var import_react36 = require("react");
