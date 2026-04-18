@@ -4932,7 +4932,7 @@ function SegmentedControl({
 }
 
 // src/components/AlertBanner/AlertBanner.tsx
-import { forwardRef as forwardRef28, useEffect as useEffect12, useRef as useRef13 } from "react";
+import { forwardRef as forwardRef28 } from "react";
 import { semantic as t37, useInjectStyles as useInjectStyles19 } from "../../core/dist/index.js";
 import { jsx as jsx39, jsxs as jsxs25 } from "react/jsx-runtime";
 var STYLE_ID4 = "4lt7ab-alert-banner";
@@ -4964,17 +4964,8 @@ var defaultIcons = {
   success: /* @__PURE__ */ jsx39(IconCheckCircle, { size: 20 })
 };
 var AlertBanner = forwardRef28(
-  function AlertBanner2({ variant, children, onDismiss, autoDismiss, icon }, ref) {
+  function AlertBanner2({ variant, children, onDismiss, icon }, ref) {
     useInjectStyles19(STYLE_ID4, alertBannerCSS);
-    const timerRef = useRef13(null);
-    useEffect12(() => {
-      if (autoDismiss && onDismiss) {
-        timerRef.current = setTimeout(onDismiss, autoDismiss);
-        return () => {
-          if (timerRef.current) clearTimeout(timerRef.current);
-        };
-      }
-    }, [autoDismiss, onDismiss]);
     const colors = variantColors2[variant];
     const resolvedIcon = icon !== void 0 ? icon : defaultIcons[variant];
     return /* @__PURE__ */ jsxs25(
@@ -5369,7 +5360,7 @@ var Divider = forwardRef32(
 );
 
 // src/components/TabStrip/TabStrip.tsx
-import { forwardRef as forwardRef33, useCallback as useCallback11, useRef as useRef14 } from "react";
+import { forwardRef as forwardRef33, useCallback as useCallback11, useRef as useRef13 } from "react";
 import { semantic as t42, useInjectStyles as useInjectStyles22 } from "../../core/dist/index.js";
 import { jsx as jsx44, jsxs as jsxs28 } from "react/jsx-runtime";
 var STYLES_ID = "4lt7ab-tab-strip";
@@ -5392,7 +5383,7 @@ var TabStrip = forwardRef33(
     ...rest
   }, ref) {
     useInjectStyles22(STYLES_ID, STYLES_CSS);
-    const tabRefs = useRef14([]);
+    const tabRefs = useRef13([]);
     const handleClick = useCallback11(
       (key) => {
         if (key === activeKey && allowDeselect) {

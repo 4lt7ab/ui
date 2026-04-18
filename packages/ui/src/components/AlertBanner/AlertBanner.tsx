@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef } from 'react';
+import { forwardRef } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
 import { IconInfo, IconWarning, IconError, IconCheckCircle } from '../../icons/icons';
 import type { CSSProperties, ReactNode } from 'react';
@@ -18,8 +18,6 @@ export interface AlertBannerProps {
   children: ReactNode;
   /** If provided, shows a dismiss button and is called on dismiss. */
   onDismiss?: () => void;
-  /** Milliseconds before auto-dismissing (calls onDismiss). */
-  autoDismiss?: number;
   /** Optional leading icon. Defaults to a variant-appropriate icon. */
   icon?: ReactNode;
 }
@@ -74,25 +72,15 @@ const defaultIcons: Record<AlertBannerVariant, ReactNode> = {
 
 /**
  * Full-width dismissable notification banner with severity variants.
- * Slides in from the top with a configurable auto-dismiss timer.
+ * Slides in from the top. Consumers own dismiss timing — wrap `onDismiss`
+ * in `useEffect` + `setTimeout` if auto-dismiss is needed.
  */
 export const AlertBanner: React.ForwardRefExoticComponent<Omit<AlertBannerProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, AlertBannerProps>(
   function AlertBanner(
-    { variant, children, onDismiss, autoDismiss, icon },
+    { variant, children, onDismiss, icon },
     ref,
   ): React.JSX.Element {
     useInjectStyles(STYLE_ID, alertBannerCSS);
-
-    const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-    useEffect(() => {
-      if (autoDismiss && onDismiss) {
-        timerRef.current = setTimeout(onDismiss, autoDismiss);
-        return () => {
-          if (timerRef.current) clearTimeout(timerRef.current);
-        };
-      }
-    }, [autoDismiss, onDismiss]);
 
     const colors = variantColors[variant];
     const resolvedIcon = icon !== undefined ? icon : defaultIcons[variant];

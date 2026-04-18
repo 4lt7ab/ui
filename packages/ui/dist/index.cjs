@@ -5086,17 +5086,8 @@ var defaultIcons = {
   success: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(IconCheckCircle, { size: 20 })
 };
 var AlertBanner = (0, import_react35.forwardRef)(
-  function AlertBanner2({ variant, children, onDismiss, autoDismiss, icon }, ref) {
+  function AlertBanner2({ variant, children, onDismiss, icon }, ref) {
     (0, import_core40.useInjectStyles)(STYLE_ID4, alertBannerCSS);
-    const timerRef = (0, import_react35.useRef)(null);
-    (0, import_react35.useEffect)(() => {
-      if (autoDismiss && onDismiss) {
-        timerRef.current = setTimeout(onDismiss, autoDismiss);
-        return () => {
-          if (timerRef.current) clearTimeout(timerRef.current);
-        };
-      }
-    }, [autoDismiss, onDismiss]);
     const colors = variantColors2[variant];
     const resolvedIcon = icon !== void 0 ? icon : defaultIcons[variant];
     return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(

@@ -1098,14 +1098,13 @@ interface AlertBannerProps {
 	children: ReactNode19;
 	/** If provided, shows a dismiss button and is called on dismiss. */
 	onDismiss?: () => void;
-	/** Milliseconds before auto-dismissing (calls onDismiss). */
-	autoDismiss?: number;
 	/** Optional leading icon. Defaults to a variant-appropriate icon. */
 	icon?: ReactNode19;
 }
 /**
 * Full-width dismissable notification banner with severity variants.
-* Slides in from the top with a configurable auto-dismiss timer.
+* Slides in from the top. Consumers own dismiss timing — wrap `onDismiss`
+* in `useEffect` + `setTimeout` if auto-dismiss is needed.
 */
 declare const AlertBanner: React.ForwardRefExoticComponent<Omit<AlertBannerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 import { ReactNode as ReactNode20 } from "react";

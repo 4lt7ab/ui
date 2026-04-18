@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AlertBanner, Stack, Button } from '@4lt7ab/ui';
 import type { AlertBannerVariant } from '@4lt7ab/ui';
 import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
@@ -15,7 +15,6 @@ const props: PropMeta[] = [
   { name: 'variant', type: "'info' | 'warning' | 'error' | 'success'", required: true, description: 'Severity variant controlling the banner color and default icon.' },
   { name: 'children', type: 'ReactNode', required: true, description: 'Message content.' },
   { name: 'onDismiss', type: '() => void', description: 'If provided, shows a dismiss button and is called on dismiss.' },
-  { name: 'autoDismiss', type: 'number', description: 'Milliseconds before auto-dismissing (calls onDismiss).' },
   { name: 'icon', type: 'ReactNode', description: 'Optional leading icon. Defaults to a variant-appropriate icon.' },
 ];
 
@@ -59,29 +58,45 @@ export function AlertBannerDemo(): React.JSX.Element {
         </Stack>
       </PropDemo>
 
-      <PropDemo name="autoDismiss" description="The banner disappears automatically after the specified duration (5 seconds in this example).">
-        {autoDismissVisible ? (
-          <AlertBanner
-            key={autoDismissKey}
-            variant="success"
-            onDismiss={() => setAutoDismissVisible(false)}
-            autoDismiss={5000}
-          >
-            This banner will auto-dismiss in 5 seconds.
-          </AlertBanner>
-        ) : (
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => {
-              setAutoDismissKey((k) => k + 1);
-              setAutoDismissVisible(true);
-            }}
-          >
-            Show auto-dismiss banner
-          </Button>
-        )}
+      <PropDemo name="auto-dismiss (consumer-owned)" description="AlertBanner no longer owns timing. Wrap onDismiss in a useEffect + setTimeout when the banner mounts; clear on unmount.">
+        <AutoDismissExample key={autoDismissKey} visible={autoDismissVisible} onHide={() => setAutoDismissVisible(false)}>
+          {!autoDismissVisible && (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => {
+                setAutoDismissKey((k) => k + 1);
+                setAutoDismissVisible(true);
+              }}
+            >
+              Show auto-dismiss banner
+            </Button>
+          )}
+        </AutoDismissExample>
       </PropDemo>
     </DocBlock>
+  );
+}
+
+function AutoDismissExample({
+  visible,
+  onHide,
+  children,
+}: {
+  visible: boolean;
+  onHide: () => void;
+  children: React.ReactNode;
+}): React.JSX.Element {
+  useEffect(() => {
+    if (!visible) return;
+    const id = setTimeout(onHide, 5000);
+    return () => clearTimeout(id);
+  }, [visible, onHide]);
+
+  if (!visible) return <>{children}</>;
+  return (
+    <AlertBanner variant="success" onDismiss={onHide}>
+      This banner will auto-dismiss in 5 seconds.
+    </AlertBanner>
   );
 }
