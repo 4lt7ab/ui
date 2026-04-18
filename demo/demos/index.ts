@@ -44,7 +44,6 @@ import { SearchInputDemo } from './SearchInputDemo';
 import { SegmentedControlDemo } from './SegmentedControlDemo';
 import { AlertBannerDemo } from './AlertBannerDemo';
 import { TopBarDemo } from './TopBarDemo';
-import { PageShellDemo } from './PageShellDemo';
 import { PillSelectDemo } from './PillSelectDemo';
 import { TextSectionDemo } from './TextSectionDemo';
 import { SurfaceDemo } from './SurfaceDemo';
@@ -75,7 +74,6 @@ export const demos: DemoEntry[] = [
   { name: 'Card', category: 'Layout', source: 'ui', component: CardDemo },
   { name: 'ExpandableCard', category: 'Layout', source: 'ui', component: ExpandableCardDemo },
   { name: 'PageHeader', category: 'Layout', source: 'ui', component: PageHeaderDemo },
-  { name: 'PageShell', category: 'Layout', source: 'ui', component: PageShellDemo },
   { name: 'Table', category: 'Layout', source: 'ui', component: TableDemo },
   { name: 'TableFilters', category: 'Layout', source: 'ui', component: TableFiltersDemo },
   { name: 'Skeleton', category: 'Layout', source: 'ui', component: SkeletonDemo },
@@ -156,7 +154,6 @@ export {
   AlertBannerDemo,
   ModalShellFormPatternDemo,
   TopBarDemo,
-  PageShellDemo,
   PillSelectDemo,
   TextSectionDemo,
   SurfaceDemo,

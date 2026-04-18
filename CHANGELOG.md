@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- **BREAKING** — Retire `PageShell` component and its `PageShellProps` type. PageShell was a ~50 LOC flex-column + maxWidth + padding wrapper — the consumer's app shell is not the library's to own. Migrate to a plain `<div style={{ display: 'flex', flexDirection: 'column', maxWidth, margin: '0 auto', padding, gap }}>` or a `<Surface>` + `<Stack>` composition. See upgrade guide `01KPE1JZ93VM9QDK2QFM88GWBK` §3
 - **BREAKING** — Trim `EmptyState.idle` prop (and the `EmptyStateIdle` type). The bundled `breathe` / `particles` idle animations + injected CSS are removed; `useInjectStyles` is no longer used in this component. EmptyState now renders a static icon — a defensible default. Consumers who want the old `breathe` effect compose a transform-based CSS animation themselves; the keyframes are published in upgrade guide `01KPE1JZ93VM9QDK2QFM88GWBK` §6 as an opt-in snippet
 - **BREAKING** — Retire `MetadataTable` component and its `MetadataTableProps` type. The component wrapped a simple `<dl>` the consumer already knows how to write. Delete the import; write the `<dl>/<dt>/<dd>` markup directly (using `sectionLabelStyle` from `@4lt7ab/ui` for the label styling if desired). See upgrade guide `01KPE1JZ93VM9QDK2QFM88GWBK` §2
 - **BREAKING** — Trim `AlertBanner.autoDismiss` prop. The component no longer owns dismiss timing; consumers wrap `onDismiss` in a `useEffect` + `setTimeout` (three lines). Internal `useEffect`/`useRef` timer code removed; demo switched to an external-timing example. See upgrade guide `01KPE1JZ93VM9QDK2QFM88GWBK` §5

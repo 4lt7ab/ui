@@ -102,7 +102,6 @@ packages/
 │       │   ├── ModalShell/
 │       │   ├── Overlay/
 │       │   ├── PageHeader/
-│       │   ├── PageShell/
 │       │   ├── Pagination/
 │       │   ├── PillSelect/
 │       │   ├── ProgressBar/
