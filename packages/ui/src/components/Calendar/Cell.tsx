@@ -14,6 +14,14 @@ export interface CalendarCellProps {
   style?: React.CSSProperties;
   /** Merge into the inner `<button>` className. */
   className?: string;
+  /** Passthrough `onMouseEnter` — used by range pickers for hover preview. */
+  onMouseEnter?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  /** Passthrough `onMouseLeave`. */
+  onMouseLeave?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  /** Passthrough `onFocus`. */
+  onFocus?: (e: React.FocusEvent<HTMLButtonElement>) => void;
+  /** Passthrough `onBlur`. */
+  onBlur?: (e: React.FocusEvent<HTMLButtonElement>) => void;
 }
 
 const baseCellStyle: React.CSSProperties = {
@@ -82,6 +90,10 @@ export function CalendarCell({
   children,
   style,
   className,
+  onMouseEnter,
+  onMouseLeave,
+  onFocus,
+  onBlur,
 }: CalendarCellProps): React.JSX.Element {
   const ctx = useCalendarContext('Cell');
   const today = new Date();
@@ -145,6 +157,10 @@ export function CalendarCell({
         ctx.setFocusedDate(date);
         ctx.onSelect(date);
       }}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onFocus={onFocus}
+      onBlur={onBlur}
     >
       {children ?? date.getDate()}
     </button>

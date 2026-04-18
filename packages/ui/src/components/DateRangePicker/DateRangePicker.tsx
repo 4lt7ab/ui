@@ -1,8 +1,15 @@
-import { forwardRef, useState, useRef, useCallback, useEffect } from 'react';
+import {
+  forwardRef,
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+  useMemo,
+} from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
 import { Calendar } from '../Calendar';
-import { CalendarGrid } from './CalendarGrid';
-import { formatDate } from './dateUtils';
+import type { CalendarSelection } from '../Calendar';
+import { formatDate, isSameDay } from './dateUtils';
 
 /** A date range with inclusive start and end. */
 export interface DateRange {
@@ -37,13 +44,6 @@ export interface DateRangePickerProps {
 const SCOPE = 'alttab-drp';
 
 const injectedCSS = /* css */ `
-  .${SCOPE}-day--enabled:hover {
-    background: ${t.colorSurfaceRaised} !important;
-  }
-  .${SCOPE}-day--enabled:focus-visible {
-    outline: ${t.focusRingWidth} solid ${t.focusRingColor};
-    outline-offset: ${t.focusRingOffset};
-  }
   .${SCOPE}-trigger:focus-visible {
     border-color: ${t.colorBorderFocused};
     box-shadow: 0 0 0 ${t.focusRingWidth} ${t.focusRingColor};
@@ -111,8 +111,29 @@ const headerRowStyle: React.CSSProperties = {
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: `${t.spaceXs} 0`,
+  marginBottom: t.spaceSm,
 };
 
+function sortedRange(a: Date, b: Date): DateRange {
+  return a.getTime() <= b.getTime()
+    ? { from: a, to: b }
+    : { from: b, to: a };
+}
+
+/**
+ * Date-range picker. A composition over the compound `Calendar.*` primitives
+ * that adds the two-click range selection flow and a hover-preview state
+ * machine:
+ *
+ * 1. First click commits `selectionStart`.
+ * 2. Subsequent mouse hover (or keyboard focus change) previews the range
+ *    `{ from: start, to: hover }` without committing.
+ * 3. Second click commits the final `{ from, to }` via `onChange` and closes
+ *    the popover.
+ *
+ * Keyboard: Enter/Space acts as a click. Arrow keys update the previewed
+ * end via Calendar.Root's focused-date tracking.
+ */
 export const DateRangePicker: React.ForwardRefExoticComponent<
   Omit<DateRangePickerProps, 'ref'> & React.RefAttributes<HTMLDivElement>
 > = forwardRef<HTMLDivElement, DateRangePickerProps>(
@@ -133,35 +154,8 @@ export const DateRangePicker: React.ForwardRefExoticComponent<
 
     const [open, setOpen] = useState(false);
     const [selectionStart, setSelectionStart] = useState<Date | null>(null);
+    const [hoverDate, setHoverDate] = useState<Date | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
-
-    // Calendar view state — first-of-month of the currently visible page
-    const initialDate = value?.from ?? new Date();
-    const [viewDate, setViewDate] = useState<Date>(
-      () => new Date(initialDate.getFullYear(), initialDate.getMonth(), 1),
-    );
-
-    // Focused date for keyboard nav
-    const [focusedDate, setFocusedDate] = useState(
-      value?.from ?? new Date(),
-    );
-
-    // When focused date leaves the visible month, navigate the calendar
-    const handleFocusedDateChange = useCallback((date: Date) => {
-      setFocusedDate(date);
-      setViewDate(new Date(date.getFullYear(), date.getMonth(), 1));
-    }, []);
-
-    // Focus the active day button when focused date changes while popover is open
-    useEffect(() => {
-      if (!open) return;
-      const container = containerRef.current;
-      if (!container) return;
-      const btn = container.querySelector<HTMLButtonElement>(
-        'button[tabindex="0"]',
-      );
-      btn?.focus();
-    }, [focusedDate, open]);
 
     // Click outside to close
     useEffect(() => {
@@ -173,63 +167,87 @@ export const DateRangePicker: React.ForwardRefExoticComponent<
         ) {
           setOpen(false);
           setSelectionStart(null);
+          setHoverDate(null);
         }
       }
       document.addEventListener('mousedown', handleMouseDown);
       return () => document.removeEventListener('mousedown', handleMouseDown);
     }, [open]);
 
-    // Escape to close
+    // Focus the active day when popover opens
     useEffect(() => {
       if (!open) return;
-      function handleKey(e: KeyboardEvent): void {
-        if (e.key === 'Escape') {
-          setOpen(false);
-          setSelectionStart(null);
-        }
-      }
-      document.addEventListener('keydown', handleKey);
-      return () => document.removeEventListener('keydown', handleKey);
+      const btn = containerRef.current?.querySelector<HTMLButtonElement>(
+        '[role="grid"] button[tabindex="0"]',
+      );
+      btn?.focus();
     }, [open]);
 
     const handleToggle = useCallback(() => {
       if (disabled) return;
       setOpen((prev) => {
-        if (!prev) {
-          // Reset view to current range or today when opening
-          const base = value?.from ?? new Date();
-          setViewDate(new Date(base.getFullYear(), base.getMonth(), 1));
-          setFocusedDate(value?.from ?? new Date());
+        if (prev) {
           setSelectionStart(null);
+          setHoverDate(null);
         }
         return !prev;
       });
-    }, [disabled, value]);
+    }, [disabled]);
 
-    const handleDaySelect = useCallback(
-      (date: Date) => {
+    // Two-click selection: first click sets start, second commits.
+    const handleSelect = useCallback(
+      (v: CalendarSelection) => {
+        if (!(v instanceof Date)) return;
         if (selectionStart === null) {
-          // First click — set the start
-          setSelectionStart(date);
+          setSelectionStart(v);
+          setHoverDate(v);
         } else {
-          // Second click — finalize the range
-          const from =
-            selectionStart.getTime() <= date.getTime()
-              ? selectionStart
-              : date;
-          const to =
-            selectionStart.getTime() <= date.getTime()
-              ? date
-              : selectionStart;
-          onChange({ from, to });
+          const range = sortedRange(selectionStart, v);
+          onChange(range);
           setSelectionStart(null);
+          setHoverDate(null);
           setOpen(false);
         }
       },
       [selectionStart, onChange],
     );
 
-    // Build display text
+    // Keyboard equivalent of hover: track focused-date changes on Root so
+    // the preview range extends with arrow keys during mid-selection.
+    const handleFocusedDateChange = useCallback(
+      (d: Date) => {
+        if (selectionStart !== null) setHoverDate(d);
+      },
+      [selectionStart],
+    );
+
+    // Map disabledDates -> predicate for Calendar.Root.
+    const disabledDate = useMemo(() => {
+      if (!disabledDates || disabledDates.length === 0) return undefined;
+      return (d: Date) => disabledDates.some((dd) => isSameDay(dd, d));
+    }, [disabledDates]);
+
+    // Effective selection shown in the grid: the committed value when no
+    // mid-selection is in progress, otherwise the preview range.
+    const displaySelected = useMemo<CalendarSelection>(() => {
+      if (selectionStart !== null) {
+        const end = hoverDate ?? selectionStart;
+        return sortedRange(selectionStart, end);
+      }
+      return value;
+    }, [selectionStart, hoverDate, value]);
+
+    // Re-seed Calendar.Root's uncontrolled state on every open.
+    const openKey = useMemo(
+      () =>
+        open
+          ? `${value?.from.getTime() ?? 'empty'}-${Date.now()}`
+          : 'closed',
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [open],
+    );
+
+    // Display text
     let displayText: React.ReactNode;
     if (value) {
       displayText = `${formatDate(value.from)} \u2013 ${formatDate(value.to)}`;
@@ -237,14 +255,9 @@ export const DateRangePicker: React.ForwardRefExoticComponent<
       displayText = <span style={placeholderStyle}>{placeholder}</span>;
     }
 
-    // The rangeStart/rangeEnd shown in the calendar while selecting
-    const calendarStart = selectionStart ?? value?.from ?? null;
-    const calendarEnd = selectionStart ? null : value?.to ?? null;
-
     return (
       <div
         ref={(node) => {
-          // Merge forwarded ref and local ref
           (containerRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
           if (typeof ref === 'function') ref(node);
           else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
@@ -271,33 +284,32 @@ export const DateRangePicker: React.ForwardRefExoticComponent<
         {open && (
           <div style={popoverStyle} role="dialog" aria-label="Date range picker">
             <Calendar.Root
+              key={openKey}
               mode="range"
-              selected={value}
-              viewDate={viewDate}
-              onViewDateChange={setViewDate}
-              focusedDate={focusedDate}
-              onFocusedDateChange={setFocusedDate}
+              selected={displaySelected}
+              onSelect={handleSelect}
+              onFocusedDateChange={handleFocusedDateChange}
+              defaultFocusedDate={value?.from ?? new Date()}
+              defaultViewDate={value?.from ?? new Date()}
               minDate={minDate}
               maxDate={maxDate}
+              disabledDate={disabledDate}
             >
               <div style={headerRowStyle}>
                 <Calendar.Nav direction="prev" />
                 <Calendar.Header />
                 <Calendar.Nav direction="next" />
               </div>
-              <CalendarGrid
-                year={viewDate.getFullYear()}
-                month={viewDate.getMonth()}
-                rangeStart={calendarStart}
-                rangeEnd={calendarEnd}
-                minDate={minDate}
-                maxDate={maxDate}
-                disabledDates={disabledDates}
-                scopeClass={SCOPE}
-                focusedDate={focusedDate}
-                onSelect={handleDaySelect}
-                onFocusedDateChange={handleFocusedDateChange}
-              />
+              <Calendar.Grid onEscape={() => { setOpen(false); setSelectionStart(null); setHoverDate(null); }}>
+                {({ date }) => (
+                  <Calendar.Cell
+                    date={date}
+                    onMouseEnter={() => {
+                      if (selectionStart !== null) setHoverDate(date);
+                    }}
+                  />
+                )}
+              </Calendar.Grid>
             </Calendar.Root>
           </div>
         )}

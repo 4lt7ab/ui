@@ -845,6 +845,20 @@ interface DateRangePickerProps {
 	*/
 	disabled?: boolean;
 }
+/**
+* Date-range picker. A composition over the compound `Calendar.*` primitives
+* that adds the two-click range selection flow and a hover-preview state
+* machine:
+*
+* 1. First click commits `selectionStart`.
+* 2. Subsequent mouse hover (or keyboard focus change) previews the range
+*    `{ from: start, to: hover }` without committing.
+* 3. Second click commits the final `{ from, to }` via `onChange` and closes
+*    the popover.
+*
+* Keyboard: Enter/Space acts as a click. Arrow keys update the previewed
+* end via Calendar.Root's focused-date tracking.
+*/
 declare const DateRangePicker: React.ForwardRefExoticComponent<Omit<DateRangePickerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /** Props for the DatePicker component. */
 interface DatePickerProps {
@@ -1060,6 +1074,14 @@ interface CalendarCellProps {
 	style?: React.CSSProperties;
 	/** Merge into the inner `<button>` className. */
 	className?: string;
+	/** Passthrough `onMouseEnter` — used by range pickers for hover preview. */
+	onMouseEnter?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+	/** Passthrough `onMouseLeave`. */
+	onMouseLeave?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+	/** Passthrough `onFocus`. */
+	onFocus?: (e: React.FocusEvent<HTMLButtonElement>) => void;
+	/** Passthrough `onBlur`. */
+	onBlur?: (e: React.FocusEvent<HTMLButtonElement>) => void;
 }
 /**
 * Compound Calendar primitive. Members:
