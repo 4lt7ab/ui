@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add `Slot` helper + `composeRefs` + `mergeProps` to `@4lt7ab/core` — a Radix-style polymorphic utility that clones a single child element, merging props (events chain, style shallow-merges, className concatenates, everything else child-wins) and composing refs. The foundation for the `asChild` pattern across the library
+- Add `asChild?: boolean` prop to `Button` — when true, merges Button's variant/size styling, event handlers, ARIA attrs, and ref into the single child element instead of rendering a `<button>`. Enables `<Button asChild><a href="/">Go</a></Button>` without wrappers or double tap targets. Existing call sites unchanged (additive)
+- Add `asChild?: boolean` prop to `IconButton` — same pattern. In asChild mode the `icon`/`badge` props are ignored and the consumer renders the icon inside their own element (an `<a>` or router Link). The `aria-label` requirement is preserved
+
 ## v0.2.31
 
 - **BREAKING** — Consolidate `PageHeader` + `SectionHeader` into a single `Header` component. `Header` takes `title`, `level: 'page' | 'section'` (default `'section'`), optional `subtitle`, `indicator`, and `trailing`. The old `SectionHeader`-only props (`icon`, `border`, `spacing`) are retired; consumers compose them via `<Icon>`, `<Divider>`, and `<Stack>`. Migrate `<PageHeader title="…" />` → `<Header level="page" title="…" />`, and `<SectionHeader icon="x" title="…" />` → `<Header title="…" indicator={<Icon name="x" />} />`. See upgrade guide `01KPE1JZ93VM9QDK2QFM88GWBK` §7

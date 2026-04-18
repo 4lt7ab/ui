@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { semantic as t, useInjectStyles } from '@4lt7ab/core';
+import { semantic as t, useInjectStyles, Slot } from '@4lt7ab/core';
 import type { ReactNode } from 'react';
 
 /** Visual style variant for buttons. */
@@ -49,6 +49,15 @@ export interface ButtonProps {
    * @default false
    */
   iconOnly?: boolean;
+  /**
+   * Render as the single child element instead of a `<button>`. Merges
+   * props, event handlers, className, style, and ref into the child.
+   * Useful for rendering a Button-styled `<a>` or router `<Link>` without
+   * a wrapper. Not compatible with `loading` (which renders a spinner
+   * child).
+   * @default false
+   */
+  asChild?: boolean;
   /** Button content. */
   children: ReactNode;
 }
@@ -129,12 +138,13 @@ const iconOnlyPadding: Record<ButtonSize, string> = {
   lg: t.spaceSm,
 };
 
-export const Button: React.ForwardRefExoticComponent<Omit<ButtonProps, 'ref'> & React.RefAttributes<HTMLButtonElement>> = forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button: React.ForwardRefExoticComponent<Omit<ButtonProps, 'ref'> & React.RefAttributes<HTMLElement>> = forwardRef<HTMLElement, ButtonProps>(
   function Button({
     variant = 'primary',
     size = 'md',
     loading = false,
     iconOnly = false,
+    asChild = false,
     children,
     disabled,
     onClick,
@@ -157,33 +167,54 @@ export const Button: React.ForwardRefExoticComponent<Omit<ButtonProps, 'ref'> & 
 
     const isDisabled = disabled || loading;
 
+    const style = {
+      ...baseStyles,
+      ...variantStyles[variant],
+      ...sizeStyles[size],
+      ...(iconOnly ? { padding: iconOnlyPadding[size], aspectRatio: '1', minWidth: 0 } : {}),
+      ...(isDisabled ? { opacity: 0.5, cursor: 'not-allowed' } : {}),
+    };
+
+    const commonProps = {
+      tabIndex,
+      id,
+      onClick: onClick as React.MouseEventHandler<HTMLElement> | undefined,
+      'aria-busy': loading || undefined,
+      'aria-label': ariaLabel,
+      'aria-labelledby': ariaLabelledBy,
+      'aria-describedby': ariaDescribedBy,
+      'aria-expanded': ariaExpanded,
+      'aria-controls': ariaControls,
+      'aria-haspopup': ariaHasPopup,
+      'data-testid': dataTestId,
+      style,
+    };
+
+    if (asChild) {
+      return (
+        <Slot
+          ref={ref}
+          {...commonProps}
+          // When asChild renders an <a> or similar, disabled/loading can't apply
+          // natively; reflect them via aria-disabled so assistive tech still sees
+          // the state.
+          aria-disabled={isDisabled || undefined}
+        >
+          {children as React.ReactElement}
+        </Slot>
+      );
+    }
+
     return (
       <button
-        ref={ref}
+        ref={ref as React.Ref<HTMLButtonElement>}
         type={type}
         form={form}
         name={name}
         value={value}
-        tabIndex={tabIndex}
-        id={id}
-        onClick={onClick}
         autoFocus={autoFocus}
-        aria-busy={loading || undefined}
-        aria-label={ariaLabel}
-        aria-labelledby={ariaLabelledBy}
-        aria-describedby={ariaDescribedBy}
-        aria-expanded={ariaExpanded}
-        aria-controls={ariaControls}
-        aria-haspopup={ariaHasPopup}
-        data-testid={dataTestId}
-        style={{
-          ...baseStyles,
-          ...variantStyles[variant],
-          ...sizeStyles[size],
-          ...(iconOnly ? { padding: iconOnlyPadding[size], aspectRatio: '1', minWidth: 0 } : {}),
-          ...(isDisabled ? { opacity: 0.5, cursor: 'not-allowed' } : {}),
-        }}
         disabled={isDisabled}
+        {...commonProps}
       >
         {loading ? <span className="alttab-btn-spinner" /> : children}
       </button>

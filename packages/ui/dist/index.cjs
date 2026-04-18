@@ -833,6 +833,7 @@ var Button = (0, import_react4.forwardRef)(
     size = "md",
     loading = false,
     iconOnly = false,
+    asChild = false,
     children,
     disabled,
     onClick,
@@ -853,6 +854,38 @@ var Button = (0, import_react4.forwardRef)(
   }, ref) {
     (0, import_core4.useInjectStyles)(SPINNER_STYLES_ID, spinnerCSS);
     const isDisabled = disabled || loading;
+    const style = {
+      ...baseStyles,
+      ...variantStyles[variant],
+      ...sizeStyles[size],
+      ...iconOnly ? { padding: iconOnlyPadding[size], aspectRatio: "1", minWidth: 0 } : {},
+      ...isDisabled ? { opacity: 0.5, cursor: "not-allowed" } : {}
+    };
+    const commonProps = {
+      tabIndex,
+      id,
+      onClick,
+      "aria-busy": loading || void 0,
+      "aria-label": ariaLabel,
+      "aria-labelledby": ariaLabelledBy,
+      "aria-describedby": ariaDescribedBy,
+      "aria-expanded": ariaExpanded,
+      "aria-controls": ariaControls,
+      "aria-haspopup": ariaHasPopup,
+      "data-testid": dataTestId,
+      style
+    };
+    if (asChild) {
+      return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+        import_core4.Slot,
+        {
+          ref,
+          ...commonProps,
+          "aria-disabled": isDisabled || void 0,
+          children
+        }
+      );
+    }
     return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
       "button",
       {
@@ -861,26 +894,9 @@ var Button = (0, import_react4.forwardRef)(
         form,
         name,
         value,
-        tabIndex,
-        id,
-        onClick,
         autoFocus,
-        "aria-busy": loading || void 0,
-        "aria-label": ariaLabel,
-        "aria-labelledby": ariaLabelledBy,
-        "aria-describedby": ariaDescribedBy,
-        "aria-expanded": ariaExpanded,
-        "aria-controls": ariaControls,
-        "aria-haspopup": ariaHasPopup,
-        "data-testid": dataTestId,
-        style: {
-          ...baseStyles,
-          ...variantStyles[variant],
-          ...sizeStyles[size],
-          ...iconOnly ? { padding: iconOnlyPadding[size], aspectRatio: "1", minWidth: 0 } : {},
-          ...isDisabled ? { opacity: 0.5, cursor: "not-allowed" } : {}
-        },
         disabled: isDisabled,
+        ...commonProps,
         children: loading ? /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "alttab-btn-spinner" }) : children
       }
     );
@@ -1816,6 +1832,8 @@ var IconButton = (0, import_react12.forwardRef)(
     size = "md",
     badge,
     fontClass,
+    asChild = false,
+    children,
     onClick,
     disabled,
     type,
@@ -1841,54 +1859,62 @@ var IconButton = (0, import_react12.forwardRef)(
       }`
     );
     const dim = buttonSizeMap[size];
-    return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(
+    const style = {
+      position: "relative",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: dim,
+      height: dim,
+      borderRadius: import_core11.semantic.radiusFull,
+      background: "transparent",
+      border: "none",
+      color: import_core11.semantic.colorTextMuted,
+      cursor: "pointer",
+      padding: 0
+    };
+    const iconAndBadge = /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(import_jsx_runtime12.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Icon, { name: icon, size: iconSizeForButton[size], fontClass }),
+      badge && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+        "span",
+        {
+          style: {
+            position: "absolute",
+            top: 2,
+            right: 2,
+            width: 8,
+            height: 8,
+            borderRadius: import_core11.semantic.radiusFull,
+            background: import_core11.semantic.colorError,
+            border: `${import_core11.semantic.borderWidthThick} solid ${import_core11.semantic.colorSurface}`
+          }
+        }
+      )
+    ] });
+    const commonProps = {
+      "data-icon-btn-id": styleId,
+      onClick,
+      tabIndex,
+      id,
+      "aria-label": ariaLabel,
+      "aria-labelledby": ariaLabelledBy,
+      "aria-describedby": ariaDescribedBy,
+      "aria-expanded": ariaExpanded,
+      "aria-controls": ariaControls,
+      "data-testid": dataTestId,
+      style
+    };
+    if (asChild) {
+      return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_core11.Slot, { ref, ...commonProps, "aria-disabled": disabled || void 0, children });
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
       "button",
       {
         ref,
-        "data-icon-btn-id": styleId,
         type,
-        onClick,
         disabled,
-        tabIndex,
-        id,
-        "aria-label": ariaLabel,
-        "aria-labelledby": ariaLabelledBy,
-        "aria-describedby": ariaDescribedBy,
-        "aria-expanded": ariaExpanded,
-        "aria-controls": ariaControls,
-        "data-testid": dataTestId,
-        style: {
-          position: "relative",
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: dim,
-          height: dim,
-          borderRadius: import_core11.semantic.radiusFull,
-          background: "transparent",
-          border: "none",
-          color: import_core11.semantic.colorTextMuted,
-          cursor: "pointer",
-          padding: 0
-        },
-        children: [
-          /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Icon, { name: icon, size: iconSizeForButton[size], fontClass }),
-          badge && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
-            "span",
-            {
-              style: {
-                position: "absolute",
-                top: 2,
-                right: 2,
-                width: 8,
-                height: 8,
-                borderRadius: import_core11.semantic.radiusFull,
-                background: import_core11.semantic.colorError,
-                border: `${import_core11.semantic.borderWidthThick} solid ${import_core11.semantic.colorSurface}`
-              }
-            }
-          )
-        ]
+        ...commonProps,
+        children: iconAndBadge
       }
     );
   }

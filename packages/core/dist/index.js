@@ -1254,6 +1254,60 @@ function useDisclosure(options = {}) {
     }
   };
 }
+// src/utils/slot.ts
+import { Children, cloneElement, forwardRef, isValidElement } from "react";
+function composeRefs(...refs) {
+  return (node) => {
+    for (const ref of refs) {
+      if (!ref)
+        continue;
+      if (typeof ref === "function") {
+        ref(node);
+      } else {
+        try {
+          ref.current = node;
+        } catch {}
+      }
+    }
+  };
+}
+function mergeProps(parent, child) {
+  const merged = { ...parent };
+  for (const key in child) {
+    const childValue = child[key];
+    const parentValue = merged[key];
+    if (/^on[A-Z]/.test(key) && typeof childValue === "function" && typeof parentValue === "function") {
+      merged[key] = (...args) => {
+        parentValue(...args);
+        childValue(...args);
+      };
+    } else if (key === "style" && parentValue && childValue) {
+      merged.style = { ...parentValue, ...childValue };
+    } else if (key === "className") {
+      merged.className = [parentValue, childValue].filter(Boolean).join(" ");
+    } else {
+      merged[key] = childValue;
+    }
+  }
+  return merged;
+}
+var Slot = forwardRef(function Slot2(props, forwardedRef) {
+  const { children, ...slotProps } = props;
+  if (!isValidElement(children)) {
+    if (Children.count(children) > 1) {
+      throw new Error("[@4lt7ab/core] <Slot> expects exactly one React element child. " + `Got ${Children.count(children)}.`);
+    }
+    return null;
+  }
+  const child = children;
+  const childRef = child.props.ref ?? child.ref;
+  const nextProps = mergeProps(slotProps, child.props);
+  delete nextProps.ref;
+  return cloneElement(child, {
+    ...nextProps,
+    ref: composeRefs(forwardedRef, childRef)
+  });
+});
 // src/tokens/primitives.ts
 var colors = {
   gray50: "#f9fafb",
@@ -1477,9 +1531,12 @@ export {
   pacmanTheme,
   neuralTheme,
   mossTheme,
+  mergeProps,
   coralTheme,
+  composeRefs,
   colors,
   blackHoleTheme,
   ThemeProvider,
+  Slot,
   KEYFRAMES
 };

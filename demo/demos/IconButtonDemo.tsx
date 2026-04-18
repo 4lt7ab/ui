@@ -1,4 +1,4 @@
-import { IconButton, Stack } from '@4lt7ab/ui';
+import { IconButton, Icon, Stack } from '@4lt7ab/ui';
 import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
 
 const props: PropMeta[] = [
@@ -11,6 +11,7 @@ const props: PropMeta[] = [
   { name: 'disabled', type: 'boolean', description: 'Disables the button.' },
   { name: 'type', type: "'button' | 'submit' | 'reset'", description: 'HTML button type for form behavior.' },
   { name: 'tabIndex', type: 'number', description: 'Overrides the default tab order position.' },
+  { name: 'asChild', type: 'boolean', default: 'false', description: 'Render as the single child element instead of a <button> — merges styling + ARIA + ref into the child. The icon/badge props are ignored; consumer renders the icon themselves inside the child.' },
 ];
 
 export function IconButtonDemo(): React.JSX.Element {
@@ -66,6 +67,21 @@ export function IconButtonDemo(): React.JSX.Element {
           <IconButton icon="edit" disabled aria-label="Edit (disabled)" />
           <IconButton icon="trash" disabled aria-label="Delete (disabled)" />
           <IconButton icon="settings" disabled aria-label="Settings (disabled)" />
+        </Stack>
+      </PropDemo>
+
+      <PropDemo name="asChild" description="Render an IconButton-shaped anchor. In asChild mode the consumer renders the icon inside the child element; IconButton's icon prop is ignored.">
+        <Stack direction="horizontal" gap="sm" align="center">
+          <IconButton asChild icon="external-link" aria-label="Open docs in new tab">
+            <a href="https://example.com" target="_blank" rel="noreferrer">
+              <Icon name="external-link" size="md" />
+            </a>
+          </IconButton>
+          <IconButton asChild icon="home" aria-label="Home">
+            <a href="/">
+              <Icon name="home" size="md" fontClass="material-symbols-outlined" />
+            </a>
+          </IconButton>
         </Stack>
       </PropDemo>
 

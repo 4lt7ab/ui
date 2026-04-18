@@ -101,10 +101,19 @@ interface ButtonProps {
 	* @default false
 	*/
 	iconOnly?: boolean;
+	/**
+	* Render as the single child element instead of a `<button>`. Merges
+	* props, event handlers, className, style, and ref into the child.
+	* Useful for rendering a Button-styled `<a>` or router `<Link>` without
+	* a wrapper. Not compatible with `loading` (which renders a spinner
+	* child).
+	* @default false
+	*/
+	asChild?: boolean;
 	/** Button content. */
 	children: ReactNode2;
 }
-declare const Button: React.ForwardRefExoticComponent<Omit<ButtonProps, "ref"> & React.RefAttributes<HTMLButtonElement>>;
+declare const Button: React.ForwardRefExoticComponent<Omit<ButtonProps, "ref"> & React.RefAttributes<HTMLElement>>;
 import { ReactNode as ReactNode3 } from "react";
 /**
 * Minimal prop set every component accepts. Replaces `extends HTMLAttributes`
@@ -397,6 +406,7 @@ interface IconProps {
 	"data-testid"?: string;
 }
 declare const Icon: React.ForwardRefExoticComponent<Omit<IconProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
+import { ReactNode as ReactNode9 } from "react";
 /** Controls the tap-target and icon size of the icon button. */
 type IconButtonSize = "sm" | "md" | "lg";
 /** A circular icon-only button. Requires `aria-label` for accessibility. */
@@ -429,8 +439,20 @@ interface IconButtonProps {
 	/** CSS class for an icon font (e.g. `'material-symbols-outlined'`).
 	*  Passed through to Icon for font-based rendering. */
 	fontClass?: string;
+	/**
+	* Render as the single child element instead of a `<button>`. Merges
+	* IconButton's style, event handlers, ARIA attrs, and ref into the
+	* child. In asChild mode the consumer is responsible for rendering
+	* the icon themselves inside the child element (the `icon`/`badge`
+	* props are ignored), e.g.
+	* `<IconButton asChild aria-label="Home"><a href="/"><Icon name="home" /></a></IconButton>`.
+	* @default false
+	*/
+	asChild?: boolean;
+	/** When `asChild` is true, the single child element to clone. Ignored otherwise. */
+	children?: ReactNode9;
 }
-declare const IconButton: React.ForwardRefExoticComponent<Omit<IconButtonProps, "ref"> & React.RefAttributes<HTMLButtonElement>>;
+declare const IconButton: React.ForwardRefExoticComponent<Omit<IconButtonProps, "ref"> & React.RefAttributes<HTMLElement>>;
 /** A full-screen semi-transparent backdrop. Used behind modals and drawers. */
 interface OverlayProps {
 	/** Called when the overlay is clicked (typically to close the parent modal). */
@@ -487,7 +509,7 @@ interface ProgressBarProps {
 	"aria-label"?: string;
 }
 declare const ProgressBar: React.ForwardRefExoticComponent<Omit<ProgressBarProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode9 } from "react";
+import { ReactNode as ReactNode10 } from "react";
 /** A placeholder shown when a section has no content. Displays an icon, message, and optional action. */
 interface EmptyStateProps {
 	/** Icon displayed above the message. */
@@ -501,9 +523,9 @@ interface EmptyStateProps {
 	*/
 	variant?: "plain" | "card";
 	/** Additional content rendered below the message. */
-	children?: ReactNode9;
+	children?: ReactNode10;
 	/** Action slot (e.g. a CTA button) rendered below the message and children. */
-	action?: ReactNode9;
+	action?: ReactNode10;
 }
 declare const EmptyState: React.ForwardRefExoticComponent<Omit<EmptyStateProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /** Customizable text labels for the Pagination component. */
@@ -533,7 +555,7 @@ interface PaginationProps {
 	labels?: PaginationLabels;
 }
 declare const Pagination: React.ForwardRefExoticComponent<Omit<PaginationProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode10 } from "react";
+import { ReactNode as ReactNode11 } from "react";
 /** Heading scale. `page` is the top-of-page heading; `section` is a sub-section heading. */
 type HeaderLevel = "page" | "section";
 /**
@@ -551,9 +573,9 @@ interface HeaderProps {
 	/** Secondary text rendered below the title in muted style. */
 	subtitle?: string;
 	/** Inline content rendered next to the title (e.g. Badge, StatusDot, Icon). */
-	indicator?: ReactNode10;
+	indicator?: ReactNode11;
 	/** Content aligned to the right end of the header (e.g. action buttons, SearchInput). */
-	trailing?: ReactNode10;
+	trailing?: ReactNode11;
 }
 declare const Header: React.ForwardRefExoticComponent<Omit<HeaderProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /** A small pill-shaped tag with an optional remove button. */
@@ -566,7 +588,7 @@ interface TagChipProps {
 	onRemove?: () => void;
 }
 declare const TagChip: React.ForwardRefExoticComponent<Omit<TagChipProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
-import { ReactNode as ReactNode11 } from "react";
+import { ReactNode as ReactNode12 } from "react";
 /** Shared heading style for modal titles. Used by ConfirmDialog and consumer modal compositions. */
 declare const modalHeadingStyle: React.CSSProperties;
 /** Shared footer layout for modal action buttons. Used by ConfirmDialog and consumer modal compositions. */
@@ -576,7 +598,7 @@ interface ModalShellProps {
 	/** Called when the modal should close (Escape key or overlay click). */
 	onClose: () => void;
 	/** Modal body content. */
-	children: ReactNode11;
+	children: ReactNode12;
 	/** Width preset for the modal panel.
 	* @default 'md'
 	*/
@@ -600,7 +622,7 @@ declare const ModalShell: React.ForwardRefExoticComponent<Omit<ModalShellProps, 
 * retired `SectionLabel` component's visual contract.
 */
 declare const sectionLabelStyle: React.CSSProperties;
-import { ReactNode as ReactNode12 } from "react";
+import { ReactNode as ReactNode13 } from "react";
 /** Semantic variant controlling the confirm button style. */
 type ConfirmDialogVariant = "destructive" | "info" | "warning";
 /** A modal confirmation dialog with title, message, and Cancel/Confirm buttons. Supports async confirm handlers with loading state. */
@@ -618,7 +640,7 @@ interface ConfirmDialogProps {
 	/** Called when the user cancels (Cancel button, Escape key, or overlay click). */
 	onCancel: () => void;
 	/** Custom body content rendered between the message and the action buttons. */
-	children?: ReactNode12;
+	children?: ReactNode13;
 	/** Controls the confirm button color variant.
 	* - `destructive` — red destructive button
 	* - `info` — primary accent button
@@ -651,7 +673,7 @@ interface StatusDotProps {
 	"aria-label"?: string;
 }
 declare const StatusDot: React.ForwardRefExoticComponent<Omit<StatusDotProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
-import { ReactNode as ReactNode13 } from "react";
+import { ReactNode as ReactNode14 } from "react";
 type SpacingToken2 = "xs" | "sm" | "md" | "lg";
 /** Visual treatment for the table wrapper. */
 type TableVariant = "default" | "flat";
@@ -668,13 +690,13 @@ interface TableProps extends BaseComponentProps {
 	*/
 	density?: SpacingToken2;
 	/** Table content (TableHeader, TableBody, etc.). */
-	children: ReactNode13;
+	children: ReactNode14;
 }
 declare const Table: React.ForwardRefExoticComponent<Omit<TableProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /** Table header section. Renders a `<thead>` with a single `<tr>` wrapping the children. */
 interface TableHeaderProps {
 	/** TableHeaderCell elements. */
-	children: ReactNode13;
+	children: ReactNode14;
 }
 declare const TableHeader: React.ForwardRefExoticComponent<Omit<TableHeaderProps, "ref"> & React.RefAttributes<HTMLTableSectionElement>>;
 /** A single column header cell (`<th>`). Renders uppercase, muted, semibold text. */
@@ -688,13 +710,13 @@ interface TableHeaderCellProps {
 	/** Number of columns this header should span. */
 	colSpan?: number;
 	/** Header label. */
-	children?: ReactNode13;
+	children?: ReactNode14;
 }
 declare const TableHeaderCell: React.ForwardRefExoticComponent<Omit<TableHeaderCellProps, "ref"> & React.RefAttributes<HTMLTableCellElement>>;
 /** Table body section (`<tbody>`). Wraps TableRow elements. */
 interface TableBodyProps {
 	/** TableRow elements. */
-	children: ReactNode13;
+	children: ReactNode14;
 }
 declare const TableBody: React.ForwardRefExoticComponent<Omit<TableBodyProps, "ref"> & React.RefAttributes<HTMLTableSectionElement>>;
 /** A table row (`<tr>`). Supports selection highlighting and hover effects. When `onClick` is provided, the row becomes focusable and responds to Enter/Space. */
@@ -710,7 +732,7 @@ interface TableRowProps {
 	/** Click handler. When provided, the row becomes focusable and responds to Enter/Space. */
 	onClick?: React.MouseEventHandler<HTMLTableRowElement>;
 	/** TableCell elements. */
-	children: ReactNode13;
+	children: ReactNode14;
 }
 declare const TableRow: React.ForwardRefExoticComponent<Omit<TableRowProps, "ref"> & React.RefAttributes<HTMLTableRowElement>>;
 /** A table data cell (`<td>`). */
@@ -732,7 +754,7 @@ interface TableCellProps {
 	/** Number of columns this cell should span. */
 	colSpan?: number;
 	/** Cell content. */
-	children?: ReactNode13;
+	children?: ReactNode14;
 }
 declare const TableCell: React.ForwardRefExoticComponent<Omit<TableCellProps, "ref"> & React.RefAttributes<HTMLTableCellElement>>;
 /** A full-width subheading row for grouping table rows under a shared label. */
@@ -740,7 +762,7 @@ interface TableGroupHeaderProps {
 	/** Number of columns the header should span. */
 	colSpan: number;
 	/** Group label text. */
-	children: ReactNode13;
+	children: ReactNode14;
 }
 declare const TableGroupHeader: React.ForwardRefExoticComponent<Omit<TableGroupHeaderProps, "ref"> & React.RefAttributes<HTMLTableRowElement>>;
 /** A centered message row displayed when the table has no data. */
@@ -748,7 +770,7 @@ interface TableEmptyRowProps {
 	/** Number of columns the message should span. */
 	colSpan: number;
 	/** Empty state message content. */
-	children: ReactNode13;
+	children: ReactNode14;
 }
 declare const TableEmptyRow: React.ForwardRefExoticComponent<Omit<TableEmptyRowProps, "ref"> & React.RefAttributes<HTMLTableRowElement>>;
 /** A date range with inclusive start and end. */
@@ -832,7 +854,7 @@ declare class ErrorBoundary extends React2.Component<ErrorBoundaryProps, ErrorBo
 	resetErrorBoundary: () => void;
 	render(): React2.ReactNode;
 }
-import { ReactNode as ReactNode14 } from "react";
+import { ReactNode as ReactNode15 } from "react";
 /** Visual type of a toast notification. */
 type ToastType = "success" | "error" | "info" | "warning";
 /** Configuration for a single toast instance. */
@@ -874,7 +896,7 @@ declare function useToast(): ToastContextValue;
 /** Props for the ToastProvider context component. */
 interface ToastProviderProps {
 	/** Application content. */
-	children: ReactNode14;
+	children: ReactNode15;
 	/** Screen position of the toast stack.
 	* @default 'top-right'
 	*/
@@ -986,7 +1008,7 @@ interface ChipPickerProps {
 }
 /** Multi-select toggle chip group with optional category grouping. */
 declare function ChipPicker({ items, selected, onChange }: ChipPickerProps): React.JSX.Element;
-import { ReactNode as ReactNode15 } from "react";
+import { ReactNode as ReactNode16 } from "react";
 /** A text input with built-in debounce, search icon, and optional trailing slot. */
 interface SearchInputProps {
 	/** Current search value (controlled). */
@@ -998,7 +1020,7 @@ interface SearchInputProps {
 	*/
 	debounceMs?: number;
 	/** Optional content rendered inside the input on the right side (toggle, clear button, etc.). */
-	trailing?: ReactNode15;
+	trailing?: ReactNode16;
 	placeholder?: string;
 	disabled?: boolean;
 	name?: string;
@@ -1034,7 +1056,7 @@ interface SegmentedControlProps {
 	size?: "sm" | "md";
 }
 declare function SegmentedControl({ segments, value, onChange, size }: SegmentedControlProps): React.JSX.Element;
-import { ReactNode as ReactNode16 } from "react";
+import { ReactNode as ReactNode17 } from "react";
 /** Severity variant controlling banner color. */
 type AlertBannerVariant = "info" | "warning" | "error" | "success";
 /** Props for the AlertBanner component. */
@@ -1042,11 +1064,11 @@ interface AlertBannerProps {
 	/** Severity variant controlling color. */
 	variant: AlertBannerVariant;
 	/** Message content. */
-	children: ReactNode16;
+	children: ReactNode17;
 	/** If provided, shows a dismiss button and is called on dismiss. */
 	onDismiss?: () => void;
 	/** Optional leading icon. Defaults to a variant-appropriate icon. */
-	icon?: ReactNode16;
+	icon?: ReactNode17;
 }
 /**
 * Full-width dismissable notification banner with severity variants.
@@ -1054,7 +1076,7 @@ interface AlertBannerProps {
 * in `useEffect` + `setTimeout` if auto-dismiss is needed.
 */
 declare const AlertBanner: React.ForwardRefExoticComponent<Omit<AlertBannerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode17 } from "react";
+import { ReactNode as ReactNode18 } from "react";
 /** A single navigation entry in the TopBar. */
 interface NavItem {
 	/** Display label. */
@@ -1062,14 +1084,14 @@ interface NavItem {
 	/** Route path — matched against `activePath` to determine active state. */
 	path: string;
 	/** Optional leading icon (any ReactNode). */
-	icon?: ReactNode17;
+	icon?: ReactNode18;
 }
 /** App-level navigation header with title, nav items, and trailing slot. */
 interface TopBarProps extends BaseComponentProps {
 	/** Accessible label for the header landmark. */
 	"aria-label"?: string;
 	/** Logo or app title — rendered in the leading slot. */
-	title: ReactNode17;
+	title: ReactNode18;
 	/** Navigation items displayed as horizontal buttons. */
 	items?: NavItem[];
 	/** The currently active path. Compared against each item's `path`. */
@@ -1077,7 +1099,7 @@ interface TopBarProps extends BaseComponentProps {
 	/** Called when a nav item is clicked. Consumer handles routing. */
 	onNavigate?: (path: string) => void;
 	/** Content rendered in the trailing slot (e.g. ThemePicker, avatar). */
-	trailing?: ReactNode17;
+	trailing?: ReactNode18;
 	/** Sticks to the top of the viewport on scroll.
 	* @default false
 	*/
@@ -1106,7 +1128,7 @@ interface PillSelectProps {
 }
 /** Pill-shaped native select for filter bars with active/inactive state coloring. */
 declare function PillSelect({ value, options, onChange, ariaLabel, active: activeProp }: PillSelectProps): React.JSX.Element;
-import { ReactNode as ReactNode18 } from "react";
+import { ReactNode as ReactNode19 } from "react";
 /**
 * Which semantic surface token to use as the background.
 *
@@ -1190,10 +1212,10 @@ interface SurfaceProps extends BaseComponentProps {
 	* @default 'div'
 	*/
 	as?: "div" | "section" | "article" | "aside" | "main";
-	children: ReactNode18;
+	children: ReactNode19;
 }
 declare const Surface: React.ForwardRefExoticComponent<Omit<SurfaceProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode19 } from "react";
+import { ReactNode as ReactNode20 } from "react";
 /**
 * Responsive grid layout with auto-fill columns.
 *
@@ -1233,7 +1255,7 @@ interface GridProps extends BaseComponentProps {
 	* @default 'md'
 	*/
 	gap?: SpacingToken;
-	children: ReactNode19;
+	children: ReactNode20;
 }
 declare const Grid: React.ForwardRefExoticComponent<Omit<GridProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /**

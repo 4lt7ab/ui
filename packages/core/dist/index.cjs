@@ -60,10 +60,13 @@ __export(exports_src, {
   pacmanTheme: () => pacmanTheme,
   neuralTheme: () => neuralTheme,
   mossTheme: () => mossTheme,
+  mergeProps: () => mergeProps,
   coralTheme: () => coralTheme,
+  composeRefs: () => composeRefs,
   colors: () => colors,
   blackHoleTheme: () => blackHoleTheme,
   ThemeProvider: () => ThemeProvider,
+  Slot: () => Slot,
   KEYFRAMES: () => KEYFRAMES
 });
 module.exports = __toCommonJS(exports_src);
@@ -1315,6 +1318,60 @@ function useDisclosure(options = {}) {
     }
   };
 }
+// src/utils/slot.ts
+var import_react5 = require("react");
+function composeRefs(...refs) {
+  return (node) => {
+    for (const ref of refs) {
+      if (!ref)
+        continue;
+      if (typeof ref === "function") {
+        ref(node);
+      } else {
+        try {
+          ref.current = node;
+        } catch {}
+      }
+    }
+  };
+}
+function mergeProps(parent, child) {
+  const merged = { ...parent };
+  for (const key in child) {
+    const childValue = child[key];
+    const parentValue = merged[key];
+    if (/^on[A-Z]/.test(key) && typeof childValue === "function" && typeof parentValue === "function") {
+      merged[key] = (...args) => {
+        parentValue(...args);
+        childValue(...args);
+      };
+    } else if (key === "style" && parentValue && childValue) {
+      merged.style = { ...parentValue, ...childValue };
+    } else if (key === "className") {
+      merged.className = [parentValue, childValue].filter(Boolean).join(" ");
+    } else {
+      merged[key] = childValue;
+    }
+  }
+  return merged;
+}
+var Slot = import_react5.forwardRef(function Slot2(props, forwardedRef) {
+  const { children, ...slotProps } = props;
+  if (!import_react5.isValidElement(children)) {
+    if (import_react5.Children.count(children) > 1) {
+      throw new Error("[@4lt7ab/core] <Slot> expects exactly one React element child. " + `Got ${import_react5.Children.count(children)}.`);
+    }
+    return null;
+  }
+  const child = children;
+  const childRef = child.props.ref ?? child.ref;
+  const nextProps = mergeProps(slotProps, child.props);
+  delete nextProps.ref;
+  return import_react5.cloneElement(child, {
+    ...nextProps,
+    ref: composeRefs(forwardedRef, childRef)
+  });
+});
 // src/tokens/primitives.ts
 var colors = {
   gray50: "#f9fafb",

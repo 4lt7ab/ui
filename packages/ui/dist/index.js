@@ -627,7 +627,7 @@ var ThemePicker = forwardRef2(
 
 // src/components/Button/Button.tsx
 import { forwardRef as forwardRef3 } from "react";
-import { semantic as t2, useInjectStyles as useInjectStyles2 } from "../../core/dist/index.js";
+import { semantic as t2, useInjectStyles as useInjectStyles2, Slot } from "../../core/dist/index.js";
 import { jsx as jsx4 } from "react/jsx-runtime";
 var variantStyles = {
   primary: {
@@ -708,6 +708,7 @@ var Button = forwardRef3(
     size = "md",
     loading = false,
     iconOnly = false,
+    asChild = false,
     children,
     disabled,
     onClick,
@@ -728,6 +729,38 @@ var Button = forwardRef3(
   }, ref) {
     useInjectStyles2(SPINNER_STYLES_ID, spinnerCSS);
     const isDisabled = disabled || loading;
+    const style = {
+      ...baseStyles,
+      ...variantStyles[variant],
+      ...sizeStyles[size],
+      ...iconOnly ? { padding: iconOnlyPadding[size], aspectRatio: "1", minWidth: 0 } : {},
+      ...isDisabled ? { opacity: 0.5, cursor: "not-allowed" } : {}
+    };
+    const commonProps = {
+      tabIndex,
+      id,
+      onClick,
+      "aria-busy": loading || void 0,
+      "aria-label": ariaLabel,
+      "aria-labelledby": ariaLabelledBy,
+      "aria-describedby": ariaDescribedBy,
+      "aria-expanded": ariaExpanded,
+      "aria-controls": ariaControls,
+      "aria-haspopup": ariaHasPopup,
+      "data-testid": dataTestId,
+      style
+    };
+    if (asChild) {
+      return /* @__PURE__ */ jsx4(
+        Slot,
+        {
+          ref,
+          ...commonProps,
+          "aria-disabled": isDisabled || void 0,
+          children
+        }
+      );
+    }
     return /* @__PURE__ */ jsx4(
       "button",
       {
@@ -736,26 +769,9 @@ var Button = forwardRef3(
         form,
         name,
         value,
-        tabIndex,
-        id,
-        onClick,
         autoFocus,
-        "aria-busy": loading || void 0,
-        "aria-label": ariaLabel,
-        "aria-labelledby": ariaLabelledBy,
-        "aria-describedby": ariaDescribedBy,
-        "aria-expanded": ariaExpanded,
-        "aria-controls": ariaControls,
-        "aria-haspopup": ariaHasPopup,
-        "data-testid": dataTestId,
-        style: {
-          ...baseStyles,
-          ...variantStyles[variant],
-          ...sizeStyles[size],
-          ...iconOnly ? { padding: iconOnlyPadding[size], aspectRatio: "1", minWidth: 0 } : {},
-          ...isDisabled ? { opacity: 0.5, cursor: "not-allowed" } : {}
-        },
         disabled: isDisabled,
+        ...commonProps,
         children: loading ? /* @__PURE__ */ jsx4("span", { className: "alttab-btn-spinner" }) : children
       }
     );
@@ -1673,8 +1689,8 @@ var Badge = forwardRef10(
 
 // src/components/IconButton/IconButton.tsx
 import { forwardRef as forwardRef11, useId as useId2 } from "react";
-import { semantic as t9, useInjectStyles as useInjectStyles5 } from "../../core/dist/index.js";
-import { jsx as jsx12, jsxs as jsxs5 } from "react/jsx-runtime";
+import { semantic as t9, useInjectStyles as useInjectStyles5, Slot as Slot2 } from "../../core/dist/index.js";
+import { Fragment, jsx as jsx12, jsxs as jsxs5 } from "react/jsx-runtime";
 var buttonSizeMap = {
   sm: 28,
   md: 36,
@@ -1691,6 +1707,8 @@ var IconButton = forwardRef11(
     size = "md",
     badge,
     fontClass,
+    asChild = false,
+    children,
     onClick,
     disabled,
     type,
@@ -1716,54 +1734,62 @@ var IconButton = forwardRef11(
       }`
     );
     const dim = buttonSizeMap[size];
-    return /* @__PURE__ */ jsxs5(
+    const style = {
+      position: "relative",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: dim,
+      height: dim,
+      borderRadius: t9.radiusFull,
+      background: "transparent",
+      border: "none",
+      color: t9.colorTextMuted,
+      cursor: "pointer",
+      padding: 0
+    };
+    const iconAndBadge = /* @__PURE__ */ jsxs5(Fragment, { children: [
+      /* @__PURE__ */ jsx12(Icon, { name: icon, size: iconSizeForButton[size], fontClass }),
+      badge && /* @__PURE__ */ jsx12(
+        "span",
+        {
+          style: {
+            position: "absolute",
+            top: 2,
+            right: 2,
+            width: 8,
+            height: 8,
+            borderRadius: t9.radiusFull,
+            background: t9.colorError,
+            border: `${t9.borderWidthThick} solid ${t9.colorSurface}`
+          }
+        }
+      )
+    ] });
+    const commonProps = {
+      "data-icon-btn-id": styleId,
+      onClick,
+      tabIndex,
+      id,
+      "aria-label": ariaLabel,
+      "aria-labelledby": ariaLabelledBy,
+      "aria-describedby": ariaDescribedBy,
+      "aria-expanded": ariaExpanded,
+      "aria-controls": ariaControls,
+      "data-testid": dataTestId,
+      style
+    };
+    if (asChild) {
+      return /* @__PURE__ */ jsx12(Slot2, { ref, ...commonProps, "aria-disabled": disabled || void 0, children });
+    }
+    return /* @__PURE__ */ jsx12(
       "button",
       {
         ref,
-        "data-icon-btn-id": styleId,
         type,
-        onClick,
         disabled,
-        tabIndex,
-        id,
-        "aria-label": ariaLabel,
-        "aria-labelledby": ariaLabelledBy,
-        "aria-describedby": ariaDescribedBy,
-        "aria-expanded": ariaExpanded,
-        "aria-controls": ariaControls,
-        "data-testid": dataTestId,
-        style: {
-          position: "relative",
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: dim,
-          height: dim,
-          borderRadius: t9.radiusFull,
-          background: "transparent",
-          border: "none",
-          color: t9.colorTextMuted,
-          cursor: "pointer",
-          padding: 0
-        },
-        children: [
-          /* @__PURE__ */ jsx12(Icon, { name: icon, size: iconSizeForButton[size], fontClass }),
-          badge && /* @__PURE__ */ jsx12(
-            "span",
-            {
-              style: {
-                position: "absolute",
-                top: 2,
-                right: 2,
-                width: 8,
-                height: 8,
-                borderRadius: t9.radiusFull,
-                background: t9.colorError,
-                border: `${t9.borderWidthThick} solid ${t9.colorSurface}`
-              }
-            }
-          )
-        ]
+        ...commonProps,
+        children: iconAndBadge
       }
     );
   }
@@ -2164,7 +2190,7 @@ var TagChip = forwardRef18(
 import { forwardRef as forwardRef19, useEffect as useEffect5, useId as useId3, useRef as useRef4 } from "react";
 import { createPortal } from "react-dom";
 import { semantic as t17 } from "../../core/dist/index.js";
-import { Fragment, jsx as jsx20, jsxs as jsxs11 } from "react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx20, jsxs as jsxs11 } from "react/jsx-runtime";
 var modalHeadingStyle = Object.freeze({
   margin: 0,
   fontWeight: t17.fontWeightSemibold,
@@ -2232,7 +2258,7 @@ var ModalShell = forwardRef19(
       return () => document.removeEventListener("keydown", handleKeyDown);
     }, [onClose]);
     return createPortal(
-      /* @__PURE__ */ jsxs11(Fragment, { children: [
+      /* @__PURE__ */ jsxs11(Fragment2, { children: [
         /* @__PURE__ */ jsx20(Overlay, { onClick: onClose, zIndex }),
         /* @__PURE__ */ jsx20(
           "div",

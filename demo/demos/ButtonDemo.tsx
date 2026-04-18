@@ -16,6 +16,7 @@ const props: PropMeta[] = [
   { name: 'type', type: "'button' | 'submit' | 'reset'", description: 'HTML button type for form behavior.' },
   { name: 'form', type: 'string', description: 'Associates the button with a form by ID.' },
   { name: 'autoFocus', type: 'boolean', description: 'Automatically focus the button on mount.' },
+  { name: 'asChild', type: 'boolean', default: 'false', description: 'Render as the single child element instead of a <button> — merges styling, event handlers, and ref into the child. Use for Button-shaped anchors or router links.' },
 ];
 
 export function ButtonDemo(): React.JSX.Element {
@@ -60,6 +61,20 @@ export function ButtonDemo(): React.JSX.Element {
               <Icon name="settings" size="md" />
             </Button>
           ))}
+        </Stack>
+      </PropDemo>
+
+      <PropDemo name="asChild" description="Render a Button-shaped anchor or router Link. The Button merges its style + onClick + ARIA into the single child element — no wrapper, no double tap target.">
+        <Stack direction="horizontal" gap="sm" wrap align="center">
+          <Button asChild variant="primary">
+            <a href="https://example.com" target="_blank" rel="noreferrer">Open docs</a>
+          </Button>
+          <Button asChild variant="secondary">
+            <a href="#section">Jump to section</a>
+          </Button>
+          <Button asChild variant="ghost" size="sm">
+            <a href="/home">Home</a>
+          </Button>
         </Stack>
       </PropDemo>
 

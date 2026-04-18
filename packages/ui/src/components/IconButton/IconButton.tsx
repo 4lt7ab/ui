@@ -1,7 +1,8 @@
 import { forwardRef, useId } from 'react';
-import { semantic as t, useInjectStyles } from '@4lt7ab/core';
+import { semantic as t, useInjectStyles, Slot } from '@4lt7ab/core';
 import { Icon } from '../Icon';
 import type { IconName } from '../../icons';
+import type { ReactNode } from 'react';
 
 /** Controls the tap-target and icon size of the icon button. */
 export type IconButtonSize = 'sm' | 'md' | 'lg';
@@ -36,6 +37,18 @@ export interface IconButtonProps {
   /** CSS class for an icon font (e.g. `'material-symbols-outlined'`).
    *  Passed through to Icon for font-based rendering. */
   fontClass?: string;
+  /**
+   * Render as the single child element instead of a `<button>`. Merges
+   * IconButton's style, event handlers, ARIA attrs, and ref into the
+   * child. In asChild mode the consumer is responsible for rendering
+   * the icon themselves inside the child element (the `icon`/`badge`
+   * props are ignored), e.g.
+   * `<IconButton asChild aria-label="Home"><a href="/"><Icon name="home" /></a></IconButton>`.
+   * @default false
+   */
+  asChild?: boolean;
+  /** When `asChild` is true, the single child element to clone. Ignored otherwise. */
+  children?: ReactNode;
 }
 
 const buttonSizeMap: Record<IconButtonSize, number> = {
@@ -50,12 +63,14 @@ const iconSizeForButton: Record<IconButtonSize, 'sm' | 'md' | 'lg'> = {
   lg: 'lg',
 };
 
-export const IconButton: React.ForwardRefExoticComponent<Omit<IconButtonProps, 'ref'> & React.RefAttributes<HTMLButtonElement>> = forwardRef<HTMLButtonElement, IconButtonProps>(
+export const IconButton: React.ForwardRefExoticComponent<Omit<IconButtonProps, 'ref'> & React.RefAttributes<HTMLElement>> = forwardRef<HTMLElement, IconButtonProps>(
   function IconButton({
     icon,
     size = 'md',
     badge,
     fontClass,
+    asChild = false,
+    children,
     onClick,
     disabled,
     type,
@@ -84,36 +99,23 @@ export const IconButton: React.ForwardRefExoticComponent<Omit<IconButtonProps, '
 
     const dim = buttonSizeMap[size];
 
-    return (
-      <button
-        ref={ref}
-        data-icon-btn-id={styleId}
-        type={type}
-        onClick={onClick}
-        disabled={disabled}
-        tabIndex={tabIndex}
-        id={id}
-        aria-label={ariaLabel}
-        aria-labelledby={ariaLabelledBy}
-        aria-describedby={ariaDescribedBy}
-        aria-expanded={ariaExpanded}
-        aria-controls={ariaControls}
-        data-testid={dataTestId}
-        style={{
-          position: 'relative',
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: dim,
-          height: dim,
-          borderRadius: t.radiusFull,
-          background: 'transparent',
-          border: 'none',
-          color: t.colorTextMuted,
-          cursor: 'pointer',
-          padding: 0,
-        }}
-      >
+    const style: React.CSSProperties = {
+      position: 'relative',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: dim,
+      height: dim,
+      borderRadius: t.radiusFull,
+      background: 'transparent',
+      border: 'none',
+      color: t.colorTextMuted,
+      cursor: 'pointer',
+      padding: 0,
+    };
+
+    const iconAndBadge = (
+      <>
         <Icon name={icon} size={iconSizeForButton[size]} fontClass={fontClass} />
         {badge && (
           <span
@@ -129,6 +131,39 @@ export const IconButton: React.ForwardRefExoticComponent<Omit<IconButtonProps, '
             }}
           />
         )}
+      </>
+    );
+
+    const commonProps = {
+      'data-icon-btn-id': styleId,
+      onClick: onClick as React.MouseEventHandler<HTMLElement> | undefined,
+      tabIndex,
+      id,
+      'aria-label': ariaLabel,
+      'aria-labelledby': ariaLabelledBy,
+      'aria-describedby': ariaDescribedBy,
+      'aria-expanded': ariaExpanded,
+      'aria-controls': ariaControls,
+      'data-testid': dataTestId,
+      style,
+    };
+
+    if (asChild) {
+      return (
+        <Slot ref={ref} {...commonProps} aria-disabled={disabled || undefined}>
+          {children as React.ReactElement}
+        </Slot>
+      );
+    }
+
+    return (
+      <button
+        ref={ref as React.Ref<HTMLButtonElement>}
+        type={type}
+        disabled={disabled}
+        {...commonProps}
+      >
+        {iconAndBadge}
       </button>
     );
   }

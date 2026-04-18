@@ -90,6 +90,44 @@ interface UseDisclosureReturn {
 * `contentProps.id`.
 */
 declare function useDisclosure(options?: UseDisclosureOptions): UseDisclosureReturn;
+import { HTMLAttributes, ReactNode, Ref } from "react";
+/**
+* Merge multiple refs into a single callback ref. Each ref — function or
+* object — receives the DOM node when it's attached/detached. Use when two
+* components both want a handle to the same element (e.g. `forwardedRef`
+* plus an internal `useRef`, or the outer Slot plus the child element's
+* own ref).
+*/
+declare function composeRefs<T>(...refs: Array<Ref<T> | undefined | null>): (node: T | null) => void;
+type AnyProps = Record<string, unknown>;
+/**
+* Merge two prop bags the way a Slot-style polymorphic wrapper needs:
+*
+* - Event handlers (`onXxx`) from both chain: parent first, then child.
+*   This means parent state updates land before the child's handler runs.
+* - `style` objects shallow-merge; child values win on conflict.
+* - `className` strings concatenate (space-separated, falsy values dropped).
+* - Every other prop: child wins. Consumers expressing intent on their
+*   element (e.g. an `<a href>`) override the parent's defaults.
+*/
+declare function mergeProps(parent: AnyProps, child: AnyProps): AnyProps;
+/** Props accepted by the {@link Slot} wrapper. */
+interface SlotProps extends HTMLAttributes<HTMLElement> {
+	/** Exactly one React element child to render in place of the Slot. */
+	children?: ReactNode;
+}
+/**
+* A transparent wrapper that renders its single child element, merging the
+* props and ref passed to the Slot into the child. Used to build polymorphic
+* components (`asChild` pattern) — `<Button asChild><a href=…>Go</a></Button>`
+* renders a single `<a>` that carries Button's styles, event handlers, and
+* ARIA attributes, without wrapping or double-click targets.
+*
+* Expects exactly one React element child. Children that are arrays, text
+* nodes, or non-element values throw in development; in production Slot
+* returns `null` silently rather than crash the render tree.
+*/
+declare const Slot: React.ForwardRefExoticComponent<SlotProps & React.RefAttributes<HTMLElement>>;
 /**
 * Primitive tokens — raw design values with no semantic meaning.
 * These are the palette. Components never reference these directly.
@@ -388,7 +426,7 @@ declare const semantic: {
 	readonly zIndexMax: "var(--z-index-max)";
 };
 type SemanticTokens = typeof semantic;
-import { ReactNode } from "react";
+import { ReactNode as ReactNode2 } from "react";
 /**
 * Theme type definitions.
 *
@@ -663,7 +701,7 @@ interface ThemeContextValue {
 /** Provides theme context to all descendant components. Applies CSS custom properties to the document root and persists the user's theme preference to localStorage. */
 interface ThemeProviderProps {
 	/** Application content. All children can access the active theme via `useTheme()`. */
-	children: ReactNode;
+	children: ReactNode2;
 	/** Additional theme definitions beyond the built-in set. */
 	themes?: ThemeDefinition[];
 	/** Theme to use when no stored preference exists in localStorage.
@@ -719,4 +757,4 @@ declare const pipboyTheme: ThemeDefinition;
 declare const neuralTheme: ThemeDefinition;
 declare const pacmanTheme: ThemeDefinition;
 declare const blackHoleTheme: ThemeDefinition;
-export { warmSandTheme, useThemeRhythm, useTheme, usePageBackground, useInjectStyles, useDisclosure, typography, tokenToCssProperty, synthwaveTheme, staggerStyle, spacing, slateTheme, shadows, setActiveRhythm, semantic, radii, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, coralTheme, colors, blackHoleTheme, UseDisclosureTriggerProps, UseDisclosureReturn, UseDisclosureOptions, UseDisclosureContentProps, Typography, ThemeTokens, ThemeRhythmHandle, ThemeRhythm, ThemeProviderProps, ThemeProvider, ThemeDefinition, ThemeContextValue, Theme, StaggerOptions, Spacing, Shadows, SemanticTokens, ResolvedTheme, Radii, KEYFRAMES, Colors };
+export { warmSandTheme, useThemeRhythm, useTheme, usePageBackground, useInjectStyles, useDisclosure, typography, tokenToCssProperty, synthwaveTheme, staggerStyle, spacing, slateTheme, shadows, setActiveRhythm, semantic, radii, pipboyTheme, pacmanTheme, neuralTheme, mossTheme, mergeProps, coralTheme, composeRefs, colors, blackHoleTheme, UseDisclosureTriggerProps, UseDisclosureReturn, UseDisclosureOptions, UseDisclosureContentProps, Typography, ThemeTokens, ThemeRhythmHandle, ThemeRhythm, ThemeProviderProps, ThemeProvider, ThemeDefinition, ThemeContextValue, Theme, StaggerOptions, Spacing, SlotProps, Slot, Shadows, SemanticTokens, ResolvedTheme, Radii, KEYFRAMES, Colors };
