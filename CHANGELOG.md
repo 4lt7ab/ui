@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Merge `MarginNote` + `SideNote` in `@4lt7ab/content` into a single component — `MarginNote` now takes `side?: 'left' | 'right'` (default `'left'`) and renders a `<small data-margin-note data-side>` that Prose CSS branches on. `SideNote` is kept as a deprecated backward-compatibility alias for `<MarginNote side="right">` so existing imports keep resolving; new call sites should use `<MarginNote side="right">` directly. Part of the v0.4.0 merge group — see upgrade guide `01KPE1JZ93VM9QDK2QFM88GWBK` (upgrade-guide section populated by a follow-up task in this group)
+
 ## v0.2.33
 
 ## v0.2.32

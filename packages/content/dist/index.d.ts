@@ -84,10 +84,18 @@ declare const PullQuote: React.ForwardRefExoticComponent<Omit<PullQuoteProps, "r
 import { ReactNode as ReactNode4 } from "react";
 interface MarginNoteProps {
 	children: ReactNode4;
+	/**
+	* Which margin the note floats into on wide screens (>=BREAKPOINT_MARGIN_NOTES).
+	* On narrow screens the note is always inline and the `side` only affects
+	* which edge carries the border accent.
+	* @default 'left'
+	*/
+	side?: "left" | "right";
 }
 /**
-* Side annotation that appears inline on mobile and in the left margin on wide screens (>=BREAKPOINT_MARGIN_NOTES).
-* Must be used inside <Prose> for styling and positioning.
+* Annotation that appears inline on mobile and floats into the page margin on
+* wide screens (>=BREAKPOINT_MARGIN_NOTES). `side` picks which margin — left
+* (default) or right. Must be used inside `<Prose>` for styling and positioning.
 */
 declare const MarginNote: React.ForwardRefExoticComponent<Omit<MarginNoteProps, "ref"> & React.RefAttributes<HTMLElement>>;
 import { ReactNode as ReactNode5 } from "react";
@@ -95,8 +103,9 @@ interface SideNoteProps {
 	children: ReactNode5;
 }
 /**
-* Side annotation that appears inline on mobile and in the right margin on wide screens (>=BREAKPOINT_MARGIN_NOTES).
-* Must be used inside <Prose> for styling and positioning.
+* @deprecated Use `<MarginNote side="right">` instead. `SideNote` is a
+* backward-compatibility alias for `<MarginNote side="right">` and will be
+* removed in a future major release.
 */
 declare const SideNote: React.ForwardRefExoticComponent<Omit<SideNoteProps, "ref"> & React.RefAttributes<HTMLElement>>;
 import { ReactNode as ReactNode6 } from "react";

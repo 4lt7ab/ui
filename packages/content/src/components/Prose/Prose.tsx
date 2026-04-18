@@ -223,24 +223,23 @@ const proseCSS = /* css */ `
     }
   }
 
-  /* ── Margin notes (left) ── */
+  /* ── Margin notes — shared base ── */
   .alttab-prose [data-margin-note] {
     display: block;
     font-size: 0.8125rem;
     line-height: 1.5;
     color: var(--color-text-muted);
     margin-block: 0.75rem;
+  }
+
+  /* Left margin note (default) */
+  .alttab-prose [data-margin-note][data-side="left"] {
     padding-left: 0.75rem;
     border-left: var(--border-width-thick) solid var(--color-border);
   }
 
-  /* ── Side notes (right) ── */
-  .alttab-prose [data-side-note] {
-    display: block;
-    font-size: 0.8125rem;
-    line-height: 1.5;
-    color: var(--color-text-muted);
-    margin-block: 0.75rem;
+  /* Right margin note */
+  .alttab-prose [data-margin-note][data-side="right"] {
     padding-right: 0.75rem;
     border-right: var(--border-width-thick) solid var(--color-border);
     text-align: right;
@@ -254,18 +253,18 @@ const proseCSS = /* css */ `
 
     .alttab-prose [data-margin-note] {
       position: absolute;
-      left: -240px;
       width: 200px;
       margin-block: 0;
+    }
+
+    .alttab-prose [data-margin-note][data-side="left"] {
+      left: -240px;
       padding-left: 0;
       border-left: none;
     }
 
-    .alttab-prose [data-side-note] {
-      position: absolute;
+    .alttab-prose [data-margin-note][data-side="right"] {
       right: -240px;
-      width: 200px;
-      margin-block: 0;
       padding-right: 0;
       border-right: none;
       text-align: left;
