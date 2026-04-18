@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {
   Card, Badge, Button, IconButton, Icon,
   ModalShell, ConfirmDialog, EmptyState, Stack, Header,
-  ProgressBar, TagChip, Pagination, ThemePicker,
+  ProgressBar, tagChipStyle, Pagination, ThemePicker,
   Table, TableHeader, TableHeaderCell, TableBody, TableRow, TableCell,
 } from '@4lt7ab/ui';
 import type { IconName } from '@4lt7ab/ui';
@@ -233,7 +233,7 @@ function ProjectDetail({ project, onClose, onDelete }: {
             </Stack>
             <Stack direction="horizontal" gap="xs" wrap>
               {project.tags.map((tag) => (
-                <TagChip key={tag} name={tag} />
+                <span key={tag} style={tagChipStyle}>{tag}</span>
               ))}
             </Stack>
           </Stack>

@@ -26,8 +26,10 @@ const groupedItems: ChipItem[] = [
 
 const props: PropMeta[] = [
   { name: 'items', type: 'ChipItem[]', required: true, description: 'All available chip options. Each has value, label, and optional group.' },
-  { name: 'selected', type: 'string[]', required: true, description: 'Currently selected values (controlled).' },
-  { name: 'onChange', type: '(selected: string[]) => void', required: true, description: 'Called with the updated selection array when a chip is toggled.' },
+  { name: 'selected', type: 'string[]', description: 'Controlled selection. Omit for uncontrolled mode.' },
+  { name: 'defaultSelected', type: 'string[]', description: 'Uncontrolled initial selection. Ignored when selected is provided.' },
+  { name: 'onChange', type: '(selected: string[]) => void', description: 'Called with the updated selection array when a chip is toggled.' },
+  { name: 'aria-label', type: 'string', description: 'Accessible label for the chip group.' },
 ];
 
 export function ChipPickerDemo(): React.JSX.Element {
@@ -55,13 +57,17 @@ export function ChipPickerDemo(): React.JSX.Element {
         </Stack>
       </PropDemo>
 
-      <PropDemo name="selected (pre-populated)" description="Pass initial values in the selected array to start with chips already active.">
+      <PropDemo name="Controlled (pre-populated selected)" description="Pass initial values in the selected array to start with chips already active.">
         <Stack gap="sm">
-          <ChipPicker items={basicItems} selected={preselected} onChange={setPreselected} />
+          <ChipPicker items={basicItems} selected={preselected} onChange={setPreselected} aria-label="Frameworks" />
           <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>
             Selected: {preselected.length ? preselected.join(', ') : '(none)'}
           </span>
         </Stack>
+      </PropDemo>
+
+      <PropDemo name="Uncontrolled (defaultSelected)" description="Omit selected and the component manages its own state. defaultSelected seeds the initial chips; onChange still fires on every toggle.">
+        <ChipPicker items={basicItems} defaultSelected={['react']} aria-label="Framework choice" />
       </PropDemo>
     </DocBlock>
   );

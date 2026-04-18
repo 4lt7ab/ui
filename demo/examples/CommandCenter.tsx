@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
   Header, Card, Stack, Button, Badge, StatusDot, Icon, IconButton,
-  ProgressBar, Pagination, TagChip, Skeleton, RowSkeleton,
+  ProgressBar, Pagination, tagChipStyle, Skeleton, RowSkeleton,
   Table, TableHeader, TableHeaderCell, TableBody, TableRow, TableCell,
 } from '@4lt7ab/ui';
 import { DisclosureCard } from '../components/DisclosureCard';
@@ -302,7 +302,7 @@ export function CommandCenter(): React.JSX.Element {
                       {inc.service}
                     </span>
                     {inc.tags.map((tag) => (
-                      <TagChip key={tag} name={tag} />
+                      <span key={tag} style={tagChipStyle}>{tag}</span>
                     ))}
                   </Stack>
                 </Stack>
@@ -364,7 +364,7 @@ export function CommandCenter(): React.JSX.Element {
                 </Stack>
                 <Stack direction="horizontal" gap="xs">
                   {inc.tags.map((tag) => (
-                    <TagChip key={tag} name={tag} />
+                    <span key={tag} style={tagChipStyle}>{tag}</span>
                   ))}
                 </Stack>
               </Stack>

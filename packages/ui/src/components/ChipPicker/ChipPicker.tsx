@@ -1,4 +1,4 @@
-import { useId } from 'react';
+import { useCallback, useId, useState } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
 import { sectionLabelStyle } from '../../styles/sectionLabelStyle';
 import type { CSSProperties } from 'react';
@@ -17,20 +17,39 @@ export interface ChipItem {
 export interface ChipPickerProps {
   /** All available chip options. */
   items: ChipItem[];
-  /** Currently selected values (controlled). */
-  selected: string[];
+  /** Controlled selection. Omit for uncontrolled mode (use defaultSelected). */
+  selected?: string[];
+  /** Uncontrolled initial selection. Ignored when `selected` is provided. */
+  defaultSelected?: string[];
   /** Called with the updated selection array when a chip is toggled. */
-  onChange: (selected: string[]) => void;
+  onChange?: (selected: string[]) => void;
+  /** Accessible label for the group. */
+  'aria-label'?: string;
 }
 
 /** Multi-select toggle chip group with optional category grouping. */
 export function ChipPicker({
   items,
-  selected,
+  selected: controlledSelected,
+  defaultSelected,
   onChange,
+  'aria-label': ariaLabel,
 }: ChipPickerProps): React.JSX.Element {
   const uid = useId();
   const styleId = `chip-picker-${uid.replace(/:/g, '')}`;
+
+  const isControlled = controlledSelected !== undefined;
+  const [internalSelected, setInternalSelected] = useState<string[]>(
+    () => defaultSelected ?? [],
+  );
+  const selected = isControlled ? controlledSelected : internalSelected;
+  const applySelection = useCallback(
+    (next: string[]): void => {
+      if (!isControlled) setInternalSelected(next);
+      onChange?.(next);
+    },
+    [isControlled, onChange],
+  );
 
   useInjectStyles(
     styleId,
@@ -48,9 +67,9 @@ export function ChipPicker({
 
   const toggle = (value: string): void => {
     if (selected.includes(value)) {
-      onChange(selected.filter((v) => v !== value));
+      applySelection(selected.filter((v) => v !== value));
     } else {
-      onChange([...selected, value]);
+      applySelection([...selected, value]);
     }
   };
 
@@ -121,6 +140,8 @@ export function ChipPicker({
   return (
     <div
       data-chip-picker-id={styleId}
+      role="group"
+      aria-label={ariaLabel}
       style={{
         display: 'flex',
         flexDirection: 'column',

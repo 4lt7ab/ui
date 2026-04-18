@@ -531,11 +531,11 @@ function CompactView() {
   }, [open, focusedIndex]);
   useEffect2(() => {
     if (open) {
-      const activeIdx = themeList.findIndex((t40) => t40.name === resolved);
+      const activeIdx = themeList.findIndex((t39) => t39.name === resolved);
       setFocusedIndex(activeIdx >= 0 ? activeIdx : 0);
     }
   }, [open]);
-  const currentTheme = themeList.find((t40) => t40.name === resolved);
+  const currentTheme = themeList.find((t39) => t39.name === resolved);
   return /* @__PURE__ */ jsxs2("div", { ref: containerRef, style: { position: "relative" }, onKeyDown: handleKeyDown, children: [
     /* @__PURE__ */ jsxs2(
       "button",
@@ -577,8 +577,8 @@ function CompactView() {
           zIndex: "var(--z-index-sticky)",
           boxShadow: "var(--shadow-md)"
         },
-        children: themeList.map((t40, idx) => {
-          const isActive = resolved === t40.name;
+        children: themeList.map((t39, idx) => {
+          const isActive = resolved === t39.name;
           const isFocused = focusedIndex === idx;
           const classes = [
             "alttab-tp-menu-item",
@@ -588,12 +588,12 @@ function CompactView() {
           return /* @__PURE__ */ jsxs2(
             "button",
             {
-              id: `alttab-tp-item-${t40.name}`,
+              id: `alttab-tp-item-${t39.name}`,
               role: "option",
               "aria-selected": isActive,
               className: classes,
               onClick: () => {
-                setTheme(t40.name);
+                setTheme(t39.name);
                 setOpen(false);
                 triggerRef.current?.focus();
               },
@@ -606,10 +606,10 @@ function CompactView() {
                   background: isActive ? "var(--color-action-primary)" : "var(--color-text-muted)",
                   flexShrink: 0
                 } }),
-                t40.label
+                t39.label
               ]
             },
-            t40.name
+            t39.name
           );
         })
       }
@@ -2245,68 +2245,22 @@ var Header = forwardRef16(
   }
 );
 
-// src/components/TagChip/TagChip.tsx
-import { forwardRef as forwardRef17 } from "react";
-import { semantic as t16 } from "../../core/dist/index.js";
-import { jsx as jsx19, jsxs as jsxs10 } from "react/jsx-runtime";
-var TagChip = forwardRef17(
-  function TagChip2({
-    name,
-    prefix,
-    onRemove
-  }, ref) {
-    return /* @__PURE__ */ jsxs10(
-      "span",
-      {
-        ref,
-        style: {
-          display: "inline-flex",
-          alignItems: "center",
-          gap: t16.spaceXs,
-          fontSize: t16.fontSizeXs,
-          color: t16.colorActionPrimary,
-          background: t16.colorSurfaceRaised,
-          borderRadius: t16.radiusFull,
-          padding: `${t16.spaceXs} ${t16.spaceSm}`,
-          fontFamily: t16.fontSans
-        },
-        children: [
-          prefix && /* @__PURE__ */ jsxs10("span", { style: { color: t16.colorTextMuted }, children: [
-            prefix,
-            ":"
-          ] }),
-          name,
-          onRemove && /* @__PURE__ */ jsx19("span", { style: { display: "inline-flex", width: 18, height: 18, color: t16.colorActionPrimary }, children: /* @__PURE__ */ jsx19(
-            IconButton,
-            {
-              icon: "close",
-              onClick: onRemove,
-              "aria-label": `Remove ${name}`,
-              size: "sm"
-            }
-          ) })
-        ]
-      }
-    );
-  }
-);
-
 // src/components/ModalShell/ModalShell.tsx
-import { forwardRef as forwardRef18, useEffect as useEffect5, useId as useId4, useRef as useRef4 } from "react";
+import { forwardRef as forwardRef17, useEffect as useEffect5, useId as useId4, useRef as useRef4 } from "react";
 import { createPortal } from "react-dom";
-import { semantic as t17 } from "../../core/dist/index.js";
-import { Fragment as Fragment3, jsx as jsx20, jsxs as jsxs11 } from "react/jsx-runtime";
+import { semantic as t16 } from "../../core/dist/index.js";
+import { Fragment as Fragment3, jsx as jsx19, jsxs as jsxs10 } from "react/jsx-runtime";
 var modalHeadingStyle = Object.freeze({
   margin: 0,
-  fontWeight: t17.fontWeightSemibold,
-  fontFamily: t17.fontSans,
-  color: t17.colorText,
-  fontSize: t17.fontSizeLg
+  fontWeight: t16.fontWeightSemibold,
+  fontFamily: t16.fontSans,
+  color: t16.colorText,
+  fontSize: t16.fontSizeLg
 });
 var modalFooterStyle = Object.freeze({
   display: "flex",
   justifyContent: "flex-end",
-  gap: t17.spaceSm
+  gap: t16.spaceSm
 });
 var FOCUSABLE_SELECTOR2 = [
   "a[href]",
@@ -2316,12 +2270,12 @@ var FOCUSABLE_SELECTOR2 = [
   "textarea:not(:disabled)",
   '[tabindex]:not([tabindex="-1"])'
 ].join(", ");
-var ModalShell = forwardRef18(
+var ModalShell = forwardRef17(
   function ModalShell2({
     onClose,
     children,
     width = "md",
-    zIndex = t17.zIndexModal,
+    zIndex = t16.zIndexModal,
     titleId,
     "aria-label": ariaLabel,
     role = "dialog"
@@ -2363,9 +2317,9 @@ var ModalShell = forwardRef18(
       return () => document.removeEventListener("keydown", handleKeyDown);
     }, [onClose]);
     return createPortal(
-      /* @__PURE__ */ jsxs11(Fragment3, { children: [
-        /* @__PURE__ */ jsx20(Overlay, { onClick: onClose, zIndex }),
-        /* @__PURE__ */ jsx20(
+      /* @__PURE__ */ jsxs10(Fragment3, { children: [
+        /* @__PURE__ */ jsx19(Overlay, { onClick: onClose, zIndex }),
+        /* @__PURE__ */ jsx19(
           "div",
           {
             style: {
@@ -2374,11 +2328,11 @@ var ModalShell = forwardRef18(
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              padding: t17.spaceMd,
+              padding: t16.spaceMd,
               zIndex: typeof zIndex === "number" ? zIndex + 1 : `calc(${zIndex} + 1)`,
               pointerEvents: "none"
             },
-            children: /* @__PURE__ */ jsx20(
+            children: /* @__PURE__ */ jsx19(
               "div",
               {
                 ref: setRefs,
@@ -2388,12 +2342,12 @@ var ModalShell = forwardRef18(
                 "aria-label": ariaLabel,
                 tabIndex: -1,
                 style: {
-                  background: t17.colorSurface,
-                  color: t17.colorText,
-                  borderRadius: t17.radiusLg,
-                  boxShadow: t17.shadowLg,
-                  border: `${t17.borderWidthDefault} solid ${t17.colorBorder}`,
-                  padding: t17.spaceXl,
+                  background: t16.colorSurface,
+                  color: t16.colorText,
+                  borderRadius: t16.radiusLg,
+                  boxShadow: t16.shadowLg,
+                  border: `${t16.borderWidthDefault} solid ${t16.colorBorder}`,
+                  padding: t16.spaceXl,
                   maxWidth: modalWidthMap[width],
                   width: "100%",
                   maxHeight: "100%",
@@ -2413,27 +2367,41 @@ var ModalShell = forwardRef18(
 );
 
 // src/styles/sectionLabelStyle.ts
-import { semantic as t18 } from "../../core/dist/index.js";
+import { semantic as t17 } from "../../core/dist/index.js";
 var sectionLabelStyle = {
   display: "block",
-  fontSize: t18.fontSizeXs,
-  fontWeight: t18.fontWeightSemibold,
-  fontFamily: t18.fontSans,
-  color: t18.colorTextSecondary,
+  fontSize: t17.fontSizeXs,
+  fontWeight: t17.fontWeightSemibold,
+  fontFamily: t17.fontSans,
+  color: t17.colorTextSecondary,
   textTransform: "uppercase",
-  letterSpacing: t18.letterSpacingWide
+  letterSpacing: t17.letterSpacingWide
+};
+
+// src/styles/tagChipStyle.ts
+import { semantic as t18 } from "../../core/dist/index.js";
+var tagChipStyle = {
+  display: "inline-flex",
+  alignItems: "center",
+  gap: t18.spaceXs,
+  fontSize: t18.fontSizeXs,
+  color: t18.colorActionPrimary,
+  background: t18.colorSurfaceRaised,
+  borderRadius: t18.radiusFull,
+  padding: `${t18.spaceXs} ${t18.spaceSm}`,
+  fontFamily: t18.fontSans
 };
 
 // src/components/ConfirmDialog/ConfirmDialog.tsx
-import { forwardRef as forwardRef19, useId as useId5, useState as useState3 } from "react";
+import { forwardRef as forwardRef18, useId as useId5, useState as useState3 } from "react";
 import { semantic as t19 } from "../../core/dist/index.js";
-import { jsx as jsx21, jsxs as jsxs12 } from "react/jsx-runtime";
+import { jsx as jsx20, jsxs as jsxs11 } from "react/jsx-runtime";
 var variantButtonMap = {
   destructive: "destructive",
   info: "primary",
   warning: "primary"
 };
-var ConfirmDialog = forwardRef19(
+var ConfirmDialog = forwardRef18(
   function ConfirmDialog2({
     title,
     message,
@@ -2453,8 +2421,8 @@ var ConfirmDialog = forwardRef19(
         setLoading(false);
       }
     };
-    return /* @__PURE__ */ jsxs12(ModalShell, { ref, onClose: onCancel, role: "alertdialog", titleId, children: [
-      /* @__PURE__ */ jsx21(
+    return /* @__PURE__ */ jsxs11(ModalShell, { ref, onClose: onCancel, role: "alertdialog", titleId, children: [
+      /* @__PURE__ */ jsx20(
         "h2",
         {
           id: titleId,
@@ -2462,7 +2430,7 @@ var ConfirmDialog = forwardRef19(
           children: title
         }
       ),
-      /* @__PURE__ */ jsx21(
+      /* @__PURE__ */ jsx20(
         "p",
         {
           style: {
@@ -2474,19 +2442,19 @@ var ConfirmDialog = forwardRef19(
           children: message
         }
       ),
-      children && /* @__PURE__ */ jsx21("div", { style: { margin: `${t19.spaceSm} 0 ${t19.spaceLg}` }, children }),
-      /* @__PURE__ */ jsxs12("div", { style: modalFooterStyle, children: [
-        /* @__PURE__ */ jsx21(Button, { variant: "ghost", onClick: onCancel, disabled: loading, autoFocus: true, children: "Cancel" }),
-        /* @__PURE__ */ jsx21(Button, { variant: variantButtonMap[variant], onClick: handleConfirm, disabled: loading, children: loading ? "Loading..." : confirmLabel })
+      children && /* @__PURE__ */ jsx20("div", { style: { margin: `${t19.spaceSm} 0 ${t19.spaceLg}` }, children }),
+      /* @__PURE__ */ jsxs11("div", { style: modalFooterStyle, children: [
+        /* @__PURE__ */ jsx20(Button, { variant: "ghost", onClick: onCancel, disabled: loading, autoFocus: true, children: "Cancel" }),
+        /* @__PURE__ */ jsx20(Button, { variant: variantButtonMap[variant], onClick: handleConfirm, disabled: loading, children: loading ? "Loading..." : confirmLabel })
       ] })
     ] });
   }
 );
 
 // src/components/StatusDot/StatusDot.tsx
-import { forwardRef as forwardRef20 } from "react";
+import { forwardRef as forwardRef19 } from "react";
 import { semantic as t20, useInjectStyles as useInjectStyles7, useThemeRhythm as useThemeRhythm3 } from "../../core/dist/index.js";
-import { jsx as jsx22 } from "react/jsx-runtime";
+import { jsx as jsx21 } from "react/jsx-runtime";
 var variantColors = {
   default: t20.colorTextMuted,
   primary: t20.colorActionPrimary,
@@ -2517,7 +2485,7 @@ var PULSE_STYLES_CSS = `
   }
 }
 `;
-var StatusDot = forwardRef20(
+var StatusDot = forwardRef19(
   function StatusDot2({
     variant = "default",
     size = "md",
@@ -2529,7 +2497,7 @@ var StatusDot = forwardRef20(
     const isPulsing = animate === "pulse";
     const { durationCss } = useThemeRhythm3();
     useInjectStyles7(PULSE_STYLES_ID, PULSE_STYLES_CSS);
-    return /* @__PURE__ */ jsx22(
+    return /* @__PURE__ */ jsx21(
       "span",
       {
         ref,
@@ -2556,10 +2524,10 @@ var StatusDot = forwardRef20(
 );
 
 // src/components/Table/Table.tsx
-import { forwardRef as forwardRef21, Children, isValidElement as isValidElement2, cloneElement as cloneElement2 } from "react";
+import { forwardRef as forwardRef20, Children, isValidElement as isValidElement2, cloneElement as cloneElement2 } from "react";
 import { semantic as t21 } from "../../core/dist/index.js";
 import { useInjectStyles as useInjectStyles8 } from "../../core/dist/index.js";
-import { jsx as jsx23 } from "react/jsx-runtime";
+import { jsx as jsx22 } from "react/jsx-runtime";
 var spaceMap = {
   xs: t21.spaceXs,
   sm: t21.spaceSm,
@@ -2597,14 +2565,14 @@ var wrapperVariants = {
   },
   flat: {}
 };
-var Table = forwardRef21(
+var Table = forwardRef20(
   function Table2({
     variant = "default",
     density = "md",
     children
   }, ref) {
     useInjectStyles8(TABLE_STYLES_ID, TABLE_STYLES_CSS);
-    return /* @__PURE__ */ jsx23(
+    return /* @__PURE__ */ jsx22(
       "div",
       {
         ref,
@@ -2612,7 +2580,7 @@ var Table = forwardRef21(
           overflowX: "auto",
           ...wrapperVariants[variant]
         },
-        children: /* @__PURE__ */ jsx23(
+        children: /* @__PURE__ */ jsx22(
           "table",
           {
             "data-table-density": density,
@@ -2630,19 +2598,19 @@ var Table = forwardRef21(
     );
   }
 );
-var TableHeader = forwardRef21(
+var TableHeader = forwardRef20(
   function TableHeader2({ children }, ref) {
-    return /* @__PURE__ */ jsx23("thead", { ref, children: /* @__PURE__ */ jsx23("tr", { children }) });
+    return /* @__PURE__ */ jsx22("thead", { ref, children: /* @__PURE__ */ jsx22("tr", { children }) });
   }
 );
-var TableHeaderCell = forwardRef21(
+var TableHeaderCell = forwardRef20(
   function TableHeaderCell2({
     align = "left",
     width,
     colSpan,
     children
   }, ref) {
-    return /* @__PURE__ */ jsx23(
+    return /* @__PURE__ */ jsx22(
       "th",
       {
         ref,
@@ -2664,7 +2632,7 @@ var TableHeaderCell = forwardRef21(
     );
   }
 );
-var TableBody = forwardRef21(
+var TableBody = forwardRef20(
   function TableBody2({ children }, ref) {
     let dataRowIndex = 0;
     const styledChildren = Children.map(children, (child) => {
@@ -2685,10 +2653,10 @@ var TableBody = forwardRef21(
       });
       return cloneElement2(child, {}, cells);
     });
-    return /* @__PURE__ */ jsx23("tbody", { ref, children: styledChildren });
+    return /* @__PURE__ */ jsx22("tbody", { ref, children: styledChildren });
   }
 );
-var TableRow = forwardRef21(
+var TableRow = forwardRef20(
   function TableRow2({
     selected = false,
     hoverable = false,
@@ -2701,7 +2669,7 @@ var TableRow = forwardRef21(
         onClick(e);
       }
     } : void 0;
-    return /* @__PURE__ */ jsx23(
+    return /* @__PURE__ */ jsx22(
       "tr",
       {
         ref,
@@ -2718,7 +2686,7 @@ var TableRow = forwardRef21(
     );
   }
 );
-var TableCell = forwardRef21(
+var TableCell = forwardRef20(
   function TableCell2({
     align = "left",
     truncate = false,
@@ -2727,7 +2695,7 @@ var TableCell = forwardRef21(
     colSpan,
     children
   }, ref) {
-    return /* @__PURE__ */ jsx23(
+    return /* @__PURE__ */ jsx22(
       "td",
       {
         ref,
@@ -2751,12 +2719,12 @@ var TableCell = forwardRef21(
     );
   }
 );
-var TableGroupHeader = forwardRef21(
+var TableGroupHeader = forwardRef20(
   function TableGroupHeader2({
     colSpan,
     children
   }, ref) {
-    return /* @__PURE__ */ jsx23("tr", { ref, style: { cursor: "default" }, children: /* @__PURE__ */ jsx23(
+    return /* @__PURE__ */ jsx22("tr", { ref, style: { cursor: "default" }, children: /* @__PURE__ */ jsx22(
       "td",
       {
         colSpan,
@@ -2778,12 +2746,12 @@ var TableGroupHeader = forwardRef21(
     ) });
   }
 );
-var TableEmptyRow = forwardRef21(
+var TableEmptyRow = forwardRef20(
   function TableEmptyRow2({
     colSpan,
     children
   }, ref) {
-    return /* @__PURE__ */ jsx23("tr", { ref, children: /* @__PURE__ */ jsx23(
+    return /* @__PURE__ */ jsx22("tr", { ref, children: /* @__PURE__ */ jsx22(
       "td",
       {
         colSpan,
@@ -2800,7 +2768,7 @@ var TableEmptyRow = forwardRef21(
 );
 
 // src/components/DateRangePicker/DateRangePicker.tsx
-import { forwardRef as forwardRef22, useState as useState4, useRef as useRef6, useCallback as useCallback4, useEffect as useEffect6 } from "react";
+import { forwardRef as forwardRef21, useState as useState4, useRef as useRef6, useCallback as useCallback4, useEffect as useEffect6 } from "react";
 import { semantic as t25, useInjectStyles as useInjectStyles9 } from "../../core/dist/index.js";
 
 // src/components/DateRangePicker/CalendarHeader.tsx
@@ -2819,8 +2787,8 @@ function isSameDay(a, b) {
 function isInRange(date, from, to) {
   const d = stripTime(date).getTime();
   const f = stripTime(from).getTime();
-  const t40 = stripTime(to).getTime();
-  return d >= f && d <= t40;
+  const t39 = stripTime(to).getTime();
+  return d >= f && d <= t39;
 }
 function isDateDisabled(date, minDate, maxDate, disabledDates) {
   const d = stripTime(date).getTime();
@@ -2876,7 +2844,7 @@ function buildCalendarGrid(year, month) {
 }
 
 // src/components/DateRangePicker/CalendarHeader.tsx
-import { jsx as jsx24, jsxs as jsxs13 } from "react/jsx-runtime";
+import { jsx as jsx23, jsxs as jsxs12 } from "react/jsx-runtime";
 var headerStyle = {
   display: "flex",
   alignItems: "center",
@@ -2897,8 +2865,8 @@ function CalendarHeader({
   onPrev,
   onNext
 }) {
-  return /* @__PURE__ */ jsxs13("div", { style: headerStyle, children: [
-    /* @__PURE__ */ jsx24(
+  return /* @__PURE__ */ jsxs12("div", { style: headerStyle, children: [
+    /* @__PURE__ */ jsx23(
       IconButton,
       {
         icon: "chevron-left",
@@ -2907,12 +2875,12 @@ function CalendarHeader({
         size: "sm"
       }
     ),
-    /* @__PURE__ */ jsxs13("span", { style: titleStyle, children: [
+    /* @__PURE__ */ jsxs12("span", { style: titleStyle, children: [
       MONTH_NAMES[month],
       " ",
       year
     ] }),
-    /* @__PURE__ */ jsx24(
+    /* @__PURE__ */ jsx23(
       IconButton,
       {
         icon: "chevron-right",
@@ -2930,7 +2898,7 @@ import { semantic as t24 } from "../../core/dist/index.js";
 
 // src/components/DateRangePicker/DayCell.tsx
 import { semantic as t23 } from "../../core/dist/index.js";
-import { jsx as jsx25 } from "react/jsx-runtime";
+import { jsx as jsx24 } from "react/jsx-runtime";
 var baseCellStyle = {
   display: "flex",
   alignItems: "center",
@@ -2984,7 +2952,7 @@ function DayCell({
     scopeClass + "-day",
     ...isDisabled ? [] : [scopeClass + "-day--enabled"]
   ].join(" ");
-  return /* @__PURE__ */ jsx25("td", { role: "gridcell", style: { padding: 0 }, children: /* @__PURE__ */ jsx25(
+  return /* @__PURE__ */ jsx24("td", { role: "gridcell", style: { padding: 0 }, children: /* @__PURE__ */ jsx24(
     "button",
     {
       type: "button",
@@ -3003,7 +2971,7 @@ function DayCell({
 }
 
 // src/components/DateRangePicker/CalendarGrid.tsx
-import { jsx as jsx26, jsxs as jsxs14 } from "react/jsx-runtime";
+import { jsx as jsx25, jsxs as jsxs13 } from "react/jsx-runtime";
 var tableStyle = {
   borderCollapse: "collapse",
   width: "100%",
@@ -3072,14 +3040,14 @@ function CalendarGrid({
   );
   const sortedStart = rangeStart && rangeEnd ? rangeStart.getTime() <= rangeEnd.getTime() ? rangeStart : rangeEnd : rangeStart;
   const sortedEnd = rangeStart && rangeEnd ? rangeStart.getTime() <= rangeEnd.getTime() ? rangeEnd : rangeStart : rangeEnd;
-  return /* @__PURE__ */ jsxs14("table", { style: tableStyle, role: "grid", "aria-label": "Calendar", children: [
-    /* @__PURE__ */ jsx26("thead", { children: /* @__PURE__ */ jsx26("tr", { children: WEEKDAY_LABELS.map((label) => /* @__PURE__ */ jsx26("th", { scope: "col", style: weekdayHeaderStyle, children: label }, label)) }) }),
-    /* @__PURE__ */ jsx26("tbody", { children: rows.map((row, ri) => /* @__PURE__ */ jsx26("tr", { children: row.map((date) => {
+  return /* @__PURE__ */ jsxs13("table", { style: tableStyle, role: "grid", "aria-label": "Calendar", children: [
+    /* @__PURE__ */ jsx25("thead", { children: /* @__PURE__ */ jsx25("tr", { children: WEEKDAY_LABELS.map((label) => /* @__PURE__ */ jsx25("th", { scope: "col", style: weekdayHeaderStyle, children: label }, label)) }) }),
+    /* @__PURE__ */ jsx25("tbody", { children: rows.map((row, ri) => /* @__PURE__ */ jsx25("tr", { children: row.map((date) => {
       const key = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
       const disabled = isDateDisabled(date, minDate, maxDate, disabledDates);
       const inRange = sortedStart !== null && sortedEnd !== null && isInRange(date, sortedStart, sortedEnd);
       const isFocused = isSameDay(date, focusedDate);
-      return /* @__PURE__ */ jsx26(
+      return /* @__PURE__ */ jsx25(
         DayCell,
         {
           date,
@@ -3101,7 +3069,7 @@ function CalendarGrid({
 }
 
 // src/components/DateRangePicker/DateRangePicker.tsx
-import { jsx as jsx27, jsxs as jsxs15 } from "react/jsx-runtime";
+import { jsx as jsx26, jsxs as jsxs14 } from "react/jsx-runtime";
 var SCOPE = "alttab-drp";
 var injectedCSS = (
   /* css */
@@ -3169,7 +3137,7 @@ var popoverStyle = {
 var placeholderStyle2 = {
   color: t25.colorTextPlaceholder
 };
-var DateRangePicker = forwardRef22(
+var DateRangePicker = forwardRef21(
   function DateRangePicker2({
     value,
     onChange,
@@ -3275,11 +3243,11 @@ var DateRangePicker = forwardRef22(
     if (value) {
       displayText = `${formatDate(value.from)} \u2013 ${formatDate(value.to)}`;
     } else {
-      displayText = /* @__PURE__ */ jsx27("span", { style: placeholderStyle2, children: placeholder });
+      displayText = /* @__PURE__ */ jsx26("span", { style: placeholderStyle2, children: placeholder });
     }
     const calendarStart = selectionStart ?? value?.from ?? null;
     const calendarEnd = selectionStart ? null : value?.to ?? null;
-    return /* @__PURE__ */ jsxs15(
+    return /* @__PURE__ */ jsxs14(
       "div",
       {
         ref: (node) => {
@@ -3289,7 +3257,7 @@ var DateRangePicker = forwardRef22(
         },
         style: wrapperStyle2,
         children: [
-          /* @__PURE__ */ jsx27(
+          /* @__PURE__ */ jsx26(
             "button",
             {
               type: "button",
@@ -3307,8 +3275,8 @@ var DateRangePicker = forwardRef22(
               children: displayText
             }
           ),
-          open && /* @__PURE__ */ jsxs15("div", { style: popoverStyle, role: "dialog", "aria-label": "Date range picker", children: [
-            /* @__PURE__ */ jsx27(
+          open && /* @__PURE__ */ jsxs14("div", { style: popoverStyle, role: "dialog", "aria-label": "Date range picker", children: [
+            /* @__PURE__ */ jsx26(
               CalendarHeader,
               {
                 year: viewYear,
@@ -3317,7 +3285,7 @@ var DateRangePicker = forwardRef22(
                 onNext: handleNextMonth
               }
             ),
-            /* @__PURE__ */ jsx27(
+            /* @__PURE__ */ jsx26(
               CalendarGrid,
               {
                 year: viewYear,
@@ -3341,9 +3309,9 @@ var DateRangePicker = forwardRef22(
 );
 
 // src/components/DatePicker/DatePicker.tsx
-import { forwardRef as forwardRef23, useState as useState5, useRef as useRef7, useCallback as useCallback5, useEffect as useEffect7 } from "react";
+import { forwardRef as forwardRef22, useState as useState5, useRef as useRef7, useCallback as useCallback5, useEffect as useEffect7 } from "react";
 import { semantic as t26, useInjectStyles as useInjectStyles10 } from "../../core/dist/index.js";
-import { jsx as jsx28, jsxs as jsxs16 } from "react/jsx-runtime";
+import { jsx as jsx27, jsxs as jsxs15 } from "react/jsx-runtime";
 var SCOPE2 = "alttab-dp";
 var injectedCSS2 = (
   /* css */
@@ -3411,7 +3379,7 @@ var popoverStyle2 = {
 var placeholderStyle3 = {
   color: t26.colorTextPlaceholder
 };
-var DatePicker = forwardRef23(
+var DatePicker = forwardRef22(
   function DatePicker2({
     value,
     onChange,
@@ -3504,9 +3472,9 @@ var DatePicker = forwardRef23(
     if (value) {
       displayText = formatDate(value);
     } else {
-      displayText = /* @__PURE__ */ jsx28("span", { style: placeholderStyle3, children: placeholder });
+      displayText = /* @__PURE__ */ jsx27("span", { style: placeholderStyle3, children: placeholder });
     }
-    return /* @__PURE__ */ jsxs16(
+    return /* @__PURE__ */ jsxs15(
       "div",
       {
         ref: (node) => {
@@ -3516,7 +3484,7 @@ var DatePicker = forwardRef23(
         },
         style: wrapperStyle3,
         children: [
-          /* @__PURE__ */ jsx28(
+          /* @__PURE__ */ jsx27(
             "button",
             {
               type: "button",
@@ -3534,8 +3502,8 @@ var DatePicker = forwardRef23(
               children: displayText
             }
           ),
-          open && /* @__PURE__ */ jsxs16("div", { style: popoverStyle2, role: "dialog", "aria-label": "Date picker", children: [
-            /* @__PURE__ */ jsx28(
+          open && /* @__PURE__ */ jsxs15("div", { style: popoverStyle2, role: "dialog", "aria-label": "Date picker", children: [
+            /* @__PURE__ */ jsx27(
               CalendarHeader,
               {
                 year: viewYear,
@@ -3544,7 +3512,7 @@ var DatePicker = forwardRef23(
                 onNext: handleNextMonth
               }
             ),
-            /* @__PURE__ */ jsx28(
+            /* @__PURE__ */ jsx27(
               CalendarGrid,
               {
                 year: viewYear,
@@ -3570,7 +3538,7 @@ var DatePicker = forwardRef23(
 // src/components/ErrorBoundary/ErrorBoundary.tsx
 import React from "react";
 import { semantic as t27 } from "../../core/dist/index.js";
-import { jsx as jsx29, jsxs as jsxs17 } from "react/jsx-runtime";
+import { jsx as jsx28, jsxs as jsxs16 } from "react/jsx-runtime";
 var ErrorBoundary = class extends React.Component {
   constructor(props) {
     super(props);
@@ -3594,13 +3562,13 @@ var ErrorBoundary = class extends React.Component {
     if (fallback) {
       return fallback({ error, resetErrorBoundary: this.resetErrorBoundary });
     }
-    return /* @__PURE__ */ jsx29("div", { style: { borderColor: t27.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: t27.radiusLg }, children: /* @__PURE__ */ jsx29(
+    return /* @__PURE__ */ jsx28("div", { style: { borderColor: t27.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: t27.radiusLg }, children: /* @__PURE__ */ jsx28(
       Card,
       {
         variant: "flat",
         padding: "lg",
-        children: /* @__PURE__ */ jsxs17("div", { style: { display: "flex", flexDirection: "column", gap: t27.spaceMd }, children: [
-          /* @__PURE__ */ jsx29("div", { style: { display: "flex", alignItems: "center", gap: t27.spaceSm }, children: /* @__PURE__ */ jsx29(
+        children: /* @__PURE__ */ jsxs16("div", { style: { display: "flex", flexDirection: "column", gap: t27.spaceMd }, children: [
+          /* @__PURE__ */ jsx28("div", { style: { display: "flex", alignItems: "center", gap: t27.spaceSm }, children: /* @__PURE__ */ jsx28(
             "span",
             {
               style: {
@@ -3612,7 +3580,7 @@ var ErrorBoundary = class extends React.Component {
               children: "Something went wrong"
             }
           ) }),
-          /* @__PURE__ */ jsx29(
+          /* @__PURE__ */ jsx28(
             "p",
             {
               style: {
@@ -3629,8 +3597,8 @@ var ErrorBoundary = class extends React.Component {
               children: error.message
             }
           ),
-          error.stack && /* @__PURE__ */ jsxs17("div", { children: [
-            /* @__PURE__ */ jsx29(
+          error.stack && /* @__PURE__ */ jsxs16("div", { children: [
+            /* @__PURE__ */ jsx28(
               "button",
               {
                 type: "button",
@@ -3648,7 +3616,7 @@ var ErrorBoundary = class extends React.Component {
                 children: showStack ? "Hide stack trace" : "Show stack trace"
               }
             ),
-            showStack && /* @__PURE__ */ jsx29(
+            showStack && /* @__PURE__ */ jsx28(
               "pre",
               {
                 style: {
@@ -3669,7 +3637,7 @@ var ErrorBoundary = class extends React.Component {
               }
             )
           ] }),
-          /* @__PURE__ */ jsx29("div", { children: /* @__PURE__ */ jsx29(Button, { variant: "secondary", size: "sm", onClick: this.resetErrorBoundary, children: "Try again" }) })
+          /* @__PURE__ */ jsx28("div", { children: /* @__PURE__ */ jsx28(Button, { variant: "secondary", size: "sm", onClick: this.resetErrorBoundary, children: "Try again" }) })
         ] })
       }
     ) });
@@ -3687,7 +3655,7 @@ import {
 } from "react";
 import { createPortal as createPortal2 } from "react-dom";
 import { semantic as t28, useInjectStyles as useInjectStyles11 } from "../../core/dist/index.js";
-import { jsx as jsx30, jsxs as jsxs18 } from "react/jsx-runtime";
+import { jsx as jsx29, jsxs as jsxs17 } from "react/jsx-runtime";
 var ToastContext = createContext3(null);
 function useToast() {
   const ctx = useContext3(ToastContext);
@@ -3790,7 +3758,7 @@ function ToastMessage({
     }
   };
   const colors = typeColors[item.type];
-  return /* @__PURE__ */ jsxs18(
+  return /* @__PURE__ */ jsxs17(
     "div",
     {
       role: "status",
@@ -3825,8 +3793,8 @@ function ToastMessage({
       },
       onAnimationEnd: handleAnimationEnd,
       children: [
-        /* @__PURE__ */ jsx30("span", { style: { flex: 1 }, children: item.message }),
-        /* @__PURE__ */ jsx30(
+        /* @__PURE__ */ jsx29("span", { style: { flex: 1 }, children: item.message }),
+        /* @__PURE__ */ jsx29(
           "button",
           {
             onClick: () => setExiting(true),
@@ -3853,7 +3821,7 @@ function ToastMessage({
             children: "\xD7"
           }
         ),
-        autoDismiss && /* @__PURE__ */ jsx30(
+        autoDismiss && /* @__PURE__ */ jsx29(
           "span",
           {
             "data-toast-timer": "",
@@ -3887,7 +3855,7 @@ function ToastContainer({
     ...position.endsWith("right") ? { right: t28.spaceLg } : { left: t28.spaceLg }
   };
   return createPortal2(
-    /* @__PURE__ */ jsx30("div", { "aria-live": "polite", style: positionStyles, children: toasts.map((item) => /* @__PURE__ */ jsx30(ToastMessage, { item, onDismiss }, item.id)) }),
+    /* @__PURE__ */ jsx29("div", { "aria-live": "polite", style: positionStyles, children: toasts.map((item) => /* @__PURE__ */ jsx29(ToastMessage, { item, onDismiss }, item.id)) }),
     document.body
   );
 }
@@ -3898,7 +3866,7 @@ function ToastProvider({
 }) {
   const [toasts, setToasts] = useState6([]);
   const dismiss = useCallback6((id) => {
-    setToasts((prev) => prev.filter((t40) => t40.id !== id));
+    setToasts((prev) => prev.filter((t39) => t39.id !== id));
   }, []);
   const showToast = useCallback6(
     (message, typeOrOptions) => {
@@ -3913,9 +3881,9 @@ function ToastProvider({
     },
     []
   );
-  return /* @__PURE__ */ jsxs18(ToastContext.Provider, { value: { showToast }, children: [
+  return /* @__PURE__ */ jsxs17(ToastContext.Provider, { value: { showToast }, children: [
     children,
-    /* @__PURE__ */ jsx30(ToastContainer, { toasts, onDismiss: dismiss, position })
+    /* @__PURE__ */ jsx29(ToastContainer, { toasts, onDismiss: dismiss, position })
   ] });
 }
 
@@ -3931,7 +3899,7 @@ import {
   useState as useState7
 } from "react";
 import { semantic as t29, useInjectStyles as useInjectStyles12 } from "../../core/dist/index.js";
-import { jsx as jsx31 } from "react/jsx-runtime";
+import { jsx as jsx30 } from "react/jsx-runtime";
 var COMBOBOX_STYLES_ID = "alttab-combobox";
 var comboboxCSS = (
   /* css */
@@ -4161,7 +4129,7 @@ function Root2({
     ]
   );
   ctx.__suppressNextOpen = suppressNextOpenRef;
-  return /* @__PURE__ */ jsx31(ComboboxContext.Provider, { value: ctx, children: /* @__PURE__ */ jsx31("div", { ref: containerRef, style: wrapperStyle4, onKeyDown: handleKeyDown, children }) });
+  return /* @__PURE__ */ jsx30(ComboboxContext.Provider, { value: ctx, children: /* @__PURE__ */ jsx30("div", { ref: containerRef, style: wrapperStyle4, onKeyDown: handleKeyDown, children }) });
 }
 function Input3({
   placeholder,
@@ -4216,7 +4184,7 @@ function Input3({
     },
     [disabled, items.length, openMenu, onFocusProp, suppressNextOpenRef]
   );
-  return /* @__PURE__ */ jsx31(
+  return /* @__PURE__ */ jsx30(
     "input",
     {
       ref: inputRef,
@@ -4282,7 +4250,7 @@ function List({ children }) {
     right: 0,
     marginBottom: t29.spaceXs
   };
-  return /* @__PURE__ */ jsx31(
+  return /* @__PURE__ */ jsx30(
     "div",
     {
       ref,
@@ -4331,7 +4299,7 @@ function Item2({
     isFocused ? "alttab-combobox-option--focused" : "",
     isSelected ? "alttab-combobox-option--selected" : ""
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ jsx31(
+  return /* @__PURE__ */ jsx30(
     "button",
     {
       type: "button",
@@ -4347,7 +4315,7 @@ function Item2({
   );
 }
 function Empty({ children }) {
-  return /* @__PURE__ */ jsx31(
+  return /* @__PURE__ */ jsx30(
     "div",
     {
       role: "presentation",
@@ -4400,7 +4368,7 @@ var Combobox = {
 // src/components/TableFilters/TableFilters.tsx
 import { useState as useState8, useEffect as useEffect10, useRef as useRef10, useCallback as useCallback8 } from "react";
 import { semantic as t30 } from "../../core/dist/index.js";
-import { jsx as jsx32, jsxs as jsxs19 } from "react/jsx-runtime";
+import { jsx as jsx31, jsxs as jsxs18 } from "react/jsx-runtime";
 function DebouncedTextFilter({
   config,
   value,
@@ -4428,7 +4396,7 @@ function DebouncedTextFilter({
       if (timerRef.current) clearTimeout(timerRef.current);
     };
   }, []);
-  return /* @__PURE__ */ jsx32("div", { style: { minWidth: "10rem", flex: "1 1 10rem" }, children: /* @__PURE__ */ jsx32(
+  return /* @__PURE__ */ jsx31("div", { style: { minWidth: "10rem", flex: "1 1 10rem" }, children: /* @__PURE__ */ jsx31(
     Input,
     {
       value: local,
@@ -4448,9 +4416,9 @@ function SelectFilter({
     },
     [config.key, onCommit]
   );
-  return /* @__PURE__ */ jsx32("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ jsxs19(Select.Root, { value, onValueChange: handleValueChange, children: [
-    /* @__PURE__ */ jsx32(Select.Trigger, { children: /* @__PURE__ */ jsx32(Select.Value, { placeholder: config.placeholder }) }),
-    /* @__PURE__ */ jsx32(Select.Content, { children: config.options.map((opt) => /* @__PURE__ */ jsx32(Select.Item, { value: opt.value, children: opt.label }, opt.value)) })
+  return /* @__PURE__ */ jsx31("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ jsxs18(Select.Root, { value, onValueChange: handleValueChange, children: [
+    /* @__PURE__ */ jsx31(Select.Trigger, { children: /* @__PURE__ */ jsx31(Select.Value, { placeholder: config.placeholder }) }),
+    /* @__PURE__ */ jsx31(Select.Content, { children: config.options.map((opt) => /* @__PURE__ */ jsx31(Select.Item, { value: opt.value, children: opt.label }, opt.value)) })
   ] }) });
 }
 function TableFilters({
@@ -4466,7 +4434,7 @@ function TableFilters({
     },
     [values, onChange]
   );
-  return /* @__PURE__ */ jsx32(
+  return /* @__PURE__ */ jsx31(
     "div",
     {
       style: {
@@ -4480,7 +4448,7 @@ function TableFilters({
       children: filters.map((filter) => {
         const val = values[filter.key] ?? "";
         if (filter.type === "text") {
-          return /* @__PURE__ */ jsx32(
+          return /* @__PURE__ */ jsx31(
             DebouncedTextFilter,
             {
               config: filter,
@@ -4490,7 +4458,7 @@ function TableFilters({
             filter.key
           );
         }
-        return /* @__PURE__ */ jsx32(
+        return /* @__PURE__ */ jsx31(
           SelectFilter,
           {
             config: filter,
@@ -4505,16 +4473,30 @@ function TableFilters({
 }
 
 // src/components/ChipPicker/ChipPicker.tsx
-import { useId as useId8 } from "react";
+import { useCallback as useCallback9, useId as useId8, useState as useState9 } from "react";
 import { semantic as t31, useInjectStyles as useInjectStyles13 } from "../../core/dist/index.js";
-import { jsx as jsx33, jsxs as jsxs20 } from "react/jsx-runtime";
+import { jsx as jsx32, jsxs as jsxs19 } from "react/jsx-runtime";
 function ChipPicker({
   items,
-  selected,
-  onChange
+  selected: controlledSelected,
+  defaultSelected,
+  onChange,
+  "aria-label": ariaLabel
 }) {
   const uid = useId8();
   const styleId = `chip-picker-${uid.replace(/:/g, "")}`;
+  const isControlled = controlledSelected !== void 0;
+  const [internalSelected, setInternalSelected] = useState9(
+    () => defaultSelected ?? []
+  );
+  const selected = isControlled ? controlledSelected : internalSelected;
+  const applySelection = useCallback9(
+    (next) => {
+      if (!isControlled) setInternalSelected(next);
+      onChange?.(next);
+    },
+    [isControlled, onChange]
+  );
   useInjectStyles13(
     styleId,
     `[data-chip-picker-id="${styleId}"] button:hover {
@@ -4530,9 +4512,9 @@ function ChipPicker({
   );
   const toggle = (value) => {
     if (selected.includes(value)) {
-      onChange(selected.filter((v) => v !== value));
+      applySelection(selected.filter((v) => v !== value));
     } else {
-      onChange([...selected, value]);
+      applySelection([...selected, value]);
     }
   };
   const groups = [];
@@ -4568,7 +4550,7 @@ function ChipPicker({
     transition: `background ${t31.transitionFast}, border-color ${t31.transitionFast}, color ${t31.transitionFast}`,
     outline: "none"
   });
-  const renderChips = (chips) => /* @__PURE__ */ jsx33(
+  const renderChips = (chips) => /* @__PURE__ */ jsx32(
     "div",
     {
       style: {
@@ -4578,7 +4560,7 @@ function ChipPicker({
       },
       children: chips.map((item) => {
         const isSelected = selected.includes(item.value);
-        return /* @__PURE__ */ jsx33(
+        return /* @__PURE__ */ jsx32(
           "button",
           {
             type: "button",
@@ -4592,17 +4574,19 @@ function ChipPicker({
       })
     }
   );
-  return /* @__PURE__ */ jsx33(
+  return /* @__PURE__ */ jsx32(
     "div",
     {
       "data-chip-picker-id": styleId,
+      role: "group",
+      "aria-label": ariaLabel,
       style: {
         display: "flex",
         flexDirection: "column",
         gap: t31.spaceMd
       },
-      children: groups.map((group, i) => /* @__PURE__ */ jsxs20("div", { style: { display: "flex", flexDirection: "column", gap: t31.spaceSm }, children: [
-        group.label !== null && /* @__PURE__ */ jsx33("div", { style: i > 0 ? { marginTop: t31.spaceXs } : void 0, children: /* @__PURE__ */ jsx33("div", { style: sectionLabelStyle, children: group.label }) }),
+      children: groups.map((group, i) => /* @__PURE__ */ jsxs19("div", { style: { display: "flex", flexDirection: "column", gap: t31.spaceSm }, children: [
+        group.label !== null && /* @__PURE__ */ jsx32("div", { style: i > 0 ? { marginTop: t31.spaceXs } : void 0, children: /* @__PURE__ */ jsx32("div", { style: sectionLabelStyle, children: group.label }) }),
         renderChips(group.chips)
       ] }, group.label ?? "__ungrouped"))
     }
@@ -4610,9 +4594,9 @@ function ChipPicker({
 }
 
 // src/components/SearchInput/SearchInput.tsx
-import { forwardRef as forwardRef24, useState as useState9, useEffect as useEffect11, useRef as useRef11, useCallback as useCallback9 } from "react";
+import { forwardRef as forwardRef23, useState as useState10, useEffect as useEffect11, useRef as useRef11, useCallback as useCallback10 } from "react";
 import { semantic as t32, useInjectStyles as useInjectStyles14 } from "../../core/dist/index.js";
-import { jsx as jsx34, jsxs as jsxs21 } from "react/jsx-runtime";
+import { jsx as jsx33, jsxs as jsxs20 } from "react/jsx-runtime";
 var STYLE_ID2 = "4lt7ab-search-input";
 var hoverFocusCSS = `
   .search-input-wrapper:focus-within {
@@ -4658,7 +4642,7 @@ var disabledWrapperStyle = {
   color: t32.colorTextDisabled,
   cursor: "not-allowed"
 };
-var SearchInput = forwardRef24(
+var SearchInput = forwardRef23(
   function SearchInput2({
     value,
     onSearch,
@@ -4676,14 +4660,14 @@ var SearchInput = forwardRef24(
     "data-testid": dataTestId
   }, ref) {
     useInjectStyles14(STYLE_ID2, hoverFocusCSS);
-    const [localValue, setLocalValue] = useState9(value);
+    const [localValue, setLocalValue] = useState10(value);
     const timerRef = useRef11(null);
     const onSearchRef = useRef11(onSearch);
     onSearchRef.current = onSearch;
     useEffect11(() => {
       setLocalValue(value);
     }, [value]);
-    const handleChange = useCallback9((e) => {
+    const handleChange = useCallback10((e) => {
       const next = e.target.value;
       setLocalValue(next);
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -4696,7 +4680,7 @@ var SearchInput = forwardRef24(
         if (timerRef.current) clearTimeout(timerRef.current);
       };
     }, []);
-    return /* @__PURE__ */ jsxs21(
+    return /* @__PURE__ */ jsxs20(
       "div",
       {
         className: "search-input-wrapper",
@@ -4706,8 +4690,8 @@ var SearchInput = forwardRef24(
           ...disabled ? disabledWrapperStyle : {}
         },
         children: [
-          /* @__PURE__ */ jsx34("span", { style: { color: t32.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ jsx34(Icon, { name: "search", size: "sm" }) }),
-          /* @__PURE__ */ jsx34(
+          /* @__PURE__ */ jsx33("span", { style: { color: t32.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ jsx33(Icon, { name: "search", size: "sm" }) }),
+          /* @__PURE__ */ jsx33(
             "input",
             {
               ref,
@@ -4726,7 +4710,7 @@ var SearchInput = forwardRef24(
               style: inputStyle
             }
           ),
-          trailing && /* @__PURE__ */ jsx34("div", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: trailing })
+          trailing && /* @__PURE__ */ jsx33("div", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: trailing })
         ]
       }
     );
@@ -4734,9 +4718,9 @@ var SearchInput = forwardRef24(
 );
 
 // src/components/SegmentedControl/SegmentedControl.tsx
-import { useRef as useRef12, useLayoutEffect, useState as useState10, useCallback as useCallback10 } from "react";
+import { useCallback as useCallback11, useLayoutEffect, useRef as useRef12, useState as useState11 } from "react";
 import { semantic as t33, useInjectStyles as useInjectStyles15 } from "../../core/dist/index.js";
-import { jsx as jsx35, jsxs as jsxs22 } from "react/jsx-runtime";
+import { jsx as jsx34, jsxs as jsxs21 } from "react/jsx-runtime";
 var STYLE_ID3 = "4lt7ab-segmented-control";
 var hoverCSS = `
   .segmented-ctrl-btn:hover:not([aria-pressed="true"]) {
@@ -4760,15 +4744,29 @@ var sizes = {
 };
 function SegmentedControl({
   segments,
-  value,
+  value: controlledValue,
+  defaultValue,
   onChange,
-  size = "md"
+  size = "md",
+  "aria-label": ariaLabel
 }) {
   useInjectStyles15(STYLE_ID3, hoverCSS);
+  const isControlled = controlledValue !== void 0;
+  const [internalValue, setInternalValue] = useState11(
+    () => defaultValue ?? segments[0]?.value ?? ""
+  );
+  const value = isControlled ? controlledValue : internalValue;
+  const handleSelect = useCallback11(
+    (next) => {
+      if (!isControlled) setInternalValue(next);
+      onChange?.(next);
+    },
+    [isControlled, onChange]
+  );
   const containerRef = useRef12(null);
-  const [indicator, setIndicator] = useState10(null);
+  const [indicator, setIndicator] = useState11(null);
   const s = sizes[size];
-  const updateIndicator = useCallback10(() => {
+  const updateIndicator = useCallback11(() => {
     const container = containerRef.current;
     if (!container) return;
     const activeBtn = container.querySelector('[aria-pressed="true"]');
@@ -4791,11 +4789,12 @@ function SegmentedControl({
     if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, [updateIndicator]);
-  return /* @__PURE__ */ jsxs22(
+  return /* @__PURE__ */ jsxs21(
     "div",
     {
       ref: containerRef,
       role: "group",
+      "aria-label": ariaLabel,
       style: {
         position: "relative",
         display: "inline-flex",
@@ -4808,7 +4807,7 @@ function SegmentedControl({
         boxSizing: "border-box"
       },
       children: [
-        indicator && /* @__PURE__ */ jsx35(
+        indicator && /* @__PURE__ */ jsx34(
           "div",
           {
             className: "segmented-ctrl-indicator",
@@ -4829,13 +4828,13 @@ function SegmentedControl({
           const isActive = seg.value === value;
           const hasIcon = !!seg.icon;
           const iconOnly = hasIcon && !seg.label;
-          return /* @__PURE__ */ jsxs22(
+          return /* @__PURE__ */ jsxs21(
             "button",
             {
               type: "button",
               className: "segmented-ctrl-btn",
               "aria-pressed": isActive,
-              onClick: () => onChange(seg.value),
+              onClick: () => handleSelect(seg.value),
               style: {
                 position: "relative",
                 zIndex: 1,
@@ -4858,8 +4857,8 @@ function SegmentedControl({
                 lineHeight: 1
               },
               children: [
-                hasIcon && /* @__PURE__ */ jsx35(Icon, { name: seg.icon, size: s.iconSize }),
-                seg.label && /* @__PURE__ */ jsx35("span", { children: seg.label })
+                hasIcon && /* @__PURE__ */ jsx34(Icon, { name: seg.icon, size: s.iconSize }),
+                seg.label && /* @__PURE__ */ jsx34("span", { children: seg.label })
               ]
             },
             seg.value
@@ -4871,9 +4870,9 @@ function SegmentedControl({
 }
 
 // src/components/AlertBanner/AlertBanner.tsx
-import { forwardRef as forwardRef25 } from "react";
+import { forwardRef as forwardRef24 } from "react";
 import { semantic as t34, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
-import { jsx as jsx36, jsxs as jsxs23 } from "react/jsx-runtime";
+import { jsx as jsx35, jsxs as jsxs22 } from "react/jsx-runtime";
 var STYLE_ID4 = "4lt7ab-alert-banner";
 var alertBannerCSS = `
 @keyframes alert-banner-slide-in {
@@ -4897,17 +4896,17 @@ var variantColors2 = {
   success: { bg: t34.colorSuccessBg, fg: t34.colorSuccess, border: t34.colorSuccess }
 };
 var defaultIcons = {
-  info: /* @__PURE__ */ jsx36(IconInfo, { size: 20 }),
-  warning: /* @__PURE__ */ jsx36(IconWarning, { size: 20 }),
-  error: /* @__PURE__ */ jsx36(IconError, { size: 20 }),
-  success: /* @__PURE__ */ jsx36(IconCheckCircle, { size: 20 })
+  info: /* @__PURE__ */ jsx35(IconInfo, { size: 20 }),
+  warning: /* @__PURE__ */ jsx35(IconWarning, { size: 20 }),
+  error: /* @__PURE__ */ jsx35(IconError, { size: 20 }),
+  success: /* @__PURE__ */ jsx35(IconCheckCircle, { size: 20 })
 };
-var AlertBanner = forwardRef25(
+var AlertBanner = forwardRef24(
   function AlertBanner2({ variant, children, onDismiss, icon }, ref) {
     useInjectStyles16(STYLE_ID4, alertBannerCSS);
     const colors = variantColors2[variant];
     const resolvedIcon = icon !== void 0 ? icon : defaultIcons[variant];
-    return /* @__PURE__ */ jsxs23(
+    return /* @__PURE__ */ jsxs22(
       "div",
       {
         ref,
@@ -4929,9 +4928,9 @@ var AlertBanner = forwardRef25(
           animation: "alert-banner-slide-in 250ms ease"
         },
         children: [
-          resolvedIcon && /* @__PURE__ */ jsx36("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
-          /* @__PURE__ */ jsx36("span", { style: { flex: 1 }, children }),
-          onDismiss && /* @__PURE__ */ jsx36(
+          resolvedIcon && /* @__PURE__ */ jsx35("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
+          /* @__PURE__ */ jsx35("span", { style: { flex: 1 }, children }),
+          onDismiss && /* @__PURE__ */ jsx35(
             "button",
             {
               className: "alert-banner-dismiss",
@@ -4966,9 +4965,9 @@ var AlertBanner = forwardRef25(
 );
 
 // src/components/TopBar/TopBar.tsx
-import { createContext as createContext5, forwardRef as forwardRef26, useContext as useContext5 } from "react";
+import { createContext as createContext5, forwardRef as forwardRef25, useContext as useContext5 } from "react";
 import { semantic as t35, useInjectStyles as useInjectStyles17, Slot as Slot3 } from "../../core/dist/index.js";
-import { jsx as jsx37 } from "react/jsx-runtime";
+import { jsx as jsx36 } from "react/jsx-runtime";
 var TopBarContext = createContext5(null);
 function useTopBarContext(component) {
   const ctx = useContext5(TopBarContext);
@@ -5003,11 +5002,11 @@ var TOPBAR_CSS = `
     color: ${t35.colorText};
   }
 `;
-var TopBarRoot = forwardRef26(
+var TopBarRoot = forwardRef25(
   function TopBarRoot2({ children, sticky = false, ...rest }, ref) {
     useInjectStyles17(TOPBAR_STYLES_ID, TOPBAR_CSS);
     const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: t35.zIndexSticky } : {};
-    return /* @__PURE__ */ jsx37(TopBarContext.Provider, { value: true, children: /* @__PURE__ */ jsx37(
+    return /* @__PURE__ */ jsx36(TopBarContext.Provider, { value: true, children: /* @__PURE__ */ jsx36(
       "header",
       {
         ref,
@@ -5031,7 +5030,7 @@ var TopBarRoot = forwardRef26(
 );
 function TopBarLeading({ children }) {
   useTopBarContext("Leading");
-  return /* @__PURE__ */ jsx37(
+  return /* @__PURE__ */ jsx36(
     "div",
     {
       style: {
@@ -5050,7 +5049,7 @@ function TopBarLeading({ children }) {
 }
 function TopBarNav({ children, "aria-label": ariaLabel = "Primary" }) {
   useTopBarContext("Nav");
-  return /* @__PURE__ */ jsx37(
+  return /* @__PURE__ */ jsx36(
     "nav",
     {
       "aria-label": ariaLabel,
@@ -5066,7 +5065,7 @@ function TopBarNav({ children, "aria-label": ariaLabel = "Primary" }) {
     }
   );
 }
-var TopBarLink = forwardRef26(function TopBarLink2({ active = false, asChild = false, onClick, children }, ref) {
+var TopBarLink = forwardRef25(function TopBarLink2({ active = false, asChild = false, onClick, children }, ref) {
   useTopBarContext("Link");
   const style = {
     display: "inline-flex",
@@ -5094,13 +5093,13 @@ var TopBarLink = forwardRef26(function TopBarLink2({ active = false, asChild = f
     style
   };
   if (asChild) {
-    return /* @__PURE__ */ jsx37(Slot3, { ref, ...commonProps, children });
+    return /* @__PURE__ */ jsx36(Slot3, { ref, ...commonProps, children });
   }
-  return /* @__PURE__ */ jsx37("button", { ref, type: "button", ...commonProps, children });
+  return /* @__PURE__ */ jsx36("button", { ref, type: "button", ...commonProps, children });
 });
 function TopBarTrailing({ children }) {
   useTopBarContext("Trailing");
-  return /* @__PURE__ */ jsx37(
+  return /* @__PURE__ */ jsx36(
     "div",
     {
       style: {
@@ -5122,97 +5121,19 @@ var TopBar = {
   Trailing: TopBarTrailing
 };
 
-// src/components/PillSelect/PillSelect.tsx
-import { useId as useId9 } from "react";
-import { semantic as t36, useInjectStyles as useInjectStyles18 } from "../../core/dist/index.js";
-import { jsx as jsx38, jsxs as jsxs24 } from "react/jsx-runtime";
-function PillSelect({
-  value,
-  options,
-  onChange,
-  ariaLabel,
-  active: activeProp
-}) {
-  const uid = useId9();
-  const styleId = `pill-select-${uid.replace(/:/g, "")}`;
-  const isActive = activeProp ?? !!value;
-  useInjectStyles18(
-    styleId,
-    `[data-pill-select-id="${styleId}"] select:hover {
-      border-color: ${t36.colorActionPrimary};
-    }`
-  );
-  return /* @__PURE__ */ jsxs24(
-    "div",
-    {
-      "data-pill-select-id": styleId,
-      style: {
-        position: "relative",
-        display: "inline-flex",
-        alignItems: "center"
-      },
-      children: [
-        /* @__PURE__ */ jsx38(
-          "select",
-          {
-            value,
-            onChange: (e) => onChange(e.target.value),
-            "aria-label": ariaLabel,
-            style: {
-              appearance: "none",
-              WebkitAppearance: "none",
-              MozAppearance: "none",
-              padding: `2px ${t36.spaceXs}`,
-              paddingRight: "1.5rem",
-              fontSize: t36.fontSizeSm,
-              fontFamily: t36.fontSans,
-              fontWeight: t36.fontWeightMedium,
-              lineHeight: t36.lineHeightTight,
-              color: isActive ? t36.colorActionPrimary : t36.colorTextMuted,
-              background: isActive ? `color-mix(in srgb, ${t36.colorActionPrimary} 10%, transparent)` : "transparent",
-              border: `${t36.borderWidthDefault} solid ${isActive ? t36.colorActionPrimary : t36.colorBorder}`,
-              borderRadius: t36.radiusFull,
-              cursor: "pointer",
-              outline: "none",
-              transition: `background ${t36.transitionFast}, border-color ${t36.transitionFast}, color ${t36.transitionFast}`
-            },
-            children: options.map((opt) => /* @__PURE__ */ jsx38("option", { value: opt.value, children: opt.label }, opt.value))
-          }
-        ),
-        /* @__PURE__ */ jsx38(
-          "span",
-          {
-            style: {
-              position: "absolute",
-              right: "6px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              pointerEvents: "none",
-              display: "flex",
-              alignItems: "center",
-              color: isActive ? t36.colorActionPrimary : t36.colorTextMuted
-            },
-            children: /* @__PURE__ */ jsx38(Icon, { name: "chevron-down", size: "xs" })
-          }
-        )
-      ]
-    }
-  );
-}
-
 // src/components/Surface/Surface.tsx
-import { createElement, forwardRef as forwardRef27 } from "react";
-import { semantic as t37 } from "../../core/dist/index.js";
+import { createElement, forwardRef as forwardRef26 } from "react";
+import { semantic as t36 } from "../../core/dist/index.js";
 var levelMap = {
-  page: t37.colorSurfacePage,
-  default: t37.colorSurface,
-  solid: t37.colorSurfaceSolid,
-  raised: t37.colorSurfaceRaised,
-  panel: t37.colorSurfacePanel,
-  input: t37.colorSurfaceInput,
-  overlay: t37.colorSurfaceOverlay
+  page: t36.colorSurfacePage,
+  default: t36.colorSurface,
+  solid: t36.colorSurfaceSolid,
+  raised: t36.colorSurfaceRaised,
+  panel: t36.colorSurfacePanel,
+  input: t36.colorSurfaceInput,
+  overlay: t36.colorSurfaceOverlay
 };
-var Surface = forwardRef27(
+var Surface = forwardRef26(
   function Surface2({
     level = "solid",
     tint,
@@ -5224,7 +5145,7 @@ var Surface = forwardRef27(
     children,
     ...rest
   }, ref) {
-    const borderValue = border === true ? `${t37.borderWidthDefault} solid ${t37.colorBorder}` : typeof border === "string" ? `${t37.borderWidthDefault} solid ${semanticColorMap[border]}` : void 0;
+    const borderValue = border === true ? `${t36.borderWidthDefault} solid ${t36.colorBorder}` : typeof border === "string" ? `${t36.borderWidthDefault} solid ${semanticColorMap[border]}` : void 0;
     const tintBg = tint ? `color-mix(in srgb, ${semanticColorMap[tint]} 10%, transparent)` : void 0;
     return createElement(
       as,
@@ -5240,7 +5161,7 @@ var Surface = forwardRef27(
           borderRadius: radiusMap[radius],
           border: borderValue,
           boxShadow: shadow ? shadowMap[shadow] : void 0,
-          color: t37.colorText
+          color: t36.colorText
         }
       },
       children
@@ -5249,9 +5170,9 @@ var Surface = forwardRef27(
 );
 
 // src/components/Grid/Grid.tsx
-import { forwardRef as forwardRef28 } from "react";
-import { jsx as jsx39 } from "react/jsx-runtime";
-var Grid = forwardRef28(
+import { forwardRef as forwardRef27 } from "react";
+import { jsx as jsx37 } from "react/jsx-runtime";
+var Grid = forwardRef27(
   function Grid2({
     minColumnWidth = 300,
     columns,
@@ -5261,7 +5182,7 @@ var Grid = forwardRef28(
   }, ref) {
     const minWidth = `${minColumnWidth}px`;
     const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
-    return /* @__PURE__ */ jsx39(
+    return /* @__PURE__ */ jsx37(
       "div",
       {
         ref,
@@ -5279,10 +5200,10 @@ var Grid = forwardRef28(
 );
 
 // src/components/Divider/Divider.tsx
-import { forwardRef as forwardRef29 } from "react";
-import { semantic as t38 } from "../../core/dist/index.js";
-import { jsx as jsx40 } from "react/jsx-runtime";
-var Divider = forwardRef29(
+import { forwardRef as forwardRef28 } from "react";
+import { semantic as t37 } from "../../core/dist/index.js";
+import { jsx as jsx38 } from "react/jsx-runtime";
+var Divider = forwardRef28(
   function Divider2({
     orientation = "horizontal",
     opacity = "default",
@@ -5290,10 +5211,10 @@ var Divider = forwardRef29(
     ...rest
   }, ref) {
     const resolvedOpacity = dividerOpacityMap[opacity];
-    const bg = `color-mix(in srgb, ${t38.colorBorder} ${resolvedOpacity}%, transparent)`;
+    const bg = `color-mix(in srgb, ${t37.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
     const isHorizontal = orientation === "horizontal";
-    return /* @__PURE__ */ jsx40(
+    return /* @__PURE__ */ jsx38(
       "div",
       {
         ref,
@@ -5314,20 +5235,20 @@ var Divider = forwardRef29(
 );
 
 // src/components/TabStrip/TabStrip.tsx
-import { forwardRef as forwardRef30, useCallback as useCallback11, useRef as useRef13 } from "react";
-import { semantic as t39, useInjectStyles as useInjectStyles19 } from "../../core/dist/index.js";
-import { jsx as jsx41, jsxs as jsxs25 } from "react/jsx-runtime";
+import { forwardRef as forwardRef29, useCallback as useCallback12, useRef as useRef13 } from "react";
+import { semantic as t38, useInjectStyles as useInjectStyles18 } from "../../core/dist/index.js";
+import { jsx as jsx39, jsxs as jsxs23 } from "react/jsx-runtime";
 var STYLES_ID = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
-  transition: color ${t39.transitionFast}, background ${t39.transitionFast}, border-color ${t39.transitionFast};
+  transition: color ${t38.transitionFast}, background ${t38.transitionFast}, border-color ${t38.transitionFast};
 }
 [data-tab-btn]:hover:not([aria-selected="true"]) {
-  color: ${t39.colorTextSecondary};
-  background: color-mix(in srgb, ${t39.colorBorder} 10%, transparent);
+  color: ${t38.colorTextSecondary};
+  background: color-mix(in srgb, ${t38.colorBorder} 10%, transparent);
 }
 `;
-var TabStrip = forwardRef30(
+var TabStrip = forwardRef29(
   function TabStrip2({
     tabs,
     activeKey,
@@ -5336,9 +5257,9 @@ var TabStrip = forwardRef30(
     size = "md",
     ...rest
   }, ref) {
-    useInjectStyles19(STYLES_ID, STYLES_CSS);
+    useInjectStyles18(STYLES_ID, STYLES_CSS);
     const tabRefs = useRef13([]);
-    const handleClick = useCallback11(
+    const handleClick = useCallback12(
       (key) => {
         if (key === activeKey && allowDeselect) {
           onChange(null);
@@ -5348,7 +5269,7 @@ var TabStrip = forwardRef30(
       },
       [activeKey, allowDeselect, onChange]
     );
-    const handleKeyDown = useCallback11(
+    const handleKeyDown = useCallback12(
       (e, index) => {
         let nextIndex = null;
         if (e.key === "ArrowRight") {
@@ -5368,7 +5289,7 @@ var TabStrip = forwardRef30(
       [tabs.length]
     );
     const isSm = size === "sm";
-    return /* @__PURE__ */ jsx41(
+    return /* @__PURE__ */ jsx39(
       "div",
       {
         ref,
@@ -5381,7 +5302,7 @@ var TabStrip = forwardRef30(
         },
         children: tabs.map((tab, i) => {
           const isActive = tab.key === activeKey;
-          return /* @__PURE__ */ jsxs25(
+          return /* @__PURE__ */ jsxs23(
             "button",
             {
               ref: (el) => {
@@ -5396,22 +5317,22 @@ var TabStrip = forwardRef30(
               style: {
                 display: "flex",
                 alignItems: "center",
-                gap: t39.spaceXs,
-                padding: isSm ? `${t39.spaceXs} ${t39.spaceSm}` : `${t39.spaceSm} ${t39.spaceMd}`,
+                gap: t38.spaceXs,
+                padding: isSm ? `${t38.spaceXs} ${t38.spaceSm}` : `${t38.spaceSm} ${t38.spaceMd}`,
                 border: "none",
-                borderBottom: `2px solid ${isActive ? t39.colorActionPrimary : "transparent"}`,
+                borderBottom: `2px solid ${isActive ? t38.colorActionPrimary : "transparent"}`,
                 borderRadius: 0,
-                background: isActive ? `color-mix(in srgb, ${t39.colorActionPrimary} 8%, transparent)` : "transparent",
-                color: isActive ? t39.colorActionPrimary : t39.colorTextMuted,
-                fontFamily: t39.fontSans,
-                fontSize: isSm ? t39.fontSizeXs : t39.fontSizeSm,
-                fontWeight: t39.fontWeightSemibold,
-                lineHeight: t39.lineHeightTight,
+                background: isActive ? `color-mix(in srgb, ${t38.colorActionPrimary} 8%, transparent)` : "transparent",
+                color: isActive ? t38.colorActionPrimary : t38.colorTextMuted,
+                fontFamily: t38.fontSans,
+                fontSize: isSm ? t38.fontSizeXs : t38.fontSizeSm,
+                fontWeight: t38.fontWeightSemibold,
+                lineHeight: t38.lineHeightTight,
                 cursor: "pointer",
                 whiteSpace: "nowrap"
               },
               children: [
-                tab.icon && /* @__PURE__ */ jsx41(
+                tab.icon && /* @__PURE__ */ jsx39(
                   "span",
                   {
                     className: "material-symbols-outlined",
@@ -5479,7 +5400,6 @@ export {
   ModalShell,
   Overlay,
   Pagination,
-  PillSelect,
   ProgressBar,
   RowSkeleton,
   SearchInput,
@@ -5499,7 +5419,6 @@ export {
   TableHeader,
   TableHeaderCell,
   TableRow,
-  TagChip,
   Textarea,
   ThemePicker,
   ToastProvider,
@@ -5523,6 +5442,7 @@ export {
   semanticColorMap,
   shadowMap,
   spacingMap,
+  tagChipStyle,
   useFocusTrap,
   useToast
 };

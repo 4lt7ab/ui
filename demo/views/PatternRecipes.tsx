@@ -30,7 +30,7 @@ const RECIPES: Recipe[] = [
     title: 'Command Center',
     description: 'System monitoring dashboard with tables, status indicators, paginated data, and loading states.',
     icon: 'settings',
-    components: ['Header', 'Table', 'Card', 'Badge', 'StatusDot', 'ProgressBar', 'Pagination', 'Skeleton', 'ExpandableCard', 'TagChip', 'Button'],
+    components: ['Header', 'Table', 'Card', 'Badge', 'StatusDot', 'ProgressBar', 'Pagination', 'Skeleton', 'ExpandableCard', 'Button'],
     category: 'dashboard',
     Component: CommandCenter,
   },

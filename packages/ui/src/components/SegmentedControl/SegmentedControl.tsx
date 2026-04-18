@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect, useState, useCallback } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
 import { Icon } from '../Icon';
 import type { IconName } from '../../icons';
@@ -17,14 +17,18 @@ export interface Segment {
 export interface SegmentedControlProps {
   /** Segment definitions. */
   segments: Segment[];
-  /** Currently selected segment value. */
-  value: string;
+  /** Controlled selected segment value. Omit for uncontrolled mode (use defaultValue). */
+  value?: string;
+  /** Uncontrolled initial value. Ignored when `value` is provided. Defaults to the first segment. */
+  defaultValue?: string;
   /** Called when the user selects a segment. */
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   /** Control size.
    * @default 'md'
    */
   size?: 'sm' | 'md';
+  /** Accessible label for the group. */
+  'aria-label'?: string;
 }
 
 const STYLE_ID = '4lt7ab-segmented-control';
@@ -53,11 +57,26 @@ const sizes = {
 
 export function SegmentedControl({
   segments,
-  value,
+  value: controlledValue,
+  defaultValue,
   onChange,
   size = 'md',
+  'aria-label': ariaLabel,
 }: SegmentedControlProps): React.JSX.Element {
   useInjectStyles(STYLE_ID, hoverCSS);
+
+  const isControlled = controlledValue !== undefined;
+  const [internalValue, setInternalValue] = useState<string>(
+    () => defaultValue ?? segments[0]?.value ?? '',
+  );
+  const value = isControlled ? controlledValue : internalValue;
+  const handleSelect = useCallback(
+    (next: string): void => {
+      if (!isControlled) setInternalValue(next);
+      onChange?.(next);
+    },
+    [isControlled, onChange],
+  );
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [indicator, setIndicator] = useState<{ left: number; width: number } | null>(null);
@@ -95,6 +114,7 @@ export function SegmentedControl({
     <div
       ref={containerRef}
       role="group"
+      aria-label={ariaLabel}
       style={{
         position: 'relative',
         display: 'inline-flex',
@@ -137,7 +157,7 @@ export function SegmentedControl({
             type="button"
             className="segmented-ctrl-btn"
             aria-pressed={isActive}
-            onClick={() => onChange(seg.value)}
+            onClick={() => handleSelect(seg.value)}
             style={{
               position: 'relative',
               zIndex: 1,

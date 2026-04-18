@@ -617,16 +617,6 @@ interface HeaderProps {
 	trailing?: ReactNode11;
 }
 declare const Header: React.ForwardRefExoticComponent<Omit<HeaderProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-/** A small pill-shaped tag with an optional remove button. */
-interface TagChipProps {
-	/** Tag display text. */
-	name: string;
-	/** Optional prefix rendered before the label in muted color (e.g. "lang" in "lang: typescript"). */
-	prefix?: string;
-	/** When provided, renders a close button that calls this handler on click. */
-	onRemove?: () => void;
-}
-declare const TagChip: React.ForwardRefExoticComponent<Omit<TagChipProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
 import { ReactNode as ReactNode12 } from "react";
 /** Shared heading style for modal titles. Used by ConfirmDialog and consumer modal compositions. */
 declare const modalHeadingStyle: React.CSSProperties;
@@ -661,6 +651,21 @@ declare const ModalShell: React.ForwardRefExoticComponent<Omit<ModalShellProps, 
 * retired `SectionLabel` component's visual contract.
 */
 declare const sectionLabelStyle: React.CSSProperties;
+/**
+* Small pill-shaped tag visual — uppercase prefix + label, rounded,
+* raised background. Spread onto a `<span>` or `<div>` to apply the
+* retired `TagChip` component's visual contract.
+*
+* For the remove affordance, compose with `<IconButton icon="close" />`:
+*
+* ```tsx
+* <span style={tagChipStyle}>
+*   frontend
+*   <IconButton icon="close" onClick={...} aria-label="Remove frontend" size="sm" />
+* </span>
+* ```
+*/
+declare const tagChipStyle: React.CSSProperties;
 import { ReactNode as ReactNode13 } from "react";
 /** Semantic variant controlling the confirm button style. */
 type ConfirmDialogVariant = "destructive" | "info" | "warning";
@@ -1075,13 +1080,17 @@ interface ChipItem {
 interface ChipPickerProps {
 	/** All available chip options. */
 	items: ChipItem[];
-	/** Currently selected values (controlled). */
-	selected: string[];
+	/** Controlled selection. Omit for uncontrolled mode (use defaultSelected). */
+	selected?: string[];
+	/** Uncontrolled initial selection. Ignored when `selected` is provided. */
+	defaultSelected?: string[];
 	/** Called with the updated selection array when a chip is toggled. */
-	onChange: (selected: string[]) => void;
+	onChange?: (selected: string[]) => void;
+	/** Accessible label for the group. */
+	"aria-label"?: string;
 }
 /** Multi-select toggle chip group with optional category grouping. */
-declare function ChipPicker({ items, selected, onChange }: ChipPickerProps): React.JSX.Element;
+declare function ChipPicker({ items, selected: controlledSelected, defaultSelected, onChange, "aria-label": ariaLabel }: ChipPickerProps): React.JSX.Element;
 import { ReactNode as ReactNode17 } from "react";
 /** A text input with built-in debounce, search icon, and optional trailing slot. */
 interface SearchInputProps {
@@ -1120,16 +1129,20 @@ interface Segment {
 interface SegmentedControlProps {
 	/** Segment definitions. */
 	segments: Segment[];
-	/** Currently selected segment value. */
-	value: string;
+	/** Controlled selected segment value. Omit for uncontrolled mode (use defaultValue). */
+	value?: string;
+	/** Uncontrolled initial value. Ignored when `value` is provided. Defaults to the first segment. */
+	defaultValue?: string;
 	/** Called when the user selects a segment. */
-	onChange: (value: string) => void;
+	onChange?: (value: string) => void;
 	/** Control size.
 	* @default 'md'
 	*/
 	size?: "sm" | "md";
+	/** Accessible label for the group. */
+	"aria-label"?: string;
 }
-declare function SegmentedControl({ segments, value, onChange, size }: SegmentedControlProps): React.JSX.Element;
+declare function SegmentedControl({ segments, value: controlledValue, defaultValue, onChange, size, "aria-label": ariaLabel }: SegmentedControlProps): React.JSX.Element;
 import { ReactNode as ReactNode18 } from "react";
 /** Severity variant controlling banner color. */
 type AlertBannerVariant = "info" | "warning" | "error" | "success";
@@ -1217,28 +1230,6 @@ declare function TopBarTrailing({ children }: TopBarTrailingProps): React.JSX.El
 * ```
 */
 declare const TopBar: {};
-/** A single option in a PillSelect. */
-interface PillSelectOption {
-	/** The option value. */
-	value: string;
-	/** The display label. */
-	label: string;
-}
-/** Props for PillSelect. */
-interface PillSelectProps {
-	/** Current selected value. */
-	value: string;
-	/** Available options. */
-	options: PillSelectOption[];
-	/** Called with new value on change. */
-	onChange: (value: string) => void;
-	/** Accessible label for the select. */
-	ariaLabel: string;
-	/** Whether the pill shows active styling. Defaults to !!value. */
-	active?: boolean;
-}
-/** Pill-shaped native select for filter bars with active/inactive state coloring. */
-declare function PillSelect({ value, options, onChange, ariaLabel, active: activeProp }: PillSelectProps): React.JSX.Element;
 import { ReactNode as ReactNode20 } from "react";
 /**
 * Which semantic surface token to use as the background.
@@ -1464,4 +1455,4 @@ interface TabStripProps extends BaseComponentProps {
 	size?: "sm" | "md";
 }
 declare const TabStrip: React.ForwardRefExoticComponent<Omit<TabStripProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-export { useToast, useFocusTrap, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectValueProps, SelectTriggerProps, SelectRootProps, SelectItemProps, SelectFilterConfig, SelectContentProps, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PillSelectProps, PillSelectOption, PillSelect, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxRootProps, ComboboxListProps, ComboboxItemProps, ComboboxInputProps, ComboboxEmptyProps, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };
+export { useToast, useFocusTrap, tagChipStyle, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectValueProps, SelectTriggerProps, SelectRootProps, SelectItemProps, SelectFilterConfig, SelectContentProps, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxRootProps, ComboboxListProps, ComboboxItemProps, ComboboxInputProps, ComboboxEmptyProps, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };

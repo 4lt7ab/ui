@@ -14,7 +14,6 @@ import {
   FieldDemo,
   ButtonDemo,
   IconButtonDemo,
-  TagChipDemo,
   BadgeDemo,
   StatusDotDemo,
   TableDemo,
@@ -71,7 +70,6 @@ const sections: CatalogueSection[] = [
     components: [
       { name: 'Button', Demo: ButtonDemo },
       { name: 'IconButton', Demo: IconButtonDemo },
-      { name: 'TagChip', Demo: TagChipDemo },
     ],
   },
   {

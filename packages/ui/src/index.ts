@@ -27,10 +27,10 @@ export * from './components/ProgressBar';
 export * from './components/EmptyState';
 export * from './components/Pagination';
 export * from './components/Header';
-export * from './components/TagChip';
 export { ModalShell, modalHeadingStyle, modalFooterStyle } from './components/ModalShell';
 export type { ModalShellProps } from './components/ModalShell';
 export { sectionLabelStyle } from './styles/sectionLabelStyle';
+export { tagChipStyle } from './styles/tagChipStyle';
 export * from './components/ConfirmDialog';
 export * from './components/StatusDot';
 export * from './components/Table';
@@ -45,7 +45,6 @@ export * from './components/SearchInput';
 export * from './components/SegmentedControl';
 export * from './components/AlertBanner';
 export * from './components/TopBar';
-export * from './components/PillSelect';
 
 // Layout & Container primitives
 export * from './components/Surface';

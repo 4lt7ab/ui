@@ -4,9 +4,11 @@ import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
 
 const props: PropMeta[] = [
   { name: 'segments', type: 'Segment[]', required: true, description: 'Array of segment definitions. Each has value (unique key), label (display text), and optional icon.' },
-  { name: 'value', type: 'string', required: true, description: 'Currently selected segment value.' },
-  { name: 'onChange', type: '(value: string) => void', required: true, description: 'Called when the user selects a segment.' },
+  { name: 'value', type: 'string', description: 'Controlled selected segment value. Omit for uncontrolled mode.' },
+  { name: 'defaultValue', type: 'string', description: 'Uncontrolled initial value. Defaults to the first segment.' },
+  { name: 'onChange', type: '(value: string) => void', description: 'Called when the user selects a segment. Fires in both controlled and uncontrolled mode.' },
   { name: 'size', type: "'sm' | 'md'", default: "'md'", description: 'Control size. Affects height, padding, and font size.' },
+  { name: 'aria-label', type: 'string', description: 'Accessible label for the toggle group.' },
 ];
 
 export function SegmentedControlDemo(): React.JSX.Element {
@@ -57,7 +59,7 @@ export function SegmentedControlDemo(): React.JSX.Element {
         </Stack>
       </PropDemo>
 
-      <PropDemo name="value / onChange" description="Controlled component. The value prop sets the active segment, and onChange fires with the new value when the user clicks a segment.">
+      <PropDemo name="Controlled (value + onChange)" description="Parent owns the value; onChange fires with the new value when the user clicks a segment.">
         <Stack gap="sm">
           <SegmentedControl
             segments={[
@@ -67,11 +69,24 @@ export function SegmentedControlDemo(): React.JSX.Element {
             ]}
             value={view}
             onChange={setView}
+            aria-label="View mode"
           />
           <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
             Selected: {view}
           </span>
         </Stack>
+      </PropDemo>
+
+      <PropDemo name="Uncontrolled (defaultValue)" description="Omit value and the component manages its own state. defaultValue seeds the initial selection; onChange still fires on every pick.">
+        <SegmentedControl
+          segments={[
+            { value: 'day', label: 'Day' },
+            { value: 'week', label: 'Week' },
+            { value: 'month', label: 'Month' },
+          ]}
+          defaultValue="week"
+          aria-label="Time range"
+        />
       </PropDemo>
 
       <PropDemo name="size" description="Controls the height, padding, and font size of the control. sm is 28px tall, md is 32px.">

@@ -14,7 +14,6 @@ import { ProgressBarDemo } from './ProgressBarDemo';
 import { EmptyStateDemo } from './EmptyStateDemo';
 import { PaginationDemo } from './PaginationDemo';
 import { HeaderDemo } from './HeaderDemo';
-import { TagChipDemo } from './TagChipDemo';
 import { ExpandableCardDemo } from './ExpandableCardDemo';
 import { ModalDemo } from './ModalDemo';
 import { OverlayDemo } from './OverlayDemo';
@@ -44,7 +43,6 @@ import { SearchInputDemo } from './SearchInputDemo';
 import { SegmentedControlDemo } from './SegmentedControlDemo';
 import { AlertBannerDemo } from './AlertBannerDemo';
 import { TopBarDemo } from './TopBarDemo';
-import { PillSelectDemo } from './PillSelectDemo';
 import { TextSectionDemo } from './TextSectionDemo';
 import { SurfaceDemo } from './SurfaceDemo';
 import { GridDemo } from './GridDemo';
@@ -82,7 +80,6 @@ export const demos: DemoEntry[] = [
   { name: 'Icon', category: 'Action', source: 'ui', component: IconDemo },
   { name: 'IconButton', category: 'Action', source: 'ui', component: IconButtonDemo },
   { name: 'IconFont', category: 'Action', source: 'ui', component: IconFontDemo },
-  { name: 'TagChip', category: 'Action', source: 'ui', component: TagChipDemo },
   { name: 'TopBar', category: 'Navigation', source: 'ui', component: TopBarDemo },
   { name: 'Pagination', category: 'Navigation', source: 'ui', component: PaginationDemo },
 
@@ -109,7 +106,6 @@ export const demos: DemoEntry[] = [
   { name: 'Combobox', category: 'Form', source: 'ui', component: ComboboxDemo },
   { name: 'ChipPicker', category: 'Form', source: 'ui', component: ChipPickerDemo },
   { name: 'SearchInput', category: 'Form', source: 'ui', component: SearchInputDemo },
-  { name: 'PillSelect', category: 'Form', source: 'ui', component: PillSelectDemo },
 
   // Molecules
   { name: 'TabStrip', category: 'Navigation', source: 'ui', component: TabStripDemo },
@@ -136,7 +132,7 @@ export {
   ButtonDemo, StackDemo, CardDemo, FieldDemo, InputDemo,
   TextareaDemo, SelectDemo, TokensDemo, BadgeDemo, IconDemo,
   IconButtonDemo, SkeletonDemo, ProgressBarDemo, EmptyStateDemo,
-  PaginationDemo, HeaderDemo, TagChipDemo, ExpandableCardDemo,
+  PaginationDemo, HeaderDemo, ExpandableCardDemo,
   ModalDemo, OverlayDemo, ConfirmDialogDemo, ContainerDemo,
   ProseDemo, MarkdownDemo, ThinkingCycleDemo, LinkCardDemo, TableDemo,
   StatusDotDemo, ThemePickerDemo, EpigraphDemo, PullQuoteDemo,
@@ -152,7 +148,6 @@ export {
   AlertBannerDemo,
   ModalShellFormPatternDemo,
   TopBarDemo,
-  PillSelectDemo,
   TextSectionDemo,
   SurfaceDemo,
   GridDemo,
