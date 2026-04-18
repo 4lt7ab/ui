@@ -131,6 +131,7 @@ packages/
 │       │   ├── Markdown/
 │       │   ├── Prose/
 │       │   ├── PullQuote/
+│       │   ├── Quote/
 │       │   ├── SideNote/
 │       │   ├── TextSection/
 │       │   └── ThinkingCycle/

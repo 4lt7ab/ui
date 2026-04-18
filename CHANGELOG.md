@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Merge `PullQuote` + `Epigraph` in `@4lt7ab/content` into a single `Quote` component — `Quote` takes `variant?: 'pull' | 'epigraph'` (default `'pull'`) and optional `cite?: ReactNode` rendered as a `<footer>`. `'pull'` renders a `<blockquote data-pull-quote>` that Prose CSS styles (still requires a `<Prose>` wrapper, same as before); `'epigraph'` injects its own stylesheet and renders a `<blockquote className="alttab-epigraph">` that works standalone. `cite` is available on both variants (previously only on `Epigraph`). `PullQuote` and `Epigraph` are kept as deprecated backward-compatibility aliases for `<Quote variant="pull">` and `<Quote variant="epigraph">` so existing imports keep resolving; new call sites should use `<Quote variant="…">` directly. Part of the v0.4.0 merge group — see upgrade guide `01KPE1JZ93VM9QDK2QFM88GWBK` (upgrade-guide section populated by a follow-up task in this group)
 - Merge `MarginNote` + `SideNote` in `@4lt7ab/content` into a single component — `MarginNote` now takes `side?: 'left' | 'right'` (default `'left'`) and renders a `<small data-margin-note data-side>` that Prose CSS branches on. `SideNote` is kept as a deprecated backward-compatibility alias for `<MarginNote side="right">` so existing imports keep resolving; new call sites should use `<MarginNote side="right">` directly. Part of the v0.4.0 merge group — see upgrade guide `01KPE1JZ93VM9QDK2QFM88GWBK` (upgrade-guide section populated by a follow-up task in this group)
 
 ## v0.2.33

@@ -73,17 +73,53 @@ interface MarkdownProps {
 */
 declare function Markdown({ children, id, "data-testid": dataTestId }: MarkdownProps): React.JSX.Element;
 import { ReactNode as ReactNode3 } from "react";
-interface PullQuoteProps {
+type QuoteVariant = "pull" | "epigraph";
+interface QuoteProps {
+	/** The quote text. Rendered in serif italic. */
 	children: ReactNode3;
+	/**
+	* Visual treatment.
+	* - `'pull'` (default) — in-flow pull quote with horizontal rules. Must be
+	*   placed inside `<Prose>` for styling; Prose owns the CSS and targets
+	*   `[data-pull-quote]`.
+	* - `'epigraph'` — large standalone blockquote with its own injected styles;
+	*   works both inside and outside `<Prose>`.
+	* @default 'pull'
+	*/
+	variant?: QuoteVariant;
+	/** Attribution line (author, source). Rendered in a `<footer>` below the quote. */
+	cite?: ReactNode3;
 }
 /**
-* Centered pull quote with serif italic text and horizontal rules.
-* Must be used inside <Prose> for styling.
+* Serif-italic blockquote with two visual treatments selected via `variant`:
+*
+* - `'pull'` — centered in-flow pull quote framed by horizontal rules. Requires
+*   a `<Prose>` wrapper for styling (Prose owns the CSS and targets the
+*   `[data-pull-quote]` attribute).
+* - `'epigraph'` — larger, standalone blockquote that injects its own styles
+*   and works both inside and outside `<Prose>`. Good for opening quotes,
+*   page epigraphs, or hero-level callouts.
+*
+* The optional `cite` prop renders as a `<footer>` below the quote and is
+* harmless on either variant.
+*/
+declare const Quote: React.ForwardRefExoticComponent<Omit<QuoteProps, "ref"> & React.RefAttributes<HTMLQuoteElement>>;
+import { ReactNode as ReactNode4 } from "react";
+interface PullQuoteProps {
+	children: ReactNode4;
+}
+/**
+* @deprecated Use `<Quote variant="pull">` instead. `PullQuote` is a
+* backward-compatibility alias for `<Quote variant="pull">` and will be
+* removed in a future major release.
+*
+* Centered pull quote with serif italic text and horizontal rules. Must be
+* used inside `<Prose>` for styling.
 */
 declare const PullQuote: React.ForwardRefExoticComponent<Omit<PullQuoteProps, "ref"> & React.RefAttributes<HTMLQuoteElement>>;
-import { ReactNode as ReactNode4 } from "react";
+import { ReactNode as ReactNode5 } from "react";
 interface MarginNoteProps {
-	children: ReactNode4;
+	children: ReactNode5;
 	/**
 	* Which margin the note floats into on wide screens (>=BREAKPOINT_MARGIN_NOTES).
 	* On narrow screens the note is always inline and the `side` only affects
@@ -98,9 +134,9 @@ interface MarginNoteProps {
 * (default) or right. Must be used inside `<Prose>` for styling and positioning.
 */
 declare const MarginNote: React.ForwardRefExoticComponent<Omit<MarginNoteProps, "ref"> & React.RefAttributes<HTMLElement>>;
-import { ReactNode as ReactNode5 } from "react";
+import { ReactNode as ReactNode6 } from "react";
 interface SideNoteProps {
-	children: ReactNode5;
+	children: ReactNode6;
 }
 /**
 * @deprecated Use `<MarginNote side="right">` instead. `SideNote` is a
@@ -108,25 +144,29 @@ interface SideNoteProps {
 * removed in a future major release.
 */
 declare const SideNote: React.ForwardRefExoticComponent<Omit<SideNoteProps, "ref"> & React.RefAttributes<HTMLElement>>;
-import { ReactNode as ReactNode6 } from "react";
+import { ReactNode as ReactNode7 } from "react";
 interface EpigraphProps {
 	/** The quote text. */
-	children: ReactNode6;
+	children: ReactNode7;
 	/** Attribution line (author, source). */
-	cite?: ReactNode6;
+	cite?: ReactNode7;
 }
 /**
-* Large centered blockquote — serif italic with horizontal rules.
-* Good for opening quotes, page epigraphs, or hero-level callouts.
-* Works both inside and outside <Prose>.
+* @deprecated Use `<Quote variant="epigraph">` instead. `Epigraph` is a
+* backward-compatibility alias for `<Quote variant="epigraph">` and will be
+* removed in a future major release.
+*
+* Large centered blockquote — serif italic with horizontal rules. Good for
+* opening quotes, page epigraphs, or hero-level callouts. Works both inside
+* and outside `<Prose>`.
 */
 declare const Epigraph: React.ForwardRefExoticComponent<Omit<EpigraphProps, "ref"> & React.RefAttributes<HTMLQuoteElement>>;
-import { ReactNode as ReactNode7 } from "react";
+import { ReactNode as ReactNode8 } from "react";
 interface LinkCardProps {
 	/** Card title — rendered in serif. */
-	title: ReactNode7;
+	title: ReactNode8;
 	/** Optional description — rendered smaller in muted text. */
-	description?: ReactNode7;
+	description?: ReactNode8;
 	/** Whether link opens in a new tab. */
 	external?: boolean;
 	href?: string;
@@ -192,4 +232,4 @@ interface ThinkingCycleProps {
 * Usage: Building with AI tools is <ThinkingCycle words={['powerful', 'wild']} />.
 */
 declare const ThinkingCycle: React.ForwardRefExoticComponent<Omit<ThinkingCycleProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
-export { ThinkingCycleProps, ThinkingCycle, TextSectionProps, TextSection, SideNoteProps, SideNote, PullQuoteProps, PullQuote, ProseProps, Prose, PROSE_H2_SIZE, PROSE_H1_SIZE, PROSE_CODE_SIZE, PROSE_BODY_SIZE, PROSE_BLOCKQUOTE_SIZE, MarkdownProps, Markdown, MarginNoteProps, MarginNote, MIX_SUBTLE, MIX_HOVER, MIX_BADGE, LinkCardProps, LinkCard, EpigraphProps, Epigraph, ContainerWidth, ContainerProps, ContainerPadding, Container, BREAKPOINT_WIDE, BREAKPOINT_PROSE, BREAKPOINT_MARGIN_NOTES };
+export { ThinkingCycleProps, ThinkingCycle, TextSectionProps, TextSection, SideNoteProps, SideNote, QuoteVariant, QuoteProps, Quote, PullQuoteProps, PullQuote, ProseProps, Prose, PROSE_H2_SIZE, PROSE_H1_SIZE, PROSE_CODE_SIZE, PROSE_BODY_SIZE, PROSE_BLOCKQUOTE_SIZE, MarkdownProps, Markdown, MarginNoteProps, MarginNote, MIX_SUBTLE, MIX_HOVER, MIX_BADGE, LinkCardProps, LinkCard, EpigraphProps, Epigraph, ContainerWidth, ContainerProps, ContainerPadding, Container, BREAKPOINT_WIDE, BREAKPOINT_PROSE, BREAKPOINT_MARGIN_NOTES };

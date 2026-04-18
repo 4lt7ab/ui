@@ -96,19 +96,31 @@ Extends `HTMLAttributes<HTMLDivElement>` (all props passed through to Prose).
 
 Peer dependencies: `react-markdown` ^9.0.0, `remark-gfm` ^4.0.0.
 
-### PullQuote
+### Quote
 
-Centered, serif pull quote for highlighting key takeaways.
+Serif-italic blockquote with two visual treatments selected via `variant`. Replaces the separate `PullQuote` and `Epigraph` components (both still exported as deprecated aliases for backward compatibility).
 
 ```tsx
-<PullQuote>
-  Design tokens bridge the gap between design and engineering.
-</PullQuote>
+// Pull quote — requires a <Prose> wrapper for styling
+<Prose>
+  <Quote>Design tokens bridge the gap between design and engineering.</Quote>
+</Prose>
+
+// Epigraph — standalone, works inside or outside <Prose>
+<Quote variant="epigraph" cite="Dieter Rams">
+  Less, but better.
+</Quote>
 ```
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `children` | `ReactNode` | *required* | Quote text |
+| `variant` | `'pull' \| 'epigraph'` | `'pull'` | `'pull'` — in-flow pull quote framed by horizontal rules (requires `<Prose>`). `'epigraph'` — larger standalone blockquote with its own injected styles. |
+| `cite` | `ReactNode` | — | Optional attribution (author, source). Rendered as a `<footer>` below the quote. Works on both variants. |
+
+### PullQuote (deprecated)
+
+Backward-compatibility alias for `<Quote variant="pull">`. Prefer `Quote` for new call sites.
 
 ### MarginNote
 
@@ -144,20 +156,9 @@ Inline annotation that appears in the right margin on wide screens (≥1100px). 
 |------|------|---------|-------------|
 | `children` | `ReactNode` | *required* | Annotation content |
 
-### Epigraph
+### Epigraph (deprecated)
 
-Opening quote with optional attribution. Typically placed before the main content.
-
-```tsx
-<Epigraph cite="Gustave Flaubert">
-  The art of writing is the art of discovering what you believe.
-</Epigraph>
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | *required* | Quote text |
-| `cite` | `ReactNode` | — | Attribution (author, source) |
+Backward-compatibility alias for `<Quote variant="epigraph">`. Prefer `Quote` for new call sites.
 
 ### LinkCard
 

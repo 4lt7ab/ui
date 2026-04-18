@@ -7,6 +7,7 @@ export * from './components/Container';
 // Prose & Content
 export * from './components/Prose';
 export * from './components/Markdown';
+export * from './components/Quote';
 export * from './components/PullQuote';
 export * from './components/MarginNote';
 export * from './components/SideNote';
