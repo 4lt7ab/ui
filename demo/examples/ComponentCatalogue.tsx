@@ -30,7 +30,7 @@ import {
   ConfirmDialogDemo,
   ThemePickerDemo,
   TokensDemo,
-  PageHeaderDemo,
+  HeaderDemo,
 } from '../demos';
 
 interface CatalogueSection {
@@ -112,7 +112,7 @@ const sections: CatalogueSection[] = [
   {
     category: 'Navigation',
     components: [
-      { name: 'PageHeader', Demo: PageHeaderDemo },
+      { name: 'Header', Demo: HeaderDemo },
     ],
   },
 ];

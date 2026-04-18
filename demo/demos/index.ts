@@ -13,7 +13,7 @@ import { SkeletonDemo } from './SkeletonDemo';
 import { ProgressBarDemo } from './ProgressBarDemo';
 import { EmptyStateDemo } from './EmptyStateDemo';
 import { PaginationDemo } from './PaginationDemo';
-import { PageHeaderDemo } from './PageHeaderDemo';
+import { HeaderDemo } from './HeaderDemo';
 import { TagChipDemo } from './TagChipDemo';
 import { ExpandableCardDemo } from './ExpandableCardDemo';
 import { ModalDemo } from './ModalDemo';
@@ -50,7 +50,6 @@ import { SurfaceDemo } from './SurfaceDemo';
 import { GridDemo } from './GridDemo';
 import { DividerDemo } from './DividerDemo';
 import { TabStripDemo } from './TabStripDemo';
-import { SectionHeaderDemo } from './SectionHeaderDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -73,7 +72,7 @@ export const demos: DemoEntry[] = [
   { name: 'Stack', category: 'Layout', source: 'ui', component: StackDemo },
   { name: 'Card', category: 'Layout', source: 'ui', component: CardDemo },
   { name: 'ExpandableCard', category: 'Layout', source: 'ui', component: ExpandableCardDemo },
-  { name: 'PageHeader', category: 'Layout', source: 'ui', component: PageHeaderDemo },
+  { name: 'Header', category: 'Layout', source: 'ui', component: HeaderDemo },
   { name: 'Table', category: 'Layout', source: 'ui', component: TableDemo },
   { name: 'TableFilters', category: 'Layout', source: 'ui', component: TableFiltersDemo },
   { name: 'Skeleton', category: 'Layout', source: 'ui', component: SkeletonDemo },
@@ -114,7 +113,6 @@ export const demos: DemoEntry[] = [
 
   // Molecules
   { name: 'TabStrip', category: 'Navigation', source: 'ui', component: TabStripDemo },
-  { name: 'SectionHeader', category: 'Layout', source: 'ui', component: SectionHeaderDemo },
 
   // Action (additional)
   { name: 'SegmentedControl', category: 'Action', source: 'ui', component: SegmentedControlDemo },
@@ -138,7 +136,7 @@ export {
   ButtonDemo, StackDemo, CardDemo, FieldDemo, InputDemo,
   TextareaDemo, SelectDemo, TokensDemo, BadgeDemo, IconDemo,
   IconButtonDemo, SkeletonDemo, ProgressBarDemo, EmptyStateDemo,
-  PaginationDemo, PageHeaderDemo, TagChipDemo, ExpandableCardDemo,
+  PaginationDemo, HeaderDemo, TagChipDemo, ExpandableCardDemo,
   ModalDemo, OverlayDemo, ConfirmDialogDemo, ContainerDemo,
   ProseDemo, MarkdownDemo, ThinkingCycleDemo, LinkCardDemo, TableDemo,
   StatusDotDemo, ThemePickerDemo, EpigraphDemo, PullQuoteDemo,
@@ -160,5 +158,4 @@ export {
   GridDemo,
   DividerDemo,
   TabStripDemo,
-  SectionHeaderDemo,
 };

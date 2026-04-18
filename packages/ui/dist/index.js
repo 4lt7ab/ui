@@ -531,11 +531,11 @@ function CompactView() {
   }, [open, focusedIndex]);
   useEffect2(() => {
     if (open) {
-      const activeIdx = themeList.findIndex((t41) => t41.name === resolved);
+      const activeIdx = themeList.findIndex((t40) => t40.name === resolved);
       setFocusedIndex(activeIdx >= 0 ? activeIdx : 0);
     }
   }, [open]);
-  const currentTheme = themeList.find((t41) => t41.name === resolved);
+  const currentTheme = themeList.find((t40) => t40.name === resolved);
   return /* @__PURE__ */ jsxs2("div", { ref: containerRef, style: { position: "relative" }, onKeyDown: handleKeyDown, children: [
     /* @__PURE__ */ jsxs2(
       "button",
@@ -577,8 +577,8 @@ function CompactView() {
           zIndex: "var(--z-index-sticky)",
           boxShadow: "var(--shadow-md)"
         },
-        children: themeList.map((t41, idx) => {
-          const isActive = resolved === t41.name;
+        children: themeList.map((t40, idx) => {
+          const isActive = resolved === t40.name;
           const isFocused = focusedIndex === idx;
           const classes = [
             "alttab-tp-menu-item",
@@ -588,12 +588,12 @@ function CompactView() {
           return /* @__PURE__ */ jsxs2(
             "button",
             {
-              id: `alttab-tp-item-${t41.name}`,
+              id: `alttab-tp-item-${t40.name}`,
               role: "option",
               "aria-selected": isActive,
               className: classes,
               onClick: () => {
-                setTheme(t41.name);
+                setTheme(t40.name);
                 setOpen(false);
                 triggerRef.current?.focus();
               },
@@ -606,10 +606,10 @@ function CompactView() {
                   background: isActive ? "var(--color-action-primary)" : "var(--color-text-muted)",
                   flexShrink: 0
                 } }),
-                t41.label
+                t40.label
               ]
             },
-            t41.name
+            t40.name
           );
         })
       }
@@ -2068,30 +2068,27 @@ var Pagination = forwardRef16(
   }
 );
 
-// src/components/PageHeader/PageHeader.tsx
-import { createElement, forwardRef as forwardRef17 } from "react";
+// src/components/Header/Header.tsx
+import { forwardRef as forwardRef17 } from "react";
 import { semantic as t15 } from "../../core/dist/index.js";
 import { jsx as jsx18, jsxs as jsxs9 } from "react/jsx-runtime";
-var PageHeader = forwardRef17(
-  function PageHeader2({
-    title,
-    subtitle,
-    indicator,
-    trailing,
-    level = 2
-  }, ref) {
-    const heading = createElement(
-      `h${level}`,
-      {
-        style: {
-          margin: 0,
-          fontFamily: t15.fontSans,
-          fontWeight: t15.fontWeightBold,
-          color: t15.colorText
-        }
-      },
-      title
-    );
+var Header = forwardRef17(
+  function Header2({ title, level = "section", subtitle, indicator, trailing }, ref) {
+    const isPage = level === "page";
+    const Tag = isPage ? "h1" : "h2";
+    const titleStyle2 = isPage ? {
+      margin: 0,
+      fontFamily: t15.fontSans,
+      fontWeight: t15.fontWeightBold,
+      color: t15.colorText
+    } : {
+      margin: 0,
+      fontFamily: t15.fontSans,
+      fontWeight: t15.fontWeightSemibold,
+      fontSize: t15.fontSizeBase,
+      lineHeight: t15.lineHeightTight,
+      color: t15.colorText
+    };
     return /* @__PURE__ */ jsxs9(
       "div",
       {
@@ -2099,26 +2096,18 @@ var PageHeader = forwardRef17(
         style: {
           display: "flex",
           justifyContent: "space-between",
-          alignItems: "flex-end"
+          alignItems: isPage ? "flex-end" : "center",
+          gap: t15.spaceMd
         },
         children: [
-          /* @__PURE__ */ jsxs9("div", { children: [
+          /* @__PURE__ */ jsxs9("div", { style: { minWidth: 0 }, children: [
             /* @__PURE__ */ jsxs9("div", { style: { display: "flex", alignItems: "center", gap: t15.spaceSm }, children: [
-              heading,
+              /* @__PURE__ */ jsx18(Tag, { style: titleStyle2, children: title }),
               indicator
             ] }),
-            subtitle && /* @__PURE__ */ jsx18(
-              "span",
-              {
-                style: {
-                  color: t15.colorTextMuted,
-                  fontSize: t15.fontSizeSm
-                },
-                children: subtitle
-              }
-            )
+            subtitle && /* @__PURE__ */ jsx18("span", { style: { color: t15.colorTextMuted, fontSize: t15.fontSizeSm, fontFamily: t15.fontSans }, children: subtitle })
           ] }),
-          trailing && /* @__PURE__ */ jsx18("div", { children: trailing })
+          trailing && /* @__PURE__ */ jsx18("div", { style: { display: "flex", alignItems: "center", gap: t15.spaceSm, flexShrink: 0 }, children: trailing })
         ]
       }
     );
@@ -2699,8 +2688,8 @@ function isSameDay(a, b) {
 function isInRange(date, from, to) {
   const d = stripTime(date).getTime();
   const f = stripTime(from).getTime();
-  const t41 = stripTime(to).getTime();
-  return d >= f && d <= t41;
+  const t40 = stripTime(to).getTime();
+  return d >= f && d <= t40;
 }
 function isDateDisabled(date, minDate, maxDate, disabledDates) {
   const d = stripTime(date).getTime();
@@ -3778,7 +3767,7 @@ function ToastProvider({
 }) {
   const [toasts, setToasts] = useState6([]);
   const dismiss = useCallback6((id) => {
-    setToasts((prev) => prev.filter((t41) => t41.id !== id));
+    setToasts((prev) => prev.filter((t40) => t40.id !== id));
   }, []);
   const showToast = useCallback6(
     (message, typeOrOptions) => {
@@ -4938,7 +4927,7 @@ function PillSelect({
 }
 
 // src/components/Surface/Surface.tsx
-import { createElement as createElement2, forwardRef as forwardRef29 } from "react";
+import { createElement, forwardRef as forwardRef29 } from "react";
 import { semantic as t37 } from "../../core/dist/index.js";
 var levelMap = {
   page: t37.colorSurfacePage,
@@ -4963,7 +4952,7 @@ var Surface = forwardRef29(
   }, ref) {
     const borderValue = border === true ? `${t37.borderWidthDefault} solid ${t37.colorBorder}` : typeof border === "string" ? `${t37.borderWidthDefault} solid ${semanticColorMap[border]}` : void 0;
     const tintBg = tint ? `color-mix(in srgb, ${semanticColorMap[tint]} 10%, transparent)` : void 0;
-    return createElement2(
+    return createElement(
       as,
       {
         ref,
@@ -5167,95 +5156,6 @@ var TabStrip = forwardRef32(
     );
   }
 );
-
-// src/components/SectionHeader/SectionHeader.tsx
-import { forwardRef as forwardRef33 } from "react";
-import { semantic as t40 } from "../../core/dist/index.js";
-import { jsx as jsx42, jsxs as jsxs27 } from "react/jsx-runtime";
-var SectionHeader = forwardRef33(
-  function SectionHeader2({
-    title,
-    icon,
-    indicator,
-    trailing,
-    border = false,
-    spacing,
-    ...rest
-  }, ref) {
-    return /* @__PURE__ */ jsxs27(
-      "div",
-      {
-        ref,
-        id: rest.id,
-        "data-testid": rest["data-testid"],
-        style: {
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap: t40.spaceMd,
-          borderBottom: border ? `${t40.borderWidthDefault} solid ${t40.colorBorder}` : void 0,
-          paddingBottom: border ? t40.spaceMd : void 0,
-          marginBottom: spacing ? spacingMap[spacing] : void 0
-        },
-        children: [
-          /* @__PURE__ */ jsxs27(
-            "div",
-            {
-              style: {
-                display: "flex",
-                alignItems: "center",
-                gap: t40.spaceSm,
-                minWidth: 0
-              },
-              children: [
-                icon && /* @__PURE__ */ jsx42(
-                  "span",
-                  {
-                    className: "material-symbols-outlined",
-                    style: {
-                      fontSize: iconSizeMap.md,
-                      color: t40.colorTextSecondary,
-                      lineHeight: 1
-                    },
-                    "aria-hidden": "true",
-                    children: icon
-                  }
-                ),
-                /* @__PURE__ */ jsx42(
-                  "span",
-                  {
-                    style: {
-                      fontFamily: t40.fontSans,
-                      fontWeight: t40.fontWeightSemibold,
-                      fontSize: t40.fontSizeBase,
-                      color: t40.colorText,
-                      lineHeight: t40.lineHeightTight,
-                      whiteSpace: "nowrap"
-                    },
-                    children: title
-                  }
-                ),
-                indicator
-              ]
-            }
-          ),
-          trailing && /* @__PURE__ */ jsx42(
-            "div",
-            {
-              style: {
-                display: "flex",
-                alignItems: "center",
-                gap: t40.spaceSm,
-                flexShrink: 0
-              },
-              children: trailing
-            }
-          )
-        ]
-      }
-    );
-  }
-);
 export {
   AlertBanner,
   Badge,
@@ -5272,6 +5172,7 @@ export {
   ErrorBoundary,
   Field,
   Grid,
+  Header,
   Icon,
   IconArrowLeft,
   IconArrowRight,
@@ -5303,13 +5204,11 @@ export {
   Input,
   ModalShell,
   Overlay,
-  PageHeader,
   Pagination,
   PillSelect,
   ProgressBar,
   RowSkeleton,
   SearchInput,
-  SectionHeader,
   SegmentedControl,
   Select,
   Skeleton,

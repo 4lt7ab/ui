@@ -516,25 +516,26 @@ Page navigation controls.
 | `onPageChange` | `(page: number) => void` | *required* | Page change handler |
 | `labels` | `PaginationLabels` | — | Custom text for prev/next/page-of |
 
-### PageHeader
+### Header
 
-Page title with optional subtitle and trailing action slot.
+Unified page/section heading. Replaces the retired `PageHeader` and `SectionHeader`.
 
 ```tsx
-<PageHeader
+<Header
+  level="page"
   title="Dashboard"
   subtitle="Overview of your projects"
   trailing={<Button size="sm">New Project</Button>}
-  level={1}
 />
 ```
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `title` | `string` | *required* | Primary heading |
+| `level` | `'page' \| 'section'` | `'section'` | Heading scale. `page` renders h1 in bold; `section` renders a smaller h2 |
 | `subtitle` | `string` | — | Secondary text in muted style |
-| `trailing` | `ReactNode` | — | Right-aligned content (actions) |
-| `level` | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `2` | HTML heading level |
+| `indicator` | `ReactNode` | — | Inline content next to the title (Badge, StatusDot, Icon) |
+| `trailing` | `ReactNode` | — | Right-aligned content (actions, SearchInput) |
 
 ### TagChip
 

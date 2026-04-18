@@ -26,7 +26,7 @@ export * from './components/Skeleton';
 export * from './components/ProgressBar';
 export * from './components/EmptyState';
 export * from './components/Pagination';
-export * from './components/PageHeader';
+export * from './components/Header';
 export * from './components/TagChip';
 export { ModalShell, modalHeadingStyle, modalFooterStyle } from './components/ModalShell';
 export type { ModalShellProps } from './components/ModalShell';
@@ -54,7 +54,6 @@ export * from './components/Divider';
 
 // Molecules
 export * from './components/TabStrip';
-export * from './components/SectionHeader';
 
 // Shared types
 export type {

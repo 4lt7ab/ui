@@ -534,24 +534,28 @@ interface PaginationProps {
 }
 declare const Pagination: React.ForwardRefExoticComponent<Omit<PaginationProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 import { ReactNode as ReactNode10 } from "react";
-/** HTML heading level (h1-h6). */
-type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
-/** A page-level heading with optional subtitle and trailing action slot. */
-interface PageHeaderProps {
+/** Heading scale. `page` is the top-of-page heading; `section` is a sub-section heading. */
+type HeaderLevel = "page" | "section";
+/**
+* A minimal heading with an optional subtitle, inline indicator, and trailing slot.
+* Replaces the retired `PageHeader` and `SectionHeader` components.
+*
+* Border, spacing, and icon presets are intentionally absent — those are
+* layout decisions the consumer expresses via `<Divider>` and `<Stack>`.
+*/
+interface HeaderProps {
 	/** Primary heading text. */
 	title: string;
+	/** Heading scale. @default 'section' */
+	level?: HeaderLevel;
 	/** Secondary text rendered below the title in muted style. */
 	subtitle?: string;
-	/** Inline indicator rendered next to the title (e.g. Badge or StatusDot). */
+	/** Inline content rendered next to the title (e.g. Badge, StatusDot, Icon). */
 	indicator?: ReactNode10;
-	/** Content aligned to the right of the header (e.g. action buttons). */
+	/** Content aligned to the right end of the header (e.g. action buttons, SearchInput). */
 	trailing?: ReactNode10;
-	/** HTML heading level (1-6).
-	* @default 2
-	*/
-	level?: HeadingLevel;
 }
-declare const PageHeader: React.ForwardRefExoticComponent<Omit<PageHeaderProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
+declare const Header: React.ForwardRefExoticComponent<Omit<HeaderProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /** A small pill-shaped tag with an optional remove button. */
 interface TagChipProps {
 	/** Tag display text. */
@@ -1327,48 +1331,4 @@ interface TabStripProps extends BaseComponentProps {
 	size?: "sm" | "md";
 }
 declare const TabStrip: React.ForwardRefExoticComponent<Omit<TabStripProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode20 } from "react";
-/**
-* A section heading bar with icon, title, indicator slot, and trailing actions.
-*
-* Used at the top of page sections to label a group of content. More
-* slot-oriented than PageHeader — designed for sub-sections within a page.
-*
-* @example
-* ```tsx
-* <SectionHeader
-*   icon="task_alt"
-*   title="Tasks"
-*   indicator={<Badge variant="info">12</Badge>}
-*   trailing={<SearchInput onSearch={setQuery} />}
-*   border
-* />
-* ```
-*/
-interface SectionHeaderProps extends BaseComponentProps {
-	/** Section title text. */
-	title: string;
-	/** Icon name rendered before the title. */
-	icon?: IconName | (string & {});
-	/**
-	* Content rendered inline after the title.
-	* Typically a Badge with a count or a StatusDot.
-	*/
-	indicator?: ReactNode20;
-	/**
-	* Content aligned to the right end of the header.
-	* Typically SearchInput, action buttons, or filter controls.
-	*/
-	trailing?: ReactNode20;
-	/**
-	* Show a bottom border.
-	* @default false
-	*/
-	border?: boolean;
-	/**
-	* Vertical spacing below the header (margin-bottom).
-	*/
-	spacing?: SpacingToken;
-}
-declare const SectionHeader: React.ForwardRefExoticComponent<Omit<SectionHeaderProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-export { useToast, useFocusTrap, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarProps, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectProps, SelectOption, SelectFilterConfig, Select, SegmentedControlProps, SegmentedControl, Segment, SectionHeaderProps, SectionHeader, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PillSelectProps, PillSelectOption, PillSelect, PaginationProps, PaginationLabels, Pagination, PageHeaderProps, PageHeader, OverlayProps, Overlay, NavItem, ModalWidth, ModalShellProps, ModalShell, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeadingLevel, GridProps, Grid, FilterConfig, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxProps, ComboboxOption, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };
+export { useToast, useFocusTrap, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarProps, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TagChipProps, TagChip, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectProps, SelectOption, SelectFilterConfig, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PillSelectProps, PillSelectOption, PillSelect, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, NavItem, ModalWidth, ModalShellProps, ModalShell, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxProps, ComboboxOption, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };

@@ -46,6 +46,7 @@ __export(index_exports, {
   ErrorBoundary: () => ErrorBoundary,
   Field: () => Field,
   Grid: () => Grid,
+  Header: () => Header,
   Icon: () => Icon,
   IconArrowLeft: () => IconArrowLeft,
   IconArrowRight: () => IconArrowRight,
@@ -77,13 +78,11 @@ __export(index_exports, {
   Input: () => Input,
   ModalShell: () => ModalShell,
   Overlay: () => Overlay,
-  PageHeader: () => PageHeader,
   Pagination: () => Pagination,
   PillSelect: () => PillSelect,
   ProgressBar: () => ProgressBar,
   RowSkeleton: () => RowSkeleton,
   SearchInput: () => SearchInput,
-  SectionHeader: () => SectionHeader,
   SegmentedControl: () => SegmentedControl,
   Select: () => Select,
   Skeleton: () => Skeleton,
@@ -657,11 +656,11 @@ function CompactView() {
   }, [open, focusedIndex]);
   (0, import_react3.useEffect)(() => {
     if (open) {
-      const activeIdx = themeList.findIndex((t41) => t41.name === resolved);
+      const activeIdx = themeList.findIndex((t40) => t40.name === resolved);
       setFocusedIndex(activeIdx >= 0 ? activeIdx : 0);
     }
   }, [open]);
-  const currentTheme = themeList.find((t41) => t41.name === resolved);
+  const currentTheme = themeList.find((t40) => t40.name === resolved);
   return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { ref: containerRef, style: { position: "relative" }, onKeyDown: handleKeyDown, children: [
     /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
       "button",
@@ -703,8 +702,8 @@ function CompactView() {
           zIndex: "var(--z-index-sticky)",
           boxShadow: "var(--shadow-md)"
         },
-        children: themeList.map((t41, idx) => {
-          const isActive = resolved === t41.name;
+        children: themeList.map((t40, idx) => {
+          const isActive = resolved === t40.name;
           const isFocused = focusedIndex === idx;
           const classes = [
             "alttab-tp-menu-item",
@@ -714,12 +713,12 @@ function CompactView() {
           return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
             "button",
             {
-              id: `alttab-tp-item-${t41.name}`,
+              id: `alttab-tp-item-${t40.name}`,
               role: "option",
               "aria-selected": isActive,
               className: classes,
               onClick: () => {
-                setTheme(t41.name);
+                setTheme(t40.name);
                 setOpen(false);
                 triggerRef.current?.focus();
               },
@@ -732,10 +731,10 @@ function CompactView() {
                   background: isActive ? "var(--color-action-primary)" : "var(--color-text-muted)",
                   flexShrink: 0
                 } }),
-                t41.label
+                t40.label
               ]
             },
-            t41.name
+            t40.name
           );
         })
       }
@@ -2194,30 +2193,27 @@ var Pagination = (0, import_react17.forwardRef)(
   }
 );
 
-// src/components/PageHeader/PageHeader.tsx
+// src/components/Header/Header.tsx
 var import_react18 = require("react");
 var import_core17 = require("../../core/dist/index.cjs");
 var import_jsx_runtime18 = require("react/jsx-runtime");
-var PageHeader = (0, import_react18.forwardRef)(
-  function PageHeader2({
-    title,
-    subtitle,
-    indicator,
-    trailing,
-    level = 2
-  }, ref) {
-    const heading = (0, import_react18.createElement)(
-      `h${level}`,
-      {
-        style: {
-          margin: 0,
-          fontFamily: import_core17.semantic.fontSans,
-          fontWeight: import_core17.semantic.fontWeightBold,
-          color: import_core17.semantic.colorText
-        }
-      },
-      title
-    );
+var Header = (0, import_react18.forwardRef)(
+  function Header2({ title, level = "section", subtitle, indicator, trailing }, ref) {
+    const isPage = level === "page";
+    const Tag = isPage ? "h1" : "h2";
+    const titleStyle2 = isPage ? {
+      margin: 0,
+      fontFamily: import_core17.semantic.fontSans,
+      fontWeight: import_core17.semantic.fontWeightBold,
+      color: import_core17.semantic.colorText
+    } : {
+      margin: 0,
+      fontFamily: import_core17.semantic.fontSans,
+      fontWeight: import_core17.semantic.fontWeightSemibold,
+      fontSize: import_core17.semantic.fontSizeBase,
+      lineHeight: import_core17.semantic.lineHeightTight,
+      color: import_core17.semantic.colorText
+    };
     return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(
       "div",
       {
@@ -2225,26 +2221,18 @@ var PageHeader = (0, import_react18.forwardRef)(
         style: {
           display: "flex",
           justifyContent: "space-between",
-          alignItems: "flex-end"
+          alignItems: isPage ? "flex-end" : "center",
+          gap: import_core17.semantic.spaceMd
         },
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { style: { minWidth: 0 }, children: [
             /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: import_core17.semantic.spaceSm }, children: [
-              heading,
+              /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Tag, { style: titleStyle2, children: title }),
               indicator
             ] }),
-            subtitle && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
-              "span",
-              {
-                style: {
-                  color: import_core17.semantic.colorTextMuted,
-                  fontSize: import_core17.semantic.fontSizeSm
-                },
-                children: subtitle
-              }
-            )
+            subtitle && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { style: { color: import_core17.semantic.colorTextMuted, fontSize: import_core17.semantic.fontSizeSm, fontFamily: import_core17.semantic.fontSans }, children: subtitle })
           ] }),
-          trailing && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { children: trailing })
+          trailing && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { style: { display: "flex", alignItems: "center", gap: import_core17.semantic.spaceSm, flexShrink: 0 }, children: trailing })
         ]
       }
     );
@@ -2825,8 +2813,8 @@ function isSameDay(a, b) {
 function isInRange(date, from, to) {
   const d = stripTime(date).getTime();
   const f = stripTime(from).getTime();
-  const t41 = stripTime(to).getTime();
-  return d >= f && d <= t41;
+  const t40 = stripTime(to).getTime();
+  return d >= f && d <= t40;
 }
 function isDateDisabled(date, minDate, maxDate, disabledDates) {
   const d = stripTime(date).getTime();
@@ -3897,7 +3885,7 @@ function ToastProvider({
 }) {
   const [toasts, setToasts] = (0, import_react28.useState)([]);
   const dismiss = (0, import_react28.useCallback)((id) => {
-    setToasts((prev) => prev.filter((t41) => t41.id !== id));
+    setToasts((prev) => prev.filter((t40) => t40.id !== id));
   }, []);
   const showToast = (0, import_react28.useCallback)(
     (message, typeOrOptions) => {
@@ -5282,95 +5270,6 @@ var TabStrip = (0, import_react40.forwardRef)(
             tab.key
           );
         })
-      }
-    );
-  }
-);
-
-// src/components/SectionHeader/SectionHeader.tsx
-var import_react41 = require("react");
-var import_core43 = require("../../core/dist/index.cjs");
-var import_jsx_runtime42 = require("react/jsx-runtime");
-var SectionHeader = (0, import_react41.forwardRef)(
-  function SectionHeader2({
-    title,
-    icon,
-    indicator,
-    trailing,
-    border = false,
-    spacing,
-    ...rest
-  }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)(
-      "div",
-      {
-        ref,
-        id: rest.id,
-        "data-testid": rest["data-testid"],
-        style: {
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap: import_core43.semantic.spaceMd,
-          borderBottom: border ? `${import_core43.semantic.borderWidthDefault} solid ${import_core43.semantic.colorBorder}` : void 0,
-          paddingBottom: border ? import_core43.semantic.spaceMd : void 0,
-          marginBottom: spacing ? spacingMap[spacing] : void 0
-        },
-        children: [
-          /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)(
-            "div",
-            {
-              style: {
-                display: "flex",
-                alignItems: "center",
-                gap: import_core43.semantic.spaceSm,
-                minWidth: 0
-              },
-              children: [
-                icon && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
-                  "span",
-                  {
-                    className: "material-symbols-outlined",
-                    style: {
-                      fontSize: iconSizeMap.md,
-                      color: import_core43.semantic.colorTextSecondary,
-                      lineHeight: 1
-                    },
-                    "aria-hidden": "true",
-                    children: icon
-                  }
-                ),
-                /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
-                  "span",
-                  {
-                    style: {
-                      fontFamily: import_core43.semantic.fontSans,
-                      fontWeight: import_core43.semantic.fontWeightSemibold,
-                      fontSize: import_core43.semantic.fontSizeBase,
-                      color: import_core43.semantic.colorText,
-                      lineHeight: import_core43.semantic.lineHeightTight,
-                      whiteSpace: "nowrap"
-                    },
-                    children: title
-                  }
-                ),
-                indicator
-              ]
-            }
-          ),
-          trailing && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
-            "div",
-            {
-              style: {
-                display: "flex",
-                alignItems: "center",
-                gap: import_core43.semantic.spaceSm,
-                flexShrink: 0
-              },
-              children: trailing
-            }
-          )
-        ]
       }
     );
   }

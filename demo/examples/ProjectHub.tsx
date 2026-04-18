@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
   Card, Badge, Button, IconButton, Icon,
-  ModalShell, ConfirmDialog, EmptyState, Stack, PageHeader,
+  ModalShell, ConfirmDialog, EmptyState, Stack, Header,
   ProgressBar, TagChip, Pagination, ThemePicker,
   Table, TableHeader, TableHeaderCell, TableBody, TableRow, TableCell,
 } from '@4lt7ab/ui';
@@ -332,7 +332,8 @@ export function ProjectHub(): React.JSX.Element {
         {/* ── Projects ── */}
         {view === 'projects' && (
           <Stack gap="xl">
-            <PageHeader
+            <Header
+              level="page"
               title="Projects"
               subtitle={`${projects.length} project${projects.length !== 1 ? 's' : ''}`}
               trailing={<Button size="sm"><Icon name="plus" size="xs" /> New project</Button>}
@@ -366,7 +367,7 @@ export function ProjectHub(): React.JSX.Element {
         {/* ── Archived ── */}
         {view === 'archived' && (
           <Stack gap="xl">
-            <PageHeader title="Archived" subtitle="Completed and archived projects" />
+            <Header level="page" title="Archived" subtitle="Completed and archived projects" />
             <EmptyState icon="check-circle" message="No archived projects yet" variant="card" />
           </Stack>
         )}
@@ -374,7 +375,7 @@ export function ProjectHub(): React.JSX.Element {
         {/* ── Settings ── */}
         {view === 'settings' && (
           <Stack gap="xl">
-            <PageHeader title="Settings" subtitle="Workspace configuration" />
+            <Header level="page" title="Settings" subtitle="Workspace configuration" />
 
             <Card>
               <Stack gap="lg">

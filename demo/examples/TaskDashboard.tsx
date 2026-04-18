@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  PageHeader, Card, Badge, ProgressBar,
+  Header, Card, Badge, ProgressBar,
   Stack, Button, EmptyState, Skeleton,
 } from '@4lt7ab/ui';
 import { DisclosureCard } from '../components/DisclosureCard';
@@ -18,7 +18,8 @@ export function TaskDashboard(): React.JSX.Element {
   return (
     <div style={{ maxWidth: 700 }}>
     <Stack gap="xl">
-      <PageHeader
+      <Header
+        level="page"
         title="Sprint 14"
         subtitle="Apr 7 – Apr 18"
         trailing={<Button size="sm">New task</Button>}

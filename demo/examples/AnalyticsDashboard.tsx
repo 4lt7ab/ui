@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  PageHeader, Card, Stack, Badge, Button, Select, Field,
+  Header, Card, Stack, Badge, Button, Select, Field,
   ThemePicker, DateRangePicker, Table, TableHeader, TableHeaderCell,
   TableBody, TableRow, TableCell, ProgressBar, StatusDot,
 } from '@4lt7ab/ui';
@@ -97,7 +97,8 @@ export function AnalyticsDashboard(): React.JSX.Element {
       {/* Header with controls */}
       <Stack gap="md">
         <Stack direction="horizontal" align="center" justify="space-between" wrap gap="md">
-          <PageHeader
+          <Header
+            level="page"
             title="Analytics"
             subtitle="Traffic and conversion overview"
           />

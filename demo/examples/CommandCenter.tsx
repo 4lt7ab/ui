@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  PageHeader, Card, Stack, Button, Badge, StatusDot, Icon, IconButton,
+  Header, Card, Stack, Button, Badge, StatusDot, Icon, IconButton,
   ProgressBar, Pagination, TagChip, Skeleton, RowSkeleton,
   Table, TableHeader, TableHeaderCell, TableBody, TableRow, TableCell,
 } from '@4lt7ab/ui';
@@ -169,7 +169,8 @@ export function CommandCenter(): React.JSX.Element {
 
   return (
     <Stack gap="xl">
-      <PageHeader
+      <Header
+        level="page"
         title="System Monitor"
         subtitle="All regions \u00B7 Last updated 30s ago"
         trailing={

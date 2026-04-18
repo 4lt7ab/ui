@@ -7,7 +7,7 @@ import {
   TagChipDemo, BadgeDemo, StatusDotDemo, TableDemo, PaginationDemo,
   ProgressBarDemo, SkeletonDemo, CardDemo, ExpandableCardDemo,
   EmptyStateDemo, LinkCardDemo, OverlayDemo, ModalDemo,
-  ConfirmDialogDemo, ModalShellFormPatternDemo, ThemePickerDemo, TokensDemo, PageHeaderDemo,
+  ConfirmDialogDemo, ModalShellFormPatternDemo, ThemePickerDemo, TokensDemo, HeaderDemo,
   IconDemo, DateRangePickerDemo, DatePickerDemo,
   ErrorBoundaryDemo, IconFontDemo, ToastDemo,
   ComboboxDemo,
@@ -23,7 +23,6 @@ import {
   GridDemo,
   DividerDemo,
   TabStripDemo,
-  SectionHeaderDemo,
 } from '../demos';
 
 // ---------------------------------------------------------------------------
@@ -58,11 +57,10 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'Card', source: 'ui', Demo: CardDemo },
       { name: 'ExpandableCard', source: 'ui', Demo: ExpandableCardDemo },
       { name: 'TopBar', source: 'ui', Demo: TopBarDemo },
-      { name: 'PageHeader', source: 'ui', Demo: PageHeaderDemo },
+      { name: 'Header', source: 'ui', Demo: HeaderDemo },
       { name: 'Surface', source: 'ui', Demo: SurfaceDemo },
       { name: 'Grid', source: 'ui', Demo: GridDemo },
       { name: 'Divider', source: 'ui', Demo: DividerDemo },
-      { name: 'SectionHeader', source: 'ui', Demo: SectionHeaderDemo },
     ],
   },
   {

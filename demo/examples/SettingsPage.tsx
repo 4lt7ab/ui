@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { PageHeader, Card, Stack, Input, Select, Textarea, Button, Field } from '@4lt7ab/ui';
+import { Header, Card, Stack, Input, Select, Textarea, Button, Field } from '@4lt7ab/ui';
 
 export function SettingsPage(): React.JSX.Element {
   const [name, setName] = useState('Acme Corp');
@@ -10,7 +10,8 @@ export function SettingsPage(): React.JSX.Element {
   return (
     <div style={{ maxWidth: 600 }}>
     <Stack gap="xl">
-      <PageHeader
+      <Header
+        level="page"
         title="Settings"
         subtitle="Manage your workspace preferences"
       />
