@@ -3854,13 +3854,6 @@ var SCOPE2 = "alttab-dp";
 var injectedCSS2 = (
   /* css */
   `
-  .${SCOPE2}-day--enabled:hover {
-    background: ${import_core31.semantic.colorSurfaceRaised} !important;
-  }
-  .${SCOPE2}-day--enabled:focus-visible {
-    outline: ${import_core31.semantic.focusRingWidth} solid ${import_core31.semantic.focusRingColor};
-    outline-offset: ${import_core31.semantic.focusRingOffset};
-  }
   .${SCOPE2}-trigger:focus-visible {
     border-color: ${import_core31.semantic.colorBorderFocused};
     box-shadow: 0 0 0 ${import_core31.semantic.focusRingWidth} ${import_core31.semantic.focusRingColor};
@@ -3921,7 +3914,8 @@ var headerRowStyle2 = {
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: `${import_core31.semantic.spaceXs} 0`
+  padding: `${import_core31.semantic.spaceXs} 0`,
+  marginBottom: import_core31.semantic.spaceSm
 };
 var DatePicker = (0, import_react27.forwardRef)(
   function DatePicker2({
@@ -3937,24 +3931,6 @@ var DatePicker = (0, import_react27.forwardRef)(
     (0, import_core31.useInjectStyles)(SCOPE2, injectedCSS2);
     const [open, setOpen] = (0, import_react27.useState)(false);
     const containerRef = (0, import_react27.useRef)(null);
-    const initialDate = value ?? /* @__PURE__ */ new Date();
-    const [viewDate, setViewDate] = (0, import_react27.useState)(
-      () => new Date(initialDate.getFullYear(), initialDate.getMonth(), 1)
-    );
-    const [focusedDate, setFocusedDate] = (0, import_react27.useState)(value ?? /* @__PURE__ */ new Date());
-    const handleFocusedDateChange = (0, import_react27.useCallback)((date) => {
-      setFocusedDate(date);
-      setViewDate(new Date(date.getFullYear(), date.getMonth(), 1));
-    }, []);
-    (0, import_react27.useEffect)(() => {
-      if (!open) return;
-      const container = containerRef.current;
-      if (!container) return;
-      const btn = container.querySelector(
-        'button[tabindex="0"]'
-      );
-      btn?.focus();
-    }, [focusedDate, open]);
     (0, import_react27.useEffect)(() => {
       if (!open) return;
       function handleMouseDown(e) {
@@ -3967,31 +3943,34 @@ var DatePicker = (0, import_react27.forwardRef)(
     }, [open]);
     (0, import_react27.useEffect)(() => {
       if (!open) return;
-      function handleKey(e) {
-        if (e.key === "Escape") {
-          setOpen(false);
-        }
-      }
-      document.addEventListener("keydown", handleKey);
-      return () => document.removeEventListener("keydown", handleKey);
+      const btn = containerRef.current?.querySelector(
+        '[role="grid"] button[tabindex="0"]'
+      );
+      btn?.focus();
     }, [open]);
     const handleToggle = (0, import_react27.useCallback)(() => {
       if (disabled) return;
-      setOpen((prev) => {
-        if (!prev) {
-          const base = value ?? /* @__PURE__ */ new Date();
-          setViewDate(new Date(base.getFullYear(), base.getMonth(), 1));
-          setFocusedDate(value ?? /* @__PURE__ */ new Date());
+      setOpen((o) => !o);
+    }, [disabled]);
+    const handleSelect = (0, import_react27.useCallback)(
+      (v) => {
+        if (v === void 0) {
+          onChange(void 0);
+        } else if (v instanceof Date) {
+          onChange(v);
         }
-        return !prev;
-      });
-    }, [disabled, value]);
-    const handleDaySelect = (0, import_react27.useCallback)(
-      (date) => {
-        onChange(date);
         setOpen(false);
       },
       [onChange]
+    );
+    const disabledDate = (0, import_react27.useMemo)(() => {
+      if (!disabledDates || disabledDates.length === 0) return void 0;
+      return (d) => disabledDates.some((dd) => isSameDay(dd, d));
+    }, [disabledDates]);
+    const openKey = (0, import_react27.useMemo)(
+      () => open ? `${value?.getTime() ?? "empty"}-${Date.now()}` : "closed",
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [open]
     );
     let displayText;
     if (value) {
@@ -4032,36 +4011,22 @@ var DatePicker = (0, import_react27.forwardRef)(
             {
               mode: "single",
               selected: value,
-              viewDate,
-              onViewDateChange: setViewDate,
-              focusedDate,
-              onFocusedDateChange: setFocusedDate,
+              onSelect: handleSelect,
+              defaultFocusedDate: value ?? /* @__PURE__ */ new Date(),
+              defaultViewDate: value ?? /* @__PURE__ */ new Date(),
               minDate,
               maxDate,
+              disabledDate,
               children: [
                 /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { style: headerRowStyle2, children: [
                   /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Calendar2.Nav, { direction: "prev" }),
                   /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Calendar2.Header, {}),
                   /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Calendar2.Nav, { direction: "next" })
                 ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
-                  CalendarGrid,
-                  {
-                    year: viewDate.getFullYear(),
-                    month: viewDate.getMonth(),
-                    rangeStart: value ?? null,
-                    rangeEnd: null,
-                    minDate,
-                    maxDate,
-                    disabledDates,
-                    scopeClass: SCOPE2,
-                    focusedDate,
-                    onSelect: handleDaySelect,
-                    onFocusedDateChange: handleFocusedDateChange
-                  }
-                )
+                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Calendar2.Grid, { onEscape: () => setOpen(false) })
               ]
-            }
+            },
+            openKey
           ) })
         ]
       }

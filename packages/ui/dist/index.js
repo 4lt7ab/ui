@@ -3730,20 +3730,13 @@ var DateRangePicker = forwardRef21(
 );
 
 // src/components/DatePicker/DatePicker.tsx
-import { forwardRef as forwardRef22, useState as useState6, useRef as useRef8, useCallback as useCallback7, useEffect as useEffect8 } from "react";
+import { forwardRef as forwardRef22, useState as useState6, useRef as useRef8, useCallback as useCallback7, useEffect as useEffect8, useMemo as useMemo4 } from "react";
 import { semantic as t28, useInjectStyles as useInjectStyles11 } from "../../core/dist/index.js";
 import { jsx as jsx31, jsxs as jsxs15 } from "react/jsx-runtime";
 var SCOPE2 = "alttab-dp";
 var injectedCSS2 = (
   /* css */
   `
-  .${SCOPE2}-day--enabled:hover {
-    background: ${t28.colorSurfaceRaised} !important;
-  }
-  .${SCOPE2}-day--enabled:focus-visible {
-    outline: ${t28.focusRingWidth} solid ${t28.focusRingColor};
-    outline-offset: ${t28.focusRingOffset};
-  }
   .${SCOPE2}-trigger:focus-visible {
     border-color: ${t28.colorBorderFocused};
     box-shadow: 0 0 0 ${t28.focusRingWidth} ${t28.focusRingColor};
@@ -3804,7 +3797,8 @@ var headerRowStyle2 = {
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: `${t28.spaceXs} 0`
+  padding: `${t28.spaceXs} 0`,
+  marginBottom: t28.spaceSm
 };
 var DatePicker = forwardRef22(
   function DatePicker2({
@@ -3820,24 +3814,6 @@ var DatePicker = forwardRef22(
     useInjectStyles11(SCOPE2, injectedCSS2);
     const [open, setOpen] = useState6(false);
     const containerRef = useRef8(null);
-    const initialDate = value ?? /* @__PURE__ */ new Date();
-    const [viewDate, setViewDate] = useState6(
-      () => new Date(initialDate.getFullYear(), initialDate.getMonth(), 1)
-    );
-    const [focusedDate, setFocusedDate] = useState6(value ?? /* @__PURE__ */ new Date());
-    const handleFocusedDateChange = useCallback7((date) => {
-      setFocusedDate(date);
-      setViewDate(new Date(date.getFullYear(), date.getMonth(), 1));
-    }, []);
-    useEffect8(() => {
-      if (!open) return;
-      const container = containerRef.current;
-      if (!container) return;
-      const btn = container.querySelector(
-        'button[tabindex="0"]'
-      );
-      btn?.focus();
-    }, [focusedDate, open]);
     useEffect8(() => {
       if (!open) return;
       function handleMouseDown(e) {
@@ -3850,31 +3826,34 @@ var DatePicker = forwardRef22(
     }, [open]);
     useEffect8(() => {
       if (!open) return;
-      function handleKey(e) {
-        if (e.key === "Escape") {
-          setOpen(false);
-        }
-      }
-      document.addEventListener("keydown", handleKey);
-      return () => document.removeEventListener("keydown", handleKey);
+      const btn = containerRef.current?.querySelector(
+        '[role="grid"] button[tabindex="0"]'
+      );
+      btn?.focus();
     }, [open]);
     const handleToggle = useCallback7(() => {
       if (disabled) return;
-      setOpen((prev) => {
-        if (!prev) {
-          const base = value ?? /* @__PURE__ */ new Date();
-          setViewDate(new Date(base.getFullYear(), base.getMonth(), 1));
-          setFocusedDate(value ?? /* @__PURE__ */ new Date());
+      setOpen((o) => !o);
+    }, [disabled]);
+    const handleSelect = useCallback7(
+      (v) => {
+        if (v === void 0) {
+          onChange(void 0);
+        } else if (v instanceof Date) {
+          onChange(v);
         }
-        return !prev;
-      });
-    }, [disabled, value]);
-    const handleDaySelect = useCallback7(
-      (date) => {
-        onChange(date);
         setOpen(false);
       },
       [onChange]
+    );
+    const disabledDate = useMemo4(() => {
+      if (!disabledDates || disabledDates.length === 0) return void 0;
+      return (d) => disabledDates.some((dd) => isSameDay(dd, d));
+    }, [disabledDates]);
+    const openKey = useMemo4(
+      () => open ? `${value?.getTime() ?? "empty"}-${Date.now()}` : "closed",
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [open]
     );
     let displayText;
     if (value) {
@@ -3915,36 +3894,22 @@ var DatePicker = forwardRef22(
             {
               mode: "single",
               selected: value,
-              viewDate,
-              onViewDateChange: setViewDate,
-              focusedDate,
-              onFocusedDateChange: setFocusedDate,
+              onSelect: handleSelect,
+              defaultFocusedDate: value ?? /* @__PURE__ */ new Date(),
+              defaultViewDate: value ?? /* @__PURE__ */ new Date(),
               minDate,
               maxDate,
+              disabledDate,
               children: [
                 /* @__PURE__ */ jsxs15("div", { style: headerRowStyle2, children: [
                   /* @__PURE__ */ jsx31(Calendar2.Nav, { direction: "prev" }),
                   /* @__PURE__ */ jsx31(Calendar2.Header, {}),
                   /* @__PURE__ */ jsx31(Calendar2.Nav, { direction: "next" })
                 ] }),
-                /* @__PURE__ */ jsx31(
-                  CalendarGrid,
-                  {
-                    year: viewDate.getFullYear(),
-                    month: viewDate.getMonth(),
-                    rangeStart: value ?? null,
-                    rangeEnd: null,
-                    minDate,
-                    maxDate,
-                    disabledDates,
-                    scopeClass: SCOPE2,
-                    focusedDate,
-                    onSelect: handleDaySelect,
-                    onFocusedDateChange: handleFocusedDateChange
-                  }
-                )
+                /* @__PURE__ */ jsx31(Calendar2.Grid, { onEscape: () => setOpen(false) })
               ]
-            }
+            },
+            openKey
           ) })
         ]
       }
@@ -4311,7 +4276,7 @@ import {
   useContext as useContext5,
   useEffect as useEffect10,
   useId as useId7,
-  useMemo as useMemo4,
+  useMemo as useMemo5,
   useRef as useRef10,
   useState as useState8
 } from "react";
@@ -4507,7 +4472,7 @@ function Root3({
     [open, openMenu, closeMenu, focusedValue, items, selectItem]
   );
   suppressNextOpenRef.__combobox_shared = true;
-  const ctx = useMemo4(
+  const ctx = useMemo5(
     () => ({
       value,
       setValue,

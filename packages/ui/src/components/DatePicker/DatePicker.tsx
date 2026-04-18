@@ -1,8 +1,8 @@
-import { forwardRef, useState, useRef, useCallback, useEffect } from 'react';
+import { forwardRef, useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
 import { Calendar } from '../Calendar';
-import { CalendarGrid } from '../DateRangePicker/CalendarGrid';
-import { formatDate } from '../DateRangePicker/dateUtils';
+import type { CalendarSelection } from '../Calendar';
+import { formatDate, isSameDay } from '../DateRangePicker/dateUtils';
 
 /** Props for the DatePicker component. */
 export interface DatePickerProps {
@@ -31,13 +31,6 @@ export interface DatePickerProps {
 const SCOPE = 'alttab-dp';
 
 const injectedCSS = /* css */ `
-  .${SCOPE}-day--enabled:hover {
-    background: ${t.colorSurfaceRaised} !important;
-  }
-  .${SCOPE}-day--enabled:focus-visible {
-    outline: ${t.focusRingWidth} solid ${t.focusRingColor};
-    outline-offset: ${t.focusRingOffset};
-  }
   .${SCOPE}-trigger:focus-visible {
     border-color: ${t.colorBorderFocused};
     box-shadow: 0 0 0 ${t.focusRingWidth} ${t.focusRingColor};
@@ -105,8 +98,17 @@ const headerRowStyle: React.CSSProperties = {
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: `${t.spaceXs} 0`,
+  marginBottom: t.spaceSm,
 };
 
+/**
+ * Single-date picker. A thin composition over the compound Calendar.*
+ * primitives: `<Calendar.Root mode="single">` + `<Calendar.Nav>` +
+ * `<Calendar.Header>` + `<Calendar.Grid>`.
+ *
+ * Public prop API unchanged from 0.2.x: `value`, `onChange`, `minDate`,
+ * `maxDate`, `disabledDates`, `placeholder`, `hasError`, `disabled`.
+ */
 export const DatePicker: React.ForwardRefExoticComponent<
   Omit<DatePickerProps, 'ref'> & React.RefAttributes<HTMLDivElement>
 > = forwardRef<HTMLDivElement, DatePickerProps>(
@@ -128,31 +130,6 @@ export const DatePicker: React.ForwardRefExoticComponent<
     const [open, setOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
 
-    // Calendar view state (first-of-month of the currently visible page)
-    const initialDate = value ?? new Date();
-    const [viewDate, setViewDate] = useState<Date>(
-      () => new Date(initialDate.getFullYear(), initialDate.getMonth(), 1),
-    );
-
-    // Focused date for keyboard nav
-    const [focusedDate, setFocusedDate] = useState(value ?? new Date());
-
-    const handleFocusedDateChange = useCallback((date: Date) => {
-      setFocusedDate(date);
-      setViewDate(new Date(date.getFullYear(), date.getMonth(), 1));
-    }, []);
-
-    // Focus the active day button when focused date changes
-    useEffect(() => {
-      if (!open) return;
-      const container = containerRef.current;
-      if (!container) return;
-      const btn = container.querySelector<HTMLButtonElement>(
-        'button[tabindex="0"]',
-      );
-      btn?.focus();
-    }, [focusedDate, open]);
-
     // Click outside to close
     useEffect(() => {
       if (!open) return;
@@ -168,39 +145,45 @@ export const DatePicker: React.ForwardRefExoticComponent<
       return () => document.removeEventListener('mousedown', handleMouseDown);
     }, [open]);
 
-    // Escape to close
+    // Focus the active day when popover opens
     useEffect(() => {
       if (!open) return;
-      function handleKey(e: KeyboardEvent): void {
-        if (e.key === 'Escape') {
-          setOpen(false);
-        }
-      }
-      document.addEventListener('keydown', handleKey);
-      return () => document.removeEventListener('keydown', handleKey);
+      const btn = containerRef.current?.querySelector<HTMLButtonElement>(
+        '[role="grid"] button[tabindex="0"]',
+      );
+      btn?.focus();
     }, [open]);
 
     const handleToggle = useCallback(() => {
       if (disabled) return;
-      setOpen((prev) => {
-        if (!prev) {
-          const base = value ?? new Date();
-          setViewDate(new Date(base.getFullYear(), base.getMonth(), 1));
-          setFocusedDate(value ?? new Date());
-        }
-        return !prev;
-      });
-    }, [disabled, value]);
+      setOpen((o) => !o);
+    }, [disabled]);
 
-    const handleDaySelect = useCallback(
-      (date: Date) => {
-        onChange(date);
+    const handleSelect = useCallback(
+      (v: CalendarSelection) => {
+        if (v === undefined) {
+          onChange(undefined);
+        } else if (v instanceof Date) {
+          onChange(v);
+        }
         setOpen(false);
       },
       [onChange],
     );
 
-    // Display text
+    const disabledDate = useMemo(() => {
+      if (!disabledDates || disabledDates.length === 0) return undefined;
+      return (d: Date) => disabledDates.some((dd) => isSameDay(dd, d));
+    }, [disabledDates]);
+
+    // Each time the popover opens, re-seed Calendar.Root's uncontrolled
+    // focused/view state to today or the current value by keying the Root.
+    const openKey = useMemo(
+      () => (open ? `${value?.getTime() ?? 'empty'}-${Date.now()}` : 'closed'),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [open],
+    );
+
     let displayText: React.ReactNode;
     if (value) {
       displayText = formatDate(value);
@@ -237,33 +220,22 @@ export const DatePicker: React.ForwardRefExoticComponent<
         {open && (
           <div style={popoverStyle} role="dialog" aria-label="Date picker">
             <Calendar.Root
+              key={openKey}
               mode="single"
               selected={value}
-              viewDate={viewDate}
-              onViewDateChange={setViewDate}
-              focusedDate={focusedDate}
-              onFocusedDateChange={setFocusedDate}
+              onSelect={handleSelect}
+              defaultFocusedDate={value ?? new Date()}
+              defaultViewDate={value ?? new Date()}
               minDate={minDate}
               maxDate={maxDate}
+              disabledDate={disabledDate}
             >
               <div style={headerRowStyle}>
                 <Calendar.Nav direction="prev" />
                 <Calendar.Header />
                 <Calendar.Nav direction="next" />
               </div>
-              <CalendarGrid
-                year={viewDate.getFullYear()}
-                month={viewDate.getMonth()}
-                rangeStart={value ?? null}
-                rangeEnd={null}
-                minDate={minDate}
-                maxDate={maxDate}
-                disabledDates={disabledDates}
-                scopeClass={SCOPE}
-                focusedDate={focusedDate}
-                onSelect={handleDaySelect}
-                onFocusedDateChange={handleFocusedDateChange}
-              />
+              <Calendar.Grid onEscape={() => setOpen(false)} />
             </Calendar.Root>
           </div>
         )}

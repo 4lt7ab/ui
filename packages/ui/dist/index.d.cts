@@ -869,6 +869,14 @@ interface DatePickerProps {
 	*/
 	disabled?: boolean;
 }
+/**
+* Single-date picker. A thin composition over the compound Calendar.*
+* primitives: `<Calendar.Root mode="single">` + `<Calendar.Nav>` +
+* `<Calendar.Header>` + `<Calendar.Grid>`.
+*
+* Public prop API unchanged from 0.2.x: `value`, `onChange`, `minDate`,
+* `maxDate`, `disabledDates`, `placeholder`, `hasError`, `disabled`.
+*/
 declare const DatePicker: React.ForwardRefExoticComponent<Omit<DatePickerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 import { ReactNode as ReactNode15 } from "react";
 /** Whether the calendar selects a single date or a date range. */
