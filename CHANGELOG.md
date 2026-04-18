@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.31
+
 - **BREAKING** — Consolidate `PageHeader` + `SectionHeader` into a single `Header` component. `Header` takes `title`, `level: 'page' | 'section'` (default `'section'`), optional `subtitle`, `indicator`, and `trailing`. The old `SectionHeader`-only props (`icon`, `border`, `spacing`) are retired; consumers compose them via `<Icon>`, `<Divider>`, and `<Stack>`. Migrate `<PageHeader title="…" />` → `<Header level="page" title="…" />`, and `<SectionHeader icon="x" title="…" />` → `<Header title="…" indicator={<Icon name="x" />} />`. See upgrade guide `01KPE1JZ93VM9QDK2QFM88GWBK` §7
 - Add `useDisclosure()` hook to `@4lt7ab/core` — boolean open/closed state with ARIA wiring. Returns `{ open, onToggle, onOpen, onClose, triggerProps, contentProps }` with `aria-expanded`, `aria-controls`, and shared `id` pre-wired. Supports controlled (`open` + `onOpenChange`) and uncontrolled (`defaultOpen`) modes. Tests cover default/controlled/uncontrolled behavior and handler wiring
 - **BREAKING** — Retire `ExpandableCard` component and its `ExpandableCardProps` type. The component was Card + a boolean + a chevron. Migrate to a `<Card>` + `useDisclosure()` composition — the hook from `@4lt7ab/core` owns state + ARIA; the consumer owns chevron, header, and panel layout. Demo rebuilt on the composition. See upgrade guide `01KPE1JZ93VM9QDK2QFM88GWBK` §4
