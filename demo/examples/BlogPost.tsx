@@ -1,9 +1,9 @@
 import {
   Prose,
-  PullQuote, MarginNote, SideNote, Epigraph, LinkCard,
+  PullQuote, MarginNote, SideNote, Epigraph,
   ThinkingCycle,
 } from '@4lt7ab/content';
-import { Container, Stack } from '@4lt7ab/ui';
+import { Container, LinkCard, Stack } from '@4lt7ab/ui';
 
 export function BlogPost(): React.JSX.Element {
   return (

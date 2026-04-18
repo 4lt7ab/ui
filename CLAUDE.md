@@ -101,6 +101,7 @@ packages/
 │       │   ├── Icon/
 │       │   ├── IconButton/
 │       │   ├── Input/
+│       │   ├── LinkCard/
 │       │   ├── ModalShell/
 │       │   ├── Overlay/
 │       │   ├── Pagination/
@@ -126,7 +127,6 @@ packages/
 │   └── src/
 │       ├── components/
 │       │   ├── Epigraph/
-│       │   ├── LinkCard/
 │       │   ├── MarginNote/
 │       │   ├── Markdown/
 │       │   ├── Prose/

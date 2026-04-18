@@ -38,7 +38,7 @@ function BlogPost() {
 }
 ```
 
-> `Container` moved to `@4lt7ab/ui` in v0.4.0 — it's a general layout primitive, not prose-specific. Import it from `@4lt7ab/ui/ui` (or `@4lt7ab/ui` if you use the bare package name). See the 0.4.0 upgrade guide for the one-line import-path migration.
+> `Container` and `LinkCard` moved to `@4lt7ab/ui` in v0.4.0 — both are general UI primitives, not prose-specific. Import them from `@4lt7ab/ui/ui` (or `@4lt7ab/ui` if you use the bare package name). See the 0.4.0 upgrade guide for the one-line import-path migration.
 
 ---
 
@@ -144,31 +144,6 @@ Inline annotation that appears in the right margin on wide screens (≥1100px). 
 ### Epigraph (deprecated)
 
 Backward-compatibility alias for `<Quote variant="epigraph">`. Prefer `Quote` for new call sites.
-
-### LinkCard
-
-Clickable card-style link with title and description. Supports external links.
-
-```tsx
-<LinkCard
-  href="/docs/tokens"
-  title="Token Reference"
-  description="Complete list of semantic tokens and their uses."
-/>
-<LinkCard
-  href="https://example.com"
-  title="External Resource"
-  external
-/>
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `title` | `ReactNode` | *required* | Card title |
-| `description` | `ReactNode` | — | Description text |
-| `external` | `boolean` | — | Opens in new tab |
-
-Extends `AnchorHTMLAttributes<HTMLAnchorElement>` (except `title`).
 
 ### TextSection
 

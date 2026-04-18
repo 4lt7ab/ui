@@ -54,6 +54,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'Stack', source: 'ui', Demo: StackDemo },
       { name: 'Container', source: 'ui', Demo: ContainerDemo },
       { name: 'Card', source: 'ui', Demo: CardDemo },
+      { name: 'LinkCard', source: 'ui', Demo: LinkCardDemo },
       { name: 'ExpandableCard', source: 'ui', Demo: ExpandableCardDemo },
       { name: 'TopBar', source: 'ui', Demo: TopBarDemo },
       { name: 'Header', source: 'ui', Demo: HeaderDemo },
@@ -73,7 +74,6 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'SideNote', source: 'content', Demo: SideNoteDemo },
       { name: 'ThinkingCycle', source: 'content', Demo: ThinkingCycleDemo },
       { name: 'TextSection', source: 'content', Demo: TextSectionDemo },
-      { name: 'LinkCard', source: 'content', Demo: LinkCardDemo },
     ],
   },
   {

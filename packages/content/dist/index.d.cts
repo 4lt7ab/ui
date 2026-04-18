@@ -136,27 +136,6 @@ interface EpigraphProps {
 * and outside `<Prose>`.
 */
 declare const Epigraph: React.ForwardRefExoticComponent<Omit<EpigraphProps, "ref"> & React.RefAttributes<HTMLQuoteElement>>;
-import { ReactNode as ReactNode7 } from "react";
-interface LinkCardProps {
-	/** Card title — rendered in serif. */
-	title: ReactNode7;
-	/** Optional description — rendered smaller in muted text. */
-	description?: ReactNode7;
-	/** Whether link opens in a new tab. */
-	external?: boolean;
-	href?: string;
-	target?: string;
-	rel?: string;
-	onClick?: React.MouseEventHandler<HTMLAnchorElement>;
-	id?: string;
-	"aria-label"?: string;
-	"data-testid"?: string;
-}
-/**
-* Clickable card with serif title and muted description.
-* Hover lifts and accent-borders. Good for project links, post previews, etc.
-*/
-declare const LinkCard: React.ForwardRefExoticComponent<Omit<LinkCardProps, "ref"> & React.RefAttributes<HTMLAnchorElement>>;
 interface TextSectionProps {
 	/** Current content (markdown string). Empty/null = empty state. */
 	content?: string | null;
@@ -207,4 +186,4 @@ interface ThinkingCycleProps {
 * Usage: Building with AI tools is <ThinkingCycle words={['powerful', 'wild']} />.
 */
 declare const ThinkingCycle: React.ForwardRefExoticComponent<Omit<ThinkingCycleProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
-export { ThinkingCycleProps, ThinkingCycle, TextSectionProps, TextSection, SideNoteProps, SideNote, QuoteVariant, QuoteProps, Quote, PullQuoteProps, PullQuote, ProseProps, Prose, PROSE_H2_SIZE, PROSE_H1_SIZE, PROSE_CODE_SIZE, PROSE_BODY_SIZE, PROSE_BLOCKQUOTE_SIZE, MarkdownProps, Markdown, MarginNoteProps, MarginNote, MIX_SUBTLE, MIX_HOVER, MIX_BADGE, LinkCardProps, LinkCard, EpigraphProps, Epigraph, BREAKPOINT_WIDE, BREAKPOINT_PROSE, BREAKPOINT_MARGIN_NOTES };
+export { ThinkingCycleProps, ThinkingCycle, TextSectionProps, TextSection, SideNoteProps, SideNote, QuoteVariant, QuoteProps, Quote, PullQuoteProps, PullQuote, ProseProps, Prose, PROSE_H2_SIZE, PROSE_H1_SIZE, PROSE_CODE_SIZE, PROSE_BODY_SIZE, PROSE_BLOCKQUOTE_SIZE, MarkdownProps, Markdown, MarginNoteProps, MarginNote, MIX_SUBTLE, MIX_HOVER, MIX_BADGE, EpigraphProps, Epigraph, BREAKPOINT_WIDE, BREAKPOINT_PROSE, BREAKPOINT_MARGIN_NOTES };

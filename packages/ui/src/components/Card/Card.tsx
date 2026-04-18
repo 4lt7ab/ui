@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useRef } from 'react';
-import { semantic as t, useInjectStyles, useThemeRhythm } from '@4lt7ab/core';
+import { semantic as t, useInjectStyles, useThemeRhythm, Slot } from '@4lt7ab/core';
 import type { ReactNode } from 'react';
 import { spacingMap } from '../../types';
 import type { SpacingToken, BaseComponentProps } from '../../types';
@@ -34,6 +34,15 @@ export interface CardProps extends BaseComponentProps {
    * @default false
    */
   glow?: boolean;
+  /**
+   * Render as the single child element instead of a `<div>`. Merges Card's
+   * variant / padding / hover / glow styling, style, and ref into the child.
+   * Useful for rendering a Card-styled `<a>` or router `<Link>` without a
+   * wrapper div around a focusable element. Matches the `asChild` pattern on
+   * `Button`, `IconButton`, and `TopBar.Link`.
+   * @default false
+   */
+  asChild?: boolean;
   /** Card content. */
   children: ReactNode;
 }
@@ -98,12 +107,13 @@ function prefersReducedMotion(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
-export const Card: React.ForwardRefExoticComponent<Omit<CardProps, 'ref'> & React.RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement, CardProps>(
+export const Card: React.ForwardRefExoticComponent<Omit<CardProps, 'ref'> & React.RefAttributes<HTMLElement>> = forwardRef<HTMLElement, CardProps>(
   function Card({
     variant = 'default',
     padding = 'lg',
     hover = false,
     glow = false,
+    asChild = false,
     children,
     ...rest
   }, ref): React.JSX.Element {
@@ -112,13 +122,15 @@ export const Card: React.ForwardRefExoticComponent<Omit<CardProps, 'ref'> & Reac
 
     /*
      * Internal ref for the glow subscription. Merged with the forwarded `ref`
-     * via a callback ref so consumers can still attach their own ref.
+     * via a callback ref so consumers can still attach their own ref. In
+     * asChild mode the same ref lands on the child element via Slot's
+     * composeRefs.
      */
-    const internalRef = useRef<HTMLDivElement | null>(null);
-    const setRef = (node: HTMLDivElement | null): void => {
+    const internalRef = useRef<HTMLElement | null>(null);
+    const setRef = (node: HTMLElement | null): void => {
       internalRef.current = node;
       if (typeof ref === 'function') ref(node);
-      else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+      else if (ref) (ref as React.MutableRefObject<HTMLElement | null>).current = node;
     };
 
     const { config, subscribe } = useThemeRhythm();
@@ -144,21 +156,32 @@ export const Card: React.ForwardRefExoticComponent<Omit<CardProps, 'ref'> & Reac
       };
     }, [glow, config, subscribe]);
 
+    const style: React.CSSProperties = {
+      borderRadius: t.radiusLg,
+      padding: paddingMap[padding],
+      color: t.colorText,
+      ...variantStyles[variant],
+      ...(glow ? { boxShadow: GLOW_BOX_SHADOW } : undefined),
+    };
+
+    const commonProps = {
+      id: rest.id,
+      'data-testid': rest['data-testid'],
+      'data-card-hover': hover || undefined,
+      'data-card-glow': glow || undefined,
+      style,
+    };
+
+    if (asChild) {
+      return (
+        <Slot ref={setRef} {...commonProps}>
+          {children as React.ReactElement}
+        </Slot>
+      );
+    }
+
     return (
-      <div
-        ref={setRef}
-        id={rest.id}
-        data-testid={rest['data-testid']}
-        data-card-hover={hover || undefined}
-        data-card-glow={glow || undefined}
-        style={{
-          borderRadius: t.radiusLg,
-          padding: paddingMap[padding],
-          color: t.colorText,
-          ...variantStyles[variant],
-          ...(glow ? { boxShadow: GLOW_BOX_SHADOW } : undefined),
-        }}
-      >
+      <div ref={setRef as React.Ref<HTMLDivElement>} {...commonProps}>
         {children}
       </div>
     );

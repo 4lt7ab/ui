@@ -66,14 +66,54 @@ Content container with surface styling.
   <h2>Title</h2>
   <p>Card content.</p>
 </Card>
+
+// Render as any single element with Card's styling via asChild
+<Card asChild hover>
+  <a href="/docs">
+    <h2>Documentation</h2>
+    <p>Read the full API reference.</p>
+  </a>
+</Card>
 ```
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `variant` | `'default' \| 'flat' \| 'elevated'` | `'default'` | Visual treatment |
 | `padding` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'lg'` | Inner padding |
+| `hover` | `boolean` | `false` | Lift + accent-border on hover |
+| `glow` | `boolean` | `false` | Theme-rhythm-driven border glow |
+| `asChild` | `boolean` | `false` | Merge Card's styling onto the single child element instead of rendering a `<div>` |
 
-Extends `HTMLAttributes<HTMLDivElement>`.
+Extends `HTMLAttributes<HTMLDivElement>` (or the child element's attributes when `asChild` is true).
+
+### LinkCard
+
+Clickable card-style link with serif title and muted description. Hover lifts and accent-borders. Good for project links, post previews, etc. Renders a single `<a>` styled by `<Card asChild>` internally — no wrapper element around the anchor.
+
+```tsx
+<LinkCard
+  href="/docs/tokens"
+  title="Token Reference"
+  description="Complete list of semantic tokens and their uses."
+/>
+<LinkCard
+  href="https://example.com"
+  title="External Resource"
+  external
+/>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `ReactNode` | *required* | Card title (rendered in serif) |
+| `description` | `ReactNode` | — | Optional description (rendered smaller in muted text) |
+| `href` | `string` | — | Link destination |
+| `external` | `boolean` | — | Opens in a new tab (sets `target="_blank"` and `rel="noopener noreferrer"`) |
+| `target` | `string` | — | Custom link target. Overridden by `external` when true |
+| `rel` | `string` | — | Custom link rel attribute. Overridden by `external` when true |
+| `onClick` | `MouseEventHandler<HTMLAnchorElement>` | — | Click handler for the anchor |
+
+Renders an `<a>` element; also accepts `id`, `aria-label`, and `data-testid`.
 
 ### Stack
 

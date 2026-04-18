@@ -14,6 +14,7 @@ export * from './icons';
 export * from './components/Button';
 export * from './components/Stack';
 export * from './components/Card';
+export * from './components/LinkCard';
 export * from './components/Field';
 export * from './components/Input';
 export * from './components/Textarea';

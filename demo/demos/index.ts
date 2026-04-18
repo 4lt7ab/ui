@@ -71,6 +71,7 @@ export const demos: DemoEntry[] = [
   { name: 'Container', category: 'Layout', source: 'ui', component: ContainerDemo },
   { name: 'Stack', category: 'Layout', source: 'ui', component: StackDemo },
   { name: 'Card', category: 'Layout', source: 'ui', component: CardDemo },
+  { name: 'LinkCard', category: 'Layout', source: 'ui', component: LinkCardDemo },
   { name: 'ExpandableCard', category: 'Layout', source: 'ui', component: ExpandableCardDemo },
   { name: 'Header', category: 'Layout', source: 'ui', component: HeaderDemo },
   { name: 'Table', category: 'Layout', source: 'ui', component: TableDemo },
@@ -125,7 +126,6 @@ export const demos: DemoEntry[] = [
   { name: 'SideNote', category: 'Layout', source: 'content', component: SideNoteDemo },
   { name: 'ThinkingCycle', category: 'Action', source: 'content', component: ThinkingCycleDemo },
   { name: 'TextSection', category: 'Form', source: 'content', component: TextSectionDemo },
-  { name: 'LinkCard', category: 'Layout', source: 'content', component: LinkCardDemo },
   { name: 'ThemePicker', category: 'Action', source: 'ui', component: ThemePickerDemo },
 ];
 

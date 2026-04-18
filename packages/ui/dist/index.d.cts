@@ -210,11 +210,46 @@ interface CardProps extends BaseComponentProps {
 	* @default false
 	*/
 	glow?: boolean;
+	/**
+	* Render as the single child element instead of a `<div>`. Merges Card's
+	* variant / padding / hover / glow styling, style, and ref into the child.
+	* Useful for rendering a Card-styled `<a>` or router `<Link>` without a
+	* wrapper div around a focusable element. Matches the `asChild` pattern on
+	* `Button`, `IconButton`, and `TopBar.Link`.
+	* @default false
+	*/
+	asChild?: boolean;
 	/** Card content. */
 	children: ReactNode4;
 }
-declare const Card: React.ForwardRefExoticComponent<Omit<CardProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
+declare const Card: React.ForwardRefExoticComponent<Omit<CardProps, "ref"> & React.RefAttributes<HTMLElement>>;
 import { ReactNode as ReactNode5 } from "react";
+/** Clickable card with a serif title and muted description. */
+interface LinkCardProps {
+	/** Card title — rendered in serif. */
+	title: ReactNode5;
+	/** Optional description — rendered smaller in muted text. */
+	description?: ReactNode5;
+	/** Whether link opens in a new tab (sets `target="_blank"` and `rel="noopener noreferrer"`). */
+	external?: boolean;
+	href?: string;
+	target?: string;
+	rel?: string;
+	onClick?: React.MouseEventHandler<HTMLAnchorElement>;
+	id?: string;
+	"aria-label"?: string;
+	"data-testid"?: string;
+}
+/**
+* Clickable card with serif title and muted description. Hover lifts and
+* accent-borders. Good for project links, post previews, etc.
+*
+* Implemented as a thin `<Card asChild>` over an anchor — Card owns the
+* background, border, radius, and padding; LinkCard owns the hover accent,
+* the serif/title layout, and the link-specific resets.
+*/
+declare const LinkCard: React.ForwardRefExoticComponent<Omit<LinkCardProps, "ref"> & React.RefAttributes<HTMLAnchorElement>>;
+import { ReactNode as ReactNode6 } from "react";
 /** Wraps an input with a label, help text, and error message. Handles `aria-describedby` wiring automatically. */
 interface FieldProps extends BaseComponentProps {
 	/** Links the field wrapper to external descriptive text. */
@@ -236,7 +271,7 @@ interface FieldProps extends BaseComponentProps {
 	*/
 	disabled?: boolean;
 	/** The form control to wrap (Input, Select, Textarea, etc.). */
-	children: ReactNode5;
+	children: ReactNode6;
 }
 declare const Field: React.ForwardRefExoticComponent<Omit<FieldProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /** A single-line text input field. */
@@ -305,7 +340,7 @@ interface TextareaProps {
 	"data-testid"?: string;
 }
 declare const Textarea: React.ForwardRefExoticComponent<Omit<TextareaProps, "ref"> & React.RefAttributes<HTMLTextAreaElement>>;
-import { ReactNode as ReactNode6 } from "react";
+import { ReactNode as ReactNode7 } from "react";
 interface SelectRootProps {
 	/** The current selected value (controlled). */
 	value?: string;
@@ -333,11 +368,11 @@ interface SelectRootProps {
 	/** Form id for the hidden native select. */
 	form?: string;
 	/** Subtree containing Trigger + Content. */
-	children: ReactNode6;
+	children: ReactNode7;
 }
 interface SelectTriggerProps {
 	/** Usually `<Select.Value placeholder="…" />`. Any ReactNode works. */
-	children: ReactNode6;
+	children: ReactNode7;
 	"aria-label"?: string;
 	"aria-labelledby"?: string;
 	"aria-describedby"?: string;
@@ -349,7 +384,7 @@ interface SelectValueProps {
 	placeholder?: string;
 }
 interface SelectContentProps {
-	children: ReactNode6;
+	children: ReactNode7;
 }
 interface SelectItemProps {
 	/** The value submitted when this item is selected. */
@@ -363,7 +398,7 @@ interface SelectItemProps {
 	*/
 	textValue?: string;
 	/** Display content. Usually the label string. */
-	children: ReactNode6;
+	children: ReactNode7;
 }
 /**
 * Compound Select. Use as:
@@ -384,7 +419,7 @@ interface SelectItemProps {
 * `<select>` so the value participates in native form submission.
 */
 declare const Select: {};
-import { ReactNode as ReactNode7 } from "react";
+import { ReactNode as ReactNode8 } from "react";
 /** Semantic color variant for badges. */
 type BadgeVariant = "default" | "primary" | "success" | "warning" | "error" | "info";
 /** Size variant for badges. */
@@ -392,7 +427,7 @@ type BadgeSize = "default" | "xs";
 /** A small label for status, category, or metadata. Rendered as uppercase pill text. */
 interface BadgeProps extends BaseComponentProps {
 	/** Badge content (typically short text). */
-	children: ReactNode7;
+	children: ReactNode8;
 	/** Color variant mapping to feedback tokens.
 	* - `default` — neutral with border
 	* - `success` — green tinted background
@@ -410,7 +445,7 @@ interface BadgeProps extends BaseComponentProps {
 	size?: BadgeSize;
 }
 declare const Badge: React.ForwardRefExoticComponent<Omit<BadgeProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
-import { ReactNode as ReactNode8 } from "react";
+import { ReactNode as ReactNode9 } from "react";
 /** Provider that sets a default `fontClass` for all descendant Icon components.
 *
 * Wrap your app (or a subtree) so you don't have to pass `fontClass` on every Icon:
@@ -423,7 +458,7 @@ import { ReactNode as ReactNode8 } from "react";
 */
 declare function IconFontProvider({ fontClass, children }: {
 	fontClass: string;
-	children: ReactNode8;
+	children: ReactNode9;
 }): React.JSX.Element;
 /** Renders a named icon from the built-in registry, or falls back to an icon font
 *  when the name is unregistered and a `fontClass` is available (via prop or context). */
@@ -445,7 +480,7 @@ interface IconProps {
 	"data-testid"?: string;
 }
 declare const Icon: React.ForwardRefExoticComponent<Omit<IconProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
-import { ReactNode as ReactNode9 } from "react";
+import { ReactNode as ReactNode10 } from "react";
 /** Controls the tap-target and icon size of the icon button. */
 type IconButtonSize = "sm" | "md" | "lg";
 /** A circular icon-only button. Requires `aria-label` for accessibility. */
@@ -489,7 +524,7 @@ interface IconButtonProps {
 	*/
 	asChild?: boolean;
 	/** When `asChild` is true, the single child element to clone. Ignored otherwise. */
-	children?: ReactNode9;
+	children?: ReactNode10;
 }
 declare const IconButton: React.ForwardRefExoticComponent<Omit<IconButtonProps, "ref"> & React.RefAttributes<HTMLElement>>;
 /** A full-screen semi-transparent backdrop. Used behind modals and drawers. */
@@ -548,7 +583,7 @@ interface ProgressBarProps {
 	"aria-label"?: string;
 }
 declare const ProgressBar: React.ForwardRefExoticComponent<Omit<ProgressBarProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode10 } from "react";
+import { ReactNode as ReactNode11 } from "react";
 /** A placeholder shown when a section has no content. Displays an icon, message, and optional action. */
 interface EmptyStateProps {
 	/** Icon displayed above the message. */
@@ -562,9 +597,9 @@ interface EmptyStateProps {
 	*/
 	variant?: "plain" | "card";
 	/** Additional content rendered below the message. */
-	children?: ReactNode10;
+	children?: ReactNode11;
 	/** Action slot (e.g. a CTA button) rendered below the message and children. */
-	action?: ReactNode10;
+	action?: ReactNode11;
 }
 declare const EmptyState: React.ForwardRefExoticComponent<Omit<EmptyStateProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /** Customizable text labels for the Pagination component. */
@@ -594,7 +629,7 @@ interface PaginationProps {
 	labels?: PaginationLabels;
 }
 declare const Pagination: React.ForwardRefExoticComponent<Omit<PaginationProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode11 } from "react";
+import { ReactNode as ReactNode12 } from "react";
 /** Heading scale. `page` is the top-of-page heading; `section` is a sub-section heading. */
 type HeaderLevel = "page" | "section";
 /**
@@ -612,12 +647,12 @@ interface HeaderProps {
 	/** Secondary text rendered below the title in muted style. */
 	subtitle?: string;
 	/** Inline content rendered next to the title (e.g. Badge, StatusDot, Icon). */
-	indicator?: ReactNode11;
+	indicator?: ReactNode12;
 	/** Content aligned to the right end of the header (e.g. action buttons, SearchInput). */
-	trailing?: ReactNode11;
+	trailing?: ReactNode12;
 }
 declare const Header: React.ForwardRefExoticComponent<Omit<HeaderProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode12 } from "react";
+import { ReactNode as ReactNode13 } from "react";
 /** Shared heading style for modal titles. Used by ConfirmDialog and consumer modal compositions. */
 declare const modalHeadingStyle: React.CSSProperties;
 /** Shared footer layout for modal action buttons. Used by ConfirmDialog and consumer modal compositions. */
@@ -627,7 +662,7 @@ interface ModalShellProps {
 	/** Called when the modal should close (Escape key or overlay click). */
 	onClose: () => void;
 	/** Modal body content. */
-	children: ReactNode12;
+	children: ReactNode13;
 	/** Width preset for the modal panel.
 	* @default 'md'
 	*/
@@ -666,7 +701,7 @@ declare const sectionLabelStyle: React.CSSProperties;
 * ```
 */
 declare const tagChipStyle: React.CSSProperties;
-import { ReactNode as ReactNode13 } from "react";
+import { ReactNode as ReactNode14 } from "react";
 /** Semantic variant controlling the confirm button style. */
 type ConfirmDialogVariant = "destructive" | "info" | "warning";
 /** A modal confirmation dialog with title, message, and Cancel/Confirm buttons. Supports async confirm handlers with loading state. */
@@ -684,7 +719,7 @@ interface ConfirmDialogProps {
 	/** Called when the user cancels (Cancel button, Escape key, or overlay click). */
 	onCancel: () => void;
 	/** Custom body content rendered between the message and the action buttons. */
-	children?: ReactNode13;
+	children?: ReactNode14;
 	/** Controls the confirm button color variant.
 	* - `destructive` — red destructive button
 	* - `info` — primary accent button
@@ -717,7 +752,7 @@ interface StatusDotProps {
 	"aria-label"?: string;
 }
 declare const StatusDot: React.ForwardRefExoticComponent<Omit<StatusDotProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
-import { ReactNode as ReactNode14 } from "react";
+import { ReactNode as ReactNode15 } from "react";
 type SpacingToken2 = "xs" | "sm" | "md" | "lg";
 /** Visual treatment for the table wrapper. */
 type TableVariant = "default" | "flat";
@@ -734,13 +769,13 @@ interface TableProps extends BaseComponentProps {
 	*/
 	density?: SpacingToken2;
 	/** Table content (TableHeader, TableBody, etc.). */
-	children: ReactNode14;
+	children: ReactNode15;
 }
 declare const Table: React.ForwardRefExoticComponent<Omit<TableProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /** Table header section. Renders a `<thead>` with a single `<tr>` wrapping the children. */
 interface TableHeaderProps {
 	/** TableHeaderCell elements. */
-	children: ReactNode14;
+	children: ReactNode15;
 }
 declare const TableHeader: React.ForwardRefExoticComponent<Omit<TableHeaderProps, "ref"> & React.RefAttributes<HTMLTableSectionElement>>;
 /** A single column header cell (`<th>`). Renders uppercase, muted, semibold text. */
@@ -754,13 +789,13 @@ interface TableHeaderCellProps {
 	/** Number of columns this header should span. */
 	colSpan?: number;
 	/** Header label. */
-	children?: ReactNode14;
+	children?: ReactNode15;
 }
 declare const TableHeaderCell: React.ForwardRefExoticComponent<Omit<TableHeaderCellProps, "ref"> & React.RefAttributes<HTMLTableCellElement>>;
 /** Table body section (`<tbody>`). Wraps TableRow elements. */
 interface TableBodyProps {
 	/** TableRow elements. */
-	children: ReactNode14;
+	children: ReactNode15;
 }
 declare const TableBody: React.ForwardRefExoticComponent<Omit<TableBodyProps, "ref"> & React.RefAttributes<HTMLTableSectionElement>>;
 /** A table row (`<tr>`). Supports selection highlighting and hover effects. When `onClick` is provided, the row becomes focusable and responds to Enter/Space. */
@@ -776,7 +811,7 @@ interface TableRowProps {
 	/** Click handler. When provided, the row becomes focusable and responds to Enter/Space. */
 	onClick?: React.MouseEventHandler<HTMLTableRowElement>;
 	/** TableCell elements. */
-	children: ReactNode14;
+	children: ReactNode15;
 }
 declare const TableRow: React.ForwardRefExoticComponent<Omit<TableRowProps, "ref"> & React.RefAttributes<HTMLTableRowElement>>;
 /** A table data cell (`<td>`). */
@@ -798,7 +833,7 @@ interface TableCellProps {
 	/** Number of columns this cell should span. */
 	colSpan?: number;
 	/** Cell content. */
-	children?: ReactNode14;
+	children?: ReactNode15;
 }
 declare const TableCell: React.ForwardRefExoticComponent<Omit<TableCellProps, "ref"> & React.RefAttributes<HTMLTableCellElement>>;
 /** A full-width subheading row for grouping table rows under a shared label. */
@@ -806,7 +841,7 @@ interface TableGroupHeaderProps {
 	/** Number of columns the header should span. */
 	colSpan: number;
 	/** Group label text. */
-	children: ReactNode14;
+	children: ReactNode15;
 }
 declare const TableGroupHeader: React.ForwardRefExoticComponent<Omit<TableGroupHeaderProps, "ref"> & React.RefAttributes<HTMLTableRowElement>>;
 /** A centered message row displayed when the table has no data. */
@@ -814,7 +849,7 @@ interface TableEmptyRowProps {
 	/** Number of columns the message should span. */
 	colSpan: number;
 	/** Empty state message content. */
-	children: ReactNode14;
+	children: ReactNode15;
 }
 declare const TableEmptyRow: React.ForwardRefExoticComponent<Omit<TableEmptyRowProps, "ref"> & React.RefAttributes<HTMLTableRowElement>>;
 /** A date range with inclusive start and end. */
@@ -892,7 +927,7 @@ interface DatePickerProps {
 * `maxDate`, `disabledDates`, `placeholder`, `hasError`, `disabled`.
 */
 declare const DatePicker: React.ForwardRefExoticComponent<Omit<DatePickerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode15 } from "react";
+import { ReactNode as ReactNode16 } from "react";
 /** Whether the calendar selects a single date or a date range. */
 type CalendarMode = "single" | "range";
 /** An inclusive date range with a start and end. */
@@ -988,9 +1023,9 @@ interface CalendarRootProps {
 	/** Called when the visible month changes (both controlled and uncontrolled). */
 	onViewDateChange?: (date: Date) => void;
 	/** Calendar subtree — typically `Calendar.Header` / `Calendar.Nav` / `Calendar.Grid`. */
-	children?: ReactNode15;
+	children?: ReactNode16;
 }
-import { ReactNode as ReactNode16 } from "react";
+import { ReactNode as ReactNode17 } from "react";
 /** Render state passed to the Calendar.Grid children render-prop. */
 interface CalendarCellRenderArgs {
 	date: Date;
@@ -1017,7 +1052,7 @@ interface CalendarGridProps {
 	* to this function. When omitted, the grid renders a default
 	* {@link CalendarCell} with content = the day of the month.
 	*/
-	children?: (args: CalendarCellRenderArgs) => ReactNode16;
+	children?: (args: CalendarCellRenderArgs) => ReactNode17;
 	/** Merge into the root `<table>` style. */
 	style?: React.CSSProperties;
 	/** Merge into the root `<table>` className. */
@@ -1031,7 +1066,7 @@ interface CalendarGridProps {
 * End (Saturday of the week), PageUp/PageDown (±1 month; +Shift = ±1 year).
 */
 declare function nextFocusedDate(date: Date, key: string, shiftKey: boolean): Date | null;
-import { ReactNode as ReactNode17 } from "react";
+import { ReactNode as ReactNode18 } from "react";
 /** Props for `<Calendar.Header>`. */
 interface CalendarHeaderPrimitiveProps {
 	/**
@@ -1041,7 +1076,7 @@ interface CalendarHeaderPrimitiveProps {
 	children?: (args: {
 		year: number;
 		month: number;
-	}) => ReactNode17;
+	}) => ReactNode18;
 	/** Merge into the root element's style. */
 	style?: React.CSSProperties;
 	/** Merge into the root element's className. */
@@ -1063,13 +1098,13 @@ interface CalendarNavProps {
 	*/
 	onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void | boolean;
 }
-import { ReactNode as ReactNode18 } from "react";
+import { ReactNode as ReactNode19 } from "react";
 /** Props for `<Calendar.Cell>`. */
 interface CalendarCellProps {
 	/** The date this cell represents. */
 	date: Date;
 	/** Override the rendered content. Defaults to the day of the month. */
-	children?: ReactNode18;
+	children?: ReactNode19;
 	/** Merge into the inner `<button>` style. */
 	style?: React.CSSProperties;
 	/** Merge into the inner `<button>` className. */
@@ -1124,7 +1159,7 @@ declare class ErrorBoundary extends React2.Component<ErrorBoundaryProps, ErrorBo
 	resetErrorBoundary: () => void;
 	render(): React2.ReactNode;
 }
-import { ReactNode as ReactNode19 } from "react";
+import { ReactNode as ReactNode20 } from "react";
 /** Visual type of a toast notification. */
 type ToastType = "success" | "error" | "info" | "warning";
 /** Configuration for a single toast instance. */
@@ -1166,7 +1201,7 @@ declare function useToast(): ToastContextValue;
 /** Props for the ToastProvider context component. */
 interface ToastProviderProps {
 	/** Application content. */
-	children: ReactNode19;
+	children: ReactNode20;
 	/** Screen position of the toast stack.
 	* @default 'top-right'
 	*/
@@ -1177,7 +1212,7 @@ interface ToastProviderProps {
 * Renders a portal-based toast container with stacked, auto-dismissing messages.
 */
 declare function ToastProvider({ children, position }: ToastProviderProps): React.JSX.Element;
-import { ReactNode as ReactNode20 } from "react";
+import { ReactNode as ReactNode21 } from "react";
 interface ComboboxRootProps {
 	/** Controlled input value (text). */
 	value?: string;
@@ -1195,7 +1230,7 @@ interface ComboboxRootProps {
 	/** When true, applies error border styling. Typically driven by a parent Field. */
 	hasError?: boolean;
 	/** Subtree containing Input and List. */
-	children: ReactNode20;
+	children: ReactNode21;
 }
 interface ComboboxInputProps {
 	placeholder?: string;
@@ -1217,7 +1252,7 @@ interface ComboboxInputProps {
 	onBlur?: React.FocusEventHandler<HTMLInputElement>;
 }
 interface ComboboxListProps {
-	children: ReactNode20;
+	children: ReactNode21;
 }
 interface ComboboxItemProps {
 	/** The value of the option — passed to onSelect when picked. */
@@ -1227,10 +1262,10 @@ interface ComboboxItemProps {
 	* `children` when `children` is a string.
 	*/
 	textValue?: string;
-	children: ReactNode20;
+	children: ReactNode21;
 }
 interface ComboboxEmptyProps {
-	children: ReactNode20;
+	children: ReactNode21;
 }
 /**
 * Compound Combobox — typeahead select with free-text input. Consumer owns
@@ -1317,7 +1352,7 @@ interface ChipPickerProps {
 }
 /** Multi-select toggle chip group with optional category grouping. */
 declare function ChipPicker({ items, selected: controlledSelected, defaultSelected, onChange, "aria-label": ariaLabel }: ChipPickerProps): React.JSX.Element;
-import { ReactNode as ReactNode21 } from "react";
+import { ReactNode as ReactNode22 } from "react";
 /** A text input with built-in debounce, search icon, and optional trailing slot. */
 interface SearchInputProps {
 	/** Current search value (controlled). */
@@ -1329,7 +1364,7 @@ interface SearchInputProps {
 	*/
 	debounceMs?: number;
 	/** Optional content rendered inside the input on the right side (toggle, clear button, etc.). */
-	trailing?: ReactNode21;
+	trailing?: ReactNode22;
 	placeholder?: string;
 	disabled?: boolean;
 	name?: string;
@@ -1369,7 +1404,7 @@ interface SegmentedControlProps {
 	"aria-label"?: string;
 }
 declare function SegmentedControl({ segments, value: controlledValue, defaultValue, onChange, size, "aria-label": ariaLabel }: SegmentedControlProps): React.JSX.Element;
-import { ReactNode as ReactNode22 } from "react";
+import { ReactNode as ReactNode23 } from "react";
 /** Severity variant controlling banner color. */
 type AlertBannerVariant = "info" | "warning" | "error" | "success";
 /** Props for the AlertBanner component. */
@@ -1377,11 +1412,11 @@ interface AlertBannerProps {
 	/** Severity variant controlling color. */
 	variant: AlertBannerVariant;
 	/** Message content. */
-	children: ReactNode22;
+	children: ReactNode23;
 	/** If provided, shows a dismiss button and is called on dismiss. */
 	onDismiss?: () => void;
 	/** Optional leading icon. Defaults to a variant-appropriate icon. */
-	icon?: ReactNode22;
+	icon?: ReactNode23;
 }
 /**
 * Full-width dismissable notification banner with severity variants.
@@ -1389,13 +1424,13 @@ interface AlertBannerProps {
 * in `useEffect` + `setTimeout` if auto-dismiss is needed.
 */
 declare const AlertBanner: React.ForwardRefExoticComponent<Omit<AlertBannerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode23 } from "react";
+import { ReactNode as ReactNode24 } from "react";
 /** Props for {@link TopBarRoot}. */
 interface TopBarRootProps extends BaseComponentProps {
 	/** Accessible label for the header landmark. */
 	"aria-label"?: string;
 	/** Children — typically `<TopBar.Leading>`, `<TopBar.Nav>`, `<TopBar.Trailing>`. */
-	children?: ReactNode23;
+	children?: ReactNode24;
 	/** Sticks to the top of the viewport on scroll.
 	* @default false
 	*/
@@ -1403,11 +1438,11 @@ interface TopBarRootProps extends BaseComponentProps {
 }
 declare const TopBarRoot: React.ForwardRefExoticComponent<Omit<TopBarRootProps, "ref"> & React.RefAttributes<HTMLElement>>;
 interface TopBarLeadingProps {
-	children?: ReactNode23;
+	children?: ReactNode24;
 }
 declare function TopBarLeading({ children }: TopBarLeadingProps): React.JSX.Element;
 interface TopBarNavProps {
-	children?: ReactNode23;
+	children?: ReactNode24;
 	/** Accessible label for the nav region. @default 'Primary' */
 	"aria-label"?: string;
 }
@@ -1424,11 +1459,11 @@ interface TopBarLinkProps {
 	asChild?: boolean;
 	/** Called when the link is clicked (when not asChild; consumer's element handles its own events otherwise). */
 	onClick?: React.MouseEventHandler<HTMLElement>;
-	children?: ReactNode23;
+	children?: ReactNode24;
 }
 declare const TopBarLink: React.ForwardRefExoticComponent<TopBarLinkProps & React.RefAttributes<HTMLElement>>;
 interface TopBarTrailingProps {
-	children?: ReactNode23;
+	children?: ReactNode24;
 }
 declare function TopBarTrailing({ children }: TopBarTrailingProps): React.JSX.Element;
 /**
@@ -1456,7 +1491,7 @@ declare function TopBarTrailing({ children }: TopBarTrailingProps): React.JSX.El
 * ```
 */
 declare const TopBar: {};
-import { ReactNode as ReactNode24 } from "react";
+import { ReactNode as ReactNode25 } from "react";
 /**
 * Which semantic surface token to use as the background.
 *
@@ -1540,10 +1575,10 @@ interface SurfaceProps extends BaseComponentProps {
 	* @default 'div'
 	*/
 	as?: "div" | "section" | "article" | "aside" | "main";
-	children: ReactNode24;
+	children: ReactNode25;
 }
 declare const Surface: React.ForwardRefExoticComponent<Omit<SurfaceProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode25 } from "react";
+import { ReactNode as ReactNode26 } from "react";
 /**
 * Responsive grid layout with auto-fill columns.
 *
@@ -1583,7 +1618,7 @@ interface GridProps extends BaseComponentProps {
 	* @default 'md'
 	*/
 	gap?: SpacingToken;
-	children: ReactNode25;
+	children: ReactNode26;
 }
 declare const Grid: React.ForwardRefExoticComponent<Omit<GridProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /**
@@ -1625,7 +1660,7 @@ interface DividerProps extends BaseComponentProps {
 	spacing?: SpacingToken;
 }
 declare const Divider: React.ForwardRefExoticComponent<Omit<DividerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode26 } from "react";
+import { ReactNode as ReactNode27 } from "react";
 /** Named width preset for the Container. */
 type ContainerWidth = "narrow" | "prose" | "wide" | "full";
 /** Horizontal padding preset for the Container. */
@@ -1645,7 +1680,7 @@ interface ContainerProps {
 	*/
 	padding?: ContainerPadding;
 	/** Container content. */
-	children: ReactNode26;
+	children: ReactNode27;
 	id?: string;
 	"data-testid"?: string;
 }
@@ -1706,4 +1741,4 @@ interface TabStripProps extends BaseComponentProps {
 	size?: "sm" | "md";
 }
 declare const TabStrip: React.ForwardRefExoticComponent<Omit<TabStripProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-export { useToast, useFocusTrap, useCalendarContext, tagChipStyle, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, nextFocusedDate, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectValueProps, SelectTriggerProps, SelectRootProps, SelectItemProps, SelectFilterConfig, SelectContentProps, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ContainerWidth, ContainerProps, ContainerPadding, Container, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxRootProps, ComboboxListProps, ComboboxItemProps, ComboboxInputProps, ComboboxEmptyProps, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, CalendarSelection, CalendarRootProps, CalendarRange, CalendarNavProps, CalendarNavDirection, CalendarMode, CalendarHeaderPrimitiveProps, CalendarGridProps, CalendarContextValue, CalendarCellRenderArgs, CalendarCellProps, Calendar, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };
+export { useToast, useFocusTrap, useCalendarContext, tagChipStyle, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, nextFocusedDate, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectValueProps, SelectTriggerProps, SelectRootProps, SelectItemProps, SelectFilterConfig, SelectContentProps, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, LinkCardProps, LinkCard, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ContainerWidth, ContainerProps, ContainerPadding, Container, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxRootProps, ComboboxListProps, ComboboxItemProps, ComboboxInputProps, ComboboxEmptyProps, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, CalendarSelection, CalendarRootProps, CalendarRange, CalendarNavProps, CalendarNavDirection, CalendarMode, CalendarHeaderPrimitiveProps, CalendarGridProps, CalendarContextValue, CalendarCellRenderArgs, CalendarCellProps, Calendar, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };
