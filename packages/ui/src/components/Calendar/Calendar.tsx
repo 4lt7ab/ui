@@ -49,6 +49,14 @@ export interface CalendarContextValue {
   focusedDate: Date;
   /** Move focus to a different date. Implementations should also update the visible month if needed. */
   setFocusedDate: (date: Date) => void;
+  /**
+   * First-of-month Date representing the currently visible calendar page.
+   * Independent from `focusedDate` so the user can browse months via
+   * Calendar.Nav without losing keyboard focus.
+   */
+  viewDate: Date;
+  /** Change the visible month. Implementations typically normalize to the 1st. */
+  setViewDate: (date: Date) => void;
 }
 
 const CalendarContext = createContext<CalendarContextValue | null>(null);
@@ -104,8 +112,24 @@ export interface CalendarRootProps {
   defaultFocusedDate?: Date;
   /** Called when the focused date changes (both controlled and uncontrolled). */
   onFocusedDateChange?: (date: Date) => void;
+  /**
+   * Controlled visible month. When provided, Root does not manage view state
+   * internally and relies on `onViewDateChange` to request updates.
+   */
+  viewDate?: Date;
+  /**
+   * Default visible month for the uncontrolled case. Ignored when `viewDate`
+   * is provided. Falls back to the focused date / selected date / today.
+   */
+  defaultViewDate?: Date;
+  /** Called when the visible month changes (both controlled and uncontrolled). */
+  onViewDateChange?: (date: Date) => void;
   /** Calendar subtree — typically `Calendar.Header` / `Calendar.Nav` / `Calendar.Grid`. */
   children?: ReactNode;
+}
+
+function firstOfMonth(d: Date): Date {
+  return new Date(d.getFullYear(), d.getMonth(), 1);
 }
 
 function seedFocusedDate(selected: CalendarSelection): Date | undefined {
@@ -124,6 +148,9 @@ function Root({
   focusedDate: focusedDateProp,
   defaultFocusedDate,
   onFocusedDateChange,
+  viewDate: viewDateProp,
+  defaultViewDate,
+  onViewDateChange,
   children,
 }: CalendarRootProps): React.JSX.Element {
   const [focusedDateState, setFocusedDateState] = useState<Date>(
@@ -139,6 +166,25 @@ function Root({
       onFocusedDateChange?.(date);
     },
     [isControlled, onFocusedDateChange],
+  );
+
+  const [viewDateState, setViewDateState] = useState<Date>(() =>
+    firstOfMonth(
+      defaultViewDate ?? seedFocusedDate(selected) ?? new Date(),
+    ),
+  );
+  const isViewControlled = viewDateProp !== undefined;
+  const viewDate = isViewControlled
+    ? firstOfMonth(viewDateProp as Date)
+    : viewDateState;
+
+  const setViewDate = useCallback(
+    (date: Date) => {
+      const normalized = firstOfMonth(date);
+      if (!isViewControlled) setViewDateState(normalized);
+      onViewDateChange?.(normalized);
+    },
+    [isViewControlled, onViewDateChange],
   );
 
   const handleSelect = useCallback(
@@ -158,6 +204,8 @@ function Root({
       disabledDate,
       focusedDate,
       setFocusedDate,
+      viewDate,
+      setViewDate,
     }),
     [
       mode,
@@ -168,6 +216,8 @@ function Root({
       disabledDate,
       focusedDate,
       setFocusedDate,
+      viewDate,
+      setViewDate,
     ],
   );
 

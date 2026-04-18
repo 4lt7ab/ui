@@ -1,6 +1,6 @@
 import { forwardRef, useState, useRef, useCallback, useEffect } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
-import { CalendarHeader } from '../DateRangePicker/CalendarHeader';
+import { Calendar } from '../Calendar';
 import { CalendarGrid } from '../DateRangePicker/CalendarGrid';
 import { formatDate } from '../DateRangePicker/dateUtils';
 
@@ -100,6 +100,13 @@ const placeholderStyle: React.CSSProperties = {
   color: t.colorTextPlaceholder,
 };
 
+const headerRowStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: `${t.spaceXs} 0`,
+};
+
 export const DatePicker: React.ForwardRefExoticComponent<
   Omit<DatePickerProps, 'ref'> & React.RefAttributes<HTMLDivElement>
 > = forwardRef<HTMLDivElement, DatePickerProps>(
@@ -121,18 +128,18 @@ export const DatePicker: React.ForwardRefExoticComponent<
     const [open, setOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
 
-    // Calendar view state
+    // Calendar view state (first-of-month of the currently visible page)
     const initialDate = value ?? new Date();
-    const [viewYear, setViewYear] = useState(initialDate.getFullYear());
-    const [viewMonth, setViewMonth] = useState(initialDate.getMonth());
+    const [viewDate, setViewDate] = useState<Date>(
+      () => new Date(initialDate.getFullYear(), initialDate.getMonth(), 1),
+    );
 
     // Focused date for keyboard nav
     const [focusedDate, setFocusedDate] = useState(value ?? new Date());
 
     const handleFocusedDateChange = useCallback((date: Date) => {
       setFocusedDate(date);
-      setViewYear(date.getFullYear());
-      setViewMonth(date.getMonth());
+      setViewDate(new Date(date.getFullYear(), date.getMonth(), 1));
     }, []);
 
     // Focus the active day button when focused date changes
@@ -178,33 +185,12 @@ export const DatePicker: React.ForwardRefExoticComponent<
       setOpen((prev) => {
         if (!prev) {
           const base = value ?? new Date();
-          setViewYear(base.getFullYear());
-          setViewMonth(base.getMonth());
+          setViewDate(new Date(base.getFullYear(), base.getMonth(), 1));
           setFocusedDate(value ?? new Date());
         }
         return !prev;
       });
     }, [disabled, value]);
-
-    const handlePrevMonth = useCallback(() => {
-      setViewMonth((m) => {
-        if (m === 0) {
-          setViewYear((y) => y - 1);
-          return 11;
-        }
-        return m - 1;
-      });
-    }, []);
-
-    const handleNextMonth = useCallback(() => {
-      setViewMonth((m) => {
-        if (m === 11) {
-          setViewYear((y) => y + 1);
-          return 0;
-        }
-        return m + 1;
-      });
-    }, []);
 
     const handleDaySelect = useCallback(
       (date: Date) => {
@@ -250,25 +236,35 @@ export const DatePicker: React.ForwardRefExoticComponent<
 
         {open && (
           <div style={popoverStyle} role="dialog" aria-label="Date picker">
-            <CalendarHeader
-              year={viewYear}
-              month={viewMonth}
-              onPrev={handlePrevMonth}
-              onNext={handleNextMonth}
-            />
-            <CalendarGrid
-              year={viewYear}
-              month={viewMonth}
-              rangeStart={value ?? null}
-              rangeEnd={null}
+            <Calendar.Root
+              mode="single"
+              selected={value}
+              viewDate={viewDate}
+              onViewDateChange={setViewDate}
+              focusedDate={focusedDate}
+              onFocusedDateChange={setFocusedDate}
               minDate={minDate}
               maxDate={maxDate}
-              disabledDates={disabledDates}
-              scopeClass={SCOPE}
-              focusedDate={focusedDate}
-              onSelect={handleDaySelect}
-              onFocusedDateChange={handleFocusedDateChange}
-            />
+            >
+              <div style={headerRowStyle}>
+                <Calendar.Nav direction="prev" />
+                <Calendar.Header />
+                <Calendar.Nav direction="next" />
+              </div>
+              <CalendarGrid
+                year={viewDate.getFullYear()}
+                month={viewDate.getMonth()}
+                rangeStart={value ?? null}
+                rangeEnd={null}
+                minDate={minDate}
+                maxDate={maxDate}
+                disabledDates={disabledDates}
+                scopeClass={SCOPE}
+                focusedDate={focusedDate}
+                onSelect={handleDaySelect}
+                onFocusedDateChange={handleFocusedDateChange}
+              />
+            </Calendar.Root>
           </div>
         )}
       </div>

@@ -2768,10 +2768,117 @@ var TableEmptyRow = forwardRef20(
 );
 
 // src/components/DateRangePicker/DateRangePicker.tsx
-import { forwardRef as forwardRef21, useState as useState4, useRef as useRef6, useCallback as useCallback4, useEffect as useEffect6 } from "react";
+import { forwardRef as forwardRef21, useState as useState5, useRef as useRef6, useCallback as useCallback5, useEffect as useEffect6 } from "react";
 import { semantic as t25, useInjectStyles as useInjectStyles9 } from "../../core/dist/index.js";
 
-// src/components/DateRangePicker/CalendarHeader.tsx
+// src/components/Calendar/Calendar.tsx
+import {
+  createContext as createContext3,
+  useCallback as useCallback3,
+  useContext as useContext3,
+  useMemo as useMemo2,
+  useState as useState4
+} from "react";
+import { jsx as jsx23 } from "react/jsx-runtime";
+var CalendarContext = createContext3(null);
+function useCalendarContext(part = "child") {
+  const ctx = useContext3(CalendarContext);
+  if (!ctx) {
+    throw new Error(
+      `Calendar.${part} must be rendered inside <Calendar.Root>.`
+    );
+  }
+  return ctx;
+}
+function firstOfMonth(d) {
+  return new Date(d.getFullYear(), d.getMonth(), 1);
+}
+function seedFocusedDate(selected) {
+  if (!selected) return void 0;
+  if (selected instanceof Date) return selected;
+  return selected.from;
+}
+function Root2({
+  mode = "single",
+  selected,
+  onSelect,
+  minDate,
+  maxDate,
+  disabledDate,
+  focusedDate: focusedDateProp,
+  defaultFocusedDate,
+  onFocusedDateChange,
+  viewDate: viewDateProp,
+  defaultViewDate,
+  onViewDateChange,
+  children
+}) {
+  const [focusedDateState, setFocusedDateState] = useState4(
+    () => defaultFocusedDate ?? seedFocusedDate(selected) ?? /* @__PURE__ */ new Date()
+  );
+  const isControlled = focusedDateProp !== void 0;
+  const focusedDate = isControlled ? focusedDateProp : focusedDateState;
+  const setFocusedDate = useCallback3(
+    (date) => {
+      if (!isControlled) setFocusedDateState(date);
+      onFocusedDateChange?.(date);
+    },
+    [isControlled, onFocusedDateChange]
+  );
+  const [viewDateState, setViewDateState] = useState4(
+    () => firstOfMonth(
+      defaultViewDate ?? seedFocusedDate(selected) ?? /* @__PURE__ */ new Date()
+    )
+  );
+  const isViewControlled = viewDateProp !== void 0;
+  const viewDate = isViewControlled ? firstOfMonth(viewDateProp) : viewDateState;
+  const setViewDate = useCallback3(
+    (date) => {
+      const normalized = firstOfMonth(date);
+      if (!isViewControlled) setViewDateState(normalized);
+      onViewDateChange?.(normalized);
+    },
+    [isViewControlled, onViewDateChange]
+  );
+  const handleSelect = useCallback3(
+    (value) => {
+      onSelect?.(value);
+    },
+    [onSelect]
+  );
+  const ctx = useMemo2(
+    () => ({
+      mode,
+      selected,
+      onSelect: handleSelect,
+      minDate,
+      maxDate,
+      disabledDate,
+      focusedDate,
+      setFocusedDate,
+      viewDate,
+      setViewDate
+    }),
+    [
+      mode,
+      selected,
+      handleSelect,
+      minDate,
+      maxDate,
+      disabledDate,
+      focusedDate,
+      setFocusedDate,
+      viewDate,
+      setViewDate
+    ]
+  );
+  return /* @__PURE__ */ jsx23(CalendarContext.Provider, { value: ctx, children });
+}
+var Calendar = {
+  Root: Root2
+};
+
+// src/components/Calendar/Header.tsx
 import { semantic as t22 } from "../../core/dist/index.js";
 
 // src/components/DateRangePicker/dateUtils.ts
@@ -2843,14 +2950,8 @@ function buildCalendarGrid(year, month) {
   return grid;
 }
 
-// src/components/DateRangePicker/CalendarHeader.tsx
-import { jsx as jsx23, jsxs as jsxs12 } from "react/jsx-runtime";
-var headerStyle = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  padding: `${t22.spaceXs} 0`
-};
+// src/components/Calendar/Header.tsx
+import { jsx as jsx24 } from "react/jsx-runtime";
 var titleStyle = {
   fontSize: t22.fontSizeSm,
   fontWeight: t22.fontWeightSemibold,
@@ -2859,46 +2960,72 @@ var titleStyle = {
   margin: 0,
   userSelect: "none"
 };
-function CalendarHeader({
-  year,
-  month,
-  onPrev,
-  onNext
+function CalendarHeaderPrimitive({
+  children,
+  style,
+  className
 }) {
-  return /* @__PURE__ */ jsxs12("div", { style: headerStyle, children: [
-    /* @__PURE__ */ jsx23(
-      IconButton,
-      {
-        icon: "chevron-left",
-        "aria-label": "Previous month",
-        onClick: onPrev,
-        size: "sm"
-      }
-    ),
-    /* @__PURE__ */ jsxs12("span", { style: titleStyle, children: [
-      MONTH_NAMES[month],
-      " ",
-      year
-    ] }),
-    /* @__PURE__ */ jsx23(
-      IconButton,
-      {
-        icon: "chevron-right",
-        "aria-label": "Next month",
-        onClick: onNext,
-        size: "sm"
-      }
-    )
-  ] });
+  const ctx = useCalendarContext("Header");
+  const year = ctx.viewDate.getFullYear();
+  const month = ctx.viewDate.getMonth();
+  return /* @__PURE__ */ jsx24(
+    "span",
+    {
+      style: { ...titleStyle, ...style },
+      className,
+      "aria-live": "polite",
+      children: children ? children({ year, month }) : `${MONTH_NAMES[month]} ${year}`
+    }
+  );
 }
 
+// src/components/Calendar/Nav.tsx
+import { jsx as jsx25 } from "react/jsx-runtime";
+function CalendarNav({
+  direction,
+  step = 1,
+  "aria-label": ariaLabel,
+  onClick
+}) {
+  const ctx = useCalendarContext("Nav");
+  const delta = direction === "prev" ? -step : step;
+  const defaultLabel = direction === "prev" ? "Previous month" : "Next month";
+  const icon = direction === "prev" ? "chevron-left" : "chevron-right";
+  const handleClick = (e) => {
+    const result = onClick?.(e);
+    if (result === false) return;
+    const next = new Date(
+      ctx.viewDate.getFullYear(),
+      ctx.viewDate.getMonth() + delta,
+      1
+    );
+    ctx.setViewDate(next);
+  };
+  return /* @__PURE__ */ jsx25(
+    IconButton,
+    {
+      icon,
+      "aria-label": ariaLabel ?? defaultLabel,
+      onClick: handleClick,
+      size: "sm"
+    }
+  );
+}
+
+// src/components/Calendar/index.ts
+var Calendar2 = {
+  Root: Calendar.Root,
+  Header: CalendarHeaderPrimitive,
+  Nav: CalendarNav
+};
+
 // src/components/DateRangePicker/CalendarGrid.tsx
-import { useCallback as useCallback3, useRef as useRef5 } from "react";
+import { useCallback as useCallback4, useRef as useRef5 } from "react";
 import { semantic as t24 } from "../../core/dist/index.js";
 
 // src/components/DateRangePicker/DayCell.tsx
 import { semantic as t23 } from "../../core/dist/index.js";
-import { jsx as jsx24 } from "react/jsx-runtime";
+import { jsx as jsx26 } from "react/jsx-runtime";
 var baseCellStyle = {
   display: "flex",
   alignItems: "center",
@@ -2952,7 +3079,7 @@ function DayCell({
     scopeClass + "-day",
     ...isDisabled ? [] : [scopeClass + "-day--enabled"]
   ].join(" ");
-  return /* @__PURE__ */ jsx24("td", { role: "gridcell", style: { padding: 0 }, children: /* @__PURE__ */ jsx24(
+  return /* @__PURE__ */ jsx26("td", { role: "gridcell", style: { padding: 0 }, children: /* @__PURE__ */ jsx26(
     "button",
     {
       type: "button",
@@ -2971,7 +3098,7 @@ function DayCell({
 }
 
 // src/components/DateRangePicker/CalendarGrid.tsx
-import { jsx as jsx25, jsxs as jsxs13 } from "react/jsx-runtime";
+import { jsx as jsx27, jsxs as jsxs12 } from "react/jsx-runtime";
 var tableStyle = {
   borderCollapse: "collapse",
   width: "100%",
@@ -3005,7 +3132,7 @@ function CalendarGrid({
   for (let r = 0; r < 6; r++) {
     rows.push(grid.slice(r * 7, r * 7 + 7));
   }
-  const handleKeyDown = useCallback3(
+  const handleKeyDown = useCallback4(
     (e, date) => {
       let next = null;
       switch (e.key) {
@@ -3040,14 +3167,14 @@ function CalendarGrid({
   );
   const sortedStart = rangeStart && rangeEnd ? rangeStart.getTime() <= rangeEnd.getTime() ? rangeStart : rangeEnd : rangeStart;
   const sortedEnd = rangeStart && rangeEnd ? rangeStart.getTime() <= rangeEnd.getTime() ? rangeEnd : rangeStart : rangeEnd;
-  return /* @__PURE__ */ jsxs13("table", { style: tableStyle, role: "grid", "aria-label": "Calendar", children: [
-    /* @__PURE__ */ jsx25("thead", { children: /* @__PURE__ */ jsx25("tr", { children: WEEKDAY_LABELS.map((label) => /* @__PURE__ */ jsx25("th", { scope: "col", style: weekdayHeaderStyle, children: label }, label)) }) }),
-    /* @__PURE__ */ jsx25("tbody", { children: rows.map((row, ri) => /* @__PURE__ */ jsx25("tr", { children: row.map((date) => {
+  return /* @__PURE__ */ jsxs12("table", { style: tableStyle, role: "grid", "aria-label": "Calendar", children: [
+    /* @__PURE__ */ jsx27("thead", { children: /* @__PURE__ */ jsx27("tr", { children: WEEKDAY_LABELS.map((label) => /* @__PURE__ */ jsx27("th", { scope: "col", style: weekdayHeaderStyle, children: label }, label)) }) }),
+    /* @__PURE__ */ jsx27("tbody", { children: rows.map((row, ri) => /* @__PURE__ */ jsx27("tr", { children: row.map((date) => {
       const key = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
       const disabled = isDateDisabled(date, minDate, maxDate, disabledDates);
       const inRange = sortedStart !== null && sortedEnd !== null && isInRange(date, sortedStart, sortedEnd);
       const isFocused = isSameDay(date, focusedDate);
-      return /* @__PURE__ */ jsx25(
+      return /* @__PURE__ */ jsx27(
         DayCell,
         {
           date,
@@ -3069,7 +3196,7 @@ function CalendarGrid({
 }
 
 // src/components/DateRangePicker/DateRangePicker.tsx
-import { jsx as jsx26, jsxs as jsxs14 } from "react/jsx-runtime";
+import { jsx as jsx28, jsxs as jsxs13 } from "react/jsx-runtime";
 var SCOPE = "alttab-drp";
 var injectedCSS = (
   /* css */
@@ -3137,6 +3264,12 @@ var popoverStyle = {
 var placeholderStyle2 = {
   color: t25.colorTextPlaceholder
 };
+var headerRowStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  padding: `${t25.spaceXs} 0`
+};
 var DateRangePicker = forwardRef21(
   function DateRangePicker2({
     value,
@@ -3149,19 +3282,19 @@ var DateRangePicker = forwardRef21(
     disabled
   }, ref) {
     useInjectStyles9(SCOPE, injectedCSS);
-    const [open, setOpen] = useState4(false);
-    const [selectionStart, setSelectionStart] = useState4(null);
+    const [open, setOpen] = useState5(false);
+    const [selectionStart, setSelectionStart] = useState5(null);
     const containerRef = useRef6(null);
     const initialDate = value?.from ?? /* @__PURE__ */ new Date();
-    const [viewYear, setViewYear] = useState4(initialDate.getFullYear());
-    const [viewMonth, setViewMonth] = useState4(initialDate.getMonth());
-    const [focusedDate, setFocusedDate] = useState4(
+    const [viewDate, setViewDate] = useState5(
+      () => new Date(initialDate.getFullYear(), initialDate.getMonth(), 1)
+    );
+    const [focusedDate, setFocusedDate] = useState5(
       value?.from ?? /* @__PURE__ */ new Date()
     );
-    const handleFocusedDateChange = useCallback4((date) => {
+    const handleFocusedDateChange = useCallback5((date) => {
       setFocusedDate(date);
-      setViewYear(date.getFullYear());
-      setViewMonth(date.getMonth());
+      setViewDate(new Date(date.getFullYear(), date.getMonth(), 1));
     }, []);
     useEffect6(() => {
       if (!open) return;
@@ -3194,38 +3327,19 @@ var DateRangePicker = forwardRef21(
       document.addEventListener("keydown", handleKey);
       return () => document.removeEventListener("keydown", handleKey);
     }, [open]);
-    const handleToggle = useCallback4(() => {
+    const handleToggle = useCallback5(() => {
       if (disabled) return;
       setOpen((prev) => {
         if (!prev) {
           const base = value?.from ?? /* @__PURE__ */ new Date();
-          setViewYear(base.getFullYear());
-          setViewMonth(base.getMonth());
+          setViewDate(new Date(base.getFullYear(), base.getMonth(), 1));
           setFocusedDate(value?.from ?? /* @__PURE__ */ new Date());
           setSelectionStart(null);
         }
         return !prev;
       });
     }, [disabled, value]);
-    const handlePrevMonth = useCallback4(() => {
-      setViewMonth((m) => {
-        if (m === 0) {
-          setViewYear((y) => y - 1);
-          return 11;
-        }
-        return m - 1;
-      });
-    }, []);
-    const handleNextMonth = useCallback4(() => {
-      setViewMonth((m) => {
-        if (m === 11) {
-          setViewYear((y) => y + 1);
-          return 0;
-        }
-        return m + 1;
-      });
-    }, []);
-    const handleDaySelect = useCallback4(
+    const handleDaySelect = useCallback5(
       (date) => {
         if (selectionStart === null) {
           setSelectionStart(date);
@@ -3243,11 +3357,11 @@ var DateRangePicker = forwardRef21(
     if (value) {
       displayText = `${formatDate(value.from)} \u2013 ${formatDate(value.to)}`;
     } else {
-      displayText = /* @__PURE__ */ jsx26("span", { style: placeholderStyle2, children: placeholder });
+      displayText = /* @__PURE__ */ jsx28("span", { style: placeholderStyle2, children: placeholder });
     }
     const calendarStart = selectionStart ?? value?.from ?? null;
     const calendarEnd = selectionStart ? null : value?.to ?? null;
-    return /* @__PURE__ */ jsxs14(
+    return /* @__PURE__ */ jsxs13(
       "div",
       {
         ref: (node) => {
@@ -3257,7 +3371,7 @@ var DateRangePicker = forwardRef21(
         },
         style: wrapperStyle2,
         children: [
-          /* @__PURE__ */ jsx26(
+          /* @__PURE__ */ jsx28(
             "button",
             {
               type: "button",
@@ -3275,33 +3389,42 @@ var DateRangePicker = forwardRef21(
               children: displayText
             }
           ),
-          open && /* @__PURE__ */ jsxs14("div", { style: popoverStyle, role: "dialog", "aria-label": "Date range picker", children: [
-            /* @__PURE__ */ jsx26(
-              CalendarHeader,
-              {
-                year: viewYear,
-                month: viewMonth,
-                onPrev: handlePrevMonth,
-                onNext: handleNextMonth
-              }
-            ),
-            /* @__PURE__ */ jsx26(
-              CalendarGrid,
-              {
-                year: viewYear,
-                month: viewMonth,
-                rangeStart: calendarStart,
-                rangeEnd: calendarEnd,
-                minDate,
-                maxDate,
-                disabledDates,
-                scopeClass: SCOPE,
-                focusedDate,
-                onSelect: handleDaySelect,
-                onFocusedDateChange: handleFocusedDateChange
-              }
-            )
-          ] })
+          open && /* @__PURE__ */ jsx28("div", { style: popoverStyle, role: "dialog", "aria-label": "Date range picker", children: /* @__PURE__ */ jsxs13(
+            Calendar2.Root,
+            {
+              mode: "range",
+              selected: value,
+              viewDate,
+              onViewDateChange: setViewDate,
+              focusedDate,
+              onFocusedDateChange: setFocusedDate,
+              minDate,
+              maxDate,
+              children: [
+                /* @__PURE__ */ jsxs13("div", { style: headerRowStyle, children: [
+                  /* @__PURE__ */ jsx28(Calendar2.Nav, { direction: "prev" }),
+                  /* @__PURE__ */ jsx28(Calendar2.Header, {}),
+                  /* @__PURE__ */ jsx28(Calendar2.Nav, { direction: "next" })
+                ] }),
+                /* @__PURE__ */ jsx28(
+                  CalendarGrid,
+                  {
+                    year: viewDate.getFullYear(),
+                    month: viewDate.getMonth(),
+                    rangeStart: calendarStart,
+                    rangeEnd: calendarEnd,
+                    minDate,
+                    maxDate,
+                    disabledDates,
+                    scopeClass: SCOPE,
+                    focusedDate,
+                    onSelect: handleDaySelect,
+                    onFocusedDateChange: handleFocusedDateChange
+                  }
+                )
+              ]
+            }
+          ) })
         ]
       }
     );
@@ -3309,9 +3432,9 @@ var DateRangePicker = forwardRef21(
 );
 
 // src/components/DatePicker/DatePicker.tsx
-import { forwardRef as forwardRef22, useState as useState5, useRef as useRef7, useCallback as useCallback5, useEffect as useEffect7 } from "react";
+import { forwardRef as forwardRef22, useState as useState6, useRef as useRef7, useCallback as useCallback6, useEffect as useEffect7 } from "react";
 import { semantic as t26, useInjectStyles as useInjectStyles10 } from "../../core/dist/index.js";
-import { jsx as jsx27, jsxs as jsxs15 } from "react/jsx-runtime";
+import { jsx as jsx29, jsxs as jsxs14 } from "react/jsx-runtime";
 var SCOPE2 = "alttab-dp";
 var injectedCSS2 = (
   /* css */
@@ -3379,6 +3502,12 @@ var popoverStyle2 = {
 var placeholderStyle3 = {
   color: t26.colorTextPlaceholder
 };
+var headerRowStyle2 = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  padding: `${t26.spaceXs} 0`
+};
 var DatePicker = forwardRef22(
   function DatePicker2({
     value,
@@ -3391,16 +3520,16 @@ var DatePicker = forwardRef22(
     disabled
   }, ref) {
     useInjectStyles10(SCOPE2, injectedCSS2);
-    const [open, setOpen] = useState5(false);
+    const [open, setOpen] = useState6(false);
     const containerRef = useRef7(null);
     const initialDate = value ?? /* @__PURE__ */ new Date();
-    const [viewYear, setViewYear] = useState5(initialDate.getFullYear());
-    const [viewMonth, setViewMonth] = useState5(initialDate.getMonth());
-    const [focusedDate, setFocusedDate] = useState5(value ?? /* @__PURE__ */ new Date());
-    const handleFocusedDateChange = useCallback5((date) => {
+    const [viewDate, setViewDate] = useState6(
+      () => new Date(initialDate.getFullYear(), initialDate.getMonth(), 1)
+    );
+    const [focusedDate, setFocusedDate] = useState6(value ?? /* @__PURE__ */ new Date());
+    const handleFocusedDateChange = useCallback6((date) => {
       setFocusedDate(date);
-      setViewYear(date.getFullYear());
-      setViewMonth(date.getMonth());
+      setViewDate(new Date(date.getFullYear(), date.getMonth(), 1));
     }, []);
     useEffect7(() => {
       if (!open) return;
@@ -3431,37 +3560,18 @@ var DatePicker = forwardRef22(
       document.addEventListener("keydown", handleKey);
       return () => document.removeEventListener("keydown", handleKey);
     }, [open]);
-    const handleToggle = useCallback5(() => {
+    const handleToggle = useCallback6(() => {
       if (disabled) return;
       setOpen((prev) => {
         if (!prev) {
           const base = value ?? /* @__PURE__ */ new Date();
-          setViewYear(base.getFullYear());
-          setViewMonth(base.getMonth());
+          setViewDate(new Date(base.getFullYear(), base.getMonth(), 1));
           setFocusedDate(value ?? /* @__PURE__ */ new Date());
         }
         return !prev;
       });
     }, [disabled, value]);
-    const handlePrevMonth = useCallback5(() => {
-      setViewMonth((m) => {
-        if (m === 0) {
-          setViewYear((y) => y - 1);
-          return 11;
-        }
-        return m - 1;
-      });
-    }, []);
-    const handleNextMonth = useCallback5(() => {
-      setViewMonth((m) => {
-        if (m === 11) {
-          setViewYear((y) => y + 1);
-          return 0;
-        }
-        return m + 1;
-      });
-    }, []);
-    const handleDaySelect = useCallback5(
+    const handleDaySelect = useCallback6(
       (date) => {
         onChange(date);
         setOpen(false);
@@ -3472,9 +3582,9 @@ var DatePicker = forwardRef22(
     if (value) {
       displayText = formatDate(value);
     } else {
-      displayText = /* @__PURE__ */ jsx27("span", { style: placeholderStyle3, children: placeholder });
+      displayText = /* @__PURE__ */ jsx29("span", { style: placeholderStyle3, children: placeholder });
     }
-    return /* @__PURE__ */ jsxs15(
+    return /* @__PURE__ */ jsxs14(
       "div",
       {
         ref: (node) => {
@@ -3484,7 +3594,7 @@ var DatePicker = forwardRef22(
         },
         style: wrapperStyle3,
         children: [
-          /* @__PURE__ */ jsx27(
+          /* @__PURE__ */ jsx29(
             "button",
             {
               type: "button",
@@ -3502,125 +3612,52 @@ var DatePicker = forwardRef22(
               children: displayText
             }
           ),
-          open && /* @__PURE__ */ jsxs15("div", { style: popoverStyle2, role: "dialog", "aria-label": "Date picker", children: [
-            /* @__PURE__ */ jsx27(
-              CalendarHeader,
-              {
-                year: viewYear,
-                month: viewMonth,
-                onPrev: handlePrevMonth,
-                onNext: handleNextMonth
-              }
-            ),
-            /* @__PURE__ */ jsx27(
-              CalendarGrid,
-              {
-                year: viewYear,
-                month: viewMonth,
-                rangeStart: value ?? null,
-                rangeEnd: null,
-                minDate,
-                maxDate,
-                disabledDates,
-                scopeClass: SCOPE2,
-                focusedDate,
-                onSelect: handleDaySelect,
-                onFocusedDateChange: handleFocusedDateChange
-              }
-            )
-          ] })
+          open && /* @__PURE__ */ jsx29("div", { style: popoverStyle2, role: "dialog", "aria-label": "Date picker", children: /* @__PURE__ */ jsxs14(
+            Calendar2.Root,
+            {
+              mode: "single",
+              selected: value,
+              viewDate,
+              onViewDateChange: setViewDate,
+              focusedDate,
+              onFocusedDateChange: setFocusedDate,
+              minDate,
+              maxDate,
+              children: [
+                /* @__PURE__ */ jsxs14("div", { style: headerRowStyle2, children: [
+                  /* @__PURE__ */ jsx29(Calendar2.Nav, { direction: "prev" }),
+                  /* @__PURE__ */ jsx29(Calendar2.Header, {}),
+                  /* @__PURE__ */ jsx29(Calendar2.Nav, { direction: "next" })
+                ] }),
+                /* @__PURE__ */ jsx29(
+                  CalendarGrid,
+                  {
+                    year: viewDate.getFullYear(),
+                    month: viewDate.getMonth(),
+                    rangeStart: value ?? null,
+                    rangeEnd: null,
+                    minDate,
+                    maxDate,
+                    disabledDates,
+                    scopeClass: SCOPE2,
+                    focusedDate,
+                    onSelect: handleDaySelect,
+                    onFocusedDateChange: handleFocusedDateChange
+                  }
+                )
+              ]
+            }
+          ) })
         ]
       }
     );
   }
 );
 
-// src/components/Calendar/Calendar.tsx
-import {
-  createContext as createContext3,
-  useCallback as useCallback6,
-  useContext as useContext3,
-  useMemo as useMemo2,
-  useState as useState6
-} from "react";
-import { jsx as jsx28 } from "react/jsx-runtime";
-var CalendarContext = createContext3(null);
-function useCalendarContext(part = "child") {
-  const ctx = useContext3(CalendarContext);
-  if (!ctx) {
-    throw new Error(
-      `Calendar.${part} must be rendered inside <Calendar.Root>.`
-    );
-  }
-  return ctx;
-}
-function seedFocusedDate(selected) {
-  if (!selected) return void 0;
-  if (selected instanceof Date) return selected;
-  return selected.from;
-}
-function Root2({
-  mode = "single",
-  selected,
-  onSelect,
-  minDate,
-  maxDate,
-  disabledDate,
-  focusedDate: focusedDateProp,
-  defaultFocusedDate,
-  onFocusedDateChange,
-  children
-}) {
-  const [focusedDateState, setFocusedDateState] = useState6(
-    () => defaultFocusedDate ?? seedFocusedDate(selected) ?? /* @__PURE__ */ new Date()
-  );
-  const isControlled = focusedDateProp !== void 0;
-  const focusedDate = isControlled ? focusedDateProp : focusedDateState;
-  const setFocusedDate = useCallback6(
-    (date) => {
-      if (!isControlled) setFocusedDateState(date);
-      onFocusedDateChange?.(date);
-    },
-    [isControlled, onFocusedDateChange]
-  );
-  const handleSelect = useCallback6(
-    (value) => {
-      onSelect?.(value);
-    },
-    [onSelect]
-  );
-  const ctx = useMemo2(
-    () => ({
-      mode,
-      selected,
-      onSelect: handleSelect,
-      minDate,
-      maxDate,
-      disabledDate,
-      focusedDate,
-      setFocusedDate
-    }),
-    [
-      mode,
-      selected,
-      handleSelect,
-      minDate,
-      maxDate,
-      disabledDate,
-      focusedDate,
-      setFocusedDate
-    ]
-  );
-  return /* @__PURE__ */ jsx28(CalendarContext.Provider, { value: ctx, children });
-}
-var Calendar = {
-  Root: Root2
-};
-
 // src/components/ErrorBoundary/ErrorBoundary.tsx
 import React from "react";
 import { semantic as t27 } from "../../core/dist/index.js";
-import { jsx as jsx29, jsxs as jsxs16 } from "react/jsx-runtime";
+import { jsx as jsx30, jsxs as jsxs15 } from "react/jsx-runtime";
 var ErrorBoundary = class extends React.Component {
   constructor(props) {
     super(props);
@@ -3644,13 +3681,13 @@ var ErrorBoundary = class extends React.Component {
     if (fallback) {
       return fallback({ error, resetErrorBoundary: this.resetErrorBoundary });
     }
-    return /* @__PURE__ */ jsx29("div", { style: { borderColor: t27.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: t27.radiusLg }, children: /* @__PURE__ */ jsx29(
+    return /* @__PURE__ */ jsx30("div", { style: { borderColor: t27.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: t27.radiusLg }, children: /* @__PURE__ */ jsx30(
       Card,
       {
         variant: "flat",
         padding: "lg",
-        children: /* @__PURE__ */ jsxs16("div", { style: { display: "flex", flexDirection: "column", gap: t27.spaceMd }, children: [
-          /* @__PURE__ */ jsx29("div", { style: { display: "flex", alignItems: "center", gap: t27.spaceSm }, children: /* @__PURE__ */ jsx29(
+        children: /* @__PURE__ */ jsxs15("div", { style: { display: "flex", flexDirection: "column", gap: t27.spaceMd }, children: [
+          /* @__PURE__ */ jsx30("div", { style: { display: "flex", alignItems: "center", gap: t27.spaceSm }, children: /* @__PURE__ */ jsx30(
             "span",
             {
               style: {
@@ -3662,7 +3699,7 @@ var ErrorBoundary = class extends React.Component {
               children: "Something went wrong"
             }
           ) }),
-          /* @__PURE__ */ jsx29(
+          /* @__PURE__ */ jsx30(
             "p",
             {
               style: {
@@ -3679,8 +3716,8 @@ var ErrorBoundary = class extends React.Component {
               children: error.message
             }
           ),
-          error.stack && /* @__PURE__ */ jsxs16("div", { children: [
-            /* @__PURE__ */ jsx29(
+          error.stack && /* @__PURE__ */ jsxs15("div", { children: [
+            /* @__PURE__ */ jsx30(
               "button",
               {
                 type: "button",
@@ -3698,7 +3735,7 @@ var ErrorBoundary = class extends React.Component {
                 children: showStack ? "Hide stack trace" : "Show stack trace"
               }
             ),
-            showStack && /* @__PURE__ */ jsx29(
+            showStack && /* @__PURE__ */ jsx30(
               "pre",
               {
                 style: {
@@ -3719,7 +3756,7 @@ var ErrorBoundary = class extends React.Component {
               }
             )
           ] }),
-          /* @__PURE__ */ jsx29("div", { children: /* @__PURE__ */ jsx29(Button, { variant: "secondary", size: "sm", onClick: this.resetErrorBoundary, children: "Try again" }) })
+          /* @__PURE__ */ jsx30("div", { children: /* @__PURE__ */ jsx30(Button, { variant: "secondary", size: "sm", onClick: this.resetErrorBoundary, children: "Try again" }) })
         ] })
       }
     ) });
@@ -3737,7 +3774,7 @@ import {
 } from "react";
 import { createPortal as createPortal2 } from "react-dom";
 import { semantic as t28, useInjectStyles as useInjectStyles11 } from "../../core/dist/index.js";
-import { jsx as jsx30, jsxs as jsxs17 } from "react/jsx-runtime";
+import { jsx as jsx31, jsxs as jsxs16 } from "react/jsx-runtime";
 var ToastContext = createContext4(null);
 function useToast() {
   const ctx = useContext4(ToastContext);
@@ -3840,7 +3877,7 @@ function ToastMessage({
     }
   };
   const colors = typeColors[item.type];
-  return /* @__PURE__ */ jsxs17(
+  return /* @__PURE__ */ jsxs16(
     "div",
     {
       role: "status",
@@ -3875,8 +3912,8 @@ function ToastMessage({
       },
       onAnimationEnd: handleAnimationEnd,
       children: [
-        /* @__PURE__ */ jsx30("span", { style: { flex: 1 }, children: item.message }),
-        /* @__PURE__ */ jsx30(
+        /* @__PURE__ */ jsx31("span", { style: { flex: 1 }, children: item.message }),
+        /* @__PURE__ */ jsx31(
           "button",
           {
             onClick: () => setExiting(true),
@@ -3903,7 +3940,7 @@ function ToastMessage({
             children: "\xD7"
           }
         ),
-        autoDismiss && /* @__PURE__ */ jsx30(
+        autoDismiss && /* @__PURE__ */ jsx31(
           "span",
           {
             "data-toast-timer": "",
@@ -3937,7 +3974,7 @@ function ToastContainer({
     ...position.endsWith("right") ? { right: t28.spaceLg } : { left: t28.spaceLg }
   };
   return createPortal2(
-    /* @__PURE__ */ jsx30("div", { "aria-live": "polite", style: positionStyles, children: toasts.map((item) => /* @__PURE__ */ jsx30(ToastMessage, { item, onDismiss }, item.id)) }),
+    /* @__PURE__ */ jsx31("div", { "aria-live": "polite", style: positionStyles, children: toasts.map((item) => /* @__PURE__ */ jsx31(ToastMessage, { item, onDismiss }, item.id)) }),
     document.body
   );
 }
@@ -3963,9 +4000,9 @@ function ToastProvider({
     },
     []
   );
-  return /* @__PURE__ */ jsxs17(ToastContext.Provider, { value: { showToast }, children: [
+  return /* @__PURE__ */ jsxs16(ToastContext.Provider, { value: { showToast }, children: [
     children,
-    /* @__PURE__ */ jsx30(ToastContainer, { toasts, onDismiss: dismiss, position })
+    /* @__PURE__ */ jsx31(ToastContainer, { toasts, onDismiss: dismiss, position })
   ] });
 }
 
@@ -3981,7 +4018,7 @@ import {
   useState as useState8
 } from "react";
 import { semantic as t29, useInjectStyles as useInjectStyles12 } from "../../core/dist/index.js";
-import { jsx as jsx31 } from "react/jsx-runtime";
+import { jsx as jsx32 } from "react/jsx-runtime";
 var COMBOBOX_STYLES_ID = "alttab-combobox";
 var comboboxCSS = (
   /* css */
@@ -4211,7 +4248,7 @@ function Root3({
     ]
   );
   ctx.__suppressNextOpen = suppressNextOpenRef;
-  return /* @__PURE__ */ jsx31(ComboboxContext.Provider, { value: ctx, children: /* @__PURE__ */ jsx31("div", { ref: containerRef, style: wrapperStyle4, onKeyDown: handleKeyDown, children }) });
+  return /* @__PURE__ */ jsx32(ComboboxContext.Provider, { value: ctx, children: /* @__PURE__ */ jsx32("div", { ref: containerRef, style: wrapperStyle4, onKeyDown: handleKeyDown, children }) });
 }
 function Input3({
   placeholder,
@@ -4266,7 +4303,7 @@ function Input3({
     },
     [disabled, items.length, openMenu, onFocusProp, suppressNextOpenRef]
   );
-  return /* @__PURE__ */ jsx31(
+  return /* @__PURE__ */ jsx32(
     "input",
     {
       ref: inputRef,
@@ -4332,7 +4369,7 @@ function List({ children }) {
     right: 0,
     marginBottom: t29.spaceXs
   };
-  return /* @__PURE__ */ jsx31(
+  return /* @__PURE__ */ jsx32(
     "div",
     {
       ref,
@@ -4381,7 +4418,7 @@ function Item2({
     isFocused ? "alttab-combobox-option--focused" : "",
     isSelected ? "alttab-combobox-option--selected" : ""
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ jsx31(
+  return /* @__PURE__ */ jsx32(
     "button",
     {
       type: "button",
@@ -4397,7 +4434,7 @@ function Item2({
   );
 }
 function Empty({ children }) {
-  return /* @__PURE__ */ jsx31(
+  return /* @__PURE__ */ jsx32(
     "div",
     {
       role: "presentation",
@@ -4450,7 +4487,7 @@ var Combobox = {
 // src/components/TableFilters/TableFilters.tsx
 import { useState as useState9, useEffect as useEffect10, useRef as useRef10, useCallback as useCallback9 } from "react";
 import { semantic as t30 } from "../../core/dist/index.js";
-import { jsx as jsx32, jsxs as jsxs18 } from "react/jsx-runtime";
+import { jsx as jsx33, jsxs as jsxs17 } from "react/jsx-runtime";
 function DebouncedTextFilter({
   config,
   value,
@@ -4478,7 +4515,7 @@ function DebouncedTextFilter({
       if (timerRef.current) clearTimeout(timerRef.current);
     };
   }, []);
-  return /* @__PURE__ */ jsx32("div", { style: { minWidth: "10rem", flex: "1 1 10rem" }, children: /* @__PURE__ */ jsx32(
+  return /* @__PURE__ */ jsx33("div", { style: { minWidth: "10rem", flex: "1 1 10rem" }, children: /* @__PURE__ */ jsx33(
     Input,
     {
       value: local,
@@ -4498,9 +4535,9 @@ function SelectFilter({
     },
     [config.key, onCommit]
   );
-  return /* @__PURE__ */ jsx32("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ jsxs18(Select.Root, { value, onValueChange: handleValueChange, children: [
-    /* @__PURE__ */ jsx32(Select.Trigger, { children: /* @__PURE__ */ jsx32(Select.Value, { placeholder: config.placeholder }) }),
-    /* @__PURE__ */ jsx32(Select.Content, { children: config.options.map((opt) => /* @__PURE__ */ jsx32(Select.Item, { value: opt.value, children: opt.label }, opt.value)) })
+  return /* @__PURE__ */ jsx33("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ jsxs17(Select.Root, { value, onValueChange: handleValueChange, children: [
+    /* @__PURE__ */ jsx33(Select.Trigger, { children: /* @__PURE__ */ jsx33(Select.Value, { placeholder: config.placeholder }) }),
+    /* @__PURE__ */ jsx33(Select.Content, { children: config.options.map((opt) => /* @__PURE__ */ jsx33(Select.Item, { value: opt.value, children: opt.label }, opt.value)) })
   ] }) });
 }
 function TableFilters({
@@ -4516,7 +4553,7 @@ function TableFilters({
     },
     [values, onChange]
   );
-  return /* @__PURE__ */ jsx32(
+  return /* @__PURE__ */ jsx33(
     "div",
     {
       style: {
@@ -4530,7 +4567,7 @@ function TableFilters({
       children: filters.map((filter) => {
         const val = values[filter.key] ?? "";
         if (filter.type === "text") {
-          return /* @__PURE__ */ jsx32(
+          return /* @__PURE__ */ jsx33(
             DebouncedTextFilter,
             {
               config: filter,
@@ -4540,7 +4577,7 @@ function TableFilters({
             filter.key
           );
         }
-        return /* @__PURE__ */ jsx32(
+        return /* @__PURE__ */ jsx33(
           SelectFilter,
           {
             config: filter,
@@ -4557,7 +4594,7 @@ function TableFilters({
 // src/components/ChipPicker/ChipPicker.tsx
 import { useCallback as useCallback10, useId as useId8, useState as useState10 } from "react";
 import { semantic as t31, useInjectStyles as useInjectStyles13 } from "../../core/dist/index.js";
-import { jsx as jsx33, jsxs as jsxs19 } from "react/jsx-runtime";
+import { jsx as jsx34, jsxs as jsxs18 } from "react/jsx-runtime";
 function ChipPicker({
   items,
   selected: controlledSelected,
@@ -4632,7 +4669,7 @@ function ChipPicker({
     transition: `background ${t31.transitionFast}, border-color ${t31.transitionFast}, color ${t31.transitionFast}`,
     outline: "none"
   });
-  const renderChips = (chips) => /* @__PURE__ */ jsx33(
+  const renderChips = (chips) => /* @__PURE__ */ jsx34(
     "div",
     {
       style: {
@@ -4642,7 +4679,7 @@ function ChipPicker({
       },
       children: chips.map((item) => {
         const isSelected = selected.includes(item.value);
-        return /* @__PURE__ */ jsx33(
+        return /* @__PURE__ */ jsx34(
           "button",
           {
             type: "button",
@@ -4656,7 +4693,7 @@ function ChipPicker({
       })
     }
   );
-  return /* @__PURE__ */ jsx33(
+  return /* @__PURE__ */ jsx34(
     "div",
     {
       "data-chip-picker-id": styleId,
@@ -4667,8 +4704,8 @@ function ChipPicker({
         flexDirection: "column",
         gap: t31.spaceMd
       },
-      children: groups.map((group, i) => /* @__PURE__ */ jsxs19("div", { style: { display: "flex", flexDirection: "column", gap: t31.spaceSm }, children: [
-        group.label !== null && /* @__PURE__ */ jsx33("div", { style: i > 0 ? { marginTop: t31.spaceXs } : void 0, children: /* @__PURE__ */ jsx33("div", { style: sectionLabelStyle, children: group.label }) }),
+      children: groups.map((group, i) => /* @__PURE__ */ jsxs18("div", { style: { display: "flex", flexDirection: "column", gap: t31.spaceSm }, children: [
+        group.label !== null && /* @__PURE__ */ jsx34("div", { style: i > 0 ? { marginTop: t31.spaceXs } : void 0, children: /* @__PURE__ */ jsx34("div", { style: sectionLabelStyle, children: group.label }) }),
         renderChips(group.chips)
       ] }, group.label ?? "__ungrouped"))
     }
@@ -4678,7 +4715,7 @@ function ChipPicker({
 // src/components/SearchInput/SearchInput.tsx
 import { forwardRef as forwardRef23, useState as useState11, useEffect as useEffect11, useRef as useRef11, useCallback as useCallback11 } from "react";
 import { semantic as t32, useInjectStyles as useInjectStyles14 } from "../../core/dist/index.js";
-import { jsx as jsx34, jsxs as jsxs20 } from "react/jsx-runtime";
+import { jsx as jsx35, jsxs as jsxs19 } from "react/jsx-runtime";
 var STYLE_ID2 = "4lt7ab-search-input";
 var hoverFocusCSS = `
   .search-input-wrapper:focus-within {
@@ -4762,7 +4799,7 @@ var SearchInput = forwardRef23(
         if (timerRef.current) clearTimeout(timerRef.current);
       };
     }, []);
-    return /* @__PURE__ */ jsxs20(
+    return /* @__PURE__ */ jsxs19(
       "div",
       {
         className: "search-input-wrapper",
@@ -4772,8 +4809,8 @@ var SearchInput = forwardRef23(
           ...disabled ? disabledWrapperStyle : {}
         },
         children: [
-          /* @__PURE__ */ jsx34("span", { style: { color: t32.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ jsx34(Icon, { name: "search", size: "sm" }) }),
-          /* @__PURE__ */ jsx34(
+          /* @__PURE__ */ jsx35("span", { style: { color: t32.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ jsx35(Icon, { name: "search", size: "sm" }) }),
+          /* @__PURE__ */ jsx35(
             "input",
             {
               ref,
@@ -4792,7 +4829,7 @@ var SearchInput = forwardRef23(
               style: inputStyle
             }
           ),
-          trailing && /* @__PURE__ */ jsx34("div", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: trailing })
+          trailing && /* @__PURE__ */ jsx35("div", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: trailing })
         ]
       }
     );
@@ -4802,7 +4839,7 @@ var SearchInput = forwardRef23(
 // src/components/SegmentedControl/SegmentedControl.tsx
 import { useCallback as useCallback12, useLayoutEffect, useRef as useRef12, useState as useState12 } from "react";
 import { semantic as t33, useInjectStyles as useInjectStyles15 } from "../../core/dist/index.js";
-import { jsx as jsx35, jsxs as jsxs21 } from "react/jsx-runtime";
+import { jsx as jsx36, jsxs as jsxs20 } from "react/jsx-runtime";
 var STYLE_ID3 = "4lt7ab-segmented-control";
 var hoverCSS = `
   .segmented-ctrl-btn:hover:not([aria-pressed="true"]) {
@@ -4871,7 +4908,7 @@ function SegmentedControl({
     if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, [updateIndicator]);
-  return /* @__PURE__ */ jsxs21(
+  return /* @__PURE__ */ jsxs20(
     "div",
     {
       ref: containerRef,
@@ -4889,7 +4926,7 @@ function SegmentedControl({
         boxSizing: "border-box"
       },
       children: [
-        indicator && /* @__PURE__ */ jsx35(
+        indicator && /* @__PURE__ */ jsx36(
           "div",
           {
             className: "segmented-ctrl-indicator",
@@ -4910,7 +4947,7 @@ function SegmentedControl({
           const isActive = seg.value === value;
           const hasIcon = !!seg.icon;
           const iconOnly = hasIcon && !seg.label;
-          return /* @__PURE__ */ jsxs21(
+          return /* @__PURE__ */ jsxs20(
             "button",
             {
               type: "button",
@@ -4939,8 +4976,8 @@ function SegmentedControl({
                 lineHeight: 1
               },
               children: [
-                hasIcon && /* @__PURE__ */ jsx35(Icon, { name: seg.icon, size: s.iconSize }),
-                seg.label && /* @__PURE__ */ jsx35("span", { children: seg.label })
+                hasIcon && /* @__PURE__ */ jsx36(Icon, { name: seg.icon, size: s.iconSize }),
+                seg.label && /* @__PURE__ */ jsx36("span", { children: seg.label })
               ]
             },
             seg.value
@@ -4954,7 +4991,7 @@ function SegmentedControl({
 // src/components/AlertBanner/AlertBanner.tsx
 import { forwardRef as forwardRef24 } from "react";
 import { semantic as t34, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
-import { jsx as jsx36, jsxs as jsxs22 } from "react/jsx-runtime";
+import { jsx as jsx37, jsxs as jsxs21 } from "react/jsx-runtime";
 var STYLE_ID4 = "4lt7ab-alert-banner";
 var alertBannerCSS = `
 @keyframes alert-banner-slide-in {
@@ -4978,17 +5015,17 @@ var variantColors2 = {
   success: { bg: t34.colorSuccessBg, fg: t34.colorSuccess, border: t34.colorSuccess }
 };
 var defaultIcons = {
-  info: /* @__PURE__ */ jsx36(IconInfo, { size: 20 }),
-  warning: /* @__PURE__ */ jsx36(IconWarning, { size: 20 }),
-  error: /* @__PURE__ */ jsx36(IconError, { size: 20 }),
-  success: /* @__PURE__ */ jsx36(IconCheckCircle, { size: 20 })
+  info: /* @__PURE__ */ jsx37(IconInfo, { size: 20 }),
+  warning: /* @__PURE__ */ jsx37(IconWarning, { size: 20 }),
+  error: /* @__PURE__ */ jsx37(IconError, { size: 20 }),
+  success: /* @__PURE__ */ jsx37(IconCheckCircle, { size: 20 })
 };
 var AlertBanner = forwardRef24(
   function AlertBanner2({ variant, children, onDismiss, icon }, ref) {
     useInjectStyles16(STYLE_ID4, alertBannerCSS);
     const colors = variantColors2[variant];
     const resolvedIcon = icon !== void 0 ? icon : defaultIcons[variant];
-    return /* @__PURE__ */ jsxs22(
+    return /* @__PURE__ */ jsxs21(
       "div",
       {
         ref,
@@ -5010,9 +5047,9 @@ var AlertBanner = forwardRef24(
           animation: "alert-banner-slide-in 250ms ease"
         },
         children: [
-          resolvedIcon && /* @__PURE__ */ jsx36("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
-          /* @__PURE__ */ jsx36("span", { style: { flex: 1 }, children }),
-          onDismiss && /* @__PURE__ */ jsx36(
+          resolvedIcon && /* @__PURE__ */ jsx37("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
+          /* @__PURE__ */ jsx37("span", { style: { flex: 1 }, children }),
+          onDismiss && /* @__PURE__ */ jsx37(
             "button",
             {
               className: "alert-banner-dismiss",
@@ -5049,7 +5086,7 @@ var AlertBanner = forwardRef24(
 // src/components/TopBar/TopBar.tsx
 import { createContext as createContext6, forwardRef as forwardRef25, useContext as useContext6 } from "react";
 import { semantic as t35, useInjectStyles as useInjectStyles17, Slot as Slot3 } from "../../core/dist/index.js";
-import { jsx as jsx37 } from "react/jsx-runtime";
+import { jsx as jsx38 } from "react/jsx-runtime";
 var TopBarContext = createContext6(null);
 function useTopBarContext(component) {
   const ctx = useContext6(TopBarContext);
@@ -5088,7 +5125,7 @@ var TopBarRoot = forwardRef25(
   function TopBarRoot2({ children, sticky = false, ...rest }, ref) {
     useInjectStyles17(TOPBAR_STYLES_ID, TOPBAR_CSS);
     const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: t35.zIndexSticky } : {};
-    return /* @__PURE__ */ jsx37(TopBarContext.Provider, { value: true, children: /* @__PURE__ */ jsx37(
+    return /* @__PURE__ */ jsx38(TopBarContext.Provider, { value: true, children: /* @__PURE__ */ jsx38(
       "header",
       {
         ref,
@@ -5112,7 +5149,7 @@ var TopBarRoot = forwardRef25(
 );
 function TopBarLeading({ children }) {
   useTopBarContext("Leading");
-  return /* @__PURE__ */ jsx37(
+  return /* @__PURE__ */ jsx38(
     "div",
     {
       style: {
@@ -5131,7 +5168,7 @@ function TopBarLeading({ children }) {
 }
 function TopBarNav({ children, "aria-label": ariaLabel = "Primary" }) {
   useTopBarContext("Nav");
-  return /* @__PURE__ */ jsx37(
+  return /* @__PURE__ */ jsx38(
     "nav",
     {
       "aria-label": ariaLabel,
@@ -5175,13 +5212,13 @@ var TopBarLink = forwardRef25(function TopBarLink2({ active = false, asChild = f
     style
   };
   if (asChild) {
-    return /* @__PURE__ */ jsx37(Slot3, { ref, ...commonProps, children });
+    return /* @__PURE__ */ jsx38(Slot3, { ref, ...commonProps, children });
   }
-  return /* @__PURE__ */ jsx37("button", { ref, type: "button", ...commonProps, children });
+  return /* @__PURE__ */ jsx38("button", { ref, type: "button", ...commonProps, children });
 });
 function TopBarTrailing({ children }) {
   useTopBarContext("Trailing");
-  return /* @__PURE__ */ jsx37(
+  return /* @__PURE__ */ jsx38(
     "div",
     {
       style: {
@@ -5253,7 +5290,7 @@ var Surface = forwardRef26(
 
 // src/components/Grid/Grid.tsx
 import { forwardRef as forwardRef27 } from "react";
-import { jsx as jsx38 } from "react/jsx-runtime";
+import { jsx as jsx39 } from "react/jsx-runtime";
 var Grid = forwardRef27(
   function Grid2({
     minColumnWidth = 300,
@@ -5264,7 +5301,7 @@ var Grid = forwardRef27(
   }, ref) {
     const minWidth = `${minColumnWidth}px`;
     const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
-    return /* @__PURE__ */ jsx38(
+    return /* @__PURE__ */ jsx39(
       "div",
       {
         ref,
@@ -5284,7 +5321,7 @@ var Grid = forwardRef27(
 // src/components/Divider/Divider.tsx
 import { forwardRef as forwardRef28 } from "react";
 import { semantic as t37 } from "../../core/dist/index.js";
-import { jsx as jsx39 } from "react/jsx-runtime";
+import { jsx as jsx40 } from "react/jsx-runtime";
 var Divider = forwardRef28(
   function Divider2({
     orientation = "horizontal",
@@ -5296,7 +5333,7 @@ var Divider = forwardRef28(
     const bg = `color-mix(in srgb, ${t37.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
     const isHorizontal = orientation === "horizontal";
-    return /* @__PURE__ */ jsx39(
+    return /* @__PURE__ */ jsx40(
       "div",
       {
         ref,
@@ -5319,7 +5356,7 @@ var Divider = forwardRef28(
 // src/components/TabStrip/TabStrip.tsx
 import { forwardRef as forwardRef29, useCallback as useCallback13, useRef as useRef13 } from "react";
 import { semantic as t38, useInjectStyles as useInjectStyles18 } from "../../core/dist/index.js";
-import { jsx as jsx40, jsxs as jsxs23 } from "react/jsx-runtime";
+import { jsx as jsx41, jsxs as jsxs22 } from "react/jsx-runtime";
 var STYLES_ID = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
@@ -5371,7 +5408,7 @@ var TabStrip = forwardRef29(
       [tabs.length]
     );
     const isSm = size === "sm";
-    return /* @__PURE__ */ jsx40(
+    return /* @__PURE__ */ jsx41(
       "div",
       {
         ref,
@@ -5384,7 +5421,7 @@ var TabStrip = forwardRef29(
         },
         children: tabs.map((tab, i) => {
           const isActive = tab.key === activeKey;
-          return /* @__PURE__ */ jsxs23(
+          return /* @__PURE__ */ jsxs22(
             "button",
             {
               ref: (el) => {
@@ -5414,7 +5451,7 @@ var TabStrip = forwardRef29(
                 whiteSpace: "nowrap"
               },
               children: [
-                tab.icon && /* @__PURE__ */ jsx40(
+                tab.icon && /* @__PURE__ */ jsx41(
                   "span",
                   {
                     className: "material-symbols-outlined",
@@ -5437,7 +5474,7 @@ export {
   AlertBanner,
   Badge,
   Button,
-  Calendar,
+  Calendar2 as Calendar,
   Card,
   CardSkeleton,
   ChipPicker,

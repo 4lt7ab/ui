@@ -4,13 +4,15 @@ import type { CalendarRange, CalendarSelection } from '@4lt7ab/ui';
 import { Stack } from '@4lt7ab/ui';
 
 /**
- * Calendar.Root primitive demo.
+ * Calendar compound primitive demo.
  *
- * This is the state-owning slice of the compound Calendar API. The visible
- * sub-primitives (Calendar.Header, Calendar.Nav, Calendar.Grid, Calendar.Cell)
- * land in subsequent slices of the calendar-compound group. For now this demo
- * exercises Calendar.Root + useCalendarContext by rendering a small consumer
- * that introspects the current context state.
+ * Shows the landed slices of the compound Calendar API:
+ *
+ * - `Calendar.Root` — state + context provider
+ * - `Calendar.Header` — visible month/year label
+ * - `Calendar.Nav` — month navigation (prev/next)
+ *
+ * `Calendar.Grid` / `Calendar.Cell` land in the next slice.
  */
 export function CalendarDemo(): React.JSX.Element {
   const [single, setSingle] = useState<Date | undefined>(new Date());
@@ -20,32 +22,48 @@ export function CalendarDemo(): React.JSX.Element {
     <Stack direction="vertical" gap="lg">
       <section>
         <h3 style={headingStyle}>Single-date mode</h3>
-        <Calendar.Root
-          mode="single"
-          selected={single}
-          onSelect={(v) => setSingle(v as Date | undefined)}
-          minDate={new Date(2020, 0, 1)}
-          maxDate={new Date(2030, 11, 31)}
-        >
-          <ContextPeek />
-          <PickTodayButton />
-        </Calendar.Root>
+        <div style={panelStyle}>
+          <Calendar.Root
+            mode="single"
+            selected={single}
+            onSelect={(v) => setSingle(v as Date | undefined)}
+            minDate={new Date(2020, 0, 1)}
+            maxDate={new Date(2030, 11, 31)}
+          >
+            <div style={headerRowStyle}>
+              <Calendar.Nav direction="prev" />
+              <Calendar.Header />
+              <Calendar.Nav direction="next" />
+            </div>
+            <ContextPeek />
+          </Calendar.Root>
+        </div>
       </section>
 
       <section>
-        <h3 style={headingStyle}>Range mode</h3>
-        <Calendar.Root
-          mode="range"
-          selected={range}
-          onSelect={(v) => setRange(v as CalendarRange | undefined)}
-        >
-          <ContextPeek />
-        </Calendar.Root>
+        <h3 style={headingStyle}>Range mode with custom header label</h3>
+        <div style={panelStyle}>
+          <Calendar.Root
+            mode="range"
+            selected={range}
+            onSelect={(v) => setRange(v as CalendarRange | undefined)}
+          >
+            <div style={headerRowStyle}>
+              <Calendar.Nav direction="prev" step={12} aria-label="Previous year" />
+              <Calendar.Header>
+                {({ year, month }) => `${month + 1}/${year}`}
+              </Calendar.Header>
+              <Calendar.Nav direction="next" step={12} aria-label="Next year" />
+            </div>
+            <ContextPeek />
+          </Calendar.Root>
+        </div>
       </section>
 
       <p style={noteStyle}>
-        Visible primitives (Header, Nav, Grid, Cell) land in subsequent slices.
-        Root alone is a headless state provider.
+        Grid/Cell primitives land in the next slice. Until then, the existing
+        DatePicker and DateRangePicker components carry the visible grid —
+        exercised from their own demos.
       </p>
     </Stack>
   );
@@ -58,24 +76,14 @@ function ContextPeek(): React.JSX.Element {
       {JSON.stringify(
         {
           mode: ctx.mode,
+          viewDate: ctx.viewDate.toISOString().slice(0, 10),
           selected: serialize(ctx.selected),
           focusedDate: ctx.focusedDate.toISOString().slice(0, 10),
-          minDate: ctx.minDate?.toISOString().slice(0, 10),
-          maxDate: ctx.maxDate?.toISOString().slice(0, 10),
         },
         null,
         2,
       )}
     </pre>
-  );
-}
-
-function PickTodayButton(): React.JSX.Element {
-  const ctx = useCalendarContext('PickTodayButton');
-  return (
-    <button type="button" style={buttonStyle} onClick={() => ctx.onSelect(new Date())}>
-      Select today
-    </button>
   );
 }
 
@@ -96,6 +104,22 @@ const headingStyle: React.CSSProperties = {
   color: t.colorTextMuted,
 };
 
+const panelStyle: React.CSSProperties = {
+  background: t.colorSurfacePanel,
+  border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
+  borderRadius: t.radiusLg,
+  padding: t.spaceMd,
+  maxWidth: 320,
+};
+
+const headerRowStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: `${t.spaceXs} 0`,
+  marginBottom: t.spaceSm,
+};
+
 const peekStyle: React.CSSProperties = {
   margin: 0,
   padding: t.spaceSm,
@@ -106,18 +130,6 @@ const peekStyle: React.CSSProperties = {
   fontFamily: t.fontMono,
   color: t.colorText,
   whiteSpace: 'pre',
-};
-
-const buttonStyle: React.CSSProperties = {
-  marginTop: t.spaceSm,
-  padding: `${t.spaceXs} ${t.spaceMd}`,
-  fontSize: t.fontSizeSm,
-  fontFamily: t.fontSans,
-  color: t.colorText,
-  background: t.colorSurfaceInput,
-  border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
-  borderRadius: t.radiusMd,
-  cursor: 'pointer',
 };
 
 const noteStyle: React.CSSProperties = {
