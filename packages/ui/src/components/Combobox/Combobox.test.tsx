@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Combobox } from "./Combobox";
@@ -19,40 +19,80 @@ const OPTIONS = [
   { value: "date", label: "Date" },
 ];
 
-function renderCombobox(overrides: Record<string, unknown> = {}) {
-  const props = {
-    options: OPTIONS,
-    value: "",
-    onChange: vi.fn(),
-    "aria-label": "Fruit",
-    ...overrides,
-  };
-  return { ...render(<Combobox {...(props as any)} />), props };
+// Helper component: wires up consumer-owned filtering the same way the
+// demo does. Tests go through this so we're exercising a realistic shape.
+function FilteredCombobox({
+  onSelect,
+  onValueChange,
+  hasError,
+  disabled,
+  initialValue = "",
+}: {
+  onSelect?: (opt: { value: string; textValue: string }) => void;
+  onValueChange?: (v: string) => void;
+  hasError?: boolean;
+  disabled?: boolean;
+  initialValue?: string;
+}) {
+  const [value, setValue] = useState(initialValue);
+  const filtered = useMemo(
+    () =>
+      value
+        ? OPTIONS.filter((o) => o.label.toLowerCase().includes(value.toLowerCase()))
+        : OPTIONS,
+    [value],
+  );
+
+  return (
+    <Combobox.Root
+      value={value}
+      onValueChange={(v) => {
+        setValue(v);
+        onValueChange?.(v);
+      }}
+      onSelect={onSelect}
+      hasError={hasError}
+      disabled={disabled}
+    >
+      <Combobox.Input aria-label="Fruit" />
+      <Combobox.List>
+        {filtered.length === 0 ? (
+          <Combobox.Empty>No results</Combobox.Empty>
+        ) : (
+          filtered.map((o) => (
+            <Combobox.Item key={o.value} value={o.value} textValue={o.label}>
+              {o.label}
+            </Combobox.Item>
+          ))
+        )}
+      </Combobox.List>
+    </Combobox.Root>
+  );
 }
 
-describe("Combobox", () => {
+describe("Combobox (compound)", () => {
   beforeEach(() => {
     document.body.innerHTML = "";
   });
 
-  // -- Rendering ---------------------------------------------------------------
+  // -- Rendering --------------------------------------------------------------
 
   it("renders an input with combobox role", () => {
-    renderCombobox();
+    render(<FilteredCombobox />);
     expect(screen.getByRole("combobox")).toBeInTheDocument();
   });
 
-  it("does not show listbox initially", () => {
-    renderCombobox();
+  it("does not show a visible listbox initially", () => {
+    render(<FilteredCombobox />);
+    // List is always mounted but hidden when closed; `queryByRole` honors `hidden`.
     expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
   });
 
-  // -- Opening -----------------------------------------------------------------
+  // -- Opening ----------------------------------------------------------------
 
   it("opens listbox on focus when options exist", async () => {
     const user = userEvent.setup();
-    renderCombobox();
-
+    render(<FilteredCombobox />);
     await user.click(screen.getByRole("combobox"));
     expect(screen.getByRole("listbox")).toBeInTheDocument();
     expect(screen.getAllByRole("option")).toHaveLength(4);
@@ -60,225 +100,156 @@ describe("Combobox", () => {
 
   it("opens on ArrowDown when closed", async () => {
     const user = userEvent.setup();
-    renderCombobox();
-
+    render(<FilteredCombobox />);
     await user.click(screen.getByRole("combobox"));
-    // Close it first so we can test ArrowDown reopening
     await user.keyboard("{Escape}");
     expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
-
     await user.keyboard("{ArrowDown}");
     expect(screen.getByRole("listbox")).toBeInTheDocument();
   });
 
   it("does not open when disabled", async () => {
     const user = userEvent.setup();
-    renderCombobox({ disabled: true });
-
+    render(<FilteredCombobox disabled />);
     await user.click(screen.getByRole("combobox"));
     expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
   });
 
-  // -- Filtering ---------------------------------------------------------------
+  // -- Filtering --------------------------------------------------------------
 
-  it("filters options based on input value", () => {
-    renderCombobox({ value: "an" });
-    // "an" matches Banana and Orange... wait, no — "an" matches "Banana"
-    // Let's just check that filtered results show
-    // With value="an", Banana matches (contains "an")
-    // Render with focus to trigger open
-  });
-
-  it("shows only matching options when value filters", async () => {
-    const onChange = vi.fn();
+  it("shows only matching options when typing filters", async () => {
     const user = userEvent.setup();
-    const { rerender } = render(
-      <Combobox
-        options={OPTIONS}
-        value=""
-        onChange={onChange}
-        aria-label="Fruit"
-      />,
-    );
-
-    await user.click(screen.getByRole("combobox"));
+    render(<FilteredCombobox />);
+    const input = screen.getByRole("combobox");
+    await user.click(input);
     expect(screen.getAllByRole("option")).toHaveLength(4);
-
-    // Rerender with a filter value
-    rerender(
-      <Combobox
-        options={OPTIONS}
-        value="an"
-        onChange={onChange}
-        aria-label="Fruit"
-      />,
-    );
-    // "an" matches "Banana"
+    await user.type(input, "an"); // matches Banana
     expect(screen.getAllByRole("option")).toHaveLength(1);
     expect(screen.getByRole("option", { name: "Banana" })).toBeInTheDocument();
   });
 
-  // -- Selection ---------------------------------------------------------------
+  it("renders the Empty slot when no items match", async () => {
+    const user = userEvent.setup();
+    render(<FilteredCombobox />);
+    const input = screen.getByRole("combobox");
+    await user.click(input);
+    await user.type(input, "zzz");
+    expect(screen.queryAllByRole("option")).toHaveLength(0);
+    expect(screen.getByText("No results")).toBeInTheDocument();
+  });
 
-  it("calls onChange and onSelect when option is clicked", async () => {
-    const onChange = vi.fn();
+  // -- Selection --------------------------------------------------------------
+
+  it("calls onValueChange and onSelect when option is clicked, and closes", async () => {
+    const onValueChange = vi.fn();
     const onSelect = vi.fn();
     const user = userEvent.setup();
-    // Use a stateful wrapper so the controlled value updates on selection
-    function Wrapper() {
-      const [value, setValue] = useState("");
-      return (
-        <Combobox
-          options={OPTIONS}
-          value={value}
-          onChange={(v) => {
-            setValue(v);
-            onChange(v);
-          }}
-          onSelect={onSelect}
-          aria-label="Fruit"
-        />
-      );
-    }
-    render(<Wrapper />);
+    render(<FilteredCombobox onValueChange={onValueChange} onSelect={onSelect} />);
 
     await user.click(screen.getByRole("combobox"));
     await user.click(screen.getByRole("option", { name: "Cherry" }));
 
-    expect(onChange).toHaveBeenCalledWith("cherry");
-    expect(onSelect).toHaveBeenCalledWith({ value: "cherry", label: "Cherry" });
-    // Per ARIA APG combobox pattern: after selection the listbox stays closed
-    // and the input shows the selected value. Refocusing the input must not
-    // reopen the menu.
-    expect(screen.getByRole("combobox")).toHaveValue("cherry");
+    expect(onValueChange).toHaveBeenCalledWith("Cherry");
+    expect(onSelect).toHaveBeenCalledWith({ value: "cherry", textValue: "Cherry" });
+    expect(screen.getByRole("combobox")).toHaveValue("Cherry");
+    // APG pattern: menu stays closed after selection refocuses the input.
     expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
   });
 
-  // -- Keyboard navigation -----------------------------------------------------
+  // -- Keyboard navigation ----------------------------------------------------
 
-  it("navigates with ArrowDown/ArrowUp", async () => {
+  it("navigates with ArrowDown/ArrowUp (values reflected in aria-activedescendant)", async () => {
     const user = userEvent.setup();
-    renderCombobox({ id: "cb" });
-
+    render(<FilteredCombobox />);
     const input = screen.getByRole("combobox");
     await user.click(input);
 
-    // No focused item initially
-    expect(input).not.toHaveAttribute("aria-activedescendant");
+    expect(input.getAttribute("aria-activedescendant")).toBeNull();
 
     await user.keyboard("{ArrowDown}");
-    expect(input).toHaveAttribute(
-      "aria-activedescendant",
-      "alttab-combobox-opt-apple",
-    );
+    expect(input.getAttribute("aria-activedescendant")).toMatch(/-opt-apple$/);
 
     await user.keyboard("{ArrowDown}");
-    expect(input).toHaveAttribute(
-      "aria-activedescendant",
-      "alttab-combobox-opt-banana",
-    );
+    expect(input.getAttribute("aria-activedescendant")).toMatch(/-opt-banana$/);
 
     await user.keyboard("{ArrowUp}");
-    expect(input).toHaveAttribute(
-      "aria-activedescendant",
-      "alttab-combobox-opt-apple",
-    );
+    expect(input.getAttribute("aria-activedescendant")).toMatch(/-opt-apple$/);
   });
 
-  it("wraps around at boundaries", async () => {
+  it("ArrowUp with no selection wraps to last", async () => {
     const user = userEvent.setup();
-    renderCombobox({ id: "cb" });
-
+    render(<FilteredCombobox />);
     const input = screen.getByRole("combobox");
     await user.click(input);
 
-    // ArrowUp from no selection wraps to last
     await user.keyboard("{ArrowUp}");
-    expect(input).toHaveAttribute(
-      "aria-activedescendant",
-      "alttab-combobox-opt-date",
-    );
-
-    // Continue up wraps to last again from first
-    await user.keyboard("{ArrowUp}");
-    expect(input).toHaveAttribute(
-      "aria-activedescendant",
-      "alttab-combobox-opt-cherry",
-    );
+    expect(input.getAttribute("aria-activedescendant")).toMatch(/-opt-date$/);
   });
 
   it("selects focused option on Enter", async () => {
-    const onChange = vi.fn();
+    const onValueChange = vi.fn();
     const user = userEvent.setup();
-    render(
-      <Combobox
-        options={OPTIONS}
-        value=""
-        onChange={onChange}
-        aria-label="Fruit"
-      />,
-    );
+    render(<FilteredCombobox onValueChange={onValueChange} />);
 
     await user.click(screen.getByRole("combobox"));
     await user.keyboard("{ArrowDown}"); // Apple
     await user.keyboard("{ArrowDown}"); // Banana
     await user.keyboard("{Enter}");
 
-    expect(onChange).toHaveBeenCalledWith("banana");
+    expect(onValueChange).toHaveBeenLastCalledWith("Banana");
     expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
   });
 
   it("Home jumps to first, End jumps to last", async () => {
     const user = userEvent.setup();
-    renderCombobox({ id: "cb" });
-
+    render(<FilteredCombobox />);
     const input = screen.getByRole("combobox");
     await user.click(input);
 
     await user.keyboard("{End}");
-    expect(input).toHaveAttribute(
-      "aria-activedescendant",
-      "alttab-combobox-opt-date",
-    );
+    expect(input.getAttribute("aria-activedescendant")).toMatch(/-opt-date$/);
 
     await user.keyboard("{Home}");
-    expect(input).toHaveAttribute(
-      "aria-activedescendant",
-      "alttab-combobox-opt-apple",
-    );
+    expect(input.getAttribute("aria-activedescendant")).toMatch(/-opt-apple$/);
   });
 
   it("closes on Escape", async () => {
     const user = userEvent.setup();
-    renderCombobox();
-
+    render(<FilteredCombobox />);
     await user.click(screen.getByRole("combobox"));
     expect(screen.getByRole("listbox")).toBeInTheDocument();
-
     await user.keyboard("{Escape}");
     expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
   });
 
   it("closes on Tab", async () => {
     const user = userEvent.setup();
-    renderCombobox();
-
+    render(<FilteredCombobox />);
     await user.click(screen.getByRole("combobox"));
     expect(screen.getByRole("listbox")).toBeInTheDocument();
-
     await user.keyboard("{Tab}");
     expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
   });
 
-  // -- ARIA attributes ---------------------------------------------------------
+  // -- ARIA attributes --------------------------------------------------------
 
   it("sets correct ARIA attributes", () => {
-    renderCombobox({ hasError: true });
+    render(<FilteredCombobox hasError />);
     const input = screen.getByRole("combobox");
-
     expect(input).toHaveAttribute("aria-haspopup", "listbox");
     expect(input).toHaveAttribute("aria-expanded", "false");
     expect(input).toHaveAttribute("aria-autocomplete", "list");
     expect(input).toHaveAttribute("aria-invalid", "true");
+  });
+
+  // -- Out-of-context guard ---------------------------------------------------
+
+  it("throws when a sub-component is rendered without Root", () => {
+    const err = console.error;
+    console.error = vi.fn();
+    expect(() => render(<Combobox.Input aria-label="x" />)).toThrow(
+      /Combobox\.Input must be rendered inside <Combobox\.Root>/,
+    );
+    console.error = err;
   });
 });

@@ -164,32 +164,52 @@ See the `Select` demo for controlled / uncontrolled, error state, and rich-item 
 
 ### Combobox
 
-Typeahead select that combines a text input with a filterable dropdown. Supports free-text entry.
+Compound API. Typeahead select with free-text input. Consumer owns filtering — render only the `Combobox.Item` children that should be visible.
 
 ```tsx
 const [value, setValue] = useState('');
+const filtered = useMemo(() => {
+  if (!value) return OPTIONS;
+  const q = value.toLowerCase();
+  return OPTIONS.filter((o) => o.label.toLowerCase().includes(q));
+}, [value]);
 
-<Combobox
-  options={[
-    { value: 'apple', label: 'Apple' },
-    { value: 'banana', label: 'Banana' },
-  ]}
-  value={value}
-  onChange={setValue}
-  onSelect={(opt) => console.log('Selected:', opt)}
-  placeholder="Search or type..."
-/>
+<Combobox.Root value={value} onValueChange={setValue} onSelect={(opt) => console.log(opt)}>
+  <Combobox.Input placeholder="Search..." aria-label="Fruit" />
+  <Combobox.List>
+    {filtered.length === 0 ? (
+      <Combobox.Empty>No results.</Combobox.Empty>
+    ) : (
+      filtered.map((o) => (
+        <Combobox.Item key={o.value} value={o.value} textValue={o.label}>
+          {o.label}
+        </Combobox.Item>
+      ))
+    )}
+  </Combobox.List>
+</Combobox.Root>
 ```
+
+**`Combobox.Root`**
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `options` | `ComboboxOption[]` | — | Options to filter and select from |
-| `value` | `string` | — | Current input value |
-| `onChange` | `(value: string) => void` | — | Called on input change and option selection |
-| `onSelect` | `(option: ComboboxOption) => void` | — | Called when an option is selected from the list |
-| `placeholder` | `string` | — | Input placeholder text |
-| `disabled` | `boolean` | `false` | Disables the input |
-| `hasError` | `boolean` | `false` | Renders error border styling |
+| `value` | `string` | — | Controlled input value |
+| `defaultValue` | `string` | — | Uncontrolled initial input value |
+| `onValueChange` | `(value: string) => void` | — | Called on every input change — typing and selection |
+| `onSelect` | `(option: { value, textValue }) => void` | — | Called only when an option is picked from the list |
+| `disabled` | `boolean` | `false` | Disables the input and blocks opening |
+| `hasError` | `boolean` | `false` | Applies error border styling |
+
+**`Combobox.Input`** — accepts `placeholder`, `readOnly`, `maxLength`, `inputMode`, `name`, `required`, `autoFocus`, `autoComplete`, `id`, `form`, `tabIndex`, `aria-*`, `data-testid`, `onFocus`, `onBlur`. The combobox ARIA role lives on this element.
+
+**`Combobox.List`** — the listbox popover. Always mounted; hidden via `[hidden]` when closed.
+
+**`Combobox.Item`** — `value: string`, `textValue?: string` (text written into the input on select; defaults to string children). Children are the rendered label.
+
+**`Combobox.Empty`** — render inside `Combobox.List` when no items match. Skipped by keyboard navigation.
+
+See the `Combobox` demo for the consumer-filter pattern plus `onSelect`, error, and disabled states. Migration from the pre-0.4 flat API is in the v0.4 upgrade guide §11 in the knowledgebase.
 
 `ComboboxOption`: `{ value: string; label: string }`
 

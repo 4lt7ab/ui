@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Combobox, Stack } from '@4lt7ab/ui';
 import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
 
@@ -22,44 +22,53 @@ const folderOptions = [
   { value: '/home/user/projects/lib', label: '/home/user/projects/lib' },
 ];
 
-const props: PropMeta[] = [
-  { name: 'options', type: 'ComboboxOption[]', required: true, description: 'Options to render. Each has value and label. Filtered automatically as the user types.' },
-  { name: 'value', type: 'string', required: true, description: 'Current input value (controlled).' },
-  { name: 'onChange', type: '(value: string) => void', required: true, description: 'Called on input change and option selection.' },
-  { name: 'onSelect', type: '(option: ComboboxOption) => void', description: 'Called specifically when an option is selected from the list.' },
-  { name: 'placeholder', type: 'string', description: 'Input placeholder text.' },
-  { name: 'disabled', type: 'boolean', default: 'false', description: 'Disables the combobox.' },
-  { name: 'hasError', type: 'boolean', default: 'false', description: 'Renders error border styling. Typically driven by a parent Field.' },
-  { name: 'onFocus', type: 'FocusEventHandler', description: 'Called when the input gains focus.' },
-  { name: 'onBlur', type: 'FocusEventHandler', description: 'Called when the input loses focus.' },
-  { name: 'onKeyDown', type: 'KeyboardEventHandler', description: 'Called on key press while focused.' },
-  { name: 'readOnly', type: 'boolean', description: 'Makes the input read-only.' },
-  { name: 'maxLength', type: 'number', description: 'Maximum character count.' },
-  { name: 'inputMode', type: "'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url'", description: 'Hint for virtual keyboard layout.' },
-  { name: 'name', type: 'string', description: 'Form field name for submission.' },
-  { name: 'required', type: 'boolean', description: 'Marks the field as required.' },
-  { name: 'autoFocus', type: 'boolean', description: 'Automatically focus on mount.' },
-  { name: 'autoComplete', type: 'string', description: 'Browser autocomplete hint. Defaults to "off".' },
-  { name: 'form', type: 'string', description: 'Associates the input with a form by ID.' },
-  { name: 'tabIndex', type: 'number', description: 'Tab order override.' },
+const rootProps: PropMeta[] = [
+  { name: 'value', type: 'string', description: 'Controlled input value (text).' },
+  { name: 'defaultValue', type: 'string', description: 'Uncontrolled initial input value.' },
+  { name: 'onValueChange', type: '(value: string) => void', description: 'Called on every input change \u2014 both free-text typing and option selection.' },
+  { name: 'onSelect', type: '(option: { value, textValue }) => void', description: 'Called specifically when an option is picked from the list.' },
+  { name: 'disabled', type: 'boolean', default: 'false', description: 'Disables the input and blocks opening.' },
+  { name: 'hasError', type: 'boolean', default: 'false', description: 'Applies error border styling.' },
+  { name: 'children', type: 'ReactNode', required: true, description: '<Combobox.Input> and <Combobox.List>.' },
 ];
+
+// Helper: filter options by label, case-insensitive.
+function filterByLabel<T extends { label: string }>(opts: T[], query: string): T[] {
+  if (!query) return opts;
+  const q = query.toLowerCase();
+  return opts.filter((o) => o.label.toLowerCase().includes(q));
+}
 
 export function ComboboxDemo(): React.JSX.Element {
   const [basic, setBasic] = useState('');
   const [folder, setFolder] = useState('');
   const [selected, setSelected] = useState<string | null>(null);
 
+  const filteredFruit = useMemo(() => filterByLabel(fruitOptions, basic), [basic]);
+  const filteredFolder = useMemo(() => filterByLabel(folderOptions, folder), [folder]);
+
   return (
-    <DocBlock props={props}>
-      <PropDemo name="options + value + onChange" description="Type to filter options. The dropdown opens on focus and filters as you type. Free-text entry is also supported.">
+    <DocBlock props={rootProps}>
+      <PropDemo
+        name="Basic (consumer-owned filtering)"
+        description={"Type to filter. Consumers own the filter logic \u2014 pass only the Items that should be visible. The dropdown opens on focus and closes on selection."}
+      >
         <div style={{ maxWidth: '24rem' }}>
           <Stack gap="sm">
-            <Combobox
-              options={fruitOptions}
-              value={basic}
-              onChange={setBasic}
-              placeholder="Search fruits..."
-            />
+            <Combobox.Root value={basic} onValueChange={setBasic}>
+              <Combobox.Input placeholder="Search fruits..." aria-label="Fruit" />
+              <Combobox.List>
+                {filteredFruit.length === 0 ? (
+                  <Combobox.Empty>No fruits match.</Combobox.Empty>
+                ) : (
+                  filteredFruit.map((o) => (
+                    <Combobox.Item key={o.value} value={o.value} textValue={o.label}>
+                      {o.label}
+                    </Combobox.Item>
+                  ))
+                )}
+              </Combobox.List>
+            </Combobox.Root>
             <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>
               Value: {basic || '(empty)'}
             </span>
@@ -67,16 +76,30 @@ export function ComboboxDemo(): React.JSX.Element {
         </div>
       </PropDemo>
 
-      <PropDemo name="onSelect" description="Called only when an option is picked from the dropdown, not on free-text typing. Useful for distinguishing between typed and selected values.">
+      <PropDemo
+        name="onSelect"
+        description="Fires only when an option is picked from the dropdown, not on free-text typing. Distinguishes typed values from selected ones."
+      >
         <div style={{ maxWidth: '24rem' }}>
           <Stack gap="sm">
-            <Combobox
-              options={folderOptions}
+            <Combobox.Root
               value={folder}
-              onChange={setFolder}
-              onSelect={(opt) => setSelected(opt.label)}
-              placeholder="Type a folder path..."
-            />
+              onValueChange={setFolder}
+              onSelect={(opt) => setSelected(opt.textValue)}
+            >
+              <Combobox.Input placeholder="Type a folder path..." aria-label="Folder" />
+              <Combobox.List>
+                {filteredFolder.length === 0 ? (
+                  <Combobox.Empty>No matches.</Combobox.Empty>
+                ) : (
+                  filteredFolder.map((o) => (
+                    <Combobox.Item key={o.value} value={o.value} textValue={o.label}>
+                      {o.label}
+                    </Combobox.Item>
+                  ))
+                )}
+              </Combobox.List>
+            </Combobox.Root>
             <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>
               Value: {folder || '(empty)'}
               {selected && ` | Last selected: ${selected}`}
@@ -85,21 +108,33 @@ export function ComboboxDemo(): React.JSX.Element {
         </div>
       </PropDemo>
 
-      <PropDemo name="placeholder" description="Hint text displayed when the input is empty.">
-        <div style={{ maxWidth: '24rem' }}>
-          <Combobox options={fruitOptions} value="" onChange={() => {}} placeholder="Type to search..." />
-        </div>
-      </PropDemo>
-
       <PropDemo name="hasError" description="Applies error border styling to the input.">
         <div style={{ maxWidth: '24rem' }}>
-          <Combobox options={fruitOptions} value="" onChange={() => {}} placeholder="Error state" hasError />
+          <Combobox.Root hasError>
+            <Combobox.Input placeholder="Error state" aria-label="Error combobox" />
+            <Combobox.List>
+              {fruitOptions.map((o) => (
+                <Combobox.Item key={o.value} value={o.value} textValue={o.label}>
+                  {o.label}
+                </Combobox.Item>
+              ))}
+            </Combobox.List>
+          </Combobox.Root>
         </div>
       </PropDemo>
 
-      <PropDemo name="disabled" description="Disables the combobox with muted background and not-allowed cursor.">
+      <PropDemo name="disabled" description="Disables the input with muted background and not-allowed cursor.">
         <div style={{ maxWidth: '24rem' }}>
-          <Combobox options={fruitOptions} value="" onChange={() => {}} placeholder="Disabled" disabled />
+          <Combobox.Root disabled>
+            <Combobox.Input placeholder="Disabled" aria-label="Disabled combobox" />
+            <Combobox.List>
+              {fruitOptions.map((o) => (
+                <Combobox.Item key={o.value} value={o.value} textValue={o.label}>
+                  {o.label}
+                </Combobox.Item>
+              ))}
+            </Combobox.List>
+          </Combobox.Root>
         </div>
       </PropDemo>
     </DocBlock>

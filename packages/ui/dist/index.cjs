@@ -4062,6 +4062,10 @@ var comboboxCSS = (
     background: var(--color-surface-raised);
   }
 
+  .alttab-combobox-option--selected {
+    font-weight: var(--font-weight-semibold);
+  }
+
   .alttab-combobox-input:focus-visible {
     border-color: var(--color-border-focused);
     box-shadow: 0 0 0 var(--focus-ring-width) var(--focus-ring-color);
@@ -4075,17 +4079,197 @@ var comboboxCSS = (
   }
 `
 );
-var Combobox = (0, import_react29.forwardRef)(function Combobox2({
-  options,
-  value,
-  onChange,
+var ComboboxContext = (0, import_react29.createContext)(null);
+function useComboboxContext(part) {
+  const ctx = (0, import_react29.useContext)(ComboboxContext);
+  if (!ctx) {
+    throw new Error(
+      `Combobox.${part} must be rendered inside <Combobox.Root>. See the upgrade guide for the 0.4.0 compound API.`
+    );
+  }
+  return ctx;
+}
+function Root2({
+  value: controlledValue,
+  defaultValue,
+  onValueChange,
   onSelect,
+  disabled = false,
+  hasError = false,
+  children
+}) {
+  (0, import_core32.useInjectStyles)(COMBOBOX_STYLES_ID, comboboxCSS);
+  const instanceId = (0, import_react29.useId)();
+  const listboxId = `${instanceId}-listbox`;
+  const [internalValue, setInternalValue] = (0, import_react29.useState)(defaultValue ?? "");
+  const isControlled = controlledValue !== void 0;
+  const value = isControlled ? controlledValue : internalValue;
+  const [open, setOpen] = (0, import_react29.useState)(false);
+  const [focusedValue, setFocusedValue] = (0, import_react29.useState)(null);
+  const [dropDirection, setDropDirection] = (0, import_react29.useState)("down");
+  const containerRef = (0, import_react29.useRef)(null);
+  const inputRef = (0, import_react29.useRef)(null);
+  const suppressNextOpenRef = (0, import_react29.useRef)(false);
+  const [items, setItems] = (0, import_react29.useState)([]);
+  const registerItem = (0, import_react29.useCallback)((item) => {
+    setItems((prev) => {
+      if (prev.some((p) => p.value === item.value)) {
+        return prev.map((p) => p.value === item.value ? item : p);
+      }
+      return [...prev, item];
+    });
+  }, []);
+  const unregisterItem = (0, import_react29.useCallback)((itemValue) => {
+    setItems((prev) => prev.filter((p) => p.value !== itemValue));
+  }, []);
+  const setValue = (0, import_react29.useCallback)(
+    (next) => {
+      if (!isControlled) setInternalValue(next);
+      onValueChange?.(next);
+    },
+    [isControlled, onValueChange]
+  );
+  const calculateDirection = (0, import_react29.useCallback)(() => {
+    const input = inputRef.current;
+    if (!input) return;
+    const rect = input.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const spaceAbove = rect.top;
+    const estimatedHeight = Math.min(items.length * 32 + 8, 256);
+    setDropDirection(
+      spaceBelow >= estimatedHeight ? "down" : spaceAbove > spaceBelow ? "up" : "down"
+    );
+  }, [items.length]);
+  const openMenu = (0, import_react29.useCallback)(() => {
+    if (disabled) return;
+    calculateDirection();
+    setOpen(true);
+    setFocusedValue(null);
+  }, [disabled, calculateDirection]);
+  const closeMenu = (0, import_react29.useCallback)(() => {
+    setOpen(false);
+    setFocusedValue(null);
+  }, []);
+  const selectItem = (0, import_react29.useCallback)(
+    (itemValue) => {
+      const item = items.find((i) => i.value === itemValue);
+      if (!item) return;
+      setValue(item.textValue);
+      onSelect?.(item);
+      closeMenu();
+      if (inputRef.current && document.activeElement !== inputRef.current) {
+        suppressNextOpenRef.current = true;
+        inputRef.current.focus();
+      }
+    },
+    [items, setValue, onSelect, closeMenu]
+  );
+  (0, import_react29.useEffect)(() => {
+    if (!open) return;
+    function handleMouseDown(e) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        closeMenu();
+      }
+    }
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [open, closeMenu]);
+  const handleKeyDown = (0, import_react29.useCallback)(
+    (e) => {
+      if (e.key === "Escape") {
+        if (open) {
+          e.preventDefault();
+          closeMenu();
+        }
+        return;
+      }
+      if (!open) {
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+          e.preventDefault();
+          openMenu();
+        }
+        return;
+      }
+      if (items.length === 0) return;
+      const currentIdx = focusedValue ? items.findIndex((i) => i.value === focusedValue) : -1;
+      switch (e.key) {
+        case "ArrowDown": {
+          e.preventDefault();
+          const next = currentIdx < 0 || currentIdx === items.length - 1 ? items[0] : items[currentIdx + 1];
+          setFocusedValue(next.value);
+          break;
+        }
+        case "ArrowUp": {
+          e.preventDefault();
+          const prev = currentIdx < 0 ? items[items.length - 1] : currentIdx === 0 ? items[items.length - 1] : items[currentIdx - 1];
+          setFocusedValue(prev.value);
+          break;
+        }
+        case "Home":
+          e.preventDefault();
+          setFocusedValue(items[0].value);
+          break;
+        case "End":
+          e.preventDefault();
+          setFocusedValue(items[items.length - 1].value);
+          break;
+        case "Enter":
+          if (focusedValue) {
+            e.preventDefault();
+            selectItem(focusedValue);
+          }
+          break;
+        case "Tab":
+          closeMenu();
+          break;
+      }
+    },
+    [open, openMenu, closeMenu, focusedValue, items, selectItem]
+  );
+  suppressNextOpenRef.__combobox_shared = true;
+  const ctx = (0, import_react29.useMemo)(
+    () => ({
+      value,
+      setValue,
+      open,
+      openMenu,
+      closeMenu,
+      disabled,
+      hasError,
+      focusedValue,
+      setFocusedValue,
+      items,
+      registerItem,
+      unregisterItem,
+      listboxId,
+      instanceId,
+      inputRef,
+      dropDirection,
+      selectItem
+    }),
+    [
+      value,
+      setValue,
+      open,
+      openMenu,
+      closeMenu,
+      disabled,
+      hasError,
+      focusedValue,
+      items,
+      registerItem,
+      unregisterItem,
+      listboxId,
+      instanceId,
+      dropDirection,
+      selectItem
+    ]
+  );
+  ctx.__suppressNextOpen = suppressNextOpenRef;
+  return /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(ComboboxContext.Provider, { value: ctx, children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { ref: containerRef, style: wrapperStyle4, onKeyDown: handleKeyDown, children }) });
+}
+function Input3({
   placeholder,
-  disabled,
-  hasError,
-  onFocus: onFocusProp,
-  onBlur: onBlurProp,
-  onKeyDown: onKeyDownProp,
   readOnly,
   maxLength,
   inputMode,
@@ -4099,143 +4283,98 @@ var Combobox = (0, import_react29.forwardRef)(function Combobox2({
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
   "aria-describedby": ariaDescribedBy,
-  "aria-invalid": ariaInvalid,
-  "data-testid": dataTestId
-}, ref) {
-  (0, import_core32.useInjectStyles)(COMBOBOX_STYLES_ID, comboboxCSS);
-  const [open, setOpen] = (0, import_react29.useState)(false);
-  const [focusedIndex, setFocusedIndex] = (0, import_react29.useState)(-1);
-  const [dropDirection, setDropDirection] = (0, import_react29.useState)("down");
-  const containerRef = (0, import_react29.useRef)(null);
-  const inputRef = (0, import_react29.useRef)(null);
-  const menuRef = (0, import_react29.useRef)(null);
-  const suppressNextOpenRef = (0, import_react29.useRef)(false);
-  (0, import_react29.useEffect)(() => {
-    if (!ref) return;
-    if (typeof ref === "function") {
-      ref(inputRef.current);
-    } else {
-      ref.current = inputRef.current;
-    }
-  }, [ref]);
-  const filtered = (0, import_react29.useMemo)(() => {
-    if (!value) return options;
-    const lower = value.toLowerCase();
-    return options.filter((o) => o.label.toLowerCase().includes(lower));
-  }, [options, value]);
-  const calculateDirection = (0, import_react29.useCallback)(() => {
-    const input = inputRef.current;
-    if (!input) return;
-    const rect = input.getBoundingClientRect();
-    const spaceBelow = window.innerHeight - rect.bottom;
-    const spaceAbove = rect.top;
-    const estimatedHeight = Math.min(filtered.length * 32 + 8, 256);
-    setDropDirection(
-      spaceBelow >= estimatedHeight ? "down" : spaceAbove > spaceBelow ? "up" : "down"
-    );
-  }, [filtered.length]);
-  const openMenu = (0, import_react29.useCallback)(() => {
-    if (disabled) return;
-    calculateDirection();
-    setOpen(true);
-    setFocusedIndex(-1);
-  }, [disabled, calculateDirection]);
-  const closeMenu = (0, import_react29.useCallback)(() => {
-    setOpen(false);
-    setFocusedIndex(-1);
-  }, []);
-  const selectOption = (0, import_react29.useCallback)(
-    (opt) => {
-      onChange(opt.value);
-      onSelect?.(opt);
-      closeMenu();
-      if (inputRef.current && document.activeElement !== inputRef.current) {
-        suppressNextOpenRef.current = true;
-        inputRef.current.focus();
-      }
-    },
-    [onChange, onSelect, closeMenu]
-  );
-  (0, import_react29.useEffect)(() => {
-    if (!open) return;
-    function handleMouseDown(e) {
-      if (containerRef.current && !containerRef.current.contains(e.target)) {
-        closeMenu();
-      }
-    }
-    document.addEventListener("mousedown", handleMouseDown);
-    return () => document.removeEventListener("mousedown", handleMouseDown);
-  }, [open, closeMenu]);
-  (0, import_react29.useEffect)(() => {
-    if (!open || focusedIndex < 0) return;
-    const menu = menuRef.current;
-    if (!menu) return;
-    const items = menu.querySelectorAll('[role="option"]');
-    items[focusedIndex]?.scrollIntoView({ block: "nearest" });
-  }, [open, focusedIndex]);
-  const handleKeyDown = (0, import_react29.useCallback)(
+  "data-testid": dataTestId,
+  onFocus: onFocusProp,
+  onBlur: onBlurProp
+}) {
+  const ctx = useComboboxContext("Input");
+  const {
+    value,
+    setValue,
+    open,
+    openMenu,
+    disabled,
+    hasError,
+    focusedValue,
+    instanceId,
+    items,
+    listboxId,
+    inputRef
+  } = ctx;
+  const suppressNextOpenRef = ctx.__suppressNextOpen;
+  const activedescendant = open && focusedValue ? `${instanceId}-opt-${focusedValue}` : void 0;
+  const handleChange = (0, import_react29.useCallback)(
     (e) => {
-      if (e.key === "Escape") {
-        closeMenu();
-        inputRef.current?.focus();
-        return;
-      }
-      if (!open) {
-        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-          e.preventDefault();
-          openMenu();
-        }
-        return;
-      }
-      switch (e.key) {
-        case "ArrowDown": {
-          e.preventDefault();
-          setFocusedIndex(
-            (prev) => prev < filtered.length - 1 ? prev + 1 : 0
-          );
-          break;
-        }
-        case "ArrowUp": {
-          e.preventDefault();
-          setFocusedIndex(
-            (prev) => prev > 0 ? prev - 1 : filtered.length - 1
-          );
-          break;
-        }
-        case "Enter":
-          if (focusedIndex >= 0 && focusedIndex < filtered.length) {
-            e.preventDefault();
-            selectOption(filtered[focusedIndex]);
-          }
-          break;
-        case "Home":
-          e.preventDefault();
-          if (filtered.length > 0) setFocusedIndex(0);
-          break;
-        case "End":
-          e.preventDefault();
-          if (filtered.length > 0) setFocusedIndex(filtered.length - 1);
-          break;
-        case "Tab":
-          closeMenu();
-          break;
-      }
+      setValue(e.target.value);
+      if (!open) openMenu();
     },
-    [open, openMenu, closeMenu, focusedIndex, filtered, selectOption]
+    [setValue, open, openMenu]
   );
-  const handleInputChange = (0, import_react29.useCallback)(
+  const handleFocus = (0, import_react29.useCallback)(
     (e) => {
-      onChange(e.target.value);
-      if (!open) {
+      if (suppressNextOpenRef.current) {
+        suppressNextOpenRef.current = false;
+      } else if (!disabled && items.length > 0) {
         openMenu();
       }
-      setFocusedIndex(-1);
+      onFocusProp?.(e);
     },
-    [onChange, open, openMenu]
+    [disabled, items.length, openMenu, onFocusProp, suppressNextOpenRef]
   );
-  const listboxId = id ? `${id}-listbox` : "alttab-combobox-listbox";
-  const activedescendant = open && focusedIndex >= 0 ? `alttab-combobox-opt-${filtered[focusedIndex]?.value}` : void 0;
-  const menuStyle = dropDirection === "down" ? {
+  return /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+    "input",
+    {
+      ref: inputRef,
+      type: "text",
+      role: "combobox",
+      className: "alttab-combobox-input",
+      "aria-expanded": open,
+      "aria-haspopup": "listbox",
+      "aria-controls": listboxId,
+      "aria-activedescendant": activedescendant,
+      "aria-autocomplete": "list",
+      "aria-invalid": hasError || void 0,
+      "aria-label": ariaLabel,
+      "aria-labelledby": ariaLabelledBy,
+      "aria-describedby": ariaDescribedBy,
+      autoComplete: autoComplete ?? "off",
+      id,
+      form,
+      name,
+      tabIndex,
+      readOnly,
+      maxLength,
+      inputMode,
+      required,
+      autoFocus,
+      value,
+      placeholder,
+      disabled,
+      onChange: handleChange,
+      onFocus: handleFocus,
+      onBlur: onBlurProp,
+      "data-testid": dataTestId,
+      style: {
+        ...inputBaseStyle,
+        ...hasError ? errorBorderStyle4 : {},
+        ...disabled ? disabledStyle4 : {}
+      }
+    }
+  );
+}
+function List({ children }) {
+  const { open, listboxId, dropDirection, focusedValue } = useComboboxContext("List");
+  const ref = (0, import_react29.useRef)(null);
+  (0, import_react29.useEffect)(() => {
+    if (!open || !focusedValue) return;
+    const menu = ref.current;
+    if (!menu) return;
+    const focused = menu.querySelector(
+      `[data-value="${CSS.escape(focusedValue)}"]`
+    );
+    focused?.scrollIntoView({ block: "nearest" });
+  }, [open, focusedValue]);
+  const positionStyle = dropDirection === "down" ? {
     position: "absolute",
     top: "100%",
     left: 0,
@@ -4248,107 +4387,85 @@ var Combobox = (0, import_react29.forwardRef)(function Combobox2({
     right: 0,
     marginBottom: import_core32.semantic.spaceXs
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
     "div",
     {
-      ref: containerRef,
-      style: wrapperStyle4,
-      onKeyDown: handleKeyDown,
-      children: [
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
-          "input",
-          {
-            ref: inputRef,
-            type: "text",
-            role: "combobox",
-            className: "alttab-combobox-input",
-            "aria-expanded": open,
-            "aria-haspopup": "listbox",
-            "aria-controls": listboxId,
-            "aria-activedescendant": activedescendant,
-            "aria-autocomplete": "list",
-            "aria-invalid": ariaInvalid ?? (hasError || void 0),
-            "aria-label": ariaLabel,
-            "aria-labelledby": ariaLabelledBy,
-            "aria-describedby": ariaDescribedBy,
-            autoComplete: autoComplete ?? "off",
-            id,
-            form,
-            name,
-            tabIndex,
-            readOnly,
-            maxLength,
-            inputMode,
-            required,
-            autoFocus,
-            value,
-            placeholder,
-            disabled,
-            onChange: handleInputChange,
-            onBlur: onBlurProp,
-            onFocus: (e) => {
-              if (suppressNextOpenRef.current) {
-                suppressNextOpenRef.current = false;
-              } else if (!disabled && filtered.length > 0) {
-                openMenu();
-              }
-              onFocusProp?.(e);
-            },
-            "data-testid": dataTestId,
-            style: {
-              ...inputBaseStyle,
-              ...hasError ? errorBorderStyle4 : {},
-              ...disabled ? disabledStyle4 : {}
-            }
-          }
-        ),
-        open && filtered.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
-          "div",
-          {
-            ref: menuRef,
-            id: listboxId,
-            role: "listbox",
-            style: {
-              ...menuStyle,
-              background: import_core32.semantic.colorSurfacePanel,
-              border: `${import_core32.semantic.borderWidthDefault} solid ${import_core32.semantic.colorBorder}`,
-              borderRadius: import_core32.semantic.radiusMd,
-              padding: import_core32.semantic.spaceXs,
-              zIndex: import_core32.semantic.zIndexSticky,
-              boxShadow: import_core32.semantic.shadowMd,
-              maxHeight: "16rem",
-              overflowY: "auto",
-              boxSizing: "border-box"
-            },
-            children: filtered.map((opt, idx) => {
-              const isFocused = focusedIndex === idx;
-              const isMatch = opt.value === value;
-              const classes = [
-                "alttab-combobox-option",
-                isFocused ? "alttab-combobox-option--focused" : ""
-              ].filter(Boolean).join(" ");
-              return /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
-                "button",
-                {
-                  id: `alttab-combobox-opt-${opt.value}`,
-                  type: "button",
-                  role: "option",
-                  "aria-selected": isMatch,
-                  className: classes,
-                  onClick: () => selectOption(opt),
-                  onMouseEnter: () => setFocusedIndex(idx),
-                  style: isMatch ? { fontWeight: import_core32.semantic.fontWeightSemibold } : void 0,
-                  children: opt.label
-                },
-                opt.value
-              );
-            })
-          }
-        )
-      ]
+      ref,
+      id: listboxId,
+      role: "listbox",
+      hidden: !open,
+      style: open ? {
+        ...positionStyle,
+        background: import_core32.semantic.colorSurfacePanel,
+        border: `${import_core32.semantic.borderWidthDefault} solid ${import_core32.semantic.colorBorder}`,
+        borderRadius: import_core32.semantic.radiusMd,
+        padding: import_core32.semantic.spaceXs,
+        zIndex: import_core32.semantic.zIndexSticky,
+        boxShadow: import_core32.semantic.shadowMd,
+        maxHeight: "16rem",
+        overflowY: "auto",
+        boxSizing: "border-box"
+      } : void 0,
+      children
     }
   );
-});
+}
+function Item2({
+  value,
+  textValue,
+  children
+}) {
+  const {
+    value: inputValue,
+    focusedValue,
+    setFocusedValue,
+    selectItem,
+    registerItem,
+    unregisterItem,
+    instanceId
+  } = useComboboxContext("Item");
+  const resolvedText = textValue ?? (typeof children === "string" ? children : value);
+  (0, import_react29.useEffect)(() => {
+    registerItem({ value, textValue: resolvedText });
+    return () => unregisterItem(value);
+  }, [value, resolvedText, registerItem, unregisterItem]);
+  const isFocused = focusedValue === value;
+  const isSelected = inputValue === resolvedText;
+  const classes = [
+    "alttab-combobox-option",
+    isFocused ? "alttab-combobox-option--focused" : "",
+    isSelected ? "alttab-combobox-option--selected" : ""
+  ].filter(Boolean).join(" ");
+  return /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+    "button",
+    {
+      type: "button",
+      role: "option",
+      id: `${instanceId}-opt-${value}`,
+      "data-value": value,
+      "aria-selected": isSelected,
+      className: classes,
+      onClick: () => selectItem(value),
+      onMouseEnter: () => setFocusedValue(value),
+      children
+    }
+  );
+}
+function Empty({ children }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+    "div",
+    {
+      role: "presentation",
+      style: {
+        padding: `${import_core32.semantic.spaceXs} ${import_core32.semantic.spaceSm}`,
+        fontSize: import_core32.semantic.fontSizeSm,
+        color: import_core32.semantic.colorTextMuted,
+        fontFamily: import_core32.semantic.fontSans
+      },
+      children
+    }
+  );
+}
 var wrapperStyle4 = {
   position: "relative",
   display: "block",
@@ -4376,6 +4493,13 @@ var disabledStyle4 = {
   background: import_core32.semantic.colorSurfaceDisabled,
   color: import_core32.semantic.colorTextDisabled,
   cursor: "not-allowed"
+};
+var Combobox = {
+  Root: Root2,
+  Input: Input3,
+  List,
+  Item: Item2,
+  Empty
 };
 
 // src/components/TableFilters/TableFilters.tsx

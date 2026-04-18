@@ -1,54 +1,18 @@
-import { forwardRef, useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import type { ReactNode } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
 
-/** A single option in the Combobox dropdown. */
-export interface ComboboxOption {
-  /** The value submitted when the option is selected. */
-  value: string;
-  /** Display text shown in the dropdown and used for filtering. */
-  label: string;
-}
-
-/** A typeahead select that combines free-text input with a filterable dropdown. */
-export interface ComboboxProps {
-  /** Options to render in the dropdown. */
-  options: ComboboxOption[];
-  /** Current input value. */
-  value: string;
-  /** Called on input change AND option selection. */
-  onChange: (value: string) => void;
-  /** Called specifically when an option is selected from the list. */
-  onSelect?: (option: ComboboxOption) => void;
-  /** Input placeholder text. */
-  placeholder?: string;
-  /** Whether the combobox is disabled. */
-  disabled?: boolean;
-  /** Renders error border styling. Typically driven by a parent Field.
-   * @default false
-   */
-  hasError?: boolean;
-  onFocus?: React.FocusEventHandler<HTMLInputElement>;
-  onBlur?: React.FocusEventHandler<HTMLInputElement>;
-  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
-  readOnly?: boolean;
-  maxLength?: number;
-  inputMode?: 'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url';
-  name?: string;
-  required?: boolean;
-  autoFocus?: boolean;
-  autoComplete?: string;
-  id?: string;
-  form?: string;
-  tabIndex?: number;
-  'aria-label'?: string;
-  'aria-labelledby'?: string;
-  'aria-describedby'?: string;
-  'aria-invalid'?: boolean;
-  'data-testid'?: string;
-}
-
 // ---------------------------------------------------------------------------
-// Injected CSS for hover/focus states
+// Injected CSS
 // ---------------------------------------------------------------------------
 
 const COMBOBOX_STYLES_ID = 'alttab-combobox';
@@ -75,6 +39,10 @@ const comboboxCSS = /* css */ `
     background: var(--color-surface-raised);
   }
 
+  .alttab-combobox-option--selected {
+    font-weight: var(--font-weight-semibold);
+  }
+
   .alttab-combobox-input:focus-visible {
     border-color: var(--color-border-focused);
     box-shadow: 0 0 0 var(--focus-ring-width) var(--focus-ring-color);
@@ -89,79 +57,117 @@ const comboboxCSS = /* css */ `
 `;
 
 // ---------------------------------------------------------------------------
-// Component
+// Context
 // ---------------------------------------------------------------------------
 
-export const Combobox: React.ForwardRefExoticComponent<
-  Omit<ComboboxProps, 'ref'> & React.RefAttributes<HTMLInputElement>
-> = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
-  {
-    options,
-    value,
-    onChange,
-    onSelect,
-    placeholder,
-    disabled,
-    hasError,
-    onFocus: onFocusProp,
-    onBlur: onBlurProp,
-    onKeyDown: onKeyDownProp,
-    readOnly,
-    maxLength,
-    inputMode,
-    name,
-    required,
-    autoFocus,
-    autoComplete,
-    id,
-    form,
-    tabIndex,
-    'aria-label': ariaLabel,
-    'aria-labelledby': ariaLabelledBy,
-    'aria-describedby': ariaDescribedBy,
-    'aria-invalid': ariaInvalid,
-    'data-testid': dataTestId,
-  },
-  ref,
-): React.JSX.Element {
+interface RegisteredItem {
+  value: string;
+  textValue: string;
+}
+
+interface ComboboxContextValue {
+  value: string;
+  setValue: (v: string) => void;
+  open: boolean;
+  openMenu: () => void;
+  closeMenu: () => void;
+  disabled: boolean;
+  hasError: boolean;
+  focusedValue: string | null;
+  setFocusedValue: (v: string | null) => void;
+  items: RegisteredItem[];
+  registerItem: (item: RegisteredItem) => void;
+  unregisterItem: (value: string) => void;
+  listboxId: string;
+  instanceId: string;
+  inputRef: React.RefObject<HTMLInputElement | null>;
+  dropDirection: 'down' | 'up';
+  selectItem: (value: string) => void;
+}
+
+const ComboboxContext = createContext<ComboboxContextValue | null>(null);
+
+function useComboboxContext(part: string): ComboboxContextValue {
+  const ctx = useContext(ComboboxContext);
+  if (!ctx) {
+    throw new Error(
+      `Combobox.${part} must be rendered inside <Combobox.Root>. See the upgrade guide for the 0.4.0 compound API.`,
+    );
+  }
+  return ctx;
+}
+
+// ---------------------------------------------------------------------------
+// Combobox.Root
+// ---------------------------------------------------------------------------
+
+export interface ComboboxRootProps {
+  /** Controlled input value (text). */
+  value?: string;
+  /** Initial input value for uncontrolled usage. */
+  defaultValue?: string;
+  /** Called on every input change — both free-text typing and option selection. */
+  onValueChange?: (value: string) => void;
+  /** Called specifically when an option is selected from the list. */
+  onSelect?: (option: { value: string; textValue: string }) => void;
+  /** When true, disables the input and blocks opening. */
+  disabled?: boolean;
+  /** When true, applies error border styling. Typically driven by a parent Field. */
+  hasError?: boolean;
+  /** Subtree containing Input and List. */
+  children: ReactNode;
+}
+
+function Root({
+  value: controlledValue,
+  defaultValue,
+  onValueChange,
+  onSelect,
+  disabled = false,
+  hasError = false,
+  children,
+}: ComboboxRootProps): React.JSX.Element {
   useInjectStyles(COMBOBOX_STYLES_ID, comboboxCSS);
 
-  // -- State -----------------------------------------------------------------
+  const instanceId = useId();
+  const listboxId = `${instanceId}-listbox`;
+
+  const [internalValue, setInternalValue] = useState<string>(defaultValue ?? '');
+  const isControlled = controlledValue !== undefined;
+  const value = isControlled ? controlledValue : internalValue;
 
   const [open, setOpen] = useState(false);
-  const [focusedIndex, setFocusedIndex] = useState(-1);
+  const [focusedValue, setFocusedValue] = useState<string | null>(null);
   const [dropDirection, setDropDirection] = useState<'down' | 'up'>('down');
-
-  // -- Refs ------------------------------------------------------------------
 
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
-  // Suppresses the next openMenu() triggered by onFocus. Set when a click
-  // selection refocuses the input — otherwise the menu would flash closed
-  // and immediately reopen, violating the ARIA APG combobox pattern.
+
+  // Suppresses the next openMenu() triggered by onFocus after a click
+  // selection refocuses the input. Without this, the APG pattern breaks —
+  // menu would flash closed and immediately reopen.
   const suppressNextOpenRef = useRef(false);
 
-  // Merge refs
-  useEffect(() => {
-    if (!ref) return;
-    if (typeof ref === 'function') {
-      ref(inputRef.current);
-    } else {
-      (ref as React.MutableRefObject<HTMLInputElement | null>).current =
-        inputRef.current;
-    }
-  }, [ref]);
+  const [items, setItems] = useState<RegisteredItem[]>([]);
+  const registerItem = useCallback((item: RegisteredItem): void => {
+    setItems((prev) => {
+      if (prev.some((p) => p.value === item.value)) {
+        return prev.map((p) => (p.value === item.value ? item : p));
+      }
+      return [...prev, item];
+    });
+  }, []);
+  const unregisterItem = useCallback((itemValue: string): void => {
+    setItems((prev) => prev.filter((p) => p.value !== itemValue));
+  }, []);
 
-  // -- Filtered options -------------------------------------------------------
-
-  const filtered = useMemo((): ComboboxOption[] => {
-    if (!value) return options;
-    const lower = value.toLowerCase();
-    return options.filter((o) => o.label.toLowerCase().includes(lower));
-  }, [options, value]);
-
-  // -- Dropdown positioning ---------------------------------------------------
+  const setValue = useCallback(
+    (next: string): void => {
+      if (!isControlled) setInternalValue(next);
+      onValueChange?.(next);
+    },
+    [isControlled, onValueChange],
+  );
 
   const calculateDirection = useCallback((): void => {
     const input = inputRef.current;
@@ -169,7 +175,7 @@ export const Combobox: React.ForwardRefExoticComponent<
     const rect = input.getBoundingClientRect();
     const spaceBelow = window.innerHeight - rect.bottom;
     const spaceAbove = rect.top;
-    const estimatedHeight = Math.min(filtered.length * 32 + 8, 256);
+    const estimatedHeight = Math.min(items.length * 32 + 8, 256);
     setDropDirection(
       spaceBelow >= estimatedHeight
         ? 'down'
@@ -177,39 +183,40 @@ export const Combobox: React.ForwardRefExoticComponent<
           ? 'up'
           : 'down',
     );
-  }, [filtered.length]);
-
-  // -- Open/close logic -------------------------------------------------------
+  }, [items.length]);
 
   const openMenu = useCallback((): void => {
     if (disabled) return;
     calculateDirection();
     setOpen(true);
-    setFocusedIndex(-1);
+    // Combobox APG: do NOT pre-focus any option on open — focus stays on
+    // the input, keyboard moves it explicitly.
+    setFocusedValue(null);
   }, [disabled, calculateDirection]);
 
   const closeMenu = useCallback((): void => {
     setOpen(false);
-    setFocusedIndex(-1);
+    setFocusedValue(null);
   }, []);
 
-  const selectOption = useCallback(
-    (opt: ComboboxOption): void => {
-      onChange(opt.value);
-      onSelect?.(opt);
+  const selectItem = useCallback(
+    (itemValue: string): void => {
+      const item = items.find((i) => i.value === itemValue);
+      if (!item) return;
+      setValue(item.textValue);
+      onSelect?.(item);
       closeMenu();
-      // Refocus the input (click selection moves focus to the option button).
-      // Suppress the onFocus-driven reopen so the menu stays closed per APG.
+      // Refocus the input (click moved focus to the option button). Mark
+      // the next onFocus as a no-op so the menu doesn't flash reopen.
       if (inputRef.current && document.activeElement !== inputRef.current) {
         suppressNextOpenRef.current = true;
         inputRef.current.focus();
       }
     },
-    [onChange, onSelect, closeMenu],
+    [items, setValue, onSelect, closeMenu],
   );
 
-  // -- Close on outside click -------------------------------------------------
-
+  // Close on outside mousedown.
   useEffect(() => {
     if (!open) return;
     function handleMouseDown(e: MouseEvent): void {
@@ -224,23 +231,15 @@ export const Combobox: React.ForwardRefExoticComponent<
     return () => document.removeEventListener('mousedown', handleMouseDown);
   }, [open, closeMenu]);
 
-  // -- Scroll focused item into view ------------------------------------------
-
-  useEffect(() => {
-    if (!open || focusedIndex < 0) return;
-    const menu = menuRef.current;
-    if (!menu) return;
-    const items = menu.querySelectorAll('[role="option"]');
-    items[focusedIndex]?.scrollIntoView({ block: 'nearest' });
-  }, [open, focusedIndex]);
-
-  // -- Keyboard navigation ----------------------------------------------------
-
+  // Keyboard — attached to the wrapper. APG Combobox pattern: focus stays on
+  // the input, options receive focus visually only via aria-activedescendant.
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent): void => {
       if (e.key === 'Escape') {
-        closeMenu();
-        inputRef.current?.focus();
+        if (open) {
+          e.preventDefault();
+          closeMenu();
+        }
         return;
       }
 
@@ -252,67 +251,269 @@ export const Combobox: React.ForwardRefExoticComponent<
         return;
       }
 
+      if (items.length === 0) return;
+      const currentIdx = focusedValue
+        ? items.findIndex((i) => i.value === focusedValue)
+        : -1;
+
       switch (e.key) {
         case 'ArrowDown': {
           e.preventDefault();
-          setFocusedIndex((prev) =>
-            prev < filtered.length - 1 ? prev + 1 : 0,
-          );
+          const next =
+            currentIdx < 0 || currentIdx === items.length - 1
+              ? items[0]
+              : items[currentIdx + 1];
+          setFocusedValue(next.value);
           break;
         }
         case 'ArrowUp': {
           e.preventDefault();
-          setFocusedIndex((prev) =>
-            prev > 0 ? prev - 1 : filtered.length - 1,
-          );
+          const prev =
+            currentIdx < 0
+              ? items[items.length - 1]
+              : currentIdx === 0
+                ? items[items.length - 1]
+                : items[currentIdx - 1];
+          setFocusedValue(prev.value);
           break;
         }
-        case 'Enter':
-          if (focusedIndex >= 0 && focusedIndex < filtered.length) {
-            e.preventDefault();
-            selectOption(filtered[focusedIndex]);
-          }
-          break;
         case 'Home':
           e.preventDefault();
-          if (filtered.length > 0) setFocusedIndex(0);
+          setFocusedValue(items[0].value);
           break;
         case 'End':
           e.preventDefault();
-          if (filtered.length > 0) setFocusedIndex(filtered.length - 1);
+          setFocusedValue(items[items.length - 1].value);
+          break;
+        case 'Enter':
+          if (focusedValue) {
+            e.preventDefault();
+            selectItem(focusedValue);
+          }
           break;
         case 'Tab':
           closeMenu();
           break;
       }
     },
-    [open, openMenu, closeMenu, focusedIndex, filtered, selectOption],
+    [open, openMenu, closeMenu, focusedValue, items, selectItem],
   );
 
-  // -- Input change handler ---------------------------------------------------
+  // Expose the suppress ref via context surrogate — Input reads it.
+  // We keep it here (not in context) because it's a transient flag, not state.
+  // Input accesses it through a small attached property.
+  (suppressNextOpenRef as unknown as { __combobox_shared: boolean }).__combobox_shared = true;
 
-  const handleInputChange = useCallback(
+  const ctx = useMemo<ComboboxContextValue>(
+    () => ({
+      value,
+      setValue,
+      open,
+      openMenu,
+      closeMenu,
+      disabled,
+      hasError,
+      focusedValue,
+      setFocusedValue,
+      items,
+      registerItem,
+      unregisterItem,
+      listboxId,
+      instanceId,
+      inputRef,
+      dropDirection,
+      selectItem,
+    }),
+    [
+      value,
+      setValue,
+      open,
+      openMenu,
+      closeMenu,
+      disabled,
+      hasError,
+      focusedValue,
+      items,
+      registerItem,
+      unregisterItem,
+      listboxId,
+      instanceId,
+      dropDirection,
+      selectItem,
+    ],
+  );
+
+  // Attach the suppress ref on the context object so Input can read it
+  // without a separate provider. Using a symbol-y private key.
+  (ctx as unknown as { __suppressNextOpen: React.RefObject<boolean> }).__suppressNextOpen =
+    suppressNextOpenRef;
+
+  return (
+    <ComboboxContext.Provider value={ctx}>
+      <div ref={containerRef} style={wrapperStyle} onKeyDown={handleKeyDown}>
+        {children}
+      </div>
+    </ComboboxContext.Provider>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Combobox.Input
+// ---------------------------------------------------------------------------
+
+export interface ComboboxInputProps {
+  placeholder?: string;
+  readOnly?: boolean;
+  maxLength?: number;
+  inputMode?:
+    | 'none'
+    | 'text'
+    | 'decimal'
+    | 'numeric'
+    | 'tel'
+    | 'search'
+    | 'email'
+    | 'url';
+  name?: string;
+  required?: boolean;
+  autoFocus?: boolean;
+  autoComplete?: string;
+  id?: string;
+  form?: string;
+  tabIndex?: number;
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
+  'aria-describedby'?: string;
+  'data-testid'?: string;
+  onFocus?: React.FocusEventHandler<HTMLInputElement>;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
+}
+
+function Input({
+  placeholder,
+  readOnly,
+  maxLength,
+  inputMode,
+  name,
+  required,
+  autoFocus,
+  autoComplete,
+  id,
+  form,
+  tabIndex,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledBy,
+  'aria-describedby': ariaDescribedBy,
+  'data-testid': dataTestId,
+  onFocus: onFocusProp,
+  onBlur: onBlurProp,
+}: ComboboxInputProps): React.JSX.Element {
+  const ctx = useComboboxContext('Input');
+  const {
+    value,
+    setValue,
+    open,
+    openMenu,
+    disabled,
+    hasError,
+    focusedValue,
+    instanceId,
+    items,
+    listboxId,
+    inputRef,
+  } = ctx;
+  const suppressNextOpenRef = (
+    ctx as unknown as { __suppressNextOpen: React.MutableRefObject<boolean> }
+  ).__suppressNextOpen;
+
+  const activedescendant =
+    open && focusedValue ? `${instanceId}-opt-${focusedValue}` : undefined;
+
+  const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>): void => {
-      onChange(e.target.value);
-      if (!open) {
+      setValue(e.target.value);
+      if (!open) openMenu();
+    },
+    [setValue, open, openMenu],
+  );
+
+  const handleFocus = useCallback(
+    (e: React.FocusEvent<HTMLInputElement>): void => {
+      if (suppressNextOpenRef.current) {
+        suppressNextOpenRef.current = false;
+      } else if (!disabled && items.length > 0) {
         openMenu();
       }
-      setFocusedIndex(-1);
+      onFocusProp?.(e);
     },
-    [onChange, open, openMenu],
+    [disabled, items.length, openMenu, onFocusProp, suppressNextOpenRef],
   );
 
-  // -- Derived values ---------------------------------------------------------
+  return (
+    <input
+      ref={inputRef}
+      type="text"
+      role="combobox"
+      className="alttab-combobox-input"
+      aria-expanded={open}
+      aria-haspopup="listbox"
+      aria-controls={listboxId}
+      aria-activedescendant={activedescendant}
+      aria-autocomplete="list"
+      aria-invalid={hasError || undefined}
+      aria-label={ariaLabel}
+      aria-labelledby={ariaLabelledBy}
+      aria-describedby={ariaDescribedBy}
+      autoComplete={autoComplete ?? 'off'}
+      id={id}
+      form={form}
+      name={name}
+      tabIndex={tabIndex}
+      readOnly={readOnly}
+      maxLength={maxLength}
+      inputMode={inputMode}
+      required={required}
+      autoFocus={autoFocus}
+      value={value}
+      placeholder={placeholder}
+      disabled={disabled}
+      onChange={handleChange}
+      onFocus={handleFocus}
+      onBlur={onBlurProp}
+      data-testid={dataTestId}
+      style={{
+        ...inputBaseStyle,
+        ...(hasError ? errorBorderStyle : {}),
+        ...(disabled ? disabledStyle : {}),
+      }}
+    />
+  );
+}
 
-  const listboxId = id ? `${id}-listbox` : 'alttab-combobox-listbox';
-  const activedescendant =
-    open && focusedIndex >= 0
-      ? `alttab-combobox-opt-${filtered[focusedIndex]?.value}`
-      : undefined;
+// ---------------------------------------------------------------------------
+// Combobox.List
+// ---------------------------------------------------------------------------
 
-  // -- Dropdown menu style ----------------------------------------------------
+export interface ComboboxListProps {
+  children: ReactNode;
+}
 
-  const menuStyle: React.CSSProperties =
+function List({ children }: ComboboxListProps): React.JSX.Element {
+  const { open, listboxId, dropDirection, focusedValue } =
+    useComboboxContext('List');
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open || !focusedValue) return;
+    const menu = ref.current;
+    if (!menu) return;
+    const focused = menu.querySelector<HTMLElement>(
+      `[data-value="${CSS.escape(focusedValue)}"]`,
+    );
+    focused?.scrollIntoView({ block: 'nearest' });
+  }, [open, focusedValue]);
+
+  const positionStyle: React.CSSProperties =
     dropDirection === 'down'
       ? {
           position: 'absolute',
@@ -329,113 +530,126 @@ export const Combobox: React.ForwardRefExoticComponent<
           marginBottom: t.spaceXs,
         };
 
-  // -- Render -----------------------------------------------------------------
-
+  // Always render so Items register on mount. Hidden when closed.
   return (
     <div
-      ref={containerRef}
-      style={wrapperStyle}
-      onKeyDown={handleKeyDown}
+      ref={ref}
+      id={listboxId}
+      role="listbox"
+      hidden={!open}
+      style={
+        open
+          ? {
+              ...positionStyle,
+              background: t.colorSurfacePanel,
+              border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
+              borderRadius: t.radiusMd,
+              padding: t.spaceXs,
+              zIndex: t.zIndexSticky,
+              boxShadow: t.shadowMd,
+              maxHeight: '16rem',
+              overflowY: 'auto',
+              boxSizing: 'border-box',
+            }
+          : undefined
+      }
     >
-      <input
-        ref={inputRef}
-        type="text"
-        role="combobox"
-        className="alttab-combobox-input"
-        aria-expanded={open}
-        aria-haspopup="listbox"
-        aria-controls={listboxId}
-        aria-activedescendant={activedescendant}
-        aria-autocomplete="list"
-        aria-invalid={ariaInvalid ?? (hasError || undefined)}
-        aria-label={ariaLabel}
-        aria-labelledby={ariaLabelledBy}
-        aria-describedby={ariaDescribedBy}
-        autoComplete={autoComplete ?? 'off'}
-        id={id}
-        form={form}
-        name={name}
-        tabIndex={tabIndex}
-        readOnly={readOnly}
-        maxLength={maxLength}
-        inputMode={inputMode}
-        required={required}
-        autoFocus={autoFocus}
-        value={value}
-        placeholder={placeholder}
-        disabled={disabled}
-        onChange={handleInputChange}
-        onBlur={onBlurProp}
-        onFocus={(e) => {
-          if (suppressNextOpenRef.current) {
-            suppressNextOpenRef.current = false;
-          } else if (!disabled && filtered.length > 0) {
-            openMenu();
-          }
-          onFocusProp?.(e);
-        }}
-        data-testid={dataTestId}
-        style={{
-          ...inputBaseStyle,
-          ...(hasError ? errorBorderStyle : {}),
-          ...(disabled ? disabledStyle : {}),
-        }}
-      />
-
-      {/* Dropdown listbox */}
-      {open && filtered.length > 0 && (
-        <div
-          ref={menuRef}
-          id={listboxId}
-          role="listbox"
-          style={{
-            ...menuStyle,
-            background: t.colorSurfacePanel,
-            border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
-            borderRadius: t.radiusMd,
-            padding: t.spaceXs,
-            zIndex: t.zIndexSticky,
-            boxShadow: t.shadowMd,
-            maxHeight: '16rem',
-            overflowY: 'auto',
-            boxSizing: 'border-box',
-          }}
-        >
-          {filtered.map((opt, idx) => {
-            const isFocused = focusedIndex === idx;
-            const isMatch = opt.value === value;
-            const classes = [
-              'alttab-combobox-option',
-              isFocused ? 'alttab-combobox-option--focused' : '',
-            ]
-              .filter(Boolean)
-              .join(' ');
-
-            return (
-              <button
-                key={opt.value}
-                id={`alttab-combobox-opt-${opt.value}`}
-                type="button"
-                role="option"
-                aria-selected={isMatch}
-                className={classes}
-                onClick={() => selectOption(opt)}
-                onMouseEnter={() => setFocusedIndex(idx)}
-                style={
-                  isMatch
-                    ? { fontWeight: t.fontWeightSemibold }
-                    : undefined
-                }
-              >
-                {opt.label}
-              </button>
-            );
-          })}
-        </div>
-      )}
+      {children}
     </div>
   );
-});
+}
+
+// ---------------------------------------------------------------------------
+// Combobox.Item
+// ---------------------------------------------------------------------------
+
+export interface ComboboxItemProps {
+  /** The value of the option — passed to onSelect when picked. */
+  value: string;
+  /**
+   * Text written into the input when this item is selected. Defaults to
+   * `children` when `children` is a string.
+   */
+  textValue?: string;
+  children: ReactNode;
+}
+
+function Item({
+  value,
+  textValue,
+  children,
+}: ComboboxItemProps): React.JSX.Element {
+  const {
+    value: inputValue,
+    focusedValue,
+    setFocusedValue,
+    selectItem,
+    registerItem,
+    unregisterItem,
+    instanceId,
+  } = useComboboxContext('Item');
+
+  const resolvedText =
+    textValue ?? (typeof children === 'string' ? children : value);
+
+  useEffect(() => {
+    registerItem({ value, textValue: resolvedText });
+    return () => unregisterItem(value);
+  }, [value, resolvedText, registerItem, unregisterItem]);
+
+  const isFocused = focusedValue === value;
+  // "Selected" means the input text currently equals this item's textValue.
+  // That's the same rule the flat API used (opt.value === value, given the
+  // consumer's value was the option's value after selection).
+  const isSelected = inputValue === resolvedText;
+
+  const classes = [
+    'alttab-combobox-option',
+    isFocused ? 'alttab-combobox-option--focused' : '',
+    isSelected ? 'alttab-combobox-option--selected' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  return (
+    <button
+      type="button"
+      role="option"
+      id={`${instanceId}-opt-${value}`}
+      data-value={value}
+      aria-selected={isSelected}
+      className={classes}
+      onClick={() => selectItem(value)}
+      onMouseEnter={() => setFocusedValue(value)}
+    >
+      {children}
+    </button>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Combobox.Empty
+// ---------------------------------------------------------------------------
+
+export interface ComboboxEmptyProps {
+  children: ReactNode;
+}
+
+function Empty({ children }: ComboboxEmptyProps): React.JSX.Element {
+  return (
+    <div
+      role="presentation"
+      style={{
+        padding: `${t.spaceXs} ${t.spaceSm}`,
+        fontSize: t.fontSizeSm,
+        color: t.colorTextMuted,
+        fontFamily: t.fontSans,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
 
 // ---------------------------------------------------------------------------
 // Shared styles
@@ -471,4 +685,40 @@ const disabledStyle: React.CSSProperties = {
   background: t.colorSurfaceDisabled,
   color: t.colorTextDisabled,
   cursor: 'not-allowed',
+};
+
+// ---------------------------------------------------------------------------
+// Compound export
+// ---------------------------------------------------------------------------
+
+/**
+ * Compound Combobox — typeahead select with free-text input. Consumer owns
+ * filtering (render whichever `Combobox.Item` children match the current
+ * input value).
+ *
+ * ```tsx
+ * const [value, setValue] = useState('');
+ * const filtered = options.filter(o =>
+ *   o.label.toLowerCase().includes(value.toLowerCase())
+ * );
+ *
+ * <Combobox.Root value={value} onValueChange={setValue} onSelect={(opt) => ...}>
+ *   <Combobox.Input placeholder="Search..." aria-label="Fruit" />
+ *   <Combobox.List>
+ *     {filtered.length === 0 && <Combobox.Empty>No results</Combobox.Empty>}
+ *     {filtered.map(o => (
+ *       <Combobox.Item key={o.value} value={o.value} textValue={o.label}>
+ *         {o.label}
+ *       </Combobox.Item>
+ *     ))}
+ *   </Combobox.List>
+ * </Combobox.Root>
+ * ```
+ */
+export const Combobox = {
+  Root,
+  Input,
+  List,
+  Item,
+  Empty,
 };
