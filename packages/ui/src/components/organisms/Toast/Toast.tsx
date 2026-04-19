@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
+import { IconButton } from '../../atoms/IconButton';
 import type { ReactNode } from 'react';
 
 // ---------------------------------------------------------------------------
@@ -234,31 +235,12 @@ function ToastMessage({
       onAnimationEnd={handleAnimationEnd}
     >
       <span style={{ flex: 1 }}>{item.message}</span>
-      <button
-        onClick={() => setExiting(true)}
+      <IconButton
+        icon="close"
         aria-label="Dismiss"
-        style={{
-          background: 'none',
-          border: 'none',
-          padding: 0,
-          margin: 0,
-          font: 'inherit',
-          cursor: 'pointer',
-          flexShrink: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: '1.25rem',
-          height: '1.25rem',
-          borderRadius: t.radiusSm,
-          color: colors.fg,
-          opacity: 0.7,
-          fontSize: t.fontSizeSm,
-          lineHeight: 1,
-        }}
-      >
-        ×
-      </button>
+        size="sm"
+        onClick={() => setExiting(true)}
+      />
       {autoDismiss && (
         <span
           data-toast-timer=""
