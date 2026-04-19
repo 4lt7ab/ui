@@ -2070,7 +2070,202 @@ declare function DetailPageRightPanel({ "aria-label": ariaLabel, children }: Det
 * ```
 */
 declare const DetailPage: {};
-import { ReactNode as ReactNode31 } from "react";
+import { FormEvent, ReactNode as ReactNode31 } from "react";
+/** Sticky mode for `FormLayout.Actions`. */
+type FormLayoutSticky = "viewport" | "container" | false;
+/** Public context shape exposed via `useFormLayout()`. */
+interface FormLayoutContextValue {
+	/** Current dirty state. */
+	dirty: boolean;
+	/** Set the dirty state. Updates controlled consumers via `onDirtyChange`. */
+	setDirty: (next: boolean) => void;
+	/** Current saving state. */
+	saving: boolean;
+	/** Set the saving state. Updates controlled consumers via `onSavingChange`. */
+	setSaving: (next: boolean) => void;
+}
+/**
+* Read the `<FormLayout.Root>` context from a consumer component. Exposes
+* `dirty`, `setDirty`, `saving`, `setSaving` so consumers can render custom
+* UI that reacts to form state (e.g. a `*` next to a changed field, a
+* floating "unsaved changes" badge outside the Actions bar).
+*
+* Throws if called outside `<FormLayout.Root>`.
+*/
+declare function useFormLayout(): FormLayoutContextValue;
+/** Props for {@link FormLayoutRoot}. */
+interface FormLayoutRootProps extends BaseComponentProps {
+	/** Controlled dirty state. When set, Root reads this value and ignores
+	* `defaultDirty`. Pair with `onDirtyChange` to own the state yourself
+	* (the common path for React Hook Form / Formik / TanStack Form
+	* consumers — `dirty={formState.isDirty}`). */
+	dirty?: boolean;
+	/** Uncontrolled initial dirty state. Only used when `dirty` is not
+	* provided. Works with `FormLayout.DirtyOnChange` for vanilla-React forms.
+	* @default false
+	*/
+	defaultDirty?: boolean;
+	/** Fires when the dirty state changes — either from controlled consumer
+	* code, from `FormLayout.DirtyOnChange`, or from a custom `useFormLayout()`
+	* caller. */
+	onDirtyChange?: (next: boolean) => void;
+	/** Controlled saving state. When set, Root reads this value and ignores
+	* `defaultSaving`. */
+	saving?: boolean;
+	/** Uncontrolled initial saving state.
+	* @default false
+	*/
+	defaultSaving?: boolean;
+	/** Fires when the saving state changes. */
+	onSavingChange?: (next: boolean) => void;
+	/** Called when the form submits — native `<form onSubmit>`, `SaveButton`
+	* click (it's `type='submit'`), or Enter pressed inside any non-textarea
+	* field. Consumer owns validation, serialization, and network calls. */
+	onSave?: (event: FormEvent<HTMLFormElement>) => void | Promise<void>;
+	/** Called when `FormLayout.CancelButton` is clicked or the consumer
+	* calls the returned setter. */
+	onCancel?: () => void;
+	/** Sticky mode for `FormLayout.Actions`.
+	* - `'container'` — sticky to the Root's scroll container via
+	*   `position: sticky; bottom: 0` (works inside a modal or DetailPage body).
+	* - `'viewport'` — portals into a fixed-position container at the bottom
+	*   of the viewport (full-page settings screens).
+	* - `false` — no sticky behavior; Actions renders inline at its JSX
+	*   position (useful for small cards where sticky is awkward).
+	* @default 'container'
+	*/
+	sticky?: FormLayoutSticky;
+	/** Disable HTML constraint validation. `<form noValidate>` is the default
+	* — consumers own validation. Set `noValidate={false}` to re-enable native
+	* validation bubbles.
+	* @default true
+	*/
+	noValidate?: boolean;
+	/** Children — typically `<FormLayout.Header>`, `<FormLayout.Section>`s,
+	* `<FormLayout.Actions>`, plus optional `<FormLayout.DirtyOnChange>` /
+	* `<FormLayout.NavigationGuard>`. */
+	children?: ReactNode31;
+}
+declare const FormLayoutRoot: React.ForwardRefExoticComponent<Omit<FormLayoutRootProps, "ref"> & React.RefAttributes<HTMLFormElement>>;
+/** Props for {@link FormLayoutHeader}. */
+interface FormLayoutHeaderProps {
+	/** Page title. Rendered as `<h1>` via the underlying `<Header>` primitive. */
+	title: string;
+	/** Optional subtitle rendered below the title in muted style. */
+	description?: string;
+}
+declare function FormLayoutHeader({ title, description }: FormLayoutHeaderProps): React.JSX.Element;
+/** Props for {@link FormLayoutSection}. */
+interface FormLayoutSectionProps extends BaseComponentProps {
+	/** Children — typically `<FormLayout.SectionHeader>` + `<FormLayout.SectionBody>`. */
+	children?: ReactNode31;
+}
+declare function FormLayoutSection({ children,...rest }: FormLayoutSectionProps): React.JSX.Element;
+/** Props for {@link FormLayoutSectionHeader}. */
+interface FormLayoutSectionHeaderProps {
+	/** Section title rendered as `<h2>`. */
+	title: string;
+	/** Optional description rendered below the title in muted style. */
+	description?: string;
+}
+declare function FormLayoutSectionHeader({ title, description }: FormLayoutSectionHeaderProps): React.JSX.Element;
+/** Props for {@link FormLayoutSectionBody}. */
+interface FormLayoutSectionBodyProps {
+	/** Children — consumer's `<Field>` / `<Input>` / `<Textarea>` / custom fields.
+	* The organism does not wrap or transform them. */
+	children?: ReactNode31;
+}
+declare function FormLayoutSectionBody({ children }: FormLayoutSectionBodyProps): React.JSX.Element;
+/** Props for {@link FormLayoutActions}. */
+interface FormLayoutActionsProps {
+	/** Children — typically `<FormLayout.SaveButton>` + `<FormLayout.CancelButton>`,
+	* or any buttons the consumer composes. */
+	children?: ReactNode31;
+}
+declare function FormLayoutActions({ children }: FormLayoutActionsProps): React.JSX.Element | null;
+/** Props for {@link FormLayoutSaveButton}. */
+interface FormLayoutSaveButtonProps extends Omit<ButtonProps, "children" | "type" | "loading" | "form"> {
+	/** Button label when idle.
+	* @default 'Save'
+	*/
+	children?: ReactNode31;
+	/** Button label while `saving` is true.
+	* @default 'Saving…'
+	*/
+	savingLabel?: ReactNode31;
+}
+declare function FormLayoutSaveButton({ children, savingLabel, disabled: disabledProp, variant,...rest }: FormLayoutSaveButtonProps): React.JSX.Element;
+/** Props for {@link FormLayoutCancelButton}. */
+interface FormLayoutCancelButtonProps extends Omit<ButtonProps, "children" | "type" | "form"> {
+	/** Button label.
+	* @default 'Cancel'
+	*/
+	children?: ReactNode31;
+}
+declare function FormLayoutCancelButton({ children, variant, onClick,...rest }: FormLayoutCancelButtonProps): React.JSX.Element;
+/** Props for {@link FormLayoutDirtyOnChange}. */
+interface FormLayoutDirtyOnChangeProps {
+	/** Fields to monitor. Any bubbled `change` event from an input/select/
+	* textarea under this wrapper marks the form dirty. */
+	children?: ReactNode31;
+}
+declare function FormLayoutDirtyOnChange({ children }: FormLayoutDirtyOnChangeProps): React.JSX.Element;
+/** Props for {@link FormLayoutNavigationGuard}. */
+interface FormLayoutNavigationGuardProps {
+	/** Legacy message shown by older browsers. Modern browsers ignore the
+	* custom string and show their canned prompt, but we still set it for
+	* the cases that do.
+	* @default 'You have unsaved changes. Are you sure you want to leave?'
+	*/
+	message?: string;
+}
+declare function FormLayoutNavigationGuard({ message }: FormLayoutNavigationGuardProps): null;
+/**
+* Sectioned form shell with a sticky save/cancel action bar and an opt-in
+* dirty-state gate. Generalizes the hand-assembled settings-page pattern.
+*
+* FormLayout is NOT a form library: it does not own field values, validation,
+* serialization, or submission. Bring React Hook Form, Formik, TanStack Form,
+* or plain `useState` — FormLayout is the chrome around the form plus the
+* dirty-state gate.
+*
+* **Dirty-state detection is consumer-reported.** Pass `dirty={…}` to Root
+* (controlled) or call `useFormLayout().setDirty(true)` from inside the form
+* (uncontrolled). The escape hatch for vanilla-React forms is
+* `<FormLayout.DirtyOnChange>` — a capturing wrapper that calls `setDirty(true)`
+* on any descendant `change` event.
+*
+* @example
+* ```tsx
+* <FormLayout.Root onSave={handleSave} onCancel={handleCancel}>
+*   <FormLayout.Header title="Settings" description="Manage your workspace." />
+*   <FormLayout.DirtyOnChange>
+*     <FormLayout.Section>
+*       <FormLayout.SectionHeader title="Profile" />
+*       <FormLayout.SectionBody>
+*         <Field label="Name"><Input name="name" /></Field>
+*         <Field label="Email"><Input name="email" type="email" /></Field>
+*       </FormLayout.SectionBody>
+*     </FormLayout.Section>
+*     <FormLayout.Section>
+*       <FormLayout.SectionHeader title="Notifications" />
+*       <FormLayout.SectionBody>
+*         <Field label="Digest frequency">
+*           <Select.Root defaultValue="weekly">…</Select.Root>
+*         </Field>
+*       </FormLayout.SectionBody>
+*     </FormLayout.Section>
+*   </FormLayout.DirtyOnChange>
+*   <FormLayout.Actions>
+*     <FormLayout.CancelButton />
+*     <FormLayout.SaveButton />
+*   </FormLayout.Actions>
+*   <FormLayout.NavigationGuard />
+* </FormLayout.Root>
+* ```
+*/
+declare const FormLayout: {};
+import { ReactNode as ReactNode32 } from "react";
 /**
 * Which semantic surface token to use as the background.
 *
@@ -2139,10 +2334,10 @@ interface SurfaceProps extends BaseComponentProps {
 	* @default false
 	*/
 	asChild?: boolean;
-	children: ReactNode31;
+	children: ReactNode32;
 }
 declare const Surface: React.ForwardRefExoticComponent<Omit<SurfaceProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode32 } from "react";
+import { ReactNode as ReactNode33 } from "react";
 /**
 * Responsive grid layout with auto-fill columns.
 *
@@ -2182,7 +2377,7 @@ interface GridProps extends BaseComponentProps {
 	* @default 'md'
 	*/
 	gap?: SpacingToken;
-	children: ReactNode32;
+	children: ReactNode33;
 }
 declare const Grid: React.ForwardRefExoticComponent<Omit<GridProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /**
@@ -2224,7 +2419,7 @@ interface DividerProps extends BaseComponentProps {
 	spacing?: SpacingToken;
 }
 declare const Divider: React.ForwardRefExoticComponent<Omit<DividerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode33 } from "react";
+import { ReactNode as ReactNode34 } from "react";
 /** Named width preset for the Container. */
 type ContainerWidth = "narrow" | "prose" | "wide" | "full";
 /** Horizontal padding preset for the Container. */
@@ -2244,7 +2439,7 @@ interface ContainerProps {
 	*/
 	padding?: ContainerPadding;
 	/** Container content. */
-	children: ReactNode33;
+	children: ReactNode34;
 	id?: string;
 	"data-testid"?: string;
 }
@@ -2305,4 +2500,4 @@ interface TabStripProps extends BaseComponentProps {
 	size?: "sm" | "md";
 }
 declare const TabStrip: React.ForwardRefExoticComponent<Omit<TabStripProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-export { useToast, useIsInsideAppShell, useFocusTrap, useCalendarContext, useAppShellContext, tagChipStyle, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, nextFocusedDate, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextWeight, TextTone, TextSize, TextRef, TextProps, TextFilterConfig, TextFamily, TextAs, TextAlign, Text, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table2 as Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectValueProps, SelectTriggerProps, SelectRootProps, SelectItemProps, SelectFilterConfig, SelectContentProps, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, LinkCardProps, LinkCard, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FilterBarTextProps, FilterBarSelectProps, FilterBarProps, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, EmptyPageTitleProps, EmptyPageTitle, EmptyPageTipsProps, EmptyPageTips, EmptyPageTipProps, EmptyPageTip, EmptyPageRootProps, EmptyPageRoot, EmptyPageIconProps, EmptyPageIcon, EmptyPageDescriptionProps, EmptyPageDescription, EmptyPageActionsProps, EmptyPageActions, EmptyPage, DividerProps, DividerOpacity, Divider, DetailPageRootProps, DetailPageRoot, DetailPageRightPanelProps, DetailPageRightPanel, DetailPageMetaProps, DetailPageMetaItemProps, DetailPageMetaItem, DetailPageMeta, DetailPageHeaderProps, DetailPageHeader, DetailPageBodyProps, DetailPageBody, DetailPageActionsProps, DetailPageActions, DetailPage, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, DataTablePageTableProps, DataTablePageTable, DataTablePageRootProps, DataTablePageRoot, DataTablePagePaginationProps, DataTablePagePagination, DataTablePageHeaderProps, DataTablePageHeader, DataTablePageFilterBarProps, DataTablePageFilterBar, DataTablePageEmptyProps, DataTablePageEmpty, DataTablePage, ContainerWidth, ContainerProps, ContainerPadding, Container, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxRootProps, ComboboxListProps, ComboboxItemProps, ComboboxInputProps, ComboboxEmptyProps, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, CalendarSelection, CalendarRootProps, CalendarRange, CalendarNavProps, CalendarNavDirection, CalendarMode, CalendarHeaderPrimitiveProps, CalendarGridProps, CalendarContextValue, CalendarCellRenderArgs, CalendarCellProps, Calendar, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AppShellTopBarProps, AppShellTopBar, AppShellSidebarSectionProps, AppShellSidebarSection, AppShellSidebarProps, AppShellSidebar, AppShellRootProps, AppShellRoot, AppShellRightPanelProps, AppShellRightPanel, AppShellMainProps, AppShellMain, AppShell, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };
+export { useToast, useIsInsideAppShell, useFormLayout, useFocusTrap, useCalendarContext, useAppShellContext, tagChipStyle, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, nextFocusedDate, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextWeight, TextTone, TextSize, TextRef, TextProps, TextFilterConfig, TextFamily, TextAs, TextAlign, Text, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table2 as Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectValueProps, SelectTriggerProps, SelectRootProps, SelectItemProps, SelectFilterConfig, SelectContentProps, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, LinkCardProps, LinkCard, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FormLayoutSticky, FormLayoutSectionProps, FormLayoutSectionHeaderProps, FormLayoutSectionHeader, FormLayoutSectionBodyProps, FormLayoutSectionBody, FormLayoutSection, FormLayoutSaveButtonProps, FormLayoutSaveButton, FormLayoutRootProps, FormLayoutRoot, FormLayoutNavigationGuardProps, FormLayoutNavigationGuard, FormLayoutHeaderProps, FormLayoutHeader, FormLayoutDirtyOnChangeProps, FormLayoutDirtyOnChange, FormLayoutContextValue, FormLayoutCancelButtonProps, FormLayoutCancelButton, FormLayoutActionsProps, FormLayoutActions, FormLayout, FilterConfig, FilterBarTextProps, FilterBarSelectProps, FilterBarProps, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, EmptyPageTitleProps, EmptyPageTitle, EmptyPageTipsProps, EmptyPageTips, EmptyPageTipProps, EmptyPageTip, EmptyPageRootProps, EmptyPageRoot, EmptyPageIconProps, EmptyPageIcon, EmptyPageDescriptionProps, EmptyPageDescription, EmptyPageActionsProps, EmptyPageActions, EmptyPage, DividerProps, DividerOpacity, Divider, DetailPageRootProps, DetailPageRoot, DetailPageRightPanelProps, DetailPageRightPanel, DetailPageMetaProps, DetailPageMetaItemProps, DetailPageMetaItem, DetailPageMeta, DetailPageHeaderProps, DetailPageHeader, DetailPageBodyProps, DetailPageBody, DetailPageActionsProps, DetailPageActions, DetailPage, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, DataTablePageTableProps, DataTablePageTable, DataTablePageRootProps, DataTablePageRoot, DataTablePagePaginationProps, DataTablePagePagination, DataTablePageHeaderProps, DataTablePageHeader, DataTablePageFilterBarProps, DataTablePageFilterBar, DataTablePageEmptyProps, DataTablePageEmpty, DataTablePage, ContainerWidth, ContainerProps, ContainerPadding, Container, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxRootProps, ComboboxListProps, ComboboxItemProps, ComboboxInputProps, ComboboxEmptyProps, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, CalendarSelection, CalendarRootProps, CalendarRange, CalendarNavProps, CalendarNavDirection, CalendarMode, CalendarHeaderPrimitiveProps, CalendarGridProps, CalendarContextValue, CalendarCellRenderArgs, CalendarCellProps, Calendar, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AppShellTopBarProps, AppShellTopBar, AppShellSidebarSectionProps, AppShellSidebarSection, AppShellSidebarProps, AppShellSidebar, AppShellRootProps, AppShellRoot, AppShellRightPanelProps, AppShellRightPanel, AppShellMainProps, AppShellMain, AppShell, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };

@@ -54,6 +54,7 @@ import { EmptyPageDemo } from './EmptyPageDemo';
 import { AppShellDemo } from './AppShellDemo';
 import { DataTablePageDemo } from './DataTablePageDemo';
 import { DetailPageDemo } from './DetailPageDemo';
+import { FormLayoutDemo } from './FormLayoutDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -93,6 +94,7 @@ export const demos: DemoEntry[] = [
   { name: 'AppShell', category: 'Layout', source: 'ui', component: AppShellDemo },
   { name: 'DataTablePage', category: 'Layout', source: 'ui', component: DataTablePageDemo },
   { name: 'DetailPage', category: 'Layout', source: 'ui', component: DetailPageDemo },
+  { name: 'FormLayout', category: 'Form', source: 'ui', component: FormLayoutDemo },
   { name: 'Pagination', category: 'Navigation', source: 'ui', component: PaginationDemo },
 
   // Feedback
@@ -169,4 +171,5 @@ export {
   AppShellDemo,
   DataTablePageDemo,
   DetailPageDemo,
+  FormLayoutDemo,
 };

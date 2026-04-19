@@ -3039,8 +3039,8 @@ function isSameDay(a, b) {
 function isInRange(date, from, to) {
   const d = stripTime(date).getTime();
   const f = stripTime(from).getTime();
-  const t45 = stripTime(to).getTime();
-  return d >= f && d <= t45;
+  const t46 = stripTime(to).getTime();
+  return d >= f && d <= t46;
 }
 function formatDate(date) {
   const y = date.getFullYear();
@@ -4208,7 +4208,7 @@ function ToastProvider({
 }) {
   const [toasts, setToasts] = useState7([]);
   const dismiss = useCallback7((id) => {
-    setToasts((prev) => prev.filter((t45) => t45.id !== id));
+    setToasts((prev) => prev.filter((t46) => t46.id !== id));
   }, []);
   const showToast = useCallback7(
     (message, typeOrOptions) => {
@@ -6212,10 +6212,354 @@ var DetailPage = {
   RightPanel: DetailPageRightPanel
 };
 
+// src/components/organisms/FormLayout/FormLayout.tsx
+import {
+  createContext as createContext12,
+  forwardRef as forwardRef33,
+  useCallback as useCallback15,
+  useContext as useContext12,
+  useEffect as useEffect13,
+  useId as useId12,
+  useMemo as useMemo10,
+  useRef as useRef14,
+  useState as useState14
+} from "react";
+import { createPortal as createPortal4 } from "react-dom";
+import { semantic as t43 } from "../../core/dist/index.js";
+import { jsx as jsx45, jsxs as jsxs26 } from "react/jsx-runtime";
+var FormLayoutContext = createContext12(null);
+function useFormLayoutInternal(part) {
+  const ctx = useContext12(FormLayoutContext);
+  if (ctx === null) {
+    throw new Error(
+      `[@4lt7ab/ui] <FormLayout.${part}> must be rendered inside <FormLayout.Root>.`
+    );
+  }
+  return ctx;
+}
+function useFormLayout() {
+  const ctx = useFormLayoutInternal("<consumer>");
+  return { dirty: ctx.dirty, setDirty: ctx.setDirty, saving: ctx.saving, setSaving: ctx.setSaving };
+}
+function useControllableBoolean2(params) {
+  const { label, controlled, defaultValue, onChange } = params;
+  const isControlled = controlled !== void 0;
+  const [uncontrolled, setUncontrolled] = useState14(defaultValue);
+  const value = isControlled ? controlled : uncontrolled;
+  const wasControlled = useRef14(isControlled);
+  useEffect13(() => {
+    if (wasControlled.current !== isControlled) {
+      console.warn(
+        `<FormLayout.Root> switched between controlled and uncontrolled for ${label}. Pick one and stick with it.`
+      );
+      wasControlled.current = isControlled;
+    }
+  }, [isControlled, label]);
+  const setValue = useCallback15(
+    (next) => {
+      if (!isControlled) setUncontrolled(next);
+      onChange?.(next);
+    },
+    [isControlled, onChange]
+  );
+  return [value, setValue];
+}
+var FormLayoutRoot = forwardRef33(function FormLayoutRoot2({
+  dirty: dirtyProp,
+  defaultDirty = false,
+  onDirtyChange,
+  saving: savingProp,
+  defaultSaving = false,
+  onSavingChange,
+  onSave,
+  onCancel,
+  sticky = "container",
+  noValidate = true,
+  children,
+  ...rest
+}, ref) {
+  const [dirty, setDirty] = useControllableBoolean2({
+    label: "dirty",
+    controlled: dirtyProp,
+    defaultValue: defaultDirty,
+    onChange: onDirtyChange
+  });
+  const [saving, setSaving] = useControllableBoolean2({
+    label: "saving",
+    controlled: savingProp,
+    defaultValue: defaultSaving,
+    onChange: onSavingChange
+  });
+  const autoId = useId12();
+  const formId = rest.id ?? `formlayout-${autoId}`;
+  const value = useMemo10(
+    () => ({ dirty, setDirty, saving, setSaving, onSave, onCancel, sticky, formId }),
+    [dirty, setDirty, saving, setSaving, onSave, onCancel, sticky, formId]
+  );
+  const handleSubmit = useCallback15(
+    async (event) => {
+      event.preventDefault();
+      if (onSave === void 0) return;
+      const result = onSave(event);
+      if (result && typeof result.then === "function") {
+        setSaving(true);
+        try {
+          await result;
+        } finally {
+          setSaving(false);
+        }
+      }
+    },
+    [onSave, setSaving]
+  );
+  return /* @__PURE__ */ jsx45(FormLayoutContext.Provider, { value, children: /* @__PURE__ */ jsx45(
+    "form",
+    {
+      ref,
+      id: formId,
+      "data-testid": rest["data-testid"],
+      "data-state": dirty ? "dirty" : "pristine",
+      noValidate,
+      onSubmit: handleSubmit,
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        gap: t43.spaceLg,
+        width: "100%",
+        fontFamily: t43.fontSans,
+        color: t43.colorText,
+        boxSizing: "border-box"
+      },
+      children
+    }
+  ) });
+});
+function FormLayoutHeader({
+  title,
+  description
+}) {
+  useFormLayoutInternal("Header");
+  return /* @__PURE__ */ jsx45(Header, { level: "page", title, subtitle: description });
+}
+var FormLayoutSectionContext = createContext12(null);
+function useFormLayoutSectionContext(part) {
+  const ctx = useContext12(FormLayoutSectionContext);
+  if (ctx === null) {
+    throw new Error(
+      `[@4lt7ab/ui] <FormLayout.${part}> must be rendered inside <FormLayout.Section>.`
+    );
+  }
+  return ctx;
+}
+function FormLayoutSection({
+  children,
+  ...rest
+}) {
+  useFormLayoutInternal("Section");
+  const headerId = useId12();
+  const value = useMemo10(() => ({ headerId }), [headerId]);
+  return /* @__PURE__ */ jsx45(FormLayoutSectionContext.Provider, { value, children: /* @__PURE__ */ jsx45(
+    "section",
+    {
+      id: rest.id,
+      "data-testid": rest["data-testid"],
+      "aria-labelledby": headerId,
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        gap: t43.spaceMd,
+        padding: t43.spaceMd,
+        background: t43.colorSurface,
+        border: `${t43.borderWidthDefault} solid ${t43.colorBorder}`,
+        borderRadius: t43.radiusMd,
+        minWidth: 0
+      },
+      children
+    }
+  ) });
+}
+function FormLayoutSectionHeader({
+  title,
+  description
+}) {
+  const { headerId } = useFormLayoutSectionContext("SectionHeader");
+  return /* @__PURE__ */ jsxs26("div", { style: { display: "flex", flexDirection: "column", gap: t43.spaceXs }, children: [
+    /* @__PURE__ */ jsx45(
+      "h2",
+      {
+        id: headerId,
+        style: {
+          margin: 0,
+          fontFamily: t43.fontSans,
+          fontWeight: t43.fontWeightSemibold,
+          fontSize: t43.fontSizeBase,
+          lineHeight: t43.lineHeightTight,
+          color: t43.colorText
+        },
+        children: title
+      }
+    ),
+    description !== void 0 && /* @__PURE__ */ jsx45(
+      "span",
+      {
+        style: {
+          color: t43.colorTextMuted,
+          fontSize: t43.fontSizeSm,
+          fontFamily: t43.fontSans,
+          lineHeight: t43.lineHeightBase
+        },
+        children: description
+      }
+    )
+  ] });
+}
+function FormLayoutSectionBody({
+  children
+}) {
+  useFormLayoutSectionContext("SectionBody");
+  return /* @__PURE__ */ jsx45(
+    "div",
+    {
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        gap: t43.spaceMd,
+        minWidth: 0
+      },
+      children
+    }
+  );
+}
+function FormLayoutActions({
+  children
+}) {
+  const { saving, sticky } = useFormLayoutInternal("Actions");
+  const barStyle = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    gap: t43.spaceSm,
+    padding: `${t43.spaceSm} ${t43.spaceMd}`,
+    background: t43.colorSurface,
+    border: `${t43.borderWidthDefault} solid ${t43.colorBorder}`,
+    borderRadius: t43.radiusMd,
+    boxSizing: "border-box"
+  };
+  const inlineStickyStyle = {
+    ...barStyle,
+    position: "sticky",
+    bottom: 0,
+    zIndex: 1
+  };
+  const viewportStyle = {
+    ...barStyle,
+    position: "fixed",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderRadius: 0,
+    borderLeft: "none",
+    borderRight: "none",
+    borderBottom: "none",
+    boxShadow: t43.shadowMd,
+    zIndex: 100
+  };
+  const commonProps = {
+    role: "toolbar",
+    "aria-label": "Form actions",
+    "data-state": saving ? "saving" : "idle"
+  };
+  if (sticky === "viewport") {
+    if (typeof document === "undefined") return null;
+    return createPortal4(
+      /* @__PURE__ */ jsx45("div", { ...commonProps, style: viewportStyle, children }),
+      document.body
+    );
+  }
+  const style = sticky === "container" ? inlineStickyStyle : barStyle;
+  return /* @__PURE__ */ jsx45("div", { ...commonProps, style, children });
+}
+function FormLayoutSaveButton({
+  children = "Save",
+  savingLabel = "Saving\u2026",
+  disabled: disabledProp,
+  variant = "primary",
+  ...rest
+}) {
+  const { dirty, saving, formId } = useFormLayoutInternal("SaveButton");
+  const disabled = disabledProp ?? !dirty;
+  return /* @__PURE__ */ jsx45(
+    Button,
+    {
+      ...rest,
+      type: "submit",
+      form: formId,
+      variant,
+      disabled,
+      loading: saving,
+      children: saving ? savingLabel : children
+    }
+  );
+}
+function FormLayoutCancelButton({
+  children = "Cancel",
+  variant = "secondary",
+  onClick,
+  ...rest
+}) {
+  const { onCancel } = useFormLayoutInternal("CancelButton");
+  const handleClick = useCallback15(
+    (event) => {
+      onClick?.(event);
+      if (!event.defaultPrevented) onCancel?.();
+    },
+    [onClick, onCancel]
+  );
+  return /* @__PURE__ */ jsx45(Button, { ...rest, type: "button", variant, onClick: handleClick, children });
+}
+function FormLayoutDirtyOnChange({
+  children
+}) {
+  const { setDirty, dirty } = useFormLayoutInternal("DirtyOnChange");
+  const handleChange = useCallback15(() => {
+    if (!dirty) setDirty(true);
+  }, [dirty, setDirty]);
+  return /* @__PURE__ */ jsx45("div", { style: { display: "contents" }, onChange: handleChange, children });
+}
+function FormLayoutNavigationGuard({
+  message = "You have unsaved changes. Are you sure you want to leave?"
+}) {
+  const { dirty } = useFormLayoutInternal("NavigationGuard");
+  useEffect13(() => {
+    if (!dirty) return;
+    if (typeof window === "undefined") return;
+    const handler = (event) => {
+      event.preventDefault();
+      event.returnValue = message;
+      return message;
+    };
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, [dirty, message]);
+  return null;
+}
+var FormLayout = {
+  Root: FormLayoutRoot,
+  Header: FormLayoutHeader,
+  Section: FormLayoutSection,
+  SectionHeader: FormLayoutSectionHeader,
+  SectionBody: FormLayoutSectionBody,
+  Actions: FormLayoutActions,
+  SaveButton: FormLayoutSaveButton,
+  CancelButton: FormLayoutCancelButton,
+  DirtyOnChange: FormLayoutDirtyOnChange,
+  NavigationGuard: FormLayoutNavigationGuard
+};
+
 // src/components/atoms/Grid/Grid.tsx
-import { forwardRef as forwardRef33 } from "react";
-import { jsx as jsx45 } from "react/jsx-runtime";
-var Grid = forwardRef33(
+import { forwardRef as forwardRef34 } from "react";
+import { jsx as jsx46 } from "react/jsx-runtime";
+var Grid = forwardRef34(
   function Grid2({
     minColumnWidth = 300,
     columns,
@@ -6225,7 +6569,7 @@ var Grid = forwardRef33(
   }, ref) {
     const minWidth = `${minColumnWidth}px`;
     const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
-    return /* @__PURE__ */ jsx45(
+    return /* @__PURE__ */ jsx46(
       "div",
       {
         ref,
@@ -6243,10 +6587,10 @@ var Grid = forwardRef33(
 );
 
 // src/components/atoms/Divider/Divider.tsx
-import { forwardRef as forwardRef34 } from "react";
-import { semantic as t43 } from "../../core/dist/index.js";
-import { jsx as jsx46 } from "react/jsx-runtime";
-var Divider = forwardRef34(
+import { forwardRef as forwardRef35 } from "react";
+import { semantic as t44 } from "../../core/dist/index.js";
+import { jsx as jsx47 } from "react/jsx-runtime";
+var Divider = forwardRef35(
   function Divider2({
     orientation = "horizontal",
     opacity = "default",
@@ -6254,10 +6598,10 @@ var Divider = forwardRef34(
     ...rest
   }, ref) {
     const resolvedOpacity = dividerOpacityMap[opacity];
-    const bg = `color-mix(in srgb, ${t43.colorBorder} ${resolvedOpacity}%, transparent)`;
+    const bg = `color-mix(in srgb, ${t44.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
     const isHorizontal = orientation === "horizontal";
-    return /* @__PURE__ */ jsx46(
+    return /* @__PURE__ */ jsx47(
       "div",
       {
         ref,
@@ -6278,8 +6622,8 @@ var Divider = forwardRef34(
 );
 
 // src/components/atoms/Container/Container.tsx
-import { forwardRef as forwardRef35 } from "react";
-import { jsx as jsx47 } from "react/jsx-runtime";
+import { forwardRef as forwardRef36 } from "react";
+import { jsx as jsx48 } from "react/jsx-runtime";
 var widthMap = {
   narrow: "32rem",
   prose: "680px",
@@ -6292,7 +6636,7 @@ var paddingMap = {
   md: "1.5rem",
   lg: "3rem"
 };
-var Container = forwardRef35(
+var Container = forwardRef36(
   function Container2({
     width = "prose",
     padding = "md",
@@ -6300,7 +6644,7 @@ var Container = forwardRef35(
     id,
     "data-testid": dataTestId
   }, ref) {
-    return /* @__PURE__ */ jsx47(
+    return /* @__PURE__ */ jsx48(
       "div",
       {
         ref,
@@ -6321,20 +6665,20 @@ var Container = forwardRef35(
 );
 
 // src/components/molecules/TabStrip/TabStrip.tsx
-import { forwardRef as forwardRef36, useCallback as useCallback15 } from "react";
-import { semantic as t44, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
-import { jsx as jsx48, jsxs as jsxs26 } from "react/jsx-runtime";
+import { forwardRef as forwardRef37, useCallback as useCallback16 } from "react";
+import { semantic as t45, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
+import { jsx as jsx49, jsxs as jsxs27 } from "react/jsx-runtime";
 var STYLES_ID2 = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
-  transition: color ${t44.transitionFast}, background ${t44.transitionFast}, border-color ${t44.transitionFast};
+  transition: color ${t45.transitionFast}, background ${t45.transitionFast}, border-color ${t45.transitionFast};
 }
 [data-tab-btn]:hover:not([aria-selected="true"]) {
-  color: ${t44.colorTextSecondary};
-  background: color-mix(in srgb, ${t44.colorBorder} 10%, transparent);
+  color: ${t45.colorTextSecondary};
+  background: color-mix(in srgb, ${t45.colorBorder} 10%, transparent);
 }
 `;
-var TabStrip = forwardRef36(
+var TabStrip = forwardRef37(
   function TabStrip2({
     tabs,
     activeKey,
@@ -6349,7 +6693,7 @@ var TabStrip = forwardRef36(
       count: tabs.length,
       activeIndex: activeIndex === -1 ? null : activeIndex
     });
-    const handleClick = useCallback15(
+    const handleClick = useCallback16(
       (key) => {
         if (key === activeKey && allowDeselect) {
           onChange(null);
@@ -6360,7 +6704,7 @@ var TabStrip = forwardRef36(
       [activeKey, allowDeselect, onChange]
     );
     const isSm = size === "sm";
-    return /* @__PURE__ */ jsx48(
+    return /* @__PURE__ */ jsx49(
       "div",
       {
         ref,
@@ -6373,7 +6717,7 @@ var TabStrip = forwardRef36(
         },
         children: tabs.map((tab, i) => {
           const isActive = tab.key === activeKey;
-          return /* @__PURE__ */ jsxs26(
+          return /* @__PURE__ */ jsxs27(
             "button",
             {
               ref: itemRef(i),
@@ -6386,22 +6730,22 @@ var TabStrip = forwardRef36(
               style: {
                 display: "flex",
                 alignItems: "center",
-                gap: t44.spaceXs,
-                padding: isSm ? `${t44.spaceXs} ${t44.spaceSm}` : `${t44.spaceSm} ${t44.spaceMd}`,
+                gap: t45.spaceXs,
+                padding: isSm ? `${t45.spaceXs} ${t45.spaceSm}` : `${t45.spaceSm} ${t45.spaceMd}`,
                 border: "none",
-                borderBottom: `2px solid ${isActive ? t44.colorActionPrimary : "transparent"}`,
+                borderBottom: `2px solid ${isActive ? t45.colorActionPrimary : "transparent"}`,
                 borderRadius: 0,
-                background: isActive ? `color-mix(in srgb, ${t44.colorActionPrimary} 8%, transparent)` : "transparent",
-                color: isActive ? t44.colorActionPrimary : t44.colorTextMuted,
-                fontFamily: t44.fontSans,
-                fontSize: isSm ? t44.fontSizeXs : t44.fontSizeSm,
-                fontWeight: t44.fontWeightSemibold,
-                lineHeight: t44.lineHeightTight,
+                background: isActive ? `color-mix(in srgb, ${t45.colorActionPrimary} 8%, transparent)` : "transparent",
+                color: isActive ? t45.colorActionPrimary : t45.colorTextMuted,
+                fontFamily: t45.fontSans,
+                fontSize: isSm ? t45.fontSizeXs : t45.fontSizeSm,
+                fontWeight: t45.fontWeightSemibold,
+                lineHeight: t45.lineHeightTight,
                 cursor: "pointer",
                 whiteSpace: "nowrap"
               },
               children: [
-                tab.icon && /* @__PURE__ */ jsx48(
+                tab.icon && /* @__PURE__ */ jsx49(
                   "span",
                   {
                     className: "material-symbols-outlined",
@@ -6467,6 +6811,17 @@ export {
   EmptyState,
   ErrorBoundary,
   Field,
+  FormLayout,
+  FormLayoutActions,
+  FormLayoutCancelButton,
+  FormLayoutDirtyOnChange,
+  FormLayoutHeader,
+  FormLayoutNavigationGuard,
+  FormLayoutRoot,
+  FormLayoutSaveButton,
+  FormLayoutSection,
+  FormLayoutSectionBody,
+  FormLayoutSectionHeader,
   Grid,
   Header,
   Icon,
@@ -6549,6 +6904,7 @@ export {
   useAppShellContext,
   useCalendarContext,
   useFocusTrap,
+  useFormLayout,
   useIsInsideAppShell,
   useToast
 };

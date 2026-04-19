@@ -51,6 +51,7 @@ export * from './components/organisms/EmptyPage';
 export * from './components/organisms/AppShell';
 export * from './components/organisms/DataTablePage';
 export * from './components/organisms/DetailPage';
+export * from './components/organisms/FormLayout';
 
 // Layout & Container primitives
 export * from './components/atoms/Surface';

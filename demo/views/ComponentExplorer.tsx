@@ -26,6 +26,7 @@ import {
   AppShellDemo,
   DataTablePageDemo,
   DetailPageDemo,
+  FormLayoutDemo,
 } from '../demos';
 
 // ---------------------------------------------------------------------------
@@ -97,6 +98,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'Combobox', source: 'ui', Demo: ComboboxDemo },
       { name: 'ChipPicker', source: 'ui', Demo: ChipPickerDemo },
       { name: 'SearchInput', source: 'ui', Demo: SearchInputDemo },
+      { name: 'FormLayout', source: 'ui', Demo: FormLayoutDemo },
     ],
   },
   {
