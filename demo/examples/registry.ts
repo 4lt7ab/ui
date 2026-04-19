@@ -3,9 +3,7 @@ import { THEMING_EXAMPLES } from './theming/registry';
 import { MOTION_EXAMPLES } from './motion/registry';
 import { PROSE_EXAMPLES } from './prose/registry';
 import { LAYOUT_EXAMPLES } from './layout/registry';
-import { CalendarShowcase } from './forms/CalendarShowcase';
-import { DateRangePickerShowcase } from './forms/DateRangePickerShowcase';
-import { ComboboxShowcase } from './forms/ComboboxShowcase';
+import { FORMS_EXAMPLES } from './forms/registry';
 import { DataTablePageShowcase } from './data/DataTablePageShowcase';
 import { CommandPaletteShowcase } from './modals/CommandPaletteShowcase';
 import { ModalShellShowcase } from './modals/ModalShellShowcase';
@@ -26,6 +24,9 @@ import { ModalShellShowcase } from './modals/ModalShellShowcase';
 // here is additive: one import + one spread.
 //
 // Id convention (per design doc §2.3): `<concept-slug>-<kebab-widget-name>`.
+// The concept prefix makes cross-concept collisions structurally impossible;
+// intra-concept collisions surface as a duplicate-key error in the relevant
+// sub-registry literal.
 //
 // Adding a new live example:
 //   1. Build the widget under `demo/examples/<concept>/<Widget>.tsx`.
@@ -39,9 +40,7 @@ export const LIVE_EXAMPLES: Record<string, ComponentType> = {
   ...MOTION_EXAMPLES,
   ...PROSE_EXAMPLES,
   ...LAYOUT_EXAMPLES,
-  'forms-combobox': ComboboxShowcase,
-  'forms-calendar': CalendarShowcase,
-  'forms-daterangepicker': DateRangePickerShowcase,
+  ...FORMS_EXAMPLES,
   'data-datatablepage': DataTablePageShowcase,
   'modals-commandpalette': CommandPaletteShowcase,
   'modals-modalshell': ModalShellShowcase,

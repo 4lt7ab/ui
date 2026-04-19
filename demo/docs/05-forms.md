@@ -47,6 +47,8 @@ import { Field, Input } from '@4lt7ab/ui';
 
 `Field` auto-generates an `id` for the wrapped control and wires `htmlFor` on the `<label>`. If you pass an explicit `htmlFor`, also pass `id` on the child input so the link holds.
 
+<LiveExample id="forms-input-field" />
+
 ## Text and numeric input
 
 `Input` supports every HTML5 text-like type (`text`, `email`, `password`, `url`, `tel`, `number`, `search`) plus `pattern`, `inputMode`, `min`/`max`/`step`, and `maxLength`. It forwards a ref to the underlying `<input>`. The component does not wrap the value — controlled and uncontrolled both work via the native `value` / `defaultValue` pair.
@@ -95,6 +97,8 @@ import { Field, Input } from '@4lt7ab/ui';
 
 `runQuery` receives the debounced value. The on-screen text updates immediately; the callback lags by `debounceMs`.
 
+<LiveExample id="forms-search-input" />
+
 ## Toggles
 
 `SegmentedControl` is a controlled toggle across a fixed set of short options. Segments are `{ value, label, icon? }`. Keyboard nav follows the roving-tabindex pattern: Tab enters the group on the active segment, arrow keys move the selection, Home/End jump to the ends. A sliding pill indicator animates between segments (respects `prefers-reduced-motion`).
@@ -114,6 +118,8 @@ import { Field, Input } from '@4lt7ab/ui';
 
 Size defaults to `md` (32px tall); `sm` gives you a 28px version for dense chrome.
 
+<LiveExample id="forms-segmented-control" />
+
 `ChipPicker` is the multi-select equivalent — toggle chips with an optional `group` name that renders a section heading above groups of chips. Controlled via `selected` / `onChange`; uncontrolled via `defaultSelected`.
 
 ```tsx
@@ -129,6 +135,8 @@ Size defaults to `md` (32px tall); `sm` gives you a 28px version for dense chrom
   aria-label="Filter tags"
 />
 ```
+
+<LiveExample id="forms-chip-picker" />
 
 ## Select
 
@@ -158,6 +166,8 @@ Keyboard:
 - Typing a letter jumps to the next item starting with that letter (typeahead)
 
 All `Select.*` parts forward refs. `Select.Root` accepts `value` (controlled) or `defaultValue` (uncontrolled); pair controlled mode with `onValueChange`. A legacy `onChange` handler shape is still accepted for compatibility — prefer `onValueChange` for new code.
+
+<LiveExample id="forms-select" />
 
 ## Combobox
 
@@ -298,6 +308,8 @@ The `useFormLayout()` hook lets consumer components reach in and render off the 
 ### Navigation guard
 
 `<FormLayout.NavigationGuard />` attaches a `beforeunload` listener while `dirty` is true, triggering the browser's "Leave site?" prompt. **In-app navigation is router-specific** — the library cannot block an intra-app route change without pulling a router dependency. If you need that, listen for `dirty` via `useFormLayout()` and wire your router's block hook (React Router `useBlocker`, TanStack Router `useBlocker`, etc.) in your own component.
+
+<LiveExample id="forms-form-layout" />
 
 ## Confirmation
 
