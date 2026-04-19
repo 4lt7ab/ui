@@ -307,7 +307,7 @@ Content container with surface styling.
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `'default' \| 'flat' \| 'elevated'` | `'default'` | Visual treatment |
+| `variant` | `'default' \| 'flat' \| 'elevated' \| 'ghost'` | `'default'` | Visual treatment. `ghost` = transparent `colorSurface` background with no border/shadow; used by `LinkCard` so the consumer can draw its own stylesheet-owned border (see `:hover` accent note). |
 | `padding` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'lg'` | Inner padding |
 | `hover` | `boolean` | `false` | Lift + accent-border on hover |
 | `glow` | `boolean` | `false` | Theme-rhythm-driven border glow |

@@ -30,6 +30,19 @@ describe('Card', () => {
     expect(ref.current).not.toBeNull();
     expect(ref.current?.tagName).toBe('DIV');
   });
+
+  it('ghost variant uses transparent colorSurface background and no border/shadow', () => {
+    // `ghost` is the variant LinkCard uses to restore pre-v0.4 parity in
+    // transparent-surface themes. It maps to Surface level `default` (which
+    // resolves to `var(--color-surface)`) and omits border+shadow so the
+    // consumer's stylesheet can own the border — keeping `:hover` accents
+    // working without fighting an inline shorthand on specificity.
+    const { container } = render(<Card variant="ghost">body</Card>);
+    const div = container.querySelector('div')!;
+    expect(div.style.background).toBe('var(--color-surface)');
+    expect(div.style.border).toBe('');
+    expect(div.style.boxShadow).toBe('');
+  });
 });
 
 describe('Card asChild', () => {

@@ -5,7 +5,7 @@ import { Surface } from '../../atoms/Surface/Surface';
 import type { SpacingToken, BaseComponentProps } from '../../../types';
 
 /** Visual treatment for the Card surface. */
-export type CardVariant = 'default' | 'flat' | 'elevated';
+export type CardVariant = 'default' | 'flat' | 'elevated' | 'ghost';
 
 /** A contained surface for grouping related content. */
 export interface CardProps extends BaseComponentProps {
@@ -13,6 +13,10 @@ export interface CardProps extends BaseComponentProps {
    * - `default` — standard surface with border and small shadow
    * - `flat` — raised background with border, no shadow
    * - `elevated` — standard surface with border and medium shadow
+   * - `ghost` — transparent `colorSurface` background, no border or shadow; the
+   *   consumer is expected to draw the border themselves (via stylesheet, so
+   *   `:hover` / `:focus` rules can still override individual border longhands
+   *   without losing to an inline border shorthand). Used by `LinkCard`.
    * @default 'default'
    */
   variant?: CardVariant;
@@ -54,6 +58,12 @@ const variantSurfaceProps: Record<CardVariant, SurfacePresetProps> = {
   default: { level: 'solid', border: true, shadow: 'sm' },
   flat: { level: 'raised', border: true },
   elevated: { level: 'solid', border: true, shadow: 'md' },
+  // `ghost` uses the `default` Surface level (which maps to `colorSurface` —
+  // transparent in some themes) and emits no border / shadow. This lets
+  // consumers like LinkCard keep the border in a stylesheet rule so that
+  // `:hover { border-color }` still works — an inline `border` shorthand
+  // from Surface would otherwise beat the hover rule on specificity.
+  ghost: { level: 'default' },
 };
 
 // ── Injected styles ──

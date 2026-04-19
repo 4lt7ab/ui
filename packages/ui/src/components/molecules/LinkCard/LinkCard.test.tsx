@@ -63,14 +63,35 @@ describe('LinkCard', () => {
     expect(ref.current).toBe(container.querySelector('a'));
   });
 
-  it('inherits Card background/border/padding via asChild composition', () => {
+  it('inherits Card padding/radius via the asChild ghost variant', () => {
     const { container } = render(<LinkCard href="/x" title="T" />);
     const a = container.querySelector('a')!;
-    // Card passes its inline style through Slot; the merged style lands on <a>.
-    // We don't assert the exact token values (mocked or real), just that the
-    // composition merged something onto the anchor's style bag.
+    // Card's ghost variant still contributes padding + radius via Surface; the
+    // merged style lands on <a>. Token values resolve to `var(--...)` strings
+    // under the vitest alias pointing at @4lt7ab/core source.
     expect(a.style.borderRadius).not.toBe('');
     expect(a.style.padding).not.toBe('');
+  });
+
+  it('uses the transparent colorSurface background (ghost variant parity)', () => {
+    // Pre-v0.4 LinkCard used `background: var(--color-surface)` — transparent
+    // in black-hole, neural, pacman, pipboy, synthwave. The ghost variant
+    // restores this (vs. Card default's `colorSurfaceSolid`, which regressed
+    // those themes in a7adcd9).
+    const { container } = render(<LinkCard href="/x" title="T" />);
+    const a = container.querySelector('a')!;
+    expect(a.style.background).toBe('var(--color-surface)');
+  });
+
+  it('emits no inline border or box-shadow (border owned by stylesheet)', () => {
+    // The ghost variant omits Surface's border/shadow so the injected
+    // stylesheet owns the border end-to-end — this keeps the hover
+    // `border-color` accent working (inline shorthand would otherwise beat
+    // the `:hover` rule on specificity).
+    const { container } = render(<LinkCard href="/x" title="T" />);
+    const a = container.querySelector('a')!;
+    expect(a.style.border).toBe('');
+    expect(a.style.boxShadow).toBe('');
   });
 
   it('passes id, aria-label, and data-testid through', () => {
