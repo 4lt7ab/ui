@@ -221,6 +221,10 @@ The full `semantic` object is the components-facing contract. Grouped by concern
 
 Special note on `colorSurfaceSolid`: it's the opaque counterpart to `colorSurface`. On themes where `colorSurface` is transparent (canvas-backed themes), use `colorSurfaceSolid` when stacked content needs to fully obscure what's behind it.
 
+Click through a few tokens below — the resolved value on the right is pulled from the DOM, so switching themes in the header re-runs the resolution without touching the widget's state.
+
+<LiveExample id="theming-token-inspector" />
+
 ## Custom themes
 
 A theme is a `ThemeDefinition` — `name`, `label`, a complete `ThemeTokens` map, optional raw `css`, optional `rhythm`. TypeScript enforces completeness: a partial token map is a type error.

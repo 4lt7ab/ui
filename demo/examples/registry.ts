@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react';
-import { ThemePlaygroundLive } from './theming/ThemePlaygroundLive';
+import { THEMING_EXAMPLES } from './theming/registry';
+import { MOTION_EXAMPLES } from './motion/registry';
 import { CalendarShowcase } from './forms/CalendarShowcase';
 import { DateRangePickerShowcase } from './forms/DateRangePickerShowcase';
 import { ComboboxShowcase } from './forms/ComboboxShowcase';
@@ -8,7 +9,7 @@ import { CommandPaletteShowcase } from './modals/CommandPaletteShowcase';
 import { ModalShellShowcase } from './modals/ModalShellShowcase';
 
 // ---------------------------------------------------------------------------
-// Live-example registry
+// Live-example registry (root)
 // ---------------------------------------------------------------------------
 //
 // Single source of truth for which `<LiveExample id="..." />` ids exist in
@@ -16,20 +17,19 @@ import { ModalShellShowcase } from './modals/ModalShellShowcase';
 // `<LiveExample>` renderer (see `./LiveExample.tsx`) looks the id up here
 // and renders the matching widget inside a bordered Card frame.
 //
-// Id convention (per design doc §2.3): `<concept-slug>-<kebab-widget-name>`.
-// Keeping the slug prefix out of the widget filename means a single widget
-// can appear in more than one concept if the id points at the same
-// component — but the common case is one id per widget.
+// Per design doc §2.7, per-concept sub-registries live at
+// `demo/examples/<concept>/registry.ts` and are merged here. Concepts that
+// haven't migrated yet still register their entries inline below — each
+// migration is a mechanical move that happens inside the first widget task
+// that touches the concept.
 //
-// Adding a new live example:
-//   1. Build the widget under `demo/examples/<concept>/<Widget>.tsx`.
-//   2. Import and register it below keyed on its id.
-//   3. Reference the id from the concept doc with `<LiveExample id="..." />`.
-// Missing ids render a visible fallback in `LiveExample.tsx` so authoring
-// gaps surface during `bun run dev` rather than silently rendering empty.
+// Id convention (per design doc §2.3): `<concept-slug>-<kebab-widget-name>`.
+// A missing id renders a visible `[missing live example: <id>]` fallback
+// from `LiveExample.tsx` so gaps surface during authoring.
 
 export const LIVE_EXAMPLES: Record<string, ComponentType> = {
-  'theming-theme-playground': ThemePlaygroundLive,
+  ...THEMING_EXAMPLES,
+  ...MOTION_EXAMPLES,
   'forms-combobox': ComboboxShowcase,
   'forms-calendar': CalendarShowcase,
   'forms-daterangepicker': DateRangePickerShowcase,

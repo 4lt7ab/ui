@@ -75,6 +75,10 @@ The fallback receives the resolved theme name and is rendered into the backdrop'
 - **Reduced motion.** If the user has `prefers-reduced-motion: reduce` set, the backdrop doesn't mount — even for static gradients, since the guard is uniform.
 - **Unknown theme.** If neither a canvas nor static background is registered for the resolved theme, and no `fallback` is provided, nothing renders.
 
+Cycle the backdrops inside a bordered frame — same background functions `ThemeBackground` uses, scoped to a single panel so the rest of the page stays on the consumer's current theme.
+
+<LiveExample id="motion-themebackground" />
+
 ## How a canvas background works
 
 Every canvas background is a pure function with the same signature:
