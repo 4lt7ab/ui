@@ -54,6 +54,7 @@ export * from './components/organisms/Calendar';
 export * from './components/molecules/ErrorBoundary';
 export * from './components/organisms/Toast';
 export * from './components/organisms/Combobox';
+export * from './components/organisms/CommandPalette';
 export * from './components/molecules/ChipPicker';
 export * from './components/molecules/SearchInput';
 export * from './components/molecules/SegmentedControl';

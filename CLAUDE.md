@@ -139,6 +139,7 @@ packages/
 │       │       ├── AppShell/         # AppShell.* compound (viewport envelope)
 │       │       ├── Calendar/         # Calendar.* compound
 │       │       ├── Combobox/         # Combobox.* compound
+│       │       ├── CommandPalette/   # CommandPalette.* compound (Cmd+K palette)
 │       │       ├── DataTablePage/    # DataTablePage.* compound (CRUD envelope)
 │       │       ├── DatePicker/
 │       │       ├── DateRangePicker/

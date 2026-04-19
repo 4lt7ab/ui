@@ -57,6 +57,7 @@ import { AppShellDemo } from './AppShellDemo';
 import { DataTablePageDemo } from './DataTablePageDemo';
 import { DetailPageDemo } from './DetailPageDemo';
 import { FormLayoutDemo } from './FormLayoutDemo';
+import { CommandPaletteDemo } from './CommandPaletteDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -122,6 +123,7 @@ export const demos: DemoEntry[] = [
   { name: 'DateRangePicker', category: 'Form', source: 'ui', component: DateRangePickerDemo },
   { name: 'Calendar', category: 'Form', source: 'ui', component: CalendarDemo },
   { name: 'Combobox', category: 'Form', source: 'ui', component: ComboboxDemo },
+  { name: 'CommandPalette', category: 'Navigation', source: 'ui', component: CommandPaletteDemo },
   { name: 'ChipPicker', category: 'Form', source: 'ui', component: ChipPickerDemo },
   { name: 'SearchInput', category: 'Form', source: 'ui', component: SearchInputDemo },
 
@@ -176,4 +178,5 @@ export {
   DataTablePageDemo,
   DetailPageDemo,
   FormLayoutDemo,
+  CommandPaletteDemo,
 };

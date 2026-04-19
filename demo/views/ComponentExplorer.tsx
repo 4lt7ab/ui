@@ -27,6 +27,7 @@ import {
   DataTablePageDemo,
   DetailPageDemo,
   FormLayoutDemo,
+  CommandPaletteDemo,
 } from '../demos';
 
 // ---------------------------------------------------------------------------
@@ -136,6 +137,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'ModalShell', source: 'ui', Demo: ModalDemo },
       { name: 'ConfirmDialog', source: 'ui', Demo: ConfirmDialogDemo },
       { name: 'ModalShellFormPattern', source: 'ui', Demo: ModalShellFormPatternDemo },
+      { name: 'CommandPalette', source: 'ui', Demo: CommandPaletteDemo },
       { name: 'ErrorBoundary', source: 'ui', Demo: ErrorBoundaryDemo },
       { name: 'Toast', source: 'ui', Demo: ToastDemo },
       { name: 'AlertBanner', source: 'ui', Demo: AlertBannerDemo },

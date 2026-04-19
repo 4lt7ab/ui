@@ -52,7 +52,7 @@ When two components overlap in responsibility, the default move is **merge befor
 |------|------------|
 | **Atoms** — primitives with no internal library composition | [Badge](#badge), [Button](#button), [Container](#container), Divider, Grid, [Icon](#icon), [IconButton](#iconbutton), [Input](#input), [Overlay](#overlay), [ProgressBar](#progressbar), [Skeleton](#skeleton), [Stack](#stack), [StatusDot](#statusdot), Surface, Text, [Textarea](#textarea) |
 | **Molecules** — small compositions with behavior | AlertBanner, [Card](#card), [ChipPicker](#chippicker), [ConfirmDialog](#confirmdialog), [EmptyState](#emptystate), [ErrorBoundary](#errorboundary), [Field](#field), [Header](#header), [LinkCard](#linkcard), [Pagination](#pagination), [SearchInput](#searchinput), [SegmentedControl](#segmentedcontrol), TabStrip, [ThemePicker](#themepicker) |
-| **Organisms** — compound surfaces or large interaction systems | [Calendar](#calendar) (`Calendar.*`), [Combobox](#combobox) (`Combobox.*`), [DateRangePicker](#daterangepicker), DatePicker, [ModalShell](#modalshell), [Select](#select) (`Select.*`), [Table](#table) (`Table.*`, incl. `Table.FilterBar`), [Toast](#toast), TopBar |
+| **Organisms** — compound surfaces or large interaction systems | [Calendar](#calendar) (`Calendar.*`), [Combobox](#combobox) (`Combobox.*`), [CommandPalette](#commandpalette) (`CommandPalette.*`), [DateRangePicker](#daterangepicker), DatePicker, [ModalShell](#modalshell), [Select](#select) (`Select.*`), [Table](#table) (`Table.*`, incl. `Table.FilterBar`), [Toast](#toast), TopBar |
 
 Also exported: [`sectionLabelStyle`](#sectionlabelstyle) and [`tagChipStyle`](#tagchipstyle) (`CSSProperties` objects, not components) and the icon registry.
 
@@ -697,6 +697,73 @@ See the `Combobox` demo for the consumer-filter pattern plus `onSelect`, error, 
 `ComboboxOption`: `{ value: string; label: string }`
 
 Keyboard: ArrowDown/Up to navigate, Enter to select, Escape to close. ARIA combobox pattern with `aria-activedescendant`.
+
+### CommandPalette
+
+Compound API. Cmd+K-style command palette built on the `Combobox` compound plus a document-level shortcut, a modal-style portal, and a filtered subtree. Consumers write every command as a `<CommandPalette.Item>` child — Items self-hide when the user's query doesn't match their `value`, rendered text, or `keywords`. Groups hide themselves when every Item inside them has filtered out.
+
+```tsx
+<CommandPalette.Root aria-label="Command palette">
+  <CommandPalette.Trigger>
+    <span>Commands</span>
+    <kbd>\u2318K</kbd>
+  </CommandPalette.Trigger>
+  <CommandPalette.Content>
+    <CommandPalette.Group label="Navigation">
+      <CommandPalette.Item
+        value="home"
+        icon="arrow-left"
+        shortcut={['G', 'H']}
+        onSelect={() => router.push('/')}
+      >
+        Go to home
+      </CommandPalette.Item>
+    </CommandPalette.Group>
+    <CommandPalette.Group label="Actions">
+      <CommandPalette.Item
+        value="new-task"
+        icon="plus"
+        shortcut="\u2318N"
+        keywords={['create', 'todo']}
+        onSelect={() => openNewTask()}
+      >
+        New task
+      </CommandPalette.Item>
+    </CommandPalette.Group>
+  </CommandPalette.Content>
+</CommandPalette.Root>
+```
+
+**`CommandPalette.Root`**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `aria-label` | `string` | *required* | Accessible label for the dialog |
+| `open` | `boolean` | — | Controlled open state |
+| `defaultOpen` | `boolean` | `false` | Uncontrolled initial open state |
+| `onOpenChange` | `(open: boolean) => void` | — | Fires on shortcut, Escape, overlay click, selection |
+| `shortcut` | `CommandPaletteShortcut \| null` | `{ key: 'k', mod: true }` | Global shortcut spec. `mod` means Cmd on Mac, Ctrl elsewhere. Pass `null` to disable |
+| `disabled` | `boolean` | `false` | Turns off the document-level listener (programmatic-only use) |
+
+**`CommandPalette.Trigger`** — optional open-button. `asChild` merges the open-toggle onto the consumer's element instead of rendering the library's default `<button>`; wrap your own `<Button>` atom for styled triggers.
+
+**`CommandPalette.Content`** — the palette surface. Mounts inside a portal with an overlay when Root is open; hosts the filter input and the filtered listbox. Props: `placeholder` (default `'Type a command or search\u2026'`) and `emptyLabel` (default `'No results.'`).
+
+**`CommandPalette.Group`** — `label: string` heading row above grouped Items. Hides itself when none of its Items match the current query.
+
+**`CommandPalette.Item`** — a single command.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | *required* | Stable id; doubles as fallback match text |
+| `onSelect` | `() => void` | *required* | Called when picked. Palette closes first, then `onSelect` fires |
+| `icon` | `IconName` | — | Optional leading icon from the registry |
+| `shortcut` | `string \| string[]` | — | Right-aligned `<kbd>` hint. Array renders one `<kbd>` per part |
+| `keywords` | `string[]` | — | Extra match tokens (aliases) not shown in the row |
+
+**Keyboard:** default shortcut is Cmd+K on macOS / Ctrl+K elsewhere (override via `shortcut`). Inside the palette, ArrowDown/Up navigate, Enter selects the focused item, Escape closes. Filtering is case-insensitive and runs over `value` + rendered text + `keywords`.
+
+**A11y:** Content renders `role="dialog"` with `aria-modal="true"` and the `aria-label` from Root. Groups carry `role="group"` with the label as the accessible name. Shortcut hints are `aria-hidden` so screen readers don't repeat the glyphs as literal text.
 
 ### DateRangePicker
 
