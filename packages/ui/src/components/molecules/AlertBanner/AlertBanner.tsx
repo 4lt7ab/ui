@@ -1,7 +1,8 @@
 import { forwardRef } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
 import { IconInfo, IconWarning, IconError, IconCheckCircle } from '../../../icons/icons';
-import type { CSSProperties, ReactNode } from 'react';
+import { IconButton } from '../../atoms/IconButton';
+import type { ReactNode } from 'react';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -38,9 +39,6 @@ const alertBannerCSS = `
     from { opacity: 0; }
     to   { opacity: 1; }
   }
-}
-.alert-banner-dismiss:hover {
-  opacity: 1 !important;
 }
 `;
 
@@ -113,32 +111,12 @@ export const AlertBanner: React.ForwardRefExoticComponent<Omit<AlertBannerProps,
         )}
         <span style={{ flex: 1 }}>{children}</span>
         {onDismiss && (
-          <button
-            className="alert-banner-dismiss"
-            onClick={onDismiss}
+          <IconButton
+            icon="close"
             aria-label="Dismiss"
-            style={{
-              background: 'none',
-              border: 'none',
-              padding: 0,
-              margin: 0,
-              font: 'inherit',
-              cursor: 'pointer',
-              flexShrink: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: '1.5rem',
-              height: '1.5rem',
-              borderRadius: t.radiusSm,
-              color: colors.fg,
-              opacity: 0.7,
-              fontSize: t.fontSizeLg,
-              lineHeight: 1,
-            }}
-          >
-            &#215;
-          </button>
+            onClick={onDismiss}
+            size="sm"
+          />
         )}
       </div>
     );
