@@ -44,6 +44,7 @@ export {
   inputShellDisabledStyle,
   inputShellFocusRingCSS,
 } from './styles/inputShellStyle';
+export { popoverPanelMd, popoverPanelLg } from './styles/popoverPanelStyle';
 export * from './components/molecules/ConfirmDialog';
 export * from './components/atoms/StatusDot';
 export * from './components/organisms/Table';

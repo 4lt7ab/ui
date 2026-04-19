@@ -16,6 +16,7 @@ import {
   inputShellErrorStyle,
   inputShellDisabledStyle,
 } from '../../../styles/inputShellStyle';
+import { popoverPanelMd } from '../../../styles/popoverPanelStyle';
 
 // ---------------------------------------------------------------------------
 // Injected CSS
@@ -535,15 +536,9 @@ function List({ children }: ComboboxListProps): React.JSX.Element {
         open
           ? {
               ...positionStyle,
-              background: t.colorSurfacePanel,
-              border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
-              borderRadius: t.radiusMd,
-              padding: t.spaceXs,
-              zIndex: t.zIndexSticky,
-              boxShadow: t.shadowMd,
+              ...popoverPanelMd,
               maxHeight: '16rem',
               overflowY: 'auto',
-              boxSizing: 'border-box',
             }
           : undefined
       }

@@ -16,6 +16,7 @@ import {
   inputShellErrorStyle,
   inputShellDisabledStyle,
 } from '../../../styles/inputShellStyle';
+import { popoverPanelLg } from '../../../styles/popoverPanelStyle';
 
 /** A date range with inclusive start and end. */
 export interface DateRange {
@@ -78,15 +79,9 @@ const popoverStyle: React.CSSProperties = {
   position: 'absolute',
   top: '100%',
   left: 0,
-  zIndex: t.zIndexDropdown,
   marginTop: t.spaceXs,
-  background: t.colorSurfacePanel,
-  border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
-  borderRadius: t.radiusLg,
-  boxShadow: t.shadowMd,
-  padding: t.spaceMd,
+  ...popoverPanelLg,
   minWidth: 290,
-  boxSizing: 'border-box' as const,
 };
 
 const placeholderStyle: React.CSSProperties = {
