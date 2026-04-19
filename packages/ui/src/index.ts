@@ -47,6 +47,7 @@ export * from './components/molecules/SearchInput';
 export * from './components/molecules/SegmentedControl';
 export * from './components/molecules/AlertBanner';
 export * from './components/organisms/TopBar';
+export * from './components/organisms/EmptyPage';
 
 // Layout & Container primitives
 export * from './components/atoms/Surface';

@@ -44,6 +44,14 @@ __export(index_exports, {
   DatePicker: () => DatePicker,
   DateRangePicker: () => DateRangePicker,
   Divider: () => Divider,
+  EmptyPage: () => EmptyPage,
+  EmptyPageActions: () => EmptyPageActions,
+  EmptyPageDescription: () => EmptyPageDescription,
+  EmptyPageIcon: () => EmptyPageIcon,
+  EmptyPageRoot: () => EmptyPageRoot,
+  EmptyPageTip: () => EmptyPageTip,
+  EmptyPageTips: () => EmptyPageTips,
+  EmptyPageTitle: () => EmptyPageTitle,
   EmptyState: () => EmptyState,
   ErrorBoundary: () => ErrorBoundary,
   Field: () => Field,
@@ -3144,8 +3152,8 @@ function isSameDay(a, b) {
 function isInRange(date, from, to) {
   const d = stripTime(date).getTime();
   const f = stripTime(from).getTime();
-  const t41 = stripTime(to).getTime();
-  return d >= f && d <= t41;
+  const t42 = stripTime(to).getTime();
+  return d >= f && d <= t42;
 }
 function formatDate(date) {
   const y = date.getFullYear();
@@ -4306,7 +4314,7 @@ function ToastProvider({
 }) {
   const [toasts, setToasts] = (0, import_react32.useState)([]);
   const dismiss = (0, import_react32.useCallback)((id) => {
-    setToasts((prev) => prev.filter((t41) => t41.id !== id));
+    setToasts((prev) => prev.filter((t42) => t42.id !== id));
   }, []);
   const showToast = (0, import_react32.useCallback)(
     (message, typeOrOptions) => {
@@ -5503,10 +5511,200 @@ var TopBar = {
   Trailing: TopBarTrailing
 };
 
-// src/components/atoms/Grid/Grid.tsx
+// src/components/organisms/EmptyPage/EmptyPage.tsx
 var import_react40 = require("react");
+var import_core41 = require("../../core/dist/index.cjs");
 var import_jsx_runtime41 = require("react/jsx-runtime");
-var Grid = (0, import_react40.forwardRef)(
+var EmptyPageContext = (0, import_react40.createContext)(null);
+function useEmptyPageContext(component) {
+  const ctx = (0, import_react40.useContext)(EmptyPageContext);
+  if (ctx === null) {
+    throw new Error(
+      `[@4lt7ab/ui] <EmptyPage.${component}> must be rendered inside <EmptyPage.Root>.`
+    );
+  }
+  return ctx;
+}
+var EmptyPageRoot = (0, import_react40.forwardRef)(function EmptyPageRoot2({ level = "page", children, ...rest }, ref) {
+  const titleId = (0, import_react40.useId)();
+  const isPage = level === "page";
+  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(EmptyPageContext.Provider, { value: { level, titleId }, children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+    "section",
+    {
+      ref,
+      id: rest.id,
+      "data-testid": rest["data-testid"],
+      "data-level": level,
+      "aria-label": rest["aria-label"],
+      "aria-labelledby": rest["aria-label"] ? void 0 : titleId,
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: import_core41.semantic.spaceMd,
+        textAlign: "center",
+        width: "100%",
+        minHeight: isPage ? "60vh" : "auto",
+        padding: isPage ? `${import_core41.semantic.space2xl} ${import_core41.semantic.spaceLg}` : `${import_core41.semantic.spaceXl} ${import_core41.semantic.spaceLg}`,
+        fontFamily: import_core41.semantic.fontSans,
+        boxSizing: "border-box"
+      },
+      children
+    }
+  ) });
+});
+function EmptyPageIcon({ children }) {
+  useEmptyPageContext("Icon");
+  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+    "div",
+    {
+      "aria-hidden": "true",
+      style: {
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: import_core41.semantic.colorTextMuted,
+        marginBottom: import_core41.semantic.spaceSm
+      },
+      children
+    }
+  );
+}
+function EmptyPageTitle({ children }) {
+  const { level, titleId } = useEmptyPageContext("Title");
+  const isPage = level === "page";
+  const Tag = isPage ? "h1" : "h2";
+  const style = isPage ? {
+    margin: 0,
+    fontFamily: import_core41.semantic.fontSans,
+    fontWeight: import_core41.semantic.fontWeightBold,
+    fontSize: import_core41.semantic.fontSizeXl,
+    lineHeight: import_core41.semantic.lineHeightTight,
+    color: import_core41.semantic.colorText
+  } : {
+    margin: 0,
+    fontFamily: import_core41.semantic.fontSans,
+    fontWeight: import_core41.semantic.fontWeightSemibold,
+    fontSize: import_core41.semantic.fontSizeLg,
+    lineHeight: import_core41.semantic.lineHeightTight,
+    color: import_core41.semantic.colorText
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(Tag, { id: titleId, style, children });
+}
+function EmptyPageDescription({
+  children
+}) {
+  useEmptyPageContext("Description");
+  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+    "p",
+    {
+      style: {
+        margin: 0,
+        maxWidth: "32rem",
+        color: import_core41.semantic.colorTextSecondary,
+        fontSize: import_core41.semantic.fontSizeSm,
+        lineHeight: import_core41.semantic.lineHeightBase,
+        fontFamily: import_core41.semantic.fontSans
+      },
+      children
+    }
+  );
+}
+function EmptyPageActions({
+  children
+}) {
+  useEmptyPageContext("Actions");
+  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+    "div",
+    {
+      style: {
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: import_core41.semantic.spaceSm,
+        marginTop: import_core41.semantic.spaceSm
+      },
+      children
+    }
+  );
+}
+function EmptyPageTips({
+  "aria-label": ariaLabel = "Getting started",
+  children
+}) {
+  useEmptyPageContext("Tips");
+  const count = import_react40.Children.toArray(children).filter(Boolean).length;
+  if (count === 0) return null;
+  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+    "ul",
+    {
+      "aria-label": ariaLabel,
+      style: {
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        alignItems: "stretch",
+        gap: import_core41.semantic.spaceSm,
+        listStyle: "none",
+        margin: 0,
+        marginTop: import_core41.semantic.spaceMd,
+        padding: 0
+      },
+      children
+    }
+  );
+}
+function EmptyPageTip({
+  icon,
+  asChild = false,
+  children
+}) {
+  useEmptyPageContext("Tip");
+  const contentStyle = {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: import_core41.semantic.spaceXs,
+    padding: `${import_core41.semantic.spaceXs} ${import_core41.semantic.spaceSm}`,
+    border: `${import_core41.semantic.borderWidthDefault} solid ${import_core41.semantic.colorBorder}`,
+    borderRadius: import_core41.semantic.radiusMd,
+    background: import_core41.semantic.colorSurface,
+    color: import_core41.semantic.colorText,
+    fontSize: import_core41.semantic.fontSizeSm,
+    fontFamily: import_core41.semantic.fontSans,
+    textDecoration: "none",
+    cursor: asChild ? "pointer" : "default"
+  };
+  if (asChild) {
+    return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("li", { style: { display: "flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(import_core41.Slot, { style: contentStyle, children }) });
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("li", { style: { display: "flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("span", { style: contentStyle, children: [
+    icon && /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+      "span",
+      {
+        "aria-hidden": "true",
+        style: { display: "inline-flex", color: import_core41.semantic.colorTextMuted },
+        children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(Icon, { name: icon, size: "sm" })
+      }
+    ),
+    children
+  ] }) });
+}
+var EmptyPage = {
+  Root: EmptyPageRoot,
+  Icon: EmptyPageIcon,
+  Title: EmptyPageTitle,
+  Description: EmptyPageDescription,
+  Actions: EmptyPageActions,
+  Tips: EmptyPageTips,
+  Tip: EmptyPageTip
+};
+
+// src/components/atoms/Grid/Grid.tsx
+var import_react41 = require("react");
+var import_jsx_runtime42 = require("react/jsx-runtime");
+var Grid = (0, import_react41.forwardRef)(
   function Grid2({
     minColumnWidth = 300,
     columns,
@@ -5516,7 +5714,7 @@ var Grid = (0, import_react40.forwardRef)(
   }, ref) {
     const minWidth = `${minColumnWidth}px`;
     const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
-    return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
       "div",
       {
         ref,
@@ -5534,10 +5732,10 @@ var Grid = (0, import_react40.forwardRef)(
 );
 
 // src/components/atoms/Divider/Divider.tsx
-var import_react41 = require("react");
-var import_core41 = require("../../core/dist/index.cjs");
-var import_jsx_runtime42 = require("react/jsx-runtime");
-var Divider = (0, import_react41.forwardRef)(
+var import_react42 = require("react");
+var import_core42 = require("../../core/dist/index.cjs");
+var import_jsx_runtime43 = require("react/jsx-runtime");
+var Divider = (0, import_react42.forwardRef)(
   function Divider2({
     orientation = "horizontal",
     opacity = "default",
@@ -5545,10 +5743,10 @@ var Divider = (0, import_react41.forwardRef)(
     ...rest
   }, ref) {
     const resolvedOpacity = dividerOpacityMap[opacity];
-    const bg = `color-mix(in srgb, ${import_core41.semantic.colorBorder} ${resolvedOpacity}%, transparent)`;
+    const bg = `color-mix(in srgb, ${import_core42.semantic.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
     const isHorizontal = orientation === "horizontal";
-    return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
       "div",
       {
         ref,
@@ -5569,8 +5767,8 @@ var Divider = (0, import_react41.forwardRef)(
 );
 
 // src/components/atoms/Container/Container.tsx
-var import_react42 = require("react");
-var import_jsx_runtime43 = require("react/jsx-runtime");
+var import_react43 = require("react");
+var import_jsx_runtime44 = require("react/jsx-runtime");
 var widthMap = {
   narrow: "32rem",
   prose: "680px",
@@ -5583,7 +5781,7 @@ var paddingMap = {
   md: "1.5rem",
   lg: "3rem"
 };
-var Container = (0, import_react42.forwardRef)(
+var Container = (0, import_react43.forwardRef)(
   function Container2({
     width = "prose",
     padding = "md",
@@ -5591,7 +5789,7 @@ var Container = (0, import_react42.forwardRef)(
     id,
     "data-testid": dataTestId
   }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
       "div",
       {
         ref,
@@ -5612,20 +5810,20 @@ var Container = (0, import_react42.forwardRef)(
 );
 
 // src/components/molecules/TabStrip/TabStrip.tsx
-var import_react43 = require("react");
-var import_core42 = require("../../core/dist/index.cjs");
-var import_jsx_runtime44 = require("react/jsx-runtime");
+var import_react44 = require("react");
+var import_core43 = require("../../core/dist/index.cjs");
+var import_jsx_runtime45 = require("react/jsx-runtime");
 var STYLES_ID2 = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
-  transition: color ${import_core42.semantic.transitionFast}, background ${import_core42.semantic.transitionFast}, border-color ${import_core42.semantic.transitionFast};
+  transition: color ${import_core43.semantic.transitionFast}, background ${import_core43.semantic.transitionFast}, border-color ${import_core43.semantic.transitionFast};
 }
 [data-tab-btn]:hover:not([aria-selected="true"]) {
-  color: ${import_core42.semantic.colorTextSecondary};
-  background: color-mix(in srgb, ${import_core42.semantic.colorBorder} 10%, transparent);
+  color: ${import_core43.semantic.colorTextSecondary};
+  background: color-mix(in srgb, ${import_core43.semantic.colorBorder} 10%, transparent);
 }
 `;
-var TabStrip = (0, import_react43.forwardRef)(
+var TabStrip = (0, import_react44.forwardRef)(
   function TabStrip2({
     tabs,
     activeKey,
@@ -5634,13 +5832,13 @@ var TabStrip = (0, import_react43.forwardRef)(
     size = "md",
     ...rest
   }, ref) {
-    (0, import_core42.useInjectStyles)(STYLES_ID2, STYLES_CSS);
+    (0, import_core43.useInjectStyles)(STYLES_ID2, STYLES_CSS);
     const activeIndex = tabs.findIndex((tab) => tab.key === activeKey);
     const { itemRef, onKeyDown, getTabIndex } = useRovingFocus({
       count: tabs.length,
       activeIndex: activeIndex === -1 ? null : activeIndex
     });
-    const handleClick = (0, import_react43.useCallback)(
+    const handleClick = (0, import_react44.useCallback)(
       (key) => {
         if (key === activeKey && allowDeselect) {
           onChange(null);
@@ -5651,7 +5849,7 @@ var TabStrip = (0, import_react43.forwardRef)(
       [activeKey, allowDeselect, onChange]
     );
     const isSm = size === "sm";
-    return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
       "div",
       {
         ref,
@@ -5664,7 +5862,7 @@ var TabStrip = (0, import_react43.forwardRef)(
         },
         children: tabs.map((tab, i) => {
           const isActive = tab.key === activeKey;
-          return /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(
+          return /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)(
             "button",
             {
               ref: itemRef(i),
@@ -5677,22 +5875,22 @@ var TabStrip = (0, import_react43.forwardRef)(
               style: {
                 display: "flex",
                 alignItems: "center",
-                gap: import_core42.semantic.spaceXs,
-                padding: isSm ? `${import_core42.semantic.spaceXs} ${import_core42.semantic.spaceSm}` : `${import_core42.semantic.spaceSm} ${import_core42.semantic.spaceMd}`,
+                gap: import_core43.semantic.spaceXs,
+                padding: isSm ? `${import_core43.semantic.spaceXs} ${import_core43.semantic.spaceSm}` : `${import_core43.semantic.spaceSm} ${import_core43.semantic.spaceMd}`,
                 border: "none",
-                borderBottom: `2px solid ${isActive ? import_core42.semantic.colorActionPrimary : "transparent"}`,
+                borderBottom: `2px solid ${isActive ? import_core43.semantic.colorActionPrimary : "transparent"}`,
                 borderRadius: 0,
-                background: isActive ? `color-mix(in srgb, ${import_core42.semantic.colorActionPrimary} 8%, transparent)` : "transparent",
-                color: isActive ? import_core42.semantic.colorActionPrimary : import_core42.semantic.colorTextMuted,
-                fontFamily: import_core42.semantic.fontSans,
-                fontSize: isSm ? import_core42.semantic.fontSizeXs : import_core42.semantic.fontSizeSm,
-                fontWeight: import_core42.semantic.fontWeightSemibold,
-                lineHeight: import_core42.semantic.lineHeightTight,
+                background: isActive ? `color-mix(in srgb, ${import_core43.semantic.colorActionPrimary} 8%, transparent)` : "transparent",
+                color: isActive ? import_core43.semantic.colorActionPrimary : import_core43.semantic.colorTextMuted,
+                fontFamily: import_core43.semantic.fontSans,
+                fontSize: isSm ? import_core43.semantic.fontSizeXs : import_core43.semantic.fontSizeSm,
+                fontWeight: import_core43.semantic.fontWeightSemibold,
+                lineHeight: import_core43.semantic.lineHeightTight,
                 cursor: "pointer",
                 whiteSpace: "nowrap"
               },
               children: [
-                tab.icon && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+                tab.icon && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
                   "span",
                   {
                     className: "material-symbols-outlined",

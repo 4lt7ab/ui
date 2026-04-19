@@ -50,6 +50,7 @@ import { SurfaceDemo } from './SurfaceDemo';
 import { GridDemo } from './GridDemo';
 import { DividerDemo } from './DividerDemo';
 import { TabStripDemo } from './TabStripDemo';
+import { EmptyPageDemo } from './EmptyPageDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -92,6 +93,7 @@ export const demos: DemoEntry[] = [
   { name: 'Badge', category: 'Feedback', source: 'ui', component: BadgeDemo },
   { name: 'ProgressBar', category: 'Feedback', source: 'ui', component: ProgressBarDemo },
   { name: 'EmptyState', category: 'Feedback', source: 'ui', component: EmptyStateDemo },
+  { name: 'EmptyPage', category: 'Feedback', source: 'ui', component: EmptyPageDemo },
   { name: 'StatusDot', category: 'Feedback', source: 'ui', component: StatusDotDemo },
   { name: 'Modal', category: 'Feedback', source: 'ui', component: ModalDemo },
   { name: 'Overlay', category: 'Feedback', source: 'ui', component: OverlayDemo },
@@ -157,4 +159,5 @@ export {
   GridDemo,
   DividerDemo,
   TabStripDemo,
+  EmptyPageDemo,
 };

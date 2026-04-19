@@ -1593,6 +1593,103 @@ declare function TopBarTrailing({ children }: TopBarTrailingProps): React.JSX.El
 */
 declare const TopBar: {};
 import { ReactNode as ReactNode27 } from "react";
+type EmptyPageLevel = "page" | "section";
+/** Props for {@link EmptyPageRoot}. */
+interface EmptyPageRootProps extends BaseComponentProps {
+	/** Heading scale — `'page'` renders Title as `<h1>` with page-level padding;
+	* `'section'` renders Title as `<h2>` with section-level padding.
+	* @default 'page'
+	*/
+	level?: EmptyPageLevel;
+	/** Accessible label fallback. If omitted, Root's `<section>` is labelled
+	* by the title via `aria-labelledby`. */
+	"aria-label"?: string;
+	/** Children — typically `<EmptyPage.Icon>`, `<EmptyPage.Title>`,
+	* `<EmptyPage.Description>`, `<EmptyPage.Actions>`, `<EmptyPage.Tips>`. */
+	children?: ReactNode27;
+}
+declare const EmptyPageRoot: React.ForwardRefExoticComponent<Omit<EmptyPageRootProps, "ref"> & React.RefAttributes<HTMLElement>>;
+/** Props for {@link EmptyPageIcon}. */
+interface EmptyPageIconProps {
+	/** The hero icon or illustration. Typically `<Icon name="…" size="xl" />`
+	* or a custom SVG. The wrapper applies muted color + hero-sized footprint
+	* and marks itself `aria-hidden`; the Title carries the semantic label. */
+	children: ReactNode27;
+}
+declare function EmptyPageIcon({ children }: EmptyPageIconProps): React.JSX.Element;
+/** Props for {@link EmptyPageTitle}. */
+interface EmptyPageTitleProps {
+	/** The heading text. Renders as `<h1>` when Root's `level='page'`,
+	* `<h2>` when `level='section'`. */
+	children: ReactNode27;
+}
+declare function EmptyPageTitle({ children }: EmptyPageTitleProps): React.JSX.Element;
+/** Props for {@link EmptyPageDescription}. */
+interface EmptyPageDescriptionProps {
+	/** Paragraph body copy explaining the zero state. */
+	children: ReactNode27;
+}
+declare function EmptyPageDescription({ children }: EmptyPageDescriptionProps): React.JSX.Element;
+/** Props for {@link EmptyPageActions}. */
+interface EmptyPageActionsProps {
+	/** Action buttons — consumer composes primary + secondary `<Button>` children. */
+	children?: ReactNode27;
+}
+declare function EmptyPageActions({ children }: EmptyPageActionsProps): React.JSX.Element;
+/** Props for {@link EmptyPageTips}. */
+interface EmptyPageTipsProps {
+	/** Accessible label for the tip list.
+	* @default 'Getting started'
+	*/
+	"aria-label"?: string;
+	/** Tip entries — typically `<EmptyPage.Tip>` children. */
+	children?: ReactNode27;
+}
+declare function EmptyPageTips({ "aria-label": ariaLabel, children }: EmptyPageTipsProps): React.JSX.Element | null;
+/** Props for {@link EmptyPageTip}. */
+interface EmptyPageTipProps {
+	/** Optional leading icon rendered before the content. */
+	icon?: IconName;
+	/** When true, renders the tip's styling onto the single child element
+	* instead of the default `<span>` — plug in your router's Link or an `<a>`.
+	* The wrapping `<li>` is always present for list semantics.
+	* @default false
+	*/
+	asChild?: boolean;
+	/** Tip content. */
+	children: ReactNode27;
+}
+declare function EmptyPageTip({ icon, asChild, children }: EmptyPageTipProps): React.JSX.Element;
+/**
+* Full-page zero-state takeover. Distinct from the inline `<EmptyState>`
+* molecule: EmptyPage owns hero-level layout with title/description/action
+* tiers plus an optional tip row. Consumer composes the slots.
+*
+* @example
+* ```tsx
+* <EmptyPage.Root>
+*   <EmptyPage.Icon>
+*     <Icon name="edit" size="xl" />
+*   </EmptyPage.Icon>
+*   <EmptyPage.Title>No projects yet</EmptyPage.Title>
+*   <EmptyPage.Description>
+*     Spin up your first project to see it appear here.
+*   </EmptyPage.Description>
+*   <EmptyPage.Actions>
+*     <Button variant="primary">Create project</Button>
+*     <Button variant="secondary">Import from CSV</Button>
+*   </EmptyPage.Actions>
+*   <EmptyPage.Tips>
+*     <EmptyPage.Tip icon="info">Start from a template</EmptyPage.Tip>
+*     <EmptyPage.Tip icon="external-link" asChild>
+*       <a href="/docs">Read the docs</a>
+*     </EmptyPage.Tip>
+*   </EmptyPage.Tips>
+* </EmptyPage.Root>
+* ```
+*/
+declare const EmptyPage: {};
+import { ReactNode as ReactNode28 } from "react";
 /**
 * Which semantic surface token to use as the background.
 *
@@ -1661,10 +1758,10 @@ interface SurfaceProps extends BaseComponentProps {
 	* @default false
 	*/
 	asChild?: boolean;
-	children: ReactNode27;
+	children: ReactNode28;
 }
 declare const Surface: React.ForwardRefExoticComponent<Omit<SurfaceProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode28 } from "react";
+import { ReactNode as ReactNode29 } from "react";
 /**
 * Responsive grid layout with auto-fill columns.
 *
@@ -1704,7 +1801,7 @@ interface GridProps extends BaseComponentProps {
 	* @default 'md'
 	*/
 	gap?: SpacingToken;
-	children: ReactNode28;
+	children: ReactNode29;
 }
 declare const Grid: React.ForwardRefExoticComponent<Omit<GridProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /**
@@ -1746,7 +1843,7 @@ interface DividerProps extends BaseComponentProps {
 	spacing?: SpacingToken;
 }
 declare const Divider: React.ForwardRefExoticComponent<Omit<DividerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode29 } from "react";
+import { ReactNode as ReactNode30 } from "react";
 /** Named width preset for the Container. */
 type ContainerWidth = "narrow" | "prose" | "wide" | "full";
 /** Horizontal padding preset for the Container. */
@@ -1766,7 +1863,7 @@ interface ContainerProps {
 	*/
 	padding?: ContainerPadding;
 	/** Container content. */
-	children: ReactNode29;
+	children: ReactNode30;
 	id?: string;
 	"data-testid"?: string;
 }
@@ -1827,4 +1924,4 @@ interface TabStripProps extends BaseComponentProps {
 	size?: "sm" | "md";
 }
 declare const TabStrip: React.ForwardRefExoticComponent<Omit<TabStripProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-export { useToast, useFocusTrap, useCalendarContext, tagChipStyle, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, nextFocusedDate, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextWeight, TextTone, TextSize, TextRef, TextProps, TextFilterConfig, TextFamily, TextAs, TextAlign, Text, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table2 as Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectValueProps, SelectTriggerProps, SelectRootProps, SelectItemProps, SelectFilterConfig, SelectContentProps, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, LinkCardProps, LinkCard, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FilterBarTextProps, FilterBarSelectProps, FilterBarProps, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ContainerWidth, ContainerProps, ContainerPadding, Container, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxRootProps, ComboboxListProps, ComboboxItemProps, ComboboxInputProps, ComboboxEmptyProps, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, CalendarSelection, CalendarRootProps, CalendarRange, CalendarNavProps, CalendarNavDirection, CalendarMode, CalendarHeaderPrimitiveProps, CalendarGridProps, CalendarContextValue, CalendarCellRenderArgs, CalendarCellProps, Calendar, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };
+export { useToast, useFocusTrap, useCalendarContext, tagChipStyle, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, nextFocusedDate, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextWeight, TextTone, TextSize, TextRef, TextProps, TextFilterConfig, TextFamily, TextAs, TextAlign, Text, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table2 as Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectValueProps, SelectTriggerProps, SelectRootProps, SelectItemProps, SelectFilterConfig, SelectContentProps, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, LinkCardProps, LinkCard, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FilterBarTextProps, FilterBarSelectProps, FilterBarProps, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, EmptyPageTitleProps, EmptyPageTitle, EmptyPageTipsProps, EmptyPageTips, EmptyPageTipProps, EmptyPageTip, EmptyPageRootProps, EmptyPageRoot, EmptyPageIconProps, EmptyPageIcon, EmptyPageDescriptionProps, EmptyPageDescription, EmptyPageActionsProps, EmptyPageActions, EmptyPage, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ContainerWidth, ContainerProps, ContainerPadding, Container, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxRootProps, ComboboxListProps, ComboboxItemProps, ComboboxInputProps, ComboboxEmptyProps, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, CalendarSelection, CalendarRootProps, CalendarRange, CalendarNavProps, CalendarNavDirection, CalendarMode, CalendarHeaderPrimitiveProps, CalendarGridProps, CalendarContextValue, CalendarCellRenderArgs, CalendarCellProps, Calendar, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };

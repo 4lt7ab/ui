@@ -22,6 +22,7 @@ import {
   GridDemo,
   DividerDemo,
   TabStripDemo,
+  EmptyPageDemo,
 } from '../demos';
 
 // ---------------------------------------------------------------------------
@@ -115,6 +116,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'ProgressBar', source: 'ui', Demo: ProgressBarDemo },
       { name: 'Skeleton', source: 'ui', Demo: SkeletonDemo },
       { name: 'EmptyState', source: 'ui', Demo: EmptyStateDemo },
+      { name: 'EmptyPage', source: 'ui', Demo: EmptyPageDemo },
     ],
   },
   {

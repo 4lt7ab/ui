@@ -3039,8 +3039,8 @@ function isSameDay(a, b) {
 function isInRange(date, from, to) {
   const d = stripTime(date).getTime();
   const f = stripTime(from).getTime();
-  const t41 = stripTime(to).getTime();
-  return d >= f && d <= t41;
+  const t42 = stripTime(to).getTime();
+  return d >= f && d <= t42;
 }
 function formatDate(date) {
   const y = date.getFullYear();
@@ -4208,7 +4208,7 @@ function ToastProvider({
 }) {
   const [toasts, setToasts] = useState7([]);
   const dismiss = useCallback7((id) => {
-    setToasts((prev) => prev.filter((t41) => t41.id !== id));
+    setToasts((prev) => prev.filter((t42) => t42.id !== id));
   }, []);
   const showToast = useCallback7(
     (message, typeOrOptions) => {
@@ -5414,10 +5414,200 @@ var TopBar = {
   Trailing: TopBarTrailing
 };
 
+// src/components/organisms/EmptyPage/EmptyPage.tsx
+import { Children as Children2, createContext as createContext8, forwardRef as forwardRef29, useContext as useContext8, useId as useId9 } from "react";
+import { semantic as t39, Slot as Slot6 } from "../../core/dist/index.js";
+import { jsx as jsx41, jsxs as jsxs23 } from "react/jsx-runtime";
+var EmptyPageContext = createContext8(null);
+function useEmptyPageContext(component) {
+  const ctx = useContext8(EmptyPageContext);
+  if (ctx === null) {
+    throw new Error(
+      `[@4lt7ab/ui] <EmptyPage.${component}> must be rendered inside <EmptyPage.Root>.`
+    );
+  }
+  return ctx;
+}
+var EmptyPageRoot = forwardRef29(function EmptyPageRoot2({ level = "page", children, ...rest }, ref) {
+  const titleId = useId9();
+  const isPage = level === "page";
+  return /* @__PURE__ */ jsx41(EmptyPageContext.Provider, { value: { level, titleId }, children: /* @__PURE__ */ jsx41(
+    "section",
+    {
+      ref,
+      id: rest.id,
+      "data-testid": rest["data-testid"],
+      "data-level": level,
+      "aria-label": rest["aria-label"],
+      "aria-labelledby": rest["aria-label"] ? void 0 : titleId,
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: t39.spaceMd,
+        textAlign: "center",
+        width: "100%",
+        minHeight: isPage ? "60vh" : "auto",
+        padding: isPage ? `${t39.space2xl} ${t39.spaceLg}` : `${t39.spaceXl} ${t39.spaceLg}`,
+        fontFamily: t39.fontSans,
+        boxSizing: "border-box"
+      },
+      children
+    }
+  ) });
+});
+function EmptyPageIcon({ children }) {
+  useEmptyPageContext("Icon");
+  return /* @__PURE__ */ jsx41(
+    "div",
+    {
+      "aria-hidden": "true",
+      style: {
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: t39.colorTextMuted,
+        marginBottom: t39.spaceSm
+      },
+      children
+    }
+  );
+}
+function EmptyPageTitle({ children }) {
+  const { level, titleId } = useEmptyPageContext("Title");
+  const isPage = level === "page";
+  const Tag = isPage ? "h1" : "h2";
+  const style = isPage ? {
+    margin: 0,
+    fontFamily: t39.fontSans,
+    fontWeight: t39.fontWeightBold,
+    fontSize: t39.fontSizeXl,
+    lineHeight: t39.lineHeightTight,
+    color: t39.colorText
+  } : {
+    margin: 0,
+    fontFamily: t39.fontSans,
+    fontWeight: t39.fontWeightSemibold,
+    fontSize: t39.fontSizeLg,
+    lineHeight: t39.lineHeightTight,
+    color: t39.colorText
+  };
+  return /* @__PURE__ */ jsx41(Tag, { id: titleId, style, children });
+}
+function EmptyPageDescription({
+  children
+}) {
+  useEmptyPageContext("Description");
+  return /* @__PURE__ */ jsx41(
+    "p",
+    {
+      style: {
+        margin: 0,
+        maxWidth: "32rem",
+        color: t39.colorTextSecondary,
+        fontSize: t39.fontSizeSm,
+        lineHeight: t39.lineHeightBase,
+        fontFamily: t39.fontSans
+      },
+      children
+    }
+  );
+}
+function EmptyPageActions({
+  children
+}) {
+  useEmptyPageContext("Actions");
+  return /* @__PURE__ */ jsx41(
+    "div",
+    {
+      style: {
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: t39.spaceSm,
+        marginTop: t39.spaceSm
+      },
+      children
+    }
+  );
+}
+function EmptyPageTips({
+  "aria-label": ariaLabel = "Getting started",
+  children
+}) {
+  useEmptyPageContext("Tips");
+  const count = Children2.toArray(children).filter(Boolean).length;
+  if (count === 0) return null;
+  return /* @__PURE__ */ jsx41(
+    "ul",
+    {
+      "aria-label": ariaLabel,
+      style: {
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        alignItems: "stretch",
+        gap: t39.spaceSm,
+        listStyle: "none",
+        margin: 0,
+        marginTop: t39.spaceMd,
+        padding: 0
+      },
+      children
+    }
+  );
+}
+function EmptyPageTip({
+  icon,
+  asChild = false,
+  children
+}) {
+  useEmptyPageContext("Tip");
+  const contentStyle = {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: t39.spaceXs,
+    padding: `${t39.spaceXs} ${t39.spaceSm}`,
+    border: `${t39.borderWidthDefault} solid ${t39.colorBorder}`,
+    borderRadius: t39.radiusMd,
+    background: t39.colorSurface,
+    color: t39.colorText,
+    fontSize: t39.fontSizeSm,
+    fontFamily: t39.fontSans,
+    textDecoration: "none",
+    cursor: asChild ? "pointer" : "default"
+  };
+  if (asChild) {
+    return /* @__PURE__ */ jsx41("li", { style: { display: "flex" }, children: /* @__PURE__ */ jsx41(Slot6, { style: contentStyle, children }) });
+  }
+  return /* @__PURE__ */ jsx41("li", { style: { display: "flex" }, children: /* @__PURE__ */ jsxs23("span", { style: contentStyle, children: [
+    icon && /* @__PURE__ */ jsx41(
+      "span",
+      {
+        "aria-hidden": "true",
+        style: { display: "inline-flex", color: t39.colorTextMuted },
+        children: /* @__PURE__ */ jsx41(Icon, { name: icon, size: "sm" })
+      }
+    ),
+    children
+  ] }) });
+}
+var EmptyPage = {
+  Root: EmptyPageRoot,
+  Icon: EmptyPageIcon,
+  Title: EmptyPageTitle,
+  Description: EmptyPageDescription,
+  Actions: EmptyPageActions,
+  Tips: EmptyPageTips,
+  Tip: EmptyPageTip
+};
+
 // src/components/atoms/Grid/Grid.tsx
-import { forwardRef as forwardRef29 } from "react";
-import { jsx as jsx41 } from "react/jsx-runtime";
-var Grid = forwardRef29(
+import { forwardRef as forwardRef30 } from "react";
+import { jsx as jsx42 } from "react/jsx-runtime";
+var Grid = forwardRef30(
   function Grid2({
     minColumnWidth = 300,
     columns,
@@ -5427,7 +5617,7 @@ var Grid = forwardRef29(
   }, ref) {
     const minWidth = `${minColumnWidth}px`;
     const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
-    return /* @__PURE__ */ jsx41(
+    return /* @__PURE__ */ jsx42(
       "div",
       {
         ref,
@@ -5445,10 +5635,10 @@ var Grid = forwardRef29(
 );
 
 // src/components/atoms/Divider/Divider.tsx
-import { forwardRef as forwardRef30 } from "react";
-import { semantic as t39 } from "../../core/dist/index.js";
-import { jsx as jsx42 } from "react/jsx-runtime";
-var Divider = forwardRef30(
+import { forwardRef as forwardRef31 } from "react";
+import { semantic as t40 } from "../../core/dist/index.js";
+import { jsx as jsx43 } from "react/jsx-runtime";
+var Divider = forwardRef31(
   function Divider2({
     orientation = "horizontal",
     opacity = "default",
@@ -5456,10 +5646,10 @@ var Divider = forwardRef30(
     ...rest
   }, ref) {
     const resolvedOpacity = dividerOpacityMap[opacity];
-    const bg = `color-mix(in srgb, ${t39.colorBorder} ${resolvedOpacity}%, transparent)`;
+    const bg = `color-mix(in srgb, ${t40.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
     const isHorizontal = orientation === "horizontal";
-    return /* @__PURE__ */ jsx42(
+    return /* @__PURE__ */ jsx43(
       "div",
       {
         ref,
@@ -5480,8 +5670,8 @@ var Divider = forwardRef30(
 );
 
 // src/components/atoms/Container/Container.tsx
-import { forwardRef as forwardRef31 } from "react";
-import { jsx as jsx43 } from "react/jsx-runtime";
+import { forwardRef as forwardRef32 } from "react";
+import { jsx as jsx44 } from "react/jsx-runtime";
 var widthMap = {
   narrow: "32rem",
   prose: "680px",
@@ -5494,7 +5684,7 @@ var paddingMap = {
   md: "1.5rem",
   lg: "3rem"
 };
-var Container = forwardRef31(
+var Container = forwardRef32(
   function Container2({
     width = "prose",
     padding = "md",
@@ -5502,7 +5692,7 @@ var Container = forwardRef31(
     id,
     "data-testid": dataTestId
   }, ref) {
-    return /* @__PURE__ */ jsx43(
+    return /* @__PURE__ */ jsx44(
       "div",
       {
         ref,
@@ -5523,20 +5713,20 @@ var Container = forwardRef31(
 );
 
 // src/components/molecules/TabStrip/TabStrip.tsx
-import { forwardRef as forwardRef32, useCallback as useCallback13 } from "react";
-import { semantic as t40, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
-import { jsx as jsx44, jsxs as jsxs23 } from "react/jsx-runtime";
+import { forwardRef as forwardRef33, useCallback as useCallback13 } from "react";
+import { semantic as t41, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
+import { jsx as jsx45, jsxs as jsxs24 } from "react/jsx-runtime";
 var STYLES_ID2 = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
-  transition: color ${t40.transitionFast}, background ${t40.transitionFast}, border-color ${t40.transitionFast};
+  transition: color ${t41.transitionFast}, background ${t41.transitionFast}, border-color ${t41.transitionFast};
 }
 [data-tab-btn]:hover:not([aria-selected="true"]) {
-  color: ${t40.colorTextSecondary};
-  background: color-mix(in srgb, ${t40.colorBorder} 10%, transparent);
+  color: ${t41.colorTextSecondary};
+  background: color-mix(in srgb, ${t41.colorBorder} 10%, transparent);
 }
 `;
-var TabStrip = forwardRef32(
+var TabStrip = forwardRef33(
   function TabStrip2({
     tabs,
     activeKey,
@@ -5562,7 +5752,7 @@ var TabStrip = forwardRef32(
       [activeKey, allowDeselect, onChange]
     );
     const isSm = size === "sm";
-    return /* @__PURE__ */ jsx44(
+    return /* @__PURE__ */ jsx45(
       "div",
       {
         ref,
@@ -5575,7 +5765,7 @@ var TabStrip = forwardRef32(
         },
         children: tabs.map((tab, i) => {
           const isActive = tab.key === activeKey;
-          return /* @__PURE__ */ jsxs23(
+          return /* @__PURE__ */ jsxs24(
             "button",
             {
               ref: itemRef(i),
@@ -5588,22 +5778,22 @@ var TabStrip = forwardRef32(
               style: {
                 display: "flex",
                 alignItems: "center",
-                gap: t40.spaceXs,
-                padding: isSm ? `${t40.spaceXs} ${t40.spaceSm}` : `${t40.spaceSm} ${t40.spaceMd}`,
+                gap: t41.spaceXs,
+                padding: isSm ? `${t41.spaceXs} ${t41.spaceSm}` : `${t41.spaceSm} ${t41.spaceMd}`,
                 border: "none",
-                borderBottom: `2px solid ${isActive ? t40.colorActionPrimary : "transparent"}`,
+                borderBottom: `2px solid ${isActive ? t41.colorActionPrimary : "transparent"}`,
                 borderRadius: 0,
-                background: isActive ? `color-mix(in srgb, ${t40.colorActionPrimary} 8%, transparent)` : "transparent",
-                color: isActive ? t40.colorActionPrimary : t40.colorTextMuted,
-                fontFamily: t40.fontSans,
-                fontSize: isSm ? t40.fontSizeXs : t40.fontSizeSm,
-                fontWeight: t40.fontWeightSemibold,
-                lineHeight: t40.lineHeightTight,
+                background: isActive ? `color-mix(in srgb, ${t41.colorActionPrimary} 8%, transparent)` : "transparent",
+                color: isActive ? t41.colorActionPrimary : t41.colorTextMuted,
+                fontFamily: t41.fontSans,
+                fontSize: isSm ? t41.fontSizeXs : t41.fontSizeSm,
+                fontWeight: t41.fontWeightSemibold,
+                lineHeight: t41.lineHeightTight,
                 cursor: "pointer",
                 whiteSpace: "nowrap"
               },
               children: [
-                tab.icon && /* @__PURE__ */ jsx44(
+                tab.icon && /* @__PURE__ */ jsx45(
                   "span",
                   {
                     className: "material-symbols-outlined",
@@ -5636,6 +5826,14 @@ export {
   DatePicker,
   DateRangePicker,
   Divider,
+  EmptyPage,
+  EmptyPageActions,
+  EmptyPageDescription,
+  EmptyPageIcon,
+  EmptyPageRoot,
+  EmptyPageTip,
+  EmptyPageTips,
+  EmptyPageTitle,
   EmptyState,
   ErrorBoundary,
   Field,
