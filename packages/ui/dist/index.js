@@ -45,1270 +45,22 @@ function useFocusTrap(ref) {
 export * from "../../core/dist/index.js";
 
 // src/components/ThemePicker/ThemePicker.tsx
-import { forwardRef as forwardRef2, useState, useEffect as useEffect2, useRef, useCallback } from "react";
-import { useTheme } from "../../core/dist/index.js";
-import { useInjectStyles } from "../../core/dist/index.js";
-
-// src/components/Icon/Icon.tsx
-import { forwardRef, createContext, useContext } from "react";
-
-// src/icons/icons.tsx
-import { jsx, jsxs } from "react/jsx-runtime";
-function svgProps(size, style) {
-  return {
-    width: size,
-    height: size,
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: 2,
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    style
-  };
-}
-function IconClose({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx("path", { d: "M18 6L6 18M6 6l12 12" }) });
-}
-function IconChevronRight({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx("path", { d: "M9 18l6-6-6-6" }) });
-}
-function IconChevronDown({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx("path", { d: "M6 9l6 6 6-6" }) });
-}
-function IconChevronLeft({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx("path", { d: "M15 18l-6-6 6-6" }) });
-}
-function IconChevronUp({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx("path", { d: "M18 15l-6-6-6 6" }) });
-}
-function IconCheck({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx("path", { d: "M20 6L9 17l-5-5" }) });
-}
-function IconCheckCircle({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx("path", { d: "M22 11.08V12a10 10 0 11-5.93-9.14" }),
-    /* @__PURE__ */ jsx("path", { d: "M22 4L12 14.01l-3-3" })
-  ] });
-}
-function IconWarning({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx("path", { d: "M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" }),
-    /* @__PURE__ */ jsx("line", { x1: "12", y1: "9", x2: "12", y2: "13" }),
-    /* @__PURE__ */ jsx("line", { x1: "12", y1: "17", x2: "12.01", y2: "17" })
-  ] });
-}
-function IconError({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx("circle", { cx: "12", cy: "12", r: "10" }),
-    /* @__PURE__ */ jsx("path", { d: "M15 9l-6 6M9 9l6 6" })
-  ] });
-}
-function IconInfo({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx("circle", { cx: "12", cy: "12", r: "10" }),
-    /* @__PURE__ */ jsx("line", { x1: "12", y1: "16", x2: "12", y2: "12" }),
-    /* @__PURE__ */ jsx("line", { x1: "12", y1: "8", x2: "12.01", y2: "8" })
-  ] });
-}
-function IconSearch({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx("circle", { cx: "11", cy: "11", r: "8" }),
-    /* @__PURE__ */ jsx("path", { d: "M21 21l-4.35-4.35" })
-  ] });
-}
-function IconTrash({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx("path", { d: "M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" }) });
-}
-function IconSettings({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx("circle", { cx: "12", cy: "12", r: "3" }),
-    /* @__PURE__ */ jsx("path", { d: "M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" })
-  ] });
-}
-function IconPlus({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx("path", { d: "M12 5v14M5 12h14" }) });
-}
-function IconMinus({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx("path", { d: "M5 12h14" }) });
-}
-function IconEdit({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx("path", { d: "M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" }),
-    /* @__PURE__ */ jsx("path", { d: "M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" })
-  ] });
-}
-function IconArrowLeft({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx("path", { d: "M19 12H5M12 19l-7-7 7-7" }) });
-}
-function IconArrowRight({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx("path", { d: "M5 12h14M12 5l7 7-7 7" }) });
-}
-function IconMenu({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx("path", { d: "M3 12h18M3 6h18M3 18h18" }) });
-}
-function IconEye({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx("path", { d: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" }),
-    /* @__PURE__ */ jsx("circle", { cx: "12", cy: "12", r: "3" })
-  ] });
-}
-function IconEyeOff({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx("path", { d: "M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" }),
-    /* @__PURE__ */ jsx("path", { d: "M1 1l22 22" })
-  ] });
-}
-function IconCopy({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx("rect", { x: "9", y: "9", width: "13", height: "13", rx: "2", ry: "2" }),
-    /* @__PURE__ */ jsx("path", { d: "M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" })
-  ] });
-}
-function IconExternalLink({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx("path", { d: "M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" }) });
-}
-function IconMoreVertical({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsxs("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx("circle", { cx: "12", cy: "12", r: "1" }),
-    /* @__PURE__ */ jsx("circle", { cx: "12", cy: "5", r: "1" }),
-    /* @__PURE__ */ jsx("circle", { cx: "12", cy: "19", r: "1" })
-  ] });
-}
-function IconFilter({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx("path", { d: "M22 3H2l8 9.46V19l4 2v-8.54L22 3z" }) });
-}
-
-// src/icons/index.ts
-var iconRegistry = {
-  "close": IconClose,
-  "chevron-right": IconChevronRight,
-  "chevron-down": IconChevronDown,
-  "chevron-left": IconChevronLeft,
-  "chevron-up": IconChevronUp,
-  "check": IconCheck,
-  "check-circle": IconCheckCircle,
-  "warning": IconWarning,
-  "error": IconError,
-  "info": IconInfo,
-  "search": IconSearch,
-  "trash": IconTrash,
-  "settings": IconSettings,
-  "plus": IconPlus,
-  "minus": IconMinus,
-  "edit": IconEdit,
-  "arrow-left": IconArrowLeft,
-  "arrow-right": IconArrowRight,
-  "menu": IconMenu,
-  "eye": IconEye,
-  "eye-off": IconEyeOff,
-  "copy": IconCopy,
-  "external-link": IconExternalLink,
-  "more-vertical": IconMoreVertical,
-  "filter": IconFilter
-};
-
-// src/types.ts
-import { semantic as t } from "../../core/dist/index.js";
-var alignMap = {
-  start: "flex-start",
-  center: "center",
-  end: "flex-end",
-  stretch: "stretch",
-  baseline: "baseline"
-};
-var justifyMap = {
-  start: "flex-start",
-  center: "center",
-  end: "flex-end",
-  "space-between": "space-between",
-  "space-around": "space-around",
-  "space-evenly": "space-evenly"
-};
-var semanticColorMap = {
-  primary: t.colorActionPrimary,
-  success: t.colorSuccess,
-  warning: t.colorWarning,
-  error: t.colorError,
-  info: t.colorInfo,
-  muted: t.colorTextMuted
-};
-var iconSizeMap = {
-  xs: 14,
-  sm: 16,
-  md: 20,
-  lg: 24,
-  xl: 32
-};
-var modalWidthMap = {
-  sm: 400,
-  md: 480,
-  lg: 520,
-  xl: 640
-};
-var progressBarHeightMap = {
-  sm: 4,
-  md: 6,
-  lg: 10
-};
-var dividerOpacityMap = {
-  subtle: 25,
-  default: 50,
-  strong: 75
-};
-var spacingMap = {
-  xs: t.spaceXs,
-  sm: t.spaceSm,
-  md: t.spaceMd,
-  lg: t.spaceLg,
-  xl: t.spaceXl,
-  "2xl": t.space2xl
-};
-var radiusMap = {
-  none: "0",
-  sm: t.radiusSm,
-  md: t.radiusMd,
-  lg: t.radiusLg,
-  full: t.radiusFull
-};
-var shadowMap = {
-  sm: t.shadowSm,
-  md: t.shadowMd,
-  lg: t.shadowLg
-};
-
-// src/components/Icon/Icon.tsx
-import { jsx as jsx2 } from "react/jsx-runtime";
-var IconFontContext = createContext(void 0);
-function IconFontProvider({ fontClass, children }) {
-  return /* @__PURE__ */ jsx2(IconFontContext.Provider, { value: fontClass, children });
-}
-var Icon = forwardRef(
-  function Icon2({ name, size = "lg", fontClass, "aria-label": ariaLabel, id, "data-testid": dataTestId }, ref) {
-    const contextFontClass = useContext(IconFontContext);
-    const IconComponent = iconRegistry[name];
-    const isDecorative = !ariaLabel;
-    const px = iconSizeMap[size];
-    const resolvedFontClass = fontClass ?? contextFontClass;
-    if (!IconComponent && resolvedFontClass) {
-      return /* @__PURE__ */ jsx2(
-        "span",
-        {
-          ref,
-          id,
-          "data-testid": dataTestId,
-          role: isDecorative ? void 0 : "img",
-          "aria-hidden": isDecorative || void 0,
-          "aria-label": ariaLabel,
-          className: resolvedFontClass,
-          style: {
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            minWidth: px,
-            minHeight: px,
-            fontSize: px,
-            lineHeight: 1,
-            color: "inherit",
-            fontStyle: "normal"
-          },
-          children: name
-        }
-      );
-    }
-    return /* @__PURE__ */ jsx2(
-      "span",
-      {
-        ref,
-        id,
-        "data-testid": dataTestId,
-        role: isDecorative ? void 0 : "img",
-        "aria-hidden": isDecorative || void 0,
-        "aria-label": ariaLabel,
-        style: {
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: px,
-          height: px,
-          lineHeight: 1,
-          color: "inherit"
-        },
-        children: IconComponent ? /* @__PURE__ */ jsx2(IconComponent, { size: px }) : null
-      }
-    );
-  }
-);
-
-// src/components/ThemePicker/ThemePicker.tsx
-import { jsx as jsx3, jsxs as jsxs2 } from "react/jsx-runtime";
-var GRID_STYLES_ID = "alttab-theme-picker";
-var gridCSS = (
-  /* css */
-  `
-  .alttab-theme-picker {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .alttab-theme-card {
-    background: var(--color-surface);
-    border: var(--border-width-thick) solid var(--color-border);
-    border-radius: 8px;
-    padding: 1.5rem;
-    text-align: left;
-    cursor: pointer;
-    transition: border-color var(--transition-base), transform var(--transition-base);
-    font-family: inherit;
-    color: inherit;
-  }
-
-  .alttab-theme-card:hover {
-    border-color: var(--color-text-link);
-    transform: translateY(-2px);
-  }
-
-  .alttab-theme-card--active {
-    border-color: var(--color-text-link);
-  }
-
-  .alttab-theme-card__name {
-    display: block;
-    font-family: var(--font-serif);
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-  }
-
-  .alttab-theme-card__desc {
-    display: block;
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
-  }
-`
-);
-var COMPACT_STYLES_ID = "alttab-theme-picker-compact";
-var compactCSS = (
-  /* css */
-  `
-  .alttab-tp-trigger {
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.375rem 0.625rem;
-    font-size: 0.75rem;
-    font-family: var(--font-mono);
-    color: var(--color-text-secondary);
-    background: var(--color-surface-raised);
-    border: var(--border-width-default) solid var(--color-border);
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: border-color var(--transition-base);
-  }
-
-  .alttab-tp-trigger:hover {
-    border-color: var(--color-text-link);
-  }
-
-  .alttab-tp-menu-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    width: 100%;
-    text-align: left;
-    padding: 0.375rem 0.5rem;
-    font-size: 0.8rem;
-    font-family: var(--font-sans);
-    font-weight: 400;
-    color: var(--color-text-secondary);
-    background: transparent;
-    border: none;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: background 0.1s ease, color 0.1s ease;
-  }
-
-  .alttab-tp-menu-item:hover,
-  .alttab-tp-menu-item--focused {
-    background: var(--color-surface-raised);
-    color: var(--color-text);
-  }
-
-  .alttab-tp-menu-item--active {
-    font-weight: 600;
-    color: var(--color-text);
-    background: var(--color-surface-raised);
-  }
-`
-);
-function GridView({ descriptions }) {
-  useInjectStyles(GRID_STYLES_ID, gridCSS);
-  const { resolved, themes, setTheme } = useTheme();
-  return /* @__PURE__ */ jsx3("div", { className: "alttab-theme-picker", children: Array.from(themes.values()).map((def) => {
-    const isActive = resolved === def.name;
-    return /* @__PURE__ */ jsxs2(
-      "button",
-      {
-        className: `alttab-theme-card${isActive ? " alttab-theme-card--active" : ""}`,
-        onClick: () => setTheme(def.name),
-        children: [
-          /* @__PURE__ */ jsx3("span", { className: "alttab-theme-card__name", children: def.label }),
-          descriptions[def.name] && /* @__PURE__ */ jsx3("span", { className: "alttab-theme-card__desc", children: descriptions[def.name] })
-        ]
-      },
-      def.name
-    );
-  }) });
-}
-function CompactView() {
-  useInjectStyles(COMPACT_STYLES_ID, compactCSS);
-  const { resolved, themes, setTheme } = useTheme();
-  const [open, setOpen] = useState(false);
-  const [focusedIndex, setFocusedIndex] = useState(-1);
-  const containerRef = useRef(null);
-  const menuRef = useRef(null);
-  const triggerRef = useRef(null);
-  const themeList = Array.from(themes.values());
-  useEffect2(() => {
-    if (!open) return;
-    function handleMouseDown(e) {
-      if (containerRef.current && !containerRef.current.contains(e.target)) {
-        setOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleMouseDown);
-    return () => document.removeEventListener("mousedown", handleMouseDown);
-  }, [open]);
-  const handleKeyDown = useCallback((e) => {
-    if (e.key === "Escape") {
-      setOpen(false);
-      triggerRef.current?.focus();
-      return;
-    }
-    if (!open) {
-      if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        setOpen(true);
-        setFocusedIndex(0);
-      }
-      return;
-    }
-    switch (e.key) {
-      case "ArrowDown":
-        e.preventDefault();
-        setFocusedIndex((i) => (i + 1) % themeList.length);
-        break;
-      case "ArrowUp":
-        e.preventDefault();
-        setFocusedIndex((i) => (i - 1 + themeList.length) % themeList.length);
-        break;
-      case "Enter":
-      case " ":
-        e.preventDefault();
-        if (focusedIndex >= 0 && focusedIndex < themeList.length) {
-          setTheme(themeList[focusedIndex].name);
-          setOpen(false);
-          triggerRef.current?.focus();
-        }
-        break;
-      case "Home":
-        e.preventDefault();
-        setFocusedIndex(0);
-        break;
-      case "End":
-        e.preventDefault();
-        setFocusedIndex(themeList.length - 1);
-        break;
-    }
-  }, [open, focusedIndex, themeList, setTheme]);
-  useEffect2(() => {
-    if (!open || focusedIndex < 0) return;
-    const menu = menuRef.current;
-    if (!menu) return;
-    const items = menu.querySelectorAll('[role="option"]');
-    items[focusedIndex]?.scrollIntoView({ block: "nearest" });
-  }, [open, focusedIndex]);
-  useEffect2(() => {
-    if (open) {
-      const activeIdx = themeList.findIndex((t40) => t40.name === resolved);
-      setFocusedIndex(activeIdx >= 0 ? activeIdx : 0);
-    }
-  }, [open]);
-  const currentTheme = themeList.find((t40) => t40.name === resolved);
-  return /* @__PURE__ */ jsxs2("div", { ref: containerRef, style: { position: "relative" }, onKeyDown: handleKeyDown, children: [
-    /* @__PURE__ */ jsxs2(
-      "button",
-      {
-        ref: triggerRef,
-        className: "alttab-tp-trigger",
-        onClick: () => setOpen((o) => !o),
-        "aria-haspopup": "listbox",
-        "aria-expanded": open,
-        children: [
-          /* @__PURE__ */ jsx3("span", { style: {
-            width: 8,
-            height: 8,
-            borderRadius: "50%",
-            background: "var(--color-action-primary)",
-            flexShrink: 0
-          } }),
-          currentTheme?.label ?? resolved,
-          /* @__PURE__ */ jsx3(Icon, { name: open ? "chevron-up" : "chevron-down", size: "xs" })
-        ]
-      }
-    ),
-    open && /* @__PURE__ */ jsx3(
-      "div",
-      {
-        ref: menuRef,
-        role: "listbox",
-        "aria-activedescendant": focusedIndex >= 0 ? `alttab-tp-item-${themeList[focusedIndex]?.name}` : void 0,
-        style: {
-          position: "absolute",
-          top: "100%",
-          left: 0,
-          marginTop: "0.25rem",
-          background: "var(--color-surface-panel)",
-          border: "var(--border-width-default) solid var(--color-border)",
-          borderRadius: "var(--radius-md)",
-          padding: "0.25rem",
-          minWidth: "10rem",
-          zIndex: "var(--z-index-sticky)",
-          boxShadow: "var(--shadow-md)"
-        },
-        children: themeList.map((t40, idx) => {
-          const isActive = resolved === t40.name;
-          const isFocused = focusedIndex === idx;
-          const classes = [
-            "alttab-tp-menu-item",
-            isActive ? "alttab-tp-menu-item--active" : "",
-            isFocused && !isActive ? "alttab-tp-menu-item--focused" : ""
-          ].filter(Boolean).join(" ");
-          return /* @__PURE__ */ jsxs2(
-            "button",
-            {
-              id: `alttab-tp-item-${t40.name}`,
-              role: "option",
-              "aria-selected": isActive,
-              className: classes,
-              onClick: () => {
-                setTheme(t40.name);
-                setOpen(false);
-                triggerRef.current?.focus();
-              },
-              onMouseEnter: () => setFocusedIndex(idx),
-              children: [
-                /* @__PURE__ */ jsx3("span", { style: {
-                  width: 6,
-                  height: 6,
-                  borderRadius: "50%",
-                  background: isActive ? "var(--color-action-primary)" : "var(--color-text-muted)",
-                  flexShrink: 0
-                } }),
-                t40.label
-              ]
-            },
-            t40.name
-          );
-        })
-      }
-    )
-  ] });
-}
-var ThemePicker = forwardRef2(
-  function ThemePicker2({ descriptions = {}, variant = "grid" }, ref) {
-    if (variant === "compact") {
-      return /* @__PURE__ */ jsx3("div", { ref, style: { display: "inline-block" }, children: /* @__PURE__ */ jsx3(CompactView, {}) });
-    }
-    return /* @__PURE__ */ jsx3("div", { ref, children: /* @__PURE__ */ jsx3(GridView, { descriptions }) });
-  }
-);
-
-// src/components/Button/Button.tsx
-import { forwardRef as forwardRef3 } from "react";
-import { semantic as t2, useInjectStyles as useInjectStyles2, Slot } from "../../core/dist/index.js";
-import { jsx as jsx4 } from "react/jsx-runtime";
-var variantStyles = {
-  primary: {
-    background: t2.colorActionPrimary,
-    color: t2.colorTextInverse,
-    border: "none"
-  },
-  secondary: {
-    background: t2.colorActionSecondary,
-    color: t2.colorText,
-    border: `${t2.borderWidthDefault} solid ${t2.colorBorder}`
-  },
-  destructive: {
-    background: t2.colorActionDestructive,
-    color: t2.colorTextInverse,
-    border: "none"
-  },
-  ghost: {
-    background: "transparent",
-    color: t2.colorText,
-    border: `${t2.borderWidthDefault} solid transparent`
-  }
-};
-var sizeStyles = {
-  sm: {
-    padding: `${t2.spaceXs} ${t2.spaceSm}`,
-    fontSize: t2.fontSizeSm,
-    lineHeight: t2.lineHeightTight
-  },
-  md: {
-    padding: `${t2.spaceSm} ${t2.spaceMd}`,
-    fontSize: t2.fontSizeSm,
-    lineHeight: t2.lineHeightTight
-  },
-  lg: {
-    padding: `${t2.spaceSm} ${t2.spaceLg}`,
-    fontSize: t2.fontSizeBase,
-    lineHeight: t2.lineHeightBase
-  }
-};
-var baseStyles = {
-  display: "inline-flex",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: t2.spaceSm,
-  borderRadius: t2.radiusMd,
-  fontFamily: t2.fontSans,
-  fontWeight: t2.fontWeightMedium,
-  cursor: "pointer",
-  transition: `background ${t2.transitionBase}, border-color ${t2.transitionBase}, opacity ${t2.transitionBase}`
-};
-var SPINNER_STYLES_ID = "alttab-button-spinner";
-var spinnerCSS = (
-  /* css */
-  `
-  @keyframes alttab-btn-spin {
-    to { transform: rotate(360deg); }
-  }
-  .alttab-btn-spinner {
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    border: ${t2.borderWidthThick} solid currentColor;
-    border-right-color: transparent;
-    border-radius: 50%;
-    animation: alttab-btn-spin 600ms linear infinite;
-  }
-`
-);
-var iconOnlyPadding = {
-  sm: t2.spaceXs,
-  md: t2.spaceSm,
-  lg: t2.spaceSm
-};
-var Button = forwardRef3(
-  function Button2({
-    variant = "primary",
-    size = "md",
-    loading = false,
-    iconOnly = false,
-    asChild = false,
-    children,
-    disabled,
-    onClick,
-    type,
-    form,
-    name,
-    value,
-    tabIndex,
-    autoFocus,
-    id,
-    "aria-label": ariaLabel,
-    "aria-labelledby": ariaLabelledBy,
-    "aria-describedby": ariaDescribedBy,
-    "aria-expanded": ariaExpanded,
-    "aria-controls": ariaControls,
-    "aria-haspopup": ariaHasPopup,
-    "data-testid": dataTestId
-  }, ref) {
-    useInjectStyles2(SPINNER_STYLES_ID, spinnerCSS);
-    const isDisabled2 = disabled || loading;
-    const style = {
-      ...baseStyles,
-      ...variantStyles[variant],
-      ...sizeStyles[size],
-      ...iconOnly ? { padding: iconOnlyPadding[size], aspectRatio: "1", minWidth: 0 } : {},
-      ...isDisabled2 ? { opacity: 0.5, cursor: "not-allowed" } : {}
-    };
-    const commonProps = {
-      tabIndex,
-      id,
-      onClick,
-      "aria-busy": loading || void 0,
-      "aria-label": ariaLabel,
-      "aria-labelledby": ariaLabelledBy,
-      "aria-describedby": ariaDescribedBy,
-      "aria-expanded": ariaExpanded,
-      "aria-controls": ariaControls,
-      "aria-haspopup": ariaHasPopup,
-      "data-testid": dataTestId,
-      style
-    };
-    if (asChild) {
-      return /* @__PURE__ */ jsx4(
-        Slot,
-        {
-          ref,
-          ...commonProps,
-          "aria-disabled": isDisabled2 || void 0,
-          children
-        }
-      );
-    }
-    return /* @__PURE__ */ jsx4(
-      "button",
-      {
-        ref,
-        type,
-        form,
-        name,
-        value,
-        autoFocus,
-        disabled: isDisabled2,
-        ...commonProps,
-        children: loading ? /* @__PURE__ */ jsx4("span", { className: "alttab-btn-spinner" }) : children
-      }
-    );
-  }
-);
-
-// src/components/Stack/Stack.tsx
-import { forwardRef as forwardRef4 } from "react";
-import { jsx as jsx5 } from "react/jsx-runtime";
-var gapMap = spacingMap;
-var Stack = forwardRef4(
-  function Stack2({
-    direction = "vertical",
-    gap = "md",
-    align,
-    justify,
-    wrap,
-    children,
-    ...rest
-  }, ref) {
-    return /* @__PURE__ */ jsx5(
-      "div",
-      {
-        ref,
-        id: rest.id,
-        "data-testid": rest["data-testid"],
-        style: {
-          display: "flex",
-          flexDirection: direction === "vertical" ? "column" : "row",
-          gap: gapMap[gap],
-          alignItems: align ? alignMap[align] : void 0,
-          justifyContent: justify ? justifyMap[justify] : void 0,
-          flexWrap: wrap ? "wrap" : void 0
-        },
-        children
-      }
-    );
-  }
-);
-
-// src/components/Card/Card.tsx
-import { forwardRef as forwardRef6, useEffect as useEffect3, useRef as useRef2 } from "react";
-import { semantic as t4, useInjectStyles as useInjectStyles3, useThemeRhythm, Slot as Slot3 } from "../../core/dist/index.js";
-
-// src/components/Surface/Surface.tsx
-import { createElement, forwardRef as forwardRef5 } from "react";
-import { semantic as t3, Slot as Slot2 } from "../../core/dist/index.js";
-import { jsx as jsx6 } from "react/jsx-runtime";
-var levelMap = {
-  page: t3.colorSurfacePage,
-  default: t3.colorSurface,
-  solid: t3.colorSurfaceSolid,
-  raised: t3.colorSurfaceRaised,
-  panel: t3.colorSurfacePanel,
-  input: t3.colorSurfaceInput,
-  overlay: t3.colorSurfaceOverlay
-};
-function getSurfaceStyle({
-  level = "solid",
-  tint,
-  padding,
-  radius = "lg",
-  border = false,
-  shadow
-}) {
-  const borderValue = border === true ? `${t3.borderWidthDefault} solid ${t3.colorBorder}` : typeof border === "string" ? `${t3.borderWidthDefault} solid ${semanticColorMap[border]}` : void 0;
-  const tintBg = tint ? `color-mix(in srgb, ${semanticColorMap[tint]} 10%, transparent)` : void 0;
-  return {
-    background: tintBg ?? levelMap[level],
-    padding: padding ? spacingMap[padding] : void 0,
-    borderRadius: radiusMap[radius],
-    border: borderValue,
-    boxShadow: shadow ? shadowMap[shadow] : void 0,
-    color: t3.colorText
-  };
-}
-var Surface = forwardRef5(
-  function Surface2({
-    level = "solid",
-    tint,
-    padding,
-    radius = "lg",
-    border = false,
-    shadow,
-    as = "div",
-    asChild = false,
-    children,
-    ...rest
-  }, ref) {
-    const style = getSurfaceStyle({ level, tint, padding, radius, border, shadow });
-    const commonProps = {
-      id: rest.id,
-      "data-testid": rest["data-testid"],
-      "aria-label": rest["aria-label"],
-      "aria-labelledby": rest["aria-labelledby"],
-      style
-    };
-    if (asChild) {
-      return /* @__PURE__ */ jsx6(Slot2, { ref, ...commonProps, children });
-    }
-    return createElement(as, { ref, ...commonProps }, children);
-  }
-);
-
-// src/components/Card/Card.tsx
-import { jsx as jsx7 } from "react/jsx-runtime";
-var variantSurfaceProps = {
-  default: { level: "solid", border: true, shadow: "sm" },
-  flat: { level: "raised", border: true },
-  elevated: { level: "solid", border: true, shadow: "md" }
-};
-var HOVER_STYLES_ID = "4lt7ab-card-hover";
-var HOVER_STYLES_CSS = `
-[data-card-hover] {
-  cursor: pointer;
-  transition: transform ${t4.transitionSlow}, border-color ${t4.transitionSlow}, box-shadow ${t4.transitionSlow};
-}
-[data-card-hover]:hover {
-  transform: translateY(-2px);
-  border-color: ${t4.colorBorderFocused};
-  box-shadow: ${t4.shadowMd};
-}
-`;
-var GLOW_STYLES_ID = "4lt7ab-card-glow";
-var GLOW_STYLES_CSS = `
-[data-card-glow] {
-  --card-glow-strength: 0;
-}
-`;
-var GLOW_BOX_SHADOW = `0 0 calc(var(--card-glow-strength, 0) * 16px) calc(var(--card-glow-strength, 0) * 2px) color-mix(in srgb, ${t4.colorActionPrimary} calc(var(--card-glow-strength, 0) * 70%), transparent)`;
-function prefersReducedMotion() {
-  if (typeof window === "undefined" || !window.matchMedia) return false;
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-var Card = forwardRef6(
-  function Card2({
-    variant = "default",
-    padding = "lg",
-    hover = false,
-    glow = false,
-    asChild = false,
-    children,
-    ...rest
-  }, ref) {
-    useInjectStyles3(HOVER_STYLES_ID, HOVER_STYLES_CSS);
-    useInjectStyles3(GLOW_STYLES_ID, GLOW_STYLES_CSS);
-    const internalRef = useRef2(null);
-    const setRef = (node) => {
-      internalRef.current = node;
-      if (typeof ref === "function") ref(node);
-      else if (ref) ref.current = node;
-    };
-    const { config, subscribe } = useThemeRhythm();
-    useEffect3(() => {
-      if (!glow || !config || prefersReducedMotion()) return;
-      const el = internalRef.current;
-      if (!el) return;
-      const unsubscribe = subscribe((phase) => {
-        el.style.setProperty("--card-glow-strength", String(phase));
-      });
-      return () => {
-        unsubscribe();
-        el.style.removeProperty("--card-glow-strength");
-      };
-    }, [glow, config, subscribe]);
-    const surfaceProps = {
-      ...variantSurfaceProps[variant],
-      padding,
-      radius: "lg",
-      asChild: true
-    };
-    const cardSlotProps = {
-      "data-card-hover": hover ? "" : void 0,
-      "data-card-glow": glow ? "" : void 0,
-      id: rest.id,
-      "data-testid": rest["data-testid"]
-    };
-    if (glow) {
-      cardSlotProps.style = { boxShadow: GLOW_BOX_SHADOW };
-    }
-    if (asChild) {
-      return /* @__PURE__ */ jsx7(Surface, { ...surfaceProps, children: /* @__PURE__ */ jsx7(Slot3, { ref: setRef, ...cardSlotProps, children }) });
-    }
-    return /* @__PURE__ */ jsx7(Surface, { ...surfaceProps, children: /* @__PURE__ */ jsx7("div", { ref: setRef, ...cardSlotProps, children }) });
-  }
-);
-
-// src/components/LinkCard/LinkCard.tsx
-import { forwardRef as forwardRef7 } from "react";
-import { semantic as t5, useInjectStyles as useInjectStyles4 } from "../../core/dist/index.js";
-import { jsx as jsx8, jsxs as jsxs3 } from "react/jsx-runtime";
-var STYLES_ID = "alttab-link-card";
-var linkCardCSS = (
-  /* css */
-  `
-  .alttab-link-card {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    transition: border-color ${t5.transitionBase}, transform ${t5.transitionBase};
-  }
-
-  .alttab-link-card:hover {
-    border-color: ${t5.colorTextLink};
-    transform: translateY(-2px);
-  }
-
-  .alttab-link-card__title {
-    display: block;
-    font-family: ${t5.fontSerif};
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: ${t5.colorText};
-    margin-bottom: 0.25rem;
-  }
-
-  .alttab-link-card__desc {
-    display: block;
-    font-size: 0.875rem;
-    color: ${t5.colorTextMuted};
-  }
-`
-);
-var LinkCard = forwardRef7(function LinkCard2({
-  title,
-  description,
-  external,
-  href,
-  target,
-  rel,
-  onClick,
-  id,
-  "aria-label": ariaLabel,
-  "data-testid": dataTestId
-}, ref) {
-  useInjectStyles4(STYLES_ID, linkCardCSS);
-  return /* @__PURE__ */ jsx8(Card, { asChild: true, children: /* @__PURE__ */ jsxs3(
-    "a",
-    {
-      ref,
-      className: "alttab-link-card",
-      href,
-      target: external ? "_blank" : target,
-      rel: external ? "noopener noreferrer" : rel,
-      onClick,
-      id,
-      "aria-label": ariaLabel,
-      "data-testid": dataTestId,
-      children: [
-        /* @__PURE__ */ jsx8("span", { className: "alttab-link-card__title", children: title }),
-        description && /* @__PURE__ */ jsx8("span", { className: "alttab-link-card__desc", children: description })
-      ]
-    }
-  ) });
-});
-
-// src/components/Field/Field.tsx
-import { semantic as t6 } from "../../core/dist/index.js";
-import { forwardRef as forwardRef8, useId, isValidElement, cloneElement } from "react";
-import { jsx as jsx9, jsxs as jsxs4 } from "react/jsx-runtime";
-var labelStyle = {
-  display: "block",
-  fontSize: t6.fontSizeSm,
-  fontWeight: t6.fontWeightMedium,
-  lineHeight: t6.lineHeightTight,
-  color: t6.colorText,
-  fontFamily: t6.fontSans
-};
-var requiredStyle = {
-  color: t6.colorError,
-  marginLeft: "0.125rem"
-};
-var helpStyle = {
-  fontSize: t6.fontSizeXs,
-  lineHeight: t6.lineHeightTight,
-  color: t6.colorTextMuted,
-  fontFamily: t6.fontSans,
-  margin: 0
-};
-var errorStyle = {
-  fontSize: t6.fontSizeXs,
-  lineHeight: t6.lineHeightTight,
-  color: t6.colorError,
-  fontFamily: t6.fontSans,
-  margin: 0
-};
-var Field = forwardRef8(
-  function Field2({
-    label,
-    htmlFor,
-    error,
-    help,
-    required,
-    disabled,
-    children,
-    ...rest
-  }, ref) {
-    const autoId = useId();
-    const helpId = help ? `${autoId}-help` : void 0;
-    const errorId = error ? `${autoId}-error` : void 0;
-    const describedBy = [errorId, helpId].filter(Boolean).join(" ") || void 0;
-    const enhancedChildren = isValidElement(children) ? cloneElement(children, {
-      "aria-describedby": describedBy
-    }) : children;
-    return /* @__PURE__ */ jsxs4(
-      "div",
-      {
-        ref,
-        id: rest.id,
-        "data-testid": rest["data-testid"],
-        "aria-describedby": rest["aria-describedby"],
-        style: {
-          display: "flex",
-          flexDirection: "column",
-          gap: t6.spaceXs,
-          opacity: disabled ? 0.6 : void 0
-        },
-        children: [
-          /* @__PURE__ */ jsxs4("label", { htmlFor, style: labelStyle, children: [
-            label,
-            required && /* @__PURE__ */ jsx9("span", { style: requiredStyle, "aria-hidden": "true", children: "*" })
-          ] }),
-          enhancedChildren,
-          error && /* @__PURE__ */ jsx9("p", { id: errorId, role: "alert", style: errorStyle, children: error }),
-          !error && help && /* @__PURE__ */ jsx9("p", { id: helpId, style: helpStyle, children: help })
-        ]
-      }
-    );
-  }
-);
-
-// src/components/Input/Input.tsx
-import { forwardRef as forwardRef9 } from "react";
-import { semantic as t7 } from "../../core/dist/index.js";
-import { jsx as jsx10 } from "react/jsx-runtime";
-var baseStyle = {
-  display: "block",
-  width: "100%",
-  padding: `${t7.spaceSm} ${t7.spaceMd}`,
-  fontSize: t7.fontSizeSm,
-  lineHeight: t7.lineHeightTight,
-  fontFamily: t7.fontSans,
-  color: t7.colorText,
-  background: t7.colorSurfaceInput,
-  border: `${t7.borderWidthDefault} solid ${t7.colorBorder}`,
-  borderRadius: t7.radiusMd,
-  outline: "none",
-  transition: `border-color ${t7.transitionBase}, box-shadow ${t7.transitionBase}`,
-  boxSizing: "border-box"
-};
-var errorBorderStyle = {
-  borderColor: t7.colorBorderError
-};
-var disabledStyle = {
-  background: t7.colorSurfaceDisabled,
-  color: t7.colorTextDisabled,
-  cursor: "not-allowed"
-};
-var Input = forwardRef9(
-  function Input2({
-    hasError,
-    disabled,
-    type,
-    value,
-    defaultValue,
-    onChange,
-    onFocus,
-    onBlur,
-    onKeyDown,
-    placeholder,
-    readOnly,
-    maxLength,
-    min,
-    max,
-    step,
-    pattern,
-    inputMode,
-    name,
-    required,
-    autoFocus,
-    autoComplete,
-    id,
-    form,
-    tabIndex,
-    "aria-label": ariaLabel,
-    "aria-labelledby": ariaLabelledBy,
-    "aria-describedby": ariaDescribedBy,
-    "aria-invalid": ariaInvalid,
-    "data-testid": dataTestId
-  }, ref) {
-    return /* @__PURE__ */ jsx10(
-      "input",
-      {
-        ref,
-        type,
-        value,
-        defaultValue,
-        onChange,
-        onFocus,
-        onBlur,
-        onKeyDown,
-        placeholder,
-        readOnly,
-        maxLength,
-        min,
-        max,
-        step,
-        pattern,
-        inputMode,
-        name,
-        disabled,
-        required,
-        autoFocus,
-        autoComplete,
-        id,
-        form,
-        tabIndex,
-        "aria-invalid": ariaInvalid ?? (hasError || void 0),
-        "aria-label": ariaLabel,
-        "aria-labelledby": ariaLabelledBy,
-        "aria-describedby": ariaDescribedBy,
-        "data-testid": dataTestId,
-        style: {
-          ...baseStyle,
-          ...hasError ? errorBorderStyle : {},
-          ...disabled ? disabledStyle : {}
-        }
-      }
-    );
-  }
-);
-
-// src/components/Textarea/Textarea.tsx
-import { forwardRef as forwardRef10 } from "react";
-import { semantic as t8 } from "../../core/dist/index.js";
-import { jsx as jsx11 } from "react/jsx-runtime";
-var baseStyle2 = {
-  display: "block",
-  width: "100%",
-  padding: `${t8.spaceSm} ${t8.spaceMd}`,
-  fontSize: t8.fontSizeSm,
-  lineHeight: t8.lineHeightBase,
-  fontFamily: t8.fontSans,
-  color: t8.colorText,
-  background: t8.colorSurfaceInput,
-  border: `${t8.borderWidthDefault} solid ${t8.colorBorder}`,
-  borderRadius: t8.radiusMd,
-  outline: "none",
-  transition: `border-color ${t8.transitionBase}, box-shadow ${t8.transitionBase}`,
-  boxSizing: "border-box",
-  resize: "vertical",
-  minHeight: "5rem"
-};
-var errorBorderStyle2 = {
-  borderColor: t8.colorBorderError
-};
-var disabledStyle2 = {
-  background: t8.colorSurfaceDisabled,
-  color: t8.colorTextDisabled,
-  cursor: "not-allowed",
-  resize: "none"
-};
-var Textarea = forwardRef10(
-  function Textarea2({
-    hasError,
-    disabled,
-    value,
-    defaultValue,
-    onChange,
-    onFocus,
-    onBlur,
-    onKeyDown,
-    placeholder,
-    readOnly,
-    rows,
-    maxLength,
-    name,
-    required,
-    autoFocus,
-    id,
-    form,
-    tabIndex,
-    "aria-label": ariaLabel,
-    "aria-labelledby": ariaLabelledBy,
-    "aria-describedby": ariaDescribedBy,
-    "aria-invalid": ariaInvalid,
-    "data-testid": dataTestId
-  }, ref) {
-    return /* @__PURE__ */ jsx11(
-      "textarea",
-      {
-        ref,
-        value,
-        defaultValue,
-        onChange,
-        onFocus,
-        onBlur,
-        onKeyDown,
-        placeholder,
-        readOnly,
-        rows,
-        maxLength,
-        name,
-        disabled,
-        required,
-        autoFocus,
-        id,
-        form,
-        tabIndex,
-        "aria-invalid": ariaInvalid ?? (hasError || void 0),
-        "aria-label": ariaLabel,
-        "aria-labelledby": ariaLabelledBy,
-        "aria-describedby": ariaDescribedBy,
-        "data-testid": dataTestId,
-        style: {
-          ...baseStyle2,
-          ...hasError ? errorBorderStyle2 : {},
-          ...disabled ? disabledStyle2 : {}
-        }
-      }
-    );
-  }
-);
+import { forwardRef } from "react";
+import { useTheme, useInjectStyles as useInjectStyles2 } from "../../core/dist/index.js";
 
 // src/components/Select/Select.tsx
 import {
-  createContext as createContext2,
-  useCallback as useCallback2,
-  useContext as useContext2,
-  useEffect as useEffect4,
-  useId as useId2,
+  createContext,
+  useCallback,
+  useContext,
+  useEffect as useEffect2,
+  useId,
   useMemo,
-  useRef as useRef3,
-  useState as useState2
+  useRef,
+  useState
 } from "react";
-import { semantic as t9, useInjectStyles as useInjectStyles5 } from "../../core/dist/index.js";
-import { Fragment, jsx as jsx12, jsxs as jsxs5 } from "react/jsx-runtime";
+import { semantic as t, useInjectStyles } from "../../core/dist/index.js";
+import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 var SELECT_STYLES_ID = "alttab-select";
 var selectCSS = (
   /* css */
@@ -1353,9 +105,9 @@ var selectCSS = (
   }
 `
 );
-var SelectContext = createContext2(null);
+var SelectContext = createContext(null);
 function useSelectContext(part) {
-  const ctx = useContext2(SelectContext);
+  const ctx = useContext(SelectContext);
   if (!ctx) {
     throw new Error(
       `Select.${part} must be rendered inside <Select.Root>. See the upgrade guide for the 0.4.0 compound API.`
@@ -1376,19 +128,19 @@ function Root({
   form,
   children
 }) {
-  useInjectStyles5(SELECT_STYLES_ID, selectCSS);
-  const instanceId = useId2();
+  useInjectStyles(SELECT_STYLES_ID, selectCSS);
+  const instanceId = useId();
   const listboxId = `${instanceId}-listbox`;
-  const [internalValue, setInternalValue] = useState2(defaultValue ?? "");
+  const [internalValue, setInternalValue] = useState(defaultValue ?? "");
   const isControlled = controlledValue !== void 0;
   const value = isControlled ? controlledValue : internalValue;
-  const [open, setOpen] = useState2(false);
-  const [focusedValue, setFocusedValue] = useState2(null);
-  const [dropDirection, setDropDirection] = useState2("down");
-  const containerRef = useRef3(null);
-  const triggerRef = useRef3(null);
-  const [items, setItems] = useState2([]);
-  const registerItem = useCallback2((item) => {
+  const [open, setOpen] = useState(false);
+  const [focusedValue, setFocusedValue] = useState(null);
+  const [dropDirection, setDropDirection] = useState("down");
+  const containerRef = useRef(null);
+  const triggerRef = useRef(null);
+  const [items, setItems] = useState([]);
+  const registerItem = useCallback((item) => {
     setItems((prev) => {
       if (prev.some((p) => p.value === item.value)) {
         return prev.map((p) => p.value === item.value ? item : p);
@@ -1396,10 +148,10 @@ function Root({
       return [...prev, item];
     });
   }, []);
-  const unregisterItem = useCallback2((itemValue) => {
+  const unregisterItem = useCallback((itemValue) => {
     setItems((prev) => prev.filter((p) => p.value !== itemValue));
   }, []);
-  const setValue = useCallback2(
+  const setValue = useCallback(
     (next, fromUser) => {
       if (!isControlled) setInternalValue(next);
       if (fromUser) {
@@ -1409,7 +161,7 @@ function Root({
     },
     [isControlled, onValueChange, onChange, name]
   );
-  const calculateDirection = useCallback2(() => {
+  const calculateDirection = useCallback(() => {
     const trigger = triggerRef.current;
     if (!trigger) return;
     const rect = trigger.getBoundingClientRect();
@@ -1420,7 +172,7 @@ function Root({
       spaceBelow >= estimatedHeight ? "down" : spaceAbove > spaceBelow ? "up" : "down"
     );
   }, [items.length]);
-  const openMenu = useCallback2(() => {
+  const openMenu = useCallback(() => {
     if (disabled) return;
     calculateDirection();
     setOpen(true);
@@ -1428,15 +180,15 @@ function Root({
     const firstEnabled = items.find((i) => !i.disabled);
     setFocusedValue((current ?? firstEnabled)?.value ?? null);
   }, [disabled, calculateDirection, items, value]);
-  const closeMenu = useCallback2(() => {
+  const closeMenu = useCallback(() => {
     setOpen(false);
     setFocusedValue(null);
   }, []);
-  const toggleMenu = useCallback2(() => {
+  const toggleMenu = useCallback(() => {
     if (open) closeMenu();
     else openMenu();
   }, [open, openMenu, closeMenu]);
-  const selectItem = useCallback2(
+  const selectItem = useCallback(
     (itemValue) => {
       const item = items.find((i) => i.value === itemValue);
       if (!item || item.disabled) return;
@@ -1446,7 +198,7 @@ function Root({
     },
     [items, setValue, closeMenu]
   );
-  useEffect4(() => {
+  useEffect2(() => {
     if (!open) return;
     function handleMouseDown(e) {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -1456,7 +208,7 @@ function Root({
     document.addEventListener("mousedown", handleMouseDown);
     return () => document.removeEventListener("mousedown", handleMouseDown);
   }, [open, closeMenu]);
-  const handleKeyDown = useCallback2(
+  const handleKeyDown = useCallback(
     (e) => {
       if (e.key === "Escape") {
         if (open) {
@@ -1549,14 +301,14 @@ function Root({
       selectItem
     ]
   );
-  return /* @__PURE__ */ jsx12(SelectContext.Provider, { value: ctx, children: /* @__PURE__ */ jsxs5(
+  return /* @__PURE__ */ jsx(SelectContext.Provider, { value: ctx, children: /* @__PURE__ */ jsxs(
     "div",
     {
       ref: containerRef,
       style: wrapperStyle,
       onKeyDown: handleKeyDown,
       children: [
-        /* @__PURE__ */ jsxs5(
+        /* @__PURE__ */ jsxs(
           "select",
           {
             name,
@@ -1571,8 +323,8 @@ function Root({
             "aria-hidden": true,
             style: hiddenSelectStyle,
             children: [
-              /* @__PURE__ */ jsx12("option", { value: "" }),
-              items.map((item) => /* @__PURE__ */ jsx12(
+              /* @__PURE__ */ jsx("option", { value: "" }),
+              items.map((item) => /* @__PURE__ */ jsx(
                 "option",
                 {
                   value: item.value,
@@ -1611,7 +363,7 @@ function Trigger({
   } = ctx;
   const activeDescendant = open && focusedValue ? `${instanceId}-opt-${focusedValue}` : void 0;
   const hasSelection = items.some((i) => i.value === ctx.value);
-  return /* @__PURE__ */ jsxs5(
+  return /* @__PURE__ */ jsxs(
     "button",
     {
       ref: triggerRef,
@@ -1632,13 +384,13 @@ function Trigger({
       "data-testid": dataTestId,
       style: {
         ...triggerBaseStyle,
-        ...hasError ? errorBorderStyle3 : {},
-        ...disabled ? disabledStyle3 : {},
+        ...hasError ? errorBorderStyle : {},
+        ...disabled ? disabledStyle : {},
         ...hasSelection ? {} : placeholderStyle
       },
       children: [
-        /* @__PURE__ */ jsx12("span", { style: triggerTextStyle, children }),
-        /* @__PURE__ */ jsx12("span", { "aria-hidden": true, style: chevronStyle, children: /* @__PURE__ */ jsx12(ChevronSVG, { rotated: open }) })
+        /* @__PURE__ */ jsx("span", { style: triggerTextStyle, children }),
+        /* @__PURE__ */ jsx("span", { "aria-hidden": true, style: chevronStyle, children: /* @__PURE__ */ jsx(ChevronSVG, { rotated: open }) })
       ]
     }
   );
@@ -1646,12 +398,12 @@ function Trigger({
 function Value({ placeholder }) {
   const { value, items } = useSelectContext("Value");
   const selected = items.find((i) => i.value === value);
-  return /* @__PURE__ */ jsx12(Fragment, { children: selected?.label ?? placeholder ?? "\xA0" });
+  return /* @__PURE__ */ jsx(Fragment, { children: selected?.label ?? placeholder ?? "\xA0" });
 }
 function Content({ children }) {
   const { open, listboxId, dropDirection, focusedValue } = useSelectContext("Content");
-  const ref = useRef3(null);
-  useEffect4(() => {
+  const ref = useRef(null);
+  useEffect2(() => {
     if (!open || !focusedValue) return;
     const menu = ref.current;
     if (!menu) return;
@@ -1665,15 +417,15 @@ function Content({ children }) {
     top: "100%",
     left: 0,
     right: 0,
-    marginTop: t9.spaceXs
+    marginTop: t.spaceXs
   } : {
     position: "absolute",
     bottom: "100%",
     left: 0,
     right: 0,
-    marginBottom: t9.spaceXs
+    marginBottom: t.spaceXs
   };
-  return /* @__PURE__ */ jsx12(
+  return /* @__PURE__ */ jsx(
     "div",
     {
       ref,
@@ -1682,12 +434,12 @@ function Content({ children }) {
       hidden: !open,
       style: open ? {
         ...positionStyle,
-        background: t9.colorSurfacePanel,
-        border: `${t9.borderWidthDefault} solid ${t9.colorBorder}`,
-        borderRadius: t9.radiusMd,
-        padding: t9.spaceXs,
-        zIndex: t9.zIndexSticky,
-        boxShadow: t9.shadowMd,
+        background: t.colorSurfacePanel,
+        border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
+        borderRadius: t.radiusMd,
+        padding: t.spaceXs,
+        zIndex: t.zIndexSticky,
+        boxShadow: t.shadowMd,
         maxHeight: "16rem",
         overflowY: "auto",
         boxSizing: "border-box"
@@ -1713,7 +465,7 @@ function Item({
     instanceId
   } = ctx;
   const resolvedLabel = textValue ?? (typeof children === "string" ? children : value);
-  useEffect4(() => {
+  useEffect2(() => {
     registerItem({ value, label: resolvedLabel, disabled });
     return () => unregisterItem(value);
   }, [value, resolvedLabel, disabled, registerItem, unregisterItem]);
@@ -1725,7 +477,7 @@ function Item({
     isFocused ? "alttab-select-option--focused" : "",
     disabled ? "alttab-select-option--disabled" : ""
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ jsx12(
+  return /* @__PURE__ */ jsx(
     "button",
     {
       type: "button",
@@ -1760,18 +512,18 @@ var triggerBaseStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  gap: t9.spaceSm,
+  gap: t.spaceSm,
   width: "100%",
-  padding: `${t9.spaceSm} ${t9.spaceMd}`,
-  fontSize: t9.fontSizeSm,
-  lineHeight: t9.lineHeightTight,
-  fontFamily: t9.fontSans,
-  color: t9.colorText,
-  background: t9.colorSurfaceInput,
-  border: `${t9.borderWidthDefault} solid ${t9.colorBorder}`,
-  borderRadius: t9.radiusMd,
+  padding: `${t.spaceSm} ${t.spaceMd}`,
+  fontSize: t.fontSizeSm,
+  lineHeight: t.lineHeightTight,
+  fontFamily: t.fontSans,
+  color: t.colorText,
+  background: t.colorSurfaceInput,
+  border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
+  borderRadius: t.radiusMd,
   outline: "none",
-  transition: `border-color ${t9.transitionBase}, box-shadow ${t9.transitionBase}`,
+  transition: `border-color ${t.transitionBase}, box-shadow ${t.transitionBase}`,
   boxSizing: "border-box",
   cursor: "pointer",
   textAlign: "left"
@@ -1786,24 +538,24 @@ var triggerTextStyle = {
 var chevronStyle = {
   flex: "0 0 auto",
   pointerEvents: "none",
-  color: t9.colorTextSecondary,
+  color: t.colorTextSecondary,
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center"
 };
-var errorBorderStyle3 = {
-  borderColor: t9.colorBorderError
+var errorBorderStyle = {
+  borderColor: t.colorBorderError
 };
-var disabledStyle3 = {
-  background: t9.colorSurfaceDisabled,
-  color: t9.colorTextDisabled,
+var disabledStyle = {
+  background: t.colorSurfaceDisabled,
+  color: t.colorTextDisabled,
   cursor: "not-allowed"
 };
 var placeholderStyle = {
-  color: t9.colorTextPlaceholder
+  color: t.colorTextPlaceholder
 };
 function ChevronSVG({ rotated }) {
-  return /* @__PURE__ */ jsx12(
+  return /* @__PURE__ */ jsx(
     "svg",
     {
       width: "12",
@@ -1812,10 +564,10 @@ function ChevronSVG({ rotated }) {
       fill: "none",
       xmlns: "http://www.w3.org/2000/svg",
       style: {
-        transition: `transform ${t9.transitionBase}`,
+        transition: `transform ${t.transitionBase}`,
         transform: rotated ? "rotate(180deg)" : "none"
       },
-      children: /* @__PURE__ */ jsx12(
+      children: /* @__PURE__ */ jsx(
         "path",
         {
           d: "M2.22 4.47a.75.75 0 0 1 1.06 0L6 7.19l2.72-2.72a.75.75 0 1 1 1.06 1.06L6 9.31 2.22 5.53a.75.75 0 0 1 0-1.06z",
@@ -1833,10 +585,1007 @@ var Select = {
   Item
 };
 
+// src/components/ThemePicker/ThemePicker.tsx
+import { jsx as jsx2, jsxs as jsxs2 } from "react/jsx-runtime";
+var GRID_STYLES_ID = "alttab-theme-picker";
+var gridCSS = (
+  /* css */
+  `
+  .alttab-theme-picker {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .alttab-theme-card {
+    background: var(--color-surface);
+    border: var(--border-width-thick) solid var(--color-border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color var(--transition-base), transform var(--transition-base);
+    font-family: inherit;
+    color: inherit;
+  }
+
+  .alttab-theme-card:hover {
+    border-color: var(--color-text-link);
+    transform: translateY(-2px);
+  }
+
+  .alttab-theme-card--active {
+    border-color: var(--color-text-link);
+  }
+
+  .alttab-theme-card__name {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .alttab-theme-card__desc {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+`
+);
+var DOT = {
+  display: "inline-block",
+  width: 8,
+  height: 8,
+  borderRadius: "50%",
+  background: "var(--color-action-primary)",
+  flexShrink: 0,
+  marginRight: "0.5rem",
+  verticalAlign: "middle"
+};
+function GridView({ descriptions }) {
+  useInjectStyles2(GRID_STYLES_ID, gridCSS);
+  const { resolved, themes, setTheme } = useTheme();
+  return /* @__PURE__ */ jsx2("div", { className: "alttab-theme-picker", children: Array.from(themes.values()).map((def) => {
+    const isActive = resolved === def.name;
+    return /* @__PURE__ */ jsxs2(
+      "button",
+      {
+        className: `alttab-theme-card${isActive ? " alttab-theme-card--active" : ""}`,
+        onClick: () => setTheme(def.name),
+        children: [
+          /* @__PURE__ */ jsx2("span", { className: "alttab-theme-card__name", children: def.label }),
+          descriptions[def.name] && /* @__PURE__ */ jsx2("span", { className: "alttab-theme-card__desc", children: descriptions[def.name] })
+        ]
+      },
+      def.name
+    );
+  }) });
+}
+function CompactView() {
+  const { resolved, themes, setTheme } = useTheme();
+  return /* @__PURE__ */ jsxs2(Select.Root, { value: resolved, onValueChange: setTheme, children: [
+    /* @__PURE__ */ jsxs2(Select.Trigger, { "aria-label": "Select theme", children: [
+      /* @__PURE__ */ jsx2("span", { "aria-hidden": true, style: DOT }),
+      /* @__PURE__ */ jsx2(Select.Value, {})
+    ] }),
+    /* @__PURE__ */ jsx2(Select.Content, { children: Array.from(themes.values()).map((def) => /* @__PURE__ */ jsxs2(Select.Item, { value: def.name, textValue: def.label, children: [
+      /* @__PURE__ */ jsx2("span", { "aria-hidden": true, style: DOT }),
+      def.label
+    ] }, def.name)) })
+  ] });
+}
+var ThemePicker = forwardRef(
+  function ThemePicker2({ descriptions = {}, variant = "grid" }, ref) {
+    if (variant === "compact") {
+      return /* @__PURE__ */ jsx2("div", { ref, style: { display: "inline-block" }, children: /* @__PURE__ */ jsx2(CompactView, {}) });
+    }
+    return /* @__PURE__ */ jsx2("div", { ref, children: /* @__PURE__ */ jsx2(GridView, { descriptions }) });
+  }
+);
+
+// src/icons/icons.tsx
+import { jsx as jsx3, jsxs as jsxs3 } from "react/jsx-runtime";
+function svgProps(size, style) {
+  return {
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 2,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    style
+  };
+}
+function IconClose({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M18 6L6 18M6 6l12 12" }) });
+}
+function IconChevronRight({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M9 18l6-6-6-6" }) });
+}
+function IconChevronDown({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M6 9l6 6 6-6" }) });
+}
+function IconChevronLeft({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M15 18l-6-6 6-6" }) });
+}
+function IconChevronUp({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M18 15l-6-6-6 6" }) });
+}
+function IconCheck({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M20 6L9 17l-5-5" }) });
+}
+function IconCheckCircle({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
+    /* @__PURE__ */ jsx3("path", { d: "M22 11.08V12a10 10 0 11-5.93-9.14" }),
+    /* @__PURE__ */ jsx3("path", { d: "M22 4L12 14.01l-3-3" })
+  ] });
+}
+function IconWarning({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
+    /* @__PURE__ */ jsx3("path", { d: "M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" }),
+    /* @__PURE__ */ jsx3("line", { x1: "12", y1: "9", x2: "12", y2: "13" }),
+    /* @__PURE__ */ jsx3("line", { x1: "12", y1: "17", x2: "12.01", y2: "17" })
+  ] });
+}
+function IconError({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
+    /* @__PURE__ */ jsx3("circle", { cx: "12", cy: "12", r: "10" }),
+    /* @__PURE__ */ jsx3("path", { d: "M15 9l-6 6M9 9l6 6" })
+  ] });
+}
+function IconInfo({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
+    /* @__PURE__ */ jsx3("circle", { cx: "12", cy: "12", r: "10" }),
+    /* @__PURE__ */ jsx3("line", { x1: "12", y1: "16", x2: "12", y2: "12" }),
+    /* @__PURE__ */ jsx3("line", { x1: "12", y1: "8", x2: "12.01", y2: "8" })
+  ] });
+}
+function IconSearch({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
+    /* @__PURE__ */ jsx3("circle", { cx: "11", cy: "11", r: "8" }),
+    /* @__PURE__ */ jsx3("path", { d: "M21 21l-4.35-4.35" })
+  ] });
+}
+function IconTrash({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" }) });
+}
+function IconSettings({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
+    /* @__PURE__ */ jsx3("circle", { cx: "12", cy: "12", r: "3" }),
+    /* @__PURE__ */ jsx3("path", { d: "M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" })
+  ] });
+}
+function IconPlus({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M12 5v14M5 12h14" }) });
+}
+function IconMinus({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M5 12h14" }) });
+}
+function IconEdit({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
+    /* @__PURE__ */ jsx3("path", { d: "M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" }),
+    /* @__PURE__ */ jsx3("path", { d: "M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" })
+  ] });
+}
+function IconArrowLeft({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M19 12H5M12 19l-7-7 7-7" }) });
+}
+function IconArrowRight({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M5 12h14M12 5l7 7-7 7" }) });
+}
+function IconMenu({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M3 12h18M3 6h18M3 18h18" }) });
+}
+function IconEye({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
+    /* @__PURE__ */ jsx3("path", { d: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" }),
+    /* @__PURE__ */ jsx3("circle", { cx: "12", cy: "12", r: "3" })
+  ] });
+}
+function IconEyeOff({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
+    /* @__PURE__ */ jsx3("path", { d: "M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" }),
+    /* @__PURE__ */ jsx3("path", { d: "M1 1l22 22" })
+  ] });
+}
+function IconCopy({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
+    /* @__PURE__ */ jsx3("rect", { x: "9", y: "9", width: "13", height: "13", rx: "2", ry: "2" }),
+    /* @__PURE__ */ jsx3("path", { d: "M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" })
+  ] });
+}
+function IconExternalLink({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" }) });
+}
+function IconMoreVertical({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
+    /* @__PURE__ */ jsx3("circle", { cx: "12", cy: "12", r: "1" }),
+    /* @__PURE__ */ jsx3("circle", { cx: "12", cy: "5", r: "1" }),
+    /* @__PURE__ */ jsx3("circle", { cx: "12", cy: "19", r: "1" })
+  ] });
+}
+function IconFilter({ size = 24, style } = {}) {
+  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M22 3H2l8 9.46V19l4 2v-8.54L22 3z" }) });
+}
+
+// src/icons/index.ts
+var iconRegistry = {
+  "close": IconClose,
+  "chevron-right": IconChevronRight,
+  "chevron-down": IconChevronDown,
+  "chevron-left": IconChevronLeft,
+  "chevron-up": IconChevronUp,
+  "check": IconCheck,
+  "check-circle": IconCheckCircle,
+  "warning": IconWarning,
+  "error": IconError,
+  "info": IconInfo,
+  "search": IconSearch,
+  "trash": IconTrash,
+  "settings": IconSettings,
+  "plus": IconPlus,
+  "minus": IconMinus,
+  "edit": IconEdit,
+  "arrow-left": IconArrowLeft,
+  "arrow-right": IconArrowRight,
+  "menu": IconMenu,
+  "eye": IconEye,
+  "eye-off": IconEyeOff,
+  "copy": IconCopy,
+  "external-link": IconExternalLink,
+  "more-vertical": IconMoreVertical,
+  "filter": IconFilter
+};
+
+// src/components/Button/Button.tsx
+import { forwardRef as forwardRef2 } from "react";
+import { semantic as t2, useInjectStyles as useInjectStyles3, Slot } from "../../core/dist/index.js";
+import { jsx as jsx4 } from "react/jsx-runtime";
+var variantStyles = {
+  primary: {
+    background: t2.colorActionPrimary,
+    color: t2.colorTextInverse,
+    border: "none"
+  },
+  secondary: {
+    background: t2.colorActionSecondary,
+    color: t2.colorText,
+    border: `${t2.borderWidthDefault} solid ${t2.colorBorder}`
+  },
+  destructive: {
+    background: t2.colorActionDestructive,
+    color: t2.colorTextInverse,
+    border: "none"
+  },
+  ghost: {
+    background: "transparent",
+    color: t2.colorText,
+    border: `${t2.borderWidthDefault} solid transparent`
+  }
+};
+var sizeStyles = {
+  sm: {
+    padding: `${t2.spaceXs} ${t2.spaceSm}`,
+    fontSize: t2.fontSizeSm,
+    lineHeight: t2.lineHeightTight
+  },
+  md: {
+    padding: `${t2.spaceSm} ${t2.spaceMd}`,
+    fontSize: t2.fontSizeSm,
+    lineHeight: t2.lineHeightTight
+  },
+  lg: {
+    padding: `${t2.spaceSm} ${t2.spaceLg}`,
+    fontSize: t2.fontSizeBase,
+    lineHeight: t2.lineHeightBase
+  }
+};
+var baseStyles = {
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: t2.spaceSm,
+  borderRadius: t2.radiusMd,
+  fontFamily: t2.fontSans,
+  fontWeight: t2.fontWeightMedium,
+  cursor: "pointer",
+  transition: `background ${t2.transitionBase}, border-color ${t2.transitionBase}, opacity ${t2.transitionBase}`
+};
+var SPINNER_STYLES_ID = "alttab-button-spinner";
+var spinnerCSS = (
+  /* css */
+  `
+  @keyframes alttab-btn-spin {
+    to { transform: rotate(360deg); }
+  }
+  .alttab-btn-spinner {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: ${t2.borderWidthThick} solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: alttab-btn-spin 600ms linear infinite;
+  }
+`
+);
+var iconOnlyPadding = {
+  sm: t2.spaceXs,
+  md: t2.spaceSm,
+  lg: t2.spaceSm
+};
+var Button = forwardRef2(
+  function Button2({
+    variant = "primary",
+    size = "md",
+    loading = false,
+    iconOnly = false,
+    asChild = false,
+    children,
+    disabled,
+    onClick,
+    type,
+    form,
+    name,
+    value,
+    tabIndex,
+    autoFocus,
+    id,
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledBy,
+    "aria-describedby": ariaDescribedBy,
+    "aria-expanded": ariaExpanded,
+    "aria-controls": ariaControls,
+    "aria-haspopup": ariaHasPopup,
+    "data-testid": dataTestId
+  }, ref) {
+    useInjectStyles3(SPINNER_STYLES_ID, spinnerCSS);
+    const isDisabled2 = disabled || loading;
+    const style = {
+      ...baseStyles,
+      ...variantStyles[variant],
+      ...sizeStyles[size],
+      ...iconOnly ? { padding: iconOnlyPadding[size], aspectRatio: "1", minWidth: 0 } : {},
+      ...isDisabled2 ? { opacity: 0.5, cursor: "not-allowed" } : {}
+    };
+    const commonProps = {
+      tabIndex,
+      id,
+      onClick,
+      "aria-busy": loading || void 0,
+      "aria-label": ariaLabel,
+      "aria-labelledby": ariaLabelledBy,
+      "aria-describedby": ariaDescribedBy,
+      "aria-expanded": ariaExpanded,
+      "aria-controls": ariaControls,
+      "aria-haspopup": ariaHasPopup,
+      "data-testid": dataTestId,
+      style
+    };
+    if (asChild) {
+      return /* @__PURE__ */ jsx4(
+        Slot,
+        {
+          ref,
+          ...commonProps,
+          "aria-disabled": isDisabled2 || void 0,
+          children
+        }
+      );
+    }
+    return /* @__PURE__ */ jsx4(
+      "button",
+      {
+        ref,
+        type,
+        form,
+        name,
+        value,
+        autoFocus,
+        disabled: isDisabled2,
+        ...commonProps,
+        children: loading ? /* @__PURE__ */ jsx4("span", { className: "alttab-btn-spinner" }) : children
+      }
+    );
+  }
+);
+
+// src/components/Stack/Stack.tsx
+import { forwardRef as forwardRef3 } from "react";
+
+// src/types.ts
+import { semantic as t3 } from "../../core/dist/index.js";
+var alignMap = {
+  start: "flex-start",
+  center: "center",
+  end: "flex-end",
+  stretch: "stretch",
+  baseline: "baseline"
+};
+var justifyMap = {
+  start: "flex-start",
+  center: "center",
+  end: "flex-end",
+  "space-between": "space-between",
+  "space-around": "space-around",
+  "space-evenly": "space-evenly"
+};
+var semanticColorMap = {
+  primary: t3.colorActionPrimary,
+  success: t3.colorSuccess,
+  warning: t3.colorWarning,
+  error: t3.colorError,
+  info: t3.colorInfo,
+  muted: t3.colorTextMuted
+};
+var iconSizeMap = {
+  xs: 14,
+  sm: 16,
+  md: 20,
+  lg: 24,
+  xl: 32
+};
+var modalWidthMap = {
+  sm: 400,
+  md: 480,
+  lg: 520,
+  xl: 640
+};
+var progressBarHeightMap = {
+  sm: 4,
+  md: 6,
+  lg: 10
+};
+var dividerOpacityMap = {
+  subtle: 25,
+  default: 50,
+  strong: 75
+};
+var spacingMap = {
+  xs: t3.spaceXs,
+  sm: t3.spaceSm,
+  md: t3.spaceMd,
+  lg: t3.spaceLg,
+  xl: t3.spaceXl,
+  "2xl": t3.space2xl
+};
+var radiusMap = {
+  none: "0",
+  sm: t3.radiusSm,
+  md: t3.radiusMd,
+  lg: t3.radiusLg,
+  full: t3.radiusFull
+};
+var shadowMap = {
+  sm: t3.shadowSm,
+  md: t3.shadowMd,
+  lg: t3.shadowLg
+};
+
+// src/components/Stack/Stack.tsx
+import { jsx as jsx5 } from "react/jsx-runtime";
+var gapMap = spacingMap;
+var Stack = forwardRef3(
+  function Stack2({
+    direction = "vertical",
+    gap = "md",
+    align,
+    justify,
+    wrap,
+    children,
+    ...rest
+  }, ref) {
+    return /* @__PURE__ */ jsx5(
+      "div",
+      {
+        ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
+        style: {
+          display: "flex",
+          flexDirection: direction === "vertical" ? "column" : "row",
+          gap: gapMap[gap],
+          alignItems: align ? alignMap[align] : void 0,
+          justifyContent: justify ? justifyMap[justify] : void 0,
+          flexWrap: wrap ? "wrap" : void 0
+        },
+        children
+      }
+    );
+  }
+);
+
+// src/components/Card/Card.tsx
+import { forwardRef as forwardRef5, useEffect as useEffect3, useRef as useRef2 } from "react";
+import { semantic as t5, useInjectStyles as useInjectStyles4, useThemeRhythm, Slot as Slot3 } from "../../core/dist/index.js";
+
+// src/components/Surface/Surface.tsx
+import { createElement, forwardRef as forwardRef4 } from "react";
+import { semantic as t4, Slot as Slot2 } from "../../core/dist/index.js";
+import { jsx as jsx6 } from "react/jsx-runtime";
+var levelMap = {
+  page: t4.colorSurfacePage,
+  default: t4.colorSurface,
+  solid: t4.colorSurfaceSolid,
+  raised: t4.colorSurfaceRaised,
+  panel: t4.colorSurfacePanel,
+  input: t4.colorSurfaceInput,
+  overlay: t4.colorSurfaceOverlay
+};
+function getSurfaceStyle({
+  level = "solid",
+  tint,
+  padding,
+  radius = "lg",
+  border = false,
+  shadow
+}) {
+  const borderValue = border === true ? `${t4.borderWidthDefault} solid ${t4.colorBorder}` : typeof border === "string" ? `${t4.borderWidthDefault} solid ${semanticColorMap[border]}` : void 0;
+  const tintBg = tint ? `color-mix(in srgb, ${semanticColorMap[tint]} 10%, transparent)` : void 0;
+  return {
+    background: tintBg ?? levelMap[level],
+    padding: padding ? spacingMap[padding] : void 0,
+    borderRadius: radiusMap[radius],
+    border: borderValue,
+    boxShadow: shadow ? shadowMap[shadow] : void 0,
+    color: t4.colorText
+  };
+}
+var Surface = forwardRef4(
+  function Surface2({
+    level = "solid",
+    tint,
+    padding,
+    radius = "lg",
+    border = false,
+    shadow,
+    as = "div",
+    asChild = false,
+    children,
+    ...rest
+  }, ref) {
+    const style = getSurfaceStyle({ level, tint, padding, radius, border, shadow });
+    const commonProps = {
+      id: rest.id,
+      "data-testid": rest["data-testid"],
+      "aria-label": rest["aria-label"],
+      "aria-labelledby": rest["aria-labelledby"],
+      style
+    };
+    if (asChild) {
+      return /* @__PURE__ */ jsx6(Slot2, { ref, ...commonProps, children });
+    }
+    return createElement(as, { ref, ...commonProps }, children);
+  }
+);
+
+// src/components/Card/Card.tsx
+import { jsx as jsx7 } from "react/jsx-runtime";
+var variantSurfaceProps = {
+  default: { level: "solid", border: true, shadow: "sm" },
+  flat: { level: "raised", border: true },
+  elevated: { level: "solid", border: true, shadow: "md" }
+};
+var HOVER_STYLES_ID = "4lt7ab-card-hover";
+var HOVER_STYLES_CSS = `
+[data-card-hover] {
+  cursor: pointer;
+  transition: transform ${t5.transitionSlow}, border-color ${t5.transitionSlow}, box-shadow ${t5.transitionSlow};
+}
+[data-card-hover]:hover {
+  transform: translateY(-2px);
+  border-color: ${t5.colorBorderFocused};
+  box-shadow: ${t5.shadowMd};
+}
+`;
+var GLOW_STYLES_ID = "4lt7ab-card-glow";
+var GLOW_STYLES_CSS = `
+[data-card-glow] {
+  --card-glow-strength: 0;
+}
+`;
+var GLOW_BOX_SHADOW = `0 0 calc(var(--card-glow-strength, 0) * 16px) calc(var(--card-glow-strength, 0) * 2px) color-mix(in srgb, ${t5.colorActionPrimary} calc(var(--card-glow-strength, 0) * 70%), transparent)`;
+function prefersReducedMotion() {
+  if (typeof window === "undefined" || !window.matchMedia) return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+var Card = forwardRef5(
+  function Card2({
+    variant = "default",
+    padding = "lg",
+    hover = false,
+    glow = false,
+    asChild = false,
+    children,
+    ...rest
+  }, ref) {
+    useInjectStyles4(HOVER_STYLES_ID, HOVER_STYLES_CSS);
+    useInjectStyles4(GLOW_STYLES_ID, GLOW_STYLES_CSS);
+    const internalRef = useRef2(null);
+    const setRef = (node) => {
+      internalRef.current = node;
+      if (typeof ref === "function") ref(node);
+      else if (ref) ref.current = node;
+    };
+    const { config, subscribe } = useThemeRhythm();
+    useEffect3(() => {
+      if (!glow || !config || prefersReducedMotion()) return;
+      const el = internalRef.current;
+      if (!el) return;
+      const unsubscribe = subscribe((phase) => {
+        el.style.setProperty("--card-glow-strength", String(phase));
+      });
+      return () => {
+        unsubscribe();
+        el.style.removeProperty("--card-glow-strength");
+      };
+    }, [glow, config, subscribe]);
+    const surfaceProps = {
+      ...variantSurfaceProps[variant],
+      padding,
+      radius: "lg",
+      asChild: true
+    };
+    const cardSlotProps = {
+      "data-card-hover": hover ? "" : void 0,
+      "data-card-glow": glow ? "" : void 0,
+      id: rest.id,
+      "data-testid": rest["data-testid"]
+    };
+    if (glow) {
+      cardSlotProps.style = { boxShadow: GLOW_BOX_SHADOW };
+    }
+    if (asChild) {
+      return /* @__PURE__ */ jsx7(Surface, { ...surfaceProps, children: /* @__PURE__ */ jsx7(Slot3, { ref: setRef, ...cardSlotProps, children }) });
+    }
+    return /* @__PURE__ */ jsx7(Surface, { ...surfaceProps, children: /* @__PURE__ */ jsx7("div", { ref: setRef, ...cardSlotProps, children }) });
+  }
+);
+
+// src/components/LinkCard/LinkCard.tsx
+import { forwardRef as forwardRef6 } from "react";
+import { semantic as t6, useInjectStyles as useInjectStyles5 } from "../../core/dist/index.js";
+import { jsx as jsx8, jsxs as jsxs4 } from "react/jsx-runtime";
+var STYLES_ID = "alttab-link-card";
+var linkCardCSS = (
+  /* css */
+  `
+  .alttab-link-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color ${t6.transitionBase}, transform ${t6.transitionBase};
+  }
+
+  .alttab-link-card:hover {
+    border-color: ${t6.colorTextLink};
+    transform: translateY(-2px);
+  }
+
+  .alttab-link-card__title {
+    display: block;
+    font-family: ${t6.fontSerif};
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: ${t6.colorText};
+    margin-bottom: 0.25rem;
+  }
+
+  .alttab-link-card__desc {
+    display: block;
+    font-size: 0.875rem;
+    color: ${t6.colorTextMuted};
+  }
+`
+);
+var LinkCard = forwardRef6(function LinkCard2({
+  title,
+  description,
+  external,
+  href,
+  target,
+  rel,
+  onClick,
+  id,
+  "aria-label": ariaLabel,
+  "data-testid": dataTestId
+}, ref) {
+  useInjectStyles5(STYLES_ID, linkCardCSS);
+  return /* @__PURE__ */ jsx8(Card, { asChild: true, children: /* @__PURE__ */ jsxs4(
+    "a",
+    {
+      ref,
+      className: "alttab-link-card",
+      href,
+      target: external ? "_blank" : target,
+      rel: external ? "noopener noreferrer" : rel,
+      onClick,
+      id,
+      "aria-label": ariaLabel,
+      "data-testid": dataTestId,
+      children: [
+        /* @__PURE__ */ jsx8("span", { className: "alttab-link-card__title", children: title }),
+        description && /* @__PURE__ */ jsx8("span", { className: "alttab-link-card__desc", children: description })
+      ]
+    }
+  ) });
+});
+
+// src/components/Field/Field.tsx
+import { semantic as t7 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef7, useId as useId2, isValidElement, cloneElement } from "react";
+import { jsx as jsx9, jsxs as jsxs5 } from "react/jsx-runtime";
+var labelStyle = {
+  display: "block",
+  fontSize: t7.fontSizeSm,
+  fontWeight: t7.fontWeightMedium,
+  lineHeight: t7.lineHeightTight,
+  color: t7.colorText,
+  fontFamily: t7.fontSans
+};
+var requiredStyle = {
+  color: t7.colorError,
+  marginLeft: "0.125rem"
+};
+var helpStyle = {
+  fontSize: t7.fontSizeXs,
+  lineHeight: t7.lineHeightTight,
+  color: t7.colorTextMuted,
+  fontFamily: t7.fontSans,
+  margin: 0
+};
+var errorStyle = {
+  fontSize: t7.fontSizeXs,
+  lineHeight: t7.lineHeightTight,
+  color: t7.colorError,
+  fontFamily: t7.fontSans,
+  margin: 0
+};
+var Field = forwardRef7(
+  function Field2({
+    label,
+    htmlFor,
+    error,
+    help,
+    required,
+    disabled,
+    children,
+    ...rest
+  }, ref) {
+    const autoId = useId2();
+    const helpId = help ? `${autoId}-help` : void 0;
+    const errorId = error ? `${autoId}-error` : void 0;
+    const describedBy = [errorId, helpId].filter(Boolean).join(" ") || void 0;
+    const enhancedChildren = isValidElement(children) ? cloneElement(children, {
+      "aria-describedby": describedBy
+    }) : children;
+    return /* @__PURE__ */ jsxs5(
+      "div",
+      {
+        ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
+        "aria-describedby": rest["aria-describedby"],
+        style: {
+          display: "flex",
+          flexDirection: "column",
+          gap: t7.spaceXs,
+          opacity: disabled ? 0.6 : void 0
+        },
+        children: [
+          /* @__PURE__ */ jsxs5("label", { htmlFor, style: labelStyle, children: [
+            label,
+            required && /* @__PURE__ */ jsx9("span", { style: requiredStyle, "aria-hidden": "true", children: "*" })
+          ] }),
+          enhancedChildren,
+          error && /* @__PURE__ */ jsx9("p", { id: errorId, role: "alert", style: errorStyle, children: error }),
+          !error && help && /* @__PURE__ */ jsx9("p", { id: helpId, style: helpStyle, children: help })
+        ]
+      }
+    );
+  }
+);
+
+// src/components/Input/Input.tsx
+import { forwardRef as forwardRef8 } from "react";
+import { semantic as t8 } from "../../core/dist/index.js";
+import { jsx as jsx10 } from "react/jsx-runtime";
+var baseStyle = {
+  display: "block",
+  width: "100%",
+  padding: `${t8.spaceSm} ${t8.spaceMd}`,
+  fontSize: t8.fontSizeSm,
+  lineHeight: t8.lineHeightTight,
+  fontFamily: t8.fontSans,
+  color: t8.colorText,
+  background: t8.colorSurfaceInput,
+  border: `${t8.borderWidthDefault} solid ${t8.colorBorder}`,
+  borderRadius: t8.radiusMd,
+  outline: "none",
+  transition: `border-color ${t8.transitionBase}, box-shadow ${t8.transitionBase}`,
+  boxSizing: "border-box"
+};
+var errorBorderStyle2 = {
+  borderColor: t8.colorBorderError
+};
+var disabledStyle2 = {
+  background: t8.colorSurfaceDisabled,
+  color: t8.colorTextDisabled,
+  cursor: "not-allowed"
+};
+var Input = forwardRef8(
+  function Input2({
+    hasError,
+    disabled,
+    type,
+    value,
+    defaultValue,
+    onChange,
+    onFocus,
+    onBlur,
+    onKeyDown,
+    placeholder,
+    readOnly,
+    maxLength,
+    min,
+    max,
+    step,
+    pattern,
+    inputMode,
+    name,
+    required,
+    autoFocus,
+    autoComplete,
+    id,
+    form,
+    tabIndex,
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledBy,
+    "aria-describedby": ariaDescribedBy,
+    "aria-invalid": ariaInvalid,
+    "data-testid": dataTestId
+  }, ref) {
+    return /* @__PURE__ */ jsx10(
+      "input",
+      {
+        ref,
+        type,
+        value,
+        defaultValue,
+        onChange,
+        onFocus,
+        onBlur,
+        onKeyDown,
+        placeholder,
+        readOnly,
+        maxLength,
+        min,
+        max,
+        step,
+        pattern,
+        inputMode,
+        name,
+        disabled,
+        required,
+        autoFocus,
+        autoComplete,
+        id,
+        form,
+        tabIndex,
+        "aria-invalid": ariaInvalid ?? (hasError || void 0),
+        "aria-label": ariaLabel,
+        "aria-labelledby": ariaLabelledBy,
+        "aria-describedby": ariaDescribedBy,
+        "data-testid": dataTestId,
+        style: {
+          ...baseStyle,
+          ...hasError ? errorBorderStyle2 : {},
+          ...disabled ? disabledStyle2 : {}
+        }
+      }
+    );
+  }
+);
+
+// src/components/Textarea/Textarea.tsx
+import { forwardRef as forwardRef9 } from "react";
+import { semantic as t9 } from "../../core/dist/index.js";
+import { jsx as jsx11 } from "react/jsx-runtime";
+var baseStyle2 = {
+  display: "block",
+  width: "100%",
+  padding: `${t9.spaceSm} ${t9.spaceMd}`,
+  fontSize: t9.fontSizeSm,
+  lineHeight: t9.lineHeightBase,
+  fontFamily: t9.fontSans,
+  color: t9.colorText,
+  background: t9.colorSurfaceInput,
+  border: `${t9.borderWidthDefault} solid ${t9.colorBorder}`,
+  borderRadius: t9.radiusMd,
+  outline: "none",
+  transition: `border-color ${t9.transitionBase}, box-shadow ${t9.transitionBase}`,
+  boxSizing: "border-box",
+  resize: "vertical",
+  minHeight: "5rem"
+};
+var errorBorderStyle3 = {
+  borderColor: t9.colorBorderError
+};
+var disabledStyle3 = {
+  background: t9.colorSurfaceDisabled,
+  color: t9.colorTextDisabled,
+  cursor: "not-allowed",
+  resize: "none"
+};
+var Textarea = forwardRef9(
+  function Textarea2({
+    hasError,
+    disabled,
+    value,
+    defaultValue,
+    onChange,
+    onFocus,
+    onBlur,
+    onKeyDown,
+    placeholder,
+    readOnly,
+    rows,
+    maxLength,
+    name,
+    required,
+    autoFocus,
+    id,
+    form,
+    tabIndex,
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledBy,
+    "aria-describedby": ariaDescribedBy,
+    "aria-invalid": ariaInvalid,
+    "data-testid": dataTestId
+  }, ref) {
+    return /* @__PURE__ */ jsx11(
+      "textarea",
+      {
+        ref,
+        value,
+        defaultValue,
+        onChange,
+        onFocus,
+        onBlur,
+        onKeyDown,
+        placeholder,
+        readOnly,
+        rows,
+        maxLength,
+        name,
+        disabled,
+        required,
+        autoFocus,
+        id,
+        form,
+        tabIndex,
+        "aria-invalid": ariaInvalid ?? (hasError || void 0),
+        "aria-label": ariaLabel,
+        "aria-labelledby": ariaLabelledBy,
+        "aria-describedby": ariaDescribedBy,
+        "data-testid": dataTestId,
+        style: {
+          ...baseStyle2,
+          ...hasError ? errorBorderStyle3 : {},
+          ...disabled ? disabledStyle3 : {}
+        }
+      }
+    );
+  }
+);
+
 // src/components/Badge/Badge.tsx
-import { forwardRef as forwardRef11 } from "react";
+import { forwardRef as forwardRef10 } from "react";
 import { semantic as t10 } from "../../core/dist/index.js";
-import { jsx as jsx13 } from "react/jsx-runtime";
+import { jsx as jsx12 } from "react/jsx-runtime";
 var variantStyles2 = {
   default: {
     border: `${t10.borderWidthDefault} solid ${t10.colorBorder}`,
@@ -1886,7 +1635,7 @@ var xsBaseStyles = {
   letterSpacing: t10.letterSpacingWide,
   textTransform: "lowercase"
 };
-var Badge = forwardRef11(
+var Badge = forwardRef10(
   function Badge2({
     children,
     variant = "default",
@@ -1895,7 +1644,7 @@ var Badge = forwardRef11(
   }, ref) {
     const isXs = size === "xs";
     const base = isXs ? xsBaseStyles : baseStyles2;
-    return /* @__PURE__ */ jsx13(
+    return /* @__PURE__ */ jsx12(
       "span",
       {
         ref,
@@ -1906,6 +1655,70 @@ var Badge = forwardRef11(
           ...variantStyles2[variant]
         },
         children
+      }
+    );
+  }
+);
+
+// src/components/Icon/Icon.tsx
+import { forwardRef as forwardRef11, createContext as createContext2, useContext as useContext2 } from "react";
+import { jsx as jsx13 } from "react/jsx-runtime";
+var IconFontContext = createContext2(void 0);
+function IconFontProvider({ fontClass, children }) {
+  return /* @__PURE__ */ jsx13(IconFontContext.Provider, { value: fontClass, children });
+}
+var Icon = forwardRef11(
+  function Icon2({ name, size = "lg", fontClass, "aria-label": ariaLabel, id, "data-testid": dataTestId }, ref) {
+    const contextFontClass = useContext2(IconFontContext);
+    const IconComponent = iconRegistry[name];
+    const isDecorative = !ariaLabel;
+    const px = iconSizeMap[size];
+    const resolvedFontClass = fontClass ?? contextFontClass;
+    if (!IconComponent && resolvedFontClass) {
+      return /* @__PURE__ */ jsx13(
+        "span",
+        {
+          ref,
+          id,
+          "data-testid": dataTestId,
+          role: isDecorative ? void 0 : "img",
+          "aria-hidden": isDecorative || void 0,
+          "aria-label": ariaLabel,
+          className: resolvedFontClass,
+          style: {
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            minWidth: px,
+            minHeight: px,
+            fontSize: px,
+            lineHeight: 1,
+            color: "inherit",
+            fontStyle: "normal"
+          },
+          children: name
+        }
+      );
+    }
+    return /* @__PURE__ */ jsx13(
+      "span",
+      {
+        ref,
+        id,
+        "data-testid": dataTestId,
+        role: isDecorative ? void 0 : "img",
+        "aria-hidden": isDecorative || void 0,
+        "aria-label": ariaLabel,
+        style: {
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: px,
+          height: px,
+          lineHeight: 1,
+          color: "inherit"
+        },
+        children: IconComponent ? /* @__PURE__ */ jsx13(IconComponent, { size: px }) : null
       }
     );
   }
@@ -2365,7 +2178,7 @@ var Header = forwardRef18(
 );
 
 // src/components/ModalShell/ModalShell.tsx
-import { forwardRef as forwardRef19, useEffect as useEffect5, useId as useId4, useRef as useRef4 } from "react";
+import { forwardRef as forwardRef19, useEffect as useEffect4, useId as useId4, useRef as useRef3 } from "react";
 import { createPortal } from "react-dom";
 import { semantic as t18 } from "../../core/dist/index.js";
 import { Fragment as Fragment3, jsx as jsx21, jsxs as jsxs11 } from "react/jsx-runtime";
@@ -2401,7 +2214,7 @@ var ModalShell = forwardRef19(
   }, ref) {
     const generatedId = useId4();
     const resolvedLabelId = titleId ?? generatedId;
-    const internalRef = useRef4(null);
+    const internalRef = useRef3(null);
     const setRefs = (node) => {
       internalRef.current = node;
       if (typeof ref === "function") {
@@ -2411,7 +2224,7 @@ var ModalShell = forwardRef19(
       }
     };
     useFocusTrap(internalRef);
-    useEffect5(() => {
+    useEffect4(() => {
       const previouslyFocused = document.activeElement;
       const container = internalRef.current;
       if (container) {
@@ -2426,7 +2239,7 @@ var ModalShell = forwardRef19(
         previouslyFocused?.focus();
       };
     }, []);
-    useEffect5(() => {
+    useEffect4(() => {
       const handleKeyDown = (e) => {
         if (e.key === "Escape") {
           onClose();
@@ -2512,7 +2325,7 @@ var tagChipStyle = {
 };
 
 // src/components/ConfirmDialog/ConfirmDialog.tsx
-import { forwardRef as forwardRef20, useId as useId5, useState as useState3 } from "react";
+import { forwardRef as forwardRef20, useId as useId5, useState as useState2 } from "react";
 import { semantic as t21 } from "../../core/dist/index.js";
 import { jsx as jsx22, jsxs as jsxs12 } from "react/jsx-runtime";
 var variantButtonMap = {
@@ -2530,7 +2343,7 @@ var ConfirmDialog = forwardRef20(
     children,
     variant = "destructive"
   }, ref) {
-    const [loading, setLoading] = useState3(false);
+    const [loading, setLoading] = useState2(false);
     const titleId = useId5();
     const handleConfirm = async () => {
       setLoading(true);
@@ -2889,11 +2702,11 @@ var TableEmptyRow = forwardRef22(
 // src/components/Table/FilterBar.tsx
 import {
   createContext as createContext3,
-  useCallback as useCallback3,
+  useCallback as useCallback2,
   useContext as useContext3,
-  useEffect as useEffect6,
-  useRef as useRef5,
-  useState as useState4
+  useEffect as useEffect5,
+  useRef as useRef4,
+  useState as useState3
 } from "react";
 import { semantic as t24 } from "../../core/dist/index.js";
 import { jsx as jsx25, jsxs as jsxs13 } from "react/jsx-runtime";
@@ -2920,7 +2733,7 @@ function FilterBar({
       "<Table.FilterBar> received both `filters` and `children`. Pick one mode."
     );
   }
-  const commit = useCallback3(
+  const commit = useCallback2(
     (key, value) => {
       onChange({ ...values, [key]: value });
     },
@@ -2971,12 +2784,12 @@ function FilterBarText({
 }) {
   const { values, commit } = useFilterBarContext("Text");
   const external = values[field] ?? "";
-  const [local, setLocal] = useState4(external);
-  const timerRef = useRef5(null);
-  useEffect6(() => {
+  const [local, setLocal] = useState3(external);
+  const timerRef = useRef4(null);
+  useEffect5(() => {
     setLocal(external);
   }, [external]);
-  const handleChange = useCallback3(
+  const handleChange = useCallback2(
     (e) => {
       const next = e.target.value;
       setLocal(next);
@@ -2987,7 +2800,7 @@ function FilterBarText({
     },
     [commit, field, debounceMs]
   );
-  useEffect6(() => {
+  useEffect5(() => {
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
@@ -3001,7 +2814,7 @@ function FilterBarSelect({
 }) {
   const { values, commit } = useFilterBarContext("Select");
   const value = values[field] ?? "";
-  const handleValueChange = useCallback3(
+  const handleValueChange = useCallback2(
     (next) => {
       commit(field, next);
     },
@@ -3025,10 +2838,10 @@ var Table3 = Object.assign(Table, {
 // src/components/DateRangePicker/DateRangePicker.tsx
 import {
   forwardRef as forwardRef23,
-  useState as useState6,
-  useRef as useRef7,
-  useCallback as useCallback6,
-  useEffect as useEffect8,
+  useState as useState5,
+  useRef as useRef6,
+  useCallback as useCallback5,
+  useEffect as useEffect7,
   useMemo as useMemo4
 } from "react";
 import { semantic as t28, useInjectStyles as useInjectStyles11 } from "../../core/dist/index.js";
@@ -3036,10 +2849,10 @@ import { semantic as t28, useInjectStyles as useInjectStyles11 } from "../../cor
 // src/components/Calendar/Calendar.tsx
 import {
   createContext as createContext4,
-  useCallback as useCallback4,
+  useCallback as useCallback3,
   useContext as useContext4,
   useMemo as useMemo2,
-  useState as useState5
+  useState as useState4
 } from "react";
 import { jsx as jsx26 } from "react/jsx-runtime";
 var CalendarContext = createContext4(null);
@@ -3075,26 +2888,26 @@ function Root2({
   onViewDateChange,
   children
 }) {
-  const [focusedDateState, setFocusedDateState] = useState5(
+  const [focusedDateState, setFocusedDateState] = useState4(
     () => defaultFocusedDate ?? seedFocusedDate(selected) ?? /* @__PURE__ */ new Date()
   );
   const isControlled = focusedDateProp !== void 0;
   const focusedDate = isControlled ? focusedDateProp : focusedDateState;
-  const setFocusedDate = useCallback4(
+  const setFocusedDate = useCallback3(
     (date) => {
       if (!isControlled) setFocusedDateState(date);
       onFocusedDateChange?.(date);
     },
     [isControlled, onFocusedDateChange]
   );
-  const [viewDateState, setViewDateState] = useState5(
+  const [viewDateState, setViewDateState] = useState4(
     () => firstOfMonth(
       defaultViewDate ?? seedFocusedDate(selected) ?? /* @__PURE__ */ new Date()
     )
   );
   const isViewControlled = viewDateProp !== void 0;
   const viewDate = isViewControlled ? firstOfMonth(viewDateProp) : viewDateState;
-  const setViewDate = useCallback4(
+  const setViewDate = useCallback3(
     (date) => {
       const normalized = firstOfMonth(date);
       if (!isViewControlled) setViewDateState(normalized);
@@ -3102,7 +2915,7 @@ function Root2({
     },
     [isViewControlled, onViewDateChange]
   );
-  const handleSelect = useCallback4(
+  const handleSelect = useCallback3(
     (value) => {
       onSelect?.(value);
     },
@@ -3264,7 +3077,7 @@ function CalendarNav({
 }
 
 // src/components/Calendar/Grid.tsx
-import { useCallback as useCallback5, useMemo as useMemo3, useRef as useRef6, useEffect as useEffect7 } from "react";
+import { useCallback as useCallback4, useMemo as useMemo3, useRef as useRef5, useEffect as useEffect6 } from "react";
 import { semantic as t27, useInjectStyles as useInjectStyles10 } from "../../core/dist/index.js";
 
 // src/components/Calendar/Cell.tsx
@@ -3456,8 +3269,8 @@ function CalendarGridPrimitive({
 }) {
   useInjectStyles10(GRID_STYLES_ID2, gridCSS2);
   const ctx = useCalendarContext("Grid");
-  const tableRef = useRef6(null);
-  const todayRef = useRef6(/* @__PURE__ */ new Date());
+  const tableRef = useRef5(null);
+  const todayRef = useRef5(/* @__PURE__ */ new Date());
   const year = ctx.viewDate.getFullYear();
   const month = ctx.viewDate.getMonth();
   const grid = useMemo3(() => buildCalendarGrid(year, month), [year, month]);
@@ -3469,7 +3282,7 @@ function CalendarGridPrimitive({
     return out;
   }, [grid]);
   const { start: highlightStart, end: highlightEnd } = getHighlightBounds(ctx);
-  const isCellDisabled = useCallback5(
+  const isCellDisabled = useCallback4(
     (date) => {
       if (ctx.minDate && date.getTime() < stripTime2(ctx.minDate).getTime()) {
         return true;
@@ -3481,7 +3294,7 @@ function CalendarGridPrimitive({
     },
     [ctx.minDate, ctx.maxDate, ctx.disabledDate]
   );
-  const handleKeyDown = useCallback5(
+  const handleKeyDown = useCallback4(
     (e) => {
       if (e.key === "Escape") {
         if (onEscape) {
@@ -3516,7 +3329,7 @@ function CalendarGridPrimitive({
     },
     [ctx, month, year, isCellDisabled, onEscape]
   );
-  useEffect7(() => {
+  useEffect6(() => {
     const table = tableRef.current;
     if (!table) return;
     const btn = table.querySelector('button[tabindex="0"]');
@@ -3660,11 +3473,11 @@ var DateRangePicker = forwardRef23(
     disabled
   }, ref) {
     useInjectStyles11(SCOPE, injectedCSS);
-    const [open, setOpen] = useState6(false);
-    const [selectionStart, setSelectionStart] = useState6(null);
-    const [hoverDate, setHoverDate] = useState6(null);
-    const containerRef = useRef7(null);
-    useEffect8(() => {
+    const [open, setOpen] = useState5(false);
+    const [selectionStart, setSelectionStart] = useState5(null);
+    const [hoverDate, setHoverDate] = useState5(null);
+    const containerRef = useRef6(null);
+    useEffect7(() => {
       if (!open) return;
       function handleMouseDown(e) {
         if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -3676,14 +3489,14 @@ var DateRangePicker = forwardRef23(
       document.addEventListener("mousedown", handleMouseDown);
       return () => document.removeEventListener("mousedown", handleMouseDown);
     }, [open]);
-    useEffect8(() => {
+    useEffect7(() => {
       if (!open) return;
       const btn = containerRef.current?.querySelector(
         '[role="grid"] button[tabindex="0"]'
       );
       btn?.focus();
     }, [open]);
-    const handleToggle = useCallback6(() => {
+    const handleToggle = useCallback5(() => {
       if (disabled) return;
       setOpen((prev) => {
         if (prev) {
@@ -3693,7 +3506,7 @@ var DateRangePicker = forwardRef23(
         return !prev;
       });
     }, [disabled]);
-    const handleSelect = useCallback6(
+    const handleSelect = useCallback5(
       (v) => {
         if (!(v instanceof Date)) return;
         if (selectionStart === null) {
@@ -3709,7 +3522,7 @@ var DateRangePicker = forwardRef23(
       },
       [selectionStart, onChange]
     );
-    const handleFocusedDateChange = useCallback6(
+    const handleFocusedDateChange = useCallback5(
       (d) => {
         if (selectionStart !== null) setHoverDate(d);
       },
@@ -3807,7 +3620,7 @@ var DateRangePicker = forwardRef23(
 );
 
 // src/components/DatePicker/DatePicker.tsx
-import { forwardRef as forwardRef24, useState as useState7, useRef as useRef8, useCallback as useCallback7, useEffect as useEffect9, useMemo as useMemo5 } from "react";
+import { forwardRef as forwardRef24, useState as useState6, useRef as useRef7, useCallback as useCallback6, useEffect as useEffect8, useMemo as useMemo5 } from "react";
 import { semantic as t29, useInjectStyles as useInjectStyles12 } from "../../core/dist/index.js";
 import { jsx as jsx32, jsxs as jsxs16 } from "react/jsx-runtime";
 var SCOPE2 = "alttab-dp";
@@ -3889,9 +3702,9 @@ var DatePicker = forwardRef24(
     disabled
   }, ref) {
     useInjectStyles12(SCOPE2, injectedCSS2);
-    const [open, setOpen] = useState7(false);
-    const containerRef = useRef8(null);
-    useEffect9(() => {
+    const [open, setOpen] = useState6(false);
+    const containerRef = useRef7(null);
+    useEffect8(() => {
       if (!open) return;
       function handleMouseDown(e) {
         if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -3901,18 +3714,18 @@ var DatePicker = forwardRef24(
       document.addEventListener("mousedown", handleMouseDown);
       return () => document.removeEventListener("mousedown", handleMouseDown);
     }, [open]);
-    useEffect9(() => {
+    useEffect8(() => {
       if (!open) return;
       const btn = containerRef.current?.querySelector(
         '[role="grid"] button[tabindex="0"]'
       );
       btn?.focus();
     }, [open]);
-    const handleToggle = useCallback7(() => {
+    const handleToggle = useCallback6(() => {
       if (disabled) return;
       setOpen((o) => !o);
     }, [disabled]);
-    const handleSelect = useCallback7(
+    const handleSelect = useCallback6(
       (v) => {
         if (v === void 0) {
           onChange(void 0);
@@ -4106,11 +3919,11 @@ var ErrorBoundary = class extends React.Component {
 // src/components/Toast/Toast.tsx
 import {
   createContext as createContext5,
-  useCallback as useCallback8,
+  useCallback as useCallback7,
   useContext as useContext5,
-  useEffect as useEffect10,
-  useRef as useRef9,
-  useState as useState8
+  useEffect as useEffect9,
+  useRef as useRef8,
+  useState as useState7
 } from "react";
 import { createPortal as createPortal2 } from "react-dom";
 import { semantic as t31, useInjectStyles as useInjectStyles13 } from "../../core/dist/index.js";
@@ -4179,19 +3992,19 @@ function ToastMessage({
   item,
   onDismiss
 }) {
-  const [exiting, setExiting] = useState8(false);
-  const [paused, setPaused] = useState8(false);
-  const timerRef = useRef9(null);
-  const startedAtRef = useRef9(0);
-  const remainingRef = useRef9(item.duration);
+  const [exiting, setExiting] = useState7(false);
+  const [paused, setPaused] = useState7(false);
+  const timerRef = useRef8(null);
+  const startedAtRef = useRef8(0);
+  const remainingRef = useRef8(item.duration);
   const autoDismiss = item.duration > 0;
-  const clearTimer = useCallback8(() => {
+  const clearTimer = useCallback7(() => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
     }
   }, []);
-  const startTimer = useCallback8(() => {
+  const startTimer = useCallback7(() => {
     if (!autoDismiss || remainingRef.current <= 0) return;
     clearTimer();
     startedAtRef.current = Date.now();
@@ -4200,14 +4013,14 @@ function ToastMessage({
     }, remainingRef.current);
     setPaused(false);
   }, [autoDismiss, clearTimer]);
-  const pauseTimer = useCallback8(() => {
+  const pauseTimer = useCallback7(() => {
     if (!autoDismiss || !timerRef.current) return;
     const elapsed = Date.now() - startedAtRef.current;
     remainingRef.current = Math.max(0, remainingRef.current - elapsed);
     clearTimer();
     setPaused(true);
   }, [autoDismiss, clearTimer]);
-  useEffect10(() => {
+  useEffect9(() => {
     startTimer();
     return clearTimer;
   }, []);
@@ -4323,11 +4136,11 @@ function ToastProvider({
   children,
   position = "top-right"
 }) {
-  const [toasts, setToasts] = useState8([]);
-  const dismiss = useCallback8((id) => {
+  const [toasts, setToasts] = useState7([]);
+  const dismiss = useCallback7((id) => {
     setToasts((prev) => prev.filter((t40) => t40.id !== id));
   }, []);
-  const showToast = useCallback8(
+  const showToast = useCallback7(
     (message, typeOrOptions) => {
       const opts = typeof typeOrOptions === "string" ? { type: typeOrOptions } : typeOrOptions ?? {};
       const item = {
@@ -4349,13 +4162,13 @@ function ToastProvider({
 // src/components/Combobox/Combobox.tsx
 import {
   createContext as createContext6,
-  useCallback as useCallback9,
+  useCallback as useCallback8,
   useContext as useContext6,
-  useEffect as useEffect11,
+  useEffect as useEffect10,
   useId as useId7,
   useMemo as useMemo6,
-  useRef as useRef10,
-  useState as useState9
+  useRef as useRef9,
+  useState as useState8
 } from "react";
 import { semantic as t32, useInjectStyles as useInjectStyles14 } from "../../core/dist/index.js";
 import { jsx as jsx35 } from "react/jsx-runtime";
@@ -4423,17 +4236,17 @@ function Root3({
   useInjectStyles14(COMBOBOX_STYLES_ID, comboboxCSS);
   const instanceId = useId7();
   const listboxId = `${instanceId}-listbox`;
-  const [internalValue, setInternalValue] = useState9(defaultValue ?? "");
+  const [internalValue, setInternalValue] = useState8(defaultValue ?? "");
   const isControlled = controlledValue !== void 0;
   const value = isControlled ? controlledValue : internalValue;
-  const [open, setOpen] = useState9(false);
-  const [focusedValue, setFocusedValue] = useState9(null);
-  const [dropDirection, setDropDirection] = useState9("down");
-  const containerRef = useRef10(null);
-  const inputRef = useRef10(null);
-  const suppressNextOpenRef = useRef10(false);
-  const [items, setItems] = useState9([]);
-  const registerItem = useCallback9((item) => {
+  const [open, setOpen] = useState8(false);
+  const [focusedValue, setFocusedValue] = useState8(null);
+  const [dropDirection, setDropDirection] = useState8("down");
+  const containerRef = useRef9(null);
+  const inputRef = useRef9(null);
+  const suppressNextOpenRef = useRef9(false);
+  const [items, setItems] = useState8([]);
+  const registerItem = useCallback8((item) => {
     setItems((prev) => {
       if (prev.some((p) => p.value === item.value)) {
         return prev.map((p) => p.value === item.value ? item : p);
@@ -4441,17 +4254,17 @@ function Root3({
       return [...prev, item];
     });
   }, []);
-  const unregisterItem = useCallback9((itemValue) => {
+  const unregisterItem = useCallback8((itemValue) => {
     setItems((prev) => prev.filter((p) => p.value !== itemValue));
   }, []);
-  const setValue = useCallback9(
+  const setValue = useCallback8(
     (next) => {
       if (!isControlled) setInternalValue(next);
       onValueChange?.(next);
     },
     [isControlled, onValueChange]
   );
-  const calculateDirection = useCallback9(() => {
+  const calculateDirection = useCallback8(() => {
     const input = inputRef.current;
     if (!input) return;
     const rect = input.getBoundingClientRect();
@@ -4462,17 +4275,17 @@ function Root3({
       spaceBelow >= estimatedHeight ? "down" : spaceAbove > spaceBelow ? "up" : "down"
     );
   }, [items.length]);
-  const openMenu = useCallback9(() => {
+  const openMenu = useCallback8(() => {
     if (disabled) return;
     calculateDirection();
     setOpen(true);
     setFocusedValue(null);
   }, [disabled, calculateDirection]);
-  const closeMenu = useCallback9(() => {
+  const closeMenu = useCallback8(() => {
     setOpen(false);
     setFocusedValue(null);
   }, []);
-  const selectItem = useCallback9(
+  const selectItem = useCallback8(
     (itemValue) => {
       const item = items.find((i) => i.value === itemValue);
       if (!item) return;
@@ -4486,7 +4299,7 @@ function Root3({
     },
     [items, setValue, onSelect, closeMenu]
   );
-  useEffect11(() => {
+  useEffect10(() => {
     if (!open) return;
     function handleMouseDown(e) {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -4496,7 +4309,7 @@ function Root3({
     document.addEventListener("mousedown", handleMouseDown);
     return () => document.removeEventListener("mousedown", handleMouseDown);
   }, [open, closeMenu]);
-  const handleKeyDown = useCallback9(
+  const handleKeyDown = useCallback8(
     (e) => {
       if (e.key === "Escape") {
         if (open) {
@@ -4625,14 +4438,14 @@ function Input3({
   } = ctx;
   const suppressNextOpenRef = ctx.__suppressNextOpen;
   const activedescendant = open && focusedValue ? `${instanceId}-opt-${focusedValue}` : void 0;
-  const handleChange = useCallback9(
+  const handleChange = useCallback8(
     (e) => {
       setValue(e.target.value);
       if (!open) openMenu();
     },
     [setValue, open, openMenu]
   );
-  const handleFocus = useCallback9(
+  const handleFocus = useCallback8(
     (e) => {
       if (suppressNextOpenRef.current) {
         suppressNextOpenRef.current = false;
@@ -4686,8 +4499,8 @@ function Input3({
 }
 function List({ children }) {
   const { open, listboxId, dropDirection, focusedValue } = useComboboxContext("List");
-  const ref = useRef10(null);
-  useEffect11(() => {
+  const ref = useRef9(null);
+  useEffect10(() => {
     if (!open || !focusedValue) return;
     const menu = ref.current;
     if (!menu) return;
@@ -4747,7 +4560,7 @@ function Item2({
     instanceId
   } = useComboboxContext("Item");
   const resolvedText = textValue ?? (typeof children === "string" ? children : value);
-  useEffect11(() => {
+  useEffect10(() => {
     registerItem({ value, textValue: resolvedText });
     return () => unregisterItem(value);
   }, [value, resolvedText, registerItem, unregisterItem]);
@@ -4825,7 +4638,7 @@ var Combobox = {
 };
 
 // src/components/ChipPicker/ChipPicker.tsx
-import { useCallback as useCallback10, useId as useId8, useState as useState10 } from "react";
+import { useCallback as useCallback9, useId as useId8, useState as useState9 } from "react";
 import { semantic as t33, useInjectStyles as useInjectStyles15 } from "../../core/dist/index.js";
 import { jsx as jsx36, jsxs as jsxs19 } from "react/jsx-runtime";
 function ChipPicker({
@@ -4838,11 +4651,11 @@ function ChipPicker({
   const uid = useId8();
   const styleId = `chip-picker-${uid.replace(/:/g, "")}`;
   const isControlled = controlledSelected !== void 0;
-  const [internalSelected, setInternalSelected] = useState10(
+  const [internalSelected, setInternalSelected] = useState9(
     () => defaultSelected ?? []
   );
   const selected = isControlled ? controlledSelected : internalSelected;
-  const applySelection = useCallback10(
+  const applySelection = useCallback9(
     (next) => {
       if (!isControlled) setInternalSelected(next);
       onChange?.(next);
@@ -4946,7 +4759,7 @@ function ChipPicker({
 }
 
 // src/components/SearchInput/SearchInput.tsx
-import { forwardRef as forwardRef25, useState as useState11, useEffect as useEffect12, useRef as useRef11, useCallback as useCallback11 } from "react";
+import { forwardRef as forwardRef25, useState as useState10, useEffect as useEffect11, useRef as useRef10, useCallback as useCallback10 } from "react";
 import { semantic as t34, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
 import { jsx as jsx37, jsxs as jsxs20 } from "react/jsx-runtime";
 var STYLE_ID2 = "4lt7ab-search-input";
@@ -5012,14 +4825,14 @@ var SearchInput = forwardRef25(
     "data-testid": dataTestId
   }, ref) {
     useInjectStyles16(STYLE_ID2, hoverFocusCSS);
-    const [localValue, setLocalValue] = useState11(value);
-    const timerRef = useRef11(null);
-    const onSearchRef = useRef11(onSearch);
+    const [localValue, setLocalValue] = useState10(value);
+    const timerRef = useRef10(null);
+    const onSearchRef = useRef10(onSearch);
     onSearchRef.current = onSearch;
-    useEffect12(() => {
+    useEffect11(() => {
       setLocalValue(value);
     }, [value]);
-    const handleChange = useCallback11((e) => {
+    const handleChange = useCallback10((e) => {
       const next = e.target.value;
       setLocalValue(next);
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -5027,7 +4840,7 @@ var SearchInput = forwardRef25(
         onSearchRef.current(next);
       }, debounceMs);
     }, [debounceMs]);
-    useEffect12(() => {
+    useEffect11(() => {
       return () => {
         if (timerRef.current) clearTimeout(timerRef.current);
       };
@@ -5070,24 +4883,24 @@ var SearchInput = forwardRef25(
 );
 
 // src/components/SegmentedControl/SegmentedControl.tsx
-import { useCallback as useCallback13, useLayoutEffect, useRef as useRef13, useState as useState12 } from "react";
+import { useCallback as useCallback12, useLayoutEffect, useRef as useRef12, useState as useState11 } from "react";
 import { semantic as t35, useInjectStyles as useInjectStyles17 } from "../../core/dist/index.js";
 
 // src/utils/useRovingFocus.ts
-import { useCallback as useCallback12, useRef as useRef12 } from "react";
+import { useCallback as useCallback11, useRef as useRef11 } from "react";
 function useRovingFocus({
   count,
   activeIndex,
   orientation = "horizontal"
 }) {
-  const itemRefs = useRef12([]);
-  const itemRef = useCallback12(
+  const itemRefs = useRef11([]);
+  const itemRef = useCallback11(
     (index) => (el) => {
       itemRefs.current[index] = el;
     },
     []
   );
-  const onKeyDown = useCallback12(
+  const onKeyDown = useCallback11(
     (index) => (e) => {
       if (count === 0) return;
       let nextIndex = null;
@@ -5109,7 +4922,7 @@ function useRovingFocus({
     },
     [count, orientation]
   );
-  const getTabIndex = useCallback12(
+  const getTabIndex = useCallback11(
     (index) => {
       if (activeIndex == null) {
         return index === 0 ? 0 : -1;
@@ -5154,26 +4967,26 @@ function SegmentedControl({
 }) {
   useInjectStyles17(STYLE_ID3, hoverCSS);
   const isControlled = controlledValue !== void 0;
-  const [internalValue, setInternalValue] = useState12(
+  const [internalValue, setInternalValue] = useState11(
     () => defaultValue ?? segments[0]?.value ?? ""
   );
   const value = isControlled ? controlledValue : internalValue;
-  const handleSelect = useCallback13(
+  const handleSelect = useCallback12(
     (next) => {
       if (!isControlled) setInternalValue(next);
       onChange?.(next);
     },
     [isControlled, onChange]
   );
-  const containerRef = useRef13(null);
-  const [indicator, setIndicator] = useState12(null);
+  const containerRef = useRef12(null);
+  const [indicator, setIndicator] = useState11(null);
   const s = sizes[size];
   const activeIndex = segments.findIndex((seg) => seg.value === value);
   const { itemRef, onKeyDown, getTabIndex } = useRovingFocus({
     count: segments.length,
     activeIndex: activeIndex === -1 ? null : activeIndex
   });
-  const updateIndicator = useCallback13(() => {
+  const updateIndicator = useCallback12(() => {
     const container = containerRef.current;
     if (!container) return;
     const activeBtn = container.querySelector('[aria-pressed="true"]');
@@ -5640,7 +5453,7 @@ var Container = forwardRef30(
 );
 
 // src/components/TabStrip/TabStrip.tsx
-import { forwardRef as forwardRef31, useCallback as useCallback14 } from "react";
+import { forwardRef as forwardRef31, useCallback as useCallback13 } from "react";
 import { semantic as t39, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
 import { jsx as jsx44, jsxs as jsxs23 } from "react/jsx-runtime";
 var STYLES_ID2 = "4lt7ab-tab-strip";
@@ -5668,7 +5481,7 @@ var TabStrip = forwardRef31(
       count: tabs.length,
       activeIndex: activeIndex === -1 ? null : activeIndex
     });
-    const handleClick = useCallback14(
+    const handleClick = useCallback13(
       (key) => {
         if (key === activeKey && allowDeselect) {
           onChange(null);
