@@ -10,6 +10,7 @@ import { semantic as t, useInjectStyles } from '@4lt7ab/core';
 import { Calendar } from '../Calendar';
 import type { CalendarSelection } from '../Calendar';
 import { formatDate, isSameDay } from './dateUtils';
+import { useClickOutside } from '../../../utils/useClickOutside';
 
 /** A date range with inclusive start and end. */
 export interface DateRange {
@@ -158,21 +159,12 @@ export const DateRangePicker: React.ForwardRefExoticComponent<
     const containerRef = useRef<HTMLDivElement>(null);
 
     // Click outside to close
-    useEffect(() => {
-      if (!open) return;
-      function handleMouseDown(e: MouseEvent): void {
-        if (
-          containerRef.current &&
-          !containerRef.current.contains(e.target as Node)
-        ) {
-          setOpen(false);
-          setSelectionStart(null);
-          setHoverDate(null);
-        }
-      }
-      document.addEventListener('mousedown', handleMouseDown);
-      return () => document.removeEventListener('mousedown', handleMouseDown);
-    }, [open]);
+    const handleOutsideClose = useCallback(() => {
+      setOpen(false);
+      setSelectionStart(null);
+      setHoverDate(null);
+    }, []);
+    useClickOutside(containerRef, handleOutsideClose, open);
 
     // Focus the active day when popover opens
     useEffect(() => {

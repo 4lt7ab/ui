@@ -3,6 +3,7 @@ import { semantic as t, useInjectStyles } from '@4lt7ab/core';
 import { Calendar } from '../Calendar';
 import type { CalendarSelection } from '../Calendar';
 import { formatDate, isSameDay } from '../DateRangePicker/dateUtils';
+import { useClickOutside } from '../../../utils/useClickOutside';
 
 /** Props for the DatePicker component. */
 export interface DatePickerProps {
@@ -131,19 +132,7 @@ export const DatePicker: React.ForwardRefExoticComponent<
     const containerRef = useRef<HTMLDivElement>(null);
 
     // Click outside to close
-    useEffect(() => {
-      if (!open) return;
-      function handleMouseDown(e: MouseEvent): void {
-        if (
-          containerRef.current &&
-          !containerRef.current.contains(e.target as Node)
-        ) {
-          setOpen(false);
-        }
-      }
-      document.addEventListener('mousedown', handleMouseDown);
-      return () => document.removeEventListener('mousedown', handleMouseDown);
-    }, [open]);
+    useClickOutside(containerRef, () => setOpen(false), open);
 
     // Focus the active day when popover opens
     useEffect(() => {

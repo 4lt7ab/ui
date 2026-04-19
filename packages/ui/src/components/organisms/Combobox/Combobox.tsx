@@ -10,6 +10,7 @@ import {
 } from 'react';
 import type { ReactNode } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
+import { useClickOutside } from '../../../utils/useClickOutside';
 
 // ---------------------------------------------------------------------------
 // Injected CSS
@@ -217,19 +218,7 @@ function Root({
   );
 
   // Close on outside mousedown.
-  useEffect(() => {
-    if (!open) return;
-    function handleMouseDown(e: MouseEvent): void {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(e.target as Node)
-      ) {
-        closeMenu();
-      }
-    }
-    document.addEventListener('mousedown', handleMouseDown);
-    return () => document.removeEventListener('mousedown', handleMouseDown);
-  }, [open, closeMenu]);
+  useClickOutside(containerRef, closeMenu, open);
 
   // Keyboard — attached to the wrapper. APG Combobox pattern: focus stays on
   // the input, options receive focus visually only via aria-activedescendant.
