@@ -58,7 +58,7 @@ const RECIPES: Recipe[] = [
     title: 'Blog Post',
     description: 'Long-form content layout with pull quotes, margin notes, side notes, and linked resources.',
     icon: 'edit',
-    components: ['Container', 'Text', 'Divider', 'Prose', 'Epigraph', 'PullQuote', 'MarginNote', 'SideNote', 'ThinkingCycle', 'LinkCard'],
+    components: ['Container', 'Text', 'Divider', 'Prose', 'Quote', 'MarginNote', 'ThinkingCycle', 'LinkCard'],
     category: 'content',
     Component: BlogPost,
   },

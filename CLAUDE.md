@@ -154,14 +154,10 @@ packages/
 ├── content/
 │   └── src/
 │       ├── components/
-│       │   ├── Epigraph/
 │       │   ├── MarginNote/
 │       │   ├── Markdown/
 │       │   ├── Prose/
-│       │   ├── PullQuote/
 │       │   ├── Quote/
-│       │   ├── SideNote/
-│       │   ├── TextSection/
 │       │   └── ThinkingCycle/
 │       └── index.ts
 ├── animations/

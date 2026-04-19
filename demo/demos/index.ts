@@ -29,11 +29,8 @@ import { LinkCardDemo } from './LinkCardDemo';
 import { TableDemo } from './TableDemo';
 import { StatusDotDemo } from './StatusDotDemo';
 import { ThemePickerDemo } from './ThemePickerDemo';
-import { EpigraphDemo } from './EpigraphDemo';
-import { PullQuoteDemo } from './PullQuoteDemo';
 import { QuoteDemo } from './QuoteDemo';
 import { MarginNoteDemo } from './MarginNoteDemo';
-import { SideNoteDemo } from './SideNoteDemo';
 import { DateRangePickerDemo } from './DateRangePickerDemo';
 import { DatePickerDemo } from './DatePickerDemo';
 import { CalendarDemo } from './CalendarDemo';
@@ -47,7 +44,6 @@ import { SearchInputDemo } from './SearchInputDemo';
 import { SegmentedControlDemo } from './SegmentedControlDemo';
 import { AlertBannerDemo } from './AlertBannerDemo';
 import { TopBarDemo } from './TopBarDemo';
-import { TextSectionDemo } from './TextSectionDemo';
 import { SurfaceDemo } from './SurfaceDemo';
 import { GridDemo } from './GridDemo';
 import { DividerDemo } from './DividerDemo';
@@ -140,12 +136,8 @@ export const demos: DemoEntry[] = [
   { name: 'Markdown', category: 'Layout', source: 'content', component: MarkdownDemo },
   { name: 'Markdown.editable', category: 'Form', source: 'content', component: MarkdownEditableDemo },
   { name: 'Quote', category: 'Layout', source: 'content', component: QuoteDemo },
-  { name: 'Epigraph', category: 'Layout', source: 'content', component: EpigraphDemo },
-  { name: 'PullQuote', category: 'Layout', source: 'content', component: PullQuoteDemo },
   { name: 'MarginNote', category: 'Layout', source: 'content', component: MarginNoteDemo },
-  { name: 'SideNote', category: 'Layout', source: 'content', component: SideNoteDemo },
   { name: 'ThinkingCycle', category: 'Action', source: 'content', component: ThinkingCycleDemo },
-  { name: 'TextSection', category: 'Form', source: 'content', component: TextSectionDemo },
   { name: 'ThemePicker', category: 'Action', source: 'ui', component: ThemePickerDemo },
 ];
 
@@ -157,8 +149,8 @@ export {
   PaginationDemo, HeaderDemo, ExpandableCardDemo,
   ModalDemo, OverlayDemo, ConfirmDialogDemo, ContainerDemo,
   ProseDemo, MarkdownDemo, MarkdownEditableDemo, ThinkingCycleDemo, LinkCardDemo, TableDemo,
-  StatusDotDemo, ThemePickerDemo, QuoteDemo, EpigraphDemo, PullQuoteDemo,
-  MarginNoteDemo, SideNoteDemo, DateRangePickerDemo, DatePickerDemo, CalendarDemo,
+  StatusDotDemo, ThemePickerDemo, QuoteDemo,
+  MarginNoteDemo, DateRangePickerDemo, DatePickerDemo, CalendarDemo,
   ErrorBoundaryDemo,
   IconFontDemo,
   ToastDemo,
@@ -170,7 +162,6 @@ export {
   AlertBannerDemo,
   ModalShellFormPatternDemo,
   TopBarDemo,
-  TextSectionDemo,
   SurfaceDemo,
   GridDemo,
   DividerDemo,

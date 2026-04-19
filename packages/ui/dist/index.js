@@ -755,12 +755,23 @@ function Value({ placeholder }) {
   const selected = items.find((i) => i.value === value);
   return /* @__PURE__ */ jsx3(Fragment, { children: selected?.label ?? placeholder ?? "\xA0" });
 }
-function Content({ children }) {
+var Content = forwardRef3(function Content2({ children }, forwardedRef) {
   const { open, listboxId, dropDirection, focusedValue } = useSelectContext("Content");
-  const ref = useRef2(null);
+  const internalRef = useRef2(null);
+  const setRef = useCallback(
+    (node) => {
+      internalRef.current = node;
+      if (typeof forwardedRef === "function") {
+        forwardedRef(node);
+      } else if (forwardedRef) {
+        forwardedRef.current = node;
+      }
+    },
+    [forwardedRef]
+  );
   useEffect4(() => {
     if (!open || !focusedValue) return;
-    const menu = ref.current;
+    const menu = internalRef.current;
     if (!menu) return;
     const focused = menu.querySelector(
       `[data-value="${CSS.escape(focusedValue)}"]`
@@ -783,7 +794,7 @@ function Content({ children }) {
   return /* @__PURE__ */ jsx3(
     "div",
     {
-      ref,
+      ref: setRef,
       id: listboxId,
       role: "listbox",
       hidden: !open,
@@ -796,13 +807,8 @@ function Content({ children }) {
       children
     }
   );
-}
-function Item({
-  value,
-  disabled = false,
-  textValue,
-  children
-}) {
+});
+var Item = forwardRef3(function Item2({ value, disabled = false, textValue, children }, forwardedRef) {
   const ctx = useSelectContext("Item");
   const {
     value: selectedValue,
@@ -829,6 +835,7 @@ function Item({
   return /* @__PURE__ */ jsx3(
     "button",
     {
+      ref: forwardedRef,
       type: "button",
       role: "option",
       id: `${instanceId}-opt-${value}`,
@@ -843,7 +850,7 @@ function Item({
       children
     }
   );
-}
+});
 var wrapperStyle = {
   position: "relative",
   display: "block",
@@ -4552,7 +4559,7 @@ function List({ children }) {
     }
   );
 }
-function Item2({
+function Item3({
   value,
   textValue,
   children
@@ -4623,7 +4630,7 @@ var Combobox = {
   Root: Root3,
   Input: Input3,
   List,
-  Item: Item2,
+  Item: Item3,
   Empty
 };
 
@@ -4767,7 +4774,7 @@ function Trigger3({
     }
   );
 }
-function Content2({
+function Content3({
   placeholder = "Type a command or search\u2026",
   emptyLabel = "No results.",
   children
@@ -4923,7 +4930,7 @@ function Group({ label, children }) {
     }
   );
 }
-function Item3({
+function Item4({
   value,
   onSelect,
   icon,
@@ -5035,9 +5042,9 @@ function hasMatchingItem(children, query) {
 var CommandPalette = {
   Root: Root4,
   Trigger: Trigger3,
-  Content: Content2,
+  Content: Content3,
   Group,
-  Item: Item3
+  Item: Item4
 };
 
 // src/components/molecules/ChipPicker/ChipPicker.tsx

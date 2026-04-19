@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { Card, Stack, Icon, Badge } from '@4lt7ab/ui';
 import {
-  StackDemo, ContainerDemo, ProseDemo, MarkdownDemo, MarkdownEditableDemo, QuoteDemo, EpigraphDemo, PullQuoteDemo,
-  MarginNoteDemo, SideNoteDemo, ThinkingCycleDemo, InputDemo,
+  StackDemo, ContainerDemo, ProseDemo, MarkdownDemo, MarkdownEditableDemo, QuoteDemo,
+  MarginNoteDemo, ThinkingCycleDemo, InputDemo,
   TextareaDemo, SelectDemo, FieldDemo, ButtonDemo, IconButtonDemo,
   BadgeDemo, TextDemo, StatusDotDemo, TableDemo, PaginationDemo,
   ProgressBarDemo, SkeletonDemo, CardDemo, ExpandableCardDemo,
@@ -17,7 +17,6 @@ import {
   SegmentedControlDemo,
   AlertBannerDemo,
   TopBarDemo,
-  TextSectionDemo,
   SurfaceDemo,
   GridDemo,
   DividerDemo,
@@ -81,12 +80,8 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'Markdown', source: 'content', Demo: MarkdownDemo },
       { name: 'Markdown.editable', source: 'content', Demo: MarkdownEditableDemo },
       { name: 'Quote', source: 'content', Demo: QuoteDemo },
-      { name: 'Epigraph', source: 'content', Demo: EpigraphDemo },
-      { name: 'PullQuote', source: 'content', Demo: PullQuoteDemo },
       { name: 'MarginNote', source: 'content', Demo: MarginNoteDemo },
-      { name: 'SideNote', source: 'content', Demo: SideNoteDemo },
       { name: 'ThinkingCycle', source: 'content', Demo: ThinkingCycleDemo },
-      { name: 'TextSection', source: 'content', Demo: TextSectionDemo },
     ],
   },
   {

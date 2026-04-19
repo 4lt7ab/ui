@@ -111,7 +111,7 @@ Peer dependencies: `react-markdown` ^9.0.0, `remark-gfm` ^4.0.0.
 
 ### Quote
 
-Serif-italic blockquote with two visual treatments selected via `variant`. Replaces the separate `PullQuote` and `Epigraph` components (both still exported as deprecated aliases for backward compatibility).
+Serif-italic blockquote with two visual treatments selected via `variant`. Replaces the separate `PullQuote` and `Epigraph` components that were merged in v0.4.0 (the deprecated aliases were removed in v1.0).
 
 ```tsx
 // Pull quote — requires a <Prose> wrapper for styling
@@ -131,13 +131,9 @@ Serif-italic blockquote with two visual treatments selected via `variant`. Repla
 | `variant` | `'pull' \| 'epigraph'` | `'pull'` | `'pull'` — in-flow pull quote framed by horizontal rules (requires `<Prose>`). `'epigraph'` — larger standalone blockquote with its own injected styles. |
 | `cite` | `ReactNode` | — | Optional attribution (author, source). Rendered as a `<footer>` below the quote. Works on both variants. |
 
-### PullQuote (deprecated)
-
-Backward-compatibility alias for `<Quote variant="pull">`. Prefer `Quote` for new call sites.
-
 ### MarginNote
 
-Annotation that floats into the left margin on wide screens (≥1100px). Falls back to inline on smaller viewports.
+Annotation that floats into the margin on wide screens (≥1100px). Falls back to inline on smaller viewports. Pass `side="right"` to float into the right margin instead of the default left.
 
 ```tsx
 <Prose>
@@ -145,37 +141,17 @@ Annotation that floats into the left margin on wide screens (≥1100px). Falls b
   <MarginNote>
     A side observation that supplements the main text.
   </MarginNote>
+  <p>More body text.</p>
+  <MarginNote side="right">
+    Appears in the right margin on wide screens.
+  </MarginNote>
 </Prose>
 ```
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `children` | `ReactNode` | *required* | Annotation content |
-
-### SideNote
-
-Inline annotation that appears in the right margin on wide screens (≥1100px). **Must be placed inside a `Prose` component.**
-
-```tsx
-<Prose>
-  <p>
-    Design tokens were first coined by Salesforce.
-    <SideNote>The Lightning Design System introduced the concept in 2014.</SideNote>
-  </p>
-</Prose>
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | *required* | Annotation content |
-
-### Epigraph (deprecated)
-
-Backward-compatibility alias for `<Quote variant="epigraph">`. Prefer `Quote` for new call sites.
-
-### TextSection (deprecated)
-
-Backward-compatibility alias for `<Markdown editable>`. Prefer `<Markdown editable>` for new call sites — see the 0.4.0 upgrade guide §textsection for the one-line migration. All props are forwarded to Markdown's editable mode; behavior (three states, Cmd/Ctrl+Enter save, Escape cancel, Button-shaped Save/Cancel controls) is unchanged.
+| `side` | `'left' \| 'right'` | `'left'` | Which margin the note floats into on wide screens |
 
 ### ThinkingCycle
 

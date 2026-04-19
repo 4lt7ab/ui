@@ -1,4 +1,4 @@
-import { Prose, PullQuote, MarginNote, SideNote, Epigraph } from '@4lt7ab/content';
+import { Prose, Quote, MarginNote } from '@4lt7ab/content';
 import { Container } from '@4lt7ab/ui';
 import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
 
@@ -11,9 +11,9 @@ export function ProseDemo(): React.JSX.Element {
     <DocBlock props={props}>
       <PropDemo name="children" description="Prose applies a full typography system to long-form HTML content. Lead paragraphs get serif treatment, h2s get overline rules, hr becomes a three-dot ornament, and all elements respond to the active theme.">
         <Container width="prose" padding="none">
-          <Epigraph cite="— Probably not Abraham Lincoln">
+          <Quote variant="epigraph" cite="— Probably not Abraham Lincoln">
             The best way to predict the future is to create it.
-          </Epigraph>
+          </Quote>
 
           <Prose>
             <p>
@@ -50,10 +50,9 @@ export function ProseDemo(): React.JSX.Element {
 
             <h3>Subsection</h3>
 
-            <SideNote>
-              Side notes mirror margin notes but float into the right margin on
-              wide screens.
-            </SideNote>
+            <MarginNote side="right">
+              Right-sided margin notes float into the right margin on wide screens.
+            </MarginNote>
 
             <p>
               H3 headings are simpler — no overline, just a size bump and the serif
@@ -76,10 +75,10 @@ export function ProseDemo(): React.JSX.Element {
               transforms into the section break.
             </p>
 
-            <PullQuote>
+            <Quote variant="pull">
               Pull quotes are centered, serif, italic — designed to draw the
               eye to a key takeaway.
-            </PullQuote>
+            </Quote>
 
             <p>
               Lists work naturally too:

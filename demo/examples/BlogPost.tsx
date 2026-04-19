@@ -1,6 +1,6 @@
 import {
   Prose,
-  PullQuote, MarginNote, SideNote, Epigraph,
+  Quote, MarginNote,
   ThinkingCycle,
 } from '@4lt7ab/content';
 import { Container, LinkCard, Stack, Text, Divider } from '@4lt7ab/ui';
@@ -9,9 +9,9 @@ export function BlogPost(): React.JSX.Element {
   return (
     <Container>
       <Stack gap="xl">
-        <Epigraph cite="— Frank Chimero, The Shape of Design">
+        <Quote variant="epigraph" cite="— Frank Chimero, The Shape of Design">
           People ignore design that ignores people.
-        </Epigraph>
+        </Quote>
 
         <header>
           <Stack gap="xs">
@@ -68,11 +68,11 @@ export function BlogPost(): React.JSX.Element {
             actions" — which blue that resolves to depends on the theme.
           </p>
 
-          <SideNote>
+          <MarginNote side="right">
             If you're coming from Tailwind, think of semantic tokens as
             what you get when you replace <code>bg-blue-600</code> with
             <code>bg-primary</code> — but enforced at the system level.
-          </SideNote>
+          </MarginNote>
 
           <p>
             <strong>Components</strong> consume semantic tokens exclusively.
@@ -101,10 +101,10 @@ export const semantic = {
             is the load-bearing rule — break it, and themes stop working.
           </p>
 
-          <PullQuote>
+          <Quote variant="pull">
             The best component library is one where adding a new theme
             requires zero changes to any component.
-          </PullQuote>
+          </Quote>
 
           <h2>What makes a theme portable</h2>
 

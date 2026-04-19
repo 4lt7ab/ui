@@ -1,8 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render } from '@testing-library/react';
 import { Quote } from './Quote';
-import { PullQuote } from '../PullQuote/PullQuote';
-import { Epigraph } from '../Epigraph/Epigraph';
 
 vi.mock('@4lt7ab/core', () => ({
   semantic: new Proxy({}, { get: (_t, prop) => `var(--mock-${String(prop)})` }),
@@ -85,38 +83,5 @@ describe('Quote', () => {
     );
     expect(ref.current).not.toBeNull();
     expect(ref.current?.tagName).toBe('BLOCKQUOTE');
-  });
-});
-
-describe('PullQuote (deprecated alias)', () => {
-  it('still resolves as an importable named export', () => {
-    expect(PullQuote).toBeDefined();
-  });
-
-  it('renders a pull-variant blockquote', () => {
-    const { container } = render(<PullQuote>aside</PullQuote>);
-    const bq = container.querySelector('blockquote');
-    expect(bq).not.toBeNull();
-    expect(bq?.hasAttribute('data-pull-quote')).toBe(true);
-    expect(bq?.querySelector('p')?.textContent).toBe('aside');
-  });
-});
-
-describe('Epigraph (deprecated alias)', () => {
-  it('still resolves as an importable named export', () => {
-    expect(Epigraph).toBeDefined();
-  });
-
-  it('renders an epigraph-variant blockquote', () => {
-    const { container } = render(<Epigraph>hello</Epigraph>);
-    const bq = container.querySelector('blockquote');
-    expect(bq).not.toBeNull();
-    expect(bq?.classList.contains('alttab-epigraph')).toBe(true);
-  });
-
-  it('forwards cite to the underlying <footer>', () => {
-    const { container } = render(<Epigraph cite="Flaubert">hello</Epigraph>);
-    const footer = container.querySelector('blockquote footer');
-    expect(footer?.textContent).toBe('Flaubert');
   });
 });

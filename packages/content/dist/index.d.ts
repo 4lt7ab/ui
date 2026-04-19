@@ -119,21 +119,8 @@ interface QuoteProps {
 */
 declare const Quote: React.ForwardRefExoticComponent<Omit<QuoteProps, "ref"> & React.RefAttributes<HTMLQuoteElement>>;
 import { ReactNode as ReactNode3 } from "react";
-interface PullQuoteProps {
-	children: ReactNode3;
-}
-/**
-* @deprecated Use `<Quote variant="pull">` instead. `PullQuote` is a
-* backward-compatibility alias for `<Quote variant="pull">` and will be
-* removed in a future major release.
-*
-* Centered pull quote with serif italic text and horizontal rules. Must be
-* used inside `<Prose>` for styling.
-*/
-declare const PullQuote: React.ForwardRefExoticComponent<Omit<PullQuoteProps, "ref"> & React.RefAttributes<HTMLQuoteElement>>;
-import { ReactNode as ReactNode4 } from "react";
 interface MarginNoteProps {
-	children: ReactNode4;
+	children: ReactNode3;
 	/**
 	* Which margin the note floats into on wide screens (>=BREAKPOINT_MARGIN_NOTES).
 	* On narrow screens the note is always inline and the `side` only affects
@@ -148,67 +135,6 @@ interface MarginNoteProps {
 * (default) or right. Must be used inside `<Prose>` for styling and positioning.
 */
 declare const MarginNote: React.ForwardRefExoticComponent<Omit<MarginNoteProps, "ref"> & React.RefAttributes<HTMLElement>>;
-import { ReactNode as ReactNode5 } from "react";
-interface SideNoteProps {
-	children: ReactNode5;
-}
-/**
-* @deprecated Use `<MarginNote side="right">` instead. `SideNote` is a
-* backward-compatibility alias for `<MarginNote side="right">` and will be
-* removed in a future major release.
-*/
-declare const SideNote: React.ForwardRefExoticComponent<Omit<SideNoteProps, "ref"> & React.RefAttributes<HTMLElement>>;
-import { ReactNode as ReactNode6 } from "react";
-interface EpigraphProps {
-	/** The quote text. */
-	children: ReactNode6;
-	/** Attribution line (author, source). */
-	cite?: ReactNode6;
-}
-/**
-* @deprecated Use `<Quote variant="epigraph">` instead. `Epigraph` is a
-* backward-compatibility alias for `<Quote variant="epigraph">` and will be
-* removed in a future major release.
-*
-* Large centered blockquote — serif italic with horizontal rules. Good for
-* opening quotes, page epigraphs, or hero-level callouts. Works both inside
-* and outside `<Prose>`.
-*/
-declare const Epigraph: React.ForwardRefExoticComponent<Omit<EpigraphProps, "ref"> & React.RefAttributes<HTMLQuoteElement>>;
-interface TextSectionProps {
-	/** Current content (markdown string). Empty/null = empty state. */
-	content?: string | null;
-	/** Whether the section is in editing mode. */
-	editing: boolean;
-	/** Current value in the textarea during editing. */
-	editValue: string;
-	/** Called when user clicks content or empty state to start editing. */
-	onStartEdit: () => void;
-	/** Called with new textarea value on change. */
-	onEditChange: (value: string) => void;
-	/** Called when user saves (button or Cmd+Enter). */
-	onSave: () => void;
-	/** Called when user cancels (button or Escape). */
-	onCancel: () => void;
-	/** Accessible label for the section (e.g. "Summary", "Context"). */
-	fieldLabel?: string;
-	/** Number of textarea rows. @default 4 */
-	rows?: number;
-	/** Placeholder text for empty state. @default "Click to add content..." */
-	placeholder?: string;
-}
-/**
-* @deprecated Use `<Markdown editable>` instead. `TextSection` is a
-* backward-compatibility alias for the editable-mode rendering in
-* `Markdown` and will be removed in a future major release. See the
-* 0.4.0 upgrade guide, §textsection, for the migration snippet.
-*
-* Three-state click-to-edit markdown section. Delegates to `Markdown`'s
-* editable mode — the behavioral contract (three states, Cmd/Ctrl+Enter
-* to save, Escape to cancel, Save/Cancel buttons matching the library's
-* primary + secondary Button variants) is owned by `Markdown` now.
-*/
-declare function TextSection({ content, editing, editValue, onStartEdit, onEditChange, onSave, onCancel, fieldLabel, rows, placeholder }: TextSectionProps): React.JSX.Element;
 interface ThinkingCycleProps {
 	/** Words to cycle through. Needs at least 2. */
 	words: string[];
@@ -231,4 +157,4 @@ interface ThinkingCycleProps {
 * Usage: Building with AI tools is <ThinkingCycle words={['powerful', 'wild']} />.
 */
 declare const ThinkingCycle: React.ForwardRefExoticComponent<Omit<ThinkingCycleProps, "ref"> & React.RefAttributes<HTMLSpanElement>>;
-export { ThinkingCycleProps, ThinkingCycle, TextSectionProps, TextSection, SideNoteProps, SideNote, QuoteVariant, QuoteProps, Quote, PullQuoteProps, PullQuote, ProseProps, Prose, PROSE_H2_SIZE, PROSE_H1_SIZE, PROSE_CODE_SIZE, PROSE_BODY_SIZE, PROSE_BLOCKQUOTE_SIZE, MarkdownProps, Markdown, MarginNoteProps, MarginNote, MIX_SUBTLE, MIX_HOVER, MIX_BADGE, EpigraphProps, Epigraph, BREAKPOINT_WIDE, BREAKPOINT_PROSE, BREAKPOINT_MARGIN_NOTES };
+export { ThinkingCycleProps, ThinkingCycle, QuoteVariant, QuoteProps, Quote, ProseProps, Prose, PROSE_H2_SIZE, PROSE_H1_SIZE, PROSE_CODE_SIZE, PROSE_BODY_SIZE, PROSE_BLOCKQUOTE_SIZE, MarkdownProps, Markdown, MarginNoteProps, MarginNote, MIX_SUBTLE, MIX_HOVER, MIX_BADGE, BREAKPOINT_WIDE, BREAKPOINT_PROSE, BREAKPOINT_MARGIN_NOTES };

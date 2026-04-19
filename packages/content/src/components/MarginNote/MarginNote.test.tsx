@@ -1,7 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render } from '@testing-library/react';
 import { MarginNote } from './MarginNote';
-import { SideNote } from '../SideNote/SideNote';
 
 vi.mock('@4lt7ab/core', () => ({
   semantic: new Proxy({}, { get: (_t, prop) => `var(--mock-${String(prop)})` }),
@@ -45,20 +44,5 @@ describe('MarginNote', () => {
     render(<MarginNote ref={ref}>hello</MarginNote>);
     expect(ref.current).not.toBeNull();
     expect(ref.current?.tagName).toBe('SMALL');
-  });
-});
-
-describe('SideNote (deprecated alias)', () => {
-  it('still resolves as an importable named export', () => {
-    expect(SideNote).toBeDefined();
-  });
-
-  it('renders a right-sided margin note', () => {
-    const { container } = render(<SideNote>aside</SideNote>);
-    const small = container.querySelector('small');
-    expect(small).not.toBeNull();
-    expect(small?.hasAttribute('data-margin-note')).toBe(true);
-    expect(small?.getAttribute('data-side')).toBe('right');
-    expect(small?.textContent).toBe('aside');
   });
 });
