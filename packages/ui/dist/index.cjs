@@ -158,6 +158,7 @@ __export(index_exports, {
   inputShellBaseStyle: () => inputShellBaseStyle,
   inputShellDisabledStyle: () => inputShellDisabledStyle,
   inputShellErrorStyle: () => inputShellErrorStyle,
+  inputShellFocusRingCSS: () => inputShellFocusRingCSS,
   justifyMap: () => justifyMap,
   modalFooterStyle: () => modalFooterStyle,
   modalHeadingStyle: () => modalHeadingStyle,
@@ -549,6 +550,19 @@ var inputShellDisabledStyle = {
   color: import_core5.semantic.colorTextDisabled,
   cursor: "not-allowed"
 };
+function inputShellFocusRingCSS(selector) {
+  return `
+    ${selector}:focus-within {
+      border-color: ${import_core5.semantic.colorBorderFocused};
+      box-shadow: 0 0 0 ${import_core5.semantic.focusRingWidth} ${import_core5.semantic.focusRingColor};
+    }
+    @media (prefers-reduced-motion: reduce) {
+      ${selector} {
+        transition: none !important;
+      }
+    }
+  `;
+}
 
 // src/components/organisms/Select/Select.tsx
 var import_jsx_runtime3 = require("react/jsx-runtime");
@@ -4859,17 +4873,8 @@ var import_react36 = require("react");
 var import_core40 = require("../../core/dist/index.cjs");
 var import_jsx_runtime37 = require("react/jsx-runtime");
 var STYLE_ID2 = "4lt7ab-search-input";
-var hoverFocusCSS = `
-  .search-input-wrapper:focus-within {
-    border-color: ${import_core40.semantic.colorBorderFocused};
-    box-shadow: 0 0 0 ${import_core40.semantic.focusRingWidth} ${import_core40.semantic.focusRingColor};
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .search-input-wrapper {
-      transition: none !important;
-    }
-  }
-`;
+var WRAPPER_CLASS = "search-input-wrapper";
+var focusRingCSS = inputShellFocusRingCSS(`.${WRAPPER_CLASS}`);
 var wrapperStyle5 = {
   ...inputShellBaseStyle,
   display: "flex",
@@ -4889,7 +4894,6 @@ var inputStyle = {
   fontFamily: "inherit",
   padding: 0
 };
-var disabledWrapperStyle = inputShellDisabledStyle;
 var SearchInput = (0, import_react36.forwardRef)(
   function SearchInput2({
     value,
@@ -4907,7 +4911,7 @@ var SearchInput = (0, import_react36.forwardRef)(
     "aria-describedby": ariaDescribedBy,
     "data-testid": dataTestId
   }, ref) {
-    (0, import_core40.useInjectStyles)(STYLE_ID2, hoverFocusCSS);
+    (0, import_core40.useInjectStyles)(STYLE_ID2, focusRingCSS);
     const [localValue, setLocalValue] = (0, import_react36.useState)(value);
     const timerRef = (0, import_react36.useRef)(null);
     const onSearchRef = (0, import_react36.useRef)(onSearch);
@@ -4931,11 +4935,11 @@ var SearchInput = (0, import_react36.forwardRef)(
     return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(
       "div",
       {
-        className: "search-input-wrapper",
+        className: WRAPPER_CLASS,
         "data-testid": dataTestId,
         style: {
           ...wrapperStyle5,
-          ...disabled ? disabledWrapperStyle : {}
+          ...disabled ? inputShellDisabledStyle : {}
         },
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { style: { color: import_core40.semantic.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(Icon, { name: "search", size: "sm" }) }),

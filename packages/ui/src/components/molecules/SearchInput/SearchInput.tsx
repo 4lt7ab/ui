@@ -3,6 +3,7 @@ import { semantic as t, useInjectStyles } from '@4lt7ab/core';
 import {
   inputShellBaseStyle,
   inputShellDisabledStyle,
+  inputShellFocusRingCSS,
 } from '../../../styles/inputShellStyle';
 import { Icon } from '../../atoms/Icon';
 import type { ReactNode } from 'react';
@@ -32,19 +33,14 @@ export interface SearchInputProps {
 }
 
 const STYLE_ID = '4lt7ab-search-input';
+const WRAPPER_CLASS = 'search-input-wrapper';
 
-const hoverFocusCSS = `
-  .search-input-wrapper:focus-within {
-    border-color: ${t.colorBorderFocused};
-    box-shadow: 0 0 0 ${t.focusRingWidth} ${t.focusRingColor};
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .search-input-wrapper {
-      transition: none !important;
-    }
-  }
-`;
+// Focus-ring rule comes from the shared helper so the values (border-color,
+// ring width, ring color, reduced-motion override) live in exactly one place.
+const focusRingCSS = inputShellFocusRingCSS(`.${WRAPPER_CLASS}`);
 
+// Wrapper owns the shared input-shell shell (border/radius/background/padding/
+// transition). Only the layout deltas — flex + gap + line-height — are local.
 const wrapperStyle: React.CSSProperties = {
   ...inputShellBaseStyle,
   display: 'flex',
@@ -53,6 +49,9 @@ const wrapperStyle: React.CSSProperties = {
   lineHeight: t.lineHeightTight,
 };
 
+// Inner <input> is borderless — the shell is the wrapper. Strips the browser's
+// default chrome and inherits typography so leading icon + trailing slot sit
+// flush with the text baseline.
 const inputStyle: React.CSSProperties = {
   flex: 1,
   minWidth: 0,
@@ -65,8 +64,6 @@ const inputStyle: React.CSSProperties = {
   fontFamily: 'inherit',
   padding: 0,
 };
-
-const disabledWrapperStyle: React.CSSProperties = inputShellDisabledStyle;
 
 export const SearchInput: React.ForwardRefExoticComponent<Omit<SearchInputProps, 'ref'> & React.RefAttributes<HTMLInputElement>> = forwardRef<HTMLInputElement, SearchInputProps>(
   function SearchInput({
@@ -85,7 +82,7 @@ export const SearchInput: React.ForwardRefExoticComponent<Omit<SearchInputProps,
     'aria-describedby': ariaDescribedBy,
     'data-testid': dataTestId,
   }, ref): React.JSX.Element {
-    useInjectStyles(STYLE_ID, hoverFocusCSS);
+    useInjectStyles(STYLE_ID, focusRingCSS);
 
     const [localValue, setLocalValue] = useState(value);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -116,11 +113,11 @@ export const SearchInput: React.ForwardRefExoticComponent<Omit<SearchInputProps,
 
     return (
       <div
-        className="search-input-wrapper"
+        className={WRAPPER_CLASS}
         data-testid={dataTestId}
         style={{
           ...wrapperStyle,
-          ...(disabled ? disabledWrapperStyle : {}),
+          ...(disabled ? inputShellDisabledStyle : {}),
         }}
       >
         <span style={{ color: t.colorTextMuted, flexShrink: 0, display: 'inline-flex' }}><Icon name="search" size="sm" /></span>

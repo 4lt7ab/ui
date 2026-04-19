@@ -53,3 +53,31 @@ export const inputShellDisabledStyle: React.CSSProperties = {
   color: t.colorTextDisabled,
   cursor: 'not-allowed',
 };
+
+/**
+ * Focus-ring CSS for composers that wrap an `<input>` in a bordered container
+ * (e.g. `SearchInput` with leading icon + trailing slot). Returns a CSS string
+ * scoped to the given selector, producing the same focused border-color +
+ * box-shadow as the `Input` primitive receives from the browser default, and
+ * includes a `prefers-reduced-motion` transition override.
+ *
+ * Pass a class selector (including the leading dot) or any valid CSS selector
+ * that targets the wrapping element. Inject the returned string via
+ * `useInjectStyles(id, inputShellFocusRingCSS('.my-wrapper'))`.
+ *
+ * Keeps the focus-ring values (border-color, ring width, ring color) defined
+ * in exactly one place alongside the shell visual contract.
+ */
+export function inputShellFocusRingCSS(selector: string): string {
+  return `
+    ${selector}:focus-within {
+      border-color: ${t.colorBorderFocused};
+      box-shadow: 0 0 0 ${t.focusRingWidth} ${t.focusRingColor};
+    }
+    @media (prefers-reduced-motion: reduce) {
+      ${selector} {
+        transition: none !important;
+      }
+    }
+  `;
+}

@@ -42,6 +42,7 @@ export {
   inputShellBaseStyle,
   inputShellErrorStyle,
   inputShellDisabledStyle,
+  inputShellFocusRingCSS,
 } from './styles/inputShellStyle';
 export * from './components/molecules/ConfirmDialog';
 export * from './components/atoms/StatusDot';

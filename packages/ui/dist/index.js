@@ -374,6 +374,19 @@ var inputShellDisabledStyle = {
   color: t5.colorTextDisabled,
   cursor: "not-allowed"
 };
+function inputShellFocusRingCSS(selector) {
+  return `
+    ${selector}:focus-within {
+      border-color: ${t5.colorBorderFocused};
+      box-shadow: 0 0 0 ${t5.focusRingWidth} ${t5.focusRingColor};
+    }
+    @media (prefers-reduced-motion: reduce) {
+      ${selector} {
+        transition: none !important;
+      }
+    }
+  `;
+}
 
 // src/components/organisms/Select/Select.tsx
 import { Fragment, jsx as jsx3, jsxs } from "react/jsx-runtime";
@@ -4722,17 +4735,8 @@ import { forwardRef as forwardRef27, useState as useState10, useEffect as useEff
 import { semantic as t37, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
 import { jsx as jsx37, jsxs as jsxs20 } from "react/jsx-runtime";
 var STYLE_ID2 = "4lt7ab-search-input";
-var hoverFocusCSS = `
-  .search-input-wrapper:focus-within {
-    border-color: ${t37.colorBorderFocused};
-    box-shadow: 0 0 0 ${t37.focusRingWidth} ${t37.focusRingColor};
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .search-input-wrapper {
-      transition: none !important;
-    }
-  }
-`;
+var WRAPPER_CLASS = "search-input-wrapper";
+var focusRingCSS = inputShellFocusRingCSS(`.${WRAPPER_CLASS}`);
 var wrapperStyle5 = {
   ...inputShellBaseStyle,
   display: "flex",
@@ -4752,7 +4756,6 @@ var inputStyle = {
   fontFamily: "inherit",
   padding: 0
 };
-var disabledWrapperStyle = inputShellDisabledStyle;
 var SearchInput = forwardRef27(
   function SearchInput2({
     value,
@@ -4770,7 +4773,7 @@ var SearchInput = forwardRef27(
     "aria-describedby": ariaDescribedBy,
     "data-testid": dataTestId
   }, ref) {
-    useInjectStyles16(STYLE_ID2, hoverFocusCSS);
+    useInjectStyles16(STYLE_ID2, focusRingCSS);
     const [localValue, setLocalValue] = useState10(value);
     const timerRef = useRef10(null);
     const onSearchRef = useRef10(onSearch);
@@ -4794,11 +4797,11 @@ var SearchInput = forwardRef27(
     return /* @__PURE__ */ jsxs20(
       "div",
       {
-        className: "search-input-wrapper",
+        className: WRAPPER_CLASS,
         "data-testid": dataTestId,
         style: {
           ...wrapperStyle5,
-          ...disabled ? disabledWrapperStyle : {}
+          ...disabled ? inputShellDisabledStyle : {}
         },
         children: [
           /* @__PURE__ */ jsx37("span", { style: { color: t37.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ jsx37(Icon, { name: "search", size: "sm" }) }),
@@ -6738,6 +6741,7 @@ export {
   inputShellBaseStyle,
   inputShellDisabledStyle,
   inputShellErrorStyle,
+  inputShellFocusRingCSS,
   justifyMap,
   modalFooterStyle,
   modalHeadingStyle,
