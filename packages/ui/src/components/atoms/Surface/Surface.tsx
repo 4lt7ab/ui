@@ -35,12 +35,8 @@ const levelMap: Record<SurfaceLevel, string> = {
   overlay: t.colorSurfaceOverlay,
 };
 
-/**
- * Inputs that shape a Surface's visual treatment. Internal — consumed by the
- * Surface component and by sibling composites (Card) that need to derive the
- * same style bag without duplicating the mapping. Not re-exported from the
- * Surface barrel; import via the deep path when needed.
- */
+// Module-local. Card composes Surface via `<Surface asChild>` rather than
+// reaching for this helper, so there are no sibling importers.
 interface SurfaceStyleOptions {
   level?: SurfaceLevel;
   tint?: SemanticColor;
@@ -175,8 +171,3 @@ export const Surface: React.ForwardRefExoticComponent<
     return createElement(as, { ref, ...commonProps }, children);
   },
 );
-
-// Re-exported to sibling composites via the deep path only (not the barrel).
-// Keeps Surface's public API tight while letting Card share the style source.
-export { getSurfaceStyle };
-export type { SurfaceStyleOptions };
