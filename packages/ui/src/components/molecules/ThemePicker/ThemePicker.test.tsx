@@ -4,25 +4,30 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemePicker } from './ThemePicker';
 
-// Mock @4lt7ab/core to provide a predictable useTheme() result plus the
-// semantic-token Proxy Select expects. `setTheme` is a fresh spy per test.
+// Mock @4lt7ab/core to override useTheme() with a predictable result. We
+// keep the real `Slot`, `semantic`, `useInjectStyles`, and `useThemeRhythm`
+// exports intact via importOriginal so that `<Card>` (used by the grid
+// variant's `<Card asChild>` cards) and Surface work unmodified — only
+// `useTheme` is swapped out for a spy-driven stub. `setTheme` is a fresh
+// spy per test.
 const setThemeSpy = vi.fn();
 
-vi.mock('@4lt7ab/core', () => ({
-  semantic: new Proxy({}, { get: (_t, prop) => `var(--mock-${String(prop)})` }),
-  useInjectStyles: vi.fn(),
-  useThemeRhythm: () => ({ config: null, phaseRef: { current: 0 }, subscribe: () => () => {}, durationCss: undefined }),
-  useTheme: () => ({
-    theme: 'slate',
-    resolved: 'slate',
-    themes: new Map([
-      ['slate', { name: 'slate', label: 'Slate' }],
-      ['synthwave', { name: 'synthwave', label: 'Synthwave' }],
-      ['moss', { name: 'moss', label: 'Moss' }],
-    ]),
-    setTheme: setThemeSpy,
-  }),
-}));
+vi.mock('@4lt7ab/core', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@4lt7ab/core')>();
+  return {
+    ...actual,
+    useTheme: () => ({
+      theme: 'slate',
+      resolved: 'slate',
+      themes: new Map([
+        ['slate', { name: 'slate', label: 'Slate' }],
+        ['synthwave', { name: 'synthwave', label: 'Synthwave' }],
+        ['moss', { name: 'moss', label: 'Moss' }],
+      ]),
+      setTheme: setThemeSpy,
+    }),
+  };
+});
 
 describe('ThemePicker', () => {
   beforeEach(() => {
@@ -107,6 +112,18 @@ describe('ThemePicker', () => {
       render(<ThemePicker />);
       await user.click(screen.getByRole('button', { name: /moss/i }));
       expect(setThemeSpy).toHaveBeenCalledWith('moss');
+    });
+
+    it('marks the active theme with aria-current="true"', () => {
+      // The grid variant shares the LinkCard stylesheet — the active-theme
+      // accent border is pinned via `aria-current="true"` on the <button>.
+      render(<ThemePicker />);
+      const active = screen.getByRole('button', { name: /slate/i });
+      expect(active).toHaveAttribute('aria-current', 'true');
+      // Non-active buttons omit the attribute entirely so the `:hover` rule
+      // owns the accent border for them.
+      const inactive = screen.getByRole('button', { name: /moss/i });
+      expect(inactive).not.toHaveAttribute('aria-current');
     });
   });
 });

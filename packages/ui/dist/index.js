@@ -45,22 +45,297 @@ function useFocusTrap(ref) {
 export * from "../../core/dist/index.js";
 
 // src/components/molecules/ThemePicker/ThemePicker.tsx
-import { forwardRef as forwardRef2 } from "react";
-import { useTheme, useInjectStyles as useInjectStyles3 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef4 } from "react";
+import { useTheme, useInjectStyles as useInjectStyles4 } from "../../core/dist/index.js";
+
+// src/components/molecules/Card/Card.tsx
+import { forwardRef as forwardRef2, useEffect as useEffect2, useRef } from "react";
+import { semantic as t3, useInjectStyles, useThemeRhythm, Slot as Slot2 } from "../../core/dist/index.js";
+
+// src/components/atoms/Surface/Surface.tsx
+import { createElement, forwardRef } from "react";
+import { semantic as t2, Slot } from "../../core/dist/index.js";
+
+// src/types.ts
+import { semantic as t } from "../../core/dist/index.js";
+var alignMap = {
+  start: "flex-start",
+  center: "center",
+  end: "flex-end",
+  stretch: "stretch",
+  baseline: "baseline"
+};
+var justifyMap = {
+  start: "flex-start",
+  center: "center",
+  end: "flex-end",
+  "space-between": "space-between",
+  "space-around": "space-around",
+  "space-evenly": "space-evenly"
+};
+var semanticColorMap = {
+  primary: t.colorActionPrimary,
+  success: t.colorSuccess,
+  warning: t.colorWarning,
+  error: t.colorError,
+  info: t.colorInfo,
+  muted: t.colorTextMuted
+};
+var iconSizeMap = {
+  xs: 14,
+  sm: 16,
+  md: 20,
+  lg: 24,
+  xl: 32
+};
+var modalWidthMap = {
+  sm: 400,
+  md: 480,
+  lg: 520,
+  xl: 640
+};
+var progressBarHeightMap = {
+  sm: 4,
+  md: 6,
+  lg: 10
+};
+var dividerOpacityMap = {
+  subtle: 25,
+  default: 50,
+  strong: 75
+};
+var spacingMap = {
+  xs: t.spaceXs,
+  sm: t.spaceSm,
+  md: t.spaceMd,
+  lg: t.spaceLg,
+  xl: t.spaceXl,
+  "2xl": t.space2xl
+};
+var radiusMap = {
+  none: "0",
+  sm: t.radiusSm,
+  md: t.radiusMd,
+  lg: t.radiusLg,
+  full: t.radiusFull
+};
+var shadowMap = {
+  sm: t.shadowSm,
+  md: t.shadowMd,
+  lg: t.shadowLg
+};
+
+// src/components/atoms/Surface/Surface.tsx
+import { jsx } from "react/jsx-runtime";
+var levelMap = {
+  page: t2.colorSurfacePage,
+  default: t2.colorSurface,
+  solid: t2.colorSurfaceSolid,
+  raised: t2.colorSurfaceRaised,
+  panel: t2.colorSurfacePanel,
+  input: t2.colorSurfaceInput,
+  overlay: t2.colorSurfaceOverlay
+};
+function getSurfaceStyle({
+  level = "solid",
+  tint,
+  padding,
+  radius = "lg",
+  border = false,
+  shadow
+}) {
+  const borderValue = border === true ? `${t2.borderWidthDefault} solid ${t2.colorBorder}` : typeof border === "string" ? `${t2.borderWidthDefault} solid ${semanticColorMap[border]}` : void 0;
+  const tintBg = tint ? `color-mix(in srgb, ${semanticColorMap[tint]} 10%, transparent)` : void 0;
+  return {
+    background: tintBg ?? levelMap[level],
+    padding: padding ? spacingMap[padding] : void 0,
+    borderRadius: radiusMap[radius],
+    border: borderValue,
+    boxShadow: shadow ? shadowMap[shadow] : void 0,
+    color: t2.colorText
+  };
+}
+var Surface = forwardRef(
+  function Surface2({
+    level = "solid",
+    tint,
+    padding,
+    radius = "lg",
+    border = false,
+    shadow,
+    as = "div",
+    asChild = false,
+    children,
+    ...rest
+  }, ref) {
+    const style = getSurfaceStyle({ level, tint, padding, radius, border, shadow });
+    const commonProps = {
+      id: rest.id,
+      "data-testid": rest["data-testid"],
+      "aria-label": rest["aria-label"],
+      "aria-labelledby": rest["aria-labelledby"],
+      style
+    };
+    if (asChild) {
+      return /* @__PURE__ */ jsx(Slot, { ref, ...commonProps, children });
+    }
+    return createElement(as, { ref, ...commonProps }, children);
+  }
+);
+
+// src/components/molecules/Card/Card.tsx
+import { jsx as jsx2 } from "react/jsx-runtime";
+var variantSurfaceProps = {
+  default: { level: "solid", border: true, shadow: "sm" },
+  flat: { level: "raised", border: true },
+  elevated: { level: "solid", border: true, shadow: "md" },
+  // `ghost` uses the `default` Surface level (which maps to `colorSurface` —
+  // transparent in some themes) and emits no border / shadow. This lets
+  // consumers like LinkCard keep the border in a stylesheet rule so that
+  // `:hover { border-color }` still works — an inline `border` shorthand
+  // from Surface would otherwise beat the hover rule on specificity.
+  ghost: { level: "default" }
+};
+var HOVER_STYLES_ID = "4lt7ab-card-hover";
+var HOVER_STYLES_CSS = `
+[data-card-hover] {
+  cursor: pointer;
+  transition: transform ${t3.transitionSlow}, border-color ${t3.transitionSlow}, box-shadow ${t3.transitionSlow};
+}
+[data-card-hover]:hover {
+  transform: translateY(-2px);
+  border-color: ${t3.colorBorderFocused};
+  box-shadow: ${t3.shadowMd};
+}
+`;
+var GLOW_STYLES_ID = "4lt7ab-card-glow";
+var GLOW_STYLES_CSS = `
+[data-card-glow] {
+  --card-glow-strength: 0;
+}
+`;
+var GLOW_BOX_SHADOW = `0 0 calc(var(--card-glow-strength, 0) * 16px) calc(var(--card-glow-strength, 0) * 2px) color-mix(in srgb, ${t3.colorActionPrimary} calc(var(--card-glow-strength, 0) * 70%), transparent)`;
+function prefersReducedMotion() {
+  if (typeof window === "undefined" || !window.matchMedia) return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+var Card = forwardRef2(
+  function Card2({
+    variant = "default",
+    padding = "lg",
+    hover = false,
+    glow = false,
+    asChild = false,
+    children,
+    ...rest
+  }, ref) {
+    useInjectStyles(HOVER_STYLES_ID, HOVER_STYLES_CSS);
+    useInjectStyles(GLOW_STYLES_ID, GLOW_STYLES_CSS);
+    const internalRef = useRef(null);
+    const setRef = (node) => {
+      internalRef.current = node;
+      if (typeof ref === "function") ref(node);
+      else if (ref) ref.current = node;
+    };
+    const { config, subscribe } = useThemeRhythm();
+    useEffect2(() => {
+      if (!glow || !config || prefersReducedMotion()) return;
+      const el = internalRef.current;
+      if (!el) return;
+      const unsubscribe = subscribe((phase) => {
+        el.style.setProperty("--card-glow-strength", String(phase));
+      });
+      return () => {
+        unsubscribe();
+        el.style.removeProperty("--card-glow-strength");
+      };
+    }, [glow, config, subscribe]);
+    const surfaceProps = {
+      ...variantSurfaceProps[variant],
+      padding,
+      radius: "lg",
+      asChild: true
+    };
+    const cardSlotProps = {
+      "data-card-hover": hover ? "" : void 0,
+      "data-card-glow": glow ? "" : void 0,
+      id: rest.id,
+      "data-testid": rest["data-testid"]
+    };
+    if (glow) {
+      cardSlotProps.style = { boxShadow: GLOW_BOX_SHADOW };
+    }
+    if (asChild) {
+      return /* @__PURE__ */ jsx2(Surface, { ...surfaceProps, children: /* @__PURE__ */ jsx2(Slot2, { ref: setRef, ...cardSlotProps, children }) });
+    }
+    return /* @__PURE__ */ jsx2(Surface, { ...surfaceProps, children: /* @__PURE__ */ jsx2("div", { ref: setRef, ...cardSlotProps, children }) });
+  }
+);
+
+// src/components/molecules/LinkCard/linkCardStyles.ts
+import { semantic as t4 } from "../../core/dist/index.js";
+var LINK_CARD_STYLES_ID = "alttab-link-card";
+var LINK_CARD_CLASS = "alttab-link-card";
+var LINK_CARD_TITLE_CLASS = "alttab-link-card__title";
+var LINK_CARD_DESC_CLASS = "alttab-link-card__desc";
+var linkCardCSS = (
+  /* css */
+  `
+  .${LINK_CARD_CLASS} {
+    display: block;
+    width: 100%;
+    border: ${t4.borderWidthThick} solid ${t4.colorBorder};
+    text-align: left;
+    text-decoration: none;
+    color: inherit;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color ${t4.transitionBase}, transform ${t4.transitionBase};
+  }
+
+  .${LINK_CARD_CLASS}:hover {
+    border-color: ${t4.colorTextLink};
+    transform: translateY(-2px);
+  }
+
+  /* Selected / current state \u2014 consumers set aria-current="true" or
+     aria-pressed="true" on the rendered element to pin the accent border
+     in place. ThemePicker's grid uses aria-current for the active theme. */
+  .${LINK_CARD_CLASS}[aria-current="true"],
+  .${LINK_CARD_CLASS}[aria-pressed="true"] {
+    border-color: ${t4.colorTextLink};
+  }
+
+  .${LINK_CARD_TITLE_CLASS} {
+    display: block;
+    font-family: ${t4.fontSerif};
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: ${t4.colorText};
+    margin-bottom: 0.25rem;
+  }
+
+  .${LINK_CARD_DESC_CLASS} {
+    display: block;
+    font-size: 0.875rem;
+    color: ${t4.colorTextMuted};
+  }
+`
+);
 
 // src/components/organisms/Select/Select.tsx
 import {
   createContext,
   useCallback,
   useContext,
-  useEffect as useEffect2,
+  useEffect as useEffect3,
   useId,
   useMemo,
-  useRef,
+  useRef as useRef2,
   useState
 } from "react";
-import { semantic as t, useInjectStyles } from "../../core/dist/index.js";
-import { Fragment, jsx, jsxs } from "react/jsx-runtime";
+import { semantic as t5, useInjectStyles as useInjectStyles2 } from "../../core/dist/index.js";
+import { Fragment, jsx as jsx3, jsxs } from "react/jsx-runtime";
 var SELECT_STYLES_ID = "alttab-select";
 var selectCSS = (
   /* css */
@@ -128,7 +403,7 @@ function Root({
   form,
   children
 }) {
-  useInjectStyles(SELECT_STYLES_ID, selectCSS);
+  useInjectStyles2(SELECT_STYLES_ID, selectCSS);
   const instanceId = useId();
   const listboxId = `${instanceId}-listbox`;
   const [internalValue, setInternalValue] = useState(defaultValue ?? "");
@@ -137,8 +412,8 @@ function Root({
   const [open, setOpen] = useState(false);
   const [focusedValue, setFocusedValue] = useState(null);
   const [dropDirection, setDropDirection] = useState("down");
-  const containerRef = useRef(null);
-  const triggerRef = useRef(null);
+  const containerRef = useRef2(null);
+  const triggerRef = useRef2(null);
   const [items, setItems] = useState([]);
   const registerItem = useCallback((item) => {
     setItems((prev) => {
@@ -198,7 +473,7 @@ function Root({
     },
     [items, setValue, closeMenu]
   );
-  useEffect2(() => {
+  useEffect3(() => {
     if (!open) return;
     function handleMouseDown(e) {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -301,7 +576,7 @@ function Root({
       selectItem
     ]
   );
-  return /* @__PURE__ */ jsx(SelectContext.Provider, { value: ctx, children: /* @__PURE__ */ jsxs(
+  return /* @__PURE__ */ jsx3(SelectContext.Provider, { value: ctx, children: /* @__PURE__ */ jsxs(
     "div",
     {
       ref: containerRef,
@@ -323,8 +598,8 @@ function Root({
             "aria-hidden": true,
             style: hiddenSelectStyle,
             children: [
-              /* @__PURE__ */ jsx("option", { value: "" }),
-              items.map((item) => /* @__PURE__ */ jsx(
+              /* @__PURE__ */ jsx3("option", { value: "" }),
+              items.map((item) => /* @__PURE__ */ jsx3(
                 "option",
                 {
                   value: item.value,
@@ -389,8 +664,8 @@ function Trigger({
         ...hasSelection ? {} : placeholderStyle
       },
       children: [
-        /* @__PURE__ */ jsx("span", { style: triggerTextStyle, children }),
-        /* @__PURE__ */ jsx("span", { "aria-hidden": true, style: chevronStyle, children: /* @__PURE__ */ jsx(ChevronSVG, { rotated: open }) })
+        /* @__PURE__ */ jsx3("span", { style: triggerTextStyle, children }),
+        /* @__PURE__ */ jsx3("span", { "aria-hidden": true, style: chevronStyle, children: /* @__PURE__ */ jsx3(ChevronSVG, { rotated: open }) })
       ]
     }
   );
@@ -398,12 +673,12 @@ function Trigger({
 function Value({ placeholder }) {
   const { value, items } = useSelectContext("Value");
   const selected = items.find((i) => i.value === value);
-  return /* @__PURE__ */ jsx(Fragment, { children: selected?.label ?? placeholder ?? "\xA0" });
+  return /* @__PURE__ */ jsx3(Fragment, { children: selected?.label ?? placeholder ?? "\xA0" });
 }
 function Content({ children }) {
   const { open, listboxId, dropDirection, focusedValue } = useSelectContext("Content");
-  const ref = useRef(null);
-  useEffect2(() => {
+  const ref = useRef2(null);
+  useEffect3(() => {
     if (!open || !focusedValue) return;
     const menu = ref.current;
     if (!menu) return;
@@ -417,15 +692,15 @@ function Content({ children }) {
     top: "100%",
     left: 0,
     right: 0,
-    marginTop: t.spaceXs
+    marginTop: t5.spaceXs
   } : {
     position: "absolute",
     bottom: "100%",
     left: 0,
     right: 0,
-    marginBottom: t.spaceXs
+    marginBottom: t5.spaceXs
   };
-  return /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ jsx3(
     "div",
     {
       ref,
@@ -434,12 +709,12 @@ function Content({ children }) {
       hidden: !open,
       style: open ? {
         ...positionStyle,
-        background: t.colorSurfacePanel,
-        border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
-        borderRadius: t.radiusMd,
-        padding: t.spaceXs,
-        zIndex: t.zIndexSticky,
-        boxShadow: t.shadowMd,
+        background: t5.colorSurfacePanel,
+        border: `${t5.borderWidthDefault} solid ${t5.colorBorder}`,
+        borderRadius: t5.radiusMd,
+        padding: t5.spaceXs,
+        zIndex: t5.zIndexSticky,
+        boxShadow: t5.shadowMd,
         maxHeight: "16rem",
         overflowY: "auto",
         boxSizing: "border-box"
@@ -465,7 +740,7 @@ function Item({
     instanceId
   } = ctx;
   const resolvedLabel = textValue ?? (typeof children === "string" ? children : value);
-  useEffect2(() => {
+  useEffect3(() => {
     registerItem({ value, label: resolvedLabel, disabled });
     return () => unregisterItem(value);
   }, [value, resolvedLabel, disabled, registerItem, unregisterItem]);
@@ -477,7 +752,7 @@ function Item({
     isFocused ? "alttab-select-option--focused" : "",
     disabled ? "alttab-select-option--disabled" : ""
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ jsx3(
     "button",
     {
       type: "button",
@@ -512,18 +787,18 @@ var triggerBaseStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  gap: t.spaceSm,
+  gap: t5.spaceSm,
   width: "100%",
-  padding: `${t.spaceSm} ${t.spaceMd}`,
-  fontSize: t.fontSizeSm,
-  lineHeight: t.lineHeightTight,
-  fontFamily: t.fontSans,
-  color: t.colorText,
-  background: t.colorSurfaceInput,
-  border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
-  borderRadius: t.radiusMd,
+  padding: `${t5.spaceSm} ${t5.spaceMd}`,
+  fontSize: t5.fontSizeSm,
+  lineHeight: t5.lineHeightTight,
+  fontFamily: t5.fontSans,
+  color: t5.colorText,
+  background: t5.colorSurfaceInput,
+  border: `${t5.borderWidthDefault} solid ${t5.colorBorder}`,
+  borderRadius: t5.radiusMd,
   outline: "none",
-  transition: `border-color ${t.transitionBase}, box-shadow ${t.transitionBase}`,
+  transition: `border-color ${t5.transitionBase}, box-shadow ${t5.transitionBase}`,
   boxSizing: "border-box",
   cursor: "pointer",
   textAlign: "left"
@@ -538,24 +813,24 @@ var triggerTextStyle = {
 var chevronStyle = {
   flex: "0 0 auto",
   pointerEvents: "none",
-  color: t.colorTextSecondary,
+  color: t5.colorTextSecondary,
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center"
 };
 var errorBorderStyle = {
-  borderColor: t.colorBorderError
+  borderColor: t5.colorBorderError
 };
 var disabledStyle = {
-  background: t.colorSurfaceDisabled,
-  color: t.colorTextDisabled,
+  background: t5.colorSurfaceDisabled,
+  color: t5.colorTextDisabled,
   cursor: "not-allowed"
 };
 var placeholderStyle = {
-  color: t.colorTextPlaceholder
+  color: t5.colorTextPlaceholder
 };
 function ChevronSVG({ rotated }) {
-  return /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ jsx3(
     "svg",
     {
       width: "12",
@@ -564,10 +839,10 @@ function ChevronSVG({ rotated }) {
       fill: "none",
       xmlns: "http://www.w3.org/2000/svg",
       style: {
-        transition: `transform ${t.transitionBase}`,
+        transition: `transform ${t5.transitionBase}`,
         transform: rotated ? "rotate(180deg)" : "none"
       },
-      children: /* @__PURE__ */ jsx(
+      children: /* @__PURE__ */ jsx3(
         "path",
         {
           d: "M2.22 4.47a.75.75 0 0 1 1.06 0L6 7.19l2.72-2.72a.75.75 0 1 1 1.06 1.06L6 9.31 2.22 5.53a.75.75 0 0 1 0-1.06z",
@@ -586,16 +861,16 @@ var Select = {
 };
 
 // src/components/atoms/StatusDot/StatusDot.tsx
-import { forwardRef } from "react";
-import { semantic as t2, useInjectStyles as useInjectStyles2, useThemeRhythm } from "../../core/dist/index.js";
-import { jsx as jsx2 } from "react/jsx-runtime";
+import { forwardRef as forwardRef3 } from "react";
+import { semantic as t6, useInjectStyles as useInjectStyles3, useThemeRhythm as useThemeRhythm2 } from "../../core/dist/index.js";
+import { jsx as jsx4 } from "react/jsx-runtime";
 var variantColors = {
-  default: t2.colorTextMuted,
-  primary: t2.colorActionPrimary,
-  success: t2.colorSuccess,
-  warning: t2.colorWarning,
-  error: t2.colorError,
-  info: t2.colorInfo
+  default: t6.colorTextMuted,
+  primary: t6.colorActionPrimary,
+  success: t6.colorSuccess,
+  warning: t6.colorWarning,
+  error: t6.colorError,
+  info: t6.colorInfo
 };
 var sizeMap = {
   sm: 6,
@@ -619,7 +894,7 @@ var PULSE_STYLES_CSS = `
   }
 }
 `;
-var StatusDot = forwardRef(
+var StatusDot = forwardRef3(
   function StatusDot2({
     variant = "default",
     size = "md",
@@ -629,9 +904,9 @@ var StatusDot = forwardRef(
     const resolvedColor = variantColors[variant];
     const resolvedSize = sizeMap[size];
     const isPulsing = animate === "pulse";
-    const { durationCss } = useThemeRhythm();
-    useInjectStyles2(PULSE_STYLES_ID, PULSE_STYLES_CSS);
-    return /* @__PURE__ */ jsx2(
+    const { durationCss } = useThemeRhythm2();
+    useInjectStyles3(PULSE_STYLES_ID, PULSE_STYLES_CSS);
+    return /* @__PURE__ */ jsx4(
       "span",
       {
         ref,
@@ -643,7 +918,7 @@ var StatusDot = forwardRef(
           display: "inline-block",
           width: resolvedSize,
           height: resolvedSize,
-          borderRadius: t2.radiusFull,
+          borderRadius: t6.radiusFull,
           background: resolvedColor,
           flexShrink: 0,
           ...isPulsing ? {
@@ -658,7 +933,7 @@ var StatusDot = forwardRef(
 );
 
 // src/components/molecules/ThemePicker/ThemePicker.tsx
-import { jsx as jsx3, jsxs as jsxs2 } from "react/jsx-runtime";
+import { jsx as jsx5, jsxs as jsxs2 } from "react/jsx-runtime";
 var GRID_STYLES_ID = "alttab-theme-picker";
 var gridCSS = (
   /* css */
@@ -668,41 +943,6 @@ var gridCSS = (
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 1.5rem;
   }
-
-  .alttab-theme-card {
-    background: var(--color-surface);
-    border: var(--border-width-thick) solid var(--color-border);
-    border-radius: 8px;
-    padding: 1.5rem;
-    text-align: left;
-    cursor: pointer;
-    transition: border-color var(--transition-base), transform var(--transition-base);
-    font-family: inherit;
-    color: inherit;
-  }
-
-  .alttab-theme-card:hover {
-    border-color: var(--color-text-link);
-    transform: translateY(-2px);
-  }
-
-  .alttab-theme-card--active {
-    border-color: var(--color-text-link);
-  }
-
-  .alttab-theme-card__name {
-    display: block;
-    font-family: var(--font-serif);
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-  }
-
-  .alttab-theme-card__desc {
-    display: block;
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
-  }
 `
 );
 var DOT_ROW = {
@@ -711,48 +951,50 @@ var DOT_ROW = {
   gap: "0.5rem"
 };
 function GridView({ descriptions }) {
-  useInjectStyles3(GRID_STYLES_ID, gridCSS);
+  useInjectStyles4(LINK_CARD_STYLES_ID, linkCardCSS);
+  useInjectStyles4(GRID_STYLES_ID, gridCSS);
   const { resolved, themes, setTheme } = useTheme();
-  return /* @__PURE__ */ jsx3("div", { className: "alttab-theme-picker", children: Array.from(themes.values()).map((def) => {
+  return /* @__PURE__ */ jsx5("div", { className: "alttab-theme-picker", children: Array.from(themes.values()).map((def) => {
     const isActive = resolved === def.name;
-    return /* @__PURE__ */ jsxs2(
+    return /* @__PURE__ */ jsx5(Card, { asChild: true, variant: "ghost", children: /* @__PURE__ */ jsxs2(
       "button",
       {
-        className: `alttab-theme-card${isActive ? " alttab-theme-card--active" : ""}`,
+        type: "button",
+        className: LINK_CARD_CLASS,
+        "aria-current": isActive ? "true" : void 0,
         onClick: () => setTheme(def.name),
         children: [
-          /* @__PURE__ */ jsx3("span", { className: "alttab-theme-card__name", children: def.label }),
-          descriptions[def.name] && /* @__PURE__ */ jsx3("span", { className: "alttab-theme-card__desc", children: descriptions[def.name] })
+          /* @__PURE__ */ jsx5("span", { className: LINK_CARD_TITLE_CLASS, children: def.label }),
+          descriptions[def.name] && /* @__PURE__ */ jsx5("span", { className: LINK_CARD_DESC_CLASS, children: descriptions[def.name] })
         ]
-      },
-      def.name
-    );
+      }
+    ) }, def.name);
   }) });
 }
 function CompactView() {
   const { resolved, themes, setTheme } = useTheme();
   return /* @__PURE__ */ jsxs2(Select.Root, { value: resolved, onValueChange: setTheme, children: [
-    /* @__PURE__ */ jsx3(Select.Trigger, { "aria-label": "Select theme", children: /* @__PURE__ */ jsxs2("span", { style: DOT_ROW, children: [
-      /* @__PURE__ */ jsx3(StatusDot, { variant: "primary" }),
-      /* @__PURE__ */ jsx3(Select.Value, {})
+    /* @__PURE__ */ jsx5(Select.Trigger, { "aria-label": "Select theme", children: /* @__PURE__ */ jsxs2("span", { style: DOT_ROW, children: [
+      /* @__PURE__ */ jsx5(StatusDot, { variant: "primary" }),
+      /* @__PURE__ */ jsx5(Select.Value, {})
     ] }) }),
-    /* @__PURE__ */ jsx3(Select.Content, { children: Array.from(themes.values()).map((def) => /* @__PURE__ */ jsx3(Select.Item, { value: def.name, textValue: def.label, children: /* @__PURE__ */ jsxs2("span", { style: DOT_ROW, children: [
-      /* @__PURE__ */ jsx3(StatusDot, { variant: "primary" }),
+    /* @__PURE__ */ jsx5(Select.Content, { children: Array.from(themes.values()).map((def) => /* @__PURE__ */ jsx5(Select.Item, { value: def.name, textValue: def.label, children: /* @__PURE__ */ jsxs2("span", { style: DOT_ROW, children: [
+      /* @__PURE__ */ jsx5(StatusDot, { variant: "primary" }),
       def.label
     ] }) }, def.name)) })
   ] });
 }
-var ThemePicker = forwardRef2(
+var ThemePicker = forwardRef4(
   function ThemePicker2({ descriptions = {}, variant = "grid" }, ref) {
     if (variant === "compact") {
-      return /* @__PURE__ */ jsx3("div", { ref, style: { display: "inline-block" }, children: /* @__PURE__ */ jsx3(CompactView, {}) });
+      return /* @__PURE__ */ jsx5("div", { ref, style: { display: "inline-block" }, children: /* @__PURE__ */ jsx5(CompactView, {}) });
     }
-    return /* @__PURE__ */ jsx3("div", { ref, children: /* @__PURE__ */ jsx3(GridView, { descriptions }) });
+    return /* @__PURE__ */ jsx5("div", { ref, children: /* @__PURE__ */ jsx5(GridView, { descriptions }) });
   }
 );
 
 // src/icons/icons.tsx
-import { jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
+import { jsx as jsx6, jsxs as jsxs3 } from "react/jsx-runtime";
 function svgProps(size, style) {
   return {
     width: size,
@@ -767,115 +1009,115 @@ function svgProps(size, style) {
   };
 }
 function IconClose({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M18 6L6 18M6 6l12 12" }) });
+  return /* @__PURE__ */ jsx6("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx6("path", { d: "M18 6L6 18M6 6l12 12" }) });
 }
 function IconChevronRight({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M9 18l6-6-6-6" }) });
+  return /* @__PURE__ */ jsx6("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx6("path", { d: "M9 18l6-6-6-6" }) });
 }
 function IconChevronDown({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M6 9l6 6 6-6" }) });
+  return /* @__PURE__ */ jsx6("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx6("path", { d: "M6 9l6 6 6-6" }) });
 }
 function IconChevronLeft({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M15 18l-6-6 6-6" }) });
+  return /* @__PURE__ */ jsx6("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx6("path", { d: "M15 18l-6-6 6-6" }) });
 }
 function IconChevronUp({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M18 15l-6-6-6 6" }) });
+  return /* @__PURE__ */ jsx6("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx6("path", { d: "M18 15l-6-6-6 6" }) });
 }
 function IconCheck({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M20 6L9 17l-5-5" }) });
+  return /* @__PURE__ */ jsx6("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx6("path", { d: "M20 6L9 17l-5-5" }) });
 }
 function IconCheckCircle({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx4("path", { d: "M22 11.08V12a10 10 0 11-5.93-9.14" }),
-    /* @__PURE__ */ jsx4("path", { d: "M22 4L12 14.01l-3-3" })
+    /* @__PURE__ */ jsx6("path", { d: "M22 11.08V12a10 10 0 11-5.93-9.14" }),
+    /* @__PURE__ */ jsx6("path", { d: "M22 4L12 14.01l-3-3" })
   ] });
 }
 function IconWarning({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx4("path", { d: "M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" }),
-    /* @__PURE__ */ jsx4("line", { x1: "12", y1: "9", x2: "12", y2: "13" }),
-    /* @__PURE__ */ jsx4("line", { x1: "12", y1: "17", x2: "12.01", y2: "17" })
+    /* @__PURE__ */ jsx6("path", { d: "M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" }),
+    /* @__PURE__ */ jsx6("line", { x1: "12", y1: "9", x2: "12", y2: "13" }),
+    /* @__PURE__ */ jsx6("line", { x1: "12", y1: "17", x2: "12.01", y2: "17" })
   ] });
 }
 function IconError({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx4("circle", { cx: "12", cy: "12", r: "10" }),
-    /* @__PURE__ */ jsx4("path", { d: "M15 9l-6 6M9 9l6 6" })
+    /* @__PURE__ */ jsx6("circle", { cx: "12", cy: "12", r: "10" }),
+    /* @__PURE__ */ jsx6("path", { d: "M15 9l-6 6M9 9l6 6" })
   ] });
 }
 function IconInfo({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx4("circle", { cx: "12", cy: "12", r: "10" }),
-    /* @__PURE__ */ jsx4("line", { x1: "12", y1: "16", x2: "12", y2: "12" }),
-    /* @__PURE__ */ jsx4("line", { x1: "12", y1: "8", x2: "12.01", y2: "8" })
+    /* @__PURE__ */ jsx6("circle", { cx: "12", cy: "12", r: "10" }),
+    /* @__PURE__ */ jsx6("line", { x1: "12", y1: "16", x2: "12", y2: "12" }),
+    /* @__PURE__ */ jsx6("line", { x1: "12", y1: "8", x2: "12.01", y2: "8" })
   ] });
 }
 function IconSearch({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx4("circle", { cx: "11", cy: "11", r: "8" }),
-    /* @__PURE__ */ jsx4("path", { d: "M21 21l-4.35-4.35" })
+    /* @__PURE__ */ jsx6("circle", { cx: "11", cy: "11", r: "8" }),
+    /* @__PURE__ */ jsx6("path", { d: "M21 21l-4.35-4.35" })
   ] });
 }
 function IconTrash({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" }) });
+  return /* @__PURE__ */ jsx6("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx6("path", { d: "M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" }) });
 }
 function IconSettings({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx4("circle", { cx: "12", cy: "12", r: "3" }),
-    /* @__PURE__ */ jsx4("path", { d: "M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" })
+    /* @__PURE__ */ jsx6("circle", { cx: "12", cy: "12", r: "3" }),
+    /* @__PURE__ */ jsx6("path", { d: "M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" })
   ] });
 }
 function IconPlus({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M12 5v14M5 12h14" }) });
+  return /* @__PURE__ */ jsx6("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx6("path", { d: "M12 5v14M5 12h14" }) });
 }
 function IconMinus({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M5 12h14" }) });
+  return /* @__PURE__ */ jsx6("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx6("path", { d: "M5 12h14" }) });
 }
 function IconEdit({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx4("path", { d: "M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" }),
-    /* @__PURE__ */ jsx4("path", { d: "M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" })
+    /* @__PURE__ */ jsx6("path", { d: "M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" }),
+    /* @__PURE__ */ jsx6("path", { d: "M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" })
   ] });
 }
 function IconArrowLeft({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M19 12H5M12 19l-7-7 7-7" }) });
+  return /* @__PURE__ */ jsx6("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx6("path", { d: "M19 12H5M12 19l-7-7 7-7" }) });
 }
 function IconArrowRight({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M5 12h14M12 5l7 7-7 7" }) });
+  return /* @__PURE__ */ jsx6("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx6("path", { d: "M5 12h14M12 5l7 7-7 7" }) });
 }
 function IconMenu({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M3 12h18M3 6h18M3 18h18" }) });
+  return /* @__PURE__ */ jsx6("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx6("path", { d: "M3 12h18M3 6h18M3 18h18" }) });
 }
 function IconEye({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx4("path", { d: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" }),
-    /* @__PURE__ */ jsx4("circle", { cx: "12", cy: "12", r: "3" })
+    /* @__PURE__ */ jsx6("path", { d: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" }),
+    /* @__PURE__ */ jsx6("circle", { cx: "12", cy: "12", r: "3" })
   ] });
 }
 function IconEyeOff({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx4("path", { d: "M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" }),
-    /* @__PURE__ */ jsx4("path", { d: "M1 1l22 22" })
+    /* @__PURE__ */ jsx6("path", { d: "M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" }),
+    /* @__PURE__ */ jsx6("path", { d: "M1 1l22 22" })
   ] });
 }
 function IconCopy({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx4("rect", { x: "9", y: "9", width: "13", height: "13", rx: "2", ry: "2" }),
-    /* @__PURE__ */ jsx4("path", { d: "M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" })
+    /* @__PURE__ */ jsx6("rect", { x: "9", y: "9", width: "13", height: "13", rx: "2", ry: "2" }),
+    /* @__PURE__ */ jsx6("path", { d: "M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" })
   ] });
 }
 function IconExternalLink({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" }) });
+  return /* @__PURE__ */ jsx6("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx6("path", { d: "M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" }) });
 }
 function IconMoreVertical({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx4("circle", { cx: "12", cy: "12", r: "1" }),
-    /* @__PURE__ */ jsx4("circle", { cx: "12", cy: "5", r: "1" }),
-    /* @__PURE__ */ jsx4("circle", { cx: "12", cy: "19", r: "1" })
+    /* @__PURE__ */ jsx6("circle", { cx: "12", cy: "12", r: "1" }),
+    /* @__PURE__ */ jsx6("circle", { cx: "12", cy: "5", r: "1" }),
+    /* @__PURE__ */ jsx6("circle", { cx: "12", cy: "19", r: "1" })
   ] });
 }
 function IconFilter({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M22 3H2l8 9.46V19l4 2v-8.54L22 3z" }) });
+  return /* @__PURE__ */ jsx6("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx6("path", { d: "M22 3H2l8 9.46V19l4 2v-8.54L22 3z" }) });
 }
 
 // src/icons/index.ts
@@ -908,58 +1150,58 @@ var iconRegistry = {
 };
 
 // src/components/atoms/Button/Button.tsx
-import { forwardRef as forwardRef3 } from "react";
-import { semantic as t3, useInjectStyles as useInjectStyles4, Slot } from "../../core/dist/index.js";
-import { jsx as jsx5 } from "react/jsx-runtime";
+import { forwardRef as forwardRef5 } from "react";
+import { semantic as t7, useInjectStyles as useInjectStyles5, Slot as Slot3 } from "../../core/dist/index.js";
+import { jsx as jsx7 } from "react/jsx-runtime";
 var variantStyles = {
   primary: {
-    background: t3.colorActionPrimary,
-    color: t3.colorTextInverse,
+    background: t7.colorActionPrimary,
+    color: t7.colorTextInverse,
     border: "none"
   },
   secondary: {
-    background: t3.colorActionSecondary,
-    color: t3.colorText,
-    border: `${t3.borderWidthDefault} solid ${t3.colorBorder}`
+    background: t7.colorActionSecondary,
+    color: t7.colorText,
+    border: `${t7.borderWidthDefault} solid ${t7.colorBorder}`
   },
   destructive: {
-    background: t3.colorActionDestructive,
-    color: t3.colorTextInverse,
+    background: t7.colorActionDestructive,
+    color: t7.colorTextInverse,
     border: "none"
   },
   ghost: {
     background: "transparent",
-    color: t3.colorText,
-    border: `${t3.borderWidthDefault} solid transparent`
+    color: t7.colorText,
+    border: `${t7.borderWidthDefault} solid transparent`
   }
 };
 var sizeStyles = {
   sm: {
-    padding: `${t3.spaceXs} ${t3.spaceSm}`,
-    fontSize: t3.fontSizeSm,
-    lineHeight: t3.lineHeightTight
+    padding: `${t7.spaceXs} ${t7.spaceSm}`,
+    fontSize: t7.fontSizeSm,
+    lineHeight: t7.lineHeightTight
   },
   md: {
-    padding: `${t3.spaceSm} ${t3.spaceMd}`,
-    fontSize: t3.fontSizeSm,
-    lineHeight: t3.lineHeightTight
+    padding: `${t7.spaceSm} ${t7.spaceMd}`,
+    fontSize: t7.fontSizeSm,
+    lineHeight: t7.lineHeightTight
   },
   lg: {
-    padding: `${t3.spaceSm} ${t3.spaceLg}`,
-    fontSize: t3.fontSizeBase,
-    lineHeight: t3.lineHeightBase
+    padding: `${t7.spaceSm} ${t7.spaceLg}`,
+    fontSize: t7.fontSizeBase,
+    lineHeight: t7.lineHeightBase
   }
 };
 var baseStyles = {
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
-  gap: t3.spaceSm,
-  borderRadius: t3.radiusMd,
-  fontFamily: t3.fontSans,
-  fontWeight: t3.fontWeightMedium,
+  gap: t7.spaceSm,
+  borderRadius: t7.radiusMd,
+  fontFamily: t7.fontSans,
+  fontWeight: t7.fontWeightMedium,
   cursor: "pointer",
-  transition: `background ${t3.transitionBase}, border-color ${t3.transitionBase}, opacity ${t3.transitionBase}`
+  transition: `background ${t7.transitionBase}, border-color ${t7.transitionBase}, opacity ${t7.transitionBase}`
 };
 var SPINNER_STYLES_ID = "alttab-button-spinner";
 var spinnerCSS = (
@@ -972,7 +1214,7 @@ var spinnerCSS = (
     display: inline-block;
     width: 1em;
     height: 1em;
-    border: ${t3.borderWidthThick} solid currentColor;
+    border: ${t7.borderWidthThick} solid currentColor;
     border-right-color: transparent;
     border-radius: 50%;
     animation: alttab-btn-spin 600ms linear infinite;
@@ -980,11 +1222,11 @@ var spinnerCSS = (
 `
 );
 var iconOnlyPadding = {
-  sm: t3.spaceXs,
-  md: t3.spaceSm,
-  lg: t3.spaceSm
+  sm: t7.spaceXs,
+  md: t7.spaceSm,
+  lg: t7.spaceSm
 };
-var Button = forwardRef3(
+var Button = forwardRef5(
   function Button2({
     variant = "primary",
     size = "md",
@@ -1009,7 +1251,7 @@ var Button = forwardRef3(
     "aria-haspopup": ariaHasPopup,
     "data-testid": dataTestId
   }, ref) {
-    useInjectStyles4(SPINNER_STYLES_ID, spinnerCSS);
+    useInjectStyles5(SPINNER_STYLES_ID, spinnerCSS);
     const isDisabled2 = disabled || loading;
     const style = {
       ...baseStyles,
@@ -1033,8 +1275,8 @@ var Button = forwardRef3(
       style
     };
     if (asChild) {
-      return /* @__PURE__ */ jsx5(
-        Slot,
+      return /* @__PURE__ */ jsx7(
+        Slot3,
         {
           ref,
           ...commonProps,
@@ -1043,7 +1285,7 @@ var Button = forwardRef3(
         }
       );
     }
-    return /* @__PURE__ */ jsx5(
+    return /* @__PURE__ */ jsx7(
       "button",
       {
         ref,
@@ -1054,88 +1296,17 @@ var Button = forwardRef3(
         autoFocus,
         disabled: isDisabled2,
         ...commonProps,
-        children: loading ? /* @__PURE__ */ jsx5("span", { className: "alttab-btn-spinner" }) : children
+        children: loading ? /* @__PURE__ */ jsx7("span", { className: "alttab-btn-spinner" }) : children
       }
     );
   }
 );
 
 // src/components/atoms/Stack/Stack.tsx
-import { forwardRef as forwardRef4 } from "react";
-
-// src/types.ts
-import { semantic as t4 } from "../../core/dist/index.js";
-var alignMap = {
-  start: "flex-start",
-  center: "center",
-  end: "flex-end",
-  stretch: "stretch",
-  baseline: "baseline"
-};
-var justifyMap = {
-  start: "flex-start",
-  center: "center",
-  end: "flex-end",
-  "space-between": "space-between",
-  "space-around": "space-around",
-  "space-evenly": "space-evenly"
-};
-var semanticColorMap = {
-  primary: t4.colorActionPrimary,
-  success: t4.colorSuccess,
-  warning: t4.colorWarning,
-  error: t4.colorError,
-  info: t4.colorInfo,
-  muted: t4.colorTextMuted
-};
-var iconSizeMap = {
-  xs: 14,
-  sm: 16,
-  md: 20,
-  lg: 24,
-  xl: 32
-};
-var modalWidthMap = {
-  sm: 400,
-  md: 480,
-  lg: 520,
-  xl: 640
-};
-var progressBarHeightMap = {
-  sm: 4,
-  md: 6,
-  lg: 10
-};
-var dividerOpacityMap = {
-  subtle: 25,
-  default: 50,
-  strong: 75
-};
-var spacingMap = {
-  xs: t4.spaceXs,
-  sm: t4.spaceSm,
-  md: t4.spaceMd,
-  lg: t4.spaceLg,
-  xl: t4.spaceXl,
-  "2xl": t4.space2xl
-};
-var radiusMap = {
-  none: "0",
-  sm: t4.radiusSm,
-  md: t4.radiusMd,
-  lg: t4.radiusLg,
-  full: t4.radiusFull
-};
-var shadowMap = {
-  sm: t4.shadowSm,
-  md: t4.shadowMd,
-  lg: t4.shadowLg
-};
-
-// src/components/atoms/Stack/Stack.tsx
-import { jsx as jsx6 } from "react/jsx-runtime";
+import { forwardRef as forwardRef6 } from "react";
+import { jsx as jsx8 } from "react/jsx-runtime";
 var gapMap = spacingMap;
-var Stack = forwardRef4(
+var Stack = forwardRef6(
   function Stack2({
     direction = "vertical",
     gap = "md",
@@ -1145,7 +1316,7 @@ var Stack = forwardRef4(
     children,
     ...rest
   }, ref) {
-    return /* @__PURE__ */ jsx6(
+    return /* @__PURE__ */ jsx8(
       "div",
       {
         ref,
@@ -1165,196 +1336,10 @@ var Stack = forwardRef4(
   }
 );
 
-// src/components/molecules/Card/Card.tsx
-import { forwardRef as forwardRef6, useEffect as useEffect3, useRef as useRef2 } from "react";
-import { semantic as t6, useInjectStyles as useInjectStyles5, useThemeRhythm as useThemeRhythm2, Slot as Slot3 } from "../../core/dist/index.js";
-
-// src/components/atoms/Surface/Surface.tsx
-import { createElement, forwardRef as forwardRef5 } from "react";
-import { semantic as t5, Slot as Slot2 } from "../../core/dist/index.js";
-import { jsx as jsx7 } from "react/jsx-runtime";
-var levelMap = {
-  page: t5.colorSurfacePage,
-  default: t5.colorSurface,
-  solid: t5.colorSurfaceSolid,
-  raised: t5.colorSurfaceRaised,
-  panel: t5.colorSurfacePanel,
-  input: t5.colorSurfaceInput,
-  overlay: t5.colorSurfaceOverlay
-};
-function getSurfaceStyle({
-  level = "solid",
-  tint,
-  padding,
-  radius = "lg",
-  border = false,
-  shadow
-}) {
-  const borderValue = border === true ? `${t5.borderWidthDefault} solid ${t5.colorBorder}` : typeof border === "string" ? `${t5.borderWidthDefault} solid ${semanticColorMap[border]}` : void 0;
-  const tintBg = tint ? `color-mix(in srgb, ${semanticColorMap[tint]} 10%, transparent)` : void 0;
-  return {
-    background: tintBg ?? levelMap[level],
-    padding: padding ? spacingMap[padding] : void 0,
-    borderRadius: radiusMap[radius],
-    border: borderValue,
-    boxShadow: shadow ? shadowMap[shadow] : void 0,
-    color: t5.colorText
-  };
-}
-var Surface = forwardRef5(
-  function Surface2({
-    level = "solid",
-    tint,
-    padding,
-    radius = "lg",
-    border = false,
-    shadow,
-    as = "div",
-    asChild = false,
-    children,
-    ...rest
-  }, ref) {
-    const style = getSurfaceStyle({ level, tint, padding, radius, border, shadow });
-    const commonProps = {
-      id: rest.id,
-      "data-testid": rest["data-testid"],
-      "aria-label": rest["aria-label"],
-      "aria-labelledby": rest["aria-labelledby"],
-      style
-    };
-    if (asChild) {
-      return /* @__PURE__ */ jsx7(Slot2, { ref, ...commonProps, children });
-    }
-    return createElement(as, { ref, ...commonProps }, children);
-  }
-);
-
-// src/components/molecules/Card/Card.tsx
-import { jsx as jsx8 } from "react/jsx-runtime";
-var variantSurfaceProps = {
-  default: { level: "solid", border: true, shadow: "sm" },
-  flat: { level: "raised", border: true },
-  elevated: { level: "solid", border: true, shadow: "md" },
-  // `ghost` uses the `default` Surface level (which maps to `colorSurface` —
-  // transparent in some themes) and emits no border / shadow. This lets
-  // consumers like LinkCard keep the border in a stylesheet rule so that
-  // `:hover { border-color }` still works — an inline `border` shorthand
-  // from Surface would otherwise beat the hover rule on specificity.
-  ghost: { level: "default" }
-};
-var HOVER_STYLES_ID = "4lt7ab-card-hover";
-var HOVER_STYLES_CSS = `
-[data-card-hover] {
-  cursor: pointer;
-  transition: transform ${t6.transitionSlow}, border-color ${t6.transitionSlow}, box-shadow ${t6.transitionSlow};
-}
-[data-card-hover]:hover {
-  transform: translateY(-2px);
-  border-color: ${t6.colorBorderFocused};
-  box-shadow: ${t6.shadowMd};
-}
-`;
-var GLOW_STYLES_ID = "4lt7ab-card-glow";
-var GLOW_STYLES_CSS = `
-[data-card-glow] {
-  --card-glow-strength: 0;
-}
-`;
-var GLOW_BOX_SHADOW = `0 0 calc(var(--card-glow-strength, 0) * 16px) calc(var(--card-glow-strength, 0) * 2px) color-mix(in srgb, ${t6.colorActionPrimary} calc(var(--card-glow-strength, 0) * 70%), transparent)`;
-function prefersReducedMotion() {
-  if (typeof window === "undefined" || !window.matchMedia) return false;
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-var Card = forwardRef6(
-  function Card2({
-    variant = "default",
-    padding = "lg",
-    hover = false,
-    glow = false,
-    asChild = false,
-    children,
-    ...rest
-  }, ref) {
-    useInjectStyles5(HOVER_STYLES_ID, HOVER_STYLES_CSS);
-    useInjectStyles5(GLOW_STYLES_ID, GLOW_STYLES_CSS);
-    const internalRef = useRef2(null);
-    const setRef = (node) => {
-      internalRef.current = node;
-      if (typeof ref === "function") ref(node);
-      else if (ref) ref.current = node;
-    };
-    const { config, subscribe } = useThemeRhythm2();
-    useEffect3(() => {
-      if (!glow || !config || prefersReducedMotion()) return;
-      const el = internalRef.current;
-      if (!el) return;
-      const unsubscribe = subscribe((phase) => {
-        el.style.setProperty("--card-glow-strength", String(phase));
-      });
-      return () => {
-        unsubscribe();
-        el.style.removeProperty("--card-glow-strength");
-      };
-    }, [glow, config, subscribe]);
-    const surfaceProps = {
-      ...variantSurfaceProps[variant],
-      padding,
-      radius: "lg",
-      asChild: true
-    };
-    const cardSlotProps = {
-      "data-card-hover": hover ? "" : void 0,
-      "data-card-glow": glow ? "" : void 0,
-      id: rest.id,
-      "data-testid": rest["data-testid"]
-    };
-    if (glow) {
-      cardSlotProps.style = { boxShadow: GLOW_BOX_SHADOW };
-    }
-    if (asChild) {
-      return /* @__PURE__ */ jsx8(Surface, { ...surfaceProps, children: /* @__PURE__ */ jsx8(Slot3, { ref: setRef, ...cardSlotProps, children }) });
-    }
-    return /* @__PURE__ */ jsx8(Surface, { ...surfaceProps, children: /* @__PURE__ */ jsx8("div", { ref: setRef, ...cardSlotProps, children }) });
-  }
-);
-
 // src/components/molecules/LinkCard/LinkCard.tsx
 import { forwardRef as forwardRef7 } from "react";
-import { semantic as t7, useInjectStyles as useInjectStyles6 } from "../../core/dist/index.js";
+import { useInjectStyles as useInjectStyles6 } from "../../core/dist/index.js";
 import { jsx as jsx9, jsxs as jsxs4 } from "react/jsx-runtime";
-var STYLES_ID = "alttab-link-card";
-var linkCardCSS = (
-  /* css */
-  `
-  .alttab-link-card {
-    display: block;
-    border: ${t7.borderWidthThick} solid ${t7.colorBorder};
-    text-decoration: none;
-    color: inherit;
-    transition: border-color ${t7.transitionBase}, transform ${t7.transitionBase};
-  }
-
-  .alttab-link-card:hover {
-    border-color: ${t7.colorTextLink};
-    transform: translateY(-2px);
-  }
-
-  .alttab-link-card__title {
-    display: block;
-    font-family: ${t7.fontSerif};
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: ${t7.colorText};
-    margin-bottom: 0.25rem;
-  }
-
-  .alttab-link-card__desc {
-    display: block;
-    font-size: 0.875rem;
-    color: ${t7.colorTextMuted};
-  }
-`
-);
 var LinkCard = forwardRef7(function LinkCard2({
   title,
   description,
@@ -1367,12 +1352,12 @@ var LinkCard = forwardRef7(function LinkCard2({
   "aria-label": ariaLabel,
   "data-testid": dataTestId
 }, ref) {
-  useInjectStyles6(STYLES_ID, linkCardCSS);
+  useInjectStyles6(LINK_CARD_STYLES_ID, linkCardCSS);
   return /* @__PURE__ */ jsx9(Card, { asChild: true, variant: "ghost", children: /* @__PURE__ */ jsxs4(
     "a",
     {
       ref,
-      className: "alttab-link-card",
+      className: LINK_CARD_CLASS,
       href,
       target: external ? "_blank" : target,
       rel: external ? "noopener noreferrer" : rel,
@@ -1381,8 +1366,8 @@ var LinkCard = forwardRef7(function LinkCard2({
       "aria-label": ariaLabel,
       "data-testid": dataTestId,
       children: [
-        /* @__PURE__ */ jsx9("span", { className: "alttab-link-card__title", children: title }),
-        description && /* @__PURE__ */ jsx9("span", { className: "alttab-link-card__desc", children: description })
+        /* @__PURE__ */ jsx9("span", { className: LINK_CARD_TITLE_CLASS, children: title }),
+        description && /* @__PURE__ */ jsx9("span", { className: LINK_CARD_DESC_CLASS, children: description })
       ]
     }
   ) });
@@ -6628,7 +6613,7 @@ var Container = forwardRef37(
 import { forwardRef as forwardRef38, useCallback as useCallback16 } from "react";
 import { semantic as t45, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
 import { jsx as jsx49, jsxs as jsxs27 } from "react/jsx-runtime";
-var STYLES_ID2 = "4lt7ab-tab-strip";
+var STYLES_ID = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
   transition: color ${t45.transitionFast}, background ${t45.transitionFast}, border-color ${t45.transitionFast};
@@ -6647,7 +6632,7 @@ var TabStrip = forwardRef38(
     size = "md",
     ...rest
   }, ref) {
-    useInjectStyles20(STYLES_ID2, STYLES_CSS);
+    useInjectStyles20(STYLES_ID, STYLES_CSS);
     const activeIndex = tabs.findIndex((tab) => tab.key === activeKey);
     const { itemRef, onKeyDown, getTabIndex } = useRovingFocus({
       count: tabs.length,

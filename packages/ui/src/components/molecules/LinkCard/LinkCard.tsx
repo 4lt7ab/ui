@@ -1,7 +1,14 @@
 import { forwardRef } from 'react';
 import type { ReactNode } from 'react';
-import { semantic as t, useInjectStyles } from '@4lt7ab/core';
+import { useInjectStyles } from '@4lt7ab/core';
 import { Card } from '../Card';
+import {
+  LINK_CARD_CLASS,
+  LINK_CARD_DESC_CLASS,
+  LINK_CARD_STYLES_ID,
+  LINK_CARD_TITLE_CLASS,
+  linkCardCSS,
+} from './linkCardStyles';
 
 /** Clickable card with a serif title and muted description. */
 export interface LinkCardProps {
@@ -20,8 +27,6 @@ export interface LinkCardProps {
   'data-testid'?: string;
 }
 
-const STYLES_ID = 'alttab-link-card';
-
 /*
  * LinkCard composes <Card asChild variant="ghost"> onto an <a>, then adds:
  *  - a stylesheet-owned border (thick, theme-bordered) that the hover rule
@@ -38,36 +43,11 @@ const STYLES_ID = 'alttab-link-card';
  * synthwave) and preserves the hover accent-border behavior. Card's
  * `default` variant applies an inline `border` shorthand which would
  * beat the `:hover { border-color }` rule on specificity.
+ *
+ * The shared stylesheet lives in `./linkCardStyles` so `ThemePicker`'s
+ * grid variant (button-based) can consume the same class names and
+ * stay visually in lockstep without duplicating the CSS block.
  */
-const linkCardCSS = /* css */ `
-  .alttab-link-card {
-    display: block;
-    border: ${t.borderWidthThick} solid ${t.colorBorder};
-    text-decoration: none;
-    color: inherit;
-    transition: border-color ${t.transitionBase}, transform ${t.transitionBase};
-  }
-
-  .alttab-link-card:hover {
-    border-color: ${t.colorTextLink};
-    transform: translateY(-2px);
-  }
-
-  .alttab-link-card__title {
-    display: block;
-    font-family: ${t.fontSerif};
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: ${t.colorText};
-    margin-bottom: 0.25rem;
-  }
-
-  .alttab-link-card__desc {
-    display: block;
-    font-size: 0.875rem;
-    color: ${t.colorTextMuted};
-  }
-`;
 
 /**
  * Clickable card with serif title and muted description. Hover lifts and
@@ -95,13 +75,13 @@ export const LinkCard: React.ForwardRefExoticComponent<
   },
   ref,
 ): React.JSX.Element {
-  useInjectStyles(STYLES_ID, linkCardCSS);
+  useInjectStyles(LINK_CARD_STYLES_ID, linkCardCSS);
 
   return (
     <Card asChild variant="ghost">
       <a
         ref={ref}
-        className="alttab-link-card"
+        className={LINK_CARD_CLASS}
         href={href}
         target={external ? '_blank' : target}
         rel={external ? 'noopener noreferrer' : rel}
@@ -110,8 +90,8 @@ export const LinkCard: React.ForwardRefExoticComponent<
         aria-label={ariaLabel}
         data-testid={dataTestId}
       >
-        <span className="alttab-link-card__title">{title}</span>
-        {description && <span className="alttab-link-card__desc">{description}</span>}
+        <span className={LINK_CARD_TITLE_CLASS}>{title}</span>
+        {description && <span className={LINK_CARD_DESC_CLASS}>{description}</span>}
       </a>
     </Card>
   );

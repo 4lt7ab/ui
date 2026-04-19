@@ -1,5 +1,13 @@
 import { forwardRef } from 'react';
 import { useTheme, useInjectStyles } from '@4lt7ab/core';
+import { Card } from '../Card';
+import {
+  LINK_CARD_CLASS,
+  LINK_CARD_DESC_CLASS,
+  LINK_CARD_STYLES_ID,
+  LINK_CARD_TITLE_CLASS,
+  linkCardCSS,
+} from '../LinkCard/linkCardStyles';
 import { Select } from '../../organisms/Select';
 import { StatusDot } from '../../atoms/StatusDot';
 
@@ -10,48 +18,16 @@ export interface ThemePickerProps {
   variant?: 'grid' | 'compact';
 }
 
-// Grid variant — CSS card grid injected once per mount.
+// Grid variant — card grid container sits on top of the LinkCard stylesheet
+// shared with `<LinkCard>`. The cards themselves are `<Card asChild variant=
+// "ghost">` over a `<button>` with the LinkCard class, so border/hover/active
+// visuals all come from `linkCardStyles` rather than a bespoke CSS block.
 const GRID_STYLES_ID = 'alttab-theme-picker';
 const gridCSS = /* css */ `
   .alttab-theme-picker {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 1.5rem;
-  }
-
-  .alttab-theme-card {
-    background: var(--color-surface);
-    border: var(--border-width-thick) solid var(--color-border);
-    border-radius: 8px;
-    padding: 1.5rem;
-    text-align: left;
-    cursor: pointer;
-    transition: border-color var(--transition-base), transform var(--transition-base);
-    font-family: inherit;
-    color: inherit;
-  }
-
-  .alttab-theme-card:hover {
-    border-color: var(--color-text-link);
-    transform: translateY(-2px);
-  }
-
-  .alttab-theme-card--active {
-    border-color: var(--color-text-link);
-  }
-
-  .alttab-theme-card__name {
-    display: block;
-    font-family: var(--font-serif);
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-  }
-
-  .alttab-theme-card__desc {
-    display: block;
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
   }
 `;
 
@@ -63,6 +39,10 @@ const DOT_ROW: React.CSSProperties = {
 };
 
 function GridView({ descriptions }: { descriptions: Record<string, string> }): React.JSX.Element {
+  // Inject both stylesheets — `linkCardCSS` is shared with <LinkCard> (same
+  // STYLES_ID, so `useInjectStyles` de-dupes) and supplies the card visuals;
+  // `gridCSS` owns only the grid container layout.
+  useInjectStyles(LINK_CARD_STYLES_ID, linkCardCSS);
   useInjectStyles(GRID_STYLES_ID, gridCSS);
   const { resolved, themes, setTheme } = useTheme();
 
@@ -71,16 +51,19 @@ function GridView({ descriptions }: { descriptions: Record<string, string> }): R
       {Array.from(themes.values()).map((def) => {
         const isActive = resolved === def.name;
         return (
-          <button
-            key={def.name}
-            className={`alttab-theme-card${isActive ? ' alttab-theme-card--active' : ''}`}
-            onClick={() => setTheme(def.name)}
-          >
-            <span className="alttab-theme-card__name">{def.label}</span>
-            {descriptions[def.name] && (
-              <span className="alttab-theme-card__desc">{descriptions[def.name]}</span>
-            )}
-          </button>
+          <Card asChild variant="ghost" key={def.name}>
+            <button
+              type="button"
+              className={LINK_CARD_CLASS}
+              aria-current={isActive ? 'true' : undefined}
+              onClick={() => setTheme(def.name)}
+            >
+              <span className={LINK_CARD_TITLE_CLASS}>{def.label}</span>
+              {descriptions[def.name] && (
+                <span className={LINK_CARD_DESC_CLASS}>{descriptions[def.name]}</span>
+              )}
+            </button>
+          </Card>
         );
       })}
     </div>
