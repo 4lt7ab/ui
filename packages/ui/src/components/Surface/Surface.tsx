@@ -1,6 +1,6 @@
 import { createElement, forwardRef } from 'react';
 import { semantic as t } from '@4lt7ab/core';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { spacingMap, radiusMap, shadowMap, semanticColorMap } from '../../types';
 import type { SpacingToken, RadiusToken, ShadowToken, SemanticColor, BaseComponentProps } from '../../types';
 
@@ -36,6 +36,54 @@ const levelMap: Record<SurfaceLevel, string> = {
 };
 
 /**
+ * Inputs that shape a Surface's visual treatment (background, padding, radius,
+ * border, shadow). Shared with composites that render their own element but
+ * want the exact same style bag — most notably `<Card asChild>`, which has to
+ * flow styles through a `Slot` rather than a real `<Surface>`.
+ */
+export interface SurfaceStyleOptions {
+  level?: SurfaceLevel;
+  tint?: SemanticColor;
+  padding?: SpacingToken;
+  radius?: RadiusToken;
+  border?: boolean | SemanticColor;
+  shadow?: ShadowToken;
+}
+
+/**
+ * Derive the inline-style bag a Surface renders for the given options. Exposed
+ * so composites (Card) can share a single source of truth for the box
+ * treatment without duplicating the mapping.
+ */
+export function getSurfaceStyle({
+  level = 'solid',
+  tint,
+  padding,
+  radius = 'lg',
+  border = false,
+  shadow,
+}: SurfaceStyleOptions): CSSProperties {
+  const borderValue = border === true
+    ? `${t.borderWidthDefault} solid ${t.colorBorder}`
+    : typeof border === 'string'
+      ? `${t.borderWidthDefault} solid ${semanticColorMap[border as SemanticColor]}`
+      : undefined;
+
+  const tintBg = tint
+    ? `color-mix(in srgb, ${semanticColorMap[tint]} 10%, transparent)`
+    : undefined;
+
+  return {
+    background: tintBg ?? levelMap[level],
+    padding: padding ? spacingMap[padding] : undefined,
+    borderRadius: radiusMap[radius],
+    border: borderValue,
+    boxShadow: shadow ? shadowMap[shadow] : undefined,
+    color: t.colorText,
+  };
+}
+
+/**
  * A composable container primitive for managing color surface area.
  *
  * Unlike Card (which is opinionated — always has border, shadow, and a fixed
@@ -63,48 +111,27 @@ const levelMap: Record<SurfaceLevel, string> = {
  * </Surface>
  * ```
  */
-export interface SurfaceProps extends BaseComponentProps {
+export interface SurfaceProps extends BaseComponentProps, SurfaceStyleOptions {
   /** Accessible label for landmark regions (e.g. when rendered as `section`). */
   'aria-label'?: string;
   /** ID of an element that labels this surface. */
   'aria-labelledby'?: string;
-  /**
-   * Background surface level from the token system.
-   * @default 'solid'
-   */
-  level?: SurfaceLevel;
 
   /**
-   * Apply a semantic color tint over the surface background.
-   * Renders as `color-mix(in srgb, <token> 10%, transparent)`.
-   * Takes precedence over `level` when provided.
+   * Extra inline styles merged after Surface's computed style. Used by
+   * composites (Card) to stack additional treatments (e.g. a rhythm-driven
+   * glow box-shadow) on top of the base surface. Consumer-visible style use
+   * should go through the structured props (`level`, `tint`, etc.) instead.
    */
-  tint?: SemanticColor;
+  style?: CSSProperties;
 
   /**
-   * Inner padding.
-   * @default undefined (no padding)
+   * Extra `data-*` attributes to forward onto the rendered element. Used by
+   * composites that need a CSS-selector hook on the Surface element itself
+   * (e.g. Card's `data-card-hover`). Not intended as a general consumer
+   * escape hatch — component-level props are the supported surface.
    */
-  padding?: SpacingToken;
-
-  /**
-   * Border radius.
-   * @default 'lg'
-   */
-  radius?: RadiusToken;
-
-  /**
-   * Show a border. `true` uses `colorBorder`; a semantic color name uses that
-   * token as the border color.
-   * @default false
-   */
-  border?: boolean | SemanticColor;
-
-  /**
-   * Box shadow intensity.
-   * @default undefined (no shadow)
-   */
-  shadow?: ShadowToken;
+  dataAttributes?: Record<string, string | boolean | undefined>;
 
   /**
    * Render as a different HTML element.
@@ -127,20 +154,14 @@ export const Surface: React.ForwardRefExoticComponent<
       border = false,
       shadow,
       as = 'div',
+      style,
+      dataAttributes,
       children,
       ...rest
     },
     ref,
   ): React.JSX.Element {
-    const borderValue = border === true
-      ? `${t.borderWidthDefault} solid ${t.colorBorder}`
-      : typeof border === 'string'
-        ? `${t.borderWidthDefault} solid ${semanticColorMap[border as SemanticColor]}`
-        : undefined;
-
-    const tintBg = tint
-      ? `color-mix(in srgb, ${semanticColorMap[tint]} 10%, transparent)`
-      : undefined;
+    const baseStyle = getSurfaceStyle({ level, tint, padding, radius, border, shadow });
 
     return createElement(
       as,
@@ -150,14 +171,8 @@ export const Surface: React.ForwardRefExoticComponent<
         'data-testid': rest['data-testid'],
         'aria-label': rest['aria-label'],
         'aria-labelledby': rest['aria-labelledby'],
-        style: {
-          background: tintBg ?? levelMap[level],
-          padding: padding ? spacingMap[padding] : undefined,
-          borderRadius: radiusMap[radius],
-          border: borderValue,
-          boxShadow: shadow ? shadowMap[shadow] : undefined,
-          color: t.colorText,
-        },
+        ...dataAttributes,
+        style: style ? { ...baseStyle, ...style } : baseStyle,
       },
       children,
     );
