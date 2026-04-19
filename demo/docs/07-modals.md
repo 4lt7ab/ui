@@ -74,6 +74,10 @@ import { ModalShell, modalHeadingStyle, modalFooterStyle, Button } from '@4lt7ab
 
 0.3.0 retired the former `FormModal` component; the canonical replacement is a `ModalShell` + `modalHeadingStyle` + `modalFooterStyle` composition at the call site. The two style objects are frozen `CSSProperties` re-exports; spread them onto your heading and footer wrappers for visual parity with `ConfirmDialog`.
 
+Live showcase — the sync form exercises the full primitive surface; the async form demonstrates the `<Button loading>` + try/finally pattern the retired wrapper used to manage internally. Tab once the modal is open to verify focus trap (Tab cycles inside the panel; Escape dismisses; overlay click dismisses; focus restores to the trigger on close).
+
+<LiveExample id="modals-modalshell" />
+
 ## ConfirmDialog
 
 Modal confirmation — title, message, optional body content, Cancel and Confirm buttons. Handles both sync and async `onConfirm` (the Confirm button enters a loading state for in-flight promises).

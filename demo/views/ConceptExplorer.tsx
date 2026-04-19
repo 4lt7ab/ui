@@ -3,6 +3,24 @@ import { AppShell, TopBar, ThemePicker } from '@4lt7ab/ui';
 import { Markdown } from '@4lt7ab/content';
 import { semantic as t } from '@4lt7ab/core';
 import { CONCEPT_DOCS, findConceptDoc, type ConceptDoc } from '../docs/registry';
+import { LiveExample } from '../examples/LiveExample';
+import { remarkLiveExample } from '../examples/remarkLiveExample';
+
+// ---------------------------------------------------------------------------
+// Markdown plugin + component wiring
+// ---------------------------------------------------------------------------
+//
+// Concept docs embed live React widgets inline via `<LiveExample id="..." />`
+// HTML blocks. React-markdown strips raw HTML by default, so the
+// `remarkLiveExample` plugin (see `../examples/remarkLiveExample.ts`)
+// rewrites the matching mdast nodes into a synthetic element whose
+// `hName`/`hProperties` steer the rehype conversion into emitting a real
+// `<liveexample>` hast element — which is then mapped to the `LiveExample`
+// renderer below via `Markdown`'s `components` prop.
+const mdComponents = {
+  liveexample: LiveExample,
+};
+const mdRemarkPlugins = [remarkLiveExample];
 
 // ---------------------------------------------------------------------------
 // Hash routing — one source of truth
@@ -125,7 +143,13 @@ export function ConceptExplorer(): React.JSX.Element {
           }}
         >
           {doc ? (
-            <Markdown key={doc.slug}>{doc.content}</Markdown>
+            <Markdown
+              key={doc.slug}
+              components={mdComponents}
+              remarkPlugins={mdRemarkPlugins}
+            >
+              {doc.content}
+            </Markdown>
           ) : (
             <p style={{ color: t.colorTextMuted }}>No concept docs registered.</p>
           )}

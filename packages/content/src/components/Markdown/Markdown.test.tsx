@@ -218,3 +218,48 @@ describe('Markdown — editable mode', () => {
     expect(screen.getByRole('button', { name: /copy markdown source/i })).toBeTruthy();
   });
 });
+
+describe('Markdown — components + remarkPlugins override props', () => {
+  it('invokes a consumer remark plugin on the parsed mdast tree', () => {
+    // The real doc-site wiring is: a remark plugin rewrites an mdast node's
+    // data.hName so the rehype conversion emits a custom hast element, and
+    // the components map hands it to a React component (see
+    // `demo/examples/remarkLiveExample.ts`). This test just verifies the
+    // plumbing — that a plugin appended via `remarkPlugins` runs against
+    // the same tree the built-ins see.
+    const calls: string[] = [];
+    const pluginSpy = () => (tree: any) => {
+      calls.push(tree?.type ?? 'unknown');
+    };
+
+    render(<Markdown remarkPlugins={[pluginSpy]}>{'# Heading\n\nBody.'}</Markdown>);
+
+    expect(calls).toContain('root');
+  });
+
+  it('does not let a consumer key override a built-in tag (built-ins win)', () => {
+    // Built-in h1 uses HeadingAnchor. A consumer-provided `h1` override must
+    // not replace it — the merge in Markdown is "consumer first, built-ins
+    // on top" so the library's own rendering is never silently swapped.
+    const consumerH1 = vi.fn(() => <div data-testid="consumer-h1">nope</div>);
+
+    render(
+      <Markdown components={{ h1: consumerH1 }}>
+        {'# Real heading'}
+      </Markdown>,
+    );
+
+    expect(screen.queryByTestId('consumer-h1')).toBeNull();
+    expect(consumerH1).not.toHaveBeenCalled();
+    // The built-in HeadingAnchor still renders the h1 text.
+    const heading = screen.getByRole('heading', { level: 1 });
+    expect(heading.textContent).toContain('Real heading');
+  });
+
+  it('renders normally when the components prop is omitted', () => {
+    // Confirms the additive contract — the zero-chrome `<Markdown>{md}</Markdown>`
+    // call site is unchanged.
+    render(<Markdown>{'# Plain heading'}</Markdown>);
+    expect(screen.getByRole('heading', { level: 1 }).textContent).toContain('Plain heading');
+  });
+});

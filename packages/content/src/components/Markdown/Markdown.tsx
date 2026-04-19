@@ -1,7 +1,10 @@
-import { useState, useCallback, useRef, Children, cloneElement, isValidElement } from 'react';
-import type { KeyboardEvent, ReactNode } from 'react';
+import { useState, useCallback, useRef, useMemo, Children, cloneElement, isValidElement } from 'react';
+import type { KeyboardEvent, ReactNode, ComponentType } from 'react';
 import ReactMarkdown from 'react-markdown';
+import type { Options as ReactMarkdownOptions } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+
+type RemarkPluginList = NonNullable<ReactMarkdownOptions['remarkPlugins']>;
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
 import {
   PROSE_BODY_SIZE,
@@ -48,6 +51,27 @@ export interface MarkdownProps {
   rows?: number;
   /** Placeholder text shown in the empty state. @default "Click to add content..." */
   placeholder?: string;
+  /**
+   * Additional element overrides merged on top of the built-in set (headings,
+   * `pre`, `blockquote`, `tbody`). Keys are HTML tag names (lowercase) or
+   * `hName` values produced by a remark plugin (see `remarkPlugins` below).
+   *
+   * Useful for doc sites that embed React islands inside markdown — pair a
+   * plugin that rewrites `<LiveExample id="..." />` HTML blocks into hast
+   * elements with `{ liveexample: MyLiveExample }` here, and the element
+   * renders in-line. Merge is shallow: built-in overrides win on tag names
+   * they already cover; consumer keys are merged on top for everything else.
+   */
+  components?: Record<string, ComponentType<any>>;
+  /**
+   * Additional remark plugins appended to the built-in set (currently
+   * `remark-gfm`). Useful for embedding React islands: a plugin can rewrite
+   * an mdast node's `data.hName` / `data.hProperties` to emit a custom hast
+   * element, which then pairs with a matching key in the `components` map.
+   *
+   * Plugins run after the built-ins, so the default GFM parse happens first.
+   */
+  remarkPlugins?: RemarkPluginList;
 }
 
 // ---------------------------------------------------------------------------
@@ -939,6 +963,8 @@ export function Markdown({
   fieldLabel,
   rows = 4,
   placeholder = 'Click to add content...',
+  components,
+  remarkPlugins,
 }: MarkdownProps): React.JSX.Element {
   useInjectStyles(MARKDOWN_STYLES_ID, markdownCSS);
   // Editable-mode styles are registered unconditionally so hook order stays
@@ -949,6 +975,26 @@ export function Markdown({
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const content = children ?? '';
+
+  // Merge consumer-provided components under the built-ins: built-ins win on
+  // any tag name they already cover (headings, pre, blockquote, tbody) so the
+  // library's own rendering is never silently replaced; consumer keys
+  // populate everything else (including custom hast elements emitted by a
+  // user-supplied remark plugin). See MarkdownProps.components for rationale.
+  const mergedComponents = useMemo(
+    () => (components ? { ...components, ...mdComponents } : mdComponents),
+    [components],
+  );
+
+  // Built-in plugins run first so GFM (tables, strikethrough, task lists,
+  // autolinks) is always parsed; consumer plugins append on top.
+  const mergedRemarkPlugins = useMemo<RemarkPluginList>(
+    () =>
+      remarkPlugins && remarkPlugins.length > 0
+        ? [remarkGfm, ...remarkPlugins]
+        : [remarkGfm],
+    [remarkPlugins],
+  );
 
   const handleCopySource = useCallback((): void => {
     navigator.clipboard.writeText(content);
@@ -1050,7 +1096,7 @@ export function Markdown({
           onClick={onStartEdit}
         />
         <div className="alttab-markdown" id={id} data-testid={dataTestId}>
-          <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
+          <ReactMarkdown remarkPlugins={mergedRemarkPlugins} components={mergedComponents}>
             {content}
           </ReactMarkdown>
         </div>
@@ -1075,7 +1121,7 @@ export function Markdown({
       >
         {copied ? <CheckIcon /> : <CopyIcon />}
       </button>
-      <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
+      <ReactMarkdown remarkPlugins={mergedRemarkPlugins} components={mergedComponents}>
         {content}
       </ReactMarkdown>
     </div>

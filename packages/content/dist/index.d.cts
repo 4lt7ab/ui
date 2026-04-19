@@ -28,6 +28,9 @@ interface ProseProps {
 	"data-testid"?: string;
 }
 declare const Prose: React.ForwardRefExoticComponent<Omit<ProseProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
+import { ComponentType } from "react";
+import { Options as ReactMarkdownOptions } from "react-markdown";
+type RemarkPluginList = NonNullable<ReactMarkdownOptions["remarkPlugins"]>;
 interface MarkdownProps {
 	/**
 	* Saved markdown source text. Required in read-only mode (`editable` off).
@@ -66,6 +69,27 @@ interface MarkdownProps {
 	rows?: number;
 	/** Placeholder text shown in the empty state. @default "Click to add content..." */
 	placeholder?: string;
+	/**
+	* Additional element overrides merged on top of the built-in set (headings,
+	* `pre`, `blockquote`, `tbody`). Keys are HTML tag names (lowercase) or
+	* `hName` values produced by a remark plugin (see `remarkPlugins` below).
+	*
+	* Useful for doc sites that embed React islands inside markdown — pair a
+	* plugin that rewrites `<LiveExample id="..." />` HTML blocks into hast
+	* elements with `{ liveexample: MyLiveExample }` here, and the element
+	* renders in-line. Merge is shallow: built-in overrides win on tag names
+	* they already cover; consumer keys are merged on top for everything else.
+	*/
+	components?: Record<string, ComponentType<any>>;
+	/**
+	* Additional remark plugins appended to the built-in set (currently
+	* `remark-gfm`). Useful for embedding React islands: a plugin can rewrite
+	* an mdast node's `data.hName` / `data.hProperties` to emit a custom hast
+	* element, which then pairs with a matching key in the `components` map.
+	*
+	* Plugins run after the built-ins, so the default GFM parse happens first.
+	*/
+	remarkPlugins?: RemarkPluginList;
 }
 /**
 * Renders a markdown string with its own typographic styles.
@@ -85,7 +109,7 @@ interface MarkdownProps {
 *
 * Styled independently from Prose — uses the `.alttab-markdown` namespace.
 */
-declare function Markdown({ children, id, "data-testid": dataTestId, editable, editing, value, onStartEdit, onEditChange, onSave, onCancel, fieldLabel, rows, placeholder }: MarkdownProps): React.JSX.Element;
+declare function Markdown({ children, id, "data-testid": dataTestId, editable, editing, value, onStartEdit, onEditChange, onSave, onCancel, fieldLabel, rows, placeholder, components, remarkPlugins }: MarkdownProps): React.JSX.Element;
 import { ReactNode as ReactNode2 } from "react";
 type QuoteVariant = "pull" | "epigraph";
 interface QuoteProps {
