@@ -54,8 +54,12 @@ describe('Table.FilterBar — namespace attachment', () => {
   });
 
   it('exposes FilterBar.Text and FilterBar.Select subparts', () => {
-    expect(typeof Table.FilterBar.Text).toBe('function');
-    expect(typeof Table.FilterBar.Select).toBe('function');
+    // forwardRef components are objects (ForwardRefExoticComponent) rather than
+    // plain function components; assert both are render-capable instead.
+    expect(Table.FilterBar.Text).toBeDefined();
+    expect(Table.FilterBar.Select).toBeDefined();
+    expect(['function', 'object']).toContain(typeof Table.FilterBar.Text);
+    expect(['function', 'object']).toContain(typeof Table.FilterBar.Select);
   });
 });
 

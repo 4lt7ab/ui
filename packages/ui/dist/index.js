@@ -45,8 +45,8 @@ function useFocusTrap(ref) {
 export * from "../../core/dist/index.js";
 
 // src/components/molecules/ThemePicker/ThemePicker.tsx
-import { forwardRef } from "react";
-import { useTheme, useInjectStyles as useInjectStyles2 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef2 } from "react";
+import { useTheme, useInjectStyles as useInjectStyles3 } from "../../core/dist/index.js";
 
 // src/components/organisms/Select/Select.tsx
 import {
@@ -585,8 +585,80 @@ var Select = {
   Item
 };
 
+// src/components/atoms/StatusDot/StatusDot.tsx
+import { forwardRef } from "react";
+import { semantic as t2, useInjectStyles as useInjectStyles2, useThemeRhythm } from "../../core/dist/index.js";
+import { jsx as jsx2 } from "react/jsx-runtime";
+var variantColors = {
+  default: t2.colorTextMuted,
+  primary: t2.colorActionPrimary,
+  success: t2.colorSuccess,
+  warning: t2.colorWarning,
+  error: t2.colorError,
+  info: t2.colorInfo
+};
+var sizeMap = {
+  sm: 6,
+  md: 8,
+  lg: 12
+};
+var PULSE_STYLES_ID = "4lt7ab-status-dot-pulse";
+var PULSE_STYLES_CSS = `
+@keyframes statusDotPulse {
+  0% { box-shadow: 0 0 0 0 var(--status-dot-color); opacity: 1; }
+  70% { box-shadow: 0 0 0 6px var(--status-dot-color); opacity: 0; }
+  100% { box-shadow: 0 0 0 0 var(--status-dot-color); opacity: 0; }
+}
+[data-status-dot-pulse] {
+  /* Duration overridden by --status-dot-duration when the active theme has a rhythm. */
+  animation: statusDotPulse var(--status-dot-duration, 1.5s) ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-status-dot-pulse] {
+    animation: none;
+  }
+}
+`;
+var StatusDot = forwardRef(
+  function StatusDot2({
+    variant = "default",
+    size = "md",
+    animate = "none",
+    "aria-label": ariaLabel
+  }, ref) {
+    const resolvedColor = variantColors[variant];
+    const resolvedSize = sizeMap[size];
+    const isPulsing = animate === "pulse";
+    const { durationCss } = useThemeRhythm();
+    useInjectStyles2(PULSE_STYLES_ID, PULSE_STYLES_CSS);
+    return /* @__PURE__ */ jsx2(
+      "span",
+      {
+        ref,
+        role: ariaLabel ? "img" : void 0,
+        "aria-label": ariaLabel,
+        "aria-hidden": ariaLabel ? void 0 : true,
+        "data-status-dot-pulse": isPulsing || void 0,
+        style: {
+          display: "inline-block",
+          width: resolvedSize,
+          height: resolvedSize,
+          borderRadius: t2.radiusFull,
+          background: resolvedColor,
+          flexShrink: 0,
+          ...isPulsing ? {
+            "--status-dot-color": resolvedColor,
+            /* When the theme has a rhythm, the pulse syncs to its tempo. */
+            ...durationCss ? { "--status-dot-duration": durationCss } : void 0
+          } : void 0
+        }
+      }
+    );
+  }
+);
+
 // src/components/molecules/ThemePicker/ThemePicker.tsx
-import { jsx as jsx2, jsxs as jsxs2 } from "react/jsx-runtime";
+import { jsx as jsx3, jsxs as jsxs2 } from "react/jsx-runtime";
 var GRID_STYLES_ID = "alttab-theme-picker";
 var gridCSS = (
   /* css */
@@ -633,20 +705,15 @@ var gridCSS = (
   }
 `
 );
-var DOT = {
-  display: "inline-block",
-  width: 8,
-  height: 8,
-  borderRadius: "50%",
-  background: "var(--color-action-primary)",
-  flexShrink: 0,
-  marginRight: "0.5rem",
-  verticalAlign: "middle"
+var DOT_ROW = {
+  display: "inline-flex",
+  alignItems: "center",
+  gap: "0.5rem"
 };
 function GridView({ descriptions }) {
-  useInjectStyles2(GRID_STYLES_ID, gridCSS);
+  useInjectStyles3(GRID_STYLES_ID, gridCSS);
   const { resolved, themes, setTheme } = useTheme();
-  return /* @__PURE__ */ jsx2("div", { className: "alttab-theme-picker", children: Array.from(themes.values()).map((def) => {
+  return /* @__PURE__ */ jsx3("div", { className: "alttab-theme-picker", children: Array.from(themes.values()).map((def) => {
     const isActive = resolved === def.name;
     return /* @__PURE__ */ jsxs2(
       "button",
@@ -654,8 +721,8 @@ function GridView({ descriptions }) {
         className: `alttab-theme-card${isActive ? " alttab-theme-card--active" : ""}`,
         onClick: () => setTheme(def.name),
         children: [
-          /* @__PURE__ */ jsx2("span", { className: "alttab-theme-card__name", children: def.label }),
-          descriptions[def.name] && /* @__PURE__ */ jsx2("span", { className: "alttab-theme-card__desc", children: descriptions[def.name] })
+          /* @__PURE__ */ jsx3("span", { className: "alttab-theme-card__name", children: def.label }),
+          descriptions[def.name] && /* @__PURE__ */ jsx3("span", { className: "alttab-theme-card__desc", children: descriptions[def.name] })
         ]
       },
       def.name
@@ -665,27 +732,27 @@ function GridView({ descriptions }) {
 function CompactView() {
   const { resolved, themes, setTheme } = useTheme();
   return /* @__PURE__ */ jsxs2(Select.Root, { value: resolved, onValueChange: setTheme, children: [
-    /* @__PURE__ */ jsxs2(Select.Trigger, { "aria-label": "Select theme", children: [
-      /* @__PURE__ */ jsx2("span", { "aria-hidden": true, style: DOT }),
-      /* @__PURE__ */ jsx2(Select.Value, {})
-    ] }),
-    /* @__PURE__ */ jsx2(Select.Content, { children: Array.from(themes.values()).map((def) => /* @__PURE__ */ jsxs2(Select.Item, { value: def.name, textValue: def.label, children: [
-      /* @__PURE__ */ jsx2("span", { "aria-hidden": true, style: DOT }),
+    /* @__PURE__ */ jsx3(Select.Trigger, { "aria-label": "Select theme", children: /* @__PURE__ */ jsxs2("span", { style: DOT_ROW, children: [
+      /* @__PURE__ */ jsx3(StatusDot, { variant: "primary" }),
+      /* @__PURE__ */ jsx3(Select.Value, {})
+    ] }) }),
+    /* @__PURE__ */ jsx3(Select.Content, { children: Array.from(themes.values()).map((def) => /* @__PURE__ */ jsx3(Select.Item, { value: def.name, textValue: def.label, children: /* @__PURE__ */ jsxs2("span", { style: DOT_ROW, children: [
+      /* @__PURE__ */ jsx3(StatusDot, { variant: "primary" }),
       def.label
-    ] }, def.name)) })
+    ] }) }, def.name)) })
   ] });
 }
-var ThemePicker = forwardRef(
+var ThemePicker = forwardRef2(
   function ThemePicker2({ descriptions = {}, variant = "grid" }, ref) {
     if (variant === "compact") {
-      return /* @__PURE__ */ jsx2("div", { ref, style: { display: "inline-block" }, children: /* @__PURE__ */ jsx2(CompactView, {}) });
+      return /* @__PURE__ */ jsx3("div", { ref, style: { display: "inline-block" }, children: /* @__PURE__ */ jsx3(CompactView, {}) });
     }
-    return /* @__PURE__ */ jsx2("div", { ref, children: /* @__PURE__ */ jsx2(GridView, { descriptions }) });
+    return /* @__PURE__ */ jsx3("div", { ref, children: /* @__PURE__ */ jsx3(GridView, { descriptions }) });
   }
 );
 
 // src/icons/icons.tsx
-import { jsx as jsx3, jsxs as jsxs3 } from "react/jsx-runtime";
+import { jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
 function svgProps(size, style) {
   return {
     width: size,
@@ -700,115 +767,115 @@ function svgProps(size, style) {
   };
 }
 function IconClose({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M18 6L6 18M6 6l12 12" }) });
+  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M18 6L6 18M6 6l12 12" }) });
 }
 function IconChevronRight({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M9 18l6-6-6-6" }) });
+  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M9 18l6-6-6-6" }) });
 }
 function IconChevronDown({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M6 9l6 6 6-6" }) });
+  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M6 9l6 6 6-6" }) });
 }
 function IconChevronLeft({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M15 18l-6-6 6-6" }) });
+  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M15 18l-6-6 6-6" }) });
 }
 function IconChevronUp({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M18 15l-6-6-6 6" }) });
+  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M18 15l-6-6-6 6" }) });
 }
 function IconCheck({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M20 6L9 17l-5-5" }) });
+  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M20 6L9 17l-5-5" }) });
 }
 function IconCheckCircle({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx3("path", { d: "M22 11.08V12a10 10 0 11-5.93-9.14" }),
-    /* @__PURE__ */ jsx3("path", { d: "M22 4L12 14.01l-3-3" })
+    /* @__PURE__ */ jsx4("path", { d: "M22 11.08V12a10 10 0 11-5.93-9.14" }),
+    /* @__PURE__ */ jsx4("path", { d: "M22 4L12 14.01l-3-3" })
   ] });
 }
 function IconWarning({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx3("path", { d: "M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" }),
-    /* @__PURE__ */ jsx3("line", { x1: "12", y1: "9", x2: "12", y2: "13" }),
-    /* @__PURE__ */ jsx3("line", { x1: "12", y1: "17", x2: "12.01", y2: "17" })
+    /* @__PURE__ */ jsx4("path", { d: "M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" }),
+    /* @__PURE__ */ jsx4("line", { x1: "12", y1: "9", x2: "12", y2: "13" }),
+    /* @__PURE__ */ jsx4("line", { x1: "12", y1: "17", x2: "12.01", y2: "17" })
   ] });
 }
 function IconError({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx3("circle", { cx: "12", cy: "12", r: "10" }),
-    /* @__PURE__ */ jsx3("path", { d: "M15 9l-6 6M9 9l6 6" })
+    /* @__PURE__ */ jsx4("circle", { cx: "12", cy: "12", r: "10" }),
+    /* @__PURE__ */ jsx4("path", { d: "M15 9l-6 6M9 9l6 6" })
   ] });
 }
 function IconInfo({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx3("circle", { cx: "12", cy: "12", r: "10" }),
-    /* @__PURE__ */ jsx3("line", { x1: "12", y1: "16", x2: "12", y2: "12" }),
-    /* @__PURE__ */ jsx3("line", { x1: "12", y1: "8", x2: "12.01", y2: "8" })
+    /* @__PURE__ */ jsx4("circle", { cx: "12", cy: "12", r: "10" }),
+    /* @__PURE__ */ jsx4("line", { x1: "12", y1: "16", x2: "12", y2: "12" }),
+    /* @__PURE__ */ jsx4("line", { x1: "12", y1: "8", x2: "12.01", y2: "8" })
   ] });
 }
 function IconSearch({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx3("circle", { cx: "11", cy: "11", r: "8" }),
-    /* @__PURE__ */ jsx3("path", { d: "M21 21l-4.35-4.35" })
+    /* @__PURE__ */ jsx4("circle", { cx: "11", cy: "11", r: "8" }),
+    /* @__PURE__ */ jsx4("path", { d: "M21 21l-4.35-4.35" })
   ] });
 }
 function IconTrash({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" }) });
+  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" }) });
 }
 function IconSettings({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx3("circle", { cx: "12", cy: "12", r: "3" }),
-    /* @__PURE__ */ jsx3("path", { d: "M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" })
+    /* @__PURE__ */ jsx4("circle", { cx: "12", cy: "12", r: "3" }),
+    /* @__PURE__ */ jsx4("path", { d: "M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" })
   ] });
 }
 function IconPlus({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M12 5v14M5 12h14" }) });
+  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M12 5v14M5 12h14" }) });
 }
 function IconMinus({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M5 12h14" }) });
+  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M5 12h14" }) });
 }
 function IconEdit({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx3("path", { d: "M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" }),
-    /* @__PURE__ */ jsx3("path", { d: "M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" })
+    /* @__PURE__ */ jsx4("path", { d: "M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" }),
+    /* @__PURE__ */ jsx4("path", { d: "M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" })
   ] });
 }
 function IconArrowLeft({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M19 12H5M12 19l-7-7 7-7" }) });
+  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M19 12H5M12 19l-7-7 7-7" }) });
 }
 function IconArrowRight({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M5 12h14M12 5l7 7-7 7" }) });
+  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M5 12h14M12 5l7 7-7 7" }) });
 }
 function IconMenu({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M3 12h18M3 6h18M3 18h18" }) });
+  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M3 12h18M3 6h18M3 18h18" }) });
 }
 function IconEye({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx3("path", { d: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" }),
-    /* @__PURE__ */ jsx3("circle", { cx: "12", cy: "12", r: "3" })
+    /* @__PURE__ */ jsx4("path", { d: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" }),
+    /* @__PURE__ */ jsx4("circle", { cx: "12", cy: "12", r: "3" })
   ] });
 }
 function IconEyeOff({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx3("path", { d: "M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" }),
-    /* @__PURE__ */ jsx3("path", { d: "M1 1l22 22" })
+    /* @__PURE__ */ jsx4("path", { d: "M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" }),
+    /* @__PURE__ */ jsx4("path", { d: "M1 1l22 22" })
   ] });
 }
 function IconCopy({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx3("rect", { x: "9", y: "9", width: "13", height: "13", rx: "2", ry: "2" }),
-    /* @__PURE__ */ jsx3("path", { d: "M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" })
+    /* @__PURE__ */ jsx4("rect", { x: "9", y: "9", width: "13", height: "13", rx: "2", ry: "2" }),
+    /* @__PURE__ */ jsx4("path", { d: "M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" })
   ] });
 }
 function IconExternalLink({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" }) });
+  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" }) });
 }
 function IconMoreVertical({ size = 24, style } = {}) {
   return /* @__PURE__ */ jsxs3("svg", { ...svgProps(size, style), children: [
-    /* @__PURE__ */ jsx3("circle", { cx: "12", cy: "12", r: "1" }),
-    /* @__PURE__ */ jsx3("circle", { cx: "12", cy: "5", r: "1" }),
-    /* @__PURE__ */ jsx3("circle", { cx: "12", cy: "19", r: "1" })
+    /* @__PURE__ */ jsx4("circle", { cx: "12", cy: "12", r: "1" }),
+    /* @__PURE__ */ jsx4("circle", { cx: "12", cy: "5", r: "1" }),
+    /* @__PURE__ */ jsx4("circle", { cx: "12", cy: "19", r: "1" })
   ] });
 }
 function IconFilter({ size = 24, style } = {}) {
-  return /* @__PURE__ */ jsx3("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx3("path", { d: "M22 3H2l8 9.46V19l4 2v-8.54L22 3z" }) });
+  return /* @__PURE__ */ jsx4("svg", { ...svgProps(size, style), children: /* @__PURE__ */ jsx4("path", { d: "M22 3H2l8 9.46V19l4 2v-8.54L22 3z" }) });
 }
 
 // src/icons/index.ts
@@ -841,58 +908,58 @@ var iconRegistry = {
 };
 
 // src/components/atoms/Button/Button.tsx
-import { forwardRef as forwardRef2 } from "react";
-import { semantic as t2, useInjectStyles as useInjectStyles3, Slot } from "../../core/dist/index.js";
-import { jsx as jsx4 } from "react/jsx-runtime";
+import { forwardRef as forwardRef3 } from "react";
+import { semantic as t3, useInjectStyles as useInjectStyles4, Slot } from "../../core/dist/index.js";
+import { jsx as jsx5 } from "react/jsx-runtime";
 var variantStyles = {
   primary: {
-    background: t2.colorActionPrimary,
-    color: t2.colorTextInverse,
+    background: t3.colorActionPrimary,
+    color: t3.colorTextInverse,
     border: "none"
   },
   secondary: {
-    background: t2.colorActionSecondary,
-    color: t2.colorText,
-    border: `${t2.borderWidthDefault} solid ${t2.colorBorder}`
+    background: t3.colorActionSecondary,
+    color: t3.colorText,
+    border: `${t3.borderWidthDefault} solid ${t3.colorBorder}`
   },
   destructive: {
-    background: t2.colorActionDestructive,
-    color: t2.colorTextInverse,
+    background: t3.colorActionDestructive,
+    color: t3.colorTextInverse,
     border: "none"
   },
   ghost: {
     background: "transparent",
-    color: t2.colorText,
-    border: `${t2.borderWidthDefault} solid transparent`
+    color: t3.colorText,
+    border: `${t3.borderWidthDefault} solid transparent`
   }
 };
 var sizeStyles = {
   sm: {
-    padding: `${t2.spaceXs} ${t2.spaceSm}`,
-    fontSize: t2.fontSizeSm,
-    lineHeight: t2.lineHeightTight
+    padding: `${t3.spaceXs} ${t3.spaceSm}`,
+    fontSize: t3.fontSizeSm,
+    lineHeight: t3.lineHeightTight
   },
   md: {
-    padding: `${t2.spaceSm} ${t2.spaceMd}`,
-    fontSize: t2.fontSizeSm,
-    lineHeight: t2.lineHeightTight
+    padding: `${t3.spaceSm} ${t3.spaceMd}`,
+    fontSize: t3.fontSizeSm,
+    lineHeight: t3.lineHeightTight
   },
   lg: {
-    padding: `${t2.spaceSm} ${t2.spaceLg}`,
-    fontSize: t2.fontSizeBase,
-    lineHeight: t2.lineHeightBase
+    padding: `${t3.spaceSm} ${t3.spaceLg}`,
+    fontSize: t3.fontSizeBase,
+    lineHeight: t3.lineHeightBase
   }
 };
 var baseStyles = {
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
-  gap: t2.spaceSm,
-  borderRadius: t2.radiusMd,
-  fontFamily: t2.fontSans,
-  fontWeight: t2.fontWeightMedium,
+  gap: t3.spaceSm,
+  borderRadius: t3.radiusMd,
+  fontFamily: t3.fontSans,
+  fontWeight: t3.fontWeightMedium,
   cursor: "pointer",
-  transition: `background ${t2.transitionBase}, border-color ${t2.transitionBase}, opacity ${t2.transitionBase}`
+  transition: `background ${t3.transitionBase}, border-color ${t3.transitionBase}, opacity ${t3.transitionBase}`
 };
 var SPINNER_STYLES_ID = "alttab-button-spinner";
 var spinnerCSS = (
@@ -905,7 +972,7 @@ var spinnerCSS = (
     display: inline-block;
     width: 1em;
     height: 1em;
-    border: ${t2.borderWidthThick} solid currentColor;
+    border: ${t3.borderWidthThick} solid currentColor;
     border-right-color: transparent;
     border-radius: 50%;
     animation: alttab-btn-spin 600ms linear infinite;
@@ -913,11 +980,11 @@ var spinnerCSS = (
 `
 );
 var iconOnlyPadding = {
-  sm: t2.spaceXs,
-  md: t2.spaceSm,
-  lg: t2.spaceSm
+  sm: t3.spaceXs,
+  md: t3.spaceSm,
+  lg: t3.spaceSm
 };
-var Button = forwardRef2(
+var Button = forwardRef3(
   function Button2({
     variant = "primary",
     size = "md",
@@ -942,7 +1009,7 @@ var Button = forwardRef2(
     "aria-haspopup": ariaHasPopup,
     "data-testid": dataTestId
   }, ref) {
-    useInjectStyles3(SPINNER_STYLES_ID, spinnerCSS);
+    useInjectStyles4(SPINNER_STYLES_ID, spinnerCSS);
     const isDisabled2 = disabled || loading;
     const style = {
       ...baseStyles,
@@ -966,7 +1033,7 @@ var Button = forwardRef2(
       style
     };
     if (asChild) {
-      return /* @__PURE__ */ jsx4(
+      return /* @__PURE__ */ jsx5(
         Slot,
         {
           ref,
@@ -976,7 +1043,7 @@ var Button = forwardRef2(
         }
       );
     }
-    return /* @__PURE__ */ jsx4(
+    return /* @__PURE__ */ jsx5(
       "button",
       {
         ref,
@@ -987,17 +1054,17 @@ var Button = forwardRef2(
         autoFocus,
         disabled: isDisabled2,
         ...commonProps,
-        children: loading ? /* @__PURE__ */ jsx4("span", { className: "alttab-btn-spinner" }) : children
+        children: loading ? /* @__PURE__ */ jsx5("span", { className: "alttab-btn-spinner" }) : children
       }
     );
   }
 );
 
 // src/components/atoms/Stack/Stack.tsx
-import { forwardRef as forwardRef3 } from "react";
+import { forwardRef as forwardRef4 } from "react";
 
 // src/types.ts
-import { semantic as t3 } from "../../core/dist/index.js";
+import { semantic as t4 } from "../../core/dist/index.js";
 var alignMap = {
   start: "flex-start",
   center: "center",
@@ -1014,12 +1081,12 @@ var justifyMap = {
   "space-evenly": "space-evenly"
 };
 var semanticColorMap = {
-  primary: t3.colorActionPrimary,
-  success: t3.colorSuccess,
-  warning: t3.colorWarning,
-  error: t3.colorError,
-  info: t3.colorInfo,
-  muted: t3.colorTextMuted
+  primary: t4.colorActionPrimary,
+  success: t4.colorSuccess,
+  warning: t4.colorWarning,
+  error: t4.colorError,
+  info: t4.colorInfo,
+  muted: t4.colorTextMuted
 };
 var iconSizeMap = {
   xs: 14,
@@ -1045,30 +1112,30 @@ var dividerOpacityMap = {
   strong: 75
 };
 var spacingMap = {
-  xs: t3.spaceXs,
-  sm: t3.spaceSm,
-  md: t3.spaceMd,
-  lg: t3.spaceLg,
-  xl: t3.spaceXl,
-  "2xl": t3.space2xl
+  xs: t4.spaceXs,
+  sm: t4.spaceSm,
+  md: t4.spaceMd,
+  lg: t4.spaceLg,
+  xl: t4.spaceXl,
+  "2xl": t4.space2xl
 };
 var radiusMap = {
   none: "0",
-  sm: t3.radiusSm,
-  md: t3.radiusMd,
-  lg: t3.radiusLg,
-  full: t3.radiusFull
+  sm: t4.radiusSm,
+  md: t4.radiusMd,
+  lg: t4.radiusLg,
+  full: t4.radiusFull
 };
 var shadowMap = {
-  sm: t3.shadowSm,
-  md: t3.shadowMd,
-  lg: t3.shadowLg
+  sm: t4.shadowSm,
+  md: t4.shadowMd,
+  lg: t4.shadowLg
 };
 
 // src/components/atoms/Stack/Stack.tsx
-import { jsx as jsx5 } from "react/jsx-runtime";
+import { jsx as jsx6 } from "react/jsx-runtime";
 var gapMap = spacingMap;
-var Stack = forwardRef3(
+var Stack = forwardRef4(
   function Stack2({
     direction = "vertical",
     gap = "md",
@@ -1078,7 +1145,7 @@ var Stack = forwardRef3(
     children,
     ...rest
   }, ref) {
-    return /* @__PURE__ */ jsx5(
+    return /* @__PURE__ */ jsx6(
       "div",
       {
         ref,
@@ -1099,21 +1166,21 @@ var Stack = forwardRef3(
 );
 
 // src/components/molecules/Card/Card.tsx
-import { forwardRef as forwardRef5, useEffect as useEffect3, useRef as useRef2 } from "react";
-import { semantic as t5, useInjectStyles as useInjectStyles4, useThemeRhythm, Slot as Slot3 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef6, useEffect as useEffect3, useRef as useRef2 } from "react";
+import { semantic as t6, useInjectStyles as useInjectStyles5, useThemeRhythm as useThemeRhythm2, Slot as Slot3 } from "../../core/dist/index.js";
 
 // src/components/atoms/Surface/Surface.tsx
-import { createElement, forwardRef as forwardRef4 } from "react";
-import { semantic as t4, Slot as Slot2 } from "../../core/dist/index.js";
-import { jsx as jsx6 } from "react/jsx-runtime";
+import { createElement, forwardRef as forwardRef5 } from "react";
+import { semantic as t5, Slot as Slot2 } from "../../core/dist/index.js";
+import { jsx as jsx7 } from "react/jsx-runtime";
 var levelMap = {
-  page: t4.colorSurfacePage,
-  default: t4.colorSurface,
-  solid: t4.colorSurfaceSolid,
-  raised: t4.colorSurfaceRaised,
-  panel: t4.colorSurfacePanel,
-  input: t4.colorSurfaceInput,
-  overlay: t4.colorSurfaceOverlay
+  page: t5.colorSurfacePage,
+  default: t5.colorSurface,
+  solid: t5.colorSurfaceSolid,
+  raised: t5.colorSurfaceRaised,
+  panel: t5.colorSurfacePanel,
+  input: t5.colorSurfaceInput,
+  overlay: t5.colorSurfaceOverlay
 };
 function getSurfaceStyle({
   level = "solid",
@@ -1123,7 +1190,7 @@ function getSurfaceStyle({
   border = false,
   shadow
 }) {
-  const borderValue = border === true ? `${t4.borderWidthDefault} solid ${t4.colorBorder}` : typeof border === "string" ? `${t4.borderWidthDefault} solid ${semanticColorMap[border]}` : void 0;
+  const borderValue = border === true ? `${t5.borderWidthDefault} solid ${t5.colorBorder}` : typeof border === "string" ? `${t5.borderWidthDefault} solid ${semanticColorMap[border]}` : void 0;
   const tintBg = tint ? `color-mix(in srgb, ${semanticColorMap[tint]} 10%, transparent)` : void 0;
   return {
     background: tintBg ?? levelMap[level],
@@ -1131,10 +1198,10 @@ function getSurfaceStyle({
     borderRadius: radiusMap[radius],
     border: borderValue,
     boxShadow: shadow ? shadowMap[shadow] : void 0,
-    color: t4.colorText
+    color: t5.colorText
   };
 }
-var Surface = forwardRef4(
+var Surface = forwardRef5(
   function Surface2({
     level = "solid",
     tint,
@@ -1156,29 +1223,35 @@ var Surface = forwardRef4(
       style
     };
     if (asChild) {
-      return /* @__PURE__ */ jsx6(Slot2, { ref, ...commonProps, children });
+      return /* @__PURE__ */ jsx7(Slot2, { ref, ...commonProps, children });
     }
     return createElement(as, { ref, ...commonProps }, children);
   }
 );
 
 // src/components/molecules/Card/Card.tsx
-import { jsx as jsx7 } from "react/jsx-runtime";
+import { jsx as jsx8 } from "react/jsx-runtime";
 var variantSurfaceProps = {
   default: { level: "solid", border: true, shadow: "sm" },
   flat: { level: "raised", border: true },
-  elevated: { level: "solid", border: true, shadow: "md" }
+  elevated: { level: "solid", border: true, shadow: "md" },
+  // `ghost` uses the `default` Surface level (which maps to `colorSurface` —
+  // transparent in some themes) and emits no border / shadow. This lets
+  // consumers like LinkCard keep the border in a stylesheet rule so that
+  // `:hover { border-color }` still works — an inline `border` shorthand
+  // from Surface would otherwise beat the hover rule on specificity.
+  ghost: { level: "default" }
 };
 var HOVER_STYLES_ID = "4lt7ab-card-hover";
 var HOVER_STYLES_CSS = `
 [data-card-hover] {
   cursor: pointer;
-  transition: transform ${t5.transitionSlow}, border-color ${t5.transitionSlow}, box-shadow ${t5.transitionSlow};
+  transition: transform ${t6.transitionSlow}, border-color ${t6.transitionSlow}, box-shadow ${t6.transitionSlow};
 }
 [data-card-hover]:hover {
   transform: translateY(-2px);
-  border-color: ${t5.colorBorderFocused};
-  box-shadow: ${t5.shadowMd};
+  border-color: ${t6.colorBorderFocused};
+  box-shadow: ${t6.shadowMd};
 }
 `;
 var GLOW_STYLES_ID = "4lt7ab-card-glow";
@@ -1187,12 +1260,12 @@ var GLOW_STYLES_CSS = `
   --card-glow-strength: 0;
 }
 `;
-var GLOW_BOX_SHADOW = `0 0 calc(var(--card-glow-strength, 0) * 16px) calc(var(--card-glow-strength, 0) * 2px) color-mix(in srgb, ${t5.colorActionPrimary} calc(var(--card-glow-strength, 0) * 70%), transparent)`;
+var GLOW_BOX_SHADOW = `0 0 calc(var(--card-glow-strength, 0) * 16px) calc(var(--card-glow-strength, 0) * 2px) color-mix(in srgb, ${t6.colorActionPrimary} calc(var(--card-glow-strength, 0) * 70%), transparent)`;
 function prefersReducedMotion() {
   if (typeof window === "undefined" || !window.matchMedia) return false;
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
-var Card = forwardRef5(
+var Card = forwardRef6(
   function Card2({
     variant = "default",
     padding = "lg",
@@ -1202,15 +1275,15 @@ var Card = forwardRef5(
     children,
     ...rest
   }, ref) {
-    useInjectStyles4(HOVER_STYLES_ID, HOVER_STYLES_CSS);
-    useInjectStyles4(GLOW_STYLES_ID, GLOW_STYLES_CSS);
+    useInjectStyles5(HOVER_STYLES_ID, HOVER_STYLES_CSS);
+    useInjectStyles5(GLOW_STYLES_ID, GLOW_STYLES_CSS);
     const internalRef = useRef2(null);
     const setRef = (node) => {
       internalRef.current = node;
       if (typeof ref === "function") ref(node);
       else if (ref) ref.current = node;
     };
-    const { config, subscribe } = useThemeRhythm();
+    const { config, subscribe } = useThemeRhythm2();
     useEffect3(() => {
       if (!glow || !config || prefersReducedMotion()) return;
       const el = internalRef.current;
@@ -1239,49 +1312,50 @@ var Card = forwardRef5(
       cardSlotProps.style = { boxShadow: GLOW_BOX_SHADOW };
     }
     if (asChild) {
-      return /* @__PURE__ */ jsx7(Surface, { ...surfaceProps, children: /* @__PURE__ */ jsx7(Slot3, { ref: setRef, ...cardSlotProps, children }) });
+      return /* @__PURE__ */ jsx8(Surface, { ...surfaceProps, children: /* @__PURE__ */ jsx8(Slot3, { ref: setRef, ...cardSlotProps, children }) });
     }
-    return /* @__PURE__ */ jsx7(Surface, { ...surfaceProps, children: /* @__PURE__ */ jsx7("div", { ref: setRef, ...cardSlotProps, children }) });
+    return /* @__PURE__ */ jsx8(Surface, { ...surfaceProps, children: /* @__PURE__ */ jsx8("div", { ref: setRef, ...cardSlotProps, children }) });
   }
 );
 
 // src/components/molecules/LinkCard/LinkCard.tsx
-import { forwardRef as forwardRef6 } from "react";
-import { semantic as t6, useInjectStyles as useInjectStyles5 } from "../../core/dist/index.js";
-import { jsx as jsx8, jsxs as jsxs4 } from "react/jsx-runtime";
+import { forwardRef as forwardRef7 } from "react";
+import { semantic as t7, useInjectStyles as useInjectStyles6 } from "../../core/dist/index.js";
+import { jsx as jsx9, jsxs as jsxs4 } from "react/jsx-runtime";
 var STYLES_ID = "alttab-link-card";
 var linkCardCSS = (
   /* css */
   `
   .alttab-link-card {
     display: block;
+    border: ${t7.borderWidthThick} solid ${t7.colorBorder};
     text-decoration: none;
     color: inherit;
-    transition: border-color ${t6.transitionBase}, transform ${t6.transitionBase};
+    transition: border-color ${t7.transitionBase}, transform ${t7.transitionBase};
   }
 
   .alttab-link-card:hover {
-    border-color: ${t6.colorTextLink};
+    border-color: ${t7.colorTextLink};
     transform: translateY(-2px);
   }
 
   .alttab-link-card__title {
     display: block;
-    font-family: ${t6.fontSerif};
+    font-family: ${t7.fontSerif};
     font-size: 1.125rem;
     font-weight: 600;
-    color: ${t6.colorText};
+    color: ${t7.colorText};
     margin-bottom: 0.25rem;
   }
 
   .alttab-link-card__desc {
     display: block;
     font-size: 0.875rem;
-    color: ${t6.colorTextMuted};
+    color: ${t7.colorTextMuted};
   }
 `
 );
-var LinkCard = forwardRef6(function LinkCard2({
+var LinkCard = forwardRef7(function LinkCard2({
   title,
   description,
   external,
@@ -1293,8 +1367,8 @@ var LinkCard = forwardRef6(function LinkCard2({
   "aria-label": ariaLabel,
   "data-testid": dataTestId
 }, ref) {
-  useInjectStyles5(STYLES_ID, linkCardCSS);
-  return /* @__PURE__ */ jsx8(Card, { asChild: true, children: /* @__PURE__ */ jsxs4(
+  useInjectStyles6(STYLES_ID, linkCardCSS);
+  return /* @__PURE__ */ jsx9(Card, { asChild: true, variant: "ghost", children: /* @__PURE__ */ jsxs4(
     "a",
     {
       ref,
@@ -1307,44 +1381,44 @@ var LinkCard = forwardRef6(function LinkCard2({
       "aria-label": ariaLabel,
       "data-testid": dataTestId,
       children: [
-        /* @__PURE__ */ jsx8("span", { className: "alttab-link-card__title", children: title }),
-        description && /* @__PURE__ */ jsx8("span", { className: "alttab-link-card__desc", children: description })
+        /* @__PURE__ */ jsx9("span", { className: "alttab-link-card__title", children: title }),
+        description && /* @__PURE__ */ jsx9("span", { className: "alttab-link-card__desc", children: description })
       ]
     }
   ) });
 });
 
 // src/components/molecules/Field/Field.tsx
-import { semantic as t7 } from "../../core/dist/index.js";
-import { forwardRef as forwardRef7, useId as useId2, isValidElement, cloneElement } from "react";
-import { jsx as jsx9, jsxs as jsxs5 } from "react/jsx-runtime";
+import { semantic as t8 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef8, useId as useId2, isValidElement, cloneElement } from "react";
+import { jsx as jsx10, jsxs as jsxs5 } from "react/jsx-runtime";
 var labelStyle = {
   display: "block",
-  fontSize: t7.fontSizeSm,
-  fontWeight: t7.fontWeightMedium,
-  lineHeight: t7.lineHeightTight,
-  color: t7.colorText,
-  fontFamily: t7.fontSans
+  fontSize: t8.fontSizeSm,
+  fontWeight: t8.fontWeightMedium,
+  lineHeight: t8.lineHeightTight,
+  color: t8.colorText,
+  fontFamily: t8.fontSans
 };
 var requiredStyle = {
-  color: t7.colorError,
+  color: t8.colorError,
   marginLeft: "0.125rem"
 };
 var helpStyle = {
-  fontSize: t7.fontSizeXs,
-  lineHeight: t7.lineHeightTight,
-  color: t7.colorTextMuted,
-  fontFamily: t7.fontSans,
+  fontSize: t8.fontSizeXs,
+  lineHeight: t8.lineHeightTight,
+  color: t8.colorTextMuted,
+  fontFamily: t8.fontSans,
   margin: 0
 };
 var errorStyle = {
-  fontSize: t7.fontSizeXs,
-  lineHeight: t7.lineHeightTight,
-  color: t7.colorError,
-  fontFamily: t7.fontSans,
+  fontSize: t8.fontSizeXs,
+  lineHeight: t8.lineHeightTight,
+  color: t8.colorError,
+  fontFamily: t8.fontSans,
   margin: 0
 };
-var Field = forwardRef7(
+var Field = forwardRef8(
   function Field2({
     label,
     htmlFor,
@@ -1372,17 +1446,17 @@ var Field = forwardRef7(
         style: {
           display: "flex",
           flexDirection: "column",
-          gap: t7.spaceXs,
+          gap: t8.spaceXs,
           opacity: disabled ? 0.6 : void 0
         },
         children: [
           /* @__PURE__ */ jsxs5("label", { htmlFor, style: labelStyle, children: [
             label,
-            required && /* @__PURE__ */ jsx9("span", { style: requiredStyle, "aria-hidden": "true", children: "*" })
+            required && /* @__PURE__ */ jsx10("span", { style: requiredStyle, "aria-hidden": "true", children: "*" })
           ] }),
           enhancedChildren,
-          error && /* @__PURE__ */ jsx9("p", { id: errorId, role: "alert", style: errorStyle, children: error }),
-          !error && help && /* @__PURE__ */ jsx9("p", { id: helpId, style: helpStyle, children: help })
+          error && /* @__PURE__ */ jsx10("p", { id: errorId, role: "alert", style: errorStyle, children: error }),
+          !error && help && /* @__PURE__ */ jsx10("p", { id: helpId, style: helpStyle, children: help })
         ]
       }
     );
@@ -1390,33 +1464,33 @@ var Field = forwardRef7(
 );
 
 // src/components/atoms/Input/Input.tsx
-import { forwardRef as forwardRef8 } from "react";
-import { semantic as t8 } from "../../core/dist/index.js";
-import { jsx as jsx10 } from "react/jsx-runtime";
+import { forwardRef as forwardRef9 } from "react";
+import { semantic as t9 } from "../../core/dist/index.js";
+import { jsx as jsx11 } from "react/jsx-runtime";
 var baseStyle = {
   display: "block",
   width: "100%",
-  padding: `${t8.spaceSm} ${t8.spaceMd}`,
-  fontSize: t8.fontSizeSm,
-  lineHeight: t8.lineHeightTight,
-  fontFamily: t8.fontSans,
-  color: t8.colorText,
-  background: t8.colorSurfaceInput,
-  border: `${t8.borderWidthDefault} solid ${t8.colorBorder}`,
-  borderRadius: t8.radiusMd,
+  padding: `${t9.spaceSm} ${t9.spaceMd}`,
+  fontSize: t9.fontSizeSm,
+  lineHeight: t9.lineHeightTight,
+  fontFamily: t9.fontSans,
+  color: t9.colorText,
+  background: t9.colorSurfaceInput,
+  border: `${t9.borderWidthDefault} solid ${t9.colorBorder}`,
+  borderRadius: t9.radiusMd,
   outline: "none",
-  transition: `border-color ${t8.transitionBase}, box-shadow ${t8.transitionBase}`,
+  transition: `border-color ${t9.transitionBase}, box-shadow ${t9.transitionBase}`,
   boxSizing: "border-box"
 };
 var errorBorderStyle2 = {
-  borderColor: t8.colorBorderError
+  borderColor: t9.colorBorderError
 };
 var disabledStyle2 = {
-  background: t8.colorSurfaceDisabled,
-  color: t8.colorTextDisabled,
+  background: t9.colorSurfaceDisabled,
+  color: t9.colorTextDisabled,
   cursor: "not-allowed"
 };
-var Input = forwardRef8(
+var Input = forwardRef9(
   function Input2({
     hasError,
     disabled,
@@ -1448,7 +1522,7 @@ var Input = forwardRef8(
     "aria-invalid": ariaInvalid,
     "data-testid": dataTestId
   }, ref) {
-    return /* @__PURE__ */ jsx10(
+    return /* @__PURE__ */ jsx11(
       "input",
       {
         ref,
@@ -1491,36 +1565,36 @@ var Input = forwardRef8(
 );
 
 // src/components/atoms/Textarea/Textarea.tsx
-import { forwardRef as forwardRef9 } from "react";
-import { semantic as t9 } from "../../core/dist/index.js";
-import { jsx as jsx11 } from "react/jsx-runtime";
+import { forwardRef as forwardRef10 } from "react";
+import { semantic as t10 } from "../../core/dist/index.js";
+import { jsx as jsx12 } from "react/jsx-runtime";
 var baseStyle2 = {
   display: "block",
   width: "100%",
-  padding: `${t9.spaceSm} ${t9.spaceMd}`,
-  fontSize: t9.fontSizeSm,
-  lineHeight: t9.lineHeightBase,
-  fontFamily: t9.fontSans,
-  color: t9.colorText,
-  background: t9.colorSurfaceInput,
-  border: `${t9.borderWidthDefault} solid ${t9.colorBorder}`,
-  borderRadius: t9.radiusMd,
+  padding: `${t10.spaceSm} ${t10.spaceMd}`,
+  fontSize: t10.fontSizeSm,
+  lineHeight: t10.lineHeightBase,
+  fontFamily: t10.fontSans,
+  color: t10.colorText,
+  background: t10.colorSurfaceInput,
+  border: `${t10.borderWidthDefault} solid ${t10.colorBorder}`,
+  borderRadius: t10.radiusMd,
   outline: "none",
-  transition: `border-color ${t9.transitionBase}, box-shadow ${t9.transitionBase}`,
+  transition: `border-color ${t10.transitionBase}, box-shadow ${t10.transitionBase}`,
   boxSizing: "border-box",
   resize: "vertical",
   minHeight: "5rem"
 };
 var errorBorderStyle3 = {
-  borderColor: t9.colorBorderError
+  borderColor: t10.colorBorderError
 };
 var disabledStyle3 = {
-  background: t9.colorSurfaceDisabled,
-  color: t9.colorTextDisabled,
+  background: t10.colorSurfaceDisabled,
+  color: t10.colorTextDisabled,
   cursor: "not-allowed",
   resize: "none"
 };
-var Textarea = forwardRef9(
+var Textarea = forwardRef10(
   function Textarea2({
     hasError,
     disabled,
@@ -1546,7 +1620,7 @@ var Textarea = forwardRef9(
     "aria-invalid": ariaInvalid,
     "data-testid": dataTestId
   }, ref) {
-    return /* @__PURE__ */ jsx11(
+    return /* @__PURE__ */ jsx12(
       "textarea",
       {
         ref,
@@ -1583,59 +1657,59 @@ var Textarea = forwardRef9(
 );
 
 // src/components/atoms/Badge/Badge.tsx
-import { forwardRef as forwardRef10 } from "react";
-import { semantic as t10 } from "../../core/dist/index.js";
-import { jsx as jsx12 } from "react/jsx-runtime";
+import { forwardRef as forwardRef11 } from "react";
+import { semantic as t11 } from "../../core/dist/index.js";
+import { jsx as jsx13 } from "react/jsx-runtime";
 var variantStyles2 = {
   default: {
-    border: `${t10.borderWidthDefault} solid ${t10.colorBorder}`,
-    color: t10.colorTextSecondary
+    border: `${t11.borderWidthDefault} solid ${t11.colorBorder}`,
+    color: t11.colorTextSecondary
   },
   primary: {
-    background: `color-mix(in srgb, ${t10.colorActionPrimary} 14%, transparent)`,
-    color: t10.colorActionPrimary
+    background: `color-mix(in srgb, ${t11.colorActionPrimary} 14%, transparent)`,
+    color: t11.colorActionPrimary
   },
   success: {
-    background: t10.colorSuccessBg,
-    color: t10.colorSuccess
+    background: t11.colorSuccessBg,
+    color: t11.colorSuccess
   },
   warning: {
-    background: t10.colorWarningBg,
-    color: t10.colorWarning
+    background: t11.colorWarningBg,
+    color: t11.colorWarning
   },
   error: {
-    background: t10.colorErrorBg,
-    color: t10.colorError
+    background: t11.colorErrorBg,
+    color: t11.colorError
   },
   info: {
-    background: t10.colorInfoBg,
-    color: t10.colorInfo
+    background: t11.colorInfoBg,
+    color: t11.colorInfo
   }
 };
 var baseStyles2 = {
   display: "inline-block",
-  padding: `${t10.spaceXs} ${t10.spaceSm}`,
-  borderRadius: t10.radiusFull,
-  fontSize: t10.fontSizeXs,
-  fontWeight: t10.fontWeightSemibold,
-  fontFamily: t10.fontSans,
+  padding: `${t11.spaceXs} ${t11.spaceSm}`,
+  borderRadius: t11.radiusFull,
+  fontSize: t11.fontSizeXs,
+  fontWeight: t11.fontWeightSemibold,
+  fontFamily: t11.fontSans,
   textTransform: "uppercase",
-  letterSpacing: t10.letterSpacingWide
+  letterSpacing: t11.letterSpacingWide
 };
 var xsBaseStyles = {
   display: "inline-block",
   fontSize: "0.6rem",
-  fontFamily: t10.fontMono,
-  fontWeight: t10.fontWeightMedium,
-  color: t10.colorTextMuted,
-  borderRadius: t10.radiusFull,
-  background: `color-mix(in srgb, ${t10.colorBorder} 40%, transparent)`,
-  padding: `0.0625rem ${t10.spaceXs}`,
-  lineHeight: t10.lineHeightTight,
-  letterSpacing: t10.letterSpacingWide,
+  fontFamily: t11.fontMono,
+  fontWeight: t11.fontWeightMedium,
+  color: t11.colorTextMuted,
+  borderRadius: t11.radiusFull,
+  background: `color-mix(in srgb, ${t11.colorBorder} 40%, transparent)`,
+  padding: `0.0625rem ${t11.spaceXs}`,
+  lineHeight: t11.lineHeightTight,
+  letterSpacing: t11.letterSpacingWide,
   textTransform: "lowercase"
 };
-var Badge = forwardRef10(
+var Badge = forwardRef11(
   function Badge2({
     children,
     variant = "default",
@@ -1644,7 +1718,7 @@ var Badge = forwardRef10(
   }, ref) {
     const isXs = size === "xs";
     const base = isXs ? xsBaseStyles : baseStyles2;
-    return /* @__PURE__ */ jsx12(
+    return /* @__PURE__ */ jsx13(
       "span",
       {
         ref,
@@ -1661,37 +1735,37 @@ var Badge = forwardRef10(
 );
 
 // src/components/atoms/Text/Text.tsx
-import { forwardRef as forwardRef11, createElement as createElement2 } from "react";
-import { semantic as t11 } from "../../core/dist/index.js";
-var sizeMap = {
-  xs: t11.fontSizeXs,
-  sm: t11.fontSizeSm,
-  md: t11.fontSizeBase,
-  lg: t11.fontSizeLg,
-  xl: t11.fontSizeXl
+import { forwardRef as forwardRef12, createElement as createElement2 } from "react";
+import { semantic as t12 } from "../../core/dist/index.js";
+var sizeMap2 = {
+  xs: t12.fontSizeXs,
+  sm: t12.fontSizeSm,
+  md: t12.fontSizeBase,
+  lg: t12.fontSizeLg,
+  xl: t12.fontSizeXl
 };
 var weightMap = {
-  normal: t11.fontWeightNormal,
-  medium: t11.fontWeightMedium,
-  semibold: t11.fontWeightSemibold,
-  bold: t11.fontWeightBold
+  normal: t12.fontWeightNormal,
+  medium: t12.fontWeightMedium,
+  semibold: t12.fontWeightSemibold,
+  bold: t12.fontWeightBold
 };
 var toneMap = {
-  default: t11.colorText,
-  muted: t11.colorTextMuted,
-  secondary: t11.colorTextSecondary,
-  inverse: t11.colorTextInverse,
-  link: t11.colorTextLink,
-  success: t11.colorSuccess,
-  warning: t11.colorWarning,
-  error: t11.colorError
+  default: t12.colorText,
+  muted: t12.colorTextMuted,
+  secondary: t12.colorTextSecondary,
+  inverse: t12.colorTextInverse,
+  link: t12.colorTextLink,
+  success: t12.colorSuccess,
+  warning: t12.colorWarning,
+  error: t12.colorError
 };
 var familyMap = {
-  sans: t11.fontSans,
-  serif: t11.fontSerif,
-  mono: t11.fontMono
+  sans: t12.fontSans,
+  serif: t12.fontSerif,
+  mono: t12.fontMono
 };
-var Text = forwardRef11(
+var Text = forwardRef12(
   function Text2({
     children,
     size = "md",
@@ -1704,7 +1778,7 @@ var Text = forwardRef11(
     ...rest
   }, ref) {
     const style = {
-      fontSize: sizeMap[size],
+      fontSize: sizeMap2[size],
       fontWeight: weightMap[weight],
       color: toneMap[tone],
       fontFamily: familyMap[family],
@@ -1731,13 +1805,13 @@ var Text = forwardRef11(
 );
 
 // src/components/atoms/Icon/Icon.tsx
-import { forwardRef as forwardRef12, createContext as createContext2, useContext as useContext2 } from "react";
-import { jsx as jsx13 } from "react/jsx-runtime";
+import { forwardRef as forwardRef13, createContext as createContext2, useContext as useContext2 } from "react";
+import { jsx as jsx14 } from "react/jsx-runtime";
 var IconFontContext = createContext2(void 0);
 function IconFontProvider({ fontClass, children }) {
-  return /* @__PURE__ */ jsx13(IconFontContext.Provider, { value: fontClass, children });
+  return /* @__PURE__ */ jsx14(IconFontContext.Provider, { value: fontClass, children });
 }
-var Icon = forwardRef12(
+var Icon = forwardRef13(
   function Icon2({ name, size = "lg", fontClass, "aria-label": ariaLabel, id, "data-testid": dataTestId }, ref) {
     const contextFontClass = useContext2(IconFontContext);
     const IconComponent = iconRegistry[name];
@@ -1745,7 +1819,7 @@ var Icon = forwardRef12(
     const px = iconSizeMap[size];
     const resolvedFontClass = fontClass ?? contextFontClass;
     if (!IconComponent && resolvedFontClass) {
-      return /* @__PURE__ */ jsx13(
+      return /* @__PURE__ */ jsx14(
         "span",
         {
           ref,
@@ -1770,7 +1844,7 @@ var Icon = forwardRef12(
         }
       );
     }
-    return /* @__PURE__ */ jsx13(
+    return /* @__PURE__ */ jsx14(
       "span",
       {
         ref,
@@ -1788,16 +1862,16 @@ var Icon = forwardRef12(
           lineHeight: 1,
           color: "inherit"
         },
-        children: IconComponent ? /* @__PURE__ */ jsx13(IconComponent, { size: px }) : null
+        children: IconComponent ? /* @__PURE__ */ jsx14(IconComponent, { size: px }) : null
       }
     );
   }
 );
 
 // src/components/atoms/IconButton/IconButton.tsx
-import { forwardRef as forwardRef13, useId as useId3 } from "react";
-import { semantic as t12, useInjectStyles as useInjectStyles6, Slot as Slot4 } from "../../core/dist/index.js";
-import { Fragment as Fragment2, jsx as jsx14, jsxs as jsxs6 } from "react/jsx-runtime";
+import { forwardRef as forwardRef14, useId as useId3 } from "react";
+import { semantic as t13, useInjectStyles as useInjectStyles7, Slot as Slot4 } from "../../core/dist/index.js";
+import { Fragment as Fragment2, jsx as jsx15, jsxs as jsxs6 } from "react/jsx-runtime";
 var buttonSizeMap = {
   sm: 28,
   md: 36,
@@ -1808,7 +1882,7 @@ var iconSizeForButton = {
   md: "md",
   lg: "lg"
 };
-var IconButton = forwardRef13(
+var IconButton = forwardRef14(
   function IconButton2({
     icon,
     size = "md",
@@ -1830,14 +1904,14 @@ var IconButton = forwardRef13(
   }, ref) {
     const uid = useId3();
     const styleId = `icon-btn-${uid.replace(/:/g, "")}`;
-    useInjectStyles6(
+    useInjectStyles7(
       styleId,
       `[data-icon-btn-id="${styleId}"]:hover:not(:disabled) {
         background: color-mix(in srgb, currentColor 8%, transparent);
       }
       [data-icon-btn-id="${styleId}"]:focus-visible {
-        outline: ${t12.focusRingWidth} solid ${t12.focusRingColor};
-        outline-offset: ${t12.focusRingOffset};
+        outline: ${t13.focusRingWidth} solid ${t13.focusRingColor};
+        outline-offset: ${t13.focusRingOffset};
       }`
     );
     const dim = buttonSizeMap[size];
@@ -1848,16 +1922,16 @@ var IconButton = forwardRef13(
       justifyContent: "center",
       width: dim,
       height: dim,
-      borderRadius: t12.radiusFull,
+      borderRadius: t13.radiusFull,
       background: "transparent",
       border: "none",
-      color: t12.colorTextMuted,
+      color: t13.colorTextMuted,
       cursor: "pointer",
       padding: 0
     };
     const iconAndBadge = /* @__PURE__ */ jsxs6(Fragment2, { children: [
-      /* @__PURE__ */ jsx14(Icon, { name: icon, size: iconSizeForButton[size], fontClass }),
-      badge && /* @__PURE__ */ jsx14(
+      /* @__PURE__ */ jsx15(Icon, { name: icon, size: iconSizeForButton[size], fontClass }),
+      badge && /* @__PURE__ */ jsx15(
         "span",
         {
           style: {
@@ -1866,9 +1940,9 @@ var IconButton = forwardRef13(
             right: 2,
             width: 8,
             height: 8,
-            borderRadius: t12.radiusFull,
-            background: t12.colorError,
-            border: `${t12.borderWidthThick} solid ${t12.colorSurface}`
+            borderRadius: t13.radiusFull,
+            background: t13.colorError,
+            border: `${t13.borderWidthThick} solid ${t13.colorSurface}`
           }
         }
       )
@@ -1887,9 +1961,9 @@ var IconButton = forwardRef13(
       style
     };
     if (asChild) {
-      return /* @__PURE__ */ jsx14(Slot4, { ref, ...commonProps, "aria-disabled": disabled || void 0, children });
+      return /* @__PURE__ */ jsx15(Slot4, { ref, ...commonProps, "aria-disabled": disabled || void 0, children });
     }
-    return /* @__PURE__ */ jsx14(
+    return /* @__PURE__ */ jsx15(
       "button",
       {
         ref,
@@ -1903,15 +1977,15 @@ var IconButton = forwardRef13(
 );
 
 // src/components/atoms/Overlay/Overlay.tsx
-import { forwardRef as forwardRef14 } from "react";
-import { semantic as t13 } from "../../core/dist/index.js";
-import { jsx as jsx15 } from "react/jsx-runtime";
-var Overlay = forwardRef14(
+import { forwardRef as forwardRef15 } from "react";
+import { semantic as t14 } from "../../core/dist/index.js";
+import { jsx as jsx16 } from "react/jsx-runtime";
+var Overlay = forwardRef15(
   function Overlay2({
     onClick,
-    zIndex = t13.zIndexSticky
+    zIndex = t14.zIndexSticky
   }, ref) {
-    return /* @__PURE__ */ jsx15(
+    return /* @__PURE__ */ jsx16(
       "div",
       {
         ref,
@@ -1920,7 +1994,7 @@ var Overlay = forwardRef14(
         style: {
           position: "fixed",
           inset: 0,
-          background: t13.colorSurfaceOverlay,
+          background: t14.colorSurfaceOverlay,
           zIndex
         }
       }
@@ -1929,9 +2003,9 @@ var Overlay = forwardRef14(
 );
 
 // src/components/atoms/Skeleton/Skeleton.tsx
-import { forwardRef as forwardRef15 } from "react";
-import { semantic as t14, useInjectStyles as useInjectStyles7, useThemeRhythm as useThemeRhythm2 } from "../../core/dist/index.js";
-import { jsx as jsx16, jsxs as jsxs7 } from "react/jsx-runtime";
+import { forwardRef as forwardRef16 } from "react";
+import { semantic as t15, useInjectStyles as useInjectStyles8, useThemeRhythm as useThemeRhythm3 } from "../../core/dist/index.js";
+import { jsx as jsx17, jsxs as jsxs7 } from "react/jsx-runtime";
 var SKELETON_STYLES_ID = "4lt7ab-skeleton-pulse";
 var STAGGER_STEPS = 10;
 var STAGGER_MS = 80;
@@ -1971,15 +2045,15 @@ ${staggerRules.join("\n")}
 }
 `;
 })();
-var Skeleton = forwardRef15(
+var Skeleton = forwardRef16(
   function Skeleton2({
     width = "100%",
     height = 16,
     radius = "md"
   }, ref) {
-    const { durationCss } = useThemeRhythm2();
-    useInjectStyles7(SKELETON_STYLES_ID, SKELETON_STYLES_CSS);
-    return /* @__PURE__ */ jsx16(
+    const { durationCss } = useThemeRhythm3();
+    useInjectStyles8(SKELETON_STYLES_ID, SKELETON_STYLES_CSS);
+    return /* @__PURE__ */ jsx17(
       "div",
       {
         ref,
@@ -1989,14 +2063,14 @@ var Skeleton = forwardRef15(
           width,
           height,
           borderRadius: radiusMap[radius],
-          background: t14.colorSurfaceRaised,
+          background: t15.colorSurfaceRaised,
           ...durationCss ? { "--skeleton-duration": durationCss } : void 0
         }
       }
     );
   }
 );
-var CardSkeleton = forwardRef15(
+var CardSkeleton = forwardRef16(
   function CardSkeleton2(_props, ref) {
     return /* @__PURE__ */ jsxs7(
       "div",
@@ -2004,23 +2078,23 @@ var CardSkeleton = forwardRef15(
         ref,
         "aria-hidden": "true",
         style: {
-          borderRadius: t14.radiusLg,
-          border: `${t14.borderWidthDefault} solid ${t14.colorBorder}`,
-          padding: t14.spaceLg,
+          borderRadius: t15.radiusLg,
+          border: `${t15.borderWidthDefault} solid ${t15.colorBorder}`,
+          padding: t15.spaceLg,
           display: "flex",
           flexDirection: "column",
-          gap: t14.spaceSm
+          gap: t15.spaceSm
         },
         children: [
-          /* @__PURE__ */ jsx16(Skeleton, { width: "60%", height: 20 }),
-          /* @__PURE__ */ jsx16(Skeleton, { width: "100%", height: 14 }),
-          /* @__PURE__ */ jsx16(Skeleton, { width: "80%", height: 14 })
+          /* @__PURE__ */ jsx17(Skeleton, { width: "60%", height: 20 }),
+          /* @__PURE__ */ jsx17(Skeleton, { width: "100%", height: 14 }),
+          /* @__PURE__ */ jsx17(Skeleton, { width: "80%", height: 14 })
         ]
       }
     );
   }
 );
-var RowSkeleton = forwardRef15(
+var RowSkeleton = forwardRef16(
   function RowSkeleton2(_props, ref) {
     return /* @__PURE__ */ jsxs7(
       "div",
@@ -2030,14 +2104,14 @@ var RowSkeleton = forwardRef15(
         style: {
           display: "flex",
           alignItems: "center",
-          gap: t14.spaceSm,
-          padding: `${t14.spaceSm} 0`
+          gap: t15.spaceSm,
+          padding: `${t15.spaceSm} 0`
         },
         children: [
-          /* @__PURE__ */ jsx16(Skeleton, { width: 32, height: 32, radius: "full" }),
-          /* @__PURE__ */ jsxs7("div", { style: { flex: 1, display: "flex", flexDirection: "column", gap: t14.spaceXs }, children: [
-            /* @__PURE__ */ jsx16(Skeleton, { width: "40%", height: 14 }),
-            /* @__PURE__ */ jsx16(Skeleton, { width: "70%", height: 12 })
+          /* @__PURE__ */ jsx17(Skeleton, { width: 32, height: 32, radius: "full" }),
+          /* @__PURE__ */ jsxs7("div", { style: { flex: 1, display: "flex", flexDirection: "column", gap: t15.spaceXs }, children: [
+            /* @__PURE__ */ jsx17(Skeleton, { width: "40%", height: 14 }),
+            /* @__PURE__ */ jsx17(Skeleton, { width: "70%", height: 12 })
           ] })
         ]
       }
@@ -2046,10 +2120,10 @@ var RowSkeleton = forwardRef15(
 );
 
 // src/components/atoms/ProgressBar/ProgressBar.tsx
-import { forwardRef as forwardRef16 } from "react";
-import { semantic as t15 } from "../../core/dist/index.js";
-import { jsx as jsx17 } from "react/jsx-runtime";
-var ProgressBar = forwardRef16(
+import { forwardRef as forwardRef17 } from "react";
+import { semantic as t16 } from "../../core/dist/index.js";
+import { jsx as jsx18 } from "react/jsx-runtime";
+var ProgressBar = forwardRef17(
   function ProgressBar2({
     segments,
     height = "md",
@@ -2057,7 +2131,7 @@ var ProgressBar = forwardRef16(
   }, ref) {
     const total = segments.reduce((sum, s) => sum + s.value, 0);
     const px = progressBarHeightMap[height];
-    return /* @__PURE__ */ jsx17(
+    return /* @__PURE__ */ jsx18(
       "div",
       {
         ref,
@@ -2072,11 +2146,11 @@ var ProgressBar = forwardRef16(
           borderRadius: px / 2,
           overflow: "hidden",
           display: "flex",
-          background: t15.colorSurfaceRaised
+          background: t16.colorSurfaceRaised
         },
         children: segments.map((segment, i) => {
           const pct = total > 0 ? segment.value / total * 100 : 0;
-          return /* @__PURE__ */ jsx17(
+          return /* @__PURE__ */ jsx18(
             "div",
             {
               title: segment.label ? `${segment.label}: ${segment.value}` : String(segment.value),
@@ -2095,10 +2169,10 @@ var ProgressBar = forwardRef16(
 );
 
 // src/components/molecules/EmptyState/EmptyState.tsx
-import { forwardRef as forwardRef17 } from "react";
-import { semantic as t16 } from "../../core/dist/index.js";
-import { jsx as jsx18, jsxs as jsxs8 } from "react/jsx-runtime";
-var EmptyState = forwardRef17(
+import { forwardRef as forwardRef18 } from "react";
+import { semantic as t17 } from "../../core/dist/index.js";
+import { jsx as jsx19, jsxs as jsxs8 } from "react/jsx-runtime";
+var EmptyState = forwardRef18(
   function EmptyState2({
     icon,
     message,
@@ -2106,40 +2180,40 @@ var EmptyState = forwardRef17(
     children,
     action
   }, ref) {
-    const content = /* @__PURE__ */ jsx18("div", { style: { padding: t16.spaceXl }, children: /* @__PURE__ */ jsxs8(Stack, { align: "center", gap: "sm", children: [
-      /* @__PURE__ */ jsx18("span", { style: { color: t16.colorTextMuted, display: "inline-flex" }, children: /* @__PURE__ */ jsx18(Icon, { name: icon, size: "xl" }) }),
-      /* @__PURE__ */ jsx18(
+    const content = /* @__PURE__ */ jsx19("div", { style: { padding: t17.spaceXl }, children: /* @__PURE__ */ jsxs8(Stack, { align: "center", gap: "sm", children: [
+      /* @__PURE__ */ jsx19("span", { style: { color: t17.colorTextMuted, display: "inline-flex" }, children: /* @__PURE__ */ jsx19(Icon, { name: icon, size: "xl" }) }),
+      /* @__PURE__ */ jsx19(
         "span",
         {
           style: {
-            color: t16.colorTextSecondary,
-            fontSize: t16.fontSizeSm,
+            color: t17.colorTextSecondary,
+            fontSize: t17.fontSizeSm,
             textAlign: "center",
-            fontFamily: t16.fontSans
+            fontFamily: t17.fontSans
           },
           children: message
         }
       ),
       children,
-      action && /* @__PURE__ */ jsx18("div", { style: { marginTop: t16.spaceSm }, children: action })
+      action && /* @__PURE__ */ jsx19("div", { style: { marginTop: t17.spaceSm }, children: action })
     ] }) });
     if (variant === "card") {
-      return /* @__PURE__ */ jsx18(Card, { ref, variant: "flat", children: content });
+      return /* @__PURE__ */ jsx19(Card, { ref, variant: "flat", children: content });
     }
-    return /* @__PURE__ */ jsx18("div", { ref, children: content });
+    return /* @__PURE__ */ jsx19("div", { ref, children: content });
   }
 );
 
 // src/components/molecules/Pagination/Pagination.tsx
-import { forwardRef as forwardRef18 } from "react";
-import { semantic as t17 } from "../../core/dist/index.js";
-import { jsx as jsx19, jsxs as jsxs9 } from "react/jsx-runtime";
+import { forwardRef as forwardRef19 } from "react";
+import { semantic as t18 } from "../../core/dist/index.js";
+import { jsx as jsx20, jsxs as jsxs9 } from "react/jsx-runtime";
 var defaultLabels = {
   previous: "Previous",
   next: "Next",
   pageOf: (page, total) => `Page ${page} of ${total}`
 };
-var Pagination = forwardRef18(
+var Pagination = forwardRef19(
   function Pagination2({
     page,
     totalPages,
@@ -2156,10 +2230,10 @@ var Pagination = forwardRef18(
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: t17.spaceSm
+          gap: t18.spaceSm
         },
         children: [
-          /* @__PURE__ */ jsx19(
+          /* @__PURE__ */ jsx20(
             Button,
             {
               variant: "ghost",
@@ -2173,9 +2247,9 @@ var Pagination = forwardRef18(
             "span",
             {
               style: {
-                color: t17.colorTextMuted,
-                fontSize: t17.fontSizeSm,
-                fontFamily: t17.fontSans
+                color: t18.colorTextMuted,
+                fontSize: t18.fontSizeSm,
+                fontFamily: t18.fontSans
               },
               children: [
                 resolvedLabels.pageOf(page, totalPages),
@@ -2185,7 +2259,7 @@ var Pagination = forwardRef18(
               ]
             }
           ),
-          /* @__PURE__ */ jsx19(
+          /* @__PURE__ */ jsx20(
             Button,
             {
               variant: "ghost",
@@ -2202,25 +2276,25 @@ var Pagination = forwardRef18(
 );
 
 // src/components/molecules/Header/Header.tsx
-import { forwardRef as forwardRef19 } from "react";
-import { semantic as t18 } from "../../core/dist/index.js";
-import { jsx as jsx20, jsxs as jsxs10 } from "react/jsx-runtime";
-var Header = forwardRef19(
+import { forwardRef as forwardRef20 } from "react";
+import { semantic as t19 } from "../../core/dist/index.js";
+import { jsx as jsx21, jsxs as jsxs10 } from "react/jsx-runtime";
+var Header = forwardRef20(
   function Header2({ title, level = "section", subtitle, indicator, trailing }, ref) {
     const isPage = level === "page";
     const Tag = isPage ? "h1" : "h2";
     const titleStyle2 = isPage ? {
       margin: 0,
-      fontFamily: t18.fontSans,
-      fontWeight: t18.fontWeightBold,
-      color: t18.colorText
+      fontFamily: t19.fontSans,
+      fontWeight: t19.fontWeightBold,
+      color: t19.colorText
     } : {
       margin: 0,
-      fontFamily: t18.fontSans,
-      fontWeight: t18.fontWeightSemibold,
-      fontSize: t18.fontSizeBase,
-      lineHeight: t18.lineHeightTight,
-      color: t18.colorText
+      fontFamily: t19.fontSans,
+      fontWeight: t19.fontWeightSemibold,
+      fontSize: t19.fontSizeBase,
+      lineHeight: t19.lineHeightTight,
+      color: t19.colorText
     };
     return /* @__PURE__ */ jsxs10(
       "div",
@@ -2230,17 +2304,17 @@ var Header = forwardRef19(
           display: "flex",
           justifyContent: "space-between",
           alignItems: isPage ? "flex-end" : "center",
-          gap: t18.spaceMd
+          gap: t19.spaceMd
         },
         children: [
           /* @__PURE__ */ jsxs10("div", { style: { minWidth: 0 }, children: [
-            /* @__PURE__ */ jsxs10("div", { style: { display: "flex", alignItems: "center", gap: t18.spaceSm }, children: [
-              /* @__PURE__ */ jsx20(Tag, { style: titleStyle2, children: title }),
+            /* @__PURE__ */ jsxs10("div", { style: { display: "flex", alignItems: "center", gap: t19.spaceSm }, children: [
+              /* @__PURE__ */ jsx21(Tag, { style: titleStyle2, children: title }),
               indicator
             ] }),
-            subtitle && /* @__PURE__ */ jsx20("span", { style: { color: t18.colorTextMuted, fontSize: t18.fontSizeSm, fontFamily: t18.fontSans }, children: subtitle })
+            subtitle && /* @__PURE__ */ jsx21("span", { style: { color: t19.colorTextMuted, fontSize: t19.fontSizeSm, fontFamily: t19.fontSans }, children: subtitle })
           ] }),
-          trailing && /* @__PURE__ */ jsx20("div", { style: { display: "flex", alignItems: "center", gap: t18.spaceSm, flexShrink: 0 }, children: trailing })
+          trailing && /* @__PURE__ */ jsx21("div", { style: { display: "flex", alignItems: "center", gap: t19.spaceSm, flexShrink: 0 }, children: trailing })
         ]
       }
     );
@@ -2248,21 +2322,21 @@ var Header = forwardRef19(
 );
 
 // src/components/organisms/ModalShell/ModalShell.tsx
-import { forwardRef as forwardRef20, useEffect as useEffect4, useId as useId4, useRef as useRef3 } from "react";
+import { forwardRef as forwardRef21, useEffect as useEffect4, useId as useId4, useRef as useRef3 } from "react";
 import { createPortal } from "react-dom";
-import { semantic as t19 } from "../../core/dist/index.js";
-import { Fragment as Fragment3, jsx as jsx21, jsxs as jsxs11 } from "react/jsx-runtime";
+import { semantic as t20 } from "../../core/dist/index.js";
+import { Fragment as Fragment3, jsx as jsx22, jsxs as jsxs11 } from "react/jsx-runtime";
 var modalHeadingStyle = Object.freeze({
   margin: 0,
-  fontWeight: t19.fontWeightSemibold,
-  fontFamily: t19.fontSans,
-  color: t19.colorText,
-  fontSize: t19.fontSizeLg
+  fontWeight: t20.fontWeightSemibold,
+  fontFamily: t20.fontSans,
+  color: t20.colorText,
+  fontSize: t20.fontSizeLg
 });
 var modalFooterStyle = Object.freeze({
   display: "flex",
   justifyContent: "flex-end",
-  gap: t19.spaceSm
+  gap: t20.spaceSm
 });
 var FOCUSABLE_SELECTOR2 = [
   "a[href]",
@@ -2272,12 +2346,12 @@ var FOCUSABLE_SELECTOR2 = [
   "textarea:not(:disabled)",
   '[tabindex]:not([tabindex="-1"])'
 ].join(", ");
-var ModalShell = forwardRef20(
+var ModalShell = forwardRef21(
   function ModalShell2({
     onClose,
     children,
     width = "md",
-    zIndex = t19.zIndexModal,
+    zIndex = t20.zIndexModal,
     titleId,
     "aria-label": ariaLabel,
     role = "dialog"
@@ -2320,8 +2394,8 @@ var ModalShell = forwardRef20(
     }, [onClose]);
     return createPortal(
       /* @__PURE__ */ jsxs11(Fragment3, { children: [
-        /* @__PURE__ */ jsx21(Overlay, { onClick: onClose, zIndex }),
-        /* @__PURE__ */ jsx21(
+        /* @__PURE__ */ jsx22(Overlay, { onClick: onClose, zIndex }),
+        /* @__PURE__ */ jsx22(
           "div",
           {
             style: {
@@ -2330,11 +2404,11 @@ var ModalShell = forwardRef20(
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              padding: t19.spaceMd,
+              padding: t20.spaceMd,
               zIndex: typeof zIndex === "number" ? zIndex + 1 : `calc(${zIndex} + 1)`,
               pointerEvents: "none"
             },
-            children: /* @__PURE__ */ jsx21(
+            children: /* @__PURE__ */ jsx22(
               "div",
               {
                 ref: setRefs,
@@ -2344,12 +2418,12 @@ var ModalShell = forwardRef20(
                 "aria-label": ariaLabel,
                 tabIndex: -1,
                 style: {
-                  background: t19.colorSurface,
-                  color: t19.colorText,
-                  borderRadius: t19.radiusLg,
-                  boxShadow: t19.shadowLg,
-                  border: `${t19.borderWidthDefault} solid ${t19.colorBorder}`,
-                  padding: t19.spaceXl,
+                  background: t20.colorSurface,
+                  color: t20.colorText,
+                  borderRadius: t20.radiusLg,
+                  boxShadow: t20.shadowLg,
+                  border: `${t20.borderWidthDefault} solid ${t20.colorBorder}`,
+                  padding: t20.spaceXl,
                   maxWidth: modalWidthMap[width],
                   width: "100%",
                   maxHeight: "100%",
@@ -2369,41 +2443,41 @@ var ModalShell = forwardRef20(
 );
 
 // src/styles/sectionLabelStyle.ts
-import { semantic as t20 } from "../../core/dist/index.js";
+import { semantic as t21 } from "../../core/dist/index.js";
 var sectionLabelStyle = {
   display: "block",
-  fontSize: t20.fontSizeXs,
-  fontWeight: t20.fontWeightSemibold,
-  fontFamily: t20.fontSans,
-  color: t20.colorTextSecondary,
+  fontSize: t21.fontSizeXs,
+  fontWeight: t21.fontWeightSemibold,
+  fontFamily: t21.fontSans,
+  color: t21.colorTextSecondary,
   textTransform: "uppercase",
-  letterSpacing: t20.letterSpacingWide
+  letterSpacing: t21.letterSpacingWide
 };
 
 // src/styles/tagChipStyle.ts
-import { semantic as t21 } from "../../core/dist/index.js";
+import { semantic as t22 } from "../../core/dist/index.js";
 var tagChipStyle = {
   display: "inline-flex",
   alignItems: "center",
-  gap: t21.spaceXs,
-  fontSize: t21.fontSizeXs,
-  color: t21.colorActionPrimary,
-  background: t21.colorSurfaceRaised,
-  borderRadius: t21.radiusFull,
-  padding: `${t21.spaceXs} ${t21.spaceSm}`,
-  fontFamily: t21.fontSans
+  gap: t22.spaceXs,
+  fontSize: t22.fontSizeXs,
+  color: t22.colorActionPrimary,
+  background: t22.colorSurfaceRaised,
+  borderRadius: t22.radiusFull,
+  padding: `${t22.spaceXs} ${t22.spaceSm}`,
+  fontFamily: t22.fontSans
 };
 
 // src/components/molecules/ConfirmDialog/ConfirmDialog.tsx
-import { forwardRef as forwardRef21, useId as useId5, useState as useState2 } from "react";
-import { semantic as t22 } from "../../core/dist/index.js";
-import { jsx as jsx22, jsxs as jsxs12 } from "react/jsx-runtime";
+import { forwardRef as forwardRef22, useId as useId5, useState as useState2 } from "react";
+import { semantic as t23 } from "../../core/dist/index.js";
+import { jsx as jsx23, jsxs as jsxs12 } from "react/jsx-runtime";
 var variantButtonMap = {
   destructive: "destructive",
   info: "primary",
   warning: "primary"
 };
-var ConfirmDialog = forwardRef21(
+var ConfirmDialog = forwardRef22(
   function ConfirmDialog2({
     title,
     message,
@@ -2424,7 +2498,7 @@ var ConfirmDialog = forwardRef21(
       }
     };
     return /* @__PURE__ */ jsxs12(ModalShell, { ref, onClose: onCancel, role: "alertdialog", titleId, children: [
-      /* @__PURE__ */ jsx22(
+      /* @__PURE__ */ jsx23(
         "h2",
         {
           id: titleId,
@@ -2432,96 +2506,24 @@ var ConfirmDialog = forwardRef21(
           children: title
         }
       ),
-      /* @__PURE__ */ jsx22(
+      /* @__PURE__ */ jsx23(
         "p",
         {
           style: {
-            margin: `${t22.spaceSm} 0 ${children ? "0" : t22.spaceLg}`,
-            color: t22.colorTextMuted,
-            fontSize: t22.fontSizeSm,
-            fontFamily: t22.fontSans
+            margin: `${t23.spaceSm} 0 ${children ? "0" : t23.spaceLg}`,
+            color: t23.colorTextMuted,
+            fontSize: t23.fontSizeSm,
+            fontFamily: t23.fontSans
           },
           children: message
         }
       ),
-      children && /* @__PURE__ */ jsx22("div", { style: { margin: `${t22.spaceSm} 0 ${t22.spaceLg}` }, children }),
+      children && /* @__PURE__ */ jsx23("div", { style: { margin: `${t23.spaceSm} 0 ${t23.spaceLg}` }, children }),
       /* @__PURE__ */ jsxs12("div", { style: modalFooterStyle, children: [
-        /* @__PURE__ */ jsx22(Button, { variant: "ghost", onClick: onCancel, disabled: loading, autoFocus: true, children: "Cancel" }),
-        /* @__PURE__ */ jsx22(Button, { variant: variantButtonMap[variant], onClick: handleConfirm, disabled: loading, children: loading ? "Loading..." : confirmLabel })
+        /* @__PURE__ */ jsx23(Button, { variant: "ghost", onClick: onCancel, disabled: loading, autoFocus: true, children: "Cancel" }),
+        /* @__PURE__ */ jsx23(Button, { variant: variantButtonMap[variant], onClick: handleConfirm, disabled: loading, children: loading ? "Loading..." : confirmLabel })
       ] })
     ] });
-  }
-);
-
-// src/components/atoms/StatusDot/StatusDot.tsx
-import { forwardRef as forwardRef22 } from "react";
-import { semantic as t23, useInjectStyles as useInjectStyles8, useThemeRhythm as useThemeRhythm3 } from "../../core/dist/index.js";
-import { jsx as jsx23 } from "react/jsx-runtime";
-var variantColors = {
-  default: t23.colorTextMuted,
-  primary: t23.colorActionPrimary,
-  success: t23.colorSuccess,
-  warning: t23.colorWarning,
-  error: t23.colorError,
-  info: t23.colorInfo
-};
-var sizeMap2 = {
-  sm: 6,
-  md: 8,
-  lg: 12
-};
-var PULSE_STYLES_ID = "4lt7ab-status-dot-pulse";
-var PULSE_STYLES_CSS = `
-@keyframes statusDotPulse {
-  0% { box-shadow: 0 0 0 0 var(--status-dot-color); opacity: 1; }
-  70% { box-shadow: 0 0 0 6px var(--status-dot-color); opacity: 0; }
-  100% { box-shadow: 0 0 0 0 var(--status-dot-color); opacity: 0; }
-}
-[data-status-dot-pulse] {
-  /* Duration overridden by --status-dot-duration when the active theme has a rhythm. */
-  animation: statusDotPulse var(--status-dot-duration, 1.5s) ease-in-out infinite;
-}
-@media (prefers-reduced-motion: reduce) {
-  [data-status-dot-pulse] {
-    animation: none;
-  }
-}
-`;
-var StatusDot = forwardRef22(
-  function StatusDot2({
-    variant = "default",
-    size = "md",
-    animate = "none",
-    "aria-label": ariaLabel
-  }, ref) {
-    const resolvedColor = variantColors[variant];
-    const resolvedSize = sizeMap2[size];
-    const isPulsing = animate === "pulse";
-    const { durationCss } = useThemeRhythm3();
-    useInjectStyles8(PULSE_STYLES_ID, PULSE_STYLES_CSS);
-    return /* @__PURE__ */ jsx23(
-      "span",
-      {
-        ref,
-        role: ariaLabel ? "img" : void 0,
-        "aria-label": ariaLabel,
-        "aria-hidden": ariaLabel ? void 0 : true,
-        "data-status-dot-pulse": isPulsing || void 0,
-        style: {
-          display: "inline-block",
-          width: resolvedSize,
-          height: resolvedSize,
-          borderRadius: t23.radiusFull,
-          background: resolvedColor,
-          flexShrink: 0,
-          ...isPulsing ? {
-            "--status-dot-color": resolvedColor,
-            /* When the theme has a rhythm, the pulse syncs to its tempo. */
-            ...durationCss ? { "--status-dot-duration": durationCss } : void 0
-          } : void 0
-        }
-      }
-    );
   }
 );
 
@@ -2772,9 +2774,11 @@ var TableEmptyRow = forwardRef23(
 // src/components/organisms/Table/FilterBar.tsx
 import {
   createContext as createContext3,
+  forwardRef as forwardRef24,
   useCallback as useCallback2,
   useContext as useContext3,
   useEffect as useEffect5,
+  useImperativeHandle,
   useRef as useRef4,
   useState as useState3
 } from "react";
@@ -2847,11 +2851,7 @@ function FilterBar({
     }
   ) });
 }
-function FilterBarText({
-  field,
-  placeholder,
-  debounceMs = 300
-}) {
+var FilterBarText = forwardRef24(function FilterBarText2({ field, placeholder, debounceMs = 300 }, ref) {
   const { values, commit } = useFilterBarContext("Text");
   const external = values[field] ?? "";
   const [local, setLocal] = useState3(external);
@@ -2875,13 +2875,17 @@ function FilterBarText({
       if (timerRef.current) clearTimeout(timerRef.current);
     };
   }, []);
-  return /* @__PURE__ */ jsx25("div", { style: { minWidth: "10rem", flex: "1 1 10rem" }, children: /* @__PURE__ */ jsx25(Input, { value: local, onChange: handleChange, placeholder }) });
-}
-function FilterBarSelect({
-  field,
-  placeholder,
-  options
-}) {
+  return /* @__PURE__ */ jsx25("div", { style: { minWidth: "10rem", flex: "1 1 10rem" }, children: /* @__PURE__ */ jsx25(
+    Input,
+    {
+      ref,
+      value: local,
+      onChange: handleChange,
+      placeholder
+    }
+  ) });
+});
+var FilterBarSelect = forwardRef24(function FilterBarSelect2({ field, placeholder, options }, ref) {
   const { values, commit } = useFilterBarContext("Select");
   const value = values[field] ?? "";
   const handleValueChange = useCallback2(
@@ -2890,11 +2894,16 @@ function FilterBarSelect({
     },
     [commit, field]
   );
-  return /* @__PURE__ */ jsx25("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ jsxs13(Select.Root, { value, onValueChange: handleValueChange, children: [
+  const wrapperRef = useRef4(null);
+  useImperativeHandle(
+    ref,
+    () => wrapperRef.current.querySelector("button")
+  );
+  return /* @__PURE__ */ jsx25("div", { ref: wrapperRef, style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ jsxs13(Select.Root, { value, onValueChange: handleValueChange, children: [
     /* @__PURE__ */ jsx25(Select.Trigger, { children: /* @__PURE__ */ jsx25(Select.Value, { placeholder }) }),
     /* @__PURE__ */ jsx25(Select.Content, { children: options.map((opt) => /* @__PURE__ */ jsx25(Select.Item, { value: opt.value, children: opt.label }, opt.value)) })
   ] }) });
-}
+});
 var TableFilterBar = Object.assign(FilterBar, {
   Text: FilterBarText,
   Select: FilterBarSelect
@@ -2907,7 +2916,7 @@ var Table3 = Object.assign(Table, {
 
 // src/components/organisms/DateRangePicker/DateRangePicker.tsx
 import {
-  forwardRef as forwardRef24,
+  forwardRef as forwardRef25,
   useState as useState5,
   useRef as useRef6,
   useCallback as useCallback5,
@@ -3531,7 +3540,7 @@ var headerRowStyle = {
 function sortedRange(a, b) {
   return a.getTime() <= b.getTime() ? { from: a, to: b } : { from: b, to: a };
 }
-var DateRangePicker = forwardRef24(
+var DateRangePicker = forwardRef25(
   function DateRangePicker2({
     value,
     onChange,
@@ -3690,7 +3699,7 @@ var DateRangePicker = forwardRef24(
 );
 
 // src/components/organisms/DatePicker/DatePicker.tsx
-import { forwardRef as forwardRef25, useState as useState6, useRef as useRef7, useCallback as useCallback6, useEffect as useEffect8, useMemo as useMemo5 } from "react";
+import { forwardRef as forwardRef26, useState as useState6, useRef as useRef7, useCallback as useCallback6, useEffect as useEffect8, useMemo as useMemo5 } from "react";
 import { semantic as t30, useInjectStyles as useInjectStyles12 } from "../../core/dist/index.js";
 import { jsx as jsx32, jsxs as jsxs16 } from "react/jsx-runtime";
 var SCOPE2 = "alttab-dp";
@@ -3760,7 +3769,7 @@ var headerRowStyle2 = {
   padding: `${t30.spaceXs} 0`,
   marginBottom: t30.spaceSm
 };
-var DatePicker = forwardRef25(
+var DatePicker = forwardRef26(
   function DatePicker2({
     value,
     onChange,
@@ -4802,7 +4811,7 @@ function ChipPicker({
 }
 
 // src/components/molecules/SearchInput/SearchInput.tsx
-import { forwardRef as forwardRef26, useState as useState10, useEffect as useEffect11, useRef as useRef10, useCallback as useCallback10 } from "react";
+import { forwardRef as forwardRef27, useState as useState10, useEffect as useEffect11, useRef as useRef10, useCallback as useCallback10 } from "react";
 import { semantic as t35, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
 import { jsx as jsx37, jsxs as jsxs20 } from "react/jsx-runtime";
 var STYLE_ID2 = "4lt7ab-search-input";
@@ -4850,7 +4859,7 @@ var disabledWrapperStyle = {
   color: t35.colorTextDisabled,
   cursor: "not-allowed"
 };
-var SearchInput = forwardRef26(
+var SearchInput = forwardRef27(
   function SearchInput2({
     value,
     onSearch,
@@ -5136,7 +5145,7 @@ function SegmentedControl({
 }
 
 // src/components/molecules/AlertBanner/AlertBanner.tsx
-import { forwardRef as forwardRef27 } from "react";
+import { forwardRef as forwardRef28 } from "react";
 import { semantic as t37, useInjectStyles as useInjectStyles18 } from "../../core/dist/index.js";
 import { jsx as jsx39, jsxs as jsxs22 } from "react/jsx-runtime";
 var STYLE_ID4 = "4lt7ab-alert-banner";
@@ -5164,7 +5173,7 @@ var defaultIcons = {
   error: /* @__PURE__ */ jsx39(IconError, { size: 20 }),
   success: /* @__PURE__ */ jsx39(IconCheckCircle, { size: 20 })
 };
-var AlertBanner = forwardRef27(
+var AlertBanner = forwardRef28(
   function AlertBanner2({ variant, children, onDismiss, icon }, ref) {
     useInjectStyles18(STYLE_ID4, alertBannerCSS);
     const colors = variantColors2[variant];
@@ -5209,7 +5218,7 @@ var AlertBanner = forwardRef27(
 );
 
 // src/components/organisms/TopBar/TopBar.tsx
-import { createContext as createContext7, forwardRef as forwardRef28, useContext as useContext7 } from "react";
+import { createContext as createContext7, forwardRef as forwardRef29, useContext as useContext7 } from "react";
 import { semantic as t38, useInjectStyles as useInjectStyles19, Slot as Slot5 } from "../../core/dist/index.js";
 import { jsx as jsx40 } from "react/jsx-runtime";
 var TopBarContext = createContext7(null);
@@ -5246,7 +5255,7 @@ var TOPBAR_CSS = `
     color: ${t38.colorText};
   }
 `;
-var TopBarRoot = forwardRef28(
+var TopBarRoot = forwardRef29(
   function TopBarRoot2({ children, sticky = false, ...rest }, ref) {
     useInjectStyles19(TOPBAR_STYLES_ID, TOPBAR_CSS);
     const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: t38.zIndexSticky } : {};
@@ -5309,7 +5318,7 @@ function TopBarNav({ children, "aria-label": ariaLabel = "Primary" }) {
     }
   );
 }
-var TopBarLink = forwardRef28(function TopBarLink2({ active = false, asChild = false, onClick, children }, ref) {
+var TopBarLink = forwardRef29(function TopBarLink2({ active = false, asChild = false, onClick, children }, ref) {
   useTopBarContext("Link");
   const style = {
     display: "inline-flex",
@@ -5366,7 +5375,7 @@ var TopBar = {
 };
 
 // src/components/organisms/EmptyPage/EmptyPage.tsx
-import { Children as Children2, createContext as createContext8, forwardRef as forwardRef29, useContext as useContext8, useId as useId9 } from "react";
+import { Children as Children2, createContext as createContext8, forwardRef as forwardRef30, useContext as useContext8, useId as useId9 } from "react";
 import { semantic as t39, Slot as Slot6 } from "../../core/dist/index.js";
 import { jsx as jsx41, jsxs as jsxs23 } from "react/jsx-runtime";
 var EmptyPageContext = createContext8(null);
@@ -5379,7 +5388,7 @@ function useEmptyPageContext(component) {
   }
   return ctx;
 }
-var EmptyPageRoot = forwardRef29(function EmptyPageRoot2({ level = "page", children, ...rest }, ref) {
+var EmptyPageRoot = forwardRef30(function EmptyPageRoot2({ level = "page", children, ...rest }, ref) {
   const titleId = useId9();
   const isPage = level === "page";
   return /* @__PURE__ */ jsx41(EmptyPageContext.Provider, { value: { level, titleId }, children: /* @__PURE__ */ jsx41(
@@ -5559,7 +5568,7 @@ var EmptyPage = {
 import {
   Children as Children3,
   createContext as createContext9,
-  forwardRef as forwardRef30,
+  forwardRef as forwardRef31,
   isValidElement as isValidElement3,
   useCallback as useCallback13,
   useContext as useContext9,
@@ -5623,7 +5632,7 @@ function bucketChildren(children) {
   });
   return { topBar, sidebar, main, rightPanel };
 }
-var AppShellRoot = forwardRef30(function AppShellRoot2({
+var AppShellRoot = forwardRef31(function AppShellRoot2({
   sidebarCollapsed: sidebarCollapsedProp,
   defaultSidebarCollapsed = false,
   onSidebarCollapsedChange,
@@ -5834,7 +5843,7 @@ var AppShell = {
 };
 
 // src/components/organisms/DataTablePage/DataTablePage.tsx
-import { createContext as createContext10, forwardRef as forwardRef31, useContext as useContext10, useId as useId10, useMemo as useMemo8 } from "react";
+import { createContext as createContext10, forwardRef as forwardRef32, useContext as useContext10, useId as useId10, useMemo as useMemo8 } from "react";
 import { semantic as t41 } from "../../core/dist/index.js";
 import { jsx as jsx43 } from "react/jsx-runtime";
 var DataTablePageContext = createContext10(null);
@@ -5847,7 +5856,7 @@ function useDataTablePageContext(part) {
   }
   return ctx;
 }
-var DataTablePageRoot = forwardRef31(function DataTablePageRoot2({ rowCount, children, ...rest }, ref) {
+var DataTablePageRoot = forwardRef32(function DataTablePageRoot2({ rowCount, children, ...rest }, ref) {
   const titleId = useId10();
   const isEmpty = rowCount === 0;
   const value = useMemo8(
@@ -5913,7 +5922,7 @@ var DataTablePage = {
 import {
   Children as Children4,
   createContext as createContext11,
-  forwardRef as forwardRef32,
+  forwardRef as forwardRef33,
   isValidElement as isValidElement4,
   useCallback as useCallback14,
   useContext as useContext11,
@@ -5946,7 +5955,7 @@ function splitChildren(children) {
   });
   return { main, rightPanel };
 }
-var DetailPageRoot = forwardRef32(function DetailPageRoot2({ children, ...rest }, ref) {
+var DetailPageRoot = forwardRef33(function DetailPageRoot2({ children, ...rest }, ref) {
   const titleId = useId11();
   const [actionsSlot, setActionsSlot] = useState13(null);
   const value = useMemo9(
@@ -6166,7 +6175,7 @@ var DetailPage = {
 // src/components/organisms/FormLayout/FormLayout.tsx
 import {
   createContext as createContext12,
-  forwardRef as forwardRef33,
+  forwardRef as forwardRef34,
   useCallback as useCallback15,
   useContext as useContext12,
   useEffect as useEffect13,
@@ -6215,7 +6224,7 @@ function useControllableBoolean2(params) {
   );
   return [value, setValue];
 }
-var FormLayoutRoot = forwardRef33(function FormLayoutRoot2({
+var FormLayoutRoot = forwardRef34(function FormLayoutRoot2({
   dirty: dirtyProp,
   defaultDirty = false,
   onDirtyChange,
@@ -6508,9 +6517,9 @@ var FormLayout = {
 };
 
 // src/components/atoms/Grid/Grid.tsx
-import { forwardRef as forwardRef34 } from "react";
+import { forwardRef as forwardRef35 } from "react";
 import { jsx as jsx46 } from "react/jsx-runtime";
-var Grid = forwardRef34(
+var Grid = forwardRef35(
   function Grid2({
     minColumnWidth = 300,
     columns,
@@ -6538,10 +6547,10 @@ var Grid = forwardRef34(
 );
 
 // src/components/atoms/Divider/Divider.tsx
-import { forwardRef as forwardRef35 } from "react";
+import { forwardRef as forwardRef36 } from "react";
 import { semantic as t44 } from "../../core/dist/index.js";
 import { jsx as jsx47 } from "react/jsx-runtime";
-var Divider = forwardRef35(
+var Divider = forwardRef36(
   function Divider2({
     orientation = "horizontal",
     opacity = "default",
@@ -6573,7 +6582,7 @@ var Divider = forwardRef35(
 );
 
 // src/components/atoms/Container/Container.tsx
-import { forwardRef as forwardRef36 } from "react";
+import { forwardRef as forwardRef37 } from "react";
 import { jsx as jsx48 } from "react/jsx-runtime";
 var widthMap = {
   narrow: "32rem",
@@ -6587,7 +6596,7 @@ var paddingMap = {
   md: "1.5rem",
   lg: "3rem"
 };
-var Container = forwardRef36(
+var Container = forwardRef37(
   function Container2({
     width = "prose",
     padding = "md",
@@ -6616,7 +6625,7 @@ var Container = forwardRef36(
 );
 
 // src/components/molecules/TabStrip/TabStrip.tsx
-import { forwardRef as forwardRef37, useCallback as useCallback16 } from "react";
+import { forwardRef as forwardRef38, useCallback as useCallback16 } from "react";
 import { semantic as t45, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
 import { jsx as jsx49, jsxs as jsxs27 } from "react/jsx-runtime";
 var STYLES_ID2 = "4lt7ab-tab-strip";
@@ -6629,7 +6638,7 @@ var STYLES_CSS = `
   background: color-mix(in srgb, ${t45.colorBorder} 10%, transparent);
 }
 `;
-var TabStrip = forwardRef37(
+var TabStrip = forwardRef38(
   function TabStrip2({
     tabs,
     activeKey,

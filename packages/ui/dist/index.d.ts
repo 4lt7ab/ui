@@ -184,13 +184,17 @@ interface StackProps extends BaseComponentProps {
 declare const Stack: React.ForwardRefExoticComponent<Omit<StackProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 import { ReactNode as ReactNode4 } from "react";
 /** Visual treatment for the Card surface. */
-type CardVariant = "default" | "flat" | "elevated";
+type CardVariant = "default" | "flat" | "elevated" | "ghost";
 /** A contained surface for grouping related content. */
 interface CardProps extends BaseComponentProps {
 	/** Visual treatment.
 	* - `default` — standard surface with border and small shadow
 	* - `flat` — raised background with border, no shadow
 	* - `elevated` — standard surface with border and medium shadow
+	* - `ghost` — transparent `colorSurface` background, no border or shadow; the
+	*   consumer is expected to draw the border themselves (via stylesheet, so
+	*   `:hover` / `:focus` rules can still override individual border longhands
+	*   without losing to an inline border shorthand). Used by `LinkCard`.
 	* @default 'default'
 	*/
 	variant?: CardVariant;
@@ -244,9 +248,10 @@ interface LinkCardProps {
 * Clickable card with serif title and muted description. Hover lifts and
 * accent-borders. Good for project links, post previews, etc.
 *
-* Implemented as a thin `<Card asChild>` over an anchor — Card owns the
-* background, border, radius, and padding; LinkCard owns the hover accent,
-* the serif/title layout, and the link-specific resets.
+* Implemented as a thin `<Card asChild variant="ghost">` over an anchor —
+* Card owns the radius and padding; LinkCard's stylesheet owns the border
+* (so `:hover { border-color }` can accent it), the serif/title layout,
+* and the link-specific resets.
 */
 declare const LinkCard: React.ForwardRefExoticComponent<Omit<LinkCardProps, "ref"> & React.RefAttributes<HTMLAnchorElement>>;
 import { ReactNode as ReactNode6 } from "react";
