@@ -381,6 +381,47 @@ describe("Select (compound)", () => {
     expect(document.activeElement).toBe(ref.current);
   });
 
+  it("forwards ref on Select.Content to the underlying <div role='listbox'>", async () => {
+    const ref = React.createRef<HTMLDivElement>();
+    const user = userEvent.setup();
+    render(
+      <Select.Root>
+        <Select.Trigger aria-label="Test">
+          <Select.Value placeholder="Pick one" />
+        </Select.Trigger>
+        <Select.Content ref={ref}>
+          <Select.Item value="a">Alpha</Select.Item>
+        </Select.Content>
+      </Select.Root>,
+    );
+
+    expect(ref.current).toBeInstanceOf(HTMLDivElement);
+    // Open the menu so the listbox is exposed in the a11y tree, then confirm
+    // the forwarded ref points at the same node.
+    await user.click(screen.getByRole("combobox"));
+    expect(ref.current).toBe(screen.getByRole("listbox"));
+  });
+
+  it("forwards ref on Select.Item to the underlying <button role='option'>", async () => {
+    const ref = React.createRef<HTMLButtonElement>();
+    const user = userEvent.setup();
+    render(
+      <Select.Root>
+        <Select.Trigger aria-label="Test">
+          <Select.Value placeholder="Pick one" />
+        </Select.Trigger>
+        <Select.Content>
+          <Select.Item ref={ref} value="a">Alpha</Select.Item>
+        </Select.Content>
+      </Select.Root>,
+    );
+
+    expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+    // Open the menu so the option is exposed and confirm identity.
+    await user.click(screen.getByRole("combobox"));
+    expect(ref.current).toBe(screen.getByRole("option", { name: "Alpha" }));
+  });
+
   // -- Out-of-context guard -------------------------------------------------
 
   it("throws when a sub-component is rendered without Root", () => {

@@ -517,15 +517,34 @@ export interface SelectContentProps {
   children: ReactNode;
 }
 
-function Content({ children }: SelectContentProps): React.JSX.Element {
+const Content: React.ForwardRefExoticComponent<
+  SelectContentProps & React.RefAttributes<HTMLDivElement>
+> = forwardRef<HTMLDivElement, SelectContentProps>(function Content(
+  { children },
+  forwardedRef,
+): React.JSX.Element {
   const { open, listboxId, dropDirection, focusedValue } =
     useSelectContext('Content');
-  const ref = useRef<HTMLDivElement>(null);
+  const internalRef = useRef<HTMLDivElement>(null);
+
+  // Merge the forwarded ref with the internal ref so the scroll-into-view
+  // effect still resolves to the same DOM node consumers see.
+  const setRef = useCallback(
+    (node: HTMLDivElement | null): void => {
+      internalRef.current = node;
+      if (typeof forwardedRef === 'function') {
+        forwardedRef(node);
+      } else if (forwardedRef) {
+        forwardedRef.current = node;
+      }
+    },
+    [forwardedRef],
+  );
 
   // Scroll focused item into view when keyboard nav moves.
   useEffect(() => {
     if (!open || !focusedValue) return;
-    const menu = ref.current;
+    const menu = internalRef.current;
     if (!menu) return;
     const focused = menu.querySelector<HTMLElement>(
       `[data-value="${CSS.escape(focusedValue)}"]`,
@@ -556,7 +575,7 @@ function Content({ children }: SelectContentProps): React.JSX.Element {
   // accessibility tree when closed.
   return (
     <div
-      ref={ref}
+      ref={setRef}
       id={listboxId}
       role="listbox"
       hidden={!open}
@@ -574,7 +593,7 @@ function Content({ children }: SelectContentProps): React.JSX.Element {
       {children}
     </div>
   );
-}
+});
 
 // ---------------------------------------------------------------------------
 // Select.Item
@@ -595,12 +614,12 @@ export interface SelectItemProps {
   children: ReactNode;
 }
 
-function Item({
-  value,
-  disabled = false,
-  textValue,
-  children,
-}: SelectItemProps): React.JSX.Element {
+const Item: React.ForwardRefExoticComponent<
+  SelectItemProps & React.RefAttributes<HTMLButtonElement>
+> = forwardRef<HTMLButtonElement, SelectItemProps>(function Item(
+  { value, disabled = false, textValue, children },
+  forwardedRef,
+): React.JSX.Element {
   const ctx = useSelectContext('Item');
   const {
     value: selectedValue,
@@ -634,6 +653,7 @@ function Item({
 
   return (
     <button
+      ref={forwardedRef}
       type="button"
       role="option"
       id={`${instanceId}-opt-${value}`}
@@ -649,7 +669,7 @@ function Item({
       {children}
     </button>
   );
-}
+});
 
 // ---------------------------------------------------------------------------
 // Shared styles
