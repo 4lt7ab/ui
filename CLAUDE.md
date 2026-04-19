@@ -17,12 +17,12 @@ bun run build        # build all packages (core first, then ui + content + anima
 bun run typecheck    # tsc --noEmit across all packages
 bun run test         # run all tests once (vitest)
 bun run test:watch   # run tests in watch mode
-bun run dev          # start the demo app (Vite)
+bun run dev          # start the docs site (Vite) — the concept-organized docs experience at demo/
 ```
 
 Build order matters: all packages depend on `@4lt7ab/core`, so the root build script runs core first, then ui, content, and animations in parallel. After building, `scripts/verify-exports.ts` runs automatically to confirm every source barrel export has a real definition in the compiled bundle. This catches silent bundler bugs (e.g. bunup dropping modules without error).
 
-**Note:** `@4lt7ab/ui` uses esbuild for JS output instead of bunup due to a bunup v0.16.31 bug that silently drops certain components. bunup still runs first to generate `.d.ts` files, then `scripts/build-ui.ts` runs esbuild to produce the JS bundles (ESM + CJS) and rewrites `@4lt7ab/core` imports to relative paths. This replaced an earlier `bun build` approach which had its own bugs (always emitted dev JSX, name-mangled forwardRef exports). The demo app is a separate workspace (`demo/`) with its own dependencies, isolated from the library build.
+**Note:** `@4lt7ab/ui` uses esbuild for JS output instead of bunup due to a bunup v0.16.31 bug that silently drops certain components. bunup still runs first to generate `.d.ts` files, then `scripts/build-ui.ts` runs esbuild to produce the JS bundles (ESM + CJS) and rewrites `@4lt7ab/core` imports to relative paths. This replaced an earlier `bun build` approach which had its own bugs (always emitted dev JSX, name-mangled forwardRef exports). The docs site is a separate workspace (`demo/`) with its own dependencies, isolated from the library build.
 
 ## Architecture
 
@@ -172,7 +172,29 @@ packages/
 scripts/
 ├── build-ui.ts                  # esbuild bundler for @4lt7ab/ui (replaces bun build + sed hacks)
 ├── verify-exports.ts            # post-build: confirms all source exports exist in dist bundles
-demo/                            # Vite demo app (separate workspace with own deps)
+demo/                            # Vite docs site — concept-organized, dogfoods @4lt7ab/content's Markdown
+├── App.tsx                      # ThemeProvider + ThemeBackground + ConceptExplorer
+├── main.tsx
+├── views/
+│   └── ConceptExplorer.tsx      # AppShell-based shell: hash-routed sidebar (#/<slug>) + Markdown render pane
+├── docs/                        # concept markdown (filename prefix drives sidebar order)
+│   ├── 01-getting-started.md
+│   ├── 02-theming.md
+│   ├── 03-prose.md
+│   ├── 04-layout.md
+│   ├── 05-forms.md
+│   ├── 06-data.md
+│   ├── 07-modals.md
+│   ├── 08-motion.md
+│   └── registry.ts              # import.meta.glob('./*.md', { query: '?raw', eager: true })
+└── examples/                    # headline-organism live showcases embedded as <LiveExample id="..." />
+    ├── LiveExample.tsx          # Card-framed renderer + visible fallback for unregistered ids
+    ├── registry.ts              # { id → React.ComponentType } — single source of truth for ids
+    ├── remarkLiveExample.ts     # mdast plugin that rewrites <LiveExample ...> HTML nodes into hast elements
+    ├── theming/ThemePlaygroundLive.tsx
+    ├── forms/{Calendar,DateRangePicker,Combobox}Showcase.tsx
+    ├── data/DataTablePageShowcase.tsx
+    └── modals/{CommandPalette,ModalShell}Showcase.tsx
 ```
 
 ### Retired in 0.3.0
@@ -181,7 +203,7 @@ Component surface reduction. Do not re-add these without revisiting the rational
 
 - **`ThemeSurface`** — page background is now the `usePageBackground()` hook in `@4lt7ab/core`; non-global uses collapse to `<Surface level="page">`.
 - **`StatCard`** — retired as a documented `<Surface>` composition.
-- **`FormModal`** — retired as a documented composition over `ModalShell`; `modalHeadingStyle` and `modalFooterStyle` are exported for consumers. See the `ModalShellFormPattern` demo for the canonical replacement.
+- **`FormModal`** — retired as a documented composition over `ModalShell`; `modalHeadingStyle` and `modalFooterStyle` are exported for consumers. The canonical replacement lives in `demo/examples/modals/ModalShellShowcase.tsx` (rendered inline in `demo/docs/07-modals.md`).
 - **`ShortcutHelpModal`** — retired; consumers own their data shape and `<kbd>` styling.
 
 ### Retired in 0.4.0
@@ -206,8 +228,9 @@ Component surface reduction. Do not re-add these without revisiting the rational
 3. Create `packages/ui/src/components/<tier>/MyComponent/index.ts` barrel
 4. Export from `packages/ui/src/index.ts` (single public barrel; tier folders are not surfaced to consumers)
 5. Use only `semantic` tokens (from `@4lt7ab/core`) for all visual values
-6. **Add a demo** — create `demo/demos/MyComponentDemo.tsx`, register it in **both** `demo/demos/index.ts` (flat list) **and** `demo/views/ComponentExplorer.tsx` (the `CATEGORIES` array that drives the sidebar). Demo is mandatory; components without demos will not be merged.
-7. `bun run typecheck && bun run build`
+6. **Add a docs entry** — mention the component in the concept doc it belongs to under `demo/docs/` (forms, data, modals, layout, …). A prose paragraph + one ` ```tsx ` code fence is the floor. The public API table in the package README is the matching reference surface; update both in the same commit. See §"Docs" below for the concept map.
+7. **Only if the component is a headline organism** (see the list below), also build a live showcase widget — create `demo/examples/<concept>/MyComponentShowcase.tsx`, register it by id in `demo/examples/registry.ts`, and reference it from the concept doc with `<LiveExample id="<concept>-<kebab-name>" />`. Presentational components and non-headline organisms do not need widgets.
+8. `bun run typecheck && bun run build`
 
 ### To `@4lt7ab/content`
 
@@ -215,7 +238,7 @@ Component surface reduction. Do not re-add these without revisiting the rational
 2. Create `packages/content/src/components/MyComponent/index.ts` barrel
 3. Export from `packages/content/src/index.ts`
 4. Import tokens and utilities from `@4lt7ab/core` (peer dep)
-5. **Add a demo** — create `demo/demos/MyComponentDemo.tsx`, register it in **both** `demo/demos/index.ts` **and** `demo/views/ComponentExplorer.tsx` (`CATEGORIES` array). Demo is mandatory.
+5. **Add a docs entry** in `demo/docs/03-prose.md` (or whichever concept the component serves) — same floor as above: prose paragraph + `tsx` code fence + package README update. Content components rarely need live showcase widgets; add one only if the behavior (e.g. an async editing surface, a scramble animation consumers need to *see*) clears clause 3 of the headline criteria.
 6. `bun run typecheck && bun run build`
 
 ### To `@4lt7ab/animations`
@@ -310,17 +333,56 @@ The deploy target typechecks, builds, updates all `package.json` versions, stamp
 
 ## Documentation
 
-Each package has its own `README.md` for user-facing API docs. The root `README.md` is a monorepo overview.
+Documentation has two surfaces:
 
-- **`README.md`** (root) -- Monorepo overview, package table, quick start, dev commands.
+- **Package READMEs** — the API reference. One file per package, kept in the source tree so consumers can read it on GitHub without running anything.
+- **Docs site at `demo/`** — the concept-organized walkthrough. Eight concept pages (`demo/docs/01-getting-started.md` through `08-motion.md`) teach how the library *thinks* about problem spaces; headline organisms each get an inline live showcase via `<LiveExample id="..." />`. Run it with `bun run dev`. The site dogfoods `@4lt7ab/content`'s `Markdown` component, so gaps in the renderer surface during authoring.
+
+**Files:**
+
+- **`README.md`** (root) -- Monorepo overview, package table, quick start, pointer at `bun run dev` for the docs site.
 - **`packages/core/README.md`** -- Theme platform: ThemeProvider, useTheme, token API, themes, useInjectStyles.
-- **`packages/ui/README.md`** -- Component table, icons, utilities. Notes re-export of core API.
-- **`packages/content/README.md`** -- Content component table, usage examples.
+- **`packages/ui/README.md`** -- Component API reference, icons, utilities. Notes re-export of core API.
+- **`packages/content/README.md`** -- Content component API reference.
 - **`packages/animations/README.md`** -- ThemeBackground usage, standalone API, behavior notes.
 - **`CLAUDE.md`** (root) -- LLM-facing codebase instructions. Update when conventions, architecture, or workflows change.
+- **`demo/docs/*.md`** -- concept docs. Edit the one covering the concept a new component serves; reference its API in prose + a `tsx` code fence.
+- **`demo/examples/**`** -- headline-organism live-showcase widgets + the `<LiveExample>` registry.
 
-When adding a component: add it to the relevant package README and update the source layout tree here.
-When adding a theme: add it to the built-in themes list in both the root README and this file.
+### Concept map (which docs file does a component belong in?)
+
+| Concept file | Surface |
+|---|---|
+| `01-getting-started.md` | Install, subpath imports, `ThemeProvider`, first render. |
+| `02-theming.md` | Tokens, themes, `useTheme`, `ThemePicker`, `usePageBackground`. |
+| `03-prose.md` | `@4lt7ab/content` — `Markdown`, `Prose`, `Quote`, `MarginNote`, `ThinkingCycle`. |
+| `04-layout.md` | `Stack`, `Container`, `Grid`, `Divider`, `Surface`, `Card`, page envelopes (`AppShell`, `DataTablePage`, `DetailPage`, `EmptyPage`). |
+| `05-forms.md` | `Input`, `Textarea`, `Select`, `Combobox`, `ChipPicker`, `Field`, `SearchInput`, `DatePicker`, `DateRangePicker`, `Calendar`, `FormLayout`. |
+| `06-data.md` | `Table` + `Table.FilterBar`, `Pagination`, `Badge`, `StatusDot`, `ProgressBar`, `Skeleton`, `EmptyState`. |
+| `07-modals.md` | `Overlay`, `ModalShell`, `ConfirmDialog`, `CommandPalette`, `WizardDialog`, `Toast`, `AlertBanner`, `ErrorBoundary`. |
+| `08-motion.md` | `@4lt7ab/animations` — `ThemeBackground`, per-theme canvas backgrounds, standalone usage. |
+
+### Headline organisms (require a `<LiveExample>` widget)
+
+A component earns a dedicated live-showcase widget only if **all three** clauses hold: it's an organism, it passes the reuse + quality test, *and* it benefits visibly from interaction (keyboard nav, async state, layout response that a screenshot undersells).
+
+Current list (six widgets):
+
+| Headline organism | Concept | Registry id |
+|---|---|---|
+| `Calendar` | forms | `forms-calendar` |
+| `Combobox` | forms | `forms-combobox` |
+| `DateRangePicker` | forms | `forms-daterangepicker` |
+| `DataTablePage` | data | `data-datatablepage` |
+| `CommandPalette` | modals | `modals-commandpalette` |
+| `ModalShell` | modals | `modals-modalshell` |
+
+`ThemePlayground` is also registered (`theming-theme-playground`) as the featured widget for `02-theming.md`, even though it's not a standalone organism — it sits inside the theming doc because showing two themes side-by-side is the clearest way to teach token flow.
+
+Non-headline organisms (`AppShell`, `DetailPage`, `EmptyPage`, `TopBar`, `Select`, `Toast`, `WizardDialog`, `FormLayout`, etc.) live in their concept doc as prose + code fence and do not require a widget. If one later earns clause 3 via real consumer feedback, it graduates; the list is a default, not a cap.
+
+**When adding a component:** update the package README, update the concept doc it belongs to, and (if headline) add a showcase widget + registry entry. Update the Source Layout tree here when the on-disk folder set changes.
+**When adding a theme:** add it to the built-in themes list in both the root README and this file.
 
 ## Distribution
 

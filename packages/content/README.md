@@ -2,6 +2,8 @@
 
 Layout and prose components for blogs, docs, and reading-oriented pages.
 
+The docs site at `demo/` is itself a `@4lt7ab/content` consumer — every concept doc renders through this package's `Markdown` component, and the `<LiveExample>` convention used in the site is powered by `Markdown`'s `components` + `remarkPlugins` props (see below). Run `bun run dev` at the repo root to see it in action; the **Prose** concept doc (`demo/docs/03-prose.md`) is the narrative reference for everything here.
+
 ## Install
 
 ```json
@@ -88,6 +90,10 @@ Convenience wrapper that renders a markdown string inside a Prose container with
 | `fieldLabel` | `string` | — | Accessible label for the editable section. |
 | `rows` | `number` | `4` | Number of textarea rows when editing. |
 | `placeholder` | `string` | `'Click to add content...'` | Placeholder text for the empty state. |
+| `components` | `Record<string, ComponentType<any>>` | — | Additional element overrides merged on top of the built-in set (headings, `pre`, `blockquote`, `tbody`). Built-ins win on tag names they already cover; consumer keys populate everything else. Use with `remarkPlugins` to embed React islands (e.g. the `<LiveExample>` pattern the docs site uses). |
+| `remarkPlugins` | `PluggableList` | — | Additional remark plugins appended after the built-in `remark-gfm`. A plugin can rewrite mdast nodes to emit custom hast elements (`data.hName` / `data.hProperties`) that pair with a matching key in `components`. |
+
+**Embedding React islands.** The two props above compose: pair a remark plugin that rewrites `<MyTag ...>` HTML blocks into `hName: 'mytag'` nodes with `{ mytag: MyComponent }` in `components`, and the tag renders as a real React component inline with the prose. The docs site at `demo/` uses this exact seam to embed headline-organism live showcases — see `demo/examples/remarkLiveExample.ts` and `demo/examples/LiveExample.tsx` for a worked example.
 
 Editable-mode call site:
 

@@ -2,6 +2,8 @@
 
 Canvas background animations that respond to the active theme.
 
+For the full narrative — when each background runs, how reduced-motion and mobile are handled, and the canvas/static/fallback registry — see the **Motion** concept doc (`demo/docs/08-motion.md`). Run `bun run dev` at the repo root to browse.
+
 ## Install
 
 ```json

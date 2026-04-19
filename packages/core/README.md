@@ -2,6 +2,8 @@
 
 Theme platform for React. Provides the token layer, theme system, and utilities that `@4lt7ab/ui`, `@4lt7ab/content`, and `@4lt7ab/animations` are built on.
 
+For a conceptual walkthrough of tokens, themes, and the `usePageBackground` hook — with live examples — run `bun run dev` at the repo root and open the **Theming** concept doc. The reference below is the API surface; the concept doc is the narrative.
+
 ## Install
 
 ```json

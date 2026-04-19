@@ -4,6 +4,8 @@
 
 Icons and interactive UI components for React, built on the `@4lt7ab/core` theme platform.
 
+This file is the API reference — component tables, props, and minimal snippets. For a conceptual walkthrough (how forms, data tables, modals, and layout envelopes fit together, with live examples for the headline organisms), run `bun run dev` at the repo root to start the docs site.
+
 ## Install
 
 ```json
@@ -692,7 +694,7 @@ const filtered = useMemo(() => {
 
 **`Combobox.Empty`** — render inside `Combobox.List` when no items match. Skipped by keyboard navigation.
 
-See the `Combobox` demo for the consumer-filter pattern plus `onSelect`, error, and disabled states. Migration from the pre-0.4 flat API is in the v0.4 upgrade guide §11 in the knowledgebase.
+See the **Forms** concept doc (`demo/docs/05-forms.md`, with a live `<LiveExample id="forms-combobox" />` showcase) for the consumer-filter pattern plus `onSelect`, error, and disabled states. Migration from the pre-0.4 flat API is in the v0.4 upgrade guide §11 in the knowledgebase.
 
 `ComboboxOption`: `{ value: string; label: string }`
 
@@ -816,7 +818,7 @@ Modal container with focus trapping, portal rendering, and ARIA support. Provide
 | `role` | `'dialog' \| 'alertdialog'` | `'dialog'` | ARIA role |
 | `style` | `CSSProperties` | — | Additional styles for the panel |
 
-For form-shaped modals, compose over `ModalShell` directly using the exported `modalHeadingStyle` and `modalFooterStyle`. See the `ModalShellFormPattern` demo.
+For form-shaped modals, compose over `ModalShell` directly using the exported `modalHeadingStyle` and `modalFooterStyle`. The canonical pattern renders live in the **Modals** concept doc (`demo/docs/07-modals.md` → `<LiveExample id="modals-modalshell" />`).
 
 ### Select
 
@@ -854,7 +856,7 @@ Compound API. `Select.Root` owns state + context; the parts are the rendered DOM
 
 **`Select.Item`** — `value: string`, `disabled?: boolean`, `textValue?: string` (explicit label for non-string children). Children are the rendered label.
 
-See the `Select` demo for controlled / uncontrolled, error state, and rich-item examples. Migration from the pre-0.4 flat API is in the [v0.4 upgrade guide §10](#) in the knowledgebase.
+See the **Forms** concept doc (`demo/docs/05-forms.md`) for controlled / uncontrolled, error state, and rich-item examples. Migration from the pre-0.4 flat API is in the [v0.4 upgrade guide §10](#) in the knowledgebase.
 
 ### Table
 
@@ -1044,7 +1046,7 @@ Replaced the `TagChip` component in v0.4.x — consumers own the element type an
 
 The library's public surface shrinks when a component fails the reuse-plus-quality test; when it passes but overlaps with another, the move is to merge rather than retire. The notes below are short pointers — the rationale lives in [`CLAUDE.md` → Design Tenets](../../CLAUDE.md#design-tenets) and the KB decision doc above.
 
-- **0.3.0** — `ThemeSurface` → `usePageBackground()` hook in `@4lt7ab/core` (global) or `<Surface level="page">` (scoped); `StatCard` → documented `<Surface>` composition; `FormModal` → `ModalShell` + `modalHeadingStyle` / `modalFooterStyle` (see `ModalShellFormPattern` demo); `ShortcutHelpModal` → consumer-owned data shape and `<kbd>` styling.
+- **0.3.0** — `ThemeSurface` → `usePageBackground()` hook in `@4lt7ab/core` (global) or `<Surface level="page">` (scoped); `StatCard` → documented `<Surface>` composition; `FormModal` → `ModalShell` + `modalHeadingStyle` / `modalFooterStyle` (canonical pattern lives in the `demo/docs/07-modals.md` → `<LiveExample id="modals-modalshell" />` showcase); `ShortcutHelpModal` → consumer-owned data shape and `<kbd>` styling.
 - **0.4.0** — `SectionLabel` → `sectionLabelStyle` (see above); `MarginNote` + `SideNote` merged into one component with a `side` prop (`@4lt7ab/content`); `PullQuote` + `Epigraph` merged into one component with a `variant` prop (`@4lt7ab/content`); `LinkCard` rebuilt on `Card asChild`; `TextSection` folded into `Markdown` editable mode; `TableFilters` merged into `Table.FilterBar`.
 
 ---

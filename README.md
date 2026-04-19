@@ -170,7 +170,14 @@ git push origin main --tags
 bun install          # install all workspace dependencies
 bun run build        # build all packages (core first, then ui + content + animations in parallel)
 bun run typecheck    # type-check all packages
-bun run dev          # start the Vite demo app
+bun run dev          # start the docs site (Vite)
 ```
 
 Build order matters: all packages depend on `@4lt7ab/core`, so the root build script runs core first.
+
+## Docs
+
+Two surfaces:
+
+- **Package READMEs** — the API reference for each package ([core](packages/core/README.md), [ui](packages/ui/README.md), [content](packages/content/README.md), [animations](packages/animations/README.md)). Component tables, props, code snippets.
+- **Docs site** — a concept-organized walkthrough under `demo/`. `bun run dev` starts it. Eight concept pages (getting-started, theming, prose, layout, forms, data, modals, motion) teach the library by problem space, with inline live showcases (`<LiveExample id="..." />`) for the headline organisms where seeing the behavior matters. The site dogfoods `@4lt7ab/content`'s `Markdown` component — every page is plain markdown rendered through the same component consumers import.
