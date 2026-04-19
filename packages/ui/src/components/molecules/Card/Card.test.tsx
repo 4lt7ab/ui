@@ -85,6 +85,27 @@ describe('Card asChild', () => {
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
+  it('drops a Card-level onClick when asChild is true (only the child handler fires)', async () => {
+    // Pins current behavior: Card's `rest` is not spread into the inner Slot
+    // (cardSlotProps only carries data-card-*, id, data-testid, and style).
+    // A consumer who writes `<Card asChild onClick={…}>` loses that handler
+    // entirely — it never reaches mergeProps' chain step. Tracked for review
+    // in follow-up bugfix task; see Card.tsx cardSlotProps around L151.
+    const user = userEvent.setup();
+    const parent = vi.fn();
+    const child = vi.fn();
+    const { container } = render(
+      // @ts-expect-error — CardProps doesn't currently type onClick, but the
+      // runtime surface accepts and silently drops it. Locking that down.
+      <Card asChild onClick={parent}>
+        <a href="#" onClick={child}>x</a>
+      </Card>,
+    );
+    await user.click(container.querySelector('a')!);
+    expect(parent).not.toHaveBeenCalled();
+    expect(child).toHaveBeenCalledTimes(1);
+  });
+
   it('composes refs onto the child element', () => {
     const ref = createRef<HTMLElement>();
     const { container } = render(
