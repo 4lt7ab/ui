@@ -20,6 +20,7 @@ export * from './components/Input';
 export * from './components/Textarea';
 export * from './components/Select';
 export * from './components/Badge';
+export * from './components/Text';
 export * from './components/Icon';
 export * from './components/IconButton';
 export * from './components/Overlay';

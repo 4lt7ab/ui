@@ -7,6 +7,7 @@ import { TextareaDemo } from './TextareaDemo';
 import { SelectDemo } from './SelectDemo';
 import { TokensDemo } from './TokensDemo';
 import { BadgeDemo } from './BadgeDemo';
+import { TextDemo } from './TextDemo';
 import { IconDemo } from './IconDemo';
 import { IconButtonDemo } from './IconButtonDemo';
 import { SkeletonDemo } from './SkeletonDemo';
@@ -63,6 +64,7 @@ export const demos: DemoEntry[] = [
   // ── @4lt7ab/ui ──
   // Foundation
   { name: 'Tokens', category: 'Foundation', source: 'ui', component: TokensDemo },
+  { name: 'Text', category: 'Foundation', source: 'ui', component: TextDemo },
 
   // Layout
   { name: 'Surface', category: 'Layout', source: 'ui', component: SurfaceDemo },
@@ -132,7 +134,7 @@ export const demos: DemoEntry[] = [
 // Re-export all individual demos for use in ComponentCatalogue
 export {
   ButtonDemo, StackDemo, CardDemo, FieldDemo, InputDemo,
-  TextareaDemo, SelectDemo, TokensDemo, BadgeDemo, IconDemo,
+  TextareaDemo, SelectDemo, TokensDemo, BadgeDemo, TextDemo, IconDemo,
   IconButtonDemo, SkeletonDemo, ProgressBarDemo, EmptyStateDemo,
   PaginationDemo, HeaderDemo, ExpandableCardDemo,
   ModalDemo, OverlayDemo, ConfirmDialogDemo, ContainerDemo,

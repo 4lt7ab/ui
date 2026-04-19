@@ -4,7 +4,7 @@ import {
   StackDemo, ContainerDemo, ProseDemo, MarkdownDemo, EpigraphDemo, PullQuoteDemo,
   MarginNoteDemo, SideNoteDemo, ThinkingCycleDemo, InputDemo,
   TextareaDemo, SelectDemo, FieldDemo, ButtonDemo, IconButtonDemo,
-  BadgeDemo, StatusDotDemo, TableDemo, PaginationDemo,
+  BadgeDemo, TextDemo, StatusDotDemo, TableDemo, PaginationDemo,
   ProgressBarDemo, SkeletonDemo, CardDemo, ExpandableCardDemo,
   EmptyStateDemo, LinkCardDemo, OverlayDemo, ModalDemo,
   ConfirmDialogDemo, ModalShellFormPatternDemo, ThemePickerDemo, TokensDemo, HeaderDemo,
@@ -46,6 +46,7 @@ const CATEGORIES: CategoryDef[] = [
     name: 'Foundation',
     components: [
       { name: 'Tokens', source: 'ui', Demo: TokensDemo },
+      { name: 'Text', source: 'ui', Demo: TextDemo },
     ],
   },
   {

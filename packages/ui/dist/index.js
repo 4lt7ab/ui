@@ -1660,14 +1660,84 @@ var Badge = forwardRef10(
   }
 );
 
+// src/components/Text/Text.tsx
+import { forwardRef as forwardRef11, createElement as createElement2 } from "react";
+import { semantic as t11 } from "../../core/dist/index.js";
+var sizeMap = {
+  xs: t11.fontSizeXs,
+  sm: t11.fontSizeSm,
+  md: t11.fontSizeBase,
+  lg: t11.fontSizeLg,
+  xl: t11.fontSizeXl
+};
+var weightMap = {
+  normal: t11.fontWeightNormal,
+  medium: t11.fontWeightMedium,
+  semibold: t11.fontWeightSemibold,
+  bold: t11.fontWeightBold
+};
+var toneMap = {
+  default: t11.colorText,
+  muted: t11.colorTextMuted,
+  secondary: t11.colorTextSecondary,
+  inverse: t11.colorTextInverse,
+  link: t11.colorTextLink,
+  success: t11.colorSuccess,
+  warning: t11.colorWarning,
+  error: t11.colorError
+};
+var familyMap = {
+  sans: t11.fontSans,
+  serif: t11.fontSerif,
+  mono: t11.fontMono
+};
+var Text = forwardRef11(
+  function Text2({
+    children,
+    size = "md",
+    weight = "normal",
+    tone = "default",
+    family = "sans",
+    as = "span",
+    align,
+    truncate = false,
+    ...rest
+  }, ref) {
+    const style = {
+      fontSize: sizeMap[size],
+      fontWeight: weightMap[weight],
+      color: toneMap[tone],
+      fontFamily: familyMap[family],
+      ...align ? { textAlign: align } : null,
+      ...truncate ? {
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        display: "inline-block",
+        maxWidth: "100%"
+      } : null
+    };
+    return createElement2(
+      as,
+      {
+        ref,
+        id: rest.id,
+        "data-testid": rest["data-testid"],
+        style
+      },
+      children
+    );
+  }
+);
+
 // src/components/Icon/Icon.tsx
-import { forwardRef as forwardRef11, createContext as createContext2, useContext as useContext2 } from "react";
+import { forwardRef as forwardRef12, createContext as createContext2, useContext as useContext2 } from "react";
 import { jsx as jsx13 } from "react/jsx-runtime";
 var IconFontContext = createContext2(void 0);
 function IconFontProvider({ fontClass, children }) {
   return /* @__PURE__ */ jsx13(IconFontContext.Provider, { value: fontClass, children });
 }
-var Icon = forwardRef11(
+var Icon = forwardRef12(
   function Icon2({ name, size = "lg", fontClass, "aria-label": ariaLabel, id, "data-testid": dataTestId }, ref) {
     const contextFontClass = useContext2(IconFontContext);
     const IconComponent = iconRegistry[name];
@@ -1725,8 +1795,8 @@ var Icon = forwardRef11(
 );
 
 // src/components/IconButton/IconButton.tsx
-import { forwardRef as forwardRef12, useId as useId3 } from "react";
-import { semantic as t11, useInjectStyles as useInjectStyles6, Slot as Slot4 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef13, useId as useId3 } from "react";
+import { semantic as t12, useInjectStyles as useInjectStyles6, Slot as Slot4 } from "../../core/dist/index.js";
 import { Fragment as Fragment2, jsx as jsx14, jsxs as jsxs6 } from "react/jsx-runtime";
 var buttonSizeMap = {
   sm: 28,
@@ -1738,7 +1808,7 @@ var iconSizeForButton = {
   md: "md",
   lg: "lg"
 };
-var IconButton = forwardRef12(
+var IconButton = forwardRef13(
   function IconButton2({
     icon,
     size = "md",
@@ -1766,8 +1836,8 @@ var IconButton = forwardRef12(
         background: color-mix(in srgb, currentColor 8%, transparent);
       }
       [data-icon-btn-id="${styleId}"]:focus-visible {
-        outline: ${t11.focusRingWidth} solid ${t11.focusRingColor};
-        outline-offset: ${t11.focusRingOffset};
+        outline: ${t12.focusRingWidth} solid ${t12.focusRingColor};
+        outline-offset: ${t12.focusRingOffset};
       }`
     );
     const dim = buttonSizeMap[size];
@@ -1778,10 +1848,10 @@ var IconButton = forwardRef12(
       justifyContent: "center",
       width: dim,
       height: dim,
-      borderRadius: t11.radiusFull,
+      borderRadius: t12.radiusFull,
       background: "transparent",
       border: "none",
-      color: t11.colorTextMuted,
+      color: t12.colorTextMuted,
       cursor: "pointer",
       padding: 0
     };
@@ -1796,9 +1866,9 @@ var IconButton = forwardRef12(
             right: 2,
             width: 8,
             height: 8,
-            borderRadius: t11.radiusFull,
-            background: t11.colorError,
-            border: `${t11.borderWidthThick} solid ${t11.colorSurface}`
+            borderRadius: t12.radiusFull,
+            background: t12.colorError,
+            border: `${t12.borderWidthThick} solid ${t12.colorSurface}`
           }
         }
       )
@@ -1833,13 +1903,13 @@ var IconButton = forwardRef12(
 );
 
 // src/components/Overlay/Overlay.tsx
-import { forwardRef as forwardRef13 } from "react";
-import { semantic as t12 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef14 } from "react";
+import { semantic as t13 } from "../../core/dist/index.js";
 import { jsx as jsx15 } from "react/jsx-runtime";
-var Overlay = forwardRef13(
+var Overlay = forwardRef14(
   function Overlay2({
     onClick,
-    zIndex = t12.zIndexSticky
+    zIndex = t13.zIndexSticky
   }, ref) {
     return /* @__PURE__ */ jsx15(
       "div",
@@ -1850,7 +1920,7 @@ var Overlay = forwardRef13(
         style: {
           position: "fixed",
           inset: 0,
-          background: t12.colorSurfaceOverlay,
+          background: t13.colorSurfaceOverlay,
           zIndex
         }
       }
@@ -1859,8 +1929,8 @@ var Overlay = forwardRef13(
 );
 
 // src/components/Skeleton/Skeleton.tsx
-import { forwardRef as forwardRef14 } from "react";
-import { semantic as t13, useInjectStyles as useInjectStyles7, useThemeRhythm as useThemeRhythm2 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef15 } from "react";
+import { semantic as t14, useInjectStyles as useInjectStyles7, useThemeRhythm as useThemeRhythm2 } from "../../core/dist/index.js";
 import { jsx as jsx16, jsxs as jsxs7 } from "react/jsx-runtime";
 var SKELETON_STYLES_ID = "4lt7ab-skeleton-pulse";
 var STAGGER_STEPS = 10;
@@ -1901,7 +1971,7 @@ ${staggerRules.join("\n")}
 }
 `;
 })();
-var Skeleton = forwardRef14(
+var Skeleton = forwardRef15(
   function Skeleton2({
     width = "100%",
     height = 16,
@@ -1919,14 +1989,14 @@ var Skeleton = forwardRef14(
           width,
           height,
           borderRadius: radiusMap[radius],
-          background: t13.colorSurfaceRaised,
+          background: t14.colorSurfaceRaised,
           ...durationCss ? { "--skeleton-duration": durationCss } : void 0
         }
       }
     );
   }
 );
-var CardSkeleton = forwardRef14(
+var CardSkeleton = forwardRef15(
   function CardSkeleton2(_props, ref) {
     return /* @__PURE__ */ jsxs7(
       "div",
@@ -1934,12 +2004,12 @@ var CardSkeleton = forwardRef14(
         ref,
         "aria-hidden": "true",
         style: {
-          borderRadius: t13.radiusLg,
-          border: `${t13.borderWidthDefault} solid ${t13.colorBorder}`,
-          padding: t13.spaceLg,
+          borderRadius: t14.radiusLg,
+          border: `${t14.borderWidthDefault} solid ${t14.colorBorder}`,
+          padding: t14.spaceLg,
           display: "flex",
           flexDirection: "column",
-          gap: t13.spaceSm
+          gap: t14.spaceSm
         },
         children: [
           /* @__PURE__ */ jsx16(Skeleton, { width: "60%", height: 20 }),
@@ -1950,7 +2020,7 @@ var CardSkeleton = forwardRef14(
     );
   }
 );
-var RowSkeleton = forwardRef14(
+var RowSkeleton = forwardRef15(
   function RowSkeleton2(_props, ref) {
     return /* @__PURE__ */ jsxs7(
       "div",
@@ -1960,12 +2030,12 @@ var RowSkeleton = forwardRef14(
         style: {
           display: "flex",
           alignItems: "center",
-          gap: t13.spaceSm,
-          padding: `${t13.spaceSm} 0`
+          gap: t14.spaceSm,
+          padding: `${t14.spaceSm} 0`
         },
         children: [
           /* @__PURE__ */ jsx16(Skeleton, { width: 32, height: 32, radius: "full" }),
-          /* @__PURE__ */ jsxs7("div", { style: { flex: 1, display: "flex", flexDirection: "column", gap: t13.spaceXs }, children: [
+          /* @__PURE__ */ jsxs7("div", { style: { flex: 1, display: "flex", flexDirection: "column", gap: t14.spaceXs }, children: [
             /* @__PURE__ */ jsx16(Skeleton, { width: "40%", height: 14 }),
             /* @__PURE__ */ jsx16(Skeleton, { width: "70%", height: 12 })
           ] })
@@ -1976,10 +2046,10 @@ var RowSkeleton = forwardRef14(
 );
 
 // src/components/ProgressBar/ProgressBar.tsx
-import { forwardRef as forwardRef15 } from "react";
-import { semantic as t14 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef16 } from "react";
+import { semantic as t15 } from "../../core/dist/index.js";
 import { jsx as jsx17 } from "react/jsx-runtime";
-var ProgressBar = forwardRef15(
+var ProgressBar = forwardRef16(
   function ProgressBar2({
     segments,
     height = "md",
@@ -2002,7 +2072,7 @@ var ProgressBar = forwardRef15(
           borderRadius: px / 2,
           overflow: "hidden",
           display: "flex",
-          background: t14.colorSurfaceRaised
+          background: t15.colorSurfaceRaised
         },
         children: segments.map((segment, i) => {
           const pct = total > 0 ? segment.value / total * 100 : 0;
@@ -2025,10 +2095,10 @@ var ProgressBar = forwardRef15(
 );
 
 // src/components/EmptyState/EmptyState.tsx
-import { forwardRef as forwardRef16 } from "react";
-import { semantic as t15 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef17 } from "react";
+import { semantic as t16 } from "../../core/dist/index.js";
 import { jsx as jsx18, jsxs as jsxs8 } from "react/jsx-runtime";
-var EmptyState = forwardRef16(
+var EmptyState = forwardRef17(
   function EmptyState2({
     icon,
     message,
@@ -2036,22 +2106,22 @@ var EmptyState = forwardRef16(
     children,
     action
   }, ref) {
-    const content = /* @__PURE__ */ jsx18("div", { style: { padding: t15.spaceXl }, children: /* @__PURE__ */ jsxs8(Stack, { align: "center", gap: "sm", children: [
-      /* @__PURE__ */ jsx18("span", { style: { color: t15.colorTextMuted, display: "inline-flex" }, children: /* @__PURE__ */ jsx18(Icon, { name: icon, size: "xl" }) }),
+    const content = /* @__PURE__ */ jsx18("div", { style: { padding: t16.spaceXl }, children: /* @__PURE__ */ jsxs8(Stack, { align: "center", gap: "sm", children: [
+      /* @__PURE__ */ jsx18("span", { style: { color: t16.colorTextMuted, display: "inline-flex" }, children: /* @__PURE__ */ jsx18(Icon, { name: icon, size: "xl" }) }),
       /* @__PURE__ */ jsx18(
         "span",
         {
           style: {
-            color: t15.colorTextSecondary,
-            fontSize: t15.fontSizeSm,
+            color: t16.colorTextSecondary,
+            fontSize: t16.fontSizeSm,
             textAlign: "center",
-            fontFamily: t15.fontSans
+            fontFamily: t16.fontSans
           },
           children: message
         }
       ),
       children,
-      action && /* @__PURE__ */ jsx18("div", { style: { marginTop: t15.spaceSm }, children: action })
+      action && /* @__PURE__ */ jsx18("div", { style: { marginTop: t16.spaceSm }, children: action })
     ] }) });
     if (variant === "card") {
       return /* @__PURE__ */ jsx18(Card, { ref, variant: "flat", children: content });
@@ -2061,15 +2131,15 @@ var EmptyState = forwardRef16(
 );
 
 // src/components/Pagination/Pagination.tsx
-import { forwardRef as forwardRef17 } from "react";
-import { semantic as t16 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef18 } from "react";
+import { semantic as t17 } from "../../core/dist/index.js";
 import { jsx as jsx19, jsxs as jsxs9 } from "react/jsx-runtime";
 var defaultLabels = {
   previous: "Previous",
   next: "Next",
   pageOf: (page, total) => `Page ${page} of ${total}`
 };
-var Pagination = forwardRef17(
+var Pagination = forwardRef18(
   function Pagination2({
     page,
     totalPages,
@@ -2086,7 +2156,7 @@ var Pagination = forwardRef17(
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: t16.spaceSm
+          gap: t17.spaceSm
         },
         children: [
           /* @__PURE__ */ jsx19(
@@ -2103,9 +2173,9 @@ var Pagination = forwardRef17(
             "span",
             {
               style: {
-                color: t16.colorTextMuted,
-                fontSize: t16.fontSizeSm,
-                fontFamily: t16.fontSans
+                color: t17.colorTextMuted,
+                fontSize: t17.fontSizeSm,
+                fontFamily: t17.fontSans
               },
               children: [
                 resolvedLabels.pageOf(page, totalPages),
@@ -2132,25 +2202,25 @@ var Pagination = forwardRef17(
 );
 
 // src/components/Header/Header.tsx
-import { forwardRef as forwardRef18 } from "react";
-import { semantic as t17 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef19 } from "react";
+import { semantic as t18 } from "../../core/dist/index.js";
 import { jsx as jsx20, jsxs as jsxs10 } from "react/jsx-runtime";
-var Header = forwardRef18(
+var Header = forwardRef19(
   function Header2({ title, level = "section", subtitle, indicator, trailing }, ref) {
     const isPage = level === "page";
     const Tag = isPage ? "h1" : "h2";
     const titleStyle2 = isPage ? {
       margin: 0,
-      fontFamily: t17.fontSans,
-      fontWeight: t17.fontWeightBold,
-      color: t17.colorText
+      fontFamily: t18.fontSans,
+      fontWeight: t18.fontWeightBold,
+      color: t18.colorText
     } : {
       margin: 0,
-      fontFamily: t17.fontSans,
-      fontWeight: t17.fontWeightSemibold,
-      fontSize: t17.fontSizeBase,
-      lineHeight: t17.lineHeightTight,
-      color: t17.colorText
+      fontFamily: t18.fontSans,
+      fontWeight: t18.fontWeightSemibold,
+      fontSize: t18.fontSizeBase,
+      lineHeight: t18.lineHeightTight,
+      color: t18.colorText
     };
     return /* @__PURE__ */ jsxs10(
       "div",
@@ -2160,17 +2230,17 @@ var Header = forwardRef18(
           display: "flex",
           justifyContent: "space-between",
           alignItems: isPage ? "flex-end" : "center",
-          gap: t17.spaceMd
+          gap: t18.spaceMd
         },
         children: [
           /* @__PURE__ */ jsxs10("div", { style: { minWidth: 0 }, children: [
-            /* @__PURE__ */ jsxs10("div", { style: { display: "flex", alignItems: "center", gap: t17.spaceSm }, children: [
+            /* @__PURE__ */ jsxs10("div", { style: { display: "flex", alignItems: "center", gap: t18.spaceSm }, children: [
               /* @__PURE__ */ jsx20(Tag, { style: titleStyle2, children: title }),
               indicator
             ] }),
-            subtitle && /* @__PURE__ */ jsx20("span", { style: { color: t17.colorTextMuted, fontSize: t17.fontSizeSm, fontFamily: t17.fontSans }, children: subtitle })
+            subtitle && /* @__PURE__ */ jsx20("span", { style: { color: t18.colorTextMuted, fontSize: t18.fontSizeSm, fontFamily: t18.fontSans }, children: subtitle })
           ] }),
-          trailing && /* @__PURE__ */ jsx20("div", { style: { display: "flex", alignItems: "center", gap: t17.spaceSm, flexShrink: 0 }, children: trailing })
+          trailing && /* @__PURE__ */ jsx20("div", { style: { display: "flex", alignItems: "center", gap: t18.spaceSm, flexShrink: 0 }, children: trailing })
         ]
       }
     );
@@ -2178,21 +2248,21 @@ var Header = forwardRef18(
 );
 
 // src/components/ModalShell/ModalShell.tsx
-import { forwardRef as forwardRef19, useEffect as useEffect4, useId as useId4, useRef as useRef3 } from "react";
+import { forwardRef as forwardRef20, useEffect as useEffect4, useId as useId4, useRef as useRef3 } from "react";
 import { createPortal } from "react-dom";
-import { semantic as t18 } from "../../core/dist/index.js";
+import { semantic as t19 } from "../../core/dist/index.js";
 import { Fragment as Fragment3, jsx as jsx21, jsxs as jsxs11 } from "react/jsx-runtime";
 var modalHeadingStyle = Object.freeze({
   margin: 0,
-  fontWeight: t18.fontWeightSemibold,
-  fontFamily: t18.fontSans,
-  color: t18.colorText,
-  fontSize: t18.fontSizeLg
+  fontWeight: t19.fontWeightSemibold,
+  fontFamily: t19.fontSans,
+  color: t19.colorText,
+  fontSize: t19.fontSizeLg
 });
 var modalFooterStyle = Object.freeze({
   display: "flex",
   justifyContent: "flex-end",
-  gap: t18.spaceSm
+  gap: t19.spaceSm
 });
 var FOCUSABLE_SELECTOR2 = [
   "a[href]",
@@ -2202,12 +2272,12 @@ var FOCUSABLE_SELECTOR2 = [
   "textarea:not(:disabled)",
   '[tabindex]:not([tabindex="-1"])'
 ].join(", ");
-var ModalShell = forwardRef19(
+var ModalShell = forwardRef20(
   function ModalShell2({
     onClose,
     children,
     width = "md",
-    zIndex = t18.zIndexModal,
+    zIndex = t19.zIndexModal,
     titleId,
     "aria-label": ariaLabel,
     role = "dialog"
@@ -2260,7 +2330,7 @@ var ModalShell = forwardRef19(
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              padding: t18.spaceMd,
+              padding: t19.spaceMd,
               zIndex: typeof zIndex === "number" ? zIndex + 1 : `calc(${zIndex} + 1)`,
               pointerEvents: "none"
             },
@@ -2274,12 +2344,12 @@ var ModalShell = forwardRef19(
                 "aria-label": ariaLabel,
                 tabIndex: -1,
                 style: {
-                  background: t18.colorSurface,
-                  color: t18.colorText,
-                  borderRadius: t18.radiusLg,
-                  boxShadow: t18.shadowLg,
-                  border: `${t18.borderWidthDefault} solid ${t18.colorBorder}`,
-                  padding: t18.spaceXl,
+                  background: t19.colorSurface,
+                  color: t19.colorText,
+                  borderRadius: t19.radiusLg,
+                  boxShadow: t19.shadowLg,
+                  border: `${t19.borderWidthDefault} solid ${t19.colorBorder}`,
+                  padding: t19.spaceXl,
                   maxWidth: modalWidthMap[width],
                   width: "100%",
                   maxHeight: "100%",
@@ -2299,41 +2369,41 @@ var ModalShell = forwardRef19(
 );
 
 // src/styles/sectionLabelStyle.ts
-import { semantic as t19 } from "../../core/dist/index.js";
+import { semantic as t20 } from "../../core/dist/index.js";
 var sectionLabelStyle = {
   display: "block",
-  fontSize: t19.fontSizeXs,
-  fontWeight: t19.fontWeightSemibold,
-  fontFamily: t19.fontSans,
-  color: t19.colorTextSecondary,
+  fontSize: t20.fontSizeXs,
+  fontWeight: t20.fontWeightSemibold,
+  fontFamily: t20.fontSans,
+  color: t20.colorTextSecondary,
   textTransform: "uppercase",
-  letterSpacing: t19.letterSpacingWide
+  letterSpacing: t20.letterSpacingWide
 };
 
 // src/styles/tagChipStyle.ts
-import { semantic as t20 } from "../../core/dist/index.js";
+import { semantic as t21 } from "../../core/dist/index.js";
 var tagChipStyle = {
   display: "inline-flex",
   alignItems: "center",
-  gap: t20.spaceXs,
-  fontSize: t20.fontSizeXs,
-  color: t20.colorActionPrimary,
-  background: t20.colorSurfaceRaised,
-  borderRadius: t20.radiusFull,
-  padding: `${t20.spaceXs} ${t20.spaceSm}`,
-  fontFamily: t20.fontSans
+  gap: t21.spaceXs,
+  fontSize: t21.fontSizeXs,
+  color: t21.colorActionPrimary,
+  background: t21.colorSurfaceRaised,
+  borderRadius: t21.radiusFull,
+  padding: `${t21.spaceXs} ${t21.spaceSm}`,
+  fontFamily: t21.fontSans
 };
 
 // src/components/ConfirmDialog/ConfirmDialog.tsx
-import { forwardRef as forwardRef20, useId as useId5, useState as useState2 } from "react";
-import { semantic as t21 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef21, useId as useId5, useState as useState2 } from "react";
+import { semantic as t22 } from "../../core/dist/index.js";
 import { jsx as jsx22, jsxs as jsxs12 } from "react/jsx-runtime";
 var variantButtonMap = {
   destructive: "destructive",
   info: "primary",
   warning: "primary"
 };
-var ConfirmDialog = forwardRef20(
+var ConfirmDialog = forwardRef21(
   function ConfirmDialog2({
     title,
     message,
@@ -2366,15 +2436,15 @@ var ConfirmDialog = forwardRef20(
         "p",
         {
           style: {
-            margin: `${t21.spaceSm} 0 ${children ? "0" : t21.spaceLg}`,
-            color: t21.colorTextMuted,
-            fontSize: t21.fontSizeSm,
-            fontFamily: t21.fontSans
+            margin: `${t22.spaceSm} 0 ${children ? "0" : t22.spaceLg}`,
+            color: t22.colorTextMuted,
+            fontSize: t22.fontSizeSm,
+            fontFamily: t22.fontSans
           },
           children: message
         }
       ),
-      children && /* @__PURE__ */ jsx22("div", { style: { margin: `${t21.spaceSm} 0 ${t21.spaceLg}` }, children }),
+      children && /* @__PURE__ */ jsx22("div", { style: { margin: `${t22.spaceSm} 0 ${t22.spaceLg}` }, children }),
       /* @__PURE__ */ jsxs12("div", { style: modalFooterStyle, children: [
         /* @__PURE__ */ jsx22(Button, { variant: "ghost", onClick: onCancel, disabled: loading, autoFocus: true, children: "Cancel" }),
         /* @__PURE__ */ jsx22(Button, { variant: variantButtonMap[variant], onClick: handleConfirm, disabled: loading, children: loading ? "Loading..." : confirmLabel })
@@ -2384,18 +2454,18 @@ var ConfirmDialog = forwardRef20(
 );
 
 // src/components/StatusDot/StatusDot.tsx
-import { forwardRef as forwardRef21 } from "react";
-import { semantic as t22, useInjectStyles as useInjectStyles8, useThemeRhythm as useThemeRhythm3 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef22 } from "react";
+import { semantic as t23, useInjectStyles as useInjectStyles8, useThemeRhythm as useThemeRhythm3 } from "../../core/dist/index.js";
 import { jsx as jsx23 } from "react/jsx-runtime";
 var variantColors = {
-  default: t22.colorTextMuted,
-  primary: t22.colorActionPrimary,
-  success: t22.colorSuccess,
-  warning: t22.colorWarning,
-  error: t22.colorError,
-  info: t22.colorInfo
+  default: t23.colorTextMuted,
+  primary: t23.colorActionPrimary,
+  success: t23.colorSuccess,
+  warning: t23.colorWarning,
+  error: t23.colorError,
+  info: t23.colorInfo
 };
-var sizeMap = {
+var sizeMap2 = {
   sm: 6,
   md: 8,
   lg: 12
@@ -2417,7 +2487,7 @@ var PULSE_STYLES_CSS = `
   }
 }
 `;
-var StatusDot = forwardRef21(
+var StatusDot = forwardRef22(
   function StatusDot2({
     variant = "default",
     size = "md",
@@ -2425,7 +2495,7 @@ var StatusDot = forwardRef21(
     "aria-label": ariaLabel
   }, ref) {
     const resolvedColor = variantColors[variant];
-    const resolvedSize = sizeMap[size];
+    const resolvedSize = sizeMap2[size];
     const isPulsing = animate === "pulse";
     const { durationCss } = useThemeRhythm3();
     useInjectStyles8(PULSE_STYLES_ID, PULSE_STYLES_CSS);
@@ -2441,7 +2511,7 @@ var StatusDot = forwardRef21(
           display: "inline-block",
           width: resolvedSize,
           height: resolvedSize,
-          borderRadius: t22.radiusFull,
+          borderRadius: t23.radiusFull,
           background: resolvedColor,
           flexShrink: 0,
           ...isPulsing ? {
@@ -2456,24 +2526,24 @@ var StatusDot = forwardRef21(
 );
 
 // src/components/Table/Table.tsx
-import { forwardRef as forwardRef22, Children, isValidElement as isValidElement2, cloneElement as cloneElement2 } from "react";
-import { semantic as t23 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef23, Children, isValidElement as isValidElement2, cloneElement as cloneElement2 } from "react";
+import { semantic as t24 } from "../../core/dist/index.js";
 import { useInjectStyles as useInjectStyles9 } from "../../core/dist/index.js";
 import { jsx as jsx24 } from "react/jsx-runtime";
 var spaceMap = {
-  xs: t23.spaceXs,
-  sm: t23.spaceSm,
-  md: t23.spaceMd,
-  lg: t23.spaceLg
+  xs: t24.spaceXs,
+  sm: t24.spaceSm,
+  md: t24.spaceMd,
+  lg: t24.spaceLg
 };
 var TABLE_STYLES_ID = "4lt7ab-table-row";
 var TABLE_STYLES_CSS = `
 [data-table-row-hoverable]:hover > td {
-  background: color-mix(in srgb, ${t23.colorText} 8%, transparent);
+  background: color-mix(in srgb, ${t24.colorText} 8%, transparent);
 }
 [data-table-row-selected] > td {
-  background: ${t23.colorSurfaceRaised};
-  border-bottom-color: ${t23.colorSurfaceRaised};
+  background: ${t24.colorSurfaceRaised};
+  border-bottom-color: ${t24.colorSurfaceRaised};
 }
 [data-table-row-selected] > td:first-child {
   position: relative;
@@ -2485,19 +2555,19 @@ var TABLE_STYLES_CSS = `
   top: 0;
   bottom: 0;
   width: 3px;
-  background: ${t23.colorActionPrimary};
+  background: ${t24.colorActionPrimary};
   pointer-events: none;
 }
 `;
 var wrapperVariants = {
   default: {
-    border: `${t23.borderWidthDefault} solid ${t23.colorBorder}`,
-    borderRadius: t23.radiusLg,
-    boxShadow: t23.shadowSm
+    border: `${t24.borderWidthDefault} solid ${t24.colorBorder}`,
+    borderRadius: t24.radiusLg,
+    boxShadow: t24.shadowSm
   },
   flat: {}
 };
-var Table = forwardRef22(
+var Table = forwardRef23(
   function Table2({
     variant = "default",
     density = "md",
@@ -2519,9 +2589,9 @@ var Table = forwardRef22(
             style: {
               width: "100%",
               borderCollapse: "collapse",
-              fontSize: t23.fontSizeSm,
-              fontFamily: t23.fontSans,
-              color: t23.colorText
+              fontSize: t24.fontSizeSm,
+              fontFamily: t24.fontSans,
+              color: t24.colorText
             },
             children
           }
@@ -2530,12 +2600,12 @@ var Table = forwardRef22(
     );
   }
 );
-var TableHeader = forwardRef22(
+var TableHeader = forwardRef23(
   function TableHeader2({ children }, ref) {
     return /* @__PURE__ */ jsx24("thead", { ref, children: /* @__PURE__ */ jsx24("tr", { children }) });
   }
 );
-var TableHeaderCell = forwardRef22(
+var TableHeaderCell = forwardRef23(
   function TableHeaderCell2({
     align = "left",
     width,
@@ -2548,14 +2618,14 @@ var TableHeaderCell = forwardRef22(
         ref,
         colSpan,
         style: {
-          padding: `${t23.spaceSm} ${t23.spaceMd}`,
+          padding: `${t24.spaceSm} ${t24.spaceMd}`,
           textAlign: align,
-          fontWeight: t23.fontWeightSemibold,
-          fontSize: t23.fontSizeXs,
-          color: t23.colorTextMuted,
+          fontWeight: t24.fontWeightSemibold,
+          fontSize: t24.fontSizeXs,
+          color: t24.colorTextMuted,
           textTransform: "uppercase",
-          letterSpacing: t23.letterSpacingWide,
-          borderBottom: `${t23.borderWidthThick} solid ${t23.colorBorder}`,
+          letterSpacing: t24.letterSpacingWide,
+          borderBottom: `${t24.borderWidthThick} solid ${t24.colorBorder}`,
           whiteSpace: "nowrap",
           width: width !== void 0 ? `${width}px` : void 0
         },
@@ -2564,7 +2634,7 @@ var TableHeaderCell = forwardRef22(
     );
   }
 );
-var TableBody = forwardRef22(
+var TableBody = forwardRef23(
   function TableBody2({ children }, ref) {
     let dataRowIndex = 0;
     const styledChildren = Children.map(children, (child) => {
@@ -2588,7 +2658,7 @@ var TableBody = forwardRef22(
     return /* @__PURE__ */ jsx24("tbody", { ref, children: styledChildren });
   }
 );
-var TableRow = forwardRef22(
+var TableRow = forwardRef23(
   function TableRow2({
     selected = false,
     hoverable = false,
@@ -2618,7 +2688,7 @@ var TableRow = forwardRef22(
     );
   }
 );
-var TableCell = forwardRef22(
+var TableCell = forwardRef23(
   function TableCell2({
     align = "left",
     truncate = false,
@@ -2633,11 +2703,11 @@ var TableCell = forwardRef22(
         ref,
         colSpan,
         style: {
-          padding: `${t23.spaceSm} ${t23.spaceMd}`,
-          borderBottom: `${t23.borderWidthDefault} solid ${t23.colorBorder}`,
+          padding: `${t24.spaceSm} ${t24.spaceMd}`,
+          borderBottom: `${t24.borderWidthDefault} solid ${t24.colorBorder}`,
           verticalAlign: "middle",
           textAlign: align,
-          color: muted ? t23.colorTextMuted : void 0,
+          color: muted ? t24.colorTextMuted : void 0,
           width: width !== void 0 ? `${width}px` : void 0,
           ...truncate ? {
             maxWidth: 0,
@@ -2651,7 +2721,7 @@ var TableCell = forwardRef22(
     );
   }
 );
-var TableGroupHeader = forwardRef22(
+var TableGroupHeader = forwardRef23(
   function TableGroupHeader2({
     colSpan,
     children
@@ -2661,14 +2731,14 @@ var TableGroupHeader = forwardRef22(
       {
         colSpan,
         style: {
-          padding: `${t23.spaceXs} ${t23.spaceMd}`,
-          background: t23.colorSurfaceRaised,
-          borderBottom: `${t23.borderWidthDefault} solid ${t23.colorBorder}`,
-          fontSize: t23.fontSizeXs,
-          fontWeight: t23.fontWeightBold,
-          letterSpacing: t23.letterSpacingWide,
+          padding: `${t24.spaceXs} ${t24.spaceMd}`,
+          background: t24.colorSurfaceRaised,
+          borderBottom: `${t24.borderWidthDefault} solid ${t24.colorBorder}`,
+          fontSize: t24.fontSizeXs,
+          fontWeight: t24.fontWeightBold,
+          letterSpacing: t24.letterSpacingWide,
           textTransform: "uppercase",
-          color: t23.colorTextMuted,
+          color: t24.colorTextMuted,
           overflow: "hidden",
           textOverflow: "ellipsis",
           whiteSpace: "nowrap"
@@ -2678,7 +2748,7 @@ var TableGroupHeader = forwardRef22(
     ) });
   }
 );
-var TableEmptyRow = forwardRef22(
+var TableEmptyRow = forwardRef23(
   function TableEmptyRow2({
     colSpan,
     children
@@ -2688,10 +2758,10 @@ var TableEmptyRow = forwardRef22(
       {
         colSpan,
         style: {
-          padding: `${t23.spaceXl} ${t23.spaceMd}`,
+          padding: `${t24.spaceXl} ${t24.spaceMd}`,
           textAlign: "center",
-          color: t23.colorTextMuted,
-          fontSize: t23.fontSizeSm
+          color: t24.colorTextMuted,
+          fontSize: t24.fontSizeSm
         },
         children
       }
@@ -2708,7 +2778,7 @@ import {
   useRef as useRef4,
   useState as useState3
 } from "react";
-import { semantic as t24 } from "../../core/dist/index.js";
+import { semantic as t25 } from "../../core/dist/index.js";
 import { jsx as jsx25, jsxs as jsxs13 } from "react/jsx-runtime";
 var FilterBarContext = createContext3(null);
 function useFilterBarContext(part) {
@@ -2768,7 +2838,7 @@ function FilterBar({
       style: {
         display: "flex",
         flexWrap: "wrap",
-        gap: t24.spaceSm,
+        gap: t25.spaceSm,
         alignItems: "flex-start",
         ...style
       },
@@ -2837,14 +2907,14 @@ var Table3 = Object.assign(Table, {
 
 // src/components/DateRangePicker/DateRangePicker.tsx
 import {
-  forwardRef as forwardRef23,
+  forwardRef as forwardRef24,
   useState as useState5,
   useRef as useRef6,
   useCallback as useCallback5,
   useEffect as useEffect7,
   useMemo as useMemo4
 } from "react";
-import { semantic as t28, useInjectStyles as useInjectStyles11 } from "../../core/dist/index.js";
+import { semantic as t29, useInjectStyles as useInjectStyles11 } from "../../core/dist/index.js";
 
 // src/components/Calendar/Calendar.tsx
 import {
@@ -2954,7 +3024,7 @@ var Calendar = {
 };
 
 // src/components/Calendar/Header.tsx
-import { semantic as t25 } from "../../core/dist/index.js";
+import { semantic as t26 } from "../../core/dist/index.js";
 
 // src/components/DateRangePicker/dateUtils.ts
 function getDaysInMonth(year, month) {
@@ -2969,8 +3039,8 @@ function isSameDay(a, b) {
 function isInRange(date, from, to) {
   const d = stripTime(date).getTime();
   const f = stripTime(from).getTime();
-  const t40 = stripTime(to).getTime();
-  return d >= f && d <= t40;
+  const t41 = stripTime(to).getTime();
+  return d >= f && d <= t41;
 }
 function formatDate(date) {
   const y = date.getFullYear();
@@ -3017,10 +3087,10 @@ function buildCalendarGrid(year, month) {
 // src/components/Calendar/Header.tsx
 import { jsx as jsx27 } from "react/jsx-runtime";
 var titleStyle = {
-  fontSize: t25.fontSizeSm,
-  fontWeight: t25.fontWeightSemibold,
-  fontFamily: t25.fontSans,
-  color: t25.colorText,
+  fontSize: t26.fontSizeSm,
+  fontWeight: t26.fontWeightSemibold,
+  fontFamily: t26.fontSans,
+  color: t26.colorText,
   margin: 0,
   userSelect: "none"
 };
@@ -3078,24 +3148,24 @@ function CalendarNav({
 
 // src/components/Calendar/Grid.tsx
 import { useCallback as useCallback4, useMemo as useMemo3, useRef as useRef5, useEffect as useEffect6 } from "react";
-import { semantic as t27, useInjectStyles as useInjectStyles10 } from "../../core/dist/index.js";
+import { semantic as t28, useInjectStyles as useInjectStyles10 } from "../../core/dist/index.js";
 
 // src/components/Calendar/Cell.tsx
-import { semantic as t26 } from "../../core/dist/index.js";
+import { semantic as t27 } from "../../core/dist/index.js";
 import { jsx as jsx29 } from "react/jsx-runtime";
 var baseCellStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  width: t26.spaceXl,
-  height: t26.spaceXl,
+  width: t27.spaceXl,
+  height: t27.spaceXl,
   border: "none",
-  borderRadius: t26.radiusSm,
-  fontSize: t26.fontSizeSm,
-  fontFamily: t26.fontSans,
+  borderRadius: t27.radiusSm,
+  fontSize: t27.fontSizeSm,
+  fontFamily: t27.fontSans,
   cursor: "pointer",
   background: "transparent",
-  color: t26.colorText,
+  color: t27.colorText,
   padding: 0,
   transition: "background 120ms ease, color 120ms ease",
   outline: "none",
@@ -3153,14 +3223,14 @@ function CalendarCell({
   const disabled = isDisabled(ctx, date);
   const cellStyle = {
     ...baseCellStyle,
-    ...isOutsideMonth ? { color: t26.colorTextMuted, opacity: 0.5 } : {},
-    ...isToday && !isEndpoint ? { border: `${t26.borderWidthDefault} solid ${t26.colorActionPrimary}` } : {},
+    ...isOutsideMonth ? { color: t27.colorTextMuted, opacity: 0.5 } : {},
+    ...isToday && !isEndpoint ? { border: `${t27.borderWidthDefault} solid ${t27.colorActionPrimary}` } : {},
     ...inRange && !isEndpoint ? {
-      background: `color-mix(in srgb, ${t26.colorActionPrimary} 15%, transparent)`
+      background: `color-mix(in srgb, ${t27.colorActionPrimary} 15%, transparent)`
     } : {},
-    ...isEndpoint ? { background: t26.colorActionPrimary, color: t26.colorTextInverse } : {},
+    ...isEndpoint ? { background: t27.colorActionPrimary, color: t27.colorTextInverse } : {},
     ...disabled ? {
-      color: t26.colorTextDisabled,
+      color: t27.colorTextDisabled,
       pointerEvents: "none",
       cursor: "default",
       opacity: 0.5
@@ -3204,11 +3274,11 @@ var gridCSS2 = (
   /* css */
   `
   .alttab-calendar-day--enabled:hover {
-    background: ${t27.colorSurfaceRaised} !important;
+    background: ${t28.colorSurfaceRaised} !important;
   }
   .alttab-calendar-day--enabled:focus-visible {
-    outline: ${t27.focusRingWidth} solid ${t27.focusRingColor};
-    outline-offset: ${t27.focusRingOffset};
+    outline: ${t28.focusRingWidth} solid ${t28.focusRingColor};
+    outline-offset: ${t28.focusRingOffset};
   }
 `
 );
@@ -3252,12 +3322,12 @@ var tableStyle = {
   tableLayout: "fixed"
 };
 var weekdayHeaderStyle = {
-  fontSize: t27.fontSizeXs,
-  fontFamily: t27.fontSans,
-  fontWeight: t27.fontWeightMedium,
-  color: t27.colorTextMuted,
+  fontSize: t28.fontSizeXs,
+  fontFamily: t28.fontSans,
+  fontWeight: t28.fontWeightMedium,
+  color: t28.colorTextMuted,
   textAlign: "center",
-  padding: `${t27.spaceXs} 0`,
+  padding: `${t28.spaceXs} 0`,
   userSelect: "none"
 };
 function CalendarGridPrimitive({
@@ -3396,11 +3466,11 @@ var injectedCSS = (
   /* css */
   `
   .${SCOPE}-trigger:focus-visible {
-    border-color: ${t28.colorBorderFocused};
-    box-shadow: 0 0 0 ${t28.focusRingWidth} ${t28.focusRingColor};
+    border-color: ${t29.colorBorderFocused};
+    box-shadow: 0 0 0 ${t29.focusRingWidth} ${t29.focusRingColor};
   }
   .${SCOPE}-trigger:hover:not(:disabled) {
-    border-color: ${t28.colorBorderFocused};
+    border-color: ${t29.colorBorderFocused};
   }
 `
 );
@@ -3412,56 +3482,56 @@ var wrapperStyle2 = {
 var triggerBaseStyle2 = {
   display: "block",
   width: "100%",
-  padding: `${t28.spaceSm} ${t28.spaceMd}`,
-  fontSize: t28.fontSizeSm,
-  lineHeight: t28.lineHeightTight,
-  fontFamily: t28.fontSans,
-  color: t28.colorText,
-  background: t28.colorSurfaceInput,
-  border: `${t28.borderWidthDefault} solid ${t28.colorBorder}`,
-  borderRadius: t28.radiusMd,
+  padding: `${t29.spaceSm} ${t29.spaceMd}`,
+  fontSize: t29.fontSizeSm,
+  lineHeight: t29.lineHeightTight,
+  fontFamily: t29.fontSans,
+  color: t29.colorText,
+  background: t29.colorSurfaceInput,
+  border: `${t29.borderWidthDefault} solid ${t29.colorBorder}`,
+  borderRadius: t29.radiusMd,
   outline: "none",
-  transition: `border-color ${t28.transitionBase}, box-shadow ${t28.transitionBase}`,
+  transition: `border-color ${t29.transitionBase}, box-shadow ${t29.transitionBase}`,
   boxSizing: "border-box",
   cursor: "pointer",
   textAlign: "left"
 };
 var triggerErrorStyle = {
-  borderColor: t28.colorBorderError
+  borderColor: t29.colorBorderError
 };
 var triggerDisabledStyle = {
-  background: t28.colorSurfaceDisabled,
-  color: t28.colorTextDisabled,
+  background: t29.colorSurfaceDisabled,
+  color: t29.colorTextDisabled,
   cursor: "not-allowed"
 };
 var popoverStyle = {
   position: "absolute",
   top: "100%",
   left: 0,
-  zIndex: t28.zIndexDropdown,
-  marginTop: t28.spaceXs,
-  background: t28.colorSurfacePanel,
-  border: `${t28.borderWidthDefault} solid ${t28.colorBorder}`,
-  borderRadius: t28.radiusLg,
-  boxShadow: t28.shadowMd,
-  padding: t28.spaceMd,
+  zIndex: t29.zIndexDropdown,
+  marginTop: t29.spaceXs,
+  background: t29.colorSurfacePanel,
+  border: `${t29.borderWidthDefault} solid ${t29.colorBorder}`,
+  borderRadius: t29.radiusLg,
+  boxShadow: t29.shadowMd,
+  padding: t29.spaceMd,
   minWidth: 290,
   boxSizing: "border-box"
 };
 var placeholderStyle2 = {
-  color: t28.colorTextPlaceholder
+  color: t29.colorTextPlaceholder
 };
 var headerRowStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: `${t28.spaceXs} 0`,
-  marginBottom: t28.spaceSm
+  padding: `${t29.spaceXs} 0`,
+  marginBottom: t29.spaceSm
 };
 function sortedRange(a, b) {
   return a.getTime() <= b.getTime() ? { from: a, to: b } : { from: b, to: a };
 }
-var DateRangePicker = forwardRef23(
+var DateRangePicker = forwardRef24(
   function DateRangePicker2({
     value,
     onChange,
@@ -3620,19 +3690,19 @@ var DateRangePicker = forwardRef23(
 );
 
 // src/components/DatePicker/DatePicker.tsx
-import { forwardRef as forwardRef24, useState as useState6, useRef as useRef7, useCallback as useCallback6, useEffect as useEffect8, useMemo as useMemo5 } from "react";
-import { semantic as t29, useInjectStyles as useInjectStyles12 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef25, useState as useState6, useRef as useRef7, useCallback as useCallback6, useEffect as useEffect8, useMemo as useMemo5 } from "react";
+import { semantic as t30, useInjectStyles as useInjectStyles12 } from "../../core/dist/index.js";
 import { jsx as jsx32, jsxs as jsxs16 } from "react/jsx-runtime";
 var SCOPE2 = "alttab-dp";
 var injectedCSS2 = (
   /* css */
   `
   .${SCOPE2}-trigger:focus-visible {
-    border-color: ${t29.colorBorderFocused};
-    box-shadow: 0 0 0 ${t29.focusRingWidth} ${t29.focusRingColor};
+    border-color: ${t30.colorBorderFocused};
+    box-shadow: 0 0 0 ${t30.focusRingWidth} ${t30.focusRingColor};
   }
   .${SCOPE2}-trigger:hover:not(:disabled) {
-    border-color: ${t29.colorBorderFocused};
+    border-color: ${t30.colorBorderFocused};
   }
 `
 );
@@ -3644,53 +3714,53 @@ var wrapperStyle3 = {
 var triggerBaseStyle3 = {
   display: "block",
   width: "100%",
-  padding: `${t29.spaceSm} ${t29.spaceMd}`,
-  fontSize: t29.fontSizeSm,
-  lineHeight: t29.lineHeightTight,
-  fontFamily: t29.fontSans,
-  color: t29.colorText,
-  background: t29.colorSurfaceInput,
-  border: `${t29.borderWidthDefault} solid ${t29.colorBorder}`,
-  borderRadius: t29.radiusMd,
+  padding: `${t30.spaceSm} ${t30.spaceMd}`,
+  fontSize: t30.fontSizeSm,
+  lineHeight: t30.lineHeightTight,
+  fontFamily: t30.fontSans,
+  color: t30.colorText,
+  background: t30.colorSurfaceInput,
+  border: `${t30.borderWidthDefault} solid ${t30.colorBorder}`,
+  borderRadius: t30.radiusMd,
   outline: "none",
-  transition: `border-color ${t29.transitionBase}, box-shadow ${t29.transitionBase}`,
+  transition: `border-color ${t30.transitionBase}, box-shadow ${t30.transitionBase}`,
   boxSizing: "border-box",
   cursor: "pointer",
   textAlign: "left"
 };
 var triggerErrorStyle2 = {
-  borderColor: t29.colorBorderError
+  borderColor: t30.colorBorderError
 };
 var triggerDisabledStyle2 = {
-  background: t29.colorSurfaceDisabled,
-  color: t29.colorTextDisabled,
+  background: t30.colorSurfaceDisabled,
+  color: t30.colorTextDisabled,
   cursor: "not-allowed"
 };
 var popoverStyle2 = {
   position: "absolute",
   top: "100%",
   left: 0,
-  zIndex: t29.zIndexDropdown,
-  marginTop: t29.spaceXs,
-  background: t29.colorSurfacePanel,
-  border: `${t29.borderWidthDefault} solid ${t29.colorBorder}`,
-  borderRadius: t29.radiusLg,
-  boxShadow: t29.shadowMd,
-  padding: t29.spaceMd,
+  zIndex: t30.zIndexDropdown,
+  marginTop: t30.spaceXs,
+  background: t30.colorSurfacePanel,
+  border: `${t30.borderWidthDefault} solid ${t30.colorBorder}`,
+  borderRadius: t30.radiusLg,
+  boxShadow: t30.shadowMd,
+  padding: t30.spaceMd,
   minWidth: 290,
   boxSizing: "border-box"
 };
 var placeholderStyle3 = {
-  color: t29.colorTextPlaceholder
+  color: t30.colorTextPlaceholder
 };
 var headerRowStyle2 = {
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: `${t29.spaceXs} 0`,
-  marginBottom: t29.spaceSm
+  padding: `${t30.spaceXs} 0`,
+  marginBottom: t30.spaceSm
 };
-var DatePicker = forwardRef24(
+var DatePicker = forwardRef25(
   function DatePicker2({
     value,
     onChange,
@@ -3809,7 +3879,7 @@ var DatePicker = forwardRef24(
 
 // src/components/ErrorBoundary/ErrorBoundary.tsx
 import React from "react";
-import { semantic as t30 } from "../../core/dist/index.js";
+import { semantic as t31 } from "../../core/dist/index.js";
 import { jsx as jsx33, jsxs as jsxs17 } from "react/jsx-runtime";
 var ErrorBoundary = class extends React.Component {
   constructor(props) {
@@ -3834,20 +3904,20 @@ var ErrorBoundary = class extends React.Component {
     if (fallback) {
       return fallback({ error, resetErrorBoundary: this.resetErrorBoundary });
     }
-    return /* @__PURE__ */ jsx33("div", { style: { borderColor: t30.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: t30.radiusLg }, children: /* @__PURE__ */ jsx33(
+    return /* @__PURE__ */ jsx33("div", { style: { borderColor: t31.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: t31.radiusLg }, children: /* @__PURE__ */ jsx33(
       Card,
       {
         variant: "flat",
         padding: "lg",
-        children: /* @__PURE__ */ jsxs17("div", { style: { display: "flex", flexDirection: "column", gap: t30.spaceMd }, children: [
-          /* @__PURE__ */ jsx33("div", { style: { display: "flex", alignItems: "center", gap: t30.spaceSm }, children: /* @__PURE__ */ jsx33(
+        children: /* @__PURE__ */ jsxs17("div", { style: { display: "flex", flexDirection: "column", gap: t31.spaceMd }, children: [
+          /* @__PURE__ */ jsx33("div", { style: { display: "flex", alignItems: "center", gap: t31.spaceSm }, children: /* @__PURE__ */ jsx33(
             "span",
             {
               style: {
-                fontSize: t30.fontSizeLg,
-                color: t30.colorError,
-                fontWeight: t30.fontWeightSemibold,
-                fontFamily: t30.fontSans
+                fontSize: t31.fontSizeLg,
+                color: t31.colorError,
+                fontWeight: t31.fontWeightSemibold,
+                fontFamily: t31.fontSans
               },
               children: "Something went wrong"
             }
@@ -3857,13 +3927,13 @@ var ErrorBoundary = class extends React.Component {
             {
               style: {
                 margin: 0,
-                fontFamily: t30.fontMono,
-                fontSize: t30.fontSizeSm,
-                lineHeight: t30.lineHeightBase,
-                color: t30.colorText,
-                background: t30.colorSurfaceRaised,
-                padding: t30.spaceSm,
-                borderRadius: t30.radiusMd,
+                fontFamily: t31.fontMono,
+                fontSize: t31.fontSizeSm,
+                lineHeight: t31.lineHeightBase,
+                color: t31.colorText,
+                background: t31.colorSurfaceRaised,
+                padding: t31.spaceSm,
+                borderRadius: t31.radiusMd,
                 wordBreak: "break-word"
               },
               children: error.message
@@ -3879,9 +3949,9 @@ var ErrorBoundary = class extends React.Component {
                   background: "none",
                   border: "none",
                   padding: 0,
-                  fontFamily: t30.fontSans,
-                  fontSize: t30.fontSizeSm,
-                  color: t30.colorTextMuted,
+                  fontFamily: t31.fontSans,
+                  fontSize: t31.fontSizeSm,
+                  color: t31.colorTextMuted,
                   cursor: "pointer",
                   textDecoration: "underline"
                 },
@@ -3892,14 +3962,14 @@ var ErrorBoundary = class extends React.Component {
               "pre",
               {
                 style: {
-                  marginTop: t30.spaceSm,
-                  fontFamily: t30.fontMono,
-                  fontSize: t30.fontSizeXs,
-                  lineHeight: t30.lineHeightBase,
-                  color: t30.colorTextSecondary,
-                  background: t30.colorSurfaceRaised,
-                  padding: t30.spaceSm,
-                  borderRadius: t30.radiusMd,
+                  marginTop: t31.spaceSm,
+                  fontFamily: t31.fontMono,
+                  fontSize: t31.fontSizeXs,
+                  lineHeight: t31.lineHeightBase,
+                  color: t31.colorTextSecondary,
+                  background: t31.colorSurfaceRaised,
+                  padding: t31.spaceSm,
+                  borderRadius: t31.radiusMd,
                   overflow: "auto",
                   maxHeight: "200px",
                   whiteSpace: "pre-wrap",
@@ -3926,7 +3996,7 @@ import {
   useState as useState7
 } from "react";
 import { createPortal as createPortal2 } from "react-dom";
-import { semantic as t31, useInjectStyles as useInjectStyles13 } from "../../core/dist/index.js";
+import { semantic as t32, useInjectStyles as useInjectStyles13 } from "../../core/dist/index.js";
 import { jsx as jsx34, jsxs as jsxs18 } from "react/jsx-runtime";
 var ToastContext = createContext5(null);
 function useToast() {
@@ -3983,10 +4053,10 @@ var toastCSS = `
 }
 `;
 var typeColors = {
-  success: { bg: t31.colorSuccessBg, fg: t31.colorSuccess, border: t31.colorSuccess },
-  error: { bg: t31.colorErrorBg, fg: t31.colorError, border: t31.colorError },
-  info: { bg: t31.colorInfoBg, fg: t31.colorInfo, border: t31.colorInfo },
-  warning: { bg: t31.colorWarningBg, fg: t31.colorWarning, border: t31.colorWarning }
+  success: { bg: t32.colorSuccessBg, fg: t32.colorSuccess, border: t32.colorSuccess },
+  error: { bg: t32.colorErrorBg, fg: t32.colorError, border: t32.colorError },
+  info: { bg: t32.colorInfoBg, fg: t32.colorInfo, border: t32.colorInfo },
+  warning: { bg: t32.colorWarningBg, fg: t32.colorWarning, border: t32.colorWarning }
 };
 function ToastMessage({
   item,
@@ -4044,19 +4114,19 @@ function ToastMessage({
         position: "relative",
         display: "flex",
         alignItems: "center",
-        gap: t31.spaceSm,
-        padding: `${t31.spaceSm} ${t31.spaceMd}`,
-        paddingBottom: autoDismiss ? `calc(${t31.spaceSm} + 2px)` : t31.spaceSm,
-        backgroundColor: t31.colorSurfaceSolid,
+        gap: t32.spaceSm,
+        padding: `${t32.spaceSm} ${t32.spaceMd}`,
+        paddingBottom: autoDismiss ? `calc(${t32.spaceSm} + 2px)` : t32.spaceSm,
+        backgroundColor: t32.colorSurfaceSolid,
         backgroundImage: `linear-gradient(${colors.bg}, ${colors.bg})`,
         color: colors.fg,
-        borderRadius: t31.radiusMd,
-        borderLeft: `${t31.borderWidthAccent} solid ${colors.border}`,
-        boxShadow: t31.shadowMd,
-        fontSize: t31.fontSizeSm,
-        fontFamily: t31.fontSans,
-        fontWeight: t31.fontWeightMedium,
-        lineHeight: t31.lineHeightBase,
+        borderRadius: t32.radiusMd,
+        borderLeft: `${t32.borderWidthAccent} solid ${colors.border}`,
+        boxShadow: t32.shadowMd,
+        fontSize: t32.fontSizeSm,
+        fontFamily: t32.fontSans,
+        fontWeight: t32.fontWeightMedium,
+        lineHeight: t32.lineHeightBase,
         pointerEvents: "auto",
         animation: exiting ? "toast-fade-out 200ms ease forwards" : "toast-slide-in 250ms ease",
         maxWidth: "24rem",
@@ -4084,10 +4154,10 @@ function ToastMessage({
               justifyContent: "center",
               width: "1.25rem",
               height: "1.25rem",
-              borderRadius: t31.radiusSm,
+              borderRadius: t32.radiusSm,
               color: colors.fg,
               opacity: 0.7,
-              fontSize: t31.fontSizeSm,
+              fontSize: t32.fontSizeSm,
               lineHeight: 1
             },
             children: "\xD7"
@@ -4118,13 +4188,13 @@ function ToastContainer({
   if (toasts.length === 0) return null;
   const positionStyles = {
     position: "fixed",
-    zIndex: t31.zIndexToast,
+    zIndex: t32.zIndexToast,
     display: "flex",
     flexDirection: "column",
-    gap: t31.spaceSm,
+    gap: t32.spaceSm,
     pointerEvents: "none",
-    ...position.startsWith("top") ? { top: t31.spaceLg } : { bottom: t31.spaceLg },
-    ...position.endsWith("right") ? { right: t31.spaceLg } : { left: t31.spaceLg }
+    ...position.startsWith("top") ? { top: t32.spaceLg } : { bottom: t32.spaceLg },
+    ...position.endsWith("right") ? { right: t32.spaceLg } : { left: t32.spaceLg }
   };
   return createPortal2(
     /* @__PURE__ */ jsx34("div", { "aria-live": "polite", style: positionStyles, children: toasts.map((item) => /* @__PURE__ */ jsx34(ToastMessage, { item, onDismiss }, item.id)) }),
@@ -4138,7 +4208,7 @@ function ToastProvider({
 }) {
   const [toasts, setToasts] = useState7([]);
   const dismiss = useCallback7((id) => {
-    setToasts((prev) => prev.filter((t40) => t40.id !== id));
+    setToasts((prev) => prev.filter((t41) => t41.id !== id));
   }, []);
   const showToast = useCallback7(
     (message, typeOrOptions) => {
@@ -4170,7 +4240,7 @@ import {
   useRef as useRef9,
   useState as useState8
 } from "react";
-import { semantic as t32, useInjectStyles as useInjectStyles14 } from "../../core/dist/index.js";
+import { semantic as t33, useInjectStyles as useInjectStyles14 } from "../../core/dist/index.js";
 import { jsx as jsx35 } from "react/jsx-runtime";
 var COMBOBOX_STYLES_ID = "alttab-combobox";
 var comboboxCSS = (
@@ -4514,13 +4584,13 @@ function List({ children }) {
     top: "100%",
     left: 0,
     right: 0,
-    marginTop: t32.spaceXs
+    marginTop: t33.spaceXs
   } : {
     position: "absolute",
     bottom: "100%",
     left: 0,
     right: 0,
-    marginBottom: t32.spaceXs
+    marginBottom: t33.spaceXs
   };
   return /* @__PURE__ */ jsx35(
     "div",
@@ -4531,12 +4601,12 @@ function List({ children }) {
       hidden: !open,
       style: open ? {
         ...positionStyle,
-        background: t32.colorSurfacePanel,
-        border: `${t32.borderWidthDefault} solid ${t32.colorBorder}`,
-        borderRadius: t32.radiusMd,
-        padding: t32.spaceXs,
-        zIndex: t32.zIndexSticky,
-        boxShadow: t32.shadowMd,
+        background: t33.colorSurfacePanel,
+        border: `${t33.borderWidthDefault} solid ${t33.colorBorder}`,
+        borderRadius: t33.radiusMd,
+        padding: t33.spaceXs,
+        zIndex: t33.zIndexSticky,
+        boxShadow: t33.shadowMd,
         maxHeight: "16rem",
         overflowY: "auto",
         boxSizing: "border-box"
@@ -4592,10 +4662,10 @@ function Empty({ children }) {
     {
       role: "presentation",
       style: {
-        padding: `${t32.spaceXs} ${t32.spaceSm}`,
-        fontSize: t32.fontSizeSm,
-        color: t32.colorTextMuted,
-        fontFamily: t32.fontSans
+        padding: `${t33.spaceXs} ${t33.spaceSm}`,
+        fontSize: t33.fontSizeSm,
+        color: t33.colorTextMuted,
+        fontFamily: t33.fontSans
       },
       children
     }
@@ -4609,24 +4679,24 @@ var wrapperStyle4 = {
 var inputBaseStyle = {
   display: "block",
   width: "100%",
-  padding: `${t32.spaceSm} ${t32.spaceMd}`,
-  fontSize: t32.fontSizeSm,
-  lineHeight: t32.lineHeightTight,
-  fontFamily: t32.fontSans,
-  color: t32.colorText,
-  background: t32.colorSurfaceInput,
-  border: `${t32.borderWidthDefault} solid ${t32.colorBorder}`,
-  borderRadius: t32.radiusMd,
+  padding: `${t33.spaceSm} ${t33.spaceMd}`,
+  fontSize: t33.fontSizeSm,
+  lineHeight: t33.lineHeightTight,
+  fontFamily: t33.fontSans,
+  color: t33.colorText,
+  background: t33.colorSurfaceInput,
+  border: `${t33.borderWidthDefault} solid ${t33.colorBorder}`,
+  borderRadius: t33.radiusMd,
   outline: "none",
-  transition: `border-color ${t32.transitionBase}, box-shadow ${t32.transitionBase}`,
+  transition: `border-color ${t33.transitionBase}, box-shadow ${t33.transitionBase}`,
   boxSizing: "border-box"
 };
 var errorBorderStyle4 = {
-  borderColor: t32.colorBorderError
+  borderColor: t33.colorBorderError
 };
 var disabledStyle4 = {
-  background: t32.colorSurfaceDisabled,
-  color: t32.colorTextDisabled,
+  background: t33.colorSurfaceDisabled,
+  color: t33.colorTextDisabled,
   cursor: "not-allowed"
 };
 var Combobox = {
@@ -4639,7 +4709,7 @@ var Combobox = {
 
 // src/components/ChipPicker/ChipPicker.tsx
 import { useCallback as useCallback9, useId as useId8, useState as useState9 } from "react";
-import { semantic as t33, useInjectStyles as useInjectStyles15 } from "../../core/dist/index.js";
+import { semantic as t34, useInjectStyles as useInjectStyles15 } from "../../core/dist/index.js";
 import { jsx as jsx36, jsxs as jsxs19 } from "react/jsx-runtime";
 function ChipPicker({
   items,
@@ -4665,14 +4735,14 @@ function ChipPicker({
   useInjectStyles15(
     styleId,
     `[data-chip-picker-id="${styleId}"] button:hover {
-      background: ${t33.colorSurfaceRaised} !important;
+      background: ${t34.colorSurfaceRaised} !important;
     }
     [data-chip-picker-id="${styleId}"] button[aria-pressed="true"]:hover {
-      background: ${t33.colorActionSecondaryHover} !important;
+      background: ${t34.colorActionSecondaryHover} !important;
     }
     [data-chip-picker-id="${styleId}"] button:focus-visible {
-      outline: ${t33.focusRingWidth} solid ${t33.focusRingColor};
-      outline-offset: ${t33.focusRingOffset};
+      outline: ${t34.focusRingWidth} solid ${t34.focusRingColor};
+      outline-offset: ${t34.focusRingOffset};
     }`
   );
   const toggle = (value) => {
@@ -4702,17 +4772,17 @@ function ChipPicker({
   const chipStyle = (isSelected) => ({
     display: "inline-flex",
     alignItems: "center",
-    padding: `${t33.spaceXs} ${t33.spaceSm}`,
-    fontSize: t33.fontSizeSm,
-    fontFamily: t33.fontSans,
-    fontWeight: t33.fontWeightMedium,
-    lineHeight: t33.lineHeightTight,
-    color: isSelected ? t33.colorActionPrimary : t33.colorText,
-    background: isSelected ? t33.colorActionSecondary : "transparent",
-    border: `${t33.borderWidthDefault} solid ${isSelected ? t33.colorActionPrimary : t33.colorBorder}`,
-    borderRadius: t33.radiusFull,
+    padding: `${t34.spaceXs} ${t34.spaceSm}`,
+    fontSize: t34.fontSizeSm,
+    fontFamily: t34.fontSans,
+    fontWeight: t34.fontWeightMedium,
+    lineHeight: t34.lineHeightTight,
+    color: isSelected ? t34.colorActionPrimary : t34.colorText,
+    background: isSelected ? t34.colorActionSecondary : "transparent",
+    border: `${t34.borderWidthDefault} solid ${isSelected ? t34.colorActionPrimary : t34.colorBorder}`,
+    borderRadius: t34.radiusFull,
     cursor: "pointer",
-    transition: `background ${t33.transitionFast}, border-color ${t33.transitionFast}, color ${t33.transitionFast}`,
+    transition: `background ${t34.transitionFast}, border-color ${t34.transitionFast}, color ${t34.transitionFast}`,
     outline: "none"
   });
   const renderChips = (chips) => /* @__PURE__ */ jsx36(
@@ -4721,7 +4791,7 @@ function ChipPicker({
       style: {
         display: "flex",
         flexWrap: "wrap",
-        gap: t33.spaceSm
+        gap: t34.spaceSm
       },
       children: chips.map((item) => {
         const isSelected = selected.includes(item.value);
@@ -4748,10 +4818,10 @@ function ChipPicker({
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: t33.spaceMd
+        gap: t34.spaceMd
       },
-      children: groups.map((group, i) => /* @__PURE__ */ jsxs19("div", { style: { display: "flex", flexDirection: "column", gap: t33.spaceSm }, children: [
-        group.label !== null && /* @__PURE__ */ jsx36("div", { style: i > 0 ? { marginTop: t33.spaceXs } : void 0, children: /* @__PURE__ */ jsx36("div", { style: sectionLabelStyle, children: group.label }) }),
+      children: groups.map((group, i) => /* @__PURE__ */ jsxs19("div", { style: { display: "flex", flexDirection: "column", gap: t34.spaceSm }, children: [
+        group.label !== null && /* @__PURE__ */ jsx36("div", { style: i > 0 ? { marginTop: t34.spaceXs } : void 0, children: /* @__PURE__ */ jsx36("div", { style: sectionLabelStyle, children: group.label }) }),
         renderChips(group.chips)
       ] }, group.label ?? "__ungrouped"))
     }
@@ -4759,14 +4829,14 @@ function ChipPicker({
 }
 
 // src/components/SearchInput/SearchInput.tsx
-import { forwardRef as forwardRef25, useState as useState10, useEffect as useEffect11, useRef as useRef10, useCallback as useCallback10 } from "react";
-import { semantic as t34, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef26, useState as useState10, useEffect as useEffect11, useRef as useRef10, useCallback as useCallback10 } from "react";
+import { semantic as t35, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
 import { jsx as jsx37, jsxs as jsxs20 } from "react/jsx-runtime";
 var STYLE_ID2 = "4lt7ab-search-input";
 var hoverFocusCSS = `
   .search-input-wrapper:focus-within {
-    border-color: ${t34.colorBorderFocused};
-    box-shadow: 0 0 0 ${t34.focusRingWidth} ${t34.focusRingColor};
+    border-color: ${t35.colorBorderFocused};
+    box-shadow: 0 0 0 ${t35.focusRingWidth} ${t35.focusRingColor};
   }
   @media (prefers-reduced-motion: reduce) {
     .search-input-wrapper {
@@ -4777,17 +4847,17 @@ var hoverFocusCSS = `
 var wrapperStyle5 = {
   display: "flex",
   alignItems: "center",
-  gap: t34.spaceXs,
+  gap: t35.spaceXs,
   width: "100%",
-  padding: `${t34.spaceSm} ${t34.spaceMd}`,
-  fontSize: t34.fontSizeSm,
-  lineHeight: t34.lineHeightTight,
-  fontFamily: t34.fontSans,
-  color: t34.colorText,
-  background: t34.colorSurfaceInput,
-  border: `${t34.borderWidthDefault} solid ${t34.colorBorder}`,
-  borderRadius: t34.radiusMd,
-  transition: `border-color ${t34.transitionBase}, box-shadow ${t34.transitionBase}`,
+  padding: `${t35.spaceSm} ${t35.spaceMd}`,
+  fontSize: t35.fontSizeSm,
+  lineHeight: t35.lineHeightTight,
+  fontFamily: t35.fontSans,
+  color: t35.colorText,
+  background: t35.colorSurfaceInput,
+  border: `${t35.borderWidthDefault} solid ${t35.colorBorder}`,
+  borderRadius: t35.radiusMd,
+  transition: `border-color ${t35.transitionBase}, box-shadow ${t35.transitionBase}`,
   boxSizing: "border-box"
 };
 var inputStyle = {
@@ -4803,11 +4873,11 @@ var inputStyle = {
   padding: 0
 };
 var disabledWrapperStyle = {
-  background: t34.colorSurfaceDisabled,
-  color: t34.colorTextDisabled,
+  background: t35.colorSurfaceDisabled,
+  color: t35.colorTextDisabled,
   cursor: "not-allowed"
 };
-var SearchInput = forwardRef25(
+var SearchInput = forwardRef26(
   function SearchInput2({
     value,
     onSearch,
@@ -4855,7 +4925,7 @@ var SearchInput = forwardRef25(
           ...disabled ? disabledWrapperStyle : {}
         },
         children: [
-          /* @__PURE__ */ jsx37("span", { style: { color: t34.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ jsx37(Icon, { name: "search", size: "sm" }) }),
+          /* @__PURE__ */ jsx37("span", { style: { color: t35.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ jsx37(Icon, { name: "search", size: "sm" }) }),
           /* @__PURE__ */ jsx37(
             "input",
             {
@@ -4884,7 +4954,7 @@ var SearchInput = forwardRef25(
 
 // src/components/SegmentedControl/SegmentedControl.tsx
 import { useCallback as useCallback12, useLayoutEffect, useRef as useRef12, useState as useState11 } from "react";
-import { semantic as t35, useInjectStyles as useInjectStyles17 } from "../../core/dist/index.js";
+import { semantic as t36, useInjectStyles as useInjectStyles17 } from "../../core/dist/index.js";
 
 // src/utils/useRovingFocus.ts
 import { useCallback as useCallback11, useRef as useRef11 } from "react";
@@ -4939,12 +5009,12 @@ import { jsx as jsx38, jsxs as jsxs21 } from "react/jsx-runtime";
 var STYLE_ID3 = "4lt7ab-segmented-control";
 var hoverCSS = `
   .segmented-ctrl-btn:hover:not([aria-pressed="true"]) {
-    color: ${t35.colorText};
+    color: ${t36.colorText};
   }
   .segmented-ctrl-btn:focus-visible {
-    outline: ${t35.focusRingWidth} solid ${t35.focusRingColor};
-    outline-offset: ${t35.focusRingOffset};
-    border-radius: ${t35.radiusFull};
+    outline: ${t36.focusRingWidth} solid ${t36.focusRingColor};
+    outline-offset: ${t36.focusRingOffset};
+    border-radius: ${t36.radiusFull};
     z-index: 2;
   }
   @media (prefers-reduced-motion: reduce) {
@@ -5020,9 +5090,9 @@ function SegmentedControl({
         display: "inline-flex",
         alignItems: "center",
         height: s.height,
-        background: t35.colorSurfaceInput,
-        borderRadius: t35.radiusFull,
-        border: `${t35.borderWidthDefault} solid ${t35.colorBorder}`,
+        background: t36.colorSurfaceInput,
+        borderRadius: t36.radiusFull,
+        border: `${t36.borderWidthDefault} solid ${t36.colorBorder}`,
         padding: 2,
         boxSizing: "border-box"
       },
@@ -5037,9 +5107,9 @@ function SegmentedControl({
               left: indicator.left,
               width: indicator.width,
               height: s.height - 6,
-              borderRadius: t35.radiusFull,
-              background: t35.colorActionPrimary,
-              transition: `left ${t35.transitionSlow}, width ${t35.transitionSlow}`,
+              borderRadius: t36.radiusFull,
+              background: t36.colorActionPrimary,
+              transition: `left ${t36.transitionSlow}, width ${t36.transitionSlow}`,
               pointerEvents: "none"
             }
           }
@@ -5064,18 +5134,18 @@ function SegmentedControl({
                 display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "center",
-                gap: t35.spaceXs,
+                gap: t36.spaceXs,
                 height: s.height - 6,
                 padding: iconOnly ? `0 ${s.px - 2}px` : `0 ${s.px}px`,
                 border: "none",
-                borderRadius: t35.radiusFull,
+                borderRadius: t36.radiusFull,
                 background: "transparent",
-                color: isActive ? t35.colorTextInverse : t35.colorTextMuted,
+                color: isActive ? t36.colorTextInverse : t36.colorTextMuted,
                 fontSize: s.fontSize,
-                fontFamily: t35.fontSans,
-                fontWeight: isActive ? t35.fontWeightSemibold : t35.fontWeightNormal,
+                fontFamily: t36.fontSans,
+                fontWeight: isActive ? t36.fontWeightSemibold : t36.fontWeightNormal,
                 cursor: "pointer",
-                transition: `color ${t35.transitionBase}`,
+                transition: `color ${t36.transitionBase}`,
                 whiteSpace: "nowrap",
                 lineHeight: 1
               },
@@ -5093,8 +5163,8 @@ function SegmentedControl({
 }
 
 // src/components/AlertBanner/AlertBanner.tsx
-import { forwardRef as forwardRef26 } from "react";
-import { semantic as t36, useInjectStyles as useInjectStyles18 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef27 } from "react";
+import { semantic as t37, useInjectStyles as useInjectStyles18 } from "../../core/dist/index.js";
 import { jsx as jsx39, jsxs as jsxs22 } from "react/jsx-runtime";
 var STYLE_ID4 = "4lt7ab-alert-banner";
 var alertBannerCSS = `
@@ -5113,10 +5183,10 @@ var alertBannerCSS = `
 }
 `;
 var variantColors2 = {
-  info: { bg: t36.colorInfoBg, fg: t36.colorInfo, border: t36.colorInfo },
-  warning: { bg: t36.colorWarningBg, fg: t36.colorWarning, border: t36.colorWarning },
-  error: { bg: t36.colorErrorBg, fg: t36.colorError, border: t36.colorError },
-  success: { bg: t36.colorSuccessBg, fg: t36.colorSuccess, border: t36.colorSuccess }
+  info: { bg: t37.colorInfoBg, fg: t37.colorInfo, border: t37.colorInfo },
+  warning: { bg: t37.colorWarningBg, fg: t37.colorWarning, border: t37.colorWarning },
+  error: { bg: t37.colorErrorBg, fg: t37.colorError, border: t37.colorError },
+  success: { bg: t37.colorSuccessBg, fg: t37.colorSuccess, border: t37.colorSuccess }
 };
 var defaultIcons = {
   info: /* @__PURE__ */ jsx39(IconInfo, { size: 20 }),
@@ -5124,7 +5194,7 @@ var defaultIcons = {
   error: /* @__PURE__ */ jsx39(IconError, { size: 20 }),
   success: /* @__PURE__ */ jsx39(IconCheckCircle, { size: 20 })
 };
-var AlertBanner = forwardRef26(
+var AlertBanner = forwardRef27(
   function AlertBanner2({ variant, children, onDismiss, icon }, ref) {
     useInjectStyles18(STYLE_ID4, alertBannerCSS);
     const colors = variantColors2[variant];
@@ -5137,16 +5207,16 @@ var AlertBanner = forwardRef26(
         style: {
           display: "flex",
           alignItems: "center",
-          gap: t36.spaceSm,
+          gap: t37.spaceSm,
           width: "100%",
-          padding: `${t36.spaceSm} ${t36.spaceMd}`,
+          padding: `${t37.spaceSm} ${t37.spaceMd}`,
           background: colors.bg,
           color: colors.fg,
-          borderBottom: `${t36.borderWidthThick} solid ${colors.border}`,
-          fontFamily: t36.fontSans,
-          fontSize: t36.fontSizeSm,
-          fontWeight: t36.fontWeightMedium,
-          lineHeight: t36.lineHeightBase,
+          borderBottom: `${t37.borderWidthThick} solid ${colors.border}`,
+          fontFamily: t37.fontSans,
+          fontSize: t37.fontSizeSm,
+          fontWeight: t37.fontWeightMedium,
+          lineHeight: t37.lineHeightBase,
           boxSizing: "border-box",
           animation: "alert-banner-slide-in 250ms ease"
         },
@@ -5172,10 +5242,10 @@ var AlertBanner = forwardRef26(
                 justifyContent: "center",
                 width: "1.5rem",
                 height: "1.5rem",
-                borderRadius: t36.radiusSm,
+                borderRadius: t37.radiusSm,
                 color: colors.fg,
                 opacity: 0.7,
-                fontSize: t36.fontSizeLg,
+                fontSize: t37.fontSizeLg,
                 lineHeight: 1
               },
               children: "\xD7"
@@ -5188,8 +5258,8 @@ var AlertBanner = forwardRef26(
 );
 
 // src/components/TopBar/TopBar.tsx
-import { createContext as createContext7, forwardRef as forwardRef27, useContext as useContext7 } from "react";
-import { semantic as t37, useInjectStyles as useInjectStyles19, Slot as Slot5 } from "../../core/dist/index.js";
+import { createContext as createContext7, forwardRef as forwardRef28, useContext as useContext7 } from "react";
+import { semantic as t38, useInjectStyles as useInjectStyles19, Slot as Slot5 } from "../../core/dist/index.js";
 import { jsx as jsx40 } from "react/jsx-runtime";
 var TopBarContext = createContext7(null);
 function useTopBarContext(component) {
@@ -5213,22 +5283,22 @@ var TOPBAR_CSS = `
     right: 0;
     height: 2px;
     background: transparent;
-    transition: background ${t37.transitionBase};
+    transition: background ${t38.transitionBase};
   }
   [data-topbar-link]:hover::after {
-    background: ${t37.colorBorder};
+    background: ${t38.colorBorder};
   }
   [data-topbar-link][data-active]::after {
-    background: ${t37.colorActionPrimary};
+    background: ${t38.colorActionPrimary};
   }
   [data-topbar-link]:hover {
-    color: ${t37.colorText};
+    color: ${t38.colorText};
   }
 `;
-var TopBarRoot = forwardRef27(
+var TopBarRoot = forwardRef28(
   function TopBarRoot2({ children, sticky = false, ...rest }, ref) {
     useInjectStyles19(TOPBAR_STYLES_ID, TOPBAR_CSS);
-    const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: t37.zIndexSticky } : {};
+    const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: t38.zIndexSticky } : {};
     return /* @__PURE__ */ jsx40(TopBarContext.Provider, { value: true, children: /* @__PURE__ */ jsx40(
       "header",
       {
@@ -5239,11 +5309,11 @@ var TopBarRoot = forwardRef27(
         style: {
           display: "flex",
           alignItems: "center",
-          height: t37.space2xl,
-          padding: `0 ${t37.spaceMd}`,
-          background: t37.colorSurface,
-          borderBottom: `${t37.borderWidthDefault} solid ${t37.colorBorder}`,
-          fontFamily: t37.fontSans,
+          height: t38.space2xl,
+          padding: `0 ${t38.spaceMd}`,
+          background: t38.colorSurface,
+          borderBottom: `${t38.borderWidthDefault} solid ${t38.colorBorder}`,
+          fontFamily: t38.fontSans,
           ...stickyStyle
         },
         children
@@ -5259,10 +5329,10 @@ function TopBarLeading({ children }) {
       style: {
         display: "flex",
         alignItems: "center",
-        fontWeight: t37.fontWeightBold,
-        fontSize: t37.fontSizeSm,
-        color: t37.colorText,
-        marginRight: t37.spaceLg,
+        fontWeight: t38.fontWeightBold,
+        fontSize: t38.fontSizeSm,
+        color: t38.colorText,
+        marginRight: t38.spaceLg,
         whiteSpace: "nowrap",
         flexShrink: 0
       },
@@ -5279,7 +5349,7 @@ function TopBarNav({ children, "aria-label": ariaLabel = "Primary" }) {
       style: {
         display: "flex",
         alignItems: "center",
-        gap: t37.spaceXs,
+        gap: t38.spaceXs,
         height: "100%",
         flex: 1,
         minWidth: 0
@@ -5288,24 +5358,24 @@ function TopBarNav({ children, "aria-label": ariaLabel = "Primary" }) {
     }
   );
 }
-var TopBarLink = forwardRef27(function TopBarLink2({ active = false, asChild = false, onClick, children }, ref) {
+var TopBarLink = forwardRef28(function TopBarLink2({ active = false, asChild = false, onClick, children }, ref) {
   useTopBarContext("Link");
   const style = {
     display: "inline-flex",
     alignItems: "center",
-    gap: t37.spaceXs,
+    gap: t38.spaceXs,
     height: "100%",
-    padding: `0 ${t37.spaceSm}`,
+    padding: `0 ${t38.spaceSm}`,
     border: "none",
     background: "transparent",
-    color: active ? t37.colorActionPrimary : t37.colorTextMuted,
-    fontSize: t37.fontSizeSm,
-    fontFamily: t37.fontSans,
-    fontWeight: active ? t37.fontWeightSemibold : t37.fontWeightNormal,
+    color: active ? t38.colorActionPrimary : t38.colorTextMuted,
+    fontSize: t38.fontSizeSm,
+    fontFamily: t38.fontSans,
+    fontWeight: active ? t38.fontWeightSemibold : t38.fontWeightNormal,
     cursor: "pointer",
     whiteSpace: "nowrap",
     textDecoration: "none",
-    transition: `color ${t37.transitionBase}`,
+    transition: `color ${t38.transitionBase}`,
     boxSizing: "border-box"
   };
   const commonProps = {
@@ -5328,7 +5398,7 @@ function TopBarTrailing({ children }) {
       style: {
         display: "flex",
         alignItems: "center",
-        gap: t37.spaceSm,
+        gap: t38.spaceSm,
         marginLeft: "auto",
         flexShrink: 0
       },
@@ -5345,9 +5415,9 @@ var TopBar = {
 };
 
 // src/components/Grid/Grid.tsx
-import { forwardRef as forwardRef28 } from "react";
+import { forwardRef as forwardRef29 } from "react";
 import { jsx as jsx41 } from "react/jsx-runtime";
-var Grid = forwardRef28(
+var Grid = forwardRef29(
   function Grid2({
     minColumnWidth = 300,
     columns,
@@ -5375,10 +5445,10 @@ var Grid = forwardRef28(
 );
 
 // src/components/Divider/Divider.tsx
-import { forwardRef as forwardRef29 } from "react";
-import { semantic as t38 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef30 } from "react";
+import { semantic as t39 } from "../../core/dist/index.js";
 import { jsx as jsx42 } from "react/jsx-runtime";
-var Divider = forwardRef29(
+var Divider = forwardRef30(
   function Divider2({
     orientation = "horizontal",
     opacity = "default",
@@ -5386,7 +5456,7 @@ var Divider = forwardRef29(
     ...rest
   }, ref) {
     const resolvedOpacity = dividerOpacityMap[opacity];
-    const bg = `color-mix(in srgb, ${t38.colorBorder} ${resolvedOpacity}%, transparent)`;
+    const bg = `color-mix(in srgb, ${t39.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
     const isHorizontal = orientation === "horizontal";
     return /* @__PURE__ */ jsx42(
@@ -5410,7 +5480,7 @@ var Divider = forwardRef29(
 );
 
 // src/components/Container/Container.tsx
-import { forwardRef as forwardRef30 } from "react";
+import { forwardRef as forwardRef31 } from "react";
 import { jsx as jsx43 } from "react/jsx-runtime";
 var widthMap = {
   narrow: "32rem",
@@ -5424,7 +5494,7 @@ var paddingMap = {
   md: "1.5rem",
   lg: "3rem"
 };
-var Container = forwardRef30(
+var Container = forwardRef31(
   function Container2({
     width = "prose",
     padding = "md",
@@ -5453,20 +5523,20 @@ var Container = forwardRef30(
 );
 
 // src/components/TabStrip/TabStrip.tsx
-import { forwardRef as forwardRef31, useCallback as useCallback13 } from "react";
-import { semantic as t39, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
+import { forwardRef as forwardRef32, useCallback as useCallback13 } from "react";
+import { semantic as t40, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
 import { jsx as jsx44, jsxs as jsxs23 } from "react/jsx-runtime";
 var STYLES_ID2 = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
-  transition: color ${t39.transitionFast}, background ${t39.transitionFast}, border-color ${t39.transitionFast};
+  transition: color ${t40.transitionFast}, background ${t40.transitionFast}, border-color ${t40.transitionFast};
 }
 [data-tab-btn]:hover:not([aria-selected="true"]) {
-  color: ${t39.colorTextSecondary};
-  background: color-mix(in srgb, ${t39.colorBorder} 10%, transparent);
+  color: ${t40.colorTextSecondary};
+  background: color-mix(in srgb, ${t40.colorBorder} 10%, transparent);
 }
 `;
-var TabStrip = forwardRef31(
+var TabStrip = forwardRef32(
   function TabStrip2({
     tabs,
     activeKey,
@@ -5518,17 +5588,17 @@ var TabStrip = forwardRef31(
               style: {
                 display: "flex",
                 alignItems: "center",
-                gap: t39.spaceXs,
-                padding: isSm ? `${t39.spaceXs} ${t39.spaceSm}` : `${t39.spaceSm} ${t39.spaceMd}`,
+                gap: t40.spaceXs,
+                padding: isSm ? `${t40.spaceXs} ${t40.spaceSm}` : `${t40.spaceSm} ${t40.spaceMd}`,
                 border: "none",
-                borderBottom: `2px solid ${isActive ? t39.colorActionPrimary : "transparent"}`,
+                borderBottom: `2px solid ${isActive ? t40.colorActionPrimary : "transparent"}`,
                 borderRadius: 0,
-                background: isActive ? `color-mix(in srgb, ${t39.colorActionPrimary} 8%, transparent)` : "transparent",
-                color: isActive ? t39.colorActionPrimary : t39.colorTextMuted,
-                fontFamily: t39.fontSans,
-                fontSize: isSm ? t39.fontSizeXs : t39.fontSizeSm,
-                fontWeight: t39.fontWeightSemibold,
-                lineHeight: t39.lineHeightTight,
+                background: isActive ? `color-mix(in srgb, ${t40.colorActionPrimary} 8%, transparent)` : "transparent",
+                color: isActive ? t40.colorActionPrimary : t40.colorTextMuted,
+                fontFamily: t40.fontSans,
+                fontSize: isSm ? t40.fontSizeXs : t40.fontSizeSm,
+                fontWeight: t40.fontWeightSemibold,
+                lineHeight: t40.lineHeightTight,
                 cursor: "pointer",
                 whiteSpace: "nowrap"
               },
@@ -5622,6 +5692,7 @@ export {
   TableHeader,
   TableHeaderCell,
   TableRow,
+  Text,
   Textarea,
   ThemePicker,
   ToastProvider,
