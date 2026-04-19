@@ -1,5 +1,6 @@
 import { forwardRef, useCallback } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
+import { Icon } from '../../atoms/Icon';
 import { useRovingFocus } from '../../../utils/useRovingFocus';
 import type { BaseComponentProps } from '../../../types';
 
@@ -154,15 +155,7 @@ export const TabStrip: React.ForwardRefExoticComponent<
                 whiteSpace: 'nowrap',
               }}
             >
-              {tab.icon && (
-                <span
-                  className="material-symbols-outlined"
-                  style={{ fontSize: isSm ? 12 : 14, lineHeight: 1 }}
-                  aria-hidden="true"
-                >
-                  {tab.icon}
-                </span>
-              )}
+              {tab.icon && <Icon name={tab.icon} size={isSm ? 'xs' : 'sm'} />}
               {tab.label}
             </button>
           );
