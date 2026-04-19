@@ -3071,8 +3071,8 @@ function isSameDay(a, b) {
 function isInRange(date, from, to) {
   const d = stripTime(date).getTime();
   const f = stripTime(from).getTime();
-  const t49 = stripTime(to).getTime();
-  return d >= f && d <= t49;
+  const t51 = stripTime(to).getTime();
+  return d >= f && d <= t51;
 }
 function formatDate(date) {
   const y = date.getFullYear();
@@ -4152,7 +4152,7 @@ function ToastProvider({
 }) {
   const [toasts, setToasts] = useState7([]);
   const dismiss = useCallback7((id) => {
-    setToasts((prev) => prev.filter((t49) => t49.id !== id));
+    setToasts((prev) => prev.filter((t51) => t51.id !== id));
   }, []);
   const showToast = useCallback7(
     (message, typeOrOptions) => {
@@ -4619,10 +4619,423 @@ var Combobox = {
   Empty
 };
 
-// src/components/molecules/ChipPicker/ChipPicker.tsx
-import { useCallback as useCallback9, useId as useId8, useState as useState9 } from "react";
-import { semantic as t37, useInjectStyles as useInjectStyles15 } from "../../core/dist/index.js";
+// src/components/organisms/CommandPalette/CommandPalette.tsx
+import {
+  Children as Children2,
+  createContext as createContext7,
+  isValidElement as isValidElement3,
+  useCallback as useCallback9,
+  useContext as useContext7,
+  useEffect as useEffect12,
+  useId as useId8,
+  useMemo as useMemo7,
+  useRef as useRef10,
+  useState as useState9
+} from "react";
+import { createPortal as createPortal3 } from "react-dom";
+import { semantic as t37, Slot as Slot5 } from "../../core/dist/index.js";
 import { jsx as jsx36, jsxs as jsxs19 } from "react/jsx-runtime";
+function isMac() {
+  if (typeof navigator === "undefined") return false;
+  return /Mac|iPod|iPhone|iPad/.test(navigator.userAgent ?? "");
+}
+function matchesShortcut(event, spec) {
+  if (event.key.toLowerCase() !== spec.key.toLowerCase()) return false;
+  if (spec.mod) {
+    const wantMod = isMac() ? event.metaKey : event.ctrlKey;
+    if (!wantMod) return false;
+  }
+  if (spec.ctrl !== void 0 && spec.ctrl !== event.ctrlKey) return false;
+  if (spec.meta !== void 0 && spec.meta !== event.metaKey) return false;
+  if (spec.shift !== void 0 && spec.shift !== event.shiftKey) return false;
+  if (spec.alt !== void 0 && spec.alt !== event.altKey) return false;
+  return true;
+}
+var DEFAULT_SHORTCUT = { key: "k", mod: true };
+var RootContext = createContext7(null);
+function useRootContext(part) {
+  const ctx = useContext7(RootContext);
+  if (!ctx) {
+    throw new Error(
+      `<CommandPalette.${part}> must be rendered inside <CommandPalette.Root>.`
+    );
+  }
+  return ctx;
+}
+var QueryContext = createContext7(null);
+function useQueryContext(part) {
+  const ctx = useContext7(QueryContext);
+  if (!ctx) {
+    throw new Error(
+      `<CommandPalette.${part}> must be rendered inside <CommandPalette.Content>.`
+    );
+  }
+  return ctx;
+}
+function Root4({
+  open: controlledOpen,
+  defaultOpen = false,
+  onOpenChange,
+  "aria-label": ariaLabel,
+  shortcut = DEFAULT_SHORTCUT,
+  disabled = false,
+  children
+}) {
+  const [internalOpen, setInternalOpen] = useState9(defaultOpen);
+  const isControlled = controlledOpen !== void 0;
+  const open = isControlled ? controlledOpen : internalOpen;
+  const titleId = useId8();
+  const setOpen = useCallback9(
+    (next) => {
+      if (!isControlled) setInternalOpen(next);
+      onOpenChange?.(next);
+    },
+    [isControlled, onOpenChange]
+  );
+  useEffect12(() => {
+    if (disabled || !shortcut) return;
+    const handler = (e) => {
+      if (matchesShortcut(e, shortcut)) {
+        e.preventDefault();
+        setOpen(!open);
+      }
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [disabled, shortcut, open, setOpen]);
+  const ctx = useMemo7(
+    () => ({ open, setOpen, ariaLabel, titleId }),
+    [open, setOpen, ariaLabel, titleId]
+  );
+  return /* @__PURE__ */ jsx36(RootContext.Provider, { value: ctx, children });
+}
+function Trigger2({
+  asChild = false,
+  children,
+  onClick
+}) {
+  const { open, setOpen, ariaLabel } = useRootContext("Trigger");
+  const handleClick = useCallback9(
+    (e) => {
+      onClick?.(e);
+      setOpen(!open);
+    },
+    [onClick, open, setOpen]
+  );
+  if (asChild) {
+    return /* @__PURE__ */ jsx36(
+      Slot5,
+      {
+        onClick: handleClick,
+        "aria-haspopup": "dialog",
+        "aria-expanded": open,
+        "aria-label": ariaLabel,
+        children
+      }
+    );
+  }
+  return /* @__PURE__ */ jsx36(
+    "button",
+    {
+      type: "button",
+      onClick: handleClick,
+      "aria-haspopup": "dialog",
+      "aria-expanded": open,
+      "aria-label": ariaLabel,
+      style: {
+        cursor: "pointer",
+        background: "transparent",
+        border: `${t37.borderWidthDefault} solid ${t37.colorBorder}`,
+        color: t37.colorText,
+        borderRadius: t37.radiusMd,
+        padding: `${t37.spaceXs} ${t37.spaceSm}`,
+        fontSize: t37.fontSizeSm,
+        fontFamily: t37.fontSans,
+        display: "inline-flex",
+        alignItems: "center",
+        gap: t37.spaceXs
+      },
+      children
+    }
+  );
+}
+function Content2({
+  placeholder = "Type a command or search\u2026",
+  emptyLabel = "No results.",
+  children
+}) {
+  const { open, setOpen, ariaLabel, titleId } = useRootContext("Content");
+  const [query, setQuery] = useState9("");
+  const panelRef = useRef10(null);
+  useEffect12(() => {
+    if (open) setQuery("");
+  }, [open]);
+  useEffect12(() => {
+    if (!open) return;
+    const handler = (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setOpen(false);
+      }
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [open, setOpen]);
+  const matches = useCallback9(
+    (value, keywords, text) => {
+      const q = query.trim().toLowerCase();
+      if (!q) return true;
+      if (value.toLowerCase().includes(q)) return true;
+      if (text.toLowerCase().includes(q)) return true;
+      for (const kw of keywords) {
+        if (kw.toLowerCase().includes(q)) return true;
+      }
+      return false;
+    },
+    [query]
+  );
+  const queryCtx = useMemo7(
+    () => ({ query, matches }),
+    [query, matches]
+  );
+  if (!open) return null;
+  const anyMatch = hasMatchingItem(children, query);
+  return createPortal3(
+    /* @__PURE__ */ jsxs19(QueryContext.Provider, { value: queryCtx, children: [
+      /* @__PURE__ */ jsx36(Overlay, { onClick: () => setOpen(false), zIndex: t37.zIndexModal }),
+      /* @__PURE__ */ jsx36(
+        "div",
+        {
+          style: {
+            position: "fixed",
+            inset: 0,
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "center",
+            padding: t37.spaceMd,
+            paddingTop: "10vh",
+            zIndex: `calc(${t37.zIndexModal} + 1)`,
+            pointerEvents: "none"
+          },
+          children: /* @__PURE__ */ jsxs19(
+            "div",
+            {
+              ref: panelRef,
+              role: "dialog",
+              "aria-modal": "true",
+              "aria-label": ariaLabel,
+              "aria-labelledby": void 0,
+              "data-testid": "command-palette-content",
+              style: {
+                background: t37.colorSurface,
+                color: t37.colorText,
+                borderRadius: t37.radiusLg,
+                boxShadow: t37.shadowLg,
+                border: `${t37.borderWidthDefault} solid ${t37.colorBorder}`,
+                width: "100%",
+                maxWidth: "36rem",
+                maxHeight: "70vh",
+                display: "flex",
+                flexDirection: "column",
+                overflow: "hidden",
+                pointerEvents: "auto",
+                outline: "none"
+              },
+              children: [
+                /* @__PURE__ */ jsx36("span", { id: titleId, style: { display: "none" }, children: ariaLabel }),
+                /* @__PURE__ */ jsxs19(Combobox.Root, { value: query, onValueChange: setQuery, children: [
+                  /* @__PURE__ */ jsx36(
+                    "div",
+                    {
+                      style: {
+                        borderBottom: `${t37.borderWidthDefault} solid ${t37.colorBorder}`,
+                        padding: t37.spaceSm
+                      },
+                      children: /* @__PURE__ */ jsx36(
+                        Combobox.Input,
+                        {
+                          placeholder,
+                          "aria-label": ariaLabel,
+                          autoFocus: true
+                        }
+                      )
+                    }
+                  ),
+                  /* @__PURE__ */ jsx36(
+                    "div",
+                    {
+                      style: {
+                        flex: 1,
+                        overflowY: "auto",
+                        padding: t37.spaceXs
+                      },
+                      children: /* @__PURE__ */ jsx36(Combobox.List, { children: anyMatch ? children : /* @__PURE__ */ jsx36(Combobox.Empty, { children: emptyLabel }) })
+                    }
+                  )
+                ] })
+              ]
+            }
+          )
+        }
+      )
+    ] }),
+    document.body
+  );
+}
+function Group({ label, children }) {
+  const { query } = useQueryContext("Group");
+  if (!hasMatchingItem(children, query)) return null;
+  return /* @__PURE__ */ jsxs19(
+    "div",
+    {
+      "data-command-palette-group": true,
+      "data-label": label,
+      style: {
+        padding: `${t37.spaceXs} 0`
+      },
+      children: [
+        /* @__PURE__ */ jsx36(
+          "div",
+          {
+            "aria-hidden": "true",
+            style: {
+              padding: `${t37.spaceXs} ${t37.spaceSm}`,
+              fontSize: t37.fontSizeXs,
+              fontWeight: t37.fontWeightSemibold,
+              color: t37.colorTextMuted,
+              textTransform: "uppercase",
+              letterSpacing: "0.04em",
+              fontFamily: t37.fontSans
+            },
+            children: label
+          }
+        ),
+        children
+      ]
+    }
+  );
+}
+function Item3({
+  value,
+  onSelect,
+  icon,
+  shortcut,
+  keywords = [],
+  children
+}) {
+  const { matches } = useQueryContext("Item");
+  const { setOpen } = useRootContext("Item");
+  const text = typeof children === "string" ? children : value;
+  if (!matches(value, keywords, text)) return null;
+  const handleSelect = () => {
+    setOpen(false);
+    onSelect();
+  };
+  const shortcutParts = Array.isArray(shortcut) ? shortcut : shortcut ? [shortcut] : [];
+  return /* @__PURE__ */ jsx36(Combobox.Item, { value, textValue: text, children: /* @__PURE__ */ jsxs19(
+    "span",
+    {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: t37.spaceSm,
+        width: "100%"
+      },
+      onClick: handleSelect,
+      children: [
+        icon && /* @__PURE__ */ jsx36(
+          "span",
+          {
+            "aria-hidden": "true",
+            style: {
+              display: "inline-flex",
+              color: t37.colorTextMuted
+            },
+            children: /* @__PURE__ */ jsx36(Icon, { name: icon, size: "sm" })
+          }
+        ),
+        /* @__PURE__ */ jsx36("span", { style: { flex: 1, minWidth: 0 }, children }),
+        shortcutParts.length > 0 && /* @__PURE__ */ jsx36(
+          "span",
+          {
+            "aria-hidden": "true",
+            style: {
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "2px",
+              marginLeft: "auto",
+              flexShrink: 0
+            },
+            children: shortcutParts.map((part, i) => /* @__PURE__ */ jsx36(
+              "kbd",
+              {
+                style: {
+                  display: "inline-flex",
+                  alignItems: "center",
+                  padding: `0 ${t37.spaceXs}`,
+                  minWidth: "1.5em",
+                  height: "1.5em",
+                  justifyContent: "center",
+                  background: t37.colorSurfaceRaised,
+                  color: t37.colorTextMuted,
+                  border: `${t37.borderWidthDefault} solid ${t37.colorBorder}`,
+                  borderRadius: t37.radiusSm,
+                  fontSize: t37.fontSizeXs,
+                  fontFamily: t37.fontMono,
+                  lineHeight: 1
+                },
+                children: part
+              },
+              `${value}-kbd-${i}`
+            ))
+          }
+        )
+      ]
+    }
+  ) });
+}
+function hasMatchingItem(children, query) {
+  const q = query.trim().toLowerCase();
+  let found = false;
+  const visit = (node) => {
+    if (found) return;
+    Children2.forEach(node, (child) => {
+      if (found) return;
+      if (!isValidElement3(child)) return;
+      const props = child.props;
+      const looksLikeItem = typeof props.value === "string" && typeof props.onSelect === "function";
+      if (looksLikeItem) {
+        const itemValue = props.value ?? "";
+        const keywords = props.keywords ?? [];
+        const text = typeof props.children === "string" ? props.children : itemValue;
+        if (!q) {
+          found = true;
+          return;
+        }
+        if (itemValue.toLowerCase().includes(q) || text.toLowerCase().includes(q) || keywords.some((k) => k.toLowerCase().includes(q))) {
+          found = true;
+          return;
+        }
+        return;
+      }
+      if (props.children !== void 0) visit(props.children);
+    });
+  };
+  visit(children);
+  return found;
+}
+var CommandPalette = {
+  Root: Root4,
+  Trigger: Trigger2,
+  Content: Content2,
+  Group,
+  Item: Item3
+};
+
+// src/components/molecules/ChipPicker/ChipPicker.tsx
+import { useCallback as useCallback10, useId as useId9, useState as useState10 } from "react";
+import { semantic as t38, useInjectStyles as useInjectStyles15 } from "../../core/dist/index.js";
+import { jsx as jsx37, jsxs as jsxs20 } from "react/jsx-runtime";
 function ChipPicker({
   items,
   selected: controlledSelected,
@@ -4630,14 +5043,14 @@ function ChipPicker({
   onChange,
   "aria-label": ariaLabel
 }) {
-  const uid = useId8();
+  const uid = useId9();
   const styleId = `chip-picker-${uid.replace(/:/g, "")}`;
   const isControlled = controlledSelected !== void 0;
-  const [internalSelected, setInternalSelected] = useState9(
+  const [internalSelected, setInternalSelected] = useState10(
     () => defaultSelected ?? []
   );
   const selected = isControlled ? controlledSelected : internalSelected;
-  const applySelection = useCallback9(
+  const applySelection = useCallback10(
     (next) => {
       if (!isControlled) setInternalSelected(next);
       onChange?.(next);
@@ -4647,14 +5060,14 @@ function ChipPicker({
   useInjectStyles15(
     styleId,
     `[data-chip-picker-id="${styleId}"] button:hover {
-      background: ${t37.colorSurfaceRaised} !important;
+      background: ${t38.colorSurfaceRaised} !important;
     }
     [data-chip-picker-id="${styleId}"] button[aria-pressed="true"]:hover {
-      background: ${t37.colorActionSecondaryHover} !important;
+      background: ${t38.colorActionSecondaryHover} !important;
     }
     [data-chip-picker-id="${styleId}"] button:focus-visible {
-      outline: ${t37.focusRingWidth} solid ${t37.focusRingColor};
-      outline-offset: ${t37.focusRingOffset};
+      outline: ${t38.focusRingWidth} solid ${t38.focusRingColor};
+      outline-offset: ${t38.focusRingOffset};
     }`
   );
   const toggle = (value) => {
@@ -4681,17 +5094,17 @@ function ChipPicker({
     const [ungrouped] = groups.splice(ungroupedIdx, 1);
     groups.unshift(ungrouped);
   }
-  const renderChips = (chips) => /* @__PURE__ */ jsx36(
+  const renderChips = (chips) => /* @__PURE__ */ jsx37(
     "div",
     {
       style: {
         display: "flex",
         flexWrap: "wrap",
-        gap: t37.spaceSm
+        gap: t38.spaceSm
       },
       children: chips.map((item) => {
         const isSelected = selected.includes(item.value);
-        return /* @__PURE__ */ jsx36(
+        return /* @__PURE__ */ jsx37(
           "button",
           {
             type: "button",
@@ -4708,7 +5121,7 @@ function ChipPicker({
       })
     }
   );
-  return /* @__PURE__ */ jsx36(
+  return /* @__PURE__ */ jsx37(
     "div",
     {
       "data-chip-picker-id": styleId,
@@ -4717,10 +5130,10 @@ function ChipPicker({
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: t37.spaceMd
+        gap: t38.spaceMd
       },
-      children: groups.map((group, i) => /* @__PURE__ */ jsxs19("div", { style: { display: "flex", flexDirection: "column", gap: t37.spaceSm }, children: [
-        group.label !== null && /* @__PURE__ */ jsx36("div", { style: i > 0 ? { marginTop: t37.spaceXs } : void 0, children: /* @__PURE__ */ jsx36("div", { style: sectionLabelStyle, children: group.label }) }),
+      children: groups.map((group, i) => /* @__PURE__ */ jsxs20("div", { style: { display: "flex", flexDirection: "column", gap: t38.spaceSm }, children: [
+        group.label !== null && /* @__PURE__ */ jsx37("div", { style: i > 0 ? { marginTop: t38.spaceXs } : void 0, children: /* @__PURE__ */ jsx37("div", { style: sectionLabelStyle, children: group.label }) }),
         renderChips(group.chips)
       ] }, group.label ?? "__ungrouped"))
     }
@@ -4728,9 +5141,9 @@ function ChipPicker({
 }
 
 // src/components/molecules/SearchInput/SearchInput.tsx
-import { forwardRef as forwardRef27, useState as useState10, useEffect as useEffect12, useRef as useRef10, useCallback as useCallback10 } from "react";
-import { semantic as t38, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
-import { jsx as jsx37, jsxs as jsxs20 } from "react/jsx-runtime";
+import { forwardRef as forwardRef27, useState as useState11, useEffect as useEffect13, useRef as useRef11, useCallback as useCallback11 } from "react";
+import { semantic as t39, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
+import { jsx as jsx38, jsxs as jsxs21 } from "react/jsx-runtime";
 var STYLE_ID2 = "4lt7ab-search-input";
 var WRAPPER_CLASS = "search-input-wrapper";
 var focusRingCSS = inputShellFocusRingCSS(`.${WRAPPER_CLASS}`);
@@ -4738,8 +5151,8 @@ var wrapperStyle5 = {
   ...inputShellBaseStyle,
   display: "flex",
   alignItems: "center",
-  gap: t38.spaceXs,
-  lineHeight: t38.lineHeightTight
+  gap: t39.spaceXs,
+  lineHeight: t39.lineHeightTight
 };
 var inputStyle = {
   flex: 1,
@@ -4771,14 +5184,14 @@ var SearchInput = forwardRef27(
     "data-testid": dataTestId
   }, ref) {
     useInjectStyles16(STYLE_ID2, focusRingCSS);
-    const [localValue, setLocalValue] = useState10(value);
-    const timerRef = useRef10(null);
-    const onSearchRef = useRef10(onSearch);
+    const [localValue, setLocalValue] = useState11(value);
+    const timerRef = useRef11(null);
+    const onSearchRef = useRef11(onSearch);
     onSearchRef.current = onSearch;
-    useEffect12(() => {
+    useEffect13(() => {
       setLocalValue(value);
     }, [value]);
-    const handleChange = useCallback10((e) => {
+    const handleChange = useCallback11((e) => {
       const next = e.target.value;
       setLocalValue(next);
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -4786,12 +5199,12 @@ var SearchInput = forwardRef27(
         onSearchRef.current(next);
       }, debounceMs);
     }, [debounceMs]);
-    useEffect12(() => {
+    useEffect13(() => {
       return () => {
         if (timerRef.current) clearTimeout(timerRef.current);
       };
     }, []);
-    return /* @__PURE__ */ jsxs20(
+    return /* @__PURE__ */ jsxs21(
       "div",
       {
         className: WRAPPER_CLASS,
@@ -4801,8 +5214,8 @@ var SearchInput = forwardRef27(
           ...disabled ? inputShellDisabledStyle : {}
         },
         children: [
-          /* @__PURE__ */ jsx37("span", { style: { color: t38.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ jsx37(Icon, { name: "search", size: "sm" }) }),
-          /* @__PURE__ */ jsx37(
+          /* @__PURE__ */ jsx38("span", { style: { color: t39.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ jsx38(Icon, { name: "search", size: "sm" }) }),
+          /* @__PURE__ */ jsx38(
             "input",
             {
               ref,
@@ -4821,7 +5234,7 @@ var SearchInput = forwardRef27(
               style: inputStyle
             }
           ),
-          trailing && /* @__PURE__ */ jsx37("div", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: trailing })
+          trailing && /* @__PURE__ */ jsx38("div", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: trailing })
         ]
       }
     );
@@ -4829,24 +5242,24 @@ var SearchInput = forwardRef27(
 );
 
 // src/components/molecules/SegmentedControl/SegmentedControl.tsx
-import { useCallback as useCallback12, useLayoutEffect, useRef as useRef12, useState as useState11 } from "react";
-import { semantic as t39, useInjectStyles as useInjectStyles17 } from "../../core/dist/index.js";
+import { useCallback as useCallback13, useLayoutEffect, useRef as useRef13, useState as useState12 } from "react";
+import { semantic as t40, useInjectStyles as useInjectStyles17 } from "../../core/dist/index.js";
 
 // src/utils/useRovingFocus.ts
-import { useCallback as useCallback11, useRef as useRef11 } from "react";
+import { useCallback as useCallback12, useRef as useRef12 } from "react";
 function useRovingFocus({
   count,
   activeIndex,
   orientation = "horizontal"
 }) {
-  const itemRefs = useRef11([]);
-  const itemRef = useCallback11(
+  const itemRefs = useRef12([]);
+  const itemRef = useCallback12(
     (index) => (el) => {
       itemRefs.current[index] = el;
     },
     []
   );
-  const onKeyDown = useCallback11(
+  const onKeyDown = useCallback12(
     (index) => (e) => {
       if (count === 0) return;
       let nextIndex = null;
@@ -4868,7 +5281,7 @@ function useRovingFocus({
     },
     [count, orientation]
   );
-  const getTabIndex = useCallback11(
+  const getTabIndex = useCallback12(
     (index) => {
       if (activeIndex == null) {
         return index === 0 ? 0 : -1;
@@ -4881,16 +5294,16 @@ function useRovingFocus({
 }
 
 // src/components/molecules/SegmentedControl/SegmentedControl.tsx
-import { jsx as jsx38, jsxs as jsxs21 } from "react/jsx-runtime";
+import { jsx as jsx39, jsxs as jsxs22 } from "react/jsx-runtime";
 var STYLE_ID3 = "4lt7ab-segmented-control";
 var hoverCSS = `
   .segmented-ctrl-btn:hover:not([aria-pressed="true"]) {
-    color: ${t39.colorText};
+    color: ${t40.colorText};
   }
   .segmented-ctrl-btn:focus-visible {
-    outline: ${t39.focusRingWidth} solid ${t39.focusRingColor};
-    outline-offset: ${t39.focusRingOffset};
-    border-radius: ${t39.radiusFull};
+    outline: ${t40.focusRingWidth} solid ${t40.focusRingColor};
+    outline-offset: ${t40.focusRingOffset};
+    border-radius: ${t40.radiusFull};
     z-index: 2;
   }
   @media (prefers-reduced-motion: reduce) {
@@ -4913,26 +5326,26 @@ function SegmentedControl({
 }) {
   useInjectStyles17(STYLE_ID3, hoverCSS);
   const isControlled = controlledValue !== void 0;
-  const [internalValue, setInternalValue] = useState11(
+  const [internalValue, setInternalValue] = useState12(
     () => defaultValue ?? segments[0]?.value ?? ""
   );
   const value = isControlled ? controlledValue : internalValue;
-  const handleSelect = useCallback12(
+  const handleSelect = useCallback13(
     (next) => {
       if (!isControlled) setInternalValue(next);
       onChange?.(next);
     },
     [isControlled, onChange]
   );
-  const containerRef = useRef12(null);
-  const [indicator, setIndicator] = useState11(null);
+  const containerRef = useRef13(null);
+  const [indicator, setIndicator] = useState12(null);
   const s = sizes[size];
   const activeIndex = segments.findIndex((seg) => seg.value === value);
   const { itemRef, onKeyDown, getTabIndex } = useRovingFocus({
     count: segments.length,
     activeIndex: activeIndex === -1 ? null : activeIndex
   });
-  const updateIndicator = useCallback12(() => {
+  const updateIndicator = useCallback13(() => {
     const container = containerRef.current;
     if (!container) return;
     const activeBtn = container.querySelector('[aria-pressed="true"]');
@@ -4955,7 +5368,7 @@ function SegmentedControl({
     if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, [updateIndicator]);
-  return /* @__PURE__ */ jsxs21(
+  return /* @__PURE__ */ jsxs22(
     "div",
     {
       ref: containerRef,
@@ -4966,14 +5379,14 @@ function SegmentedControl({
         display: "inline-flex",
         alignItems: "center",
         height: s.height,
-        background: t39.colorSurfaceInput,
-        borderRadius: t39.radiusFull,
-        border: `${t39.borderWidthDefault} solid ${t39.colorBorder}`,
+        background: t40.colorSurfaceInput,
+        borderRadius: t40.radiusFull,
+        border: `${t40.borderWidthDefault} solid ${t40.colorBorder}`,
         padding: 2,
         boxSizing: "border-box"
       },
       children: [
-        indicator && /* @__PURE__ */ jsx38(
+        indicator && /* @__PURE__ */ jsx39(
           "div",
           {
             className: "segmented-ctrl-indicator",
@@ -4983,9 +5396,9 @@ function SegmentedControl({
               left: indicator.left,
               width: indicator.width,
               height: s.height - 6,
-              borderRadius: t39.radiusFull,
-              background: t39.colorActionPrimary,
-              transition: `left ${t39.transitionSlow}, width ${t39.transitionSlow}`,
+              borderRadius: t40.radiusFull,
+              background: t40.colorActionPrimary,
+              transition: `left ${t40.transitionSlow}, width ${t40.transitionSlow}`,
               pointerEvents: "none"
             }
           }
@@ -4994,7 +5407,7 @@ function SegmentedControl({
           const isActive = seg.value === value;
           const hasIcon = !!seg.icon;
           const iconOnly = hasIcon && !seg.label;
-          return /* @__PURE__ */ jsxs21(
+          return /* @__PURE__ */ jsxs22(
             "button",
             {
               ref: itemRef(i),
@@ -5010,24 +5423,24 @@ function SegmentedControl({
                 display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "center",
-                gap: t39.spaceXs,
+                gap: t40.spaceXs,
                 height: s.height - 6,
                 padding: iconOnly ? `0 ${s.px - 2}px` : `0 ${s.px}px`,
                 border: "none",
-                borderRadius: t39.radiusFull,
+                borderRadius: t40.radiusFull,
                 background: "transparent",
-                color: isActive ? t39.colorTextInverse : t39.colorTextMuted,
+                color: isActive ? t40.colorTextInverse : t40.colorTextMuted,
                 fontSize: s.fontSize,
-                fontFamily: t39.fontSans,
-                fontWeight: isActive ? t39.fontWeightSemibold : t39.fontWeightNormal,
+                fontFamily: t40.fontSans,
+                fontWeight: isActive ? t40.fontWeightSemibold : t40.fontWeightNormal,
                 cursor: "pointer",
-                transition: `color ${t39.transitionBase}`,
+                transition: `color ${t40.transitionBase}`,
                 whiteSpace: "nowrap",
                 lineHeight: 1
               },
               children: [
-                hasIcon && /* @__PURE__ */ jsx38(Icon, { name: seg.icon, size: s.iconSize }),
-                seg.label && /* @__PURE__ */ jsx38("span", { children: seg.label })
+                hasIcon && /* @__PURE__ */ jsx39(Icon, { name: seg.icon, size: s.iconSize }),
+                seg.label && /* @__PURE__ */ jsx39("span", { children: seg.label })
               ]
             },
             seg.value
@@ -5040,8 +5453,8 @@ function SegmentedControl({
 
 // src/components/molecules/AlertBanner/AlertBanner.tsx
 import { forwardRef as forwardRef28 } from "react";
-import { semantic as t40, useInjectStyles as useInjectStyles18 } from "../../core/dist/index.js";
-import { jsx as jsx39, jsxs as jsxs22 } from "react/jsx-runtime";
+import { semantic as t41, useInjectStyles as useInjectStyles18 } from "../../core/dist/index.js";
+import { jsx as jsx40, jsxs as jsxs23 } from "react/jsx-runtime";
 var STYLE_ID4 = "4lt7ab-alert-banner";
 var alertBannerCSS = `
 @keyframes alert-banner-slide-in {
@@ -5056,23 +5469,23 @@ var alertBannerCSS = `
 }
 `;
 var variantColors2 = {
-  info: { bg: t40.colorInfoBg, fg: t40.colorInfo, border: t40.colorInfo },
-  warning: { bg: t40.colorWarningBg, fg: t40.colorWarning, border: t40.colorWarning },
-  error: { bg: t40.colorErrorBg, fg: t40.colorError, border: t40.colorError },
-  success: { bg: t40.colorSuccessBg, fg: t40.colorSuccess, border: t40.colorSuccess }
+  info: { bg: t41.colorInfoBg, fg: t41.colorInfo, border: t41.colorInfo },
+  warning: { bg: t41.colorWarningBg, fg: t41.colorWarning, border: t41.colorWarning },
+  error: { bg: t41.colorErrorBg, fg: t41.colorError, border: t41.colorError },
+  success: { bg: t41.colorSuccessBg, fg: t41.colorSuccess, border: t41.colorSuccess }
 };
 var defaultIcons = {
-  info: /* @__PURE__ */ jsx39(IconInfo, { size: 20 }),
-  warning: /* @__PURE__ */ jsx39(IconWarning, { size: 20 }),
-  error: /* @__PURE__ */ jsx39(IconError, { size: 20 }),
-  success: /* @__PURE__ */ jsx39(IconCheckCircle, { size: 20 })
+  info: /* @__PURE__ */ jsx40(IconInfo, { size: 20 }),
+  warning: /* @__PURE__ */ jsx40(IconWarning, { size: 20 }),
+  error: /* @__PURE__ */ jsx40(IconError, { size: 20 }),
+  success: /* @__PURE__ */ jsx40(IconCheckCircle, { size: 20 })
 };
 var AlertBanner = forwardRef28(
   function AlertBanner2({ variant, children, onDismiss, icon }, ref) {
     useInjectStyles18(STYLE_ID4, alertBannerCSS);
     const colors = variantColors2[variant];
     const resolvedIcon = icon !== void 0 ? icon : defaultIcons[variant];
-    return /* @__PURE__ */ jsxs22(
+    return /* @__PURE__ */ jsxs23(
       "div",
       {
         ref,
@@ -5080,23 +5493,23 @@ var AlertBanner = forwardRef28(
         style: {
           display: "flex",
           alignItems: "center",
-          gap: t40.spaceSm,
+          gap: t41.spaceSm,
           width: "100%",
-          padding: `${t40.spaceSm} ${t40.spaceMd}`,
+          padding: `${t41.spaceSm} ${t41.spaceMd}`,
           background: colors.bg,
           color: colors.fg,
-          borderBottom: `${t40.borderWidthThick} solid ${colors.border}`,
-          fontFamily: t40.fontSans,
-          fontSize: t40.fontSizeSm,
-          fontWeight: t40.fontWeightMedium,
-          lineHeight: t40.lineHeightBase,
+          borderBottom: `${t41.borderWidthThick} solid ${colors.border}`,
+          fontFamily: t41.fontSans,
+          fontSize: t41.fontSizeSm,
+          fontWeight: t41.fontWeightMedium,
+          lineHeight: t41.lineHeightBase,
           boxSizing: "border-box",
           animation: "alert-banner-slide-in 250ms ease"
         },
         children: [
-          resolvedIcon && /* @__PURE__ */ jsx39("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
-          /* @__PURE__ */ jsx39("span", { style: { flex: 1 }, children }),
-          onDismiss && /* @__PURE__ */ jsx39(
+          resolvedIcon && /* @__PURE__ */ jsx40("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
+          /* @__PURE__ */ jsx40("span", { style: { flex: 1 }, children }),
+          onDismiss && /* @__PURE__ */ jsx40(
             IconButton,
             {
               icon: "close",
@@ -5112,12 +5525,12 @@ var AlertBanner = forwardRef28(
 );
 
 // src/components/organisms/TopBar/TopBar.tsx
-import { createContext as createContext7, forwardRef as forwardRef29, useContext as useContext7 } from "react";
-import { semantic as t41, useInjectStyles as useInjectStyles19, Slot as Slot5 } from "../../core/dist/index.js";
-import { jsx as jsx40 } from "react/jsx-runtime";
-var TopBarContext = createContext7(null);
+import { createContext as createContext8, forwardRef as forwardRef29, useContext as useContext8 } from "react";
+import { semantic as t42, useInjectStyles as useInjectStyles19, Slot as Slot6 } from "../../core/dist/index.js";
+import { jsx as jsx41 } from "react/jsx-runtime";
+var TopBarContext = createContext8(null);
 function useTopBarContext(component) {
-  const ctx = useContext7(TopBarContext);
+  const ctx = useContext8(TopBarContext);
   if (ctx === null) {
     throw new Error(
       `[@4lt7ab/ui] <TopBar.${component}> must be rendered inside <TopBar.Root>.`
@@ -5137,23 +5550,23 @@ var TOPBAR_CSS = `
     right: 0;
     height: 2px;
     background: transparent;
-    transition: background ${t41.transitionBase};
+    transition: background ${t42.transitionBase};
   }
   [data-topbar-link]:hover::after {
-    background: ${t41.colorBorder};
+    background: ${t42.colorBorder};
   }
   [data-topbar-link][data-active]::after {
-    background: ${t41.colorActionPrimary};
+    background: ${t42.colorActionPrimary};
   }
   [data-topbar-link]:hover {
-    color: ${t41.colorText};
+    color: ${t42.colorText};
   }
 `;
 var TopBarRoot = forwardRef29(
   function TopBarRoot2({ children, sticky = false, ...rest }, ref) {
     useInjectStyles19(TOPBAR_STYLES_ID, TOPBAR_CSS);
-    const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: t41.zIndexSticky } : {};
-    return /* @__PURE__ */ jsx40(TopBarContext.Provider, { value: true, children: /* @__PURE__ */ jsx40(
+    const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: t42.zIndexSticky } : {};
+    return /* @__PURE__ */ jsx41(TopBarContext.Provider, { value: true, children: /* @__PURE__ */ jsx41(
       "header",
       {
         ref,
@@ -5163,11 +5576,11 @@ var TopBarRoot = forwardRef29(
         style: {
           display: "flex",
           alignItems: "center",
-          height: t41.space2xl,
-          padding: `0 ${t41.spaceMd}`,
-          background: t41.colorSurface,
-          borderBottom: `${t41.borderWidthDefault} solid ${t41.colorBorder}`,
-          fontFamily: t41.fontSans,
+          height: t42.space2xl,
+          padding: `0 ${t42.spaceMd}`,
+          background: t42.colorSurface,
+          borderBottom: `${t42.borderWidthDefault} solid ${t42.colorBorder}`,
+          fontFamily: t42.fontSans,
           ...stickyStyle
         },
         children
@@ -5177,16 +5590,16 @@ var TopBarRoot = forwardRef29(
 );
 function TopBarLeading({ children }) {
   useTopBarContext("Leading");
-  return /* @__PURE__ */ jsx40(
+  return /* @__PURE__ */ jsx41(
     "div",
     {
       style: {
         display: "flex",
         alignItems: "center",
-        fontWeight: t41.fontWeightBold,
-        fontSize: t41.fontSizeSm,
-        color: t41.colorText,
-        marginRight: t41.spaceLg,
+        fontWeight: t42.fontWeightBold,
+        fontSize: t42.fontSizeSm,
+        color: t42.colorText,
+        marginRight: t42.spaceLg,
         whiteSpace: "nowrap",
         flexShrink: 0
       },
@@ -5196,14 +5609,14 @@ function TopBarLeading({ children }) {
 }
 function TopBarNav({ children, "aria-label": ariaLabel = "Primary" }) {
   useTopBarContext("Nav");
-  return /* @__PURE__ */ jsx40(
+  return /* @__PURE__ */ jsx41(
     "nav",
     {
       "aria-label": ariaLabel,
       style: {
         display: "flex",
         alignItems: "center",
-        gap: t41.spaceXs,
+        gap: t42.spaceXs,
         height: "100%",
         flex: 1,
         minWidth: 0
@@ -5217,19 +5630,19 @@ var TopBarLink = forwardRef29(function TopBarLink2({ active = false, asChild = f
   const style = {
     display: "inline-flex",
     alignItems: "center",
-    gap: t41.spaceXs,
+    gap: t42.spaceXs,
     height: "100%",
-    padding: `0 ${t41.spaceSm}`,
+    padding: `0 ${t42.spaceSm}`,
     border: "none",
     background: "transparent",
-    color: active ? t41.colorActionPrimary : t41.colorTextMuted,
-    fontSize: t41.fontSizeSm,
-    fontFamily: t41.fontSans,
-    fontWeight: active ? t41.fontWeightSemibold : t41.fontWeightNormal,
+    color: active ? t42.colorActionPrimary : t42.colorTextMuted,
+    fontSize: t42.fontSizeSm,
+    fontFamily: t42.fontSans,
+    fontWeight: active ? t42.fontWeightSemibold : t42.fontWeightNormal,
     cursor: "pointer",
     whiteSpace: "nowrap",
     textDecoration: "none",
-    transition: `color ${t41.transitionBase}`,
+    transition: `color ${t42.transitionBase}`,
     boxSizing: "border-box"
   };
   const commonProps = {
@@ -5240,19 +5653,19 @@ var TopBarLink = forwardRef29(function TopBarLink2({ active = false, asChild = f
     style
   };
   if (asChild) {
-    return /* @__PURE__ */ jsx40(Slot5, { ref, ...commonProps, children });
+    return /* @__PURE__ */ jsx41(Slot6, { ref, ...commonProps, children });
   }
-  return /* @__PURE__ */ jsx40("button", { ref, type: "button", ...commonProps, children });
+  return /* @__PURE__ */ jsx41("button", { ref, type: "button", ...commonProps, children });
 });
 function TopBarTrailing({ children }) {
   useTopBarContext("Trailing");
-  return /* @__PURE__ */ jsx40(
+  return /* @__PURE__ */ jsx41(
     "div",
     {
       style: {
         display: "flex",
         alignItems: "center",
-        gap: t41.spaceSm,
+        gap: t42.spaceSm,
         marginLeft: "auto",
         flexShrink: 0
       },
@@ -5269,12 +5682,12 @@ var TopBar = {
 };
 
 // src/components/organisms/EmptyPage/EmptyPage.tsx
-import { Children as Children2, createContext as createContext8, forwardRef as forwardRef30, useContext as useContext8, useId as useId9 } from "react";
-import { semantic as t42, Slot as Slot6 } from "../../core/dist/index.js";
-import { jsx as jsx41, jsxs as jsxs23 } from "react/jsx-runtime";
-var EmptyPageContext = createContext8(null);
+import { Children as Children3, createContext as createContext9, forwardRef as forwardRef30, useContext as useContext9, useId as useId10 } from "react";
+import { semantic as t43, Slot as Slot7 } from "../../core/dist/index.js";
+import { jsx as jsx42, jsxs as jsxs24 } from "react/jsx-runtime";
+var EmptyPageContext = createContext9(null);
 function useEmptyPageContext(component) {
-  const ctx = useContext8(EmptyPageContext);
+  const ctx = useContext9(EmptyPageContext);
   if (ctx === null) {
     throw new Error(
       `[@4lt7ab/ui] <EmptyPage.${component}> must be rendered inside <EmptyPage.Root>.`
@@ -5283,9 +5696,9 @@ function useEmptyPageContext(component) {
   return ctx;
 }
 var EmptyPageRoot = forwardRef30(function EmptyPageRoot2({ level = "page", children, ...rest }, ref) {
-  const titleId = useId9();
+  const titleId = useId10();
   const isPage = level === "page";
-  return /* @__PURE__ */ jsx41(EmptyPageContext.Provider, { value: { level, titleId }, children: /* @__PURE__ */ jsx41(
+  return /* @__PURE__ */ jsx42(EmptyPageContext.Provider, { value: { level, titleId }, children: /* @__PURE__ */ jsx42(
     "section",
     {
       ref,
@@ -5299,12 +5712,12 @@ var EmptyPageRoot = forwardRef30(function EmptyPageRoot2({ level = "page", child
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        gap: t42.spaceMd,
+        gap: t43.spaceMd,
         textAlign: "center",
         width: "100%",
         minHeight: isPage ? "60vh" : "auto",
-        padding: isPage ? `${t42.space2xl} ${t42.spaceLg}` : `${t42.spaceXl} ${t42.spaceLg}`,
-        fontFamily: t42.fontSans,
+        padding: isPage ? `${t43.space2xl} ${t43.spaceLg}` : `${t43.spaceXl} ${t43.spaceLg}`,
+        fontFamily: t43.fontSans,
         boxSizing: "border-box"
       },
       children
@@ -5313,7 +5726,7 @@ var EmptyPageRoot = forwardRef30(function EmptyPageRoot2({ level = "page", child
 });
 function EmptyPageIcon({ children }) {
   useEmptyPageContext("Icon");
-  return /* @__PURE__ */ jsx41(
+  return /* @__PURE__ */ jsx42(
     "div",
     {
       "aria-hidden": "true",
@@ -5321,8 +5734,8 @@ function EmptyPageIcon({ children }) {
         display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",
-        color: t42.colorTextMuted,
-        marginBottom: t42.spaceSm
+        color: t43.colorTextMuted,
+        marginBottom: t43.spaceSm
       },
       children
     }
@@ -5334,35 +5747,35 @@ function EmptyPageTitle({ children }) {
   const Tag = isPage ? "h1" : "h2";
   const style = isPage ? {
     margin: 0,
-    fontFamily: t42.fontSans,
-    fontWeight: t42.fontWeightBold,
-    fontSize: t42.fontSizeXl,
-    lineHeight: t42.lineHeightTight,
-    color: t42.colorText
+    fontFamily: t43.fontSans,
+    fontWeight: t43.fontWeightBold,
+    fontSize: t43.fontSizeXl,
+    lineHeight: t43.lineHeightTight,
+    color: t43.colorText
   } : {
     margin: 0,
-    fontFamily: t42.fontSans,
-    fontWeight: t42.fontWeightSemibold,
-    fontSize: t42.fontSizeLg,
-    lineHeight: t42.lineHeightTight,
-    color: t42.colorText
+    fontFamily: t43.fontSans,
+    fontWeight: t43.fontWeightSemibold,
+    fontSize: t43.fontSizeLg,
+    lineHeight: t43.lineHeightTight,
+    color: t43.colorText
   };
-  return /* @__PURE__ */ jsx41(Tag, { id: titleId, style, children });
+  return /* @__PURE__ */ jsx42(Tag, { id: titleId, style, children });
 }
 function EmptyPageDescription({
   children
 }) {
   useEmptyPageContext("Description");
-  return /* @__PURE__ */ jsx41(
+  return /* @__PURE__ */ jsx42(
     "p",
     {
       style: {
         margin: 0,
         maxWidth: "32rem",
-        color: t42.colorTextSecondary,
-        fontSize: t42.fontSizeSm,
-        lineHeight: t42.lineHeightBase,
-        fontFamily: t42.fontSans
+        color: t43.colorTextSecondary,
+        fontSize: t43.fontSizeSm,
+        lineHeight: t43.lineHeightBase,
+        fontFamily: t43.fontSans
       },
       children
     }
@@ -5372,7 +5785,7 @@ function EmptyPageActions({
   children
 }) {
   useEmptyPageContext("Actions");
-  return /* @__PURE__ */ jsx41(
+  return /* @__PURE__ */ jsx42(
     "div",
     {
       style: {
@@ -5380,8 +5793,8 @@ function EmptyPageActions({
         flexWrap: "wrap",
         justifyContent: "center",
         alignItems: "center",
-        gap: t42.spaceSm,
-        marginTop: t42.spaceSm
+        gap: t43.spaceSm,
+        marginTop: t43.spaceSm
       },
       children
     }
@@ -5392,9 +5805,9 @@ function EmptyPageTips({
   children
 }) {
   useEmptyPageContext("Tips");
-  const count = Children2.toArray(children).filter(Boolean).length;
+  const count = Children3.toArray(children).filter(Boolean).length;
   if (count === 0) return null;
-  return /* @__PURE__ */ jsx41(
+  return /* @__PURE__ */ jsx42(
     "ul",
     {
       "aria-label": ariaLabel,
@@ -5403,10 +5816,10 @@ function EmptyPageTips({
         flexWrap: "wrap",
         justifyContent: "center",
         alignItems: "stretch",
-        gap: t42.spaceSm,
+        gap: t43.spaceSm,
         listStyle: "none",
         margin: 0,
-        marginTop: t42.spaceMd,
+        marginTop: t43.spaceMd,
         padding: 0
       },
       children
@@ -5422,27 +5835,27 @@ function EmptyPageTip({
   const contentStyle = {
     display: "inline-flex",
     alignItems: "center",
-    gap: t42.spaceXs,
-    padding: `${t42.spaceXs} ${t42.spaceSm}`,
-    border: `${t42.borderWidthDefault} solid ${t42.colorBorder}`,
-    borderRadius: t42.radiusMd,
-    background: t42.colorSurface,
-    color: t42.colorText,
-    fontSize: t42.fontSizeSm,
-    fontFamily: t42.fontSans,
+    gap: t43.spaceXs,
+    padding: `${t43.spaceXs} ${t43.spaceSm}`,
+    border: `${t43.borderWidthDefault} solid ${t43.colorBorder}`,
+    borderRadius: t43.radiusMd,
+    background: t43.colorSurface,
+    color: t43.colorText,
+    fontSize: t43.fontSizeSm,
+    fontFamily: t43.fontSans,
     textDecoration: "none",
     cursor: asChild ? "pointer" : "default"
   };
   if (asChild) {
-    return /* @__PURE__ */ jsx41("li", { style: { display: "flex" }, children: /* @__PURE__ */ jsx41(Slot6, { style: contentStyle, children }) });
+    return /* @__PURE__ */ jsx42("li", { style: { display: "flex" }, children: /* @__PURE__ */ jsx42(Slot7, { style: contentStyle, children }) });
   }
-  return /* @__PURE__ */ jsx41("li", { style: { display: "flex" }, children: /* @__PURE__ */ jsxs23("span", { style: contentStyle, children: [
-    icon && /* @__PURE__ */ jsx41(
+  return /* @__PURE__ */ jsx42("li", { style: { display: "flex" }, children: /* @__PURE__ */ jsxs24("span", { style: contentStyle, children: [
+    icon && /* @__PURE__ */ jsx42(
       "span",
       {
         "aria-hidden": "true",
-        style: { display: "inline-flex", color: t42.colorTextMuted },
-        children: /* @__PURE__ */ jsx41(Icon, { name: icon, size: "sm" })
+        style: { display: "inline-flex", color: t43.colorTextMuted },
+        children: /* @__PURE__ */ jsx42(Icon, { name: icon, size: "sm" })
       }
     ),
     children
@@ -5460,22 +5873,22 @@ var EmptyPage = {
 
 // src/components/organisms/AppShell/AppShell.tsx
 import {
-  Children as Children3,
-  createContext as createContext9,
+  Children as Children4,
+  createContext as createContext10,
   forwardRef as forwardRef31,
-  isValidElement as isValidElement3,
-  useCallback as useCallback13,
-  useContext as useContext9,
-  useEffect as useEffect13,
-  useMemo as useMemo7,
-  useRef as useRef13,
-  useState as useState12
+  isValidElement as isValidElement4,
+  useCallback as useCallback14,
+  useContext as useContext10,
+  useEffect as useEffect14,
+  useMemo as useMemo8,
+  useRef as useRef14,
+  useState as useState13
 } from "react";
-import { semantic as t43 } from "../../core/dist/index.js";
-import { jsx as jsx42, jsxs as jsxs24 } from "react/jsx-runtime";
-var AppShellContext = createContext9(null);
+import { semantic as t44 } from "../../core/dist/index.js";
+import { jsx as jsx43, jsxs as jsxs25 } from "react/jsx-runtime";
+var AppShellContext = createContext10(null);
 function useAppShellContextInternal(component) {
-  const ctx = useContext9(AppShellContext);
+  const ctx = useContext10(AppShellContext);
   if (ctx === null) {
     throw new Error(
       `[@4lt7ab/ui] <AppShell.${component}> must be rendered inside <AppShell.Root>.`
@@ -5487,15 +5900,15 @@ function useAppShellContext() {
   return useAppShellContextInternal("<consumer>");
 }
 function useIsInsideAppShell() {
-  return useContext9(AppShellContext) !== null;
+  return useContext10(AppShellContext) !== null;
 }
 function useControllableBoolean(params) {
   const { label, controlled, defaultValue, onChange } = params;
   const isControlled = controlled !== void 0;
-  const [uncontrolled, setUncontrolled] = useState12(defaultValue);
+  const [uncontrolled, setUncontrolled] = useState13(defaultValue);
   const value = isControlled ? controlled : uncontrolled;
-  const wasControlled = useRef13(isControlled);
-  useEffect13(() => {
+  const wasControlled = useRef14(isControlled);
+  useEffect14(() => {
     if (wasControlled.current !== isControlled) {
       console.warn(
         `<AppShell.Root> switched between controlled and uncontrolled for ${label}. Pick one and stick with it.`
@@ -5503,7 +5916,7 @@ function useControllableBoolean(params) {
       wasControlled.current = isControlled;
     }
   }, [isControlled, label]);
-  const setValue = useCallback13(
+  const setValue = useCallback14(
     (next) => {
       if (!isControlled) setUncontrolled(next);
       onChange?.(next);
@@ -5517,8 +5930,8 @@ function bucketChildren(children) {
   let sidebar = null;
   let main = null;
   let rightPanel = null;
-  Children3.forEach(children, (child) => {
-    if (!isValidElement3(child)) return;
+  Children4.forEach(children, (child) => {
+    if (!isValidElement4(child)) return;
     if (child.type === AppShellTopBar) topBar = child;
     else if (child.type === AppShellSidebar) sidebar = child;
     else if (child.type === AppShellMain) main = child;
@@ -5548,7 +5961,7 @@ var AppShellRoot = forwardRef31(function AppShellRoot2({
     defaultValue: defaultRightPanelOpen,
     onChange: onRightPanelOpenChange
   });
-  const value = useMemo7(
+  const value = useMemo8(
     () => ({ sidebarCollapsed, setSidebarCollapsed, rightPanelOpen, setRightPanelOpen }),
     [sidebarCollapsed, setSidebarCollapsed, rightPanelOpen, setRightPanelOpen]
   );
@@ -5556,13 +5969,13 @@ var AppShellRoot = forwardRef31(function AppShellRoot2({
   const hasTopBar = topBar !== null;
   const hasSidebar = sidebar !== null;
   const hasRightPanel = rightPanel !== null && rightPanelOpen;
-  const sidebarWidth = sidebarCollapsed ? t43.sizeSidebarCollapsed : t43.sizeSidebarExpanded;
+  const sidebarWidth = sidebarCollapsed ? t44.sizeSidebarCollapsed : t44.sizeSidebarExpanded;
   const gridTemplateColumns = [
     hasSidebar ? sidebarWidth : null,
     "1fr",
-    hasRightPanel ? t43.sizeRightPanelDefault : null
+    hasRightPanel ? t44.sizeRightPanelDefault : null
   ].filter(Boolean).join(" ");
-  const gridTemplateRows = hasTopBar ? `${t43.space2xl} 1fr` : "1fr";
+  const gridTemplateRows = hasTopBar ? `${t44.space2xl} 1fr` : "1fr";
   const gridAreas = (() => {
     const topCols = [];
     const mainCols = [];
@@ -5581,7 +5994,7 @@ var AppShellRoot = forwardRef31(function AppShellRoot2({
     rows.push(`"${mainCols.join(" ")}"`);
     return rows.join(" ");
   })();
-  return /* @__PURE__ */ jsx42(AppShellContext.Provider, { value, children: /* @__PURE__ */ jsxs24(
+  return /* @__PURE__ */ jsx43(AppShellContext.Provider, { value, children: /* @__PURE__ */ jsxs25(
     "div",
     {
       ref,
@@ -5597,8 +6010,8 @@ var AppShellRoot = forwardRef31(function AppShellRoot2({
         width: "100%",
         height: "100%",
         minHeight: "100vh",
-        fontFamily: t43.fontSans,
-        color: t43.colorText,
+        fontFamily: t44.fontSans,
+        color: t44.colorText,
         boxSizing: "border-box"
       },
       children: [
@@ -5612,7 +6025,7 @@ var AppShellRoot = forwardRef31(function AppShellRoot2({
 });
 function AppShellTopBar(props) {
   useAppShellContextInternal("TopBar");
-  return /* @__PURE__ */ jsx42("div", { style: { gridArea: "topbar", minWidth: 0 }, children: /* @__PURE__ */ jsx42(TopBarRoot, { ...props }) });
+  return /* @__PURE__ */ jsx43("div", { style: { gridArea: "topbar", minWidth: 0 }, children: /* @__PURE__ */ jsx43(TopBarRoot, { ...props }) });
 }
 function AppShellSidebar({
   "aria-label": ariaLabel = "Sidebar",
@@ -5620,7 +6033,7 @@ function AppShellSidebar({
 }) {
   const { sidebarCollapsed } = useAppShellContextInternal("Sidebar");
   const content = typeof children === "function" ? children({ collapsed: sidebarCollapsed }) : children;
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "nav",
     {
       "aria-label": ariaLabel,
@@ -5631,9 +6044,9 @@ function AppShellSidebar({
         flexDirection: "column",
         overflowX: "hidden",
         overflowY: "auto",
-        background: t43.colorSurfacePanel,
-        borderRight: `${t43.borderWidthDefault} solid ${t43.colorBorder}`,
-        transition: `width ${t43.transitionBase}`,
+        background: t44.colorSurfacePanel,
+        borderRight: `${t44.borderWidthDefault} solid ${t44.colorBorder}`,
+        transition: `width ${t44.transitionBase}`,
         minWidth: 0
       },
       children: content
@@ -5659,21 +6072,21 @@ function AppShellSidebarSection({
     border: 0
   } : {
     display: "block",
-    padding: `${t43.spaceSm} ${t43.spaceMd} ${t43.spaceXs}`,
-    fontSize: t43.fontSizeXs,
-    fontWeight: t43.fontWeightSemibold,
-    color: t43.colorTextMuted,
+    padding: `${t44.spaceSm} ${t44.spaceMd} ${t44.spaceXs}`,
+    fontSize: t44.fontSizeXs,
+    fontWeight: t44.fontWeightSemibold,
+    color: t44.colorTextMuted,
     textTransform: "uppercase",
-    letterSpacing: t43.letterSpacingWide
+    letterSpacing: t44.letterSpacingWide
   };
-  return /* @__PURE__ */ jsxs24(
+  return /* @__PURE__ */ jsxs25(
     "div",
     {
       "data-state": sidebarCollapsed ? "collapsed" : "expanded",
       style: { display: "flex", flexDirection: "column" },
       children: [
-        label !== void 0 && /* @__PURE__ */ jsx42("span", { style: labelStyle2, children: label }),
-        /* @__PURE__ */ jsx42("div", { style: { display: "flex", flexDirection: "column" }, children })
+        label !== void 0 && /* @__PURE__ */ jsx43("span", { style: labelStyle2, children: label }),
+        /* @__PURE__ */ jsx43("div", { style: { display: "flex", flexDirection: "column" }, children })
       ]
     }
   );
@@ -5683,7 +6096,7 @@ function AppShellMain({
   ...rest
 }) {
   useAppShellContextInternal("Main");
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "main",
     {
       id: rest.id,
@@ -5695,7 +6108,7 @@ function AppShellMain({
         overflow: "auto",
         minWidth: 0,
         minHeight: 0,
-        background: t43.colorSurfacePage,
+        background: t44.colorSurfacePage,
         boxSizing: "border-box"
       },
       children
@@ -5707,7 +6120,7 @@ function AppShellRightPanel({
   children
 }) {
   const { rightPanelOpen } = useAppShellContextInternal("RightPanel");
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "aside",
     {
       "aria-label": ariaLabel,
@@ -5719,8 +6132,8 @@ function AppShellRightPanel({
         display: rightPanelOpen ? "flex" : "none",
         flexDirection: "column",
         overflowY: "auto",
-        background: t43.colorSurfacePanel,
-        borderLeft: `${t43.borderWidthDefault} solid ${t43.colorBorder}`,
+        background: t44.colorSurfacePanel,
+        borderLeft: `${t44.borderWidthDefault} solid ${t44.colorBorder}`,
         minWidth: 0
       },
       children
@@ -5737,12 +6150,12 @@ var AppShell = {
 };
 
 // src/components/organisms/DataTablePage/DataTablePage.tsx
-import { createContext as createContext10, forwardRef as forwardRef32, useContext as useContext10, useId as useId10, useMemo as useMemo8 } from "react";
-import { semantic as t44 } from "../../core/dist/index.js";
-import { jsx as jsx43 } from "react/jsx-runtime";
-var DataTablePageContext = createContext10(null);
+import { createContext as createContext11, forwardRef as forwardRef32, useContext as useContext11, useId as useId11, useMemo as useMemo9 } from "react";
+import { semantic as t45 } from "../../core/dist/index.js";
+import { jsx as jsx44 } from "react/jsx-runtime";
+var DataTablePageContext = createContext11(null);
 function useDataTablePageContext(part) {
-  const ctx = useContext10(DataTablePageContext);
+  const ctx = useContext11(DataTablePageContext);
   if (ctx === null) {
     throw new Error(
       `[@4lt7ab/ui] <DataTablePage.${part}> must be rendered inside <DataTablePage.Root>.`
@@ -5751,13 +6164,13 @@ function useDataTablePageContext(part) {
   return ctx;
 }
 var DataTablePageRoot = forwardRef32(function DataTablePageRoot2({ rowCount, children, ...rest }, ref) {
-  const titleId = useId10();
+  const titleId = useId11();
   const isEmpty = rowCount === 0;
-  const value = useMemo8(
+  const value = useMemo9(
     () => ({ rowCount, titleId }),
     [rowCount, titleId]
   );
-  return /* @__PURE__ */ jsx43(DataTablePageContext.Provider, { value, children: /* @__PURE__ */ jsx43(
+  return /* @__PURE__ */ jsx44(DataTablePageContext.Provider, { value, children: /* @__PURE__ */ jsx44(
     "section",
     {
       ref,
@@ -5769,10 +6182,10 @@ var DataTablePageRoot = forwardRef32(function DataTablePageRoot2({ rowCount, chi
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: t44.spaceLg,
+        gap: t45.spaceLg,
         width: "100%",
-        fontFamily: t44.fontSans,
-        color: t44.colorText,
+        fontFamily: t45.fontSans,
+        color: t45.colorText,
         boxSizing: "border-box"
       },
       children
@@ -5784,24 +6197,24 @@ function DataTablePageHeader({
   ...rest
 }) {
   const { titleId } = useDataTablePageContext("Header");
-  return /* @__PURE__ */ jsx43("div", { id: titleId, children: /* @__PURE__ */ jsx43(Header, { level, ...rest }) });
+  return /* @__PURE__ */ jsx44("div", { id: titleId, children: /* @__PURE__ */ jsx44(Header, { level, ...rest }) });
 }
 function DataTablePageFilterBar(props) {
   useDataTablePageContext("FilterBar");
-  return /* @__PURE__ */ jsx43(TableFilterBar, { ...props });
+  return /* @__PURE__ */ jsx44(TableFilterBar, { ...props });
 }
 function DataTablePageTable(props) {
   useDataTablePageContext("Table");
-  return /* @__PURE__ */ jsx43(Table3, { ...props });
+  return /* @__PURE__ */ jsx44(Table3, { ...props });
 }
 function DataTablePagePagination(props) {
   useDataTablePageContext("Pagination");
-  return /* @__PURE__ */ jsx43(Pagination, { ...props });
+  return /* @__PURE__ */ jsx44(Pagination, { ...props });
 }
 function DataTablePageEmpty(props) {
   const { rowCount } = useDataTablePageContext("Empty");
   if (rowCount !== 0) return null;
-  return /* @__PURE__ */ jsx43(EmptyState, { ...props, variant: "plain" });
+  return /* @__PURE__ */ jsx44(EmptyState, { ...props, variant: "plain" });
 }
 var DataTablePage = {
   Root: DataTablePageRoot,
@@ -5814,22 +6227,22 @@ var DataTablePage = {
 
 // src/components/organisms/DetailPage/DetailPage.tsx
 import {
-  Children as Children4,
-  createContext as createContext11,
+  Children as Children5,
+  createContext as createContext12,
   forwardRef as forwardRef33,
-  isValidElement as isValidElement4,
-  useCallback as useCallback14,
-  useContext as useContext11,
-  useId as useId11,
-  useMemo as useMemo9,
-  useState as useState13
+  isValidElement as isValidElement5,
+  useCallback as useCallback15,
+  useContext as useContext12,
+  useId as useId12,
+  useMemo as useMemo10,
+  useState as useState14
 } from "react";
-import { createPortal as createPortal3 } from "react-dom";
-import { semantic as t45 } from "../../core/dist/index.js";
-import { Fragment as Fragment4, jsx as jsx44, jsxs as jsxs25 } from "react/jsx-runtime";
-var DetailPageContext = createContext11(null);
+import { createPortal as createPortal4 } from "react-dom";
+import { semantic as t46 } from "../../core/dist/index.js";
+import { Fragment as Fragment4, jsx as jsx45, jsxs as jsxs26 } from "react/jsx-runtime";
+var DetailPageContext = createContext12(null);
 function useDetailPageContext(part) {
-  const ctx = useContext11(DetailPageContext);
+  const ctx = useContext12(DetailPageContext);
   if (ctx === null) {
     throw new Error(
       `[@4lt7ab/ui] <DetailPage.${part}> must be rendered inside <DetailPage.Root>.`
@@ -5840,8 +6253,8 @@ function useDetailPageContext(part) {
 function splitChildren(children) {
   const main = [];
   let rightPanel = null;
-  Children4.forEach(children, (child) => {
-    if (isValidElement4(child) && child.type === DetailPageRightPanel) {
+  Children5.forEach(children, (child) => {
+    if (isValidElement5(child) && child.type === DetailPageRightPanel) {
       rightPanel = child;
     } else {
       main.push(child);
@@ -5850,9 +6263,9 @@ function splitChildren(children) {
   return { main, rightPanel };
 }
 var DetailPageRoot = forwardRef33(function DetailPageRoot2({ children, ...rest }, ref) {
-  const titleId = useId11();
-  const [actionsSlot, setActionsSlot] = useState13(null);
-  const value = useMemo9(
+  const titleId = useId12();
+  const [actionsSlot, setActionsSlot] = useState14(null);
+  const value = useMemo10(
     () => ({
       titleId,
       actionsSlot,
@@ -5861,8 +6274,8 @@ var DetailPageRoot = forwardRef33(function DetailPageRoot2({ children, ...rest }
     [titleId, actionsSlot]
   );
   const { main, rightPanel } = splitChildren(children);
-  const gridTemplateColumns = rightPanel !== null ? `1fr ${t45.sizeRightPanelDefault}` : "1fr";
-  return /* @__PURE__ */ jsx44(DetailPageContext.Provider, { value, children: /* @__PURE__ */ jsxs25(
+  const gridTemplateColumns = rightPanel !== null ? `1fr ${t46.sizeRightPanelDefault}` : "1fr";
+  return /* @__PURE__ */ jsx45(DetailPageContext.Provider, { value, children: /* @__PURE__ */ jsxs26(
     "section",
     {
       ref,
@@ -5873,20 +6286,20 @@ var DetailPageRoot = forwardRef33(function DetailPageRoot2({ children, ...rest }
       style: {
         display: "grid",
         gridTemplateColumns,
-        gap: t45.spaceLg,
+        gap: t46.spaceLg,
         width: "100%",
-        fontFamily: t45.fontSans,
-        color: t45.colorText,
+        fontFamily: t46.fontSans,
+        color: t46.colorText,
         boxSizing: "border-box"
       },
       children: [
-        /* @__PURE__ */ jsx44(
+        /* @__PURE__ */ jsx45(
           "div",
           {
             style: {
               display: "flex",
               flexDirection: "column",
-              gap: t45.spaceLg,
+              gap: t46.spaceLg,
               minWidth: 0
             },
             children: main
@@ -5905,21 +6318,21 @@ function DetailPageHeader({
   backLabel = "Back"
 }) {
   const { titleId, setActionsSlot } = useDetailPageContext("Header");
-  const slotRefCb = useCallback14(
+  const slotRefCb = useCallback15(
     (el) => {
       setActionsSlot(el);
     },
     [setActionsSlot]
   );
-  const trailingSlot = /* @__PURE__ */ jsx44(
+  const trailingSlot = /* @__PURE__ */ jsx45(
     "div",
     {
       ref: slotRefCb,
       "data-detailpage-actions-slot": "",
-      style: { display: "flex", alignItems: "center", gap: t45.spaceSm }
+      style: { display: "flex", alignItems: "center", gap: t46.spaceSm }
     }
   );
-  const headerWithTitleId = /* @__PURE__ */ jsx44("div", { id: titleId, style: { flex: 1, minWidth: 0 }, children: /* @__PURE__ */ jsx44(
+  const headerWithTitleId = /* @__PURE__ */ jsx45("div", { id: titleId, style: { flex: 1, minWidth: 0 }, children: /* @__PURE__ */ jsx45(
     Header,
     {
       level: "page",
@@ -5930,17 +6343,17 @@ function DetailPageHeader({
     }
   ) });
   if (onBack !== void 0) {
-    return /* @__PURE__ */ jsxs25(
+    return /* @__PURE__ */ jsxs26(
       "div",
       {
         style: {
           display: "flex",
           alignItems: "flex-end",
-          gap: t45.spaceMd,
+          gap: t46.spaceMd,
           minWidth: 0
         },
         children: [
-          /* @__PURE__ */ jsx44(
+          /* @__PURE__ */ jsx45(
             IconButton,
             {
               icon: "arrow-left",
@@ -5957,8 +6370,8 @@ function DetailPageHeader({
 }
 function validateMetaChildren(children) {
   let warned = false;
-  Children4.forEach(children, (child) => {
-    if (!isValidElement4(child)) return;
+  Children5.forEach(children, (child) => {
+    if (!isValidElement5(child)) return;
     if (child.type !== DetailPageMetaItem && !warned) {
       warned = true;
       console.warn(
@@ -5972,18 +6385,18 @@ function DetailPageMeta({
 }) {
   useDetailPageContext("Meta");
   validateMetaChildren(children);
-  return /* @__PURE__ */ jsx44(
+  return /* @__PURE__ */ jsx45(
     "dl",
     {
       style: {
         display: "grid",
         gridTemplateColumns: "max-content 1fr",
-        columnGap: t45.spaceLg,
-        rowGap: t45.spaceSm,
+        columnGap: t46.spaceLg,
+        rowGap: t46.spaceSm,
         margin: 0,
         padding: 0,
-        fontFamily: t45.fontSans,
-        fontSize: t45.fontSizeSm
+        fontFamily: t46.fontSans,
+        fontSize: t46.fontSizeSm
       },
       children
     }
@@ -5994,19 +6407,19 @@ function DetailPageMetaItem({
   children
 }) {
   useDetailPageContext("MetaItem");
-  return /* @__PURE__ */ jsxs25(Fragment4, { children: [
-    /* @__PURE__ */ jsx44(
+  return /* @__PURE__ */ jsxs26(Fragment4, { children: [
+    /* @__PURE__ */ jsx45(
       "dt",
       {
         style: {
           margin: 0,
-          color: t45.colorTextMuted,
-          fontWeight: t45.fontWeightMedium
+          color: t46.colorTextMuted,
+          fontWeight: t46.fontWeightMedium
         },
         children: label
       }
     ),
-    /* @__PURE__ */ jsx44("dd", { style: { margin: 0, color: t45.colorText }, children })
+    /* @__PURE__ */ jsx45("dd", { style: { margin: 0, color: t46.colorText }, children })
   ] });
 }
 function DetailPageBody({
@@ -6016,7 +6429,7 @@ function DetailPageBody({
   useDetailPageContext("Body");
   const insideAppShell = useIsInsideAppShell();
   const Tag = insideAppShell ? "div" : "main";
-  return /* @__PURE__ */ jsx44(
+  return /* @__PURE__ */ jsx45(
     Tag,
     {
       id: rest.id,
@@ -6025,7 +6438,7 @@ function DetailPageBody({
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: t45.spaceMd,
+        gap: t46.spaceMd,
         minWidth: 0
       },
       children
@@ -6037,7 +6450,7 @@ function DetailPageActions({
 }) {
   const { actionsSlot } = useDetailPageContext("Actions");
   if (actionsSlot === null) return null;
-  return createPortal3(/* @__PURE__ */ jsx44(Fragment4, { children }), actionsSlot);
+  return createPortal4(/* @__PURE__ */ jsx45(Fragment4, { children }), actionsSlot);
 }
 function DetailPageRightPanel({
   "aria-label": ariaLabel = "Details",
@@ -6047,14 +6460,14 @@ function DetailPageRightPanel({
   const style = {
     display: "flex",
     flexDirection: "column",
-    gap: t45.spaceMd,
-    padding: t45.spaceMd,
-    background: t45.colorSurfacePanel,
-    border: `${t45.borderWidthDefault} solid ${t45.colorBorder}`,
-    borderRadius: t45.radiusMd,
+    gap: t46.spaceMd,
+    padding: t46.spaceMd,
+    background: t46.colorSurfacePanel,
+    border: `${t46.borderWidthDefault} solid ${t46.colorBorder}`,
+    borderRadius: t46.radiusMd,
     minWidth: 0
   };
-  return /* @__PURE__ */ jsx44("aside", { "aria-label": ariaLabel, style, children });
+  return /* @__PURE__ */ jsx45("aside", { "aria-label": ariaLabel, style, children });
 }
 var DetailPage = {
   Root: DetailPageRoot,
@@ -6068,22 +6481,22 @@ var DetailPage = {
 
 // src/components/organisms/FormLayout/FormLayout.tsx
 import {
-  createContext as createContext12,
+  createContext as createContext13,
   forwardRef as forwardRef34,
-  useCallback as useCallback15,
-  useContext as useContext12,
-  useEffect as useEffect14,
-  useId as useId12,
-  useMemo as useMemo10,
-  useRef as useRef14,
-  useState as useState14
+  useCallback as useCallback16,
+  useContext as useContext13,
+  useEffect as useEffect15,
+  useId as useId13,
+  useMemo as useMemo11,
+  useRef as useRef15,
+  useState as useState15
 } from "react";
-import { createPortal as createPortal4 } from "react-dom";
-import { semantic as t46 } from "../../core/dist/index.js";
-import { jsx as jsx45, jsxs as jsxs26 } from "react/jsx-runtime";
-var FormLayoutContext = createContext12(null);
+import { createPortal as createPortal5 } from "react-dom";
+import { semantic as t47 } from "../../core/dist/index.js";
+import { jsx as jsx46, jsxs as jsxs27 } from "react/jsx-runtime";
+var FormLayoutContext = createContext13(null);
 function useFormLayoutInternal(part) {
-  const ctx = useContext12(FormLayoutContext);
+  const ctx = useContext13(FormLayoutContext);
   if (ctx === null) {
     throw new Error(
       `[@4lt7ab/ui] <FormLayout.${part}> must be rendered inside <FormLayout.Root>.`
@@ -6098,10 +6511,10 @@ function useFormLayout() {
 function useControllableBoolean2(params) {
   const { label, controlled, defaultValue, onChange } = params;
   const isControlled = controlled !== void 0;
-  const [uncontrolled, setUncontrolled] = useState14(defaultValue);
+  const [uncontrolled, setUncontrolled] = useState15(defaultValue);
   const value = isControlled ? controlled : uncontrolled;
-  const wasControlled = useRef14(isControlled);
-  useEffect14(() => {
+  const wasControlled = useRef15(isControlled);
+  useEffect15(() => {
     if (wasControlled.current !== isControlled) {
       console.warn(
         `<FormLayout.Root> switched between controlled and uncontrolled for ${label}. Pick one and stick with it.`
@@ -6109,7 +6522,7 @@ function useControllableBoolean2(params) {
       wasControlled.current = isControlled;
     }
   }, [isControlled, label]);
-  const setValue = useCallback15(
+  const setValue = useCallback16(
     (next) => {
       if (!isControlled) setUncontrolled(next);
       onChange?.(next);
@@ -6144,13 +6557,13 @@ var FormLayoutRoot = forwardRef34(function FormLayoutRoot2({
     defaultValue: defaultSaving,
     onChange: onSavingChange
   });
-  const autoId = useId12();
+  const autoId = useId13();
   const formId = rest.id ?? `formlayout-${autoId}`;
-  const value = useMemo10(
+  const value = useMemo11(
     () => ({ dirty, setDirty, saving, setSaving, onSave, onCancel, sticky, formId }),
     [dirty, setDirty, saving, setSaving, onSave, onCancel, sticky, formId]
   );
-  const handleSubmit = useCallback15(
+  const handleSubmit = useCallback16(
     async (event) => {
       event.preventDefault();
       if (onSave === void 0) return;
@@ -6166,7 +6579,7 @@ var FormLayoutRoot = forwardRef34(function FormLayoutRoot2({
     },
     [onSave, setSaving]
   );
-  return /* @__PURE__ */ jsx45(FormLayoutContext.Provider, { value, children: /* @__PURE__ */ jsx45(
+  return /* @__PURE__ */ jsx46(FormLayoutContext.Provider, { value, children: /* @__PURE__ */ jsx46(
     "form",
     {
       ref,
@@ -6178,10 +6591,10 @@ var FormLayoutRoot = forwardRef34(function FormLayoutRoot2({
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: t46.spaceLg,
+        gap: t47.spaceLg,
         width: "100%",
-        fontFamily: t46.fontSans,
-        color: t46.colorText,
+        fontFamily: t47.fontSans,
+        color: t47.colorText,
         boxSizing: "border-box"
       },
       children
@@ -6193,11 +6606,11 @@ function FormLayoutHeader({
   description
 }) {
   useFormLayoutInternal("Header");
-  return /* @__PURE__ */ jsx45(Header, { level: "page", title, subtitle: description });
+  return /* @__PURE__ */ jsx46(Header, { level: "page", title, subtitle: description });
 }
-var FormLayoutSectionContext = createContext12(null);
+var FormLayoutSectionContext = createContext13(null);
 function useFormLayoutSectionContext(part) {
-  const ctx = useContext12(FormLayoutSectionContext);
+  const ctx = useContext13(FormLayoutSectionContext);
   if (ctx === null) {
     throw new Error(
       `[@4lt7ab/ui] <FormLayout.${part}> must be rendered inside <FormLayout.Section>.`
@@ -6210,9 +6623,9 @@ function FormLayoutSection({
   ...rest
 }) {
   useFormLayoutInternal("Section");
-  const headerId = useId12();
-  const value = useMemo10(() => ({ headerId }), [headerId]);
-  return /* @__PURE__ */ jsx45(FormLayoutSectionContext.Provider, { value, children: /* @__PURE__ */ jsx45(
+  const headerId = useId13();
+  const value = useMemo11(() => ({ headerId }), [headerId]);
+  return /* @__PURE__ */ jsx46(FormLayoutSectionContext.Provider, { value, children: /* @__PURE__ */ jsx46(
     "section",
     {
       id: rest.id,
@@ -6221,11 +6634,11 @@ function FormLayoutSection({
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: t46.spaceMd,
-        padding: t46.spaceMd,
-        background: t46.colorSurface,
-        border: `${t46.borderWidthDefault} solid ${t46.colorBorder}`,
-        borderRadius: t46.radiusMd,
+        gap: t47.spaceMd,
+        padding: t47.spaceMd,
+        background: t47.colorSurface,
+        border: `${t47.borderWidthDefault} solid ${t47.colorBorder}`,
+        borderRadius: t47.radiusMd,
         minWidth: 0
       },
       children
@@ -6237,30 +6650,30 @@ function FormLayoutSectionHeader({
   description
 }) {
   const { headerId } = useFormLayoutSectionContext("SectionHeader");
-  return /* @__PURE__ */ jsxs26("div", { style: { display: "flex", flexDirection: "column", gap: t46.spaceXs }, children: [
-    /* @__PURE__ */ jsx45(
+  return /* @__PURE__ */ jsxs27("div", { style: { display: "flex", flexDirection: "column", gap: t47.spaceXs }, children: [
+    /* @__PURE__ */ jsx46(
       "h2",
       {
         id: headerId,
         style: {
           margin: 0,
-          fontFamily: t46.fontSans,
-          fontWeight: t46.fontWeightSemibold,
-          fontSize: t46.fontSizeBase,
-          lineHeight: t46.lineHeightTight,
-          color: t46.colorText
+          fontFamily: t47.fontSans,
+          fontWeight: t47.fontWeightSemibold,
+          fontSize: t47.fontSizeBase,
+          lineHeight: t47.lineHeightTight,
+          color: t47.colorText
         },
         children: title
       }
     ),
-    description !== void 0 && /* @__PURE__ */ jsx45(
+    description !== void 0 && /* @__PURE__ */ jsx46(
       "span",
       {
         style: {
-          color: t46.colorTextMuted,
-          fontSize: t46.fontSizeSm,
-          fontFamily: t46.fontSans,
-          lineHeight: t46.lineHeightBase
+          color: t47.colorTextMuted,
+          fontSize: t47.fontSizeSm,
+          fontFamily: t47.fontSans,
+          lineHeight: t47.lineHeightBase
         },
         children: description
       }
@@ -6271,13 +6684,13 @@ function FormLayoutSectionBody({
   children
 }) {
   useFormLayoutSectionContext("SectionBody");
-  return /* @__PURE__ */ jsx45(
+  return /* @__PURE__ */ jsx46(
     "div",
     {
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: t46.spaceMd,
+        gap: t47.spaceMd,
         minWidth: 0
       },
       children
@@ -6292,11 +6705,11 @@ function FormLayoutActions({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
-    gap: t46.spaceSm,
-    padding: `${t46.spaceSm} ${t46.spaceMd}`,
-    background: t46.colorSurface,
-    border: `${t46.borderWidthDefault} solid ${t46.colorBorder}`,
-    borderRadius: t46.radiusMd,
+    gap: t47.spaceSm,
+    padding: `${t47.spaceSm} ${t47.spaceMd}`,
+    background: t47.colorSurface,
+    border: `${t47.borderWidthDefault} solid ${t47.colorBorder}`,
+    borderRadius: t47.radiusMd,
     boxSizing: "border-box"
   };
   const inlineStickyStyle = {
@@ -6315,7 +6728,7 @@ function FormLayoutActions({
     borderLeft: "none",
     borderRight: "none",
     borderBottom: "none",
-    boxShadow: t46.shadowMd,
+    boxShadow: t47.shadowMd,
     zIndex: 100
   };
   const commonProps = {
@@ -6325,13 +6738,13 @@ function FormLayoutActions({
   };
   if (sticky === "viewport") {
     if (typeof document === "undefined") return null;
-    return createPortal4(
-      /* @__PURE__ */ jsx45("div", { ...commonProps, style: viewportStyle, children }),
+    return createPortal5(
+      /* @__PURE__ */ jsx46("div", { ...commonProps, style: viewportStyle, children }),
       document.body
     );
   }
   const style = sticky === "container" ? inlineStickyStyle : barStyle;
-  return /* @__PURE__ */ jsx45("div", { ...commonProps, style, children });
+  return /* @__PURE__ */ jsx46("div", { ...commonProps, style, children });
 }
 function FormLayoutSaveButton({
   children = "Save",
@@ -6342,7 +6755,7 @@ function FormLayoutSaveButton({
 }) {
   const { dirty, saving, formId } = useFormLayoutInternal("SaveButton");
   const disabled = disabledProp ?? !dirty;
-  return /* @__PURE__ */ jsx45(
+  return /* @__PURE__ */ jsx46(
     Button,
     {
       ...rest,
@@ -6362,29 +6775,29 @@ function FormLayoutCancelButton({
   ...rest
 }) {
   const { onCancel } = useFormLayoutInternal("CancelButton");
-  const handleClick = useCallback15(
+  const handleClick = useCallback16(
     (event) => {
       onClick?.(event);
       if (!event.defaultPrevented) onCancel?.();
     },
     [onClick, onCancel]
   );
-  return /* @__PURE__ */ jsx45(Button, { ...rest, type: "button", variant, onClick: handleClick, children });
+  return /* @__PURE__ */ jsx46(Button, { ...rest, type: "button", variant, onClick: handleClick, children });
 }
 function FormLayoutDirtyOnChange({
   children
 }) {
   const { setDirty, dirty } = useFormLayoutInternal("DirtyOnChange");
-  const handleChange = useCallback15(() => {
+  const handleChange = useCallback16(() => {
     if (!dirty) setDirty(true);
   }, [dirty, setDirty]);
-  return /* @__PURE__ */ jsx45("div", { style: { display: "contents" }, onChange: handleChange, children });
+  return /* @__PURE__ */ jsx46("div", { style: { display: "contents" }, onChange: handleChange, children });
 }
 function FormLayoutNavigationGuard({
   message = "You have unsaved changes. Are you sure you want to leave?"
 }) {
   const { dirty } = useFormLayoutInternal("NavigationGuard");
-  useEffect14(() => {
+  useEffect15(() => {
     if (!dirty) return;
     if (typeof window === "undefined") return;
     const handler = (event) => {
@@ -6410,10 +6823,427 @@ var FormLayout = {
   NavigationGuard: FormLayoutNavigationGuard
 };
 
+// src/components/organisms/WizardDialog/WizardDialog.tsx
+import {
+  createContext as createContext14,
+  forwardRef as forwardRef35,
+  useCallback as useCallback17,
+  useContext as useContext14,
+  useEffect as useEffect16,
+  useId as useId14,
+  useMemo as useMemo12,
+  useRef as useRef16,
+  useState as useState16
+} from "react";
+import { semantic as t48 } from "../../core/dist/index.js";
+import { jsx as jsx47, jsxs as jsxs28 } from "react/jsx-runtime";
+var WizardDialogContext = createContext14(null);
+function useWizardDialogContext(part) {
+  const ctx = useContext14(WizardDialogContext);
+  if (ctx === null) {
+    throw new Error(
+      `[@4lt7ab/ui] <WizardDialog.${part}> must be rendered inside <WizardDialog.Root>.`
+    );
+  }
+  return ctx;
+}
+function useControllableBoolean3(params) {
+  const { label, controlled, defaultValue, onChange } = params;
+  const isControlled = controlled !== void 0;
+  const [uncontrolled, setUncontrolled] = useState16(defaultValue);
+  const value = isControlled ? controlled : uncontrolled;
+  const wasControlled = useRef16(isControlled);
+  useEffect16(() => {
+    if (wasControlled.current !== isControlled) {
+      console.warn(
+        `<WizardDialog.Root> switched between controlled and uncontrolled for ${label}. Pick one and stick with it.`
+      );
+      wasControlled.current = isControlled;
+    }
+  }, [isControlled, label]);
+  const setValue = useCallback17(
+    (next) => {
+      if (!isControlled) setUncontrolled(next);
+      onChange?.(next);
+    },
+    [isControlled, onChange]
+  );
+  return [value, setValue];
+}
+function useControllableNumber(params) {
+  const { label, controlled, defaultValue, onChange } = params;
+  const isControlled = controlled !== void 0;
+  const [uncontrolled, setUncontrolled] = useState16(defaultValue);
+  const value = isControlled ? controlled : uncontrolled;
+  const wasControlled = useRef16(isControlled);
+  useEffect16(() => {
+    if (wasControlled.current !== isControlled) {
+      console.warn(
+        `<WizardDialog.Root> switched between controlled and uncontrolled for ${label}. Pick one and stick with it.`
+      );
+      wasControlled.current = isControlled;
+    }
+  }, [isControlled, label]);
+  const setValue = useCallback17(
+    (next) => {
+      if (!isControlled) setUncontrolled(next);
+      onChange?.(next);
+    },
+    [isControlled, onChange]
+  );
+  return [value, setValue];
+}
+var WizardDialogRoot = forwardRef35(
+  function WizardDialogRoot2({
+    open: openProp,
+    defaultOpen = false,
+    onOpenChange,
+    step: stepProp,
+    defaultStep = 0,
+    onStepChange,
+    onComplete,
+    canClose = true,
+    width = "lg",
+    children
+  }, ref) {
+    const [open, setOpen] = useControllableBoolean3({
+      label: "open",
+      controlled: openProp,
+      defaultValue: defaultOpen,
+      onChange: onOpenChange
+    });
+    const [step, setStep] = useControllableNumber({
+      label: "step",
+      controlled: stepProp,
+      defaultValue: defaultStep,
+      onChange: onStepChange
+    });
+    const [busy, setBusy] = useState16(false);
+    const validateByIndex = useRef16(/* @__PURE__ */ new Map());
+    const [totalSteps, setTotalSteps] = useState16(0);
+    const registerStep = useCallback17(
+      (index, validate) => {
+        validateByIndex.current.set(index, validate);
+        setTotalSteps(validateByIndex.current.size);
+        return () => {
+          validateByIndex.current.delete(index);
+          setTotalSteps(validateByIndex.current.size);
+        };
+      },
+      []
+    );
+    const titleId = useId14();
+    const close = useCallback17(() => {
+      if (!canClose) return;
+      setOpen(false);
+    }, [canClose, setOpen]);
+    const next = useCallback17(async () => {
+      if (busy) return;
+      const validate = validateByIndex.current.get(step);
+      if (validate !== void 0) {
+        const result = validate();
+        if (result && typeof result.then === "function") {
+          setBusy(true);
+          try {
+            const ok = await result;
+            if (!ok) return;
+          } finally {
+            setBusy(false);
+          }
+        } else if (!result) {
+          return;
+        }
+      }
+      setStep(step + 1);
+    }, [busy, setStep, step]);
+    const back = useCallback17(() => {
+      if (busy) return;
+      if (step === 0) {
+        close();
+        return;
+      }
+      setStep(step - 1);
+    }, [busy, close, setStep, step]);
+    const finish = useCallback17(async () => {
+      if (busy) return;
+      const validate = validateByIndex.current.get(step);
+      if (validate !== void 0) {
+        const result = validate();
+        if (result && typeof result.then === "function") {
+          setBusy(true);
+          try {
+            const ok = await result;
+            if (!ok) return;
+          } finally {
+            setBusy(false);
+          }
+        } else if (!result) {
+          return;
+        }
+      }
+      const completion = onComplete?.();
+      if (completion && typeof completion.then === "function") {
+        setBusy(true);
+        try {
+          await completion;
+        } finally {
+          setBusy(false);
+        }
+      }
+      setOpen(false);
+    }, [busy, onComplete, setOpen, step]);
+    const value = useMemo12(
+      () => ({
+        step,
+        totalSteps,
+        busy,
+        registerStep,
+        next,
+        back,
+        finish,
+        close,
+        canClose,
+        titleId
+      }),
+      [step, totalSteps, busy, registerStep, next, back, finish, close, canClose, titleId]
+    );
+    if (!open) {
+      return /* @__PURE__ */ jsx47(WizardDialogContext.Provider, { value, children: null });
+    }
+    return /* @__PURE__ */ jsx47(WizardDialogContext.Provider, { value, children: /* @__PURE__ */ jsx47(
+      ModalShell,
+      {
+        ref,
+        onClose: close,
+        width,
+        titleId,
+        children: /* @__PURE__ */ jsx47(
+          "div",
+          {
+            style: {
+              display: "flex",
+              flexDirection: "column",
+              gap: t48.spaceXl,
+              fontFamily: t48.fontSans,
+              color: t48.colorText
+            },
+            "data-testid": "wizarddialog-content",
+            children
+          }
+        )
+      }
+    ) });
+  }
+);
+function WizardDialogTitle({
+  children
+}) {
+  const { titleId } = useWizardDialogContext("Title");
+  return /* @__PURE__ */ jsx47("h2", { id: titleId, style: modalHeadingStyle, children });
+}
+function WizardDialogProgress({
+  mode = "numeric",
+  stepLabels
+}) {
+  const { step, totalSteps } = useWizardDialogContext("Progress");
+  const total = Math.max(totalSteps, 1);
+  const current = Math.min(step + 1, total);
+  const currentLabel = stepLabels?.[step];
+  const progressLabel = currentLabel ?? `Step ${current} of ${total}`;
+  if (mode === "bar") {
+    return /* @__PURE__ */ jsx47(
+      ProgressBar,
+      {
+        "aria-label": progressLabel,
+        segments: [
+          { value: current, color: "primary" },
+          { value: total - current, color: "muted" }
+        ],
+        height: "sm"
+      }
+    );
+  }
+  return /* @__PURE__ */ jsxs28(
+    "div",
+    {
+      role: "status",
+      "aria-label": progressLabel,
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        gap: t48.spaceSm
+      },
+      children: [
+        /* @__PURE__ */ jsxs28(
+          "div",
+          {
+            style: {
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              fontFamily: t48.fontSans
+            },
+            children: [
+              /* @__PURE__ */ jsx47(
+                "span",
+                {
+                  style: {
+                    fontSize: t48.fontSizeXs,
+                    color: t48.colorTextMuted
+                  },
+                  children: `Step ${current} of ${total}`
+                }
+              ),
+              currentLabel !== void 0 && /* @__PURE__ */ jsx47(
+                "span",
+                {
+                  style: {
+                    fontSize: t48.fontSizeXs,
+                    fontWeight: t48.fontWeightSemibold,
+                    color: t48.colorText
+                  },
+                  children: currentLabel
+                }
+              )
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsx47(
+          ProgressBar,
+          {
+            "aria-label": progressLabel,
+            segments: [
+              { value: current, color: "primary" },
+              { value: total - current, color: "muted" }
+            ],
+            height: "sm"
+          }
+        )
+      ]
+    }
+  );
+}
+var FOCUSABLE_SELECTOR3 = [
+  "a[href]",
+  "button:not(:disabled)",
+  "input:not(:disabled)",
+  "select:not(:disabled)",
+  "textarea:not(:disabled)",
+  '[tabindex]:not([tabindex="-1"])'
+].join(", ");
+function WizardDialogStep({
+  index,
+  validate,
+  children
+}) {
+  const { step, registerStep } = useWizardDialogContext("Step");
+  const containerRef = useRef16(null);
+  useEffect16(() => registerStep(index, validate), [index, registerStep, validate]);
+  const isActive = step === index;
+  useEffect16(() => {
+    if (!isActive) return;
+    const container = containerRef.current;
+    if (container === null) return;
+    const first = container.querySelector(FOCUSABLE_SELECTOR3);
+    if (first !== null) {
+      first.focus();
+    }
+  }, [isActive]);
+  if (!isActive) return null;
+  return /* @__PURE__ */ jsx47(
+    "div",
+    {
+      ref: containerRef,
+      role: "group",
+      "aria-label": `Step ${index + 1}`,
+      "data-wizard-step": index,
+      style: { display: "flex", flexDirection: "column", gap: t48.spaceLg },
+      children
+    }
+  );
+}
+function WizardDialogActions({
+  cancelLabel = "Cancel",
+  backLabel = "Back",
+  nextLabel = "Continue",
+  finishLabel = "Finish",
+  busyLabel = "Working\u2026",
+  children
+}) {
+  const {
+    step,
+    totalSteps,
+    busy,
+    next,
+    back,
+    finish,
+    canClose
+  } = useWizardDialogContext("Actions");
+  const isFirst = step === 0;
+  const isLast = totalSteps > 0 && step === totalSteps - 1;
+  const backStyle = {
+    // On step 0 without `canClose`, there's nothing for Back to do — hide
+    // it rather than show a dead button.
+    visibility: isFirst && !canClose ? "hidden" : void 0
+  };
+  return /* @__PURE__ */ jsxs28(
+    "div",
+    {
+      role: "toolbar",
+      "aria-label": "Wizard navigation",
+      "data-state": busy ? "busy" : "idle",
+      style: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: t48.spaceSm
+      },
+      children: [
+        children !== void 0 && /* @__PURE__ */ jsx47("div", { style: { marginRight: "auto" }, children }),
+        /* @__PURE__ */ jsx47("div", { style: backStyle, children: /* @__PURE__ */ jsx47(
+          Button,
+          {
+            variant: "ghost",
+            onClick: back,
+            disabled: busy || isFirst && !canClose,
+            type: "button",
+            children: isFirst ? cancelLabel : backLabel
+          }
+        ) }),
+        /* @__PURE__ */ jsx47(
+          Button,
+          {
+            variant: "primary",
+            onClick: () => {
+              if (isLast) {
+                void finish();
+              } else {
+                void next();
+              }
+            },
+            loading: busy,
+            disabled: busy,
+            type: "button",
+            "aria-label": busy && typeof busyLabel === "string" ? busyLabel : void 0,
+            children: busy ? busyLabel : isLast ? finishLabel : nextLabel
+          }
+        )
+      ]
+    }
+  );
+}
+var WizardDialog = {
+  Root: WizardDialogRoot,
+  Title: WizardDialogTitle,
+  Progress: WizardDialogProgress,
+  Step: WizardDialogStep,
+  Actions: WizardDialogActions
+};
+
 // src/components/atoms/Grid/Grid.tsx
-import { forwardRef as forwardRef35 } from "react";
-import { jsx as jsx46 } from "react/jsx-runtime";
-var Grid = forwardRef35(
+import { forwardRef as forwardRef36 } from "react";
+import { jsx as jsx48 } from "react/jsx-runtime";
+var Grid = forwardRef36(
   function Grid2({
     minColumnWidth = 300,
     columns,
@@ -6423,7 +7253,7 @@ var Grid = forwardRef35(
   }, ref) {
     const minWidth = `${minColumnWidth}px`;
     const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
-    return /* @__PURE__ */ jsx46(
+    return /* @__PURE__ */ jsx48(
       "div",
       {
         ref,
@@ -6441,10 +7271,10 @@ var Grid = forwardRef35(
 );
 
 // src/components/atoms/Divider/Divider.tsx
-import { forwardRef as forwardRef36 } from "react";
-import { semantic as t47 } from "../../core/dist/index.js";
-import { jsx as jsx47 } from "react/jsx-runtime";
-var Divider = forwardRef36(
+import { forwardRef as forwardRef37 } from "react";
+import { semantic as t49 } from "../../core/dist/index.js";
+import { jsx as jsx49 } from "react/jsx-runtime";
+var Divider = forwardRef37(
   function Divider2({
     orientation = "horizontal",
     opacity = "default",
@@ -6452,10 +7282,10 @@ var Divider = forwardRef36(
     ...rest
   }, ref) {
     const resolvedOpacity = dividerOpacityMap[opacity];
-    const bg = `color-mix(in srgb, ${t47.colorBorder} ${resolvedOpacity}%, transparent)`;
+    const bg = `color-mix(in srgb, ${t49.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
     const isHorizontal = orientation === "horizontal";
-    return /* @__PURE__ */ jsx47(
+    return /* @__PURE__ */ jsx49(
       "div",
       {
         ref,
@@ -6476,8 +7306,8 @@ var Divider = forwardRef36(
 );
 
 // src/components/atoms/Container/Container.tsx
-import { forwardRef as forwardRef37 } from "react";
-import { jsx as jsx48 } from "react/jsx-runtime";
+import { forwardRef as forwardRef38 } from "react";
+import { jsx as jsx50 } from "react/jsx-runtime";
 var widthMap = {
   narrow: "32rem",
   prose: "680px",
@@ -6490,7 +7320,7 @@ var paddingMap = {
   md: "1.5rem",
   lg: "3rem"
 };
-var Container = forwardRef37(
+var Container = forwardRef38(
   function Container2({
     width = "prose",
     padding = "md",
@@ -6498,7 +7328,7 @@ var Container = forwardRef37(
     id,
     "data-testid": dataTestId
   }, ref) {
-    return /* @__PURE__ */ jsx48(
+    return /* @__PURE__ */ jsx50(
       "div",
       {
         ref,
@@ -6519,20 +7349,20 @@ var Container = forwardRef37(
 );
 
 // src/components/molecules/TabStrip/TabStrip.tsx
-import { forwardRef as forwardRef38, useCallback as useCallback16 } from "react";
-import { semantic as t48, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
-import { jsx as jsx49, jsxs as jsxs27 } from "react/jsx-runtime";
+import { forwardRef as forwardRef39, useCallback as useCallback18 } from "react";
+import { semantic as t50, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
+import { jsx as jsx51, jsxs as jsxs29 } from "react/jsx-runtime";
 var STYLES_ID = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
-  transition: color ${t48.transitionFast}, background ${t48.transitionFast}, border-color ${t48.transitionFast};
+  transition: color ${t50.transitionFast}, background ${t50.transitionFast}, border-color ${t50.transitionFast};
 }
 [data-tab-btn]:hover:not([aria-selected="true"]) {
-  color: ${t48.colorTextSecondary};
-  background: color-mix(in srgb, ${t48.colorBorder} 10%, transparent);
+  color: ${t50.colorTextSecondary};
+  background: color-mix(in srgb, ${t50.colorBorder} 10%, transparent);
 }
 `;
-var TabStrip = forwardRef38(
+var TabStrip = forwardRef39(
   function TabStrip2({
     tabs,
     activeKey,
@@ -6547,7 +7377,7 @@ var TabStrip = forwardRef38(
       count: tabs.length,
       activeIndex: activeIndex === -1 ? null : activeIndex
     });
-    const handleClick = useCallback16(
+    const handleClick = useCallback18(
       (key) => {
         if (key === activeKey && allowDeselect) {
           onChange(null);
@@ -6558,7 +7388,7 @@ var TabStrip = forwardRef38(
       [activeKey, allowDeselect, onChange]
     );
     const isSm = size === "sm";
-    return /* @__PURE__ */ jsx49(
+    return /* @__PURE__ */ jsx51(
       "div",
       {
         ref,
@@ -6571,7 +7401,7 @@ var TabStrip = forwardRef38(
         },
         children: tabs.map((tab, i) => {
           const isActive = tab.key === activeKey;
-          return /* @__PURE__ */ jsxs27(
+          return /* @__PURE__ */ jsxs29(
             "button",
             {
               ref: itemRef(i),
@@ -6584,22 +7414,22 @@ var TabStrip = forwardRef38(
               style: {
                 display: "flex",
                 alignItems: "center",
-                gap: t48.spaceXs,
-                padding: isSm ? `${t48.spaceXs} ${t48.spaceSm}` : `${t48.spaceSm} ${t48.spaceMd}`,
+                gap: t50.spaceXs,
+                padding: isSm ? `${t50.spaceXs} ${t50.spaceSm}` : `${t50.spaceSm} ${t50.spaceMd}`,
                 border: "none",
-                borderBottom: `2px solid ${isActive ? t48.colorActionPrimary : "transparent"}`,
+                borderBottom: `2px solid ${isActive ? t50.colorActionPrimary : "transparent"}`,
                 borderRadius: 0,
-                background: isActive ? `color-mix(in srgb, ${t48.colorActionPrimary} 8%, transparent)` : "transparent",
-                color: isActive ? t48.colorActionPrimary : t48.colorTextMuted,
-                fontFamily: t48.fontSans,
-                fontSize: isSm ? t48.fontSizeXs : t48.fontSizeSm,
-                fontWeight: t48.fontWeightSemibold,
-                lineHeight: t48.lineHeightTight,
+                background: isActive ? `color-mix(in srgb, ${t50.colorActionPrimary} 8%, transparent)` : "transparent",
+                color: isActive ? t50.colorActionPrimary : t50.colorTextMuted,
+                fontFamily: t50.fontSans,
+                fontSize: isSm ? t50.fontSizeXs : t50.fontSizeSm,
+                fontWeight: t50.fontWeightSemibold,
+                lineHeight: t50.lineHeightTight,
                 cursor: "pointer",
                 whiteSpace: "nowrap"
               },
               children: [
-                tab.icon && /* @__PURE__ */ jsx49(Icon, { name: tab.icon, size: isSm ? "xs" : "sm" }),
+                tab.icon && /* @__PURE__ */ jsx51(Icon, { name: tab.icon, size: isSm ? "xs" : "sm" }),
                 tab.label
               ]
             },
@@ -6626,6 +7456,7 @@ export {
   CardSkeleton,
   ChipPicker,
   Combobox,
+  CommandPalette,
   ConfirmDialog,
   Container,
   DataTablePage,
@@ -6731,6 +7562,12 @@ export {
   TopBarNav,
   TopBarRoot,
   TopBarTrailing,
+  WizardDialog,
+  WizardDialogActions,
+  WizardDialogProgress,
+  WizardDialogRoot,
+  WizardDialogStep,
+  WizardDialogTitle,
   alignMap,
   dividerOpacityMap,
   iconRegistry,

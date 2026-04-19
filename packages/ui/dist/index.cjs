@@ -46,6 +46,7 @@ __export(index_exports, {
   CardSkeleton: () => CardSkeleton,
   ChipPicker: () => ChipPicker,
   Combobox: () => Combobox,
+  CommandPalette: () => CommandPalette,
   ConfirmDialog: () => ConfirmDialog,
   Container: () => Container,
   DataTablePage: () => DataTablePage,
@@ -151,6 +152,12 @@ __export(index_exports, {
   TopBarNav: () => TopBarNav,
   TopBarRoot: () => TopBarRoot,
   TopBarTrailing: () => TopBarTrailing,
+  WizardDialog: () => WizardDialog,
+  WizardDialogActions: () => WizardDialogActions,
+  WizardDialogProgress: () => WizardDialogProgress,
+  WizardDialogRoot: () => WizardDialogRoot,
+  WizardDialogStep: () => WizardDialogStep,
+  WizardDialogTitle: () => WizardDialogTitle,
   alignMap: () => alignMap,
   dividerOpacityMap: () => dividerOpacityMap,
   iconRegistry: () => iconRegistry,
@@ -3227,8 +3234,8 @@ function isSameDay(a, b) {
 function isInRange(date, from, to) {
   const d = stripTime(date).getTime();
   const f = stripTime(from).getTime();
-  const t49 = stripTime(to).getTime();
-  return d >= f && d <= t49;
+  const t51 = stripTime(to).getTime();
+  return d >= f && d <= t51;
 }
 function formatDate(date) {
   const y = date.getFullYear();
@@ -4301,7 +4308,7 @@ function ToastProvider({
 }) {
   const [toasts, setToasts] = (0, import_react33.useState)([]);
   const dismiss = (0, import_react33.useCallback)((id) => {
-    setToasts((prev) => prev.filter((t49) => t49.id !== id));
+    setToasts((prev) => prev.filter((t51) => t51.id !== id));
   }, []);
   const showToast = (0, import_react33.useCallback)(
     (message, typeOrOptions) => {
@@ -4759,10 +4766,412 @@ var Combobox = {
   Empty
 };
 
-// src/components/molecules/ChipPicker/ChipPicker.tsx
+// src/components/organisms/CommandPalette/CommandPalette.tsx
 var import_react35 = require("react");
+var import_react_dom3 = require("react-dom");
 var import_core40 = require("../../core/dist/index.cjs");
 var import_jsx_runtime36 = require("react/jsx-runtime");
+function isMac() {
+  if (typeof navigator === "undefined") return false;
+  return /Mac|iPod|iPhone|iPad/.test(navigator.userAgent ?? "");
+}
+function matchesShortcut(event, spec) {
+  if (event.key.toLowerCase() !== spec.key.toLowerCase()) return false;
+  if (spec.mod) {
+    const wantMod = isMac() ? event.metaKey : event.ctrlKey;
+    if (!wantMod) return false;
+  }
+  if (spec.ctrl !== void 0 && spec.ctrl !== event.ctrlKey) return false;
+  if (spec.meta !== void 0 && spec.meta !== event.metaKey) return false;
+  if (spec.shift !== void 0 && spec.shift !== event.shiftKey) return false;
+  if (spec.alt !== void 0 && spec.alt !== event.altKey) return false;
+  return true;
+}
+var DEFAULT_SHORTCUT = { key: "k", mod: true };
+var RootContext = (0, import_react35.createContext)(null);
+function useRootContext(part) {
+  const ctx = (0, import_react35.useContext)(RootContext);
+  if (!ctx) {
+    throw new Error(
+      `<CommandPalette.${part}> must be rendered inside <CommandPalette.Root>.`
+    );
+  }
+  return ctx;
+}
+var QueryContext = (0, import_react35.createContext)(null);
+function useQueryContext(part) {
+  const ctx = (0, import_react35.useContext)(QueryContext);
+  if (!ctx) {
+    throw new Error(
+      `<CommandPalette.${part}> must be rendered inside <CommandPalette.Content>.`
+    );
+  }
+  return ctx;
+}
+function Root4({
+  open: controlledOpen,
+  defaultOpen = false,
+  onOpenChange,
+  "aria-label": ariaLabel,
+  shortcut = DEFAULT_SHORTCUT,
+  disabled = false,
+  children
+}) {
+  const [internalOpen, setInternalOpen] = (0, import_react35.useState)(defaultOpen);
+  const isControlled = controlledOpen !== void 0;
+  const open = isControlled ? controlledOpen : internalOpen;
+  const titleId = (0, import_react35.useId)();
+  const setOpen = (0, import_react35.useCallback)(
+    (next) => {
+      if (!isControlled) setInternalOpen(next);
+      onOpenChange?.(next);
+    },
+    [isControlled, onOpenChange]
+  );
+  (0, import_react35.useEffect)(() => {
+    if (disabled || !shortcut) return;
+    const handler = (e) => {
+      if (matchesShortcut(e, shortcut)) {
+        e.preventDefault();
+        setOpen(!open);
+      }
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [disabled, shortcut, open, setOpen]);
+  const ctx = (0, import_react35.useMemo)(
+    () => ({ open, setOpen, ariaLabel, titleId }),
+    [open, setOpen, ariaLabel, titleId]
+  );
+  return /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(RootContext.Provider, { value: ctx, children });
+}
+function Trigger2({
+  asChild = false,
+  children,
+  onClick
+}) {
+  const { open, setOpen, ariaLabel } = useRootContext("Trigger");
+  const handleClick = (0, import_react35.useCallback)(
+    (e) => {
+      onClick?.(e);
+      setOpen(!open);
+    },
+    [onClick, open, setOpen]
+  );
+  if (asChild) {
+    return /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+      import_core40.Slot,
+      {
+        onClick: handleClick,
+        "aria-haspopup": "dialog",
+        "aria-expanded": open,
+        "aria-label": ariaLabel,
+        children
+      }
+    );
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+    "button",
+    {
+      type: "button",
+      onClick: handleClick,
+      "aria-haspopup": "dialog",
+      "aria-expanded": open,
+      "aria-label": ariaLabel,
+      style: {
+        cursor: "pointer",
+        background: "transparent",
+        border: `${import_core40.semantic.borderWidthDefault} solid ${import_core40.semantic.colorBorder}`,
+        color: import_core40.semantic.colorText,
+        borderRadius: import_core40.semantic.radiusMd,
+        padding: `${import_core40.semantic.spaceXs} ${import_core40.semantic.spaceSm}`,
+        fontSize: import_core40.semantic.fontSizeSm,
+        fontFamily: import_core40.semantic.fontSans,
+        display: "inline-flex",
+        alignItems: "center",
+        gap: import_core40.semantic.spaceXs
+      },
+      children
+    }
+  );
+}
+function Content2({
+  placeholder = "Type a command or search\u2026",
+  emptyLabel = "No results.",
+  children
+}) {
+  const { open, setOpen, ariaLabel, titleId } = useRootContext("Content");
+  const [query, setQuery] = (0, import_react35.useState)("");
+  const panelRef = (0, import_react35.useRef)(null);
+  (0, import_react35.useEffect)(() => {
+    if (open) setQuery("");
+  }, [open]);
+  (0, import_react35.useEffect)(() => {
+    if (!open) return;
+    const handler = (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setOpen(false);
+      }
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [open, setOpen]);
+  const matches = (0, import_react35.useCallback)(
+    (value, keywords, text) => {
+      const q = query.trim().toLowerCase();
+      if (!q) return true;
+      if (value.toLowerCase().includes(q)) return true;
+      if (text.toLowerCase().includes(q)) return true;
+      for (const kw of keywords) {
+        if (kw.toLowerCase().includes(q)) return true;
+      }
+      return false;
+    },
+    [query]
+  );
+  const queryCtx = (0, import_react35.useMemo)(
+    () => ({ query, matches }),
+    [query, matches]
+  );
+  if (!open) return null;
+  const anyMatch = hasMatchingItem(children, query);
+  return (0, import_react_dom3.createPortal)(
+    /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(QueryContext.Provider, { value: queryCtx, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Overlay, { onClick: () => setOpen(false), zIndex: import_core40.semantic.zIndexModal }),
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+        "div",
+        {
+          style: {
+            position: "fixed",
+            inset: 0,
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "center",
+            padding: import_core40.semantic.spaceMd,
+            paddingTop: "10vh",
+            zIndex: `calc(${import_core40.semantic.zIndexModal} + 1)`,
+            pointerEvents: "none"
+          },
+          children: /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(
+            "div",
+            {
+              ref: panelRef,
+              role: "dialog",
+              "aria-modal": "true",
+              "aria-label": ariaLabel,
+              "aria-labelledby": void 0,
+              "data-testid": "command-palette-content",
+              style: {
+                background: import_core40.semantic.colorSurface,
+                color: import_core40.semantic.colorText,
+                borderRadius: import_core40.semantic.radiusLg,
+                boxShadow: import_core40.semantic.shadowLg,
+                border: `${import_core40.semantic.borderWidthDefault} solid ${import_core40.semantic.colorBorder}`,
+                width: "100%",
+                maxWidth: "36rem",
+                maxHeight: "70vh",
+                display: "flex",
+                flexDirection: "column",
+                overflow: "hidden",
+                pointerEvents: "auto",
+                outline: "none"
+              },
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { id: titleId, style: { display: "none" }, children: ariaLabel }),
+                /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(Combobox.Root, { value: query, onValueChange: setQuery, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+                    "div",
+                    {
+                      style: {
+                        borderBottom: `${import_core40.semantic.borderWidthDefault} solid ${import_core40.semantic.colorBorder}`,
+                        padding: import_core40.semantic.spaceSm
+                      },
+                      children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+                        Combobox.Input,
+                        {
+                          placeholder,
+                          "aria-label": ariaLabel,
+                          autoFocus: true
+                        }
+                      )
+                    }
+                  ),
+                  /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+                    "div",
+                    {
+                      style: {
+                        flex: 1,
+                        overflowY: "auto",
+                        padding: import_core40.semantic.spaceXs
+                      },
+                      children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Combobox.List, { children: anyMatch ? children : /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Combobox.Empty, { children: emptyLabel }) })
+                    }
+                  )
+                ] })
+              ]
+            }
+          )
+        }
+      )
+    ] }),
+    document.body
+  );
+}
+function Group({ label, children }) {
+  const { query } = useQueryContext("Group");
+  if (!hasMatchingItem(children, query)) return null;
+  return /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(
+    "div",
+    {
+      "data-command-palette-group": true,
+      "data-label": label,
+      style: {
+        padding: `${import_core40.semantic.spaceXs} 0`
+      },
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+          "div",
+          {
+            "aria-hidden": "true",
+            style: {
+              padding: `${import_core40.semantic.spaceXs} ${import_core40.semantic.spaceSm}`,
+              fontSize: import_core40.semantic.fontSizeXs,
+              fontWeight: import_core40.semantic.fontWeightSemibold,
+              color: import_core40.semantic.colorTextMuted,
+              textTransform: "uppercase",
+              letterSpacing: "0.04em",
+              fontFamily: import_core40.semantic.fontSans
+            },
+            children: label
+          }
+        ),
+        children
+      ]
+    }
+  );
+}
+function Item3({
+  value,
+  onSelect,
+  icon,
+  shortcut,
+  keywords = [],
+  children
+}) {
+  const { matches } = useQueryContext("Item");
+  const { setOpen } = useRootContext("Item");
+  const text = typeof children === "string" ? children : value;
+  if (!matches(value, keywords, text)) return null;
+  const handleSelect = () => {
+    setOpen(false);
+    onSelect();
+  };
+  const shortcutParts = Array.isArray(shortcut) ? shortcut : shortcut ? [shortcut] : [];
+  return /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Combobox.Item, { value, textValue: text, children: /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(
+    "span",
+    {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: import_core40.semantic.spaceSm,
+        width: "100%"
+      },
+      onClick: handleSelect,
+      children: [
+        icon && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+          "span",
+          {
+            "aria-hidden": "true",
+            style: {
+              display: "inline-flex",
+              color: import_core40.semantic.colorTextMuted
+            },
+            children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Icon, { name: icon, size: "sm" })
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { style: { flex: 1, minWidth: 0 }, children }),
+        shortcutParts.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+          "span",
+          {
+            "aria-hidden": "true",
+            style: {
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "2px",
+              marginLeft: "auto",
+              flexShrink: 0
+            },
+            children: shortcutParts.map((part, i) => /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+              "kbd",
+              {
+                style: {
+                  display: "inline-flex",
+                  alignItems: "center",
+                  padding: `0 ${import_core40.semantic.spaceXs}`,
+                  minWidth: "1.5em",
+                  height: "1.5em",
+                  justifyContent: "center",
+                  background: import_core40.semantic.colorSurfaceRaised,
+                  color: import_core40.semantic.colorTextMuted,
+                  border: `${import_core40.semantic.borderWidthDefault} solid ${import_core40.semantic.colorBorder}`,
+                  borderRadius: import_core40.semantic.radiusSm,
+                  fontSize: import_core40.semantic.fontSizeXs,
+                  fontFamily: import_core40.semantic.fontMono,
+                  lineHeight: 1
+                },
+                children: part
+              },
+              `${value}-kbd-${i}`
+            ))
+          }
+        )
+      ]
+    }
+  ) });
+}
+function hasMatchingItem(children, query) {
+  const q = query.trim().toLowerCase();
+  let found = false;
+  const visit = (node) => {
+    if (found) return;
+    import_react35.Children.forEach(node, (child) => {
+      if (found) return;
+      if (!(0, import_react35.isValidElement)(child)) return;
+      const props = child.props;
+      const looksLikeItem = typeof props.value === "string" && typeof props.onSelect === "function";
+      if (looksLikeItem) {
+        const itemValue = props.value ?? "";
+        const keywords = props.keywords ?? [];
+        const text = typeof props.children === "string" ? props.children : itemValue;
+        if (!q) {
+          found = true;
+          return;
+        }
+        if (itemValue.toLowerCase().includes(q) || text.toLowerCase().includes(q) || keywords.some((k) => k.toLowerCase().includes(q))) {
+          found = true;
+          return;
+        }
+        return;
+      }
+      if (props.children !== void 0) visit(props.children);
+    });
+  };
+  visit(children);
+  return found;
+}
+var CommandPalette = {
+  Root: Root4,
+  Trigger: Trigger2,
+  Content: Content2,
+  Group,
+  Item: Item3
+};
+
+// src/components/molecules/ChipPicker/ChipPicker.tsx
+var import_react36 = require("react");
+var import_core41 = require("../../core/dist/index.cjs");
+var import_jsx_runtime37 = require("react/jsx-runtime");
 function ChipPicker({
   items,
   selected: controlledSelected,
@@ -4770,31 +5179,31 @@ function ChipPicker({
   onChange,
   "aria-label": ariaLabel
 }) {
-  const uid = (0, import_react35.useId)();
+  const uid = (0, import_react36.useId)();
   const styleId = `chip-picker-${uid.replace(/:/g, "")}`;
   const isControlled = controlledSelected !== void 0;
-  const [internalSelected, setInternalSelected] = (0, import_react35.useState)(
+  const [internalSelected, setInternalSelected] = (0, import_react36.useState)(
     () => defaultSelected ?? []
   );
   const selected = isControlled ? controlledSelected : internalSelected;
-  const applySelection = (0, import_react35.useCallback)(
+  const applySelection = (0, import_react36.useCallback)(
     (next) => {
       if (!isControlled) setInternalSelected(next);
       onChange?.(next);
     },
     [isControlled, onChange]
   );
-  (0, import_core40.useInjectStyles)(
+  (0, import_core41.useInjectStyles)(
     styleId,
     `[data-chip-picker-id="${styleId}"] button:hover {
-      background: ${import_core40.semantic.colorSurfaceRaised} !important;
+      background: ${import_core41.semantic.colorSurfaceRaised} !important;
     }
     [data-chip-picker-id="${styleId}"] button[aria-pressed="true"]:hover {
-      background: ${import_core40.semantic.colorActionSecondaryHover} !important;
+      background: ${import_core41.semantic.colorActionSecondaryHover} !important;
     }
     [data-chip-picker-id="${styleId}"] button:focus-visible {
-      outline: ${import_core40.semantic.focusRingWidth} solid ${import_core40.semantic.focusRingColor};
-      outline-offset: ${import_core40.semantic.focusRingOffset};
+      outline: ${import_core41.semantic.focusRingWidth} solid ${import_core41.semantic.focusRingColor};
+      outline-offset: ${import_core41.semantic.focusRingOffset};
     }`
   );
   const toggle = (value) => {
@@ -4821,17 +5230,17 @@ function ChipPicker({
     const [ungrouped] = groups.splice(ungroupedIdx, 1);
     groups.unshift(ungrouped);
   }
-  const renderChips = (chips) => /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+  const renderChips = (chips) => /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
     "div",
     {
       style: {
         display: "flex",
         flexWrap: "wrap",
-        gap: import_core40.semantic.spaceSm
+        gap: import_core41.semantic.spaceSm
       },
       children: chips.map((item) => {
         const isSelected = selected.includes(item.value);
-        return /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+        return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
           "button",
           {
             type: "button",
@@ -4848,7 +5257,7 @@ function ChipPicker({
       })
     }
   );
-  return /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
     "div",
     {
       "data-chip-picker-id": styleId,
@@ -4857,10 +5266,10 @@ function ChipPicker({
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: import_core40.semantic.spaceMd
+        gap: import_core41.semantic.spaceMd
       },
-      children: groups.map((group, i) => /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: import_core40.semantic.spaceSm }, children: [
-        group.label !== null && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { style: i > 0 ? { marginTop: import_core40.semantic.spaceXs } : void 0, children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { style: sectionLabelStyle, children: group.label }) }),
+      children: groups.map((group, i) => /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: import_core41.semantic.spaceSm }, children: [
+        group.label !== null && /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("div", { style: i > 0 ? { marginTop: import_core41.semantic.spaceXs } : void 0, children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("div", { style: sectionLabelStyle, children: group.label }) }),
         renderChips(group.chips)
       ] }, group.label ?? "__ungrouped"))
     }
@@ -4868,9 +5277,9 @@ function ChipPicker({
 }
 
 // src/components/molecules/SearchInput/SearchInput.tsx
-var import_react36 = require("react");
-var import_core41 = require("../../core/dist/index.cjs");
-var import_jsx_runtime37 = require("react/jsx-runtime");
+var import_react37 = require("react");
+var import_core42 = require("../../core/dist/index.cjs");
+var import_jsx_runtime38 = require("react/jsx-runtime");
 var STYLE_ID2 = "4lt7ab-search-input";
 var WRAPPER_CLASS = "search-input-wrapper";
 var focusRingCSS = inputShellFocusRingCSS(`.${WRAPPER_CLASS}`);
@@ -4878,8 +5287,8 @@ var wrapperStyle5 = {
   ...inputShellBaseStyle,
   display: "flex",
   alignItems: "center",
-  gap: import_core41.semantic.spaceXs,
-  lineHeight: import_core41.semantic.lineHeightTight
+  gap: import_core42.semantic.spaceXs,
+  lineHeight: import_core42.semantic.lineHeightTight
 };
 var inputStyle = {
   flex: 1,
@@ -4893,7 +5302,7 @@ var inputStyle = {
   fontFamily: "inherit",
   padding: 0
 };
-var SearchInput = (0, import_react36.forwardRef)(
+var SearchInput = (0, import_react37.forwardRef)(
   function SearchInput2({
     value,
     onSearch,
@@ -4910,15 +5319,15 @@ var SearchInput = (0, import_react36.forwardRef)(
     "aria-describedby": ariaDescribedBy,
     "data-testid": dataTestId
   }, ref) {
-    (0, import_core41.useInjectStyles)(STYLE_ID2, focusRingCSS);
-    const [localValue, setLocalValue] = (0, import_react36.useState)(value);
-    const timerRef = (0, import_react36.useRef)(null);
-    const onSearchRef = (0, import_react36.useRef)(onSearch);
+    (0, import_core42.useInjectStyles)(STYLE_ID2, focusRingCSS);
+    const [localValue, setLocalValue] = (0, import_react37.useState)(value);
+    const timerRef = (0, import_react37.useRef)(null);
+    const onSearchRef = (0, import_react37.useRef)(onSearch);
     onSearchRef.current = onSearch;
-    (0, import_react36.useEffect)(() => {
+    (0, import_react37.useEffect)(() => {
       setLocalValue(value);
     }, [value]);
-    const handleChange = (0, import_react36.useCallback)((e) => {
+    const handleChange = (0, import_react37.useCallback)((e) => {
       const next = e.target.value;
       setLocalValue(next);
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -4926,12 +5335,12 @@ var SearchInput = (0, import_react36.forwardRef)(
         onSearchRef.current(next);
       }, debounceMs);
     }, [debounceMs]);
-    (0, import_react36.useEffect)(() => {
+    (0, import_react37.useEffect)(() => {
       return () => {
         if (timerRef.current) clearTimeout(timerRef.current);
       };
     }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(
       "div",
       {
         className: WRAPPER_CLASS,
@@ -4941,8 +5350,8 @@ var SearchInput = (0, import_react36.forwardRef)(
           ...disabled ? inputShellDisabledStyle : {}
         },
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { style: { color: import_core41.semantic.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(Icon, { name: "search", size: "sm" }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("span", { style: { color: import_core42.semantic.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(Icon, { name: "search", size: "sm" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
             "input",
             {
               ref,
@@ -4961,7 +5370,7 @@ var SearchInput = (0, import_react36.forwardRef)(
               style: inputStyle
             }
           ),
-          trailing && /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("div", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: trailing })
+          trailing && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: trailing })
         ]
       }
     );
@@ -4969,24 +5378,24 @@ var SearchInput = (0, import_react36.forwardRef)(
 );
 
 // src/components/molecules/SegmentedControl/SegmentedControl.tsx
-var import_react38 = require("react");
-var import_core42 = require("../../core/dist/index.cjs");
+var import_react39 = require("react");
+var import_core43 = require("../../core/dist/index.cjs");
 
 // src/utils/useRovingFocus.ts
-var import_react37 = require("react");
+var import_react38 = require("react");
 function useRovingFocus({
   count,
   activeIndex,
   orientation = "horizontal"
 }) {
-  const itemRefs = (0, import_react37.useRef)([]);
-  const itemRef = (0, import_react37.useCallback)(
+  const itemRefs = (0, import_react38.useRef)([]);
+  const itemRef = (0, import_react38.useCallback)(
     (index) => (el) => {
       itemRefs.current[index] = el;
     },
     []
   );
-  const onKeyDown = (0, import_react37.useCallback)(
+  const onKeyDown = (0, import_react38.useCallback)(
     (index) => (e) => {
       if (count === 0) return;
       let nextIndex = null;
@@ -5008,7 +5417,7 @@ function useRovingFocus({
     },
     [count, orientation]
   );
-  const getTabIndex = (0, import_react37.useCallback)(
+  const getTabIndex = (0, import_react38.useCallback)(
     (index) => {
       if (activeIndex == null) {
         return index === 0 ? 0 : -1;
@@ -5021,16 +5430,16 @@ function useRovingFocus({
 }
 
 // src/components/molecules/SegmentedControl/SegmentedControl.tsx
-var import_jsx_runtime38 = require("react/jsx-runtime");
+var import_jsx_runtime39 = require("react/jsx-runtime");
 var STYLE_ID3 = "4lt7ab-segmented-control";
 var hoverCSS = `
   .segmented-ctrl-btn:hover:not([aria-pressed="true"]) {
-    color: ${import_core42.semantic.colorText};
+    color: ${import_core43.semantic.colorText};
   }
   .segmented-ctrl-btn:focus-visible {
-    outline: ${import_core42.semantic.focusRingWidth} solid ${import_core42.semantic.focusRingColor};
-    outline-offset: ${import_core42.semantic.focusRingOffset};
-    border-radius: ${import_core42.semantic.radiusFull};
+    outline: ${import_core43.semantic.focusRingWidth} solid ${import_core43.semantic.focusRingColor};
+    outline-offset: ${import_core43.semantic.focusRingOffset};
+    border-radius: ${import_core43.semantic.radiusFull};
     z-index: 2;
   }
   @media (prefers-reduced-motion: reduce) {
@@ -5051,28 +5460,28 @@ function SegmentedControl({
   size = "md",
   "aria-label": ariaLabel
 }) {
-  (0, import_core42.useInjectStyles)(STYLE_ID3, hoverCSS);
+  (0, import_core43.useInjectStyles)(STYLE_ID3, hoverCSS);
   const isControlled = controlledValue !== void 0;
-  const [internalValue, setInternalValue] = (0, import_react38.useState)(
+  const [internalValue, setInternalValue] = (0, import_react39.useState)(
     () => defaultValue ?? segments[0]?.value ?? ""
   );
   const value = isControlled ? controlledValue : internalValue;
-  const handleSelect = (0, import_react38.useCallback)(
+  const handleSelect = (0, import_react39.useCallback)(
     (next) => {
       if (!isControlled) setInternalValue(next);
       onChange?.(next);
     },
     [isControlled, onChange]
   );
-  const containerRef = (0, import_react38.useRef)(null);
-  const [indicator, setIndicator] = (0, import_react38.useState)(null);
+  const containerRef = (0, import_react39.useRef)(null);
+  const [indicator, setIndicator] = (0, import_react39.useState)(null);
   const s = sizes[size];
   const activeIndex = segments.findIndex((seg) => seg.value === value);
   const { itemRef, onKeyDown, getTabIndex } = useRovingFocus({
     count: segments.length,
     activeIndex: activeIndex === -1 ? null : activeIndex
   });
-  const updateIndicator = (0, import_react38.useCallback)(() => {
+  const updateIndicator = (0, import_react39.useCallback)(() => {
     const container = containerRef.current;
     if (!container) return;
     const activeBtn = container.querySelector('[aria-pressed="true"]');
@@ -5087,15 +5496,15 @@ function SegmentedControl({
       width: btnRect.width
     });
   }, []);
-  (0, import_react38.useLayoutEffect)(() => {
+  (0, import_react39.useLayoutEffect)(() => {
     updateIndicator();
   }, [value, segments, updateIndicator]);
-  (0, import_react38.useLayoutEffect)(() => {
+  (0, import_react39.useLayoutEffect)(() => {
     const observer = new ResizeObserver(() => updateIndicator());
     if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, [updateIndicator]);
-  return /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(
     "div",
     {
       ref: containerRef,
@@ -5106,14 +5515,14 @@ function SegmentedControl({
         display: "inline-flex",
         alignItems: "center",
         height: s.height,
-        background: import_core42.semantic.colorSurfaceInput,
-        borderRadius: import_core42.semantic.radiusFull,
-        border: `${import_core42.semantic.borderWidthDefault} solid ${import_core42.semantic.colorBorder}`,
+        background: import_core43.semantic.colorSurfaceInput,
+        borderRadius: import_core43.semantic.radiusFull,
+        border: `${import_core43.semantic.borderWidthDefault} solid ${import_core43.semantic.colorBorder}`,
         padding: 2,
         boxSizing: "border-box"
       },
       children: [
-        indicator && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
+        indicator && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
           "div",
           {
             className: "segmented-ctrl-indicator",
@@ -5123,9 +5532,9 @@ function SegmentedControl({
               left: indicator.left,
               width: indicator.width,
               height: s.height - 6,
-              borderRadius: import_core42.semantic.radiusFull,
-              background: import_core42.semantic.colorActionPrimary,
-              transition: `left ${import_core42.semantic.transitionSlow}, width ${import_core42.semantic.transitionSlow}`,
+              borderRadius: import_core43.semantic.radiusFull,
+              background: import_core43.semantic.colorActionPrimary,
+              transition: `left ${import_core43.semantic.transitionSlow}, width ${import_core43.semantic.transitionSlow}`,
               pointerEvents: "none"
             }
           }
@@ -5134,7 +5543,7 @@ function SegmentedControl({
           const isActive = seg.value === value;
           const hasIcon = !!seg.icon;
           const iconOnly = hasIcon && !seg.label;
-          return /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(
+          return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(
             "button",
             {
               ref: itemRef(i),
@@ -5150,24 +5559,24 @@ function SegmentedControl({
                 display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "center",
-                gap: import_core42.semantic.spaceXs,
+                gap: import_core43.semantic.spaceXs,
                 height: s.height - 6,
                 padding: iconOnly ? `0 ${s.px - 2}px` : `0 ${s.px}px`,
                 border: "none",
-                borderRadius: import_core42.semantic.radiusFull,
+                borderRadius: import_core43.semantic.radiusFull,
                 background: "transparent",
-                color: isActive ? import_core42.semantic.colorTextInverse : import_core42.semantic.colorTextMuted,
+                color: isActive ? import_core43.semantic.colorTextInverse : import_core43.semantic.colorTextMuted,
                 fontSize: s.fontSize,
-                fontFamily: import_core42.semantic.fontSans,
-                fontWeight: isActive ? import_core42.semantic.fontWeightSemibold : import_core42.semantic.fontWeightNormal,
+                fontFamily: import_core43.semantic.fontSans,
+                fontWeight: isActive ? import_core43.semantic.fontWeightSemibold : import_core43.semantic.fontWeightNormal,
                 cursor: "pointer",
-                transition: `color ${import_core42.semantic.transitionBase}`,
+                transition: `color ${import_core43.semantic.transitionBase}`,
                 whiteSpace: "nowrap",
                 lineHeight: 1
               },
               children: [
-                hasIcon && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(Icon, { name: seg.icon, size: s.iconSize }),
-                seg.label && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("span", { children: seg.label })
+                hasIcon && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Icon, { name: seg.icon, size: s.iconSize }),
+                seg.label && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("span", { children: seg.label })
               ]
             },
             seg.value
@@ -5179,9 +5588,9 @@ function SegmentedControl({
 }
 
 // src/components/molecules/AlertBanner/AlertBanner.tsx
-var import_react39 = require("react");
-var import_core43 = require("../../core/dist/index.cjs");
-var import_jsx_runtime39 = require("react/jsx-runtime");
+var import_react40 = require("react");
+var import_core44 = require("../../core/dist/index.cjs");
+var import_jsx_runtime40 = require("react/jsx-runtime");
 var STYLE_ID4 = "4lt7ab-alert-banner";
 var alertBannerCSS = `
 @keyframes alert-banner-slide-in {
@@ -5196,23 +5605,23 @@ var alertBannerCSS = `
 }
 `;
 var variantColors2 = {
-  info: { bg: import_core43.semantic.colorInfoBg, fg: import_core43.semantic.colorInfo, border: import_core43.semantic.colorInfo },
-  warning: { bg: import_core43.semantic.colorWarningBg, fg: import_core43.semantic.colorWarning, border: import_core43.semantic.colorWarning },
-  error: { bg: import_core43.semantic.colorErrorBg, fg: import_core43.semantic.colorError, border: import_core43.semantic.colorError },
-  success: { bg: import_core43.semantic.colorSuccessBg, fg: import_core43.semantic.colorSuccess, border: import_core43.semantic.colorSuccess }
+  info: { bg: import_core44.semantic.colorInfoBg, fg: import_core44.semantic.colorInfo, border: import_core44.semantic.colorInfo },
+  warning: { bg: import_core44.semantic.colorWarningBg, fg: import_core44.semantic.colorWarning, border: import_core44.semantic.colorWarning },
+  error: { bg: import_core44.semantic.colorErrorBg, fg: import_core44.semantic.colorError, border: import_core44.semantic.colorError },
+  success: { bg: import_core44.semantic.colorSuccessBg, fg: import_core44.semantic.colorSuccess, border: import_core44.semantic.colorSuccess }
 };
 var defaultIcons = {
-  info: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(IconInfo, { size: 20 }),
-  warning: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(IconWarning, { size: 20 }),
-  error: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(IconError, { size: 20 }),
-  success: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(IconCheckCircle, { size: 20 })
+  info: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(IconInfo, { size: 20 }),
+  warning: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(IconWarning, { size: 20 }),
+  error: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(IconError, { size: 20 }),
+  success: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(IconCheckCircle, { size: 20 })
 };
-var AlertBanner = (0, import_react39.forwardRef)(
+var AlertBanner = (0, import_react40.forwardRef)(
   function AlertBanner2({ variant, children, onDismiss, icon }, ref) {
-    (0, import_core43.useInjectStyles)(STYLE_ID4, alertBannerCSS);
+    (0, import_core44.useInjectStyles)(STYLE_ID4, alertBannerCSS);
     const colors = variantColors2[variant];
     const resolvedIcon = icon !== void 0 ? icon : defaultIcons[variant];
-    return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(
       "div",
       {
         ref,
@@ -5220,23 +5629,23 @@ var AlertBanner = (0, import_react39.forwardRef)(
         style: {
           display: "flex",
           alignItems: "center",
-          gap: import_core43.semantic.spaceSm,
+          gap: import_core44.semantic.spaceSm,
           width: "100%",
-          padding: `${import_core43.semantic.spaceSm} ${import_core43.semantic.spaceMd}`,
+          padding: `${import_core44.semantic.spaceSm} ${import_core44.semantic.spaceMd}`,
           background: colors.bg,
           color: colors.fg,
-          borderBottom: `${import_core43.semantic.borderWidthThick} solid ${colors.border}`,
-          fontFamily: import_core43.semantic.fontSans,
-          fontSize: import_core43.semantic.fontSizeSm,
-          fontWeight: import_core43.semantic.fontWeightMedium,
-          lineHeight: import_core43.semantic.lineHeightBase,
+          borderBottom: `${import_core44.semantic.borderWidthThick} solid ${colors.border}`,
+          fontFamily: import_core44.semantic.fontSans,
+          fontSize: import_core44.semantic.fontSizeSm,
+          fontWeight: import_core44.semantic.fontWeightMedium,
+          lineHeight: import_core44.semantic.lineHeightBase,
           boxSizing: "border-box",
           animation: "alert-banner-slide-in 250ms ease"
         },
         children: [
-          resolvedIcon && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("span", { style: { flex: 1 }, children }),
-          onDismiss && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+          resolvedIcon && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("span", { style: { flex: 1 }, children }),
+          onDismiss && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
             IconButton,
             {
               icon: "close",
@@ -5252,12 +5661,12 @@ var AlertBanner = (0, import_react39.forwardRef)(
 );
 
 // src/components/organisms/TopBar/TopBar.tsx
-var import_react40 = require("react");
-var import_core44 = require("../../core/dist/index.cjs");
-var import_jsx_runtime40 = require("react/jsx-runtime");
-var TopBarContext = (0, import_react40.createContext)(null);
+var import_react41 = require("react");
+var import_core45 = require("../../core/dist/index.cjs");
+var import_jsx_runtime41 = require("react/jsx-runtime");
+var TopBarContext = (0, import_react41.createContext)(null);
 function useTopBarContext(component) {
-  const ctx = (0, import_react40.useContext)(TopBarContext);
+  const ctx = (0, import_react41.useContext)(TopBarContext);
   if (ctx === null) {
     throw new Error(
       `[@4lt7ab/ui] <TopBar.${component}> must be rendered inside <TopBar.Root>.`
@@ -5277,23 +5686,23 @@ var TOPBAR_CSS = `
     right: 0;
     height: 2px;
     background: transparent;
-    transition: background ${import_core44.semantic.transitionBase};
+    transition: background ${import_core45.semantic.transitionBase};
   }
   [data-topbar-link]:hover::after {
-    background: ${import_core44.semantic.colorBorder};
+    background: ${import_core45.semantic.colorBorder};
   }
   [data-topbar-link][data-active]::after {
-    background: ${import_core44.semantic.colorActionPrimary};
+    background: ${import_core45.semantic.colorActionPrimary};
   }
   [data-topbar-link]:hover {
-    color: ${import_core44.semantic.colorText};
+    color: ${import_core45.semantic.colorText};
   }
 `;
-var TopBarRoot = (0, import_react40.forwardRef)(
+var TopBarRoot = (0, import_react41.forwardRef)(
   function TopBarRoot2({ children, sticky = false, ...rest }, ref) {
-    (0, import_core44.useInjectStyles)(TOPBAR_STYLES_ID, TOPBAR_CSS);
-    const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: import_core44.semantic.zIndexSticky } : {};
-    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(TopBarContext.Provider, { value: true, children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+    (0, import_core45.useInjectStyles)(TOPBAR_STYLES_ID, TOPBAR_CSS);
+    const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: import_core45.semantic.zIndexSticky } : {};
+    return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(TopBarContext.Provider, { value: true, children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
       "header",
       {
         ref,
@@ -5303,11 +5712,11 @@ var TopBarRoot = (0, import_react40.forwardRef)(
         style: {
           display: "flex",
           alignItems: "center",
-          height: import_core44.semantic.space2xl,
-          padding: `0 ${import_core44.semantic.spaceMd}`,
-          background: import_core44.semantic.colorSurface,
-          borderBottom: `${import_core44.semantic.borderWidthDefault} solid ${import_core44.semantic.colorBorder}`,
-          fontFamily: import_core44.semantic.fontSans,
+          height: import_core45.semantic.space2xl,
+          padding: `0 ${import_core45.semantic.spaceMd}`,
+          background: import_core45.semantic.colorSurface,
+          borderBottom: `${import_core45.semantic.borderWidthDefault} solid ${import_core45.semantic.colorBorder}`,
+          fontFamily: import_core45.semantic.fontSans,
           ...stickyStyle
         },
         children
@@ -5317,16 +5726,16 @@ var TopBarRoot = (0, import_react40.forwardRef)(
 );
 function TopBarLeading({ children }) {
   useTopBarContext("Leading");
-  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
     "div",
     {
       style: {
         display: "flex",
         alignItems: "center",
-        fontWeight: import_core44.semantic.fontWeightBold,
-        fontSize: import_core44.semantic.fontSizeSm,
-        color: import_core44.semantic.colorText,
-        marginRight: import_core44.semantic.spaceLg,
+        fontWeight: import_core45.semantic.fontWeightBold,
+        fontSize: import_core45.semantic.fontSizeSm,
+        color: import_core45.semantic.colorText,
+        marginRight: import_core45.semantic.spaceLg,
         whiteSpace: "nowrap",
         flexShrink: 0
       },
@@ -5336,14 +5745,14 @@ function TopBarLeading({ children }) {
 }
 function TopBarNav({ children, "aria-label": ariaLabel = "Primary" }) {
   useTopBarContext("Nav");
-  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
     "nav",
     {
       "aria-label": ariaLabel,
       style: {
         display: "flex",
         alignItems: "center",
-        gap: import_core44.semantic.spaceXs,
+        gap: import_core45.semantic.spaceXs,
         height: "100%",
         flex: 1,
         minWidth: 0
@@ -5352,24 +5761,24 @@ function TopBarNav({ children, "aria-label": ariaLabel = "Primary" }) {
     }
   );
 }
-var TopBarLink = (0, import_react40.forwardRef)(function TopBarLink2({ active = false, asChild = false, onClick, children }, ref) {
+var TopBarLink = (0, import_react41.forwardRef)(function TopBarLink2({ active = false, asChild = false, onClick, children }, ref) {
   useTopBarContext("Link");
   const style = {
     display: "inline-flex",
     alignItems: "center",
-    gap: import_core44.semantic.spaceXs,
+    gap: import_core45.semantic.spaceXs,
     height: "100%",
-    padding: `0 ${import_core44.semantic.spaceSm}`,
+    padding: `0 ${import_core45.semantic.spaceSm}`,
     border: "none",
     background: "transparent",
-    color: active ? import_core44.semantic.colorActionPrimary : import_core44.semantic.colorTextMuted,
-    fontSize: import_core44.semantic.fontSizeSm,
-    fontFamily: import_core44.semantic.fontSans,
-    fontWeight: active ? import_core44.semantic.fontWeightSemibold : import_core44.semantic.fontWeightNormal,
+    color: active ? import_core45.semantic.colorActionPrimary : import_core45.semantic.colorTextMuted,
+    fontSize: import_core45.semantic.fontSizeSm,
+    fontFamily: import_core45.semantic.fontSans,
+    fontWeight: active ? import_core45.semantic.fontWeightSemibold : import_core45.semantic.fontWeightNormal,
     cursor: "pointer",
     whiteSpace: "nowrap",
     textDecoration: "none",
-    transition: `color ${import_core44.semantic.transitionBase}`,
+    transition: `color ${import_core45.semantic.transitionBase}`,
     boxSizing: "border-box"
   };
   const commonProps = {
@@ -5380,19 +5789,19 @@ var TopBarLink = (0, import_react40.forwardRef)(function TopBarLink2({ active = 
     style
   };
   if (asChild) {
-    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_core44.Slot, { ref, ...commonProps, children });
+    return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(import_core45.Slot, { ref, ...commonProps, children });
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("button", { ref, type: "button", ...commonProps, children });
+  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("button", { ref, type: "button", ...commonProps, children });
 });
 function TopBarTrailing({ children }) {
   useTopBarContext("Trailing");
-  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
     "div",
     {
       style: {
         display: "flex",
         alignItems: "center",
-        gap: import_core44.semantic.spaceSm,
+        gap: import_core45.semantic.spaceSm,
         marginLeft: "auto",
         flexShrink: 0
       },
@@ -5409,12 +5818,12 @@ var TopBar = {
 };
 
 // src/components/organisms/EmptyPage/EmptyPage.tsx
-var import_react41 = require("react");
-var import_core45 = require("../../core/dist/index.cjs");
-var import_jsx_runtime41 = require("react/jsx-runtime");
-var EmptyPageContext = (0, import_react41.createContext)(null);
+var import_react42 = require("react");
+var import_core46 = require("../../core/dist/index.cjs");
+var import_jsx_runtime42 = require("react/jsx-runtime");
+var EmptyPageContext = (0, import_react42.createContext)(null);
 function useEmptyPageContext(component) {
-  const ctx = (0, import_react41.useContext)(EmptyPageContext);
+  const ctx = (0, import_react42.useContext)(EmptyPageContext);
   if (ctx === null) {
     throw new Error(
       `[@4lt7ab/ui] <EmptyPage.${component}> must be rendered inside <EmptyPage.Root>.`
@@ -5422,10 +5831,10 @@ function useEmptyPageContext(component) {
   }
   return ctx;
 }
-var EmptyPageRoot = (0, import_react41.forwardRef)(function EmptyPageRoot2({ level = "page", children, ...rest }, ref) {
-  const titleId = (0, import_react41.useId)();
+var EmptyPageRoot = (0, import_react42.forwardRef)(function EmptyPageRoot2({ level = "page", children, ...rest }, ref) {
+  const titleId = (0, import_react42.useId)();
   const isPage = level === "page";
-  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(EmptyPageContext.Provider, { value: { level, titleId }, children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(EmptyPageContext.Provider, { value: { level, titleId }, children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
     "section",
     {
       ref,
@@ -5439,12 +5848,12 @@ var EmptyPageRoot = (0, import_react41.forwardRef)(function EmptyPageRoot2({ lev
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        gap: import_core45.semantic.spaceMd,
+        gap: import_core46.semantic.spaceMd,
         textAlign: "center",
         width: "100%",
         minHeight: isPage ? "60vh" : "auto",
-        padding: isPage ? `${import_core45.semantic.space2xl} ${import_core45.semantic.spaceLg}` : `${import_core45.semantic.spaceXl} ${import_core45.semantic.spaceLg}`,
-        fontFamily: import_core45.semantic.fontSans,
+        padding: isPage ? `${import_core46.semantic.space2xl} ${import_core46.semantic.spaceLg}` : `${import_core46.semantic.spaceXl} ${import_core46.semantic.spaceLg}`,
+        fontFamily: import_core46.semantic.fontSans,
         boxSizing: "border-box"
       },
       children
@@ -5453,7 +5862,7 @@ var EmptyPageRoot = (0, import_react41.forwardRef)(function EmptyPageRoot2({ lev
 });
 function EmptyPageIcon({ children }) {
   useEmptyPageContext("Icon");
-  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
     "div",
     {
       "aria-hidden": "true",
@@ -5461,8 +5870,8 @@ function EmptyPageIcon({ children }) {
         display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",
-        color: import_core45.semantic.colorTextMuted,
-        marginBottom: import_core45.semantic.spaceSm
+        color: import_core46.semantic.colorTextMuted,
+        marginBottom: import_core46.semantic.spaceSm
       },
       children
     }
@@ -5474,35 +5883,35 @@ function EmptyPageTitle({ children }) {
   const Tag = isPage ? "h1" : "h2";
   const style = isPage ? {
     margin: 0,
-    fontFamily: import_core45.semantic.fontSans,
-    fontWeight: import_core45.semantic.fontWeightBold,
-    fontSize: import_core45.semantic.fontSizeXl,
-    lineHeight: import_core45.semantic.lineHeightTight,
-    color: import_core45.semantic.colorText
+    fontFamily: import_core46.semantic.fontSans,
+    fontWeight: import_core46.semantic.fontWeightBold,
+    fontSize: import_core46.semantic.fontSizeXl,
+    lineHeight: import_core46.semantic.lineHeightTight,
+    color: import_core46.semantic.colorText
   } : {
     margin: 0,
-    fontFamily: import_core45.semantic.fontSans,
-    fontWeight: import_core45.semantic.fontWeightSemibold,
-    fontSize: import_core45.semantic.fontSizeLg,
-    lineHeight: import_core45.semantic.lineHeightTight,
-    color: import_core45.semantic.colorText
+    fontFamily: import_core46.semantic.fontSans,
+    fontWeight: import_core46.semantic.fontWeightSemibold,
+    fontSize: import_core46.semantic.fontSizeLg,
+    lineHeight: import_core46.semantic.lineHeightTight,
+    color: import_core46.semantic.colorText
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(Tag, { id: titleId, style, children });
+  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(Tag, { id: titleId, style, children });
 }
 function EmptyPageDescription({
   children
 }) {
   useEmptyPageContext("Description");
-  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
     "p",
     {
       style: {
         margin: 0,
         maxWidth: "32rem",
-        color: import_core45.semantic.colorTextSecondary,
-        fontSize: import_core45.semantic.fontSizeSm,
-        lineHeight: import_core45.semantic.lineHeightBase,
-        fontFamily: import_core45.semantic.fontSans
+        color: import_core46.semantic.colorTextSecondary,
+        fontSize: import_core46.semantic.fontSizeSm,
+        lineHeight: import_core46.semantic.lineHeightBase,
+        fontFamily: import_core46.semantic.fontSans
       },
       children
     }
@@ -5512,7 +5921,7 @@ function EmptyPageActions({
   children
 }) {
   useEmptyPageContext("Actions");
-  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
     "div",
     {
       style: {
@@ -5520,8 +5929,8 @@ function EmptyPageActions({
         flexWrap: "wrap",
         justifyContent: "center",
         alignItems: "center",
-        gap: import_core45.semantic.spaceSm,
-        marginTop: import_core45.semantic.spaceSm
+        gap: import_core46.semantic.spaceSm,
+        marginTop: import_core46.semantic.spaceSm
       },
       children
     }
@@ -5532,9 +5941,9 @@ function EmptyPageTips({
   children
 }) {
   useEmptyPageContext("Tips");
-  const count = import_react41.Children.toArray(children).filter(Boolean).length;
+  const count = import_react42.Children.toArray(children).filter(Boolean).length;
   if (count === 0) return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
     "ul",
     {
       "aria-label": ariaLabel,
@@ -5543,10 +5952,10 @@ function EmptyPageTips({
         flexWrap: "wrap",
         justifyContent: "center",
         alignItems: "stretch",
-        gap: import_core45.semantic.spaceSm,
+        gap: import_core46.semantic.spaceSm,
         listStyle: "none",
         margin: 0,
-        marginTop: import_core45.semantic.spaceMd,
+        marginTop: import_core46.semantic.spaceMd,
         padding: 0
       },
       children
@@ -5562,27 +5971,27 @@ function EmptyPageTip({
   const contentStyle = {
     display: "inline-flex",
     alignItems: "center",
-    gap: import_core45.semantic.spaceXs,
-    padding: `${import_core45.semantic.spaceXs} ${import_core45.semantic.spaceSm}`,
-    border: `${import_core45.semantic.borderWidthDefault} solid ${import_core45.semantic.colorBorder}`,
-    borderRadius: import_core45.semantic.radiusMd,
-    background: import_core45.semantic.colorSurface,
-    color: import_core45.semantic.colorText,
-    fontSize: import_core45.semantic.fontSizeSm,
-    fontFamily: import_core45.semantic.fontSans,
+    gap: import_core46.semantic.spaceXs,
+    padding: `${import_core46.semantic.spaceXs} ${import_core46.semantic.spaceSm}`,
+    border: `${import_core46.semantic.borderWidthDefault} solid ${import_core46.semantic.colorBorder}`,
+    borderRadius: import_core46.semantic.radiusMd,
+    background: import_core46.semantic.colorSurface,
+    color: import_core46.semantic.colorText,
+    fontSize: import_core46.semantic.fontSizeSm,
+    fontFamily: import_core46.semantic.fontSans,
     textDecoration: "none",
     cursor: asChild ? "pointer" : "default"
   };
   if (asChild) {
-    return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("li", { style: { display: "flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(import_core45.Slot, { style: contentStyle, children }) });
+    return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("li", { style: { display: "flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(import_core46.Slot, { style: contentStyle, children }) });
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("li", { style: { display: "flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("span", { style: contentStyle, children: [
-    icon && /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("li", { style: { display: "flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("span", { style: contentStyle, children: [
+    icon && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
       "span",
       {
         "aria-hidden": "true",
-        style: { display: "inline-flex", color: import_core45.semantic.colorTextMuted },
-        children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(Icon, { name: icon, size: "sm" })
+        style: { display: "inline-flex", color: import_core46.semantic.colorTextMuted },
+        children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(Icon, { name: icon, size: "sm" })
       }
     ),
     children
@@ -5599,12 +6008,12 @@ var EmptyPage = {
 };
 
 // src/components/organisms/AppShell/AppShell.tsx
-var import_react42 = require("react");
-var import_core46 = require("../../core/dist/index.cjs");
-var import_jsx_runtime42 = require("react/jsx-runtime");
-var AppShellContext = (0, import_react42.createContext)(null);
+var import_react43 = require("react");
+var import_core47 = require("../../core/dist/index.cjs");
+var import_jsx_runtime43 = require("react/jsx-runtime");
+var AppShellContext = (0, import_react43.createContext)(null);
 function useAppShellContextInternal(component) {
-  const ctx = (0, import_react42.useContext)(AppShellContext);
+  const ctx = (0, import_react43.useContext)(AppShellContext);
   if (ctx === null) {
     throw new Error(
       `[@4lt7ab/ui] <AppShell.${component}> must be rendered inside <AppShell.Root>.`
@@ -5616,15 +6025,15 @@ function useAppShellContext() {
   return useAppShellContextInternal("<consumer>");
 }
 function useIsInsideAppShell() {
-  return (0, import_react42.useContext)(AppShellContext) !== null;
+  return (0, import_react43.useContext)(AppShellContext) !== null;
 }
 function useControllableBoolean(params) {
   const { label, controlled, defaultValue, onChange } = params;
   const isControlled = controlled !== void 0;
-  const [uncontrolled, setUncontrolled] = (0, import_react42.useState)(defaultValue);
+  const [uncontrolled, setUncontrolled] = (0, import_react43.useState)(defaultValue);
   const value = isControlled ? controlled : uncontrolled;
-  const wasControlled = (0, import_react42.useRef)(isControlled);
-  (0, import_react42.useEffect)(() => {
+  const wasControlled = (0, import_react43.useRef)(isControlled);
+  (0, import_react43.useEffect)(() => {
     if (wasControlled.current !== isControlled) {
       console.warn(
         `<AppShell.Root> switched between controlled and uncontrolled for ${label}. Pick one and stick with it.`
@@ -5632,7 +6041,7 @@ function useControllableBoolean(params) {
       wasControlled.current = isControlled;
     }
   }, [isControlled, label]);
-  const setValue = (0, import_react42.useCallback)(
+  const setValue = (0, import_react43.useCallback)(
     (next) => {
       if (!isControlled) setUncontrolled(next);
       onChange?.(next);
@@ -5646,8 +6055,8 @@ function bucketChildren(children) {
   let sidebar = null;
   let main = null;
   let rightPanel = null;
-  import_react42.Children.forEach(children, (child) => {
-    if (!(0, import_react42.isValidElement)(child)) return;
+  import_react43.Children.forEach(children, (child) => {
+    if (!(0, import_react43.isValidElement)(child)) return;
     if (child.type === AppShellTopBar) topBar = child;
     else if (child.type === AppShellSidebar) sidebar = child;
     else if (child.type === AppShellMain) main = child;
@@ -5655,7 +6064,7 @@ function bucketChildren(children) {
   });
   return { topBar, sidebar, main, rightPanel };
 }
-var AppShellRoot = (0, import_react42.forwardRef)(function AppShellRoot2({
+var AppShellRoot = (0, import_react43.forwardRef)(function AppShellRoot2({
   sidebarCollapsed: sidebarCollapsedProp,
   defaultSidebarCollapsed = false,
   onSidebarCollapsedChange,
@@ -5677,7 +6086,7 @@ var AppShellRoot = (0, import_react42.forwardRef)(function AppShellRoot2({
     defaultValue: defaultRightPanelOpen,
     onChange: onRightPanelOpenChange
   });
-  const value = (0, import_react42.useMemo)(
+  const value = (0, import_react43.useMemo)(
     () => ({ sidebarCollapsed, setSidebarCollapsed, rightPanelOpen, setRightPanelOpen }),
     [sidebarCollapsed, setSidebarCollapsed, rightPanelOpen, setRightPanelOpen]
   );
@@ -5685,13 +6094,13 @@ var AppShellRoot = (0, import_react42.forwardRef)(function AppShellRoot2({
   const hasTopBar = topBar !== null;
   const hasSidebar = sidebar !== null;
   const hasRightPanel = rightPanel !== null && rightPanelOpen;
-  const sidebarWidth = sidebarCollapsed ? import_core46.semantic.sizeSidebarCollapsed : import_core46.semantic.sizeSidebarExpanded;
+  const sidebarWidth = sidebarCollapsed ? import_core47.semantic.sizeSidebarCollapsed : import_core47.semantic.sizeSidebarExpanded;
   const gridTemplateColumns = [
     hasSidebar ? sidebarWidth : null,
     "1fr",
-    hasRightPanel ? import_core46.semantic.sizeRightPanelDefault : null
+    hasRightPanel ? import_core47.semantic.sizeRightPanelDefault : null
   ].filter(Boolean).join(" ");
-  const gridTemplateRows = hasTopBar ? `${import_core46.semantic.space2xl} 1fr` : "1fr";
+  const gridTemplateRows = hasTopBar ? `${import_core47.semantic.space2xl} 1fr` : "1fr";
   const gridAreas = (() => {
     const topCols = [];
     const mainCols = [];
@@ -5710,7 +6119,7 @@ var AppShellRoot = (0, import_react42.forwardRef)(function AppShellRoot2({
     rows.push(`"${mainCols.join(" ")}"`);
     return rows.join(" ");
   })();
-  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(AppShellContext.Provider, { value, children: /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(AppShellContext.Provider, { value, children: /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(
     "div",
     {
       ref,
@@ -5726,8 +6135,8 @@ var AppShellRoot = (0, import_react42.forwardRef)(function AppShellRoot2({
         width: "100%",
         height: "100%",
         minHeight: "100vh",
-        fontFamily: import_core46.semantic.fontSans,
-        color: import_core46.semantic.colorText,
+        fontFamily: import_core47.semantic.fontSans,
+        color: import_core47.semantic.colorText,
         boxSizing: "border-box"
       },
       children: [
@@ -5741,7 +6150,7 @@ var AppShellRoot = (0, import_react42.forwardRef)(function AppShellRoot2({
 });
 function AppShellTopBar(props) {
   useAppShellContextInternal("TopBar");
-  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { style: { gridArea: "topbar", minWidth: 0 }, children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(TopBarRoot, { ...props }) });
+  return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { style: { gridArea: "topbar", minWidth: 0 }, children: /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(TopBarRoot, { ...props }) });
 }
 function AppShellSidebar({
   "aria-label": ariaLabel = "Sidebar",
@@ -5749,7 +6158,7 @@ function AppShellSidebar({
 }) {
   const { sidebarCollapsed } = useAppShellContextInternal("Sidebar");
   const content = typeof children === "function" ? children({ collapsed: sidebarCollapsed }) : children;
-  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
     "nav",
     {
       "aria-label": ariaLabel,
@@ -5760,9 +6169,9 @@ function AppShellSidebar({
         flexDirection: "column",
         overflowX: "hidden",
         overflowY: "auto",
-        background: import_core46.semantic.colorSurfacePanel,
-        borderRight: `${import_core46.semantic.borderWidthDefault} solid ${import_core46.semantic.colorBorder}`,
-        transition: `width ${import_core46.semantic.transitionBase}`,
+        background: import_core47.semantic.colorSurfacePanel,
+        borderRight: `${import_core47.semantic.borderWidthDefault} solid ${import_core47.semantic.colorBorder}`,
+        transition: `width ${import_core47.semantic.transitionBase}`,
         minWidth: 0
       },
       children: content
@@ -5788,21 +6197,21 @@ function AppShellSidebarSection({
     border: 0
   } : {
     display: "block",
-    padding: `${import_core46.semantic.spaceSm} ${import_core46.semantic.spaceMd} ${import_core46.semantic.spaceXs}`,
-    fontSize: import_core46.semantic.fontSizeXs,
-    fontWeight: import_core46.semantic.fontWeightSemibold,
-    color: import_core46.semantic.colorTextMuted,
+    padding: `${import_core47.semantic.spaceSm} ${import_core47.semantic.spaceMd} ${import_core47.semantic.spaceXs}`,
+    fontSize: import_core47.semantic.fontSizeXs,
+    fontWeight: import_core47.semantic.fontWeightSemibold,
+    color: import_core47.semantic.colorTextMuted,
     textTransform: "uppercase",
-    letterSpacing: import_core46.semantic.letterSpacingWide
+    letterSpacing: import_core47.semantic.letterSpacingWide
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(
     "div",
     {
       "data-state": sidebarCollapsed ? "collapsed" : "expanded",
       style: { display: "flex", flexDirection: "column" },
       children: [
-        label !== void 0 && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("span", { style: labelStyle2, children: label }),
-        /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { style: { display: "flex", flexDirection: "column" }, children })
+        label !== void 0 && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("span", { style: labelStyle2, children: label }),
+        /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { style: { display: "flex", flexDirection: "column" }, children })
       ]
     }
   );
@@ -5812,7 +6221,7 @@ function AppShellMain({
   ...rest
 }) {
   useAppShellContextInternal("Main");
-  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
     "main",
     {
       id: rest.id,
@@ -5824,7 +6233,7 @@ function AppShellMain({
         overflow: "auto",
         minWidth: 0,
         minHeight: 0,
-        background: import_core46.semantic.colorSurfacePage,
+        background: import_core47.semantic.colorSurfacePage,
         boxSizing: "border-box"
       },
       children
@@ -5836,7 +6245,7 @@ function AppShellRightPanel({
   children
 }) {
   const { rightPanelOpen } = useAppShellContextInternal("RightPanel");
-  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
     "aside",
     {
       "aria-label": ariaLabel,
@@ -5848,8 +6257,8 @@ function AppShellRightPanel({
         display: rightPanelOpen ? "flex" : "none",
         flexDirection: "column",
         overflowY: "auto",
-        background: import_core46.semantic.colorSurfacePanel,
-        borderLeft: `${import_core46.semantic.borderWidthDefault} solid ${import_core46.semantic.colorBorder}`,
+        background: import_core47.semantic.colorSurfacePanel,
+        borderLeft: `${import_core47.semantic.borderWidthDefault} solid ${import_core47.semantic.colorBorder}`,
         minWidth: 0
       },
       children
@@ -5866,12 +6275,12 @@ var AppShell = {
 };
 
 // src/components/organisms/DataTablePage/DataTablePage.tsx
-var import_react43 = require("react");
-var import_core47 = require("../../core/dist/index.cjs");
-var import_jsx_runtime43 = require("react/jsx-runtime");
-var DataTablePageContext = (0, import_react43.createContext)(null);
+var import_react44 = require("react");
+var import_core48 = require("../../core/dist/index.cjs");
+var import_jsx_runtime44 = require("react/jsx-runtime");
+var DataTablePageContext = (0, import_react44.createContext)(null);
 function useDataTablePageContext(part) {
-  const ctx = (0, import_react43.useContext)(DataTablePageContext);
+  const ctx = (0, import_react44.useContext)(DataTablePageContext);
   if (ctx === null) {
     throw new Error(
       `[@4lt7ab/ui] <DataTablePage.${part}> must be rendered inside <DataTablePage.Root>.`
@@ -5879,14 +6288,14 @@ function useDataTablePageContext(part) {
   }
   return ctx;
 }
-var DataTablePageRoot = (0, import_react43.forwardRef)(function DataTablePageRoot2({ rowCount, children, ...rest }, ref) {
-  const titleId = (0, import_react43.useId)();
+var DataTablePageRoot = (0, import_react44.forwardRef)(function DataTablePageRoot2({ rowCount, children, ...rest }, ref) {
+  const titleId = (0, import_react44.useId)();
   const isEmpty = rowCount === 0;
-  const value = (0, import_react43.useMemo)(
+  const value = (0, import_react44.useMemo)(
     () => ({ rowCount, titleId }),
     [rowCount, titleId]
   );
-  return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(DataTablePageContext.Provider, { value, children: /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(DataTablePageContext.Provider, { value, children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
     "section",
     {
       ref,
@@ -5898,10 +6307,10 @@ var DataTablePageRoot = (0, import_react43.forwardRef)(function DataTablePageRoo
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: import_core47.semantic.spaceLg,
+        gap: import_core48.semantic.spaceLg,
         width: "100%",
-        fontFamily: import_core47.semantic.fontSans,
-        color: import_core47.semantic.colorText,
+        fontFamily: import_core48.semantic.fontSans,
+        color: import_core48.semantic.colorText,
         boxSizing: "border-box"
       },
       children
@@ -5913,24 +6322,24 @@ function DataTablePageHeader({
   ...rest
 }) {
   const { titleId } = useDataTablePageContext("Header");
-  return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { id: titleId, children: /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(Header, { level, ...rest }) });
+  return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { id: titleId, children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(Header, { level, ...rest }) });
 }
 function DataTablePageFilterBar(props) {
   useDataTablePageContext("FilterBar");
-  return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(TableFilterBar, { ...props });
+  return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(TableFilterBar, { ...props });
 }
 function DataTablePageTable(props) {
   useDataTablePageContext("Table");
-  return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(Table3, { ...props });
+  return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(Table3, { ...props });
 }
 function DataTablePagePagination(props) {
   useDataTablePageContext("Pagination");
-  return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(Pagination, { ...props });
+  return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(Pagination, { ...props });
 }
 function DataTablePageEmpty(props) {
   const { rowCount } = useDataTablePageContext("Empty");
   if (rowCount !== 0) return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(EmptyState, { ...props, variant: "plain" });
+  return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(EmptyState, { ...props, variant: "plain" });
 }
 var DataTablePage = {
   Root: DataTablePageRoot,
@@ -5942,13 +6351,13 @@ var DataTablePage = {
 };
 
 // src/components/organisms/DetailPage/DetailPage.tsx
-var import_react44 = require("react");
-var import_react_dom3 = require("react-dom");
-var import_core48 = require("../../core/dist/index.cjs");
-var import_jsx_runtime44 = require("react/jsx-runtime");
-var DetailPageContext = (0, import_react44.createContext)(null);
+var import_react45 = require("react");
+var import_react_dom4 = require("react-dom");
+var import_core49 = require("../../core/dist/index.cjs");
+var import_jsx_runtime45 = require("react/jsx-runtime");
+var DetailPageContext = (0, import_react45.createContext)(null);
 function useDetailPageContext(part) {
-  const ctx = (0, import_react44.useContext)(DetailPageContext);
+  const ctx = (0, import_react45.useContext)(DetailPageContext);
   if (ctx === null) {
     throw new Error(
       `[@4lt7ab/ui] <DetailPage.${part}> must be rendered inside <DetailPage.Root>.`
@@ -5959,8 +6368,8 @@ function useDetailPageContext(part) {
 function splitChildren(children) {
   const main = [];
   let rightPanel = null;
-  import_react44.Children.forEach(children, (child) => {
-    if ((0, import_react44.isValidElement)(child) && child.type === DetailPageRightPanel) {
+  import_react45.Children.forEach(children, (child) => {
+    if ((0, import_react45.isValidElement)(child) && child.type === DetailPageRightPanel) {
       rightPanel = child;
     } else {
       main.push(child);
@@ -5968,10 +6377,10 @@ function splitChildren(children) {
   });
   return { main, rightPanel };
 }
-var DetailPageRoot = (0, import_react44.forwardRef)(function DetailPageRoot2({ children, ...rest }, ref) {
-  const titleId = (0, import_react44.useId)();
-  const [actionsSlot, setActionsSlot] = (0, import_react44.useState)(null);
-  const value = (0, import_react44.useMemo)(
+var DetailPageRoot = (0, import_react45.forwardRef)(function DetailPageRoot2({ children, ...rest }, ref) {
+  const titleId = (0, import_react45.useId)();
+  const [actionsSlot, setActionsSlot] = (0, import_react45.useState)(null);
+  const value = (0, import_react45.useMemo)(
     () => ({
       titleId,
       actionsSlot,
@@ -5980,8 +6389,8 @@ var DetailPageRoot = (0, import_react44.forwardRef)(function DetailPageRoot2({ c
     [titleId, actionsSlot]
   );
   const { main, rightPanel } = splitChildren(children);
-  const gridTemplateColumns = rightPanel !== null ? `1fr ${import_core48.semantic.sizeRightPanelDefault}` : "1fr";
-  return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(DetailPageContext.Provider, { value, children: /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(
+  const gridTemplateColumns = rightPanel !== null ? `1fr ${import_core49.semantic.sizeRightPanelDefault}` : "1fr";
+  return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(DetailPageContext.Provider, { value, children: /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)(
     "section",
     {
       ref,
@@ -5992,20 +6401,20 @@ var DetailPageRoot = (0, import_react44.forwardRef)(function DetailPageRoot2({ c
       style: {
         display: "grid",
         gridTemplateColumns,
-        gap: import_core48.semantic.spaceLg,
+        gap: import_core49.semantic.spaceLg,
         width: "100%",
-        fontFamily: import_core48.semantic.fontSans,
-        color: import_core48.semantic.colorText,
+        fontFamily: import_core49.semantic.fontSans,
+        color: import_core49.semantic.colorText,
         boxSizing: "border-box"
       },
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
           "div",
           {
             style: {
               display: "flex",
               flexDirection: "column",
-              gap: import_core48.semantic.spaceLg,
+              gap: import_core49.semantic.spaceLg,
               minWidth: 0
             },
             children: main
@@ -6024,21 +6433,21 @@ function DetailPageHeader({
   backLabel = "Back"
 }) {
   const { titleId, setActionsSlot } = useDetailPageContext("Header");
-  const slotRefCb = (0, import_react44.useCallback)(
+  const slotRefCb = (0, import_react45.useCallback)(
     (el) => {
       setActionsSlot(el);
     },
     [setActionsSlot]
   );
-  const trailingSlot = /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+  const trailingSlot = /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
     "div",
     {
       ref: slotRefCb,
       "data-detailpage-actions-slot": "",
-      style: { display: "flex", alignItems: "center", gap: import_core48.semantic.spaceSm }
+      style: { display: "flex", alignItems: "center", gap: import_core49.semantic.spaceSm }
     }
   );
-  const headerWithTitleId = /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { id: titleId, style: { flex: 1, minWidth: 0 }, children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+  const headerWithTitleId = /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { id: titleId, style: { flex: 1, minWidth: 0 }, children: /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
     Header,
     {
       level: "page",
@@ -6049,17 +6458,17 @@ function DetailPageHeader({
     }
   ) });
   if (onBack !== void 0) {
-    return /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)(
       "div",
       {
         style: {
           display: "flex",
           alignItems: "flex-end",
-          gap: import_core48.semantic.spaceMd,
+          gap: import_core49.semantic.spaceMd,
           minWidth: 0
         },
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
             IconButton,
             {
               icon: "arrow-left",
@@ -6076,8 +6485,8 @@ function DetailPageHeader({
 }
 function validateMetaChildren(children) {
   let warned = false;
-  import_react44.Children.forEach(children, (child) => {
-    if (!(0, import_react44.isValidElement)(child)) return;
+  import_react45.Children.forEach(children, (child) => {
+    if (!(0, import_react45.isValidElement)(child)) return;
     if (child.type !== DetailPageMetaItem && !warned) {
       warned = true;
       console.warn(
@@ -6091,18 +6500,18 @@ function DetailPageMeta({
 }) {
   useDetailPageContext("Meta");
   validateMetaChildren(children);
-  return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
     "dl",
     {
       style: {
         display: "grid",
         gridTemplateColumns: "max-content 1fr",
-        columnGap: import_core48.semantic.spaceLg,
-        rowGap: import_core48.semantic.spaceSm,
+        columnGap: import_core49.semantic.spaceLg,
+        rowGap: import_core49.semantic.spaceSm,
         margin: 0,
         padding: 0,
-        fontFamily: import_core48.semantic.fontSans,
-        fontSize: import_core48.semantic.fontSizeSm
+        fontFamily: import_core49.semantic.fontSans,
+        fontSize: import_core49.semantic.fontSizeSm
       },
       children
     }
@@ -6113,19 +6522,19 @@ function DetailPageMetaItem({
   children
 }) {
   useDetailPageContext("MetaItem");
-  return /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(import_jsx_runtime44.Fragment, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)(import_jsx_runtime45.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
       "dt",
       {
         style: {
           margin: 0,
-          color: import_core48.semantic.colorTextMuted,
-          fontWeight: import_core48.semantic.fontWeightMedium
+          color: import_core49.semantic.colorTextMuted,
+          fontWeight: import_core49.semantic.fontWeightMedium
         },
         children: label
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("dd", { style: { margin: 0, color: import_core48.semantic.colorText }, children })
+    /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("dd", { style: { margin: 0, color: import_core49.semantic.colorText }, children })
   ] });
 }
 function DetailPageBody({
@@ -6135,7 +6544,7 @@ function DetailPageBody({
   useDetailPageContext("Body");
   const insideAppShell = useIsInsideAppShell();
   const Tag = insideAppShell ? "div" : "main";
-  return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
     Tag,
     {
       id: rest.id,
@@ -6144,7 +6553,7 @@ function DetailPageBody({
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: import_core48.semantic.spaceMd,
+        gap: import_core49.semantic.spaceMd,
         minWidth: 0
       },
       children
@@ -6156,7 +6565,7 @@ function DetailPageActions({
 }) {
   const { actionsSlot } = useDetailPageContext("Actions");
   if (actionsSlot === null) return null;
-  return (0, import_react_dom3.createPortal)(/* @__PURE__ */ (0, import_jsx_runtime44.jsx)(import_jsx_runtime44.Fragment, { children }), actionsSlot);
+  return (0, import_react_dom4.createPortal)(/* @__PURE__ */ (0, import_jsx_runtime45.jsx)(import_jsx_runtime45.Fragment, { children }), actionsSlot);
 }
 function DetailPageRightPanel({
   "aria-label": ariaLabel = "Details",
@@ -6166,14 +6575,14 @@ function DetailPageRightPanel({
   const style = {
     display: "flex",
     flexDirection: "column",
-    gap: import_core48.semantic.spaceMd,
-    padding: import_core48.semantic.spaceMd,
-    background: import_core48.semantic.colorSurfacePanel,
-    border: `${import_core48.semantic.borderWidthDefault} solid ${import_core48.semantic.colorBorder}`,
-    borderRadius: import_core48.semantic.radiusMd,
+    gap: import_core49.semantic.spaceMd,
+    padding: import_core49.semantic.spaceMd,
+    background: import_core49.semantic.colorSurfacePanel,
+    border: `${import_core49.semantic.borderWidthDefault} solid ${import_core49.semantic.colorBorder}`,
+    borderRadius: import_core49.semantic.radiusMd,
     minWidth: 0
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("aside", { "aria-label": ariaLabel, style, children });
+  return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("aside", { "aria-label": ariaLabel, style, children });
 }
 var DetailPage = {
   Root: DetailPageRoot,
@@ -6186,13 +6595,13 @@ var DetailPage = {
 };
 
 // src/components/organisms/FormLayout/FormLayout.tsx
-var import_react45 = require("react");
-var import_react_dom4 = require("react-dom");
-var import_core49 = require("../../core/dist/index.cjs");
-var import_jsx_runtime45 = require("react/jsx-runtime");
-var FormLayoutContext = (0, import_react45.createContext)(null);
+var import_react46 = require("react");
+var import_react_dom5 = require("react-dom");
+var import_core50 = require("../../core/dist/index.cjs");
+var import_jsx_runtime46 = require("react/jsx-runtime");
+var FormLayoutContext = (0, import_react46.createContext)(null);
 function useFormLayoutInternal(part) {
-  const ctx = (0, import_react45.useContext)(FormLayoutContext);
+  const ctx = (0, import_react46.useContext)(FormLayoutContext);
   if (ctx === null) {
     throw new Error(
       `[@4lt7ab/ui] <FormLayout.${part}> must be rendered inside <FormLayout.Root>.`
@@ -6207,10 +6616,10 @@ function useFormLayout() {
 function useControllableBoolean2(params) {
   const { label, controlled, defaultValue, onChange } = params;
   const isControlled = controlled !== void 0;
-  const [uncontrolled, setUncontrolled] = (0, import_react45.useState)(defaultValue);
+  const [uncontrolled, setUncontrolled] = (0, import_react46.useState)(defaultValue);
   const value = isControlled ? controlled : uncontrolled;
-  const wasControlled = (0, import_react45.useRef)(isControlled);
-  (0, import_react45.useEffect)(() => {
+  const wasControlled = (0, import_react46.useRef)(isControlled);
+  (0, import_react46.useEffect)(() => {
     if (wasControlled.current !== isControlled) {
       console.warn(
         `<FormLayout.Root> switched between controlled and uncontrolled for ${label}. Pick one and stick with it.`
@@ -6218,7 +6627,7 @@ function useControllableBoolean2(params) {
       wasControlled.current = isControlled;
     }
   }, [isControlled, label]);
-  const setValue = (0, import_react45.useCallback)(
+  const setValue = (0, import_react46.useCallback)(
     (next) => {
       if (!isControlled) setUncontrolled(next);
       onChange?.(next);
@@ -6227,7 +6636,7 @@ function useControllableBoolean2(params) {
   );
   return [value, setValue];
 }
-var FormLayoutRoot = (0, import_react45.forwardRef)(function FormLayoutRoot2({
+var FormLayoutRoot = (0, import_react46.forwardRef)(function FormLayoutRoot2({
   dirty: dirtyProp,
   defaultDirty = false,
   onDirtyChange,
@@ -6253,13 +6662,13 @@ var FormLayoutRoot = (0, import_react45.forwardRef)(function FormLayoutRoot2({
     defaultValue: defaultSaving,
     onChange: onSavingChange
   });
-  const autoId = (0, import_react45.useId)();
+  const autoId = (0, import_react46.useId)();
   const formId = rest.id ?? `formlayout-${autoId}`;
-  const value = (0, import_react45.useMemo)(
+  const value = (0, import_react46.useMemo)(
     () => ({ dirty, setDirty, saving, setSaving, onSave, onCancel, sticky, formId }),
     [dirty, setDirty, saving, setSaving, onSave, onCancel, sticky, formId]
   );
-  const handleSubmit = (0, import_react45.useCallback)(
+  const handleSubmit = (0, import_react46.useCallback)(
     async (event) => {
       event.preventDefault();
       if (onSave === void 0) return;
@@ -6275,7 +6684,7 @@ var FormLayoutRoot = (0, import_react45.forwardRef)(function FormLayoutRoot2({
     },
     [onSave, setSaving]
   );
-  return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(FormLayoutContext.Provider, { value, children: /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(FormLayoutContext.Provider, { value, children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
     "form",
     {
       ref,
@@ -6287,10 +6696,10 @@ var FormLayoutRoot = (0, import_react45.forwardRef)(function FormLayoutRoot2({
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: import_core49.semantic.spaceLg,
+        gap: import_core50.semantic.spaceLg,
         width: "100%",
-        fontFamily: import_core49.semantic.fontSans,
-        color: import_core49.semantic.colorText,
+        fontFamily: import_core50.semantic.fontSans,
+        color: import_core50.semantic.colorText,
         boxSizing: "border-box"
       },
       children
@@ -6302,11 +6711,11 @@ function FormLayoutHeader({
   description
 }) {
   useFormLayoutInternal("Header");
-  return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(Header, { level: "page", title, subtitle: description });
+  return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(Header, { level: "page", title, subtitle: description });
 }
-var FormLayoutSectionContext = (0, import_react45.createContext)(null);
+var FormLayoutSectionContext = (0, import_react46.createContext)(null);
 function useFormLayoutSectionContext(part) {
-  const ctx = (0, import_react45.useContext)(FormLayoutSectionContext);
+  const ctx = (0, import_react46.useContext)(FormLayoutSectionContext);
   if (ctx === null) {
     throw new Error(
       `[@4lt7ab/ui] <FormLayout.${part}> must be rendered inside <FormLayout.Section>.`
@@ -6319,9 +6728,9 @@ function FormLayoutSection({
   ...rest
 }) {
   useFormLayoutInternal("Section");
-  const headerId = (0, import_react45.useId)();
-  const value = (0, import_react45.useMemo)(() => ({ headerId }), [headerId]);
-  return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(FormLayoutSectionContext.Provider, { value, children: /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+  const headerId = (0, import_react46.useId)();
+  const value = (0, import_react46.useMemo)(() => ({ headerId }), [headerId]);
+  return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(FormLayoutSectionContext.Provider, { value, children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
     "section",
     {
       id: rest.id,
@@ -6330,11 +6739,11 @@ function FormLayoutSection({
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: import_core49.semantic.spaceMd,
-        padding: import_core49.semantic.spaceMd,
-        background: import_core49.semantic.colorSurface,
-        border: `${import_core49.semantic.borderWidthDefault} solid ${import_core49.semantic.colorBorder}`,
-        borderRadius: import_core49.semantic.radiusMd,
+        gap: import_core50.semantic.spaceMd,
+        padding: import_core50.semantic.spaceMd,
+        background: import_core50.semantic.colorSurface,
+        border: `${import_core50.semantic.borderWidthDefault} solid ${import_core50.semantic.colorBorder}`,
+        borderRadius: import_core50.semantic.radiusMd,
         minWidth: 0
       },
       children
@@ -6346,30 +6755,30 @@ function FormLayoutSectionHeader({
   description
 }) {
   const { headerId } = useFormLayoutSectionContext("SectionHeader");
-  return /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: import_core49.semantic.spaceXs }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: import_core50.semantic.spaceXs }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
       "h2",
       {
         id: headerId,
         style: {
           margin: 0,
-          fontFamily: import_core49.semantic.fontSans,
-          fontWeight: import_core49.semantic.fontWeightSemibold,
-          fontSize: import_core49.semantic.fontSizeBase,
-          lineHeight: import_core49.semantic.lineHeightTight,
-          color: import_core49.semantic.colorText
+          fontFamily: import_core50.semantic.fontSans,
+          fontWeight: import_core50.semantic.fontWeightSemibold,
+          fontSize: import_core50.semantic.fontSizeBase,
+          lineHeight: import_core50.semantic.lineHeightTight,
+          color: import_core50.semantic.colorText
         },
         children: title
       }
     ),
-    description !== void 0 && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+    description !== void 0 && /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
       "span",
       {
         style: {
-          color: import_core49.semantic.colorTextMuted,
-          fontSize: import_core49.semantic.fontSizeSm,
-          fontFamily: import_core49.semantic.fontSans,
-          lineHeight: import_core49.semantic.lineHeightBase
+          color: import_core50.semantic.colorTextMuted,
+          fontSize: import_core50.semantic.fontSizeSm,
+          fontFamily: import_core50.semantic.fontSans,
+          lineHeight: import_core50.semantic.lineHeightBase
         },
         children: description
       }
@@ -6380,13 +6789,13 @@ function FormLayoutSectionBody({
   children
 }) {
   useFormLayoutSectionContext("SectionBody");
-  return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
     "div",
     {
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: import_core49.semantic.spaceMd,
+        gap: import_core50.semantic.spaceMd,
         minWidth: 0
       },
       children
@@ -6401,11 +6810,11 @@ function FormLayoutActions({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
-    gap: import_core49.semantic.spaceSm,
-    padding: `${import_core49.semantic.spaceSm} ${import_core49.semantic.spaceMd}`,
-    background: import_core49.semantic.colorSurface,
-    border: `${import_core49.semantic.borderWidthDefault} solid ${import_core49.semantic.colorBorder}`,
-    borderRadius: import_core49.semantic.radiusMd,
+    gap: import_core50.semantic.spaceSm,
+    padding: `${import_core50.semantic.spaceSm} ${import_core50.semantic.spaceMd}`,
+    background: import_core50.semantic.colorSurface,
+    border: `${import_core50.semantic.borderWidthDefault} solid ${import_core50.semantic.colorBorder}`,
+    borderRadius: import_core50.semantic.radiusMd,
     boxSizing: "border-box"
   };
   const inlineStickyStyle = {
@@ -6424,7 +6833,7 @@ function FormLayoutActions({
     borderLeft: "none",
     borderRight: "none",
     borderBottom: "none",
-    boxShadow: import_core49.semantic.shadowMd,
+    boxShadow: import_core50.semantic.shadowMd,
     zIndex: 100
   };
   const commonProps = {
@@ -6434,13 +6843,13 @@ function FormLayoutActions({
   };
   if (sticky === "viewport") {
     if (typeof document === "undefined") return null;
-    return (0, import_react_dom4.createPortal)(
-      /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { ...commonProps, style: viewportStyle, children }),
+    return (0, import_react_dom5.createPortal)(
+      /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("div", { ...commonProps, style: viewportStyle, children }),
       document.body
     );
   }
   const style = sticky === "container" ? inlineStickyStyle : barStyle;
-  return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { ...commonProps, style, children });
+  return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("div", { ...commonProps, style, children });
 }
 function FormLayoutSaveButton({
   children = "Save",
@@ -6451,7 +6860,7 @@ function FormLayoutSaveButton({
 }) {
   const { dirty, saving, formId } = useFormLayoutInternal("SaveButton");
   const disabled = disabledProp ?? !dirty;
-  return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
     Button,
     {
       ...rest,
@@ -6471,29 +6880,29 @@ function FormLayoutCancelButton({
   ...rest
 }) {
   const { onCancel } = useFormLayoutInternal("CancelButton");
-  const handleClick = (0, import_react45.useCallback)(
+  const handleClick = (0, import_react46.useCallback)(
     (event) => {
       onClick?.(event);
       if (!event.defaultPrevented) onCancel?.();
     },
     [onClick, onCancel]
   );
-  return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(Button, { ...rest, type: "button", variant, onClick: handleClick, children });
+  return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(Button, { ...rest, type: "button", variant, onClick: handleClick, children });
 }
 function FormLayoutDirtyOnChange({
   children
 }) {
   const { setDirty, dirty } = useFormLayoutInternal("DirtyOnChange");
-  const handleChange = (0, import_react45.useCallback)(() => {
+  const handleChange = (0, import_react46.useCallback)(() => {
     if (!dirty) setDirty(true);
   }, [dirty, setDirty]);
-  return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { style: { display: "contents" }, onChange: handleChange, children });
+  return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("div", { style: { display: "contents" }, onChange: handleChange, children });
 }
 function FormLayoutNavigationGuard({
   message = "You have unsaved changes. Are you sure you want to leave?"
 }) {
   const { dirty } = useFormLayoutInternal("NavigationGuard");
-  (0, import_react45.useEffect)(() => {
+  (0, import_react46.useEffect)(() => {
     if (!dirty) return;
     if (typeof window === "undefined") return;
     const handler = (event) => {
@@ -6519,10 +6928,417 @@ var FormLayout = {
   NavigationGuard: FormLayoutNavigationGuard
 };
 
+// src/components/organisms/WizardDialog/WizardDialog.tsx
+var import_react47 = require("react");
+var import_core51 = require("../../core/dist/index.cjs");
+var import_jsx_runtime47 = require("react/jsx-runtime");
+var WizardDialogContext = (0, import_react47.createContext)(null);
+function useWizardDialogContext(part) {
+  const ctx = (0, import_react47.useContext)(WizardDialogContext);
+  if (ctx === null) {
+    throw new Error(
+      `[@4lt7ab/ui] <WizardDialog.${part}> must be rendered inside <WizardDialog.Root>.`
+    );
+  }
+  return ctx;
+}
+function useControllableBoolean3(params) {
+  const { label, controlled, defaultValue, onChange } = params;
+  const isControlled = controlled !== void 0;
+  const [uncontrolled, setUncontrolled] = (0, import_react47.useState)(defaultValue);
+  const value = isControlled ? controlled : uncontrolled;
+  const wasControlled = (0, import_react47.useRef)(isControlled);
+  (0, import_react47.useEffect)(() => {
+    if (wasControlled.current !== isControlled) {
+      console.warn(
+        `<WizardDialog.Root> switched between controlled and uncontrolled for ${label}. Pick one and stick with it.`
+      );
+      wasControlled.current = isControlled;
+    }
+  }, [isControlled, label]);
+  const setValue = (0, import_react47.useCallback)(
+    (next) => {
+      if (!isControlled) setUncontrolled(next);
+      onChange?.(next);
+    },
+    [isControlled, onChange]
+  );
+  return [value, setValue];
+}
+function useControllableNumber(params) {
+  const { label, controlled, defaultValue, onChange } = params;
+  const isControlled = controlled !== void 0;
+  const [uncontrolled, setUncontrolled] = (0, import_react47.useState)(defaultValue);
+  const value = isControlled ? controlled : uncontrolled;
+  const wasControlled = (0, import_react47.useRef)(isControlled);
+  (0, import_react47.useEffect)(() => {
+    if (wasControlled.current !== isControlled) {
+      console.warn(
+        `<WizardDialog.Root> switched between controlled and uncontrolled for ${label}. Pick one and stick with it.`
+      );
+      wasControlled.current = isControlled;
+    }
+  }, [isControlled, label]);
+  const setValue = (0, import_react47.useCallback)(
+    (next) => {
+      if (!isControlled) setUncontrolled(next);
+      onChange?.(next);
+    },
+    [isControlled, onChange]
+  );
+  return [value, setValue];
+}
+var WizardDialogRoot = (0, import_react47.forwardRef)(
+  function WizardDialogRoot2({
+    open: openProp,
+    defaultOpen = false,
+    onOpenChange,
+    step: stepProp,
+    defaultStep = 0,
+    onStepChange,
+    onComplete,
+    canClose = true,
+    width = "lg",
+    children
+  }, ref) {
+    const [open, setOpen] = useControllableBoolean3({
+      label: "open",
+      controlled: openProp,
+      defaultValue: defaultOpen,
+      onChange: onOpenChange
+    });
+    const [step, setStep] = useControllableNumber({
+      label: "step",
+      controlled: stepProp,
+      defaultValue: defaultStep,
+      onChange: onStepChange
+    });
+    const [busy, setBusy] = (0, import_react47.useState)(false);
+    const validateByIndex = (0, import_react47.useRef)(/* @__PURE__ */ new Map());
+    const [totalSteps, setTotalSteps] = (0, import_react47.useState)(0);
+    const registerStep = (0, import_react47.useCallback)(
+      (index, validate) => {
+        validateByIndex.current.set(index, validate);
+        setTotalSteps(validateByIndex.current.size);
+        return () => {
+          validateByIndex.current.delete(index);
+          setTotalSteps(validateByIndex.current.size);
+        };
+      },
+      []
+    );
+    const titleId = (0, import_react47.useId)();
+    const close = (0, import_react47.useCallback)(() => {
+      if (!canClose) return;
+      setOpen(false);
+    }, [canClose, setOpen]);
+    const next = (0, import_react47.useCallback)(async () => {
+      if (busy) return;
+      const validate = validateByIndex.current.get(step);
+      if (validate !== void 0) {
+        const result = validate();
+        if (result && typeof result.then === "function") {
+          setBusy(true);
+          try {
+            const ok = await result;
+            if (!ok) return;
+          } finally {
+            setBusy(false);
+          }
+        } else if (!result) {
+          return;
+        }
+      }
+      setStep(step + 1);
+    }, [busy, setStep, step]);
+    const back = (0, import_react47.useCallback)(() => {
+      if (busy) return;
+      if (step === 0) {
+        close();
+        return;
+      }
+      setStep(step - 1);
+    }, [busy, close, setStep, step]);
+    const finish = (0, import_react47.useCallback)(async () => {
+      if (busy) return;
+      const validate = validateByIndex.current.get(step);
+      if (validate !== void 0) {
+        const result = validate();
+        if (result && typeof result.then === "function") {
+          setBusy(true);
+          try {
+            const ok = await result;
+            if (!ok) return;
+          } finally {
+            setBusy(false);
+          }
+        } else if (!result) {
+          return;
+        }
+      }
+      const completion = onComplete?.();
+      if (completion && typeof completion.then === "function") {
+        setBusy(true);
+        try {
+          await completion;
+        } finally {
+          setBusy(false);
+        }
+      }
+      setOpen(false);
+    }, [busy, onComplete, setOpen, step]);
+    const value = (0, import_react47.useMemo)(
+      () => ({
+        step,
+        totalSteps,
+        busy,
+        registerStep,
+        next,
+        back,
+        finish,
+        close,
+        canClose,
+        titleId
+      }),
+      [step, totalSteps, busy, registerStep, next, back, finish, close, canClose, titleId]
+    );
+    if (!open) {
+      return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(WizardDialogContext.Provider, { value, children: null });
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(WizardDialogContext.Provider, { value, children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+      ModalShell,
+      {
+        ref,
+        onClose: close,
+        width,
+        titleId,
+        children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+          "div",
+          {
+            style: {
+              display: "flex",
+              flexDirection: "column",
+              gap: import_core51.semantic.spaceXl,
+              fontFamily: import_core51.semantic.fontSans,
+              color: import_core51.semantic.colorText
+            },
+            "data-testid": "wizarddialog-content",
+            children
+          }
+        )
+      }
+    ) });
+  }
+);
+function WizardDialogTitle({
+  children
+}) {
+  const { titleId } = useWizardDialogContext("Title");
+  return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("h2", { id: titleId, style: modalHeadingStyle, children });
+}
+function WizardDialogProgress({
+  mode = "numeric",
+  stepLabels
+}) {
+  const { step, totalSteps } = useWizardDialogContext("Progress");
+  const total = Math.max(totalSteps, 1);
+  const current = Math.min(step + 1, total);
+  const currentLabel = stepLabels?.[step];
+  const progressLabel = currentLabel ?? `Step ${current} of ${total}`;
+  if (mode === "bar") {
+    return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+      ProgressBar,
+      {
+        "aria-label": progressLabel,
+        segments: [
+          { value: current, color: "primary" },
+          { value: total - current, color: "muted" }
+        ],
+        height: "sm"
+      }
+    );
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(
+    "div",
+    {
+      role: "status",
+      "aria-label": progressLabel,
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        gap: import_core51.semantic.spaceSm
+      },
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(
+          "div",
+          {
+            style: {
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              fontFamily: import_core51.semantic.fontSans
+            },
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+                "span",
+                {
+                  style: {
+                    fontSize: import_core51.semantic.fontSizeXs,
+                    color: import_core51.semantic.colorTextMuted
+                  },
+                  children: `Step ${current} of ${total}`
+                }
+              ),
+              currentLabel !== void 0 && /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+                "span",
+                {
+                  style: {
+                    fontSize: import_core51.semantic.fontSizeXs,
+                    fontWeight: import_core51.semantic.fontWeightSemibold,
+                    color: import_core51.semantic.colorText
+                  },
+                  children: currentLabel
+                }
+              )
+            ]
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+          ProgressBar,
+          {
+            "aria-label": progressLabel,
+            segments: [
+              { value: current, color: "primary" },
+              { value: total - current, color: "muted" }
+            ],
+            height: "sm"
+          }
+        )
+      ]
+    }
+  );
+}
+var FOCUSABLE_SELECTOR3 = [
+  "a[href]",
+  "button:not(:disabled)",
+  "input:not(:disabled)",
+  "select:not(:disabled)",
+  "textarea:not(:disabled)",
+  '[tabindex]:not([tabindex="-1"])'
+].join(", ");
+function WizardDialogStep({
+  index,
+  validate,
+  children
+}) {
+  const { step, registerStep } = useWizardDialogContext("Step");
+  const containerRef = (0, import_react47.useRef)(null);
+  (0, import_react47.useEffect)(() => registerStep(index, validate), [index, registerStep, validate]);
+  const isActive = step === index;
+  (0, import_react47.useEffect)(() => {
+    if (!isActive) return;
+    const container = containerRef.current;
+    if (container === null) return;
+    const first = container.querySelector(FOCUSABLE_SELECTOR3);
+    if (first !== null) {
+      first.focus();
+    }
+  }, [isActive]);
+  if (!isActive) return null;
+  return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+    "div",
+    {
+      ref: containerRef,
+      role: "group",
+      "aria-label": `Step ${index + 1}`,
+      "data-wizard-step": index,
+      style: { display: "flex", flexDirection: "column", gap: import_core51.semantic.spaceLg },
+      children
+    }
+  );
+}
+function WizardDialogActions({
+  cancelLabel = "Cancel",
+  backLabel = "Back",
+  nextLabel = "Continue",
+  finishLabel = "Finish",
+  busyLabel = "Working\u2026",
+  children
+}) {
+  const {
+    step,
+    totalSteps,
+    busy,
+    next,
+    back,
+    finish,
+    canClose
+  } = useWizardDialogContext("Actions");
+  const isFirst = step === 0;
+  const isLast = totalSteps > 0 && step === totalSteps - 1;
+  const backStyle = {
+    // On step 0 without `canClose`, there's nothing for Back to do — hide
+    // it rather than show a dead button.
+    visibility: isFirst && !canClose ? "hidden" : void 0
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(
+    "div",
+    {
+      role: "toolbar",
+      "aria-label": "Wizard navigation",
+      "data-state": busy ? "busy" : "idle",
+      style: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: import_core51.semantic.spaceSm
+      },
+      children: [
+        children !== void 0 && /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { style: { marginRight: "auto" }, children }),
+        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { style: backStyle, children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+          Button,
+          {
+            variant: "ghost",
+            onClick: back,
+            disabled: busy || isFirst && !canClose,
+            type: "button",
+            children: isFirst ? cancelLabel : backLabel
+          }
+        ) }),
+        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+          Button,
+          {
+            variant: "primary",
+            onClick: () => {
+              if (isLast) {
+                void finish();
+              } else {
+                void next();
+              }
+            },
+            loading: busy,
+            disabled: busy,
+            type: "button",
+            "aria-label": busy && typeof busyLabel === "string" ? busyLabel : void 0,
+            children: busy ? busyLabel : isLast ? finishLabel : nextLabel
+          }
+        )
+      ]
+    }
+  );
+}
+var WizardDialog = {
+  Root: WizardDialogRoot,
+  Title: WizardDialogTitle,
+  Progress: WizardDialogProgress,
+  Step: WizardDialogStep,
+  Actions: WizardDialogActions
+};
+
 // src/components/atoms/Grid/Grid.tsx
-var import_react46 = require("react");
-var import_jsx_runtime46 = require("react/jsx-runtime");
-var Grid = (0, import_react46.forwardRef)(
+var import_react48 = require("react");
+var import_jsx_runtime48 = require("react/jsx-runtime");
+var Grid = (0, import_react48.forwardRef)(
   function Grid2({
     minColumnWidth = 300,
     columns,
@@ -6532,7 +7348,7 @@ var Grid = (0, import_react46.forwardRef)(
   }, ref) {
     const minWidth = `${minColumnWidth}px`;
     const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
-    return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
       "div",
       {
         ref,
@@ -6550,10 +7366,10 @@ var Grid = (0, import_react46.forwardRef)(
 );
 
 // src/components/atoms/Divider/Divider.tsx
-var import_react47 = require("react");
-var import_core50 = require("../../core/dist/index.cjs");
-var import_jsx_runtime47 = require("react/jsx-runtime");
-var Divider = (0, import_react47.forwardRef)(
+var import_react49 = require("react");
+var import_core52 = require("../../core/dist/index.cjs");
+var import_jsx_runtime49 = require("react/jsx-runtime");
+var Divider = (0, import_react49.forwardRef)(
   function Divider2({
     orientation = "horizontal",
     opacity = "default",
@@ -6561,10 +7377,10 @@ var Divider = (0, import_react47.forwardRef)(
     ...rest
   }, ref) {
     const resolvedOpacity = dividerOpacityMap[opacity];
-    const bg = `color-mix(in srgb, ${import_core50.semantic.colorBorder} ${resolvedOpacity}%, transparent)`;
+    const bg = `color-mix(in srgb, ${import_core52.semantic.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
     const isHorizontal = orientation === "horizontal";
-    return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
       "div",
       {
         ref,
@@ -6585,8 +7401,8 @@ var Divider = (0, import_react47.forwardRef)(
 );
 
 // src/components/atoms/Container/Container.tsx
-var import_react48 = require("react");
-var import_jsx_runtime48 = require("react/jsx-runtime");
+var import_react50 = require("react");
+var import_jsx_runtime50 = require("react/jsx-runtime");
 var widthMap = {
   narrow: "32rem",
   prose: "680px",
@@ -6599,7 +7415,7 @@ var paddingMap = {
   md: "1.5rem",
   lg: "3rem"
 };
-var Container = (0, import_react48.forwardRef)(
+var Container = (0, import_react50.forwardRef)(
   function Container2({
     width = "prose",
     padding = "md",
@@ -6607,7 +7423,7 @@ var Container = (0, import_react48.forwardRef)(
     id,
     "data-testid": dataTestId
   }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(
       "div",
       {
         ref,
@@ -6628,20 +7444,20 @@ var Container = (0, import_react48.forwardRef)(
 );
 
 // src/components/molecules/TabStrip/TabStrip.tsx
-var import_react49 = require("react");
-var import_core51 = require("../../core/dist/index.cjs");
-var import_jsx_runtime49 = require("react/jsx-runtime");
+var import_react51 = require("react");
+var import_core53 = require("../../core/dist/index.cjs");
+var import_jsx_runtime51 = require("react/jsx-runtime");
 var STYLES_ID = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
-  transition: color ${import_core51.semantic.transitionFast}, background ${import_core51.semantic.transitionFast}, border-color ${import_core51.semantic.transitionFast};
+  transition: color ${import_core53.semantic.transitionFast}, background ${import_core53.semantic.transitionFast}, border-color ${import_core53.semantic.transitionFast};
 }
 [data-tab-btn]:hover:not([aria-selected="true"]) {
-  color: ${import_core51.semantic.colorTextSecondary};
-  background: color-mix(in srgb, ${import_core51.semantic.colorBorder} 10%, transparent);
+  color: ${import_core53.semantic.colorTextSecondary};
+  background: color-mix(in srgb, ${import_core53.semantic.colorBorder} 10%, transparent);
 }
 `;
-var TabStrip = (0, import_react49.forwardRef)(
+var TabStrip = (0, import_react51.forwardRef)(
   function TabStrip2({
     tabs,
     activeKey,
@@ -6650,13 +7466,13 @@ var TabStrip = (0, import_react49.forwardRef)(
     size = "md",
     ...rest
   }, ref) {
-    (0, import_core51.useInjectStyles)(STYLES_ID, STYLES_CSS);
+    (0, import_core53.useInjectStyles)(STYLES_ID, STYLES_CSS);
     const activeIndex = tabs.findIndex((tab) => tab.key === activeKey);
     const { itemRef, onKeyDown, getTabIndex } = useRovingFocus({
       count: tabs.length,
       activeIndex: activeIndex === -1 ? null : activeIndex
     });
-    const handleClick = (0, import_react49.useCallback)(
+    const handleClick = (0, import_react51.useCallback)(
       (key) => {
         if (key === activeKey && allowDeselect) {
           onChange(null);
@@ -6667,7 +7483,7 @@ var TabStrip = (0, import_react49.forwardRef)(
       [activeKey, allowDeselect, onChange]
     );
     const isSm = size === "sm";
-    return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(
       "div",
       {
         ref,
@@ -6680,7 +7496,7 @@ var TabStrip = (0, import_react49.forwardRef)(
         },
         children: tabs.map((tab, i) => {
           const isActive = tab.key === activeKey;
-          return /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(
+          return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(
             "button",
             {
               ref: itemRef(i),
@@ -6693,22 +7509,22 @@ var TabStrip = (0, import_react49.forwardRef)(
               style: {
                 display: "flex",
                 alignItems: "center",
-                gap: import_core51.semantic.spaceXs,
-                padding: isSm ? `${import_core51.semantic.spaceXs} ${import_core51.semantic.spaceSm}` : `${import_core51.semantic.spaceSm} ${import_core51.semantic.spaceMd}`,
+                gap: import_core53.semantic.spaceXs,
+                padding: isSm ? `${import_core53.semantic.spaceXs} ${import_core53.semantic.spaceSm}` : `${import_core53.semantic.spaceSm} ${import_core53.semantic.spaceMd}`,
                 border: "none",
-                borderBottom: `2px solid ${isActive ? import_core51.semantic.colorActionPrimary : "transparent"}`,
+                borderBottom: `2px solid ${isActive ? import_core53.semantic.colorActionPrimary : "transparent"}`,
                 borderRadius: 0,
-                background: isActive ? `color-mix(in srgb, ${import_core51.semantic.colorActionPrimary} 8%, transparent)` : "transparent",
-                color: isActive ? import_core51.semantic.colorActionPrimary : import_core51.semantic.colorTextMuted,
-                fontFamily: import_core51.semantic.fontSans,
-                fontSize: isSm ? import_core51.semantic.fontSizeXs : import_core51.semantic.fontSizeSm,
-                fontWeight: import_core51.semantic.fontWeightSemibold,
-                lineHeight: import_core51.semantic.lineHeightTight,
+                background: isActive ? `color-mix(in srgb, ${import_core53.semantic.colorActionPrimary} 8%, transparent)` : "transparent",
+                color: isActive ? import_core53.semantic.colorActionPrimary : import_core53.semantic.colorTextMuted,
+                fontFamily: import_core53.semantic.fontSans,
+                fontSize: isSm ? import_core53.semantic.fontSizeXs : import_core53.semantic.fontSizeSm,
+                fontWeight: import_core53.semantic.fontWeightSemibold,
+                lineHeight: import_core53.semantic.lineHeightTight,
                 cursor: "pointer",
                 whiteSpace: "nowrap"
               },
               children: [
-                tab.icon && /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(Icon, { name: tab.icon, size: isSm ? "xs" : "sm" }),
+                tab.icon && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(Icon, { name: tab.icon, size: isSm ? "xs" : "sm" }),
                 tab.label
               ]
             },

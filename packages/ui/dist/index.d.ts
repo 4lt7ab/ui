@@ -1518,6 +1518,147 @@ interface ComboboxEmptyProps {
 * ```
 */
 declare const Combobox: {};
+import { ReactNode as ReactNode24 } from "react";
+/**
+* Match spec for the global shortcut. Consumers pass a `key` (lowercase match
+* against `event.key.toLowerCase()`) plus optional `ctrl` / `meta` / `shift` /
+* `alt` modifier requirements. The default spec accepts Cmd+K on macOS and
+* Ctrl+K elsewhere — both typed with a single `{ key: 'k', mod: true }` where
+* `mod` means "platform primary modifier" (Cmd on Mac, Ctrl on Win/Linux).
+*/
+interface CommandPaletteShortcut {
+	/** Case-insensitive key match against `event.key`. */
+	key: string;
+	/** When true, require the platform primary modifier (Cmd on Mac, Ctrl elsewhere). */
+	mod?: boolean;
+	/** Require `ctrlKey` regardless of platform. */
+	ctrl?: boolean;
+	/** Require `metaKey` regardless of platform. */
+	meta?: boolean;
+	/** Require `shiftKey`. */
+	shift?: boolean;
+	/** Require `altKey`. */
+	alt?: boolean;
+}
+interface CommandPaletteRootProps {
+	/** Controlled open state. */
+	open?: boolean;
+	/** Uncontrolled initial open state.
+	* @default false
+	*/
+	defaultOpen?: boolean;
+	/** Called when the palette wants to open or close (shortcut, Escape,
+	* overlay click, selection). */
+	onOpenChange?: (open: boolean) => void;
+	/** Accessible label for the dialog — required. Picked up by `Content`'s
+	* `aria-label`. */
+	"aria-label": string;
+	/** Override the default Cmd+K / Ctrl+K shortcut. Pass `null` to turn off
+	* the document-level listener entirely.
+	* @default { key: 'k', mod: true }
+	*/
+	shortcut?: CommandPaletteShortcut | null;
+	/** When true, the default shortcut is ignored even if `shortcut` is set.
+	* Useful for programmatic-only palettes or when a parent wants to gate
+	* activation on app state (e.g. "only while logged in").
+	* @default false
+	*/
+	disabled?: boolean;
+	/** `CommandPalette.Trigger` and `CommandPalette.Content`. */
+	children: ReactNode24;
+}
+interface CommandPaletteTriggerProps {
+	/** When true, merges Trigger's open-toggle behavior onto the single child
+	* element instead of rendering a `<button>`. The child must accept `onClick`
+	* and `aria-*` props.
+	* @default false
+	*/
+	asChild?: boolean;
+	/** Trigger content. With `asChild=false` (default), renders inside a plain
+	* unstyled `<button>` — consumers wrap their own Button atom for any styled
+	* trigger, keeping the library out of the "which variant" decision.
+	*/
+	children: ReactNode24;
+	/** Optional click handler chained before the open-toggle. Returning `false`
+	* or calling `event.preventDefault()` does **not** cancel the toggle —
+	* consumers who want gating should use `onOpenChange` on Root. */
+	onClick?: React.MouseEventHandler<HTMLElement>;
+}
+interface CommandPaletteContentProps {
+	/** Placeholder shown in the filter input.
+	* @default 'Type a command or search…'
+	*/
+	placeholder?: string;
+	/** Optional rendered-below fallback when no children match the query.
+	* @default 'No results.'
+	*/
+	emptyLabel?: ReactNode24;
+	/** `CommandPalette.Group` and/or `CommandPalette.Item` children. */
+	children: ReactNode24;
+}
+interface CommandPaletteGroupProps {
+	/** Heading label rendered above the grouped items (e.g. "Navigation"). */
+	label: string;
+	/** `CommandPalette.Item` children. */
+	children: ReactNode24;
+}
+interface CommandPaletteItemProps {
+	/** Stable identifier for the command. Also used as fallback match text. */
+	value: string;
+	/** Fires when the consumer picks this command (click or Enter on the
+	* focused row). Root closes automatically after `onSelect` returns. */
+	onSelect: () => void;
+	/** Optional leading icon (library registry name). Consumers wanting a
+	* custom icon pass a `ReactNode` via the `children` tree instead. */
+	icon?: IconName;
+	/** Keyboard hint rendered on the right as a `<kbd>` sequence. Pass either
+	* the literal hint text (`'⌘K'`) or an array of key parts rendered as
+	* separate `<kbd>` spans (`['⌘', 'K']`). */
+	shortcut?: string | string[];
+	/** Extra match text that isn't visible in the row. Useful for aliases —
+	* `keywords={['cmd', 'terminal']}` on a "Run command…" item. */
+	keywords?: string[];
+	/** Row content. String children double as the match text; use a ReactNode
+	* if you need formatting. */
+	children: ReactNode24;
+}
+/**
+* Cmd+K command palette built on the \`Combobox\` compound plus a document-level
+* shortcut, a modal-style portal, and a filtered subtree.
+*
+* \`\`\`tsx
+* <CommandPalette.Root aria-label="Command palette">
+*   <CommandPalette.Trigger>
+*     <span>Commands</span>
+*     <kbd>⌘K</kbd>
+*   </CommandPalette.Trigger>
+*   <CommandPalette.Content>
+*     <CommandPalette.Group label="Navigation">
+*       <CommandPalette.Item
+*         value="home"
+*         icon="arrow-left"
+*         shortcut={['G', 'H']}
+*         onSelect={() => router.push('/')}
+*       >
+*         Go to home
+*       </CommandPalette.Item>
+*     </CommandPalette.Group>
+*     <CommandPalette.Group label="Actions">
+*       <CommandPalette.Item
+*         value="new-task"
+*         icon="plus"
+*         shortcut="⌘N"
+*         keywords={['create', 'todo']}
+*         onSelect={() => openNewTask()}
+*       >
+*         New task
+*       </CommandPalette.Item>
+*     </CommandPalette.Group>
+*   </CommandPalette.Content>
+* </CommandPalette.Root>
+* \`\`\`
+*/
+declare const CommandPalette: {};
 /** A single chip option. */
 interface ChipItem {
 	/** Unique value identifying this chip. */
@@ -1542,7 +1683,7 @@ interface ChipPickerProps {
 }
 /** Multi-select toggle chip group with optional category grouping. */
 declare function ChipPicker({ items, selected: controlledSelected, defaultSelected, onChange, "aria-label": ariaLabel }: ChipPickerProps): React.JSX.Element;
-import { ReactNode as ReactNode24 } from "react";
+import { ReactNode as ReactNode25 } from "react";
 /** A text input with built-in debounce, search icon, and optional trailing slot. */
 interface SearchInputProps {
 	/** Current search value (controlled). */
@@ -1554,7 +1695,7 @@ interface SearchInputProps {
 	*/
 	debounceMs?: number;
 	/** Optional content rendered inside the input on the right side (toggle, clear button, etc.). */
-	trailing?: ReactNode24;
+	trailing?: ReactNode25;
 	placeholder?: string;
 	disabled?: boolean;
 	name?: string;
@@ -1594,7 +1735,7 @@ interface SegmentedControlProps {
 	"aria-label"?: string;
 }
 declare function SegmentedControl({ segments, value: controlledValue, defaultValue, onChange, size, "aria-label": ariaLabel }: SegmentedControlProps): React.JSX.Element;
-import { ReactNode as ReactNode25 } from "react";
+import { ReactNode as ReactNode26 } from "react";
 /** Severity variant controlling banner color. */
 type AlertBannerVariant = "info" | "warning" | "error" | "success";
 /** Props for the AlertBanner component. */
@@ -1602,11 +1743,11 @@ interface AlertBannerProps {
 	/** Severity variant controlling color. */
 	variant: AlertBannerVariant;
 	/** Message content. */
-	children: ReactNode25;
+	children: ReactNode26;
 	/** If provided, shows a dismiss button and is called on dismiss. */
 	onDismiss?: () => void;
 	/** Optional leading icon. Defaults to a variant-appropriate icon. */
-	icon?: ReactNode25;
+	icon?: ReactNode26;
 }
 /**
 * Full-width dismissable notification banner with severity variants.
@@ -1614,13 +1755,13 @@ interface AlertBannerProps {
 * in `useEffect` + `setTimeout` if auto-dismiss is needed.
 */
 declare const AlertBanner: React.ForwardRefExoticComponent<Omit<AlertBannerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode26 } from "react";
+import { ReactNode as ReactNode27 } from "react";
 /** Props for {@link TopBarRoot}. */
 interface TopBarRootProps extends BaseComponentProps {
 	/** Accessible label for the header landmark. */
 	"aria-label"?: string;
 	/** Children — typically `<TopBar.Leading>`, `<TopBar.Nav>`, `<TopBar.Trailing>`. */
-	children?: ReactNode26;
+	children?: ReactNode27;
 	/** Sticks to the top of the viewport on scroll.
 	* @default false
 	*/
@@ -1628,11 +1769,11 @@ interface TopBarRootProps extends BaseComponentProps {
 }
 declare const TopBarRoot: React.ForwardRefExoticComponent<Omit<TopBarRootProps, "ref"> & React.RefAttributes<HTMLElement>>;
 interface TopBarLeadingProps {
-	children?: ReactNode26;
+	children?: ReactNode27;
 }
 declare function TopBarLeading({ children }: TopBarLeadingProps): React.JSX.Element;
 interface TopBarNavProps {
-	children?: ReactNode26;
+	children?: ReactNode27;
 	/** Accessible label for the nav region. @default 'Primary' */
 	"aria-label"?: string;
 }
@@ -1649,11 +1790,11 @@ interface TopBarLinkProps {
 	asChild?: boolean;
 	/** Called when the link is clicked (when not asChild; consumer's element handles its own events otherwise). */
 	onClick?: React.MouseEventHandler<HTMLElement>;
-	children?: ReactNode26;
+	children?: ReactNode27;
 }
 declare const TopBarLink: React.ForwardRefExoticComponent<TopBarLinkProps & React.RefAttributes<HTMLElement>>;
 interface TopBarTrailingProps {
-	children?: ReactNode26;
+	children?: ReactNode27;
 }
 declare function TopBarTrailing({ children }: TopBarTrailingProps): React.JSX.Element;
 /**
@@ -1681,7 +1822,7 @@ declare function TopBarTrailing({ children }: TopBarTrailingProps): React.JSX.El
 * ```
 */
 declare const TopBar: {};
-import { ReactNode as ReactNode27 } from "react";
+import { ReactNode as ReactNode28 } from "react";
 type EmptyPageLevel = "page" | "section";
 /** Props for {@link EmptyPageRoot}. */
 interface EmptyPageRootProps extends BaseComponentProps {
@@ -1695,7 +1836,7 @@ interface EmptyPageRootProps extends BaseComponentProps {
 	"aria-label"?: string;
 	/** Children — typically `<EmptyPage.Icon>`, `<EmptyPage.Title>`,
 	* `<EmptyPage.Description>`, `<EmptyPage.Actions>`, `<EmptyPage.Tips>`. */
-	children?: ReactNode27;
+	children?: ReactNode28;
 }
 declare const EmptyPageRoot: React.ForwardRefExoticComponent<Omit<EmptyPageRootProps, "ref"> & React.RefAttributes<HTMLElement>>;
 /** Props for {@link EmptyPageIcon}. */
@@ -1703,26 +1844,26 @@ interface EmptyPageIconProps {
 	/** The hero icon or illustration. Typically `<Icon name="…" size="xl" />`
 	* or a custom SVG. The wrapper applies muted color + hero-sized footprint
 	* and marks itself `aria-hidden`; the Title carries the semantic label. */
-	children: ReactNode27;
+	children: ReactNode28;
 }
 declare function EmptyPageIcon({ children }: EmptyPageIconProps): React.JSX.Element;
 /** Props for {@link EmptyPageTitle}. */
 interface EmptyPageTitleProps {
 	/** The heading text. Renders as `<h1>` when Root's `level='page'`,
 	* `<h2>` when `level='section'`. */
-	children: ReactNode27;
+	children: ReactNode28;
 }
 declare function EmptyPageTitle({ children }: EmptyPageTitleProps): React.JSX.Element;
 /** Props for {@link EmptyPageDescription}. */
 interface EmptyPageDescriptionProps {
 	/** Paragraph body copy explaining the zero state. */
-	children: ReactNode27;
+	children: ReactNode28;
 }
 declare function EmptyPageDescription({ children }: EmptyPageDescriptionProps): React.JSX.Element;
 /** Props for {@link EmptyPageActions}. */
 interface EmptyPageActionsProps {
 	/** Action buttons — consumer composes primary + secondary `<Button>` children. */
-	children?: ReactNode27;
+	children?: ReactNode28;
 }
 declare function EmptyPageActions({ children }: EmptyPageActionsProps): React.JSX.Element;
 /** Props for {@link EmptyPageTips}. */
@@ -1732,7 +1873,7 @@ interface EmptyPageTipsProps {
 	*/
 	"aria-label"?: string;
 	/** Tip entries — typically `<EmptyPage.Tip>` children. */
-	children?: ReactNode27;
+	children?: ReactNode28;
 }
 declare function EmptyPageTips({ "aria-label": ariaLabel, children }: EmptyPageTipsProps): React.JSX.Element | null;
 /** Props for {@link EmptyPageTip}. */
@@ -1746,7 +1887,7 @@ interface EmptyPageTipProps {
 	*/
 	asChild?: boolean;
 	/** Tip content. */
-	children: ReactNode27;
+	children: ReactNode28;
 }
 declare function EmptyPageTip({ icon, asChild, children }: EmptyPageTipProps): React.JSX.Element;
 /**
@@ -1778,7 +1919,7 @@ declare function EmptyPageTip({ icon, asChild, children }: EmptyPageTipProps): R
 * ```
 */
 declare const EmptyPage: {};
-import { ReactNode as ReactNode28 } from "react";
+import { ReactNode as ReactNode29 } from "react";
 interface AppShellContextValue {
 	sidebarCollapsed: boolean;
 	setSidebarCollapsed: (next: boolean) => void;
@@ -1844,7 +1985,7 @@ interface AppShellRootProps extends BaseComponentProps {
 	/** Children — any combination of `<AppShell.TopBar>`, `<AppShell.Sidebar>`,
 	* `<AppShell.Main>`, `<AppShell.RightPanel>`. JSX order is not significant;
 	* grid placement is determined by component identity. */
-	children?: ReactNode28;
+	children?: ReactNode29;
 }
 declare const AppShellRoot: React.ForwardRefExoticComponent<Omit<AppShellRootProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /** Props for {@link AppShellTopBar}. Mirrors `TopBarRootProps` exactly — the
@@ -1862,9 +2003,9 @@ interface AppShellSidebarProps {
 	* that receives `{ collapsed }` to render different layouts in the
 	* expanded vs collapsed state — e.g. hide labels and show icons only
 	* when collapsed. */
-	children?: ReactNode28 | ((state: {
+	children?: ReactNode29 | ((state: {
 		collapsed: boolean;
-	}) => ReactNode28);
+	}) => ReactNode29);
 }
 declare function AppShellSidebar({ "aria-label": ariaLabel, children }: AppShellSidebarProps): React.JSX.Element;
 /** Props for {@link AppShellSidebarSection}. */
@@ -1874,7 +2015,7 @@ interface AppShellSidebarSectionProps {
 	* screen readers) so the item rail reads as a single nav region. */
 	label?: string;
 	/** Section contents — typically the consumer's own link rows. */
-	children?: ReactNode28;
+	children?: ReactNode29;
 }
 declare function AppShellSidebarSection({ label, children }: AppShellSidebarSectionProps): React.JSX.Element;
 /** Props for {@link AppShellMain}. */
@@ -1884,7 +2025,7 @@ interface AppShellMainProps extends BaseComponentProps {
 	"aria-label"?: string;
 	/** Pair with a heading's generated id to label the region. */
 	"aria-labelledby"?: string;
-	children?: ReactNode28;
+	children?: ReactNode29;
 }
 declare function AppShellMain({ children,...rest }: AppShellMainProps): React.JSX.Element;
 /** Props for {@link AppShellRightPanel}. */
@@ -1893,7 +2034,7 @@ interface AppShellRightPanelProps {
 	* @default 'Context panel'
 	*/
 	"aria-label"?: string;
-	children?: ReactNode28;
+	children?: ReactNode29;
 }
 declare function AppShellRightPanel({ "aria-label": ariaLabel, children }: AppShellRightPanelProps): React.JSX.Element;
 /**
@@ -1932,7 +2073,7 @@ declare function AppShellRightPanel({ "aria-label": ariaLabel, children }: AppSh
 * ```
 */
 declare const AppShell: {};
-import { ReactNode as ReactNode29 } from "react";
+import { ReactNode as ReactNode30 } from "react";
 /** Props for {@link DataTablePageRoot}. */
 interface DataTablePageRootProps extends BaseComponentProps {
 	/** Number of data rows the consumer has for the current page/slice. Required —
@@ -1956,7 +2097,7 @@ interface DataTablePageRootProps extends BaseComponentProps {
 	* `<DataTablePage.FilterBar>`, `<DataTablePage.Table>`,
 	* `<DataTablePage.Pagination>`, `<DataTablePage.Empty>`. Rendered in source
 	* order (JSX order is visual order). */
-	children?: ReactNode29;
+	children?: ReactNode30;
 }
 declare const DataTablePageRoot: React.ForwardRefExoticComponent<Omit<DataTablePageRootProps, "ref"> & React.RefAttributes<HTMLElement>>;
 /** Props for {@link DataTablePageHeader}. Identical surface to `<Header>` —
@@ -2027,7 +2168,7 @@ declare function DataTablePageEmpty(props: DataTablePageEmptyProps): React.JSX.E
 * ```
 */
 declare const DataTablePage: {};
-import { ReactNode as ReactNode30 } from "react";
+import { ReactNode as ReactNode31 } from "react";
 /** Props for {@link DetailPageRoot}. */
 interface DetailPageRootProps extends BaseComponentProps {
 	/** Accessible label fallback for the outer `<section>`. When omitted,
@@ -2038,7 +2179,7 @@ interface DetailPageRootProps extends BaseComponentProps {
 	* `<DetailPage.Meta>`, `<DetailPage.Body>`, `<DetailPage.Actions>`,
 	* `<DetailPage.RightPanel>`. JSX order is visual order — except
 	* `DetailPage.Actions`, which portals into the Header's trailing slot. */
-	children?: ReactNode30;
+	children?: ReactNode31;
 }
 declare const DetailPageRoot: React.ForwardRefExoticComponent<Omit<DetailPageRootProps, "ref"> & React.RefAttributes<HTMLElement>>;
 /** Props for {@link DetailPageHeader}. */
@@ -2049,7 +2190,7 @@ interface DetailPageHeaderProps {
 	subtitle?: string;
 	/** Inline content rendered next to the title (e.g. `<Badge>`,
 	* `<StatusDot>`). */
-	indicator?: ReactNode30;
+	indicator?: ReactNode31;
 	/** When set, renders a left-aligned `<IconButton>` with an arrow-left
 	* icon and `aria-label={backLabel}`. Consumer owns routing — the handler
 	* fires on click; the library never imports a router.
@@ -2068,7 +2209,7 @@ declare function DetailPageHeader({ title, subtitle, indicator, onBack, backLabe
 interface DetailPageMetaProps {
 	/** Children — typically `<DetailPage.MetaItem>` entries. Non-MetaItem
 	* children render but trigger a dev-mode console.warn once per mount. */
-	children?: ReactNode30;
+	children?: ReactNode31;
 }
 declare function DetailPageMeta({ children }: DetailPageMetaProps): React.JSX.Element;
 /** Props for {@link DetailPageMetaItem}. */
@@ -2077,7 +2218,7 @@ interface DetailPageMetaItemProps {
 	label: string;
 	/** The value, rendered as `<dd>`. Accepts any ReactNode so consumers can
 	* slot in Badges, relative-time components, or plain strings. */
-	children: ReactNode30;
+	children: ReactNode31;
 }
 declare function DetailPageMetaItem({ label, children }: DetailPageMetaItemProps): React.JSX.Element;
 /** Props for {@link DetailPageBody}. */
@@ -2085,7 +2226,7 @@ interface DetailPageBodyProps extends BaseComponentProps {
 	/** Accessible label for the Body landmark when rendered as `<main>`.
 	* Ignored when inside an `<AppShell>` (Body is a `<div>` there). */
 	"aria-label"?: string;
-	children?: ReactNode30;
+	children?: ReactNode31;
 }
 declare function DetailPageBody({ children,...rest }: DetailPageBodyProps): React.JSX.Element;
 /** Props for {@link DetailPageActions}. */
@@ -2097,7 +2238,7 @@ interface DetailPageActionsProps {
 	*
 	* When `DetailPage.Header` is not present, Actions renders nothing
 	* (there's no slot to target). */
-	children?: ReactNode30;
+	children?: ReactNode31;
 }
 declare function DetailPageActions({ children }: DetailPageActionsProps): React.JSX.Element | null;
 /** Props for {@link DetailPageRightPanel}. */
@@ -2106,7 +2247,7 @@ interface DetailPageRightPanelProps {
 	* @default 'Details'
 	*/
 	"aria-label"?: string;
-	children?: ReactNode30;
+	children?: ReactNode31;
 }
 declare function DetailPageRightPanel({ "aria-label": ariaLabel, children }: DetailPageRightPanelProps): React.JSX.Element;
 /**
@@ -2159,7 +2300,7 @@ declare function DetailPageRightPanel({ "aria-label": ariaLabel, children }: Det
 * ```
 */
 declare const DetailPage: {};
-import { FormEvent, ReactNode as ReactNode31 } from "react";
+import { FormEvent, ReactNode as ReactNode32 } from "react";
 /** Sticky mode for `FormLayout.Actions`. */
 type FormLayoutSticky = "viewport" | "container" | false;
 /** Public context shape exposed via `useFormLayout()`. */
@@ -2233,7 +2374,7 @@ interface FormLayoutRootProps extends BaseComponentProps {
 	/** Children — typically `<FormLayout.Header>`, `<FormLayout.Section>`s,
 	* `<FormLayout.Actions>`, plus optional `<FormLayout.DirtyOnChange>` /
 	* `<FormLayout.NavigationGuard>`. */
-	children?: ReactNode31;
+	children?: ReactNode32;
 }
 declare const FormLayoutRoot: React.ForwardRefExoticComponent<Omit<FormLayoutRootProps, "ref"> & React.RefAttributes<HTMLFormElement>>;
 /** Props for {@link FormLayoutHeader}. */
@@ -2247,7 +2388,7 @@ declare function FormLayoutHeader({ title, description }: FormLayoutHeaderProps)
 /** Props for {@link FormLayoutSection}. */
 interface FormLayoutSectionProps extends BaseComponentProps {
 	/** Children — typically `<FormLayout.SectionHeader>` + `<FormLayout.SectionBody>`. */
-	children?: ReactNode31;
+	children?: ReactNode32;
 }
 declare function FormLayoutSection({ children,...rest }: FormLayoutSectionProps): React.JSX.Element;
 /** Props for {@link FormLayoutSectionHeader}. */
@@ -2262,14 +2403,14 @@ declare function FormLayoutSectionHeader({ title, description }: FormLayoutSecti
 interface FormLayoutSectionBodyProps {
 	/** Children — consumer's `<Field>` / `<Input>` / `<Textarea>` / custom fields.
 	* The organism does not wrap or transform them. */
-	children?: ReactNode31;
+	children?: ReactNode32;
 }
 declare function FormLayoutSectionBody({ children }: FormLayoutSectionBodyProps): React.JSX.Element;
 /** Props for {@link FormLayoutActions}. */
 interface FormLayoutActionsProps {
 	/** Children — typically `<FormLayout.SaveButton>` + `<FormLayout.CancelButton>`,
 	* or any buttons the consumer composes. */
-	children?: ReactNode31;
+	children?: ReactNode32;
 }
 declare function FormLayoutActions({ children }: FormLayoutActionsProps): React.JSX.Element | null;
 /** Props for {@link FormLayoutSaveButton}. */
@@ -2277,11 +2418,11 @@ interface FormLayoutSaveButtonProps extends Omit<ButtonProps, "children" | "type
 	/** Button label when idle.
 	* @default 'Save'
 	*/
-	children?: ReactNode31;
+	children?: ReactNode32;
 	/** Button label while `saving` is true.
 	* @default 'Saving…'
 	*/
-	savingLabel?: ReactNode31;
+	savingLabel?: ReactNode32;
 }
 declare function FormLayoutSaveButton({ children, savingLabel, disabled: disabledProp, variant,...rest }: FormLayoutSaveButtonProps): React.JSX.Element;
 /** Props for {@link FormLayoutCancelButton}. */
@@ -2289,14 +2430,14 @@ interface FormLayoutCancelButtonProps extends Omit<ButtonProps, "children" | "ty
 	/** Button label.
 	* @default 'Cancel'
 	*/
-	children?: ReactNode31;
+	children?: ReactNode32;
 }
 declare function FormLayoutCancelButton({ children, variant, onClick,...rest }: FormLayoutCancelButtonProps): React.JSX.Element;
 /** Props for {@link FormLayoutDirtyOnChange}. */
 interface FormLayoutDirtyOnChangeProps {
 	/** Fields to monitor. Any bubbled `change` event from an input/select/
 	* textarea under this wrapper marks the form dirty. */
-	children?: ReactNode31;
+	children?: ReactNode32;
 }
 declare function FormLayoutDirtyOnChange({ children }: FormLayoutDirtyOnChangeProps): React.JSX.Element;
 /** Props for {@link FormLayoutNavigationGuard}. */
@@ -2354,7 +2495,148 @@ declare function FormLayoutNavigationGuard({ message }: FormLayoutNavigationGuar
 * ```
 */
 declare const FormLayout: {};
-import { ReactNode as ReactNode32 } from "react";
+import { ReactNode as ReactNode33 } from "react";
+/** Progress indicator mode. */
+type WizardDialogProgressMode = "numeric" | "bar";
+/** Props for {@link WizardDialogRoot}. */
+interface WizardDialogRootProps {
+	/** Controlled open state. When set, Root reads this and ignores
+	* `defaultOpen`. */
+	open?: boolean;
+	/** Uncontrolled initial open state.
+	* @default false
+	*/
+	defaultOpen?: boolean;
+	/** Fires when the dialog should open or close — Escape (if `canClose`),
+	* overlay click, Finish, or the consumer calls `close()`. */
+	onOpenChange?: (next: boolean) => void;
+	/** Controlled current step (0-based). Pair with `onStepChange` to own the
+	* state yourself. */
+	step?: number;
+	/** Uncontrolled initial step (0-based).
+	* @default 0
+	*/
+	defaultStep?: number;
+	/** Fires when the step index changes — Next/Back, or consumer-driven
+	* setters. */
+	onStepChange?: (next: number) => void;
+	/** Called when the last step's Finish button fires. Return a Promise to
+	* delay the close; Root flips Actions into its loading state while the
+	* promise is in flight. The dialog auto-closes after the promise resolves. */
+	onComplete?: () => void | Promise<void>;
+	/** Whether Escape / overlay click / Back-on-step-0 can close the dialog.
+	* Useful for forced-onboarding flows where the user must complete the
+	* wizard or explicitly Cancel out.
+	* @default true
+	*/
+	canClose?: boolean;
+	/** Modal width preset, forwarded to ModalShell.
+	* @default 'lg'
+	*/
+	width?: ModalWidth;
+	/** Children — typically `<WizardDialog.Title>`, `<WizardDialog.Progress>`,
+	* one or more `<WizardDialog.Step>`s, and `<WizardDialog.Actions>`. */
+	children?: ReactNode33;
+}
+declare const WizardDialogRoot: unknown;
+/** Props for {@link WizardDialogTitle}. */
+interface WizardDialogTitleProps {
+	/** Title text. Rendered as `<h2>` with the shared modal heading style. */
+	children: ReactNode33;
+}
+declare function WizardDialogTitle({ children }: WizardDialogTitleProps): React.JSX.Element;
+/** Props for {@link WizardDialogProgress}. */
+interface WizardDialogProgressProps {
+	/** Indicator mode.
+	* - `'numeric'` — "Step N of M" text with the current step label (if any).
+	* - `'bar'` — a segmented `<ProgressBar>` filling step / total.
+	* @default 'numeric'
+	*/
+	mode?: WizardDialogProgressMode;
+	/** Labels for each step — used by the numeric mode as the right-aligned
+	* label, and by both modes for the progressbar's `aria-label`. Length
+	* should match the number of Step children; shorter arrays silently skip
+	* the current step's label. */
+	stepLabels?: string[];
+}
+declare function WizardDialogProgress({ mode, stepLabels }: WizardDialogProgressProps): React.JSX.Element;
+/** Props for {@link WizardDialogStep}. */
+interface WizardDialogStepProps {
+	/** Zero-based index of this step. Must be unique per step; JSX order is
+	* the source of truth for the user-visible sequence. */
+	index: number;
+	/** Optional validator called when the user presses Next (or Finish on the
+	* last step). Returning `false` (or a Promise that resolves to `false`)
+	* blocks the advance. Returning a Promise puts the Next button into its
+	* loading state while the promise is in flight. */
+	validate?: () => boolean | Promise<boolean>;
+	/** The step's content — typically a Stack of Field / Input / Select. */
+	children: ReactNode33;
+}
+declare function WizardDialogStep({ index, validate, children }: WizardDialogStepProps): React.JSX.Element | null;
+/** Props for {@link WizardDialogActions}. */
+interface WizardDialogActionsProps {
+	/** Label for the Back button on step 0 — when `canClose` is true this
+	* doubles as the Cancel button.
+	* @default 'Cancel'
+	*/
+	cancelLabel?: ReactNode33;
+	/** Label for the Back button on step > 0.
+	* @default 'Back'
+	*/
+	backLabel?: ReactNode33;
+	/** Label for the Next button.
+	* @default 'Continue'
+	*/
+	nextLabel?: ReactNode33;
+	/** Label for the Finish button on the last step.
+	* @default 'Finish'
+	*/
+	finishLabel?: ReactNode33;
+	/** Label shown on Next / Finish while async validation or `onComplete`
+	* is in flight.
+	* @default 'Working\u2026'
+	*/
+	busyLabel?: ReactNode33;
+	/** Optional extra content rendered at the start of the action row — e.g.
+	* a "Skip" link or a secondary action. Renders before the Back button
+	* with `marginRight: auto` spacing. */
+	children?: ReactNode33;
+}
+declare function WizardDialogActions({ cancelLabel, backLabel, nextLabel, finishLabel, busyLabel, children }: WizardDialogActionsProps): React.JSX.Element;
+/**
+* Stepped form in a modal. Generalizes the hand-assembled OnboardingFlow
+* pattern (ModalShell + progress + stepped content + Back/Next/Finish).
+*
+* Consumer owns step content, field state, and validation. WizardDialog owns
+* the modal chrome, step bookkeeping, focus management between steps, and
+* the navigation affordance.
+*
+* @example
+* ```tsx
+* const [open, setOpen] = useState(false);
+* const [name, setName] = useState('');
+*
+* <WizardDialog.Root
+*   open={open}
+*   onOpenChange={setOpen}
+*   onComplete={async () => { await createWorkspace({ name }); }}
+* >
+*   <WizardDialog.Title>Create a workspace</WizardDialog.Title>
+*   <WizardDialog.Progress stepLabels={['Workspace', 'Team', 'Plan']} />
+*   <WizardDialog.Step index={0} validate={() => name.trim().length > 0}>
+*     <Field label="Workspace name" required>
+*       <Input value={name} onChange={(e) => setName(e.target.value)} />
+*     </Field>
+*   </WizardDialog.Step>
+*   <WizardDialog.Step index={1}> <TeamFields /> </WizardDialog.Step>
+*   <WizardDialog.Step index={2}> <PlanFields /> </WizardDialog.Step>
+*   <WizardDialog.Actions />
+* </WizardDialog.Root>
+* ```
+*/
+declare const WizardDialog: {};
+import { ReactNode as ReactNode34 } from "react";
 /**
 * Which semantic surface token to use as the background.
 *
@@ -2423,10 +2705,10 @@ interface SurfaceProps extends BaseComponentProps {
 	* @default false
 	*/
 	asChild?: boolean;
-	children: ReactNode32;
+	children: ReactNode34;
 }
 declare const Surface: React.ForwardRefExoticComponent<Omit<SurfaceProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode33 } from "react";
+import { ReactNode as ReactNode35 } from "react";
 /**
 * Responsive grid layout with auto-fill columns.
 *
@@ -2466,7 +2748,7 @@ interface GridProps extends BaseComponentProps {
 	* @default 'md'
 	*/
 	gap?: SpacingToken;
-	children: ReactNode33;
+	children: ReactNode35;
 }
 declare const Grid: React.ForwardRefExoticComponent<Omit<GridProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /**
@@ -2508,7 +2790,7 @@ interface DividerProps extends BaseComponentProps {
 	spacing?: SpacingToken;
 }
 declare const Divider: React.ForwardRefExoticComponent<Omit<DividerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode34 } from "react";
+import { ReactNode as ReactNode36 } from "react";
 /** Named width preset for the Container. */
 type ContainerWidth = "narrow" | "prose" | "wide" | "full";
 /** Horizontal padding preset for the Container. */
@@ -2528,7 +2810,7 @@ interface ContainerProps {
 	*/
 	padding?: ContainerPadding;
 	/** Container content. */
-	children: ReactNode34;
+	children: ReactNode36;
 	id?: string;
 	"data-testid"?: string;
 }
@@ -2589,4 +2871,4 @@ interface TabStripProps extends BaseComponentProps {
 	size?: "sm" | "md";
 }
 declare const TabStrip: React.ForwardRefExoticComponent<Omit<TabStripProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-export { useToast, useIsInsideAppShell, useFormLayout, useFocusTrap, useCalendarContext, useAppShellContext, tagChipStyle, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, popoverPanelMd, popoverPanelLg, pillToggleUnselectedStyle, pillToggleSelectedStyle, pillToggleBaseStyle, nextFocusedDate, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, inputShellFocusRingCSS, inputShellErrorStyle, inputShellDisabledStyle, inputShellBaseStyle, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextWeight, TextTone, TextSize, TextRef, TextProps, TextFilterConfig, TextFamily, TextAs, TextAlign, Text, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table2 as Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectValueProps, SelectTriggerProps, SelectRootProps, SelectItemProps, SelectFilterConfig, SelectContentProps, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, LinkCardProps, LinkCard, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FormLayoutSticky, FormLayoutSectionProps, FormLayoutSectionHeaderProps, FormLayoutSectionHeader, FormLayoutSectionBodyProps, FormLayoutSectionBody, FormLayoutSection, FormLayoutSaveButtonProps, FormLayoutSaveButton, FormLayoutRootProps, FormLayoutRoot, FormLayoutNavigationGuardProps, FormLayoutNavigationGuard, FormLayoutHeaderProps, FormLayoutHeader, FormLayoutDirtyOnChangeProps, FormLayoutDirtyOnChange, FormLayoutContextValue, FormLayoutCancelButtonProps, FormLayoutCancelButton, FormLayoutActionsProps, FormLayoutActions, FormLayout, FilterConfig, FilterBarTextProps, FilterBarSelectProps, FilterBarProps, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, EmptyPageTitleProps, EmptyPageTitle, EmptyPageTipsProps, EmptyPageTips, EmptyPageTipProps, EmptyPageTip, EmptyPageRootProps, EmptyPageRoot, EmptyPageIconProps, EmptyPageIcon, EmptyPageDescriptionProps, EmptyPageDescription, EmptyPageActionsProps, EmptyPageActions, EmptyPage, DividerProps, DividerOpacity, Divider, DetailPageRootProps, DetailPageRoot, DetailPageRightPanelProps, DetailPageRightPanel, DetailPageMetaProps, DetailPageMetaItemProps, DetailPageMetaItem, DetailPageMeta, DetailPageHeaderProps, DetailPageHeader, DetailPageBodyProps, DetailPageBody, DetailPageActionsProps, DetailPageActions, DetailPage, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, DataTablePageTableProps, DataTablePageTable, DataTablePageRootProps, DataTablePageRoot, DataTablePagePaginationProps, DataTablePagePagination, DataTablePageHeaderProps, DataTablePageHeader, DataTablePageFilterBarProps, DataTablePageFilterBar, DataTablePageEmptyProps, DataTablePageEmpty, DataTablePage, ContainerWidth, ContainerProps, ContainerPadding, Container, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxRootProps, ComboboxListProps, ComboboxItemProps, ComboboxInputProps, ComboboxEmptyProps, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, CalendarSelection, CalendarRootProps, CalendarRange, CalendarNavProps, CalendarNavDirection, CalendarMode, CalendarHeaderPrimitiveProps, CalendarGridProps, CalendarContextValue, CalendarCellRenderArgs, CalendarCellProps, Calendar, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AppShellTopBarProps, AppShellTopBar, AppShellSidebarSectionProps, AppShellSidebarSection, AppShellSidebarProps, AppShellSidebar, AppShellRootProps, AppShellRoot, AppShellRightPanelProps, AppShellRightPanel, AppShellMainProps, AppShellMain, AppShell, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };
+export { useToast, useIsInsideAppShell, useFormLayout, useFocusTrap, useCalendarContext, useAppShellContext, tagChipStyle, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, popoverPanelMd, popoverPanelLg, pillToggleUnselectedStyle, pillToggleSelectedStyle, pillToggleBaseStyle, nextFocusedDate, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, inputShellFocusRingCSS, inputShellErrorStyle, inputShellDisabledStyle, inputShellBaseStyle, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, WizardDialogTitleProps, WizardDialogTitle, WizardDialogStepProps, WizardDialogStep, WizardDialogRootProps, WizardDialogRoot, WizardDialogProgressProps, WizardDialogProgressMode, WizardDialogProgress, WizardDialogActionsProps, WizardDialogActions, WizardDialog, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextWeight, TextTone, TextSize, TextRef, TextProps, TextFilterConfig, TextFamily, TextAs, TextAlign, Text, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table2 as Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectValueProps, SelectTriggerProps, SelectRootProps, SelectItemProps, SelectFilterConfig, SelectContentProps, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, LinkCardProps, LinkCard, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FormLayoutSticky, FormLayoutSectionProps, FormLayoutSectionHeaderProps, FormLayoutSectionHeader, FormLayoutSectionBodyProps, FormLayoutSectionBody, FormLayoutSection, FormLayoutSaveButtonProps, FormLayoutSaveButton, FormLayoutRootProps, FormLayoutRoot, FormLayoutNavigationGuardProps, FormLayoutNavigationGuard, FormLayoutHeaderProps, FormLayoutHeader, FormLayoutDirtyOnChangeProps, FormLayoutDirtyOnChange, FormLayoutContextValue, FormLayoutCancelButtonProps, FormLayoutCancelButton, FormLayoutActionsProps, FormLayoutActions, FormLayout, FilterConfig, FilterBarTextProps, FilterBarSelectProps, FilterBarProps, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, EmptyPageTitleProps, EmptyPageTitle, EmptyPageTipsProps, EmptyPageTips, EmptyPageTipProps, EmptyPageTip, EmptyPageRootProps, EmptyPageRoot, EmptyPageIconProps, EmptyPageIcon, EmptyPageDescriptionProps, EmptyPageDescription, EmptyPageActionsProps, EmptyPageActions, EmptyPage, DividerProps, DividerOpacity, Divider, DetailPageRootProps, DetailPageRoot, DetailPageRightPanelProps, DetailPageRightPanel, DetailPageMetaProps, DetailPageMetaItemProps, DetailPageMetaItem, DetailPageMeta, DetailPageHeaderProps, DetailPageHeader, DetailPageBodyProps, DetailPageBody, DetailPageActionsProps, DetailPageActions, DetailPage, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, DataTablePageTableProps, DataTablePageTable, DataTablePageRootProps, DataTablePageRoot, DataTablePagePaginationProps, DataTablePagePagination, DataTablePageHeaderProps, DataTablePageHeader, DataTablePageFilterBarProps, DataTablePageFilterBar, DataTablePageEmptyProps, DataTablePageEmpty, DataTablePage, ContainerWidth, ContainerProps, ContainerPadding, Container, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, CommandPaletteTriggerProps, CommandPaletteShortcut, CommandPaletteRootProps, CommandPaletteItemProps, CommandPaletteGroupProps, CommandPaletteContentProps, CommandPalette, ComboboxRootProps, ComboboxListProps, ComboboxItemProps, ComboboxInputProps, ComboboxEmptyProps, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, CalendarSelection, CalendarRootProps, CalendarRange, CalendarNavProps, CalendarNavDirection, CalendarMode, CalendarHeaderPrimitiveProps, CalendarGridProps, CalendarContextValue, CalendarCellRenderArgs, CalendarCellProps, Calendar, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AppShellTopBarProps, AppShellTopBar, AppShellSidebarSectionProps, AppShellSidebarSection, AppShellSidebarProps, AppShellSidebar, AppShellRootProps, AppShellRoot, AppShellRightPanelProps, AppShellRightPanel, AppShellMainProps, AppShellMain, AppShell, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };
