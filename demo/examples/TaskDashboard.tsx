@@ -1,9 +1,70 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import {
   Header, Card, Badge, ProgressBar,
   Stack, Button, EmptyState, Skeleton,
+  IconChevronRight,
 } from '@4lt7ab/ui';
-import { DisclosureCard } from '../components/DisclosureCard';
+import { semantic as t, useDisclosure } from '@4lt7ab/core';
+import type { UseDisclosureOptions } from '@4lt7ab/core';
+
+// Local Card + useDisclosure composition — canonical replacement for the
+// retired ExpandableCard. Kept inline so this example stays self-contained.
+interface DisclosureSectionProps extends UseDisclosureOptions {
+  title: string;
+  children: ReactNode;
+  headerAction?: ReactNode;
+}
+
+function DisclosureSection({
+  title,
+  children,
+  headerAction,
+  ...options
+}: DisclosureSectionProps): React.JSX.Element {
+  const { open, triggerProps, contentProps } = useDisclosure(options);
+
+  return (
+    <Card padding="xs">
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <button
+          type="button"
+          {...triggerProps}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: t.spaceSm,
+            padding: `${t.spaceSm} ${t.spaceMd}`,
+            cursor: 'pointer',
+            borderRadius: t.radiusMd,
+            background: 'none',
+            border: 'none',
+            color: 'inherit',
+            font: 'inherit',
+            flex: 1,
+            textAlign: 'left',
+          }}
+        >
+          <span
+            style={{
+              display: 'inline-flex',
+              transition: 'transform 150ms ease-out',
+              transform: open ? 'rotate(90deg)' : 'rotate(0deg)',
+            }}
+          >
+            <IconChevronRight size={20} />
+          </span>
+          <span style={{ fontWeight: t.fontWeightSemibold, fontFamily: t.fontSans, color: t.colorText, fontSize: t.fontSizeSm }}>
+            {title}
+          </span>
+        </button>
+        {headerAction && <div style={{ padding: `0 ${t.spaceMd}` }}>{headerAction}</div>}
+      </div>
+      <div {...contentProps} style={{ padding: `${t.spaceSm} ${t.spaceMd} ${t.spaceMd}` }}>
+        {children}
+      </div>
+    </Card>
+  );
+}
 
 const tasks = [
   { id: 1, title: 'Design token audit', status: 'success' as const, label: 'Done' },
@@ -13,7 +74,7 @@ const tasks = [
 ];
 
 export function TaskDashboard(): React.JSX.Element {
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
 
   return (
     <div style={{ maxWidth: 700 }}>
@@ -47,7 +108,7 @@ export function TaskDashboard(): React.JSX.Element {
         </Stack>
       </Card>
 
-      <DisclosureCard title="Active tasks" defaultOpen headerAction={<Badge variant="info">4</Badge>}>
+      <DisclosureSection title="Active tasks" defaultOpen headerAction={<Badge variant="info">4</Badge>}>
         <Stack gap="sm">
           {tasks.map((task) => (
             <div key={task.id} style={{ padding: 'var(--space-sm) 0', borderBottom: '1px solid var(--color-border)' }}>
@@ -59,11 +120,11 @@ export function TaskDashboard(): React.JSX.Element {
             </div>
           ))}
         </Stack>
-      </DisclosureCard>
+      </DisclosureSection>
 
-      <DisclosureCard title="Completed (archived)">
+      <DisclosureSection title="Completed (archived)">
         <EmptyState icon="check-circle" message="Completed tasks from previous sprints will appear here." />
-      </DisclosureCard>
+      </DisclosureSection>
 
       {loading && (
         <Card>

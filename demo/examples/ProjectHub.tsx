@@ -1,13 +1,76 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import {
   Card, Badge, Button, IconButton, Icon,
   ModalShell, ConfirmDialog, EmptyState, Stack, Header, Text,
   ProgressBar, tagChipStyle, ThemePicker,
   DataTablePage, FormLayout, Field, Input, Select, Textarea,
   Table, TableHeader, TableHeaderCell, TableBody, TableRow, TableCell,
+  IconChevronRight,
 } from '@4lt7ab/ui';
-import type { IconName } from '@4lt7ab/ui';
-import { DisclosureCard } from '../components/DisclosureCard';
+import type { CardVariant, IconName } from '@4lt7ab/ui';
+import { semantic as t, useDisclosure } from '@4lt7ab/core';
+import type { UseDisclosureOptions } from '@4lt7ab/core';
+
+// Local Card + useDisclosure composition — canonical replacement for the
+// retired ExpandableCard. Kept inline so this example stays self-contained.
+interface DisclosureSectionProps extends UseDisclosureOptions {
+  title: string;
+  children: ReactNode;
+  headerAction?: ReactNode;
+  variant?: CardVariant;
+}
+
+function DisclosureSection({
+  title,
+  children,
+  headerAction,
+  variant = 'default',
+  ...options
+}: DisclosureSectionProps): React.JSX.Element {
+  const { open, triggerProps, contentProps } = useDisclosure(options);
+
+  return (
+    <Card variant={variant} padding="xs">
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <button
+          type="button"
+          {...triggerProps}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: t.spaceSm,
+            padding: `${t.spaceSm} ${t.spaceMd}`,
+            cursor: 'pointer',
+            borderRadius: t.radiusMd,
+            background: 'none',
+            border: 'none',
+            color: 'inherit',
+            font: 'inherit',
+            flex: 1,
+            textAlign: 'left',
+          }}
+        >
+          <span
+            style={{
+              display: 'inline-flex',
+              transition: 'transform 150ms ease-out',
+              transform: open ? 'rotate(90deg)' : 'rotate(0deg)',
+            }}
+          >
+            <IconChevronRight size={20} />
+          </span>
+          <span style={{ fontWeight: t.fontWeightSemibold, fontFamily: t.fontSans, color: t.colorText, fontSize: t.fontSizeSm }}>
+            {title}
+          </span>
+        </button>
+        {headerAction && <div style={{ padding: `0 ${t.spaceMd}` }}>{headerAction}</div>}
+      </div>
+      <div {...contentProps} style={{ padding: `${t.spaceSm} ${t.spaceMd} ${t.spaceMd}` }}>
+        {children}
+      </div>
+    </Card>
+  );
+}
 
 // ---------------------------------------------------------------------------
 // Data
@@ -186,7 +249,7 @@ function ProjectDetail({ project, onClose, onDelete, onEdit }: {
         </Stack>
 
         {/* Overview */}
-        <DisclosureCard title="Overview" defaultOpen variant="flat">
+        <DisclosureSection title="Overview" defaultOpen variant="flat">
           <Stack gap="md">
             <Stack gap="xs">
               <Stack direction="horizontal" justify="space-between">
@@ -209,10 +272,10 @@ function ProjectDetail({ project, onClose, onDelete, onEdit }: {
               ))}
             </Stack>
           </Stack>
-        </DisclosureCard>
+        </DisclosureSection>
 
         {/* Tasks */}
-        <DisclosureCard
+        <DisclosureSection
           title="Tasks"
           defaultOpen
           variant="flat"
@@ -242,7 +305,7 @@ function ProjectDetail({ project, onClose, onDelete, onEdit }: {
           ) : (
             <EmptyState icon="check-circle" message="No tasks \u2014 this project is complete" />
           )}
-        </DisclosureCard>
+        </DisclosureSection>
       </Stack>
     </ModalShell>
   );
