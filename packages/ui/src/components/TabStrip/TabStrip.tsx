@@ -1,6 +1,6 @@
-import { forwardRef, useCallback, useRef } from 'react';
+import { forwardRef, useCallback } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
-import type { KeyboardEvent } from 'react';
+import { useRovingFocus } from '../../utils/useRovingFocus';
 import type { BaseComponentProps } from '../../types';
 
 /** A single tab definition. */
@@ -90,7 +90,12 @@ export const TabStrip: React.ForwardRefExoticComponent<
     ref,
   ): React.JSX.Element {
     useInjectStyles(STYLES_ID, STYLES_CSS);
-    const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+    const activeIndex = tabs.findIndex((tab) => tab.key === activeKey);
+    const { itemRef, onKeyDown, getTabIndex } = useRovingFocus({
+      count: tabs.length,
+      activeIndex: activeIndex === -1 ? null : activeIndex,
+    });
 
     const handleClick = useCallback(
       (key: string) => {
@@ -101,28 +106,6 @@ export const TabStrip: React.ForwardRefExoticComponent<
         }
       },
       [activeKey, allowDeselect, onChange],
-    );
-
-    const handleKeyDown = useCallback(
-      (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
-        let nextIndex: number | null = null;
-
-        if (e.key === 'ArrowRight') {
-          nextIndex = (index + 1) % tabs.length;
-        } else if (e.key === 'ArrowLeft') {
-          nextIndex = (index - 1 + tabs.length) % tabs.length;
-        } else if (e.key === 'Home') {
-          nextIndex = 0;
-        } else if (e.key === 'End') {
-          nextIndex = tabs.length - 1;
-        }
-
-        if (nextIndex != null) {
-          e.preventDefault();
-          tabRefs.current[nextIndex]?.focus();
-        }
-      },
-      [tabs.length],
     );
 
     const isSm = size === 'sm';
@@ -144,13 +127,13 @@ export const TabStrip: React.ForwardRefExoticComponent<
           return (
             <button
               key={tab.key}
-              ref={(el) => { tabRefs.current[i] = el; }}
+              ref={itemRef(i)}
               role="tab"
               aria-selected={isActive}
-              tabIndex={isActive ? 0 : -1}
+              tabIndex={getTabIndex(i)}
               data-tab-btn=""
               onClick={() => handleClick(tab.key)}
-              onKeyDown={(e) => handleKeyDown(e, i)}
+              onKeyDown={onKeyDown(i)}
               style={{
                 display: 'flex',
                 alignItems: 'center',

@@ -5109,8 +5109,58 @@ var SearchInput = (0, import_react33.forwardRef)(
 );
 
 // src/components/SegmentedControl/SegmentedControl.tsx
-var import_react34 = require("react");
+var import_react35 = require("react");
 var import_core37 = require("../../core/dist/index.cjs");
+
+// src/utils/useRovingFocus.ts
+var import_react34 = require("react");
+function useRovingFocus({
+  count,
+  activeIndex,
+  orientation = "horizontal"
+}) {
+  const itemRefs = (0, import_react34.useRef)([]);
+  const itemRef = (0, import_react34.useCallback)(
+    (index) => (el) => {
+      itemRefs.current[index] = el;
+    },
+    []
+  );
+  const onKeyDown = (0, import_react34.useCallback)(
+    (index) => (e) => {
+      if (count === 0) return;
+      let nextIndex = null;
+      const nextKey = orientation === "vertical" ? "ArrowDown" : "ArrowRight";
+      const prevKey = orientation === "vertical" ? "ArrowUp" : "ArrowLeft";
+      if (e.key === nextKey) {
+        nextIndex = (index + 1) % count;
+      } else if (e.key === prevKey) {
+        nextIndex = (index - 1 + count) % count;
+      } else if (e.key === "Home") {
+        nextIndex = 0;
+      } else if (e.key === "End") {
+        nextIndex = count - 1;
+      }
+      if (nextIndex != null) {
+        e.preventDefault();
+        itemRefs.current[nextIndex]?.focus();
+      }
+    },
+    [count, orientation]
+  );
+  const getTabIndex = (0, import_react34.useCallback)(
+    (index) => {
+      if (activeIndex == null) {
+        return index === 0 ? 0 : -1;
+      }
+      return index === activeIndex ? 0 : -1;
+    },
+    [activeIndex]
+  );
+  return { itemRef, onKeyDown, getTabIndex };
+}
+
+// src/components/SegmentedControl/SegmentedControl.tsx
 var import_jsx_runtime37 = require("react/jsx-runtime");
 var STYLE_ID3 = "4lt7ab-segmented-control";
 var hoverCSS = `
@@ -5143,21 +5193,26 @@ function SegmentedControl({
 }) {
   (0, import_core37.useInjectStyles)(STYLE_ID3, hoverCSS);
   const isControlled = controlledValue !== void 0;
-  const [internalValue, setInternalValue] = (0, import_react34.useState)(
+  const [internalValue, setInternalValue] = (0, import_react35.useState)(
     () => defaultValue ?? segments[0]?.value ?? ""
   );
   const value = isControlled ? controlledValue : internalValue;
-  const handleSelect = (0, import_react34.useCallback)(
+  const handleSelect = (0, import_react35.useCallback)(
     (next) => {
       if (!isControlled) setInternalValue(next);
       onChange?.(next);
     },
     [isControlled, onChange]
   );
-  const containerRef = (0, import_react34.useRef)(null);
-  const [indicator, setIndicator] = (0, import_react34.useState)(null);
+  const containerRef = (0, import_react35.useRef)(null);
+  const [indicator, setIndicator] = (0, import_react35.useState)(null);
   const s = sizes[size];
-  const updateIndicator = (0, import_react34.useCallback)(() => {
+  const activeIndex = segments.findIndex((seg) => seg.value === value);
+  const { itemRef, onKeyDown, getTabIndex } = useRovingFocus({
+    count: segments.length,
+    activeIndex: activeIndex === -1 ? null : activeIndex
+  });
+  const updateIndicator = (0, import_react35.useCallback)(() => {
     const container = containerRef.current;
     if (!container) return;
     const activeBtn = container.querySelector('[aria-pressed="true"]');
@@ -5172,10 +5227,10 @@ function SegmentedControl({
       width: btnRect.width
     });
   }, []);
-  (0, import_react34.useLayoutEffect)(() => {
+  (0, import_react35.useLayoutEffect)(() => {
     updateIndicator();
   }, [value, segments, updateIndicator]);
-  (0, import_react34.useLayoutEffect)(() => {
+  (0, import_react35.useLayoutEffect)(() => {
     const observer = new ResizeObserver(() => updateIndicator());
     if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
@@ -5215,17 +5270,20 @@ function SegmentedControl({
             }
           }
         ),
-        segments.map((seg) => {
+        segments.map((seg, i) => {
           const isActive = seg.value === value;
           const hasIcon = !!seg.icon;
           const iconOnly = hasIcon && !seg.label;
           return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(
             "button",
             {
+              ref: itemRef(i),
               type: "button",
               className: "segmented-ctrl-btn",
               "aria-pressed": isActive,
+              tabIndex: getTabIndex(i),
               onClick: () => handleSelect(seg.value),
+              onKeyDown: onKeyDown(i),
               style: {
                 position: "relative",
                 zIndex: 1,
@@ -5261,7 +5319,7 @@ function SegmentedControl({
 }
 
 // src/components/AlertBanner/AlertBanner.tsx
-var import_react35 = require("react");
+var import_react36 = require("react");
 var import_core38 = require("../../core/dist/index.cjs");
 var import_jsx_runtime38 = require("react/jsx-runtime");
 var STYLE_ID4 = "4lt7ab-alert-banner";
@@ -5292,7 +5350,7 @@ var defaultIcons = {
   error: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(IconError, { size: 20 }),
   success: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(IconCheckCircle, { size: 20 })
 };
-var AlertBanner = (0, import_react35.forwardRef)(
+var AlertBanner = (0, import_react36.forwardRef)(
   function AlertBanner2({ variant, children, onDismiss, icon }, ref) {
     (0, import_core38.useInjectStyles)(STYLE_ID4, alertBannerCSS);
     const colors = variantColors2[variant];
@@ -5356,12 +5414,12 @@ var AlertBanner = (0, import_react35.forwardRef)(
 );
 
 // src/components/TopBar/TopBar.tsx
-var import_react36 = require("react");
+var import_react37 = require("react");
 var import_core39 = require("../../core/dist/index.cjs");
 var import_jsx_runtime39 = require("react/jsx-runtime");
-var TopBarContext = (0, import_react36.createContext)(null);
+var TopBarContext = (0, import_react37.createContext)(null);
 function useTopBarContext(component) {
-  const ctx = (0, import_react36.useContext)(TopBarContext);
+  const ctx = (0, import_react37.useContext)(TopBarContext);
   if (ctx === null) {
     throw new Error(
       `[@4lt7ab/ui] <TopBar.${component}> must be rendered inside <TopBar.Root>.`
@@ -5393,7 +5451,7 @@ var TOPBAR_CSS = `
     color: ${import_core39.semantic.colorText};
   }
 `;
-var TopBarRoot = (0, import_react36.forwardRef)(
+var TopBarRoot = (0, import_react37.forwardRef)(
   function TopBarRoot2({ children, sticky = false, ...rest }, ref) {
     (0, import_core39.useInjectStyles)(TOPBAR_STYLES_ID, TOPBAR_CSS);
     const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: import_core39.semantic.zIndexSticky } : {};
@@ -5456,7 +5514,7 @@ function TopBarNav({ children, "aria-label": ariaLabel = "Primary" }) {
     }
   );
 }
-var TopBarLink = (0, import_react36.forwardRef)(function TopBarLink2({ active = false, asChild = false, onClick, children }, ref) {
+var TopBarLink = (0, import_react37.forwardRef)(function TopBarLink2({ active = false, asChild = false, onClick, children }, ref) {
   useTopBarContext("Link");
   const style = {
     display: "inline-flex",
@@ -5513,7 +5571,7 @@ var TopBar = {
 };
 
 // src/components/Surface/Surface.tsx
-var import_react37 = require("react");
+var import_react38 = require("react");
 var import_core40 = require("../../core/dist/index.cjs");
 var levelMap = {
   page: import_core40.semantic.colorSurfacePage,
@@ -5524,7 +5582,7 @@ var levelMap = {
   input: import_core40.semantic.colorSurfaceInput,
   overlay: import_core40.semantic.colorSurfaceOverlay
 };
-var Surface = (0, import_react37.forwardRef)(
+var Surface = (0, import_react38.forwardRef)(
   function Surface2({
     level = "solid",
     tint,
@@ -5538,7 +5596,7 @@ var Surface = (0, import_react37.forwardRef)(
   }, ref) {
     const borderValue = border === true ? `${import_core40.semantic.borderWidthDefault} solid ${import_core40.semantic.colorBorder}` : typeof border === "string" ? `${import_core40.semantic.borderWidthDefault} solid ${semanticColorMap[border]}` : void 0;
     const tintBg = tint ? `color-mix(in srgb, ${semanticColorMap[tint]} 10%, transparent)` : void 0;
-    return (0, import_react37.createElement)(
+    return (0, import_react38.createElement)(
       as,
       {
         ref,
@@ -5561,9 +5619,9 @@ var Surface = (0, import_react37.forwardRef)(
 );
 
 // src/components/Grid/Grid.tsx
-var import_react38 = require("react");
+var import_react39 = require("react");
 var import_jsx_runtime40 = require("react/jsx-runtime");
-var Grid = (0, import_react38.forwardRef)(
+var Grid = (0, import_react39.forwardRef)(
   function Grid2({
     minColumnWidth = 300,
     columns,
@@ -5591,10 +5649,10 @@ var Grid = (0, import_react38.forwardRef)(
 );
 
 // src/components/Divider/Divider.tsx
-var import_react39 = require("react");
+var import_react40 = require("react");
 var import_core41 = require("../../core/dist/index.cjs");
 var import_jsx_runtime41 = require("react/jsx-runtime");
-var Divider = (0, import_react39.forwardRef)(
+var Divider = (0, import_react40.forwardRef)(
   function Divider2({
     orientation = "horizontal",
     opacity = "default",
@@ -5626,7 +5684,7 @@ var Divider = (0, import_react39.forwardRef)(
 );
 
 // src/components/Container/Container.tsx
-var import_react40 = require("react");
+var import_react41 = require("react");
 var import_jsx_runtime42 = require("react/jsx-runtime");
 var widthMap = {
   narrow: "32rem",
@@ -5640,7 +5698,7 @@ var paddingMap2 = {
   md: "1.5rem",
   lg: "3rem"
 };
-var Container = (0, import_react40.forwardRef)(
+var Container = (0, import_react41.forwardRef)(
   function Container2({
     width = "prose",
     padding = "md",
@@ -5669,7 +5727,7 @@ var Container = (0, import_react40.forwardRef)(
 );
 
 // src/components/TabStrip/TabStrip.tsx
-var import_react41 = require("react");
+var import_react42 = require("react");
 var import_core42 = require("../../core/dist/index.cjs");
 var import_jsx_runtime43 = require("react/jsx-runtime");
 var STYLES_ID2 = "4lt7ab-tab-strip";
@@ -5682,7 +5740,7 @@ var STYLES_CSS = `
   background: color-mix(in srgb, ${import_core42.semantic.colorBorder} 10%, transparent);
 }
 `;
-var TabStrip = (0, import_react41.forwardRef)(
+var TabStrip = (0, import_react42.forwardRef)(
   function TabStrip2({
     tabs,
     activeKey,
@@ -5692,8 +5750,12 @@ var TabStrip = (0, import_react41.forwardRef)(
     ...rest
   }, ref) {
     (0, import_core42.useInjectStyles)(STYLES_ID2, STYLES_CSS);
-    const tabRefs = (0, import_react41.useRef)([]);
-    const handleClick = (0, import_react41.useCallback)(
+    const activeIndex = tabs.findIndex((tab) => tab.key === activeKey);
+    const { itemRef, onKeyDown, getTabIndex } = useRovingFocus({
+      count: tabs.length,
+      activeIndex: activeIndex === -1 ? null : activeIndex
+    });
+    const handleClick = (0, import_react42.useCallback)(
       (key) => {
         if (key === activeKey && allowDeselect) {
           onChange(null);
@@ -5702,25 +5764,6 @@ var TabStrip = (0, import_react41.forwardRef)(
         }
       },
       [activeKey, allowDeselect, onChange]
-    );
-    const handleKeyDown = (0, import_react41.useCallback)(
-      (e, index) => {
-        let nextIndex = null;
-        if (e.key === "ArrowRight") {
-          nextIndex = (index + 1) % tabs.length;
-        } else if (e.key === "ArrowLeft") {
-          nextIndex = (index - 1 + tabs.length) % tabs.length;
-        } else if (e.key === "Home") {
-          nextIndex = 0;
-        } else if (e.key === "End") {
-          nextIndex = tabs.length - 1;
-        }
-        if (nextIndex != null) {
-          e.preventDefault();
-          tabRefs.current[nextIndex]?.focus();
-        }
-      },
-      [tabs.length]
     );
     const isSm = size === "sm";
     return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
@@ -5739,15 +5782,13 @@ var TabStrip = (0, import_react41.forwardRef)(
           return /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(
             "button",
             {
-              ref: (el) => {
-                tabRefs.current[i] = el;
-              },
+              ref: itemRef(i),
               role: "tab",
               "aria-selected": isActive,
-              tabIndex: isActive ? 0 : -1,
+              tabIndex: getTabIndex(i),
               "data-tab-btn": "",
               onClick: () => handleClick(tab.key),
-              onKeyDown: (e) => handleKeyDown(e, i),
+              onKeyDown: onKeyDown(i),
               style: {
                 display: "flex",
                 alignItems: "center",

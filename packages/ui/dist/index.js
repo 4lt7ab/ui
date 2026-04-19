@@ -5021,8 +5021,58 @@ var SearchInput = forwardRef24(
 );
 
 // src/components/SegmentedControl/SegmentedControl.tsx
-import { useCallback as useCallback12, useLayoutEffect, useRef as useRef12, useState as useState12 } from "react";
+import { useCallback as useCallback13, useLayoutEffect, useRef as useRef13, useState as useState12 } from "react";
 import { semantic as t34, useInjectStyles as useInjectStyles17 } from "../../core/dist/index.js";
+
+// src/utils/useRovingFocus.ts
+import { useCallback as useCallback12, useRef as useRef12 } from "react";
+function useRovingFocus({
+  count,
+  activeIndex,
+  orientation = "horizontal"
+}) {
+  const itemRefs = useRef12([]);
+  const itemRef = useCallback12(
+    (index) => (el) => {
+      itemRefs.current[index] = el;
+    },
+    []
+  );
+  const onKeyDown = useCallback12(
+    (index) => (e) => {
+      if (count === 0) return;
+      let nextIndex = null;
+      const nextKey = orientation === "vertical" ? "ArrowDown" : "ArrowRight";
+      const prevKey = orientation === "vertical" ? "ArrowUp" : "ArrowLeft";
+      if (e.key === nextKey) {
+        nextIndex = (index + 1) % count;
+      } else if (e.key === prevKey) {
+        nextIndex = (index - 1 + count) % count;
+      } else if (e.key === "Home") {
+        nextIndex = 0;
+      } else if (e.key === "End") {
+        nextIndex = count - 1;
+      }
+      if (nextIndex != null) {
+        e.preventDefault();
+        itemRefs.current[nextIndex]?.focus();
+      }
+    },
+    [count, orientation]
+  );
+  const getTabIndex = useCallback12(
+    (index) => {
+      if (activeIndex == null) {
+        return index === 0 ? 0 : -1;
+      }
+      return index === activeIndex ? 0 : -1;
+    },
+    [activeIndex]
+  );
+  return { itemRef, onKeyDown, getTabIndex };
+}
+
+// src/components/SegmentedControl/SegmentedControl.tsx
 import { jsx as jsx37, jsxs as jsxs21 } from "react/jsx-runtime";
 var STYLE_ID3 = "4lt7ab-segmented-control";
 var hoverCSS = `
@@ -5059,17 +5109,22 @@ function SegmentedControl({
     () => defaultValue ?? segments[0]?.value ?? ""
   );
   const value = isControlled ? controlledValue : internalValue;
-  const handleSelect = useCallback12(
+  const handleSelect = useCallback13(
     (next) => {
       if (!isControlled) setInternalValue(next);
       onChange?.(next);
     },
     [isControlled, onChange]
   );
-  const containerRef = useRef12(null);
+  const containerRef = useRef13(null);
   const [indicator, setIndicator] = useState12(null);
   const s = sizes[size];
-  const updateIndicator = useCallback12(() => {
+  const activeIndex = segments.findIndex((seg) => seg.value === value);
+  const { itemRef, onKeyDown, getTabIndex } = useRovingFocus({
+    count: segments.length,
+    activeIndex: activeIndex === -1 ? null : activeIndex
+  });
+  const updateIndicator = useCallback13(() => {
     const container = containerRef.current;
     if (!container) return;
     const activeBtn = container.querySelector('[aria-pressed="true"]');
@@ -5127,17 +5182,20 @@ function SegmentedControl({
             }
           }
         ),
-        segments.map((seg) => {
+        segments.map((seg, i) => {
           const isActive = seg.value === value;
           const hasIcon = !!seg.icon;
           const iconOnly = hasIcon && !seg.label;
           return /* @__PURE__ */ jsxs21(
             "button",
             {
+              ref: itemRef(i),
               type: "button",
               className: "segmented-ctrl-btn",
               "aria-pressed": isActive,
+              tabIndex: getTabIndex(i),
               onClick: () => handleSelect(seg.value),
+              onKeyDown: onKeyDown(i),
               style: {
                 position: "relative",
                 zIndex: 1,
@@ -5581,7 +5639,7 @@ var Container = forwardRef30(
 );
 
 // src/components/TabStrip/TabStrip.tsx
-import { forwardRef as forwardRef31, useCallback as useCallback13, useRef as useRef13 } from "react";
+import { forwardRef as forwardRef31, useCallback as useCallback14 } from "react";
 import { semantic as t39, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
 import { jsx as jsx43, jsxs as jsxs23 } from "react/jsx-runtime";
 var STYLES_ID2 = "4lt7ab-tab-strip";
@@ -5604,8 +5662,12 @@ var TabStrip = forwardRef31(
     ...rest
   }, ref) {
     useInjectStyles20(STYLES_ID2, STYLES_CSS);
-    const tabRefs = useRef13([]);
-    const handleClick = useCallback13(
+    const activeIndex = tabs.findIndex((tab) => tab.key === activeKey);
+    const { itemRef, onKeyDown, getTabIndex } = useRovingFocus({
+      count: tabs.length,
+      activeIndex: activeIndex === -1 ? null : activeIndex
+    });
+    const handleClick = useCallback14(
       (key) => {
         if (key === activeKey && allowDeselect) {
           onChange(null);
@@ -5614,25 +5676,6 @@ var TabStrip = forwardRef31(
         }
       },
       [activeKey, allowDeselect, onChange]
-    );
-    const handleKeyDown = useCallback13(
-      (e, index) => {
-        let nextIndex = null;
-        if (e.key === "ArrowRight") {
-          nextIndex = (index + 1) % tabs.length;
-        } else if (e.key === "ArrowLeft") {
-          nextIndex = (index - 1 + tabs.length) % tabs.length;
-        } else if (e.key === "Home") {
-          nextIndex = 0;
-        } else if (e.key === "End") {
-          nextIndex = tabs.length - 1;
-        }
-        if (nextIndex != null) {
-          e.preventDefault();
-          tabRefs.current[nextIndex]?.focus();
-        }
-      },
-      [tabs.length]
     );
     const isSm = size === "sm";
     return /* @__PURE__ */ jsx43(
@@ -5651,15 +5694,13 @@ var TabStrip = forwardRef31(
           return /* @__PURE__ */ jsxs23(
             "button",
             {
-              ref: (el) => {
-                tabRefs.current[i] = el;
-              },
+              ref: itemRef(i),
               role: "tab",
               "aria-selected": isActive,
-              tabIndex: isActive ? 0 : -1,
+              tabIndex: getTabIndex(i),
               "data-tab-btn": "",
               onClick: () => handleClick(tab.key),
-              onKeyDown: (e) => handleKeyDown(e, i),
+              onKeyDown: onKeyDown(i),
               style: {
                 display: "flex",
                 alignItems: "center",

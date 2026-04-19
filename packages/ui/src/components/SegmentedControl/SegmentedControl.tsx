@@ -1,6 +1,7 @@
 import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
 import { Icon } from '../Icon';
+import { useRovingFocus } from '../../utils/useRovingFocus';
 import type { IconName } from '../../icons';
 
 /** A single segment definition. */
@@ -82,6 +83,12 @@ export function SegmentedControl({
   const [indicator, setIndicator] = useState<{ left: number; width: number } | null>(null);
   const s = sizes[size];
 
+  const activeIndex = segments.findIndex((seg) => seg.value === value);
+  const { itemRef, onKeyDown, getTabIndex } = useRovingFocus({
+    count: segments.length,
+    activeIndex: activeIndex === -1 ? null : activeIndex,
+  });
+
   const updateIndicator = useCallback(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -146,7 +153,7 @@ export function SegmentedControl({
       )}
 
       {/* Segment buttons */}
-      {segments.map((seg) => {
+      {segments.map((seg, i) => {
         const isActive = seg.value === value;
         const hasIcon = !!seg.icon;
         const iconOnly = hasIcon && !seg.label;
@@ -154,10 +161,13 @@ export function SegmentedControl({
         return (
           <button
             key={seg.value}
+            ref={itemRef(i)}
             type="button"
             className="segmented-ctrl-btn"
             aria-pressed={isActive}
+            tabIndex={getTabIndex(i)}
             onClick={() => handleSelect(seg.value)}
+            onKeyDown={onKeyDown(i)}
             style={{
               position: 'relative',
               zIndex: 1,
