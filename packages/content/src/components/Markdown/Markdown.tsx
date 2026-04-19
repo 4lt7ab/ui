@@ -778,13 +778,62 @@ function MarkdownTbody({ children }: { children?: ReactNode }): React.JSX.Elemen
 const EDITABLE_STYLES_ID = 'alttab-markdown-editable';
 const editableCSS = /* css */ `
   .alttab-md-editable-display {
-    cursor: pointer;
+    position: relative;
     border-radius: ${t.radiusMd};
     transition: background ${t.transitionBase};
   }
 
-  .alttab-md-editable-display:hover {
+  .alttab-md-editable-display:hover,
+  .alttab-md-editable-display:focus-within {
     background: color-mix(in srgb, ${t.colorText} ${MIX_HOVER}, transparent);
+  }
+
+  /*
+   * Transparent overlay that carries the click-to-edit affordance. Rendering
+   * the outer wrapper as a real <button> would create a nested-interactive
+   * ARIA violation as soon as the rendered markdown emits an <a> or <button>;
+   * giving the wrapper role="button" is the same violation spelled different.
+   * Instead, the overlay is the <button> and the markdown sits above it with
+   * pointer-events: none — letting blank-area clicks fall through to the
+   * overlay while <a> descendants (which opt back in) stay clickable.
+   */
+  .alttab-md-editable-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: inherit;
+    cursor: pointer;
+    z-index: 0;
+  }
+
+  .alttab-md-editable-overlay:focus-visible {
+    outline: ${t.focusRingWidth} solid ${t.focusRingColor};
+    outline-offset: ${t.focusRingOffset};
+  }
+
+  .alttab-md-editable-display > .alttab-markdown {
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /*
+   * Opt interactive descendants back into pointer events so links emitted
+   * from markdown remain clickable. The markdown container blocks pointer
+   * events in the middle to let blank-area clicks reach the overlay button.
+   */
+  .alttab-md-editable-display > .alttab-markdown a,
+  .alttab-md-editable-display > .alttab-markdown button,
+  .alttab-md-editable-display > .alttab-markdown input,
+  .alttab-md-editable-display > .alttab-markdown textarea,
+  .alttab-md-editable-display > .alttab-markdown select,
+  .alttab-md-editable-display > .alttab-markdown summary {
+    pointer-events: auto;
   }
 
   .alttab-md-editable-empty {
@@ -986,20 +1035,20 @@ export function Markdown({
       );
     }
 
+    // The outer div is non-interactive — it only owns layout + hover/focus
+    // styling. The overlay <button> carries the click-to-edit semantics so
+    // that links inside rendered markdown don't sit inside a button role
+    // (which would be a nested-interactive ARIA violation). The overlay is
+    // rendered as a sibling so pointer events on interactive descendants
+    // (links, buttons) bypass it cleanly.
     return (
-      <div
-        className="alttab-md-editable-display"
-        role="button"
-        tabIndex={0}
-        aria-label={fieldLabel ? `Edit ${fieldLabel}` : 'Edit content'}
-        onClick={onStartEdit}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            onStartEdit?.();
-          }
-        }}
-      >
+      <div className="alttab-md-editable-display">
+        <button
+          type="button"
+          className="alttab-md-editable-overlay"
+          aria-label={fieldLabel ? `Edit ${fieldLabel}` : 'Edit content'}
+          onClick={onStartEdit}
+        />
         <div className="alttab-markdown" id={id} data-testid={dataTestId}>
           <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
             {content}

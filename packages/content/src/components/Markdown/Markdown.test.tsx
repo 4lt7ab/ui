@@ -54,6 +54,30 @@ describe('Markdown — editable mode', () => {
     expect(onStartEdit).toHaveBeenCalledTimes(1);
   });
 
+  it('does not enter edit mode when an inline link inside rendered markdown is clicked', async () => {
+    const user = userEvent.setup();
+    const onStartEdit = vi.fn();
+
+    render(
+      <Markdown editable fieldLabel="Summary" onStartEdit={onStartEdit}>
+        {'See [the docs](https://example.com/docs) for more.'}
+      </Markdown>,
+    );
+
+    // The outer display wrapper is no longer a button — the only ARIA button
+    // exposed to assistive tech is the overlay that carries the click-to-edit
+    // affordance. The inline anchor is a separate interactive element.
+    const link = screen.getByRole('link', { name: /the docs/i }) as HTMLAnchorElement;
+    expect(link.getAttribute('href')).toBe('https://example.com/docs');
+
+    // Neutralize the default navigation so jsdom doesn't log a
+    // "not implemented: navigation" warning during the click.
+    link.addEventListener('click', (e) => e.preventDefault());
+
+    await user.click(link);
+    expect(onStartEdit).not.toHaveBeenCalled();
+  });
+
   it('invokes onStartEdit on Enter or Space when focused on the empty-state region', async () => {
     const user = userEvent.setup();
     const onStartEdit = vi.fn();
