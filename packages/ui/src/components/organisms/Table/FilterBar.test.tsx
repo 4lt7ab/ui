@@ -258,3 +258,41 @@ describe('Table.FilterBar — children-composition mode', () => {
     });
   });
 });
+
+// ---------------------------------------------------------------------------
+// Ref forwarding (ADR §2.4)
+// ---------------------------------------------------------------------------
+
+describe('Table.FilterBar — subpart ref forwarding', () => {
+  it('forwards FilterBar.Text ref to the inner HTMLInputElement', () => {
+    const ref: React.MutableRefObject<HTMLInputElement | null> = { current: null };
+    function Harness(): React.JSX.Element {
+      return (
+        <Table.FilterBar values={{ title: '' }} onChange={() => {}}>
+          <Table.FilterBar.Text field="title" placeholder="p" ref={ref} />
+        </Table.FilterBar>
+      );
+    }
+    render(<Harness />);
+    expect(ref.current).toBeInstanceOf(HTMLInputElement);
+  });
+
+  it('forwards FilterBar.Select ref to the inner HTMLButtonElement trigger', () => {
+    const ref: React.MutableRefObject<HTMLButtonElement | null> = { current: null };
+    function Harness(): React.JSX.Element {
+      return (
+        <Table.FilterBar values={{ status: '' }} onChange={() => {}}>
+          <Table.FilterBar.Select
+            field="status"
+            placeholder="All"
+            options={[{ value: 'a', label: 'A' }]}
+            ref={ref}
+          />
+        </Table.FilterBar>
+      );
+    }
+    render(<Harness />);
+    expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+    expect(ref.current?.getAttribute('role')).toBe('combobox');
+  });
+});

@@ -1,8 +1,10 @@
 import {
   createContext,
+  forwardRef,
   useCallback,
   useContext,
   useEffect,
+  useImperativeHandle,
   useRef,
   useState,
 } from 'react';
@@ -172,11 +174,12 @@ export interface FilterBarTextProps {
   debounceMs?: number;
 }
 
-function FilterBarText({
-  field,
-  placeholder,
-  debounceMs = 300,
-}: FilterBarTextProps): React.JSX.Element {
+const FilterBarText: React.ForwardRefExoticComponent<
+  FilterBarTextProps & React.RefAttributes<HTMLInputElement>
+> = forwardRef<HTMLInputElement, FilterBarTextProps>(function FilterBarText(
+  { field, placeholder, debounceMs = 300 },
+  ref,
+): React.JSX.Element {
   const { values, commit } = useFilterBarContext('Text');
   const external = values[field] ?? '';
   const [local, setLocal] = useState(external);
@@ -207,10 +210,15 @@ function FilterBarText({
 
   return (
     <div style={{ minWidth: '10rem', flex: '1 1 10rem' }}>
-      <Input value={local} onChange={handleChange} placeholder={placeholder} />
+      <Input
+        ref={ref}
+        value={local}
+        onChange={handleChange}
+        placeholder={placeholder}
+      />
     </div>
   );
-}
+});
 
 // ---------------------------------------------------------------------------
 // FilterBar.Select — immediate dropdown subpart
@@ -226,11 +234,12 @@ export interface FilterBarSelectProps {
   options: Array<{ value: string; label: string }>;
 }
 
-function FilterBarSelect({
-  field,
-  placeholder,
-  options,
-}: FilterBarSelectProps): React.JSX.Element {
+const FilterBarSelect: React.ForwardRefExoticComponent<
+  FilterBarSelectProps & React.RefAttributes<HTMLButtonElement>
+> = forwardRef<HTMLButtonElement, FilterBarSelectProps>(function FilterBarSelect(
+  { field, placeholder, options },
+  ref,
+): React.JSX.Element {
   const { values, commit } = useFilterBarContext('Select');
   const value = values[field] ?? '';
 
@@ -241,8 +250,21 @@ function FilterBarSelect({
     [commit, field],
   );
 
+  // Select.Trigger does not yet forwardRef internally (pre-existing ADR §2.4
+  // gap tracked separately). The trigger renders exactly one <button> as the
+  // wrapper's only interactive descendant, so we expose it to consumers via
+  // useImperativeHandle + a querySelector on the wrapping div. The
+  // `!` is safe because the wrapper div always renders before this handle
+  // resolves (React commits the div ref before running imperative-handle
+  // factories for the same component).
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  useImperativeHandle(
+    ref,
+    () => wrapperRef.current!.querySelector('button') as HTMLButtonElement,
+  );
+
   return (
-    <div style={{ minWidth: '8rem', flex: '0 1 12rem' }}>
+    <div ref={wrapperRef} style={{ minWidth: '8rem', flex: '0 1 12rem' }}>
       <Select.Root value={value} onValueChange={handleValueChange}>
         <Select.Trigger>
           <Select.Value placeholder={placeholder} />
@@ -257,7 +279,7 @@ function FilterBarSelect({
       </Select.Root>
     </div>
   );
-}
+});
 
 // ---------------------------------------------------------------------------
 // Namespace export (attached to `Table` in Table/index.ts via Object.assign)
