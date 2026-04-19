@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import {
-  Header, Card, Stack, Button, Badge, StatusDot, Icon, IconButton,
-  ProgressBar, Pagination, tagChipStyle, Skeleton, RowSkeleton,
+  AppShell, TopBar, Header, Card, Stack, Button, Badge, StatusDot, Icon, IconButton,
+  ProgressBar, Skeleton, RowSkeleton, Text,
+  DataTablePage, DetailPage, Surface,
   Table, TableHeader, TableHeaderCell, TableBody, TableRow, TableCell,
+  tagChipStyle,
 } from '@4lt7ab/ui';
-import { DisclosureCard } from '../components/DisclosureCard';
 
 // ---------------------------------------------------------------------------
 // Data
@@ -25,10 +26,47 @@ const SERVICES = [
   { name: 'analytics-pipe', region: 'us-west-2', status: 'degraded', latency: 450, uptime: 97.1 },
 ];
 
-const INCIDENTS = [
-  { id: 'INC-042', title: 'Email delivery delays', severity: 'error', service: 'email-service', time: '14 min ago', tags: ['p1', 'customer-facing'] },
-  { id: 'INC-041', title: 'Elevated latency on worker queue', severity: 'warning', service: 'worker-jobs', time: '2h ago', tags: ['p2', 'internal'] },
-  { id: 'INC-040', title: 'Analytics pipeline backpressure', severity: 'warning', service: 'analytics-pipe', time: '3h ago', tags: ['p2', 'data'] },
+interface Incident {
+  id: string;
+  title: string;
+  severity: string;
+  service: string;
+  time: string;
+  tags: string[];
+  summary: string;
+}
+
+const INCIDENTS: Incident[] = [
+  {
+    id: 'INC-042',
+    title: 'Email delivery delays',
+    severity: 'error',
+    service: 'email-service',
+    time: '14 min ago',
+    tags: ['p1', 'customer-facing'],
+    summary:
+      'Outbound email queue is backed up; messages are being retried with exponential backoff. Engineering is investigating the upstream provider rate limits.',
+  },
+  {
+    id: 'INC-041',
+    title: 'Elevated latency on worker queue',
+    severity: 'warning',
+    service: 'worker-jobs',
+    time: '2h ago',
+    tags: ['p2', 'internal'],
+    summary:
+      'Worker jobs are processing at ~3x normal p95. Triggering suspects: new cron schedule pushed this morning. Mitigation underway.',
+  },
+  {
+    id: 'INC-040',
+    title: 'Analytics pipeline backpressure',
+    severity: 'warning',
+    service: 'analytics-pipe',
+    time: '3h ago',
+    tags: ['p2', 'data'],
+    summary:
+      'Analytics pipeline reporting backpressure on the aggregation stage. Temporary throughput cap in place while we resize the cluster.',
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -51,6 +89,12 @@ function severityBadge(severity: string): 'error' | 'warning' | 'default' {
   return 'default';
 }
 
+function uptimeTone(uptime: number): 'success' | 'warning' | 'error' {
+  if (uptime >= 99.9) return 'success';
+  if (uptime >= 99) return 'warning';
+  return 'error';
+}
+
 // ---------------------------------------------------------------------------
 // Stat card
 // ---------------------------------------------------------------------------
@@ -64,12 +108,12 @@ function MetricTile({ label, value, dot }: {
     <div style={{ flex: '1 1 10rem' }}>
       <Card padding="md">
         <Stack gap="xs">
-          <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{label}</span>
+          <Text size="xs" tone="muted">{label}</Text>
           <Stack direction="horizontal" gap="sm" align="center">
             {dot && <StatusDot variant={dot} />}
-            <span style={{ fontSize: '1.5rem', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
+            <Text size="xl" weight="bold" family="mono">
               {value}
-            </span>
+            </Text>
           </Stack>
         </Stack>
       </Card>
@@ -89,10 +133,8 @@ function Metric({ label, value, color }: {
   return (
     <Stack gap="xs">
       <Stack direction="horizontal" justify="space-between" align="center">
-        <span style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>{label}</span>
-        <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--color-text-muted)' }}>
-          {value}%
-        </span>
+        <Text size="sm" tone="secondary">{label}</Text>
+        <Text size="xs" family="mono" tone="muted">{value}%</Text>
       </Stack>
       <ProgressBar
         segments={[
@@ -106,7 +148,7 @@ function Metric({ label, value, color }: {
 }
 
 // ---------------------------------------------------------------------------
-// Services table
+// Services table row
 // ---------------------------------------------------------------------------
 
 function ServiceRow({ svc, showUptime }: {
@@ -118,7 +160,7 @@ function ServiceRow({ svc, showUptime }: {
       <TableCell>
         <Stack direction="horizontal" gap="sm" align="center">
           <StatusDot variant={statusDot(svc.status)} size="md" />
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem' }}>{svc.name}</span>
+          <Text size="sm" family="mono">{svc.name}</Text>
         </Stack>
       </TableCell>
       <TableCell>
@@ -130,20 +172,91 @@ function ServiceRow({ svc, showUptime }: {
       </TableCell>
       {showUptime && (
         <TableCell align="right">
-          <span style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.8rem',
-            color: svc.uptime >= 99.9
-              ? 'var(--color-success)'
-              : svc.uptime >= 99
-                ? 'var(--color-warning)'
-                : 'var(--color-error)',
-          }}>
+          <Text size="sm" family="mono" tone={uptimeTone(svc.uptime)}>
             {svc.uptime}%
-          </span>
+          </Text>
         </TableCell>
       )}
     </TableRow>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Incident list item (overview preview)
+// ---------------------------------------------------------------------------
+
+function IncidentRow({ inc, onOpen }: {
+  inc: Incident;
+  onOpen: () => void;
+}): React.JSX.Element {
+  return (
+    <div style={{ padding: 'var(--space-sm) 0', borderBottom: '1px solid var(--color-border)' }}>
+      <Stack gap="xs">
+        <Stack direction="horizontal" justify="space-between" align="center">
+          <Stack direction="horizontal" gap="sm" align="center">
+            <Badge variant={severityBadge(inc.severity)}>{inc.id}</Badge>
+            <Button variant="ghost" size="sm" onClick={onOpen}>
+              {inc.title}
+            </Button>
+          </Stack>
+          <Text size="xs" tone="muted">{inc.time}</Text>
+        </Stack>
+        <Stack direction="horizontal" gap="xs" align="center">
+          <Text size="xs" family="mono" tone="muted">{inc.service}</Text>
+          {inc.tags.map((tag) => (
+            <span key={tag} style={tagChipStyle}>{tag}</span>
+          ))}
+        </Stack>
+      </Stack>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Incident detail (DetailPage)
+// ---------------------------------------------------------------------------
+
+function IncidentDetail({ inc, onBack }: {
+  inc: Incident;
+  onBack: () => void;
+}): React.JSX.Element {
+  return (
+    <DetailPage.Root>
+      <DetailPage.Header
+        title={inc.title}
+        subtitle={`${inc.id} · ${inc.service}`}
+        indicator={<Badge variant={severityBadge(inc.severity)}>{inc.severity}</Badge>}
+        onBack={onBack}
+      />
+      <DetailPage.Actions>
+        <Button variant="secondary" size="sm">Acknowledge</Button>
+        <Button variant="primary" size="sm">Resolve</Button>
+      </DetailPage.Actions>
+      <DetailPage.Meta>
+        <DetailPage.MetaItem label="Severity">
+          <Badge variant={severityBadge(inc.severity)}>{inc.severity}</Badge>
+        </DetailPage.MetaItem>
+        <DetailPage.MetaItem label="Service">
+          <Text size="sm" family="mono">{inc.service}</Text>
+        </DetailPage.MetaItem>
+        <DetailPage.MetaItem label="Opened">{inc.time}</DetailPage.MetaItem>
+        <DetailPage.MetaItem label="Tags">
+          <Stack direction="horizontal" gap="xs" wrap>
+            {inc.tags.map((tag) => (
+              <span key={tag} style={tagChipStyle}>{tag}</span>
+            ))}
+          </Stack>
+        </DetailPage.MetaItem>
+      </DetailPage.Meta>
+      <DetailPage.Body>
+        <Surface level="raised" padding="md">
+          <Stack gap="sm">
+            <Text size="md" weight="semibold">Summary</Text>
+            <Text size="sm" tone="secondary">{inc.summary}</Text>
+          </Stack>
+        </Surface>
+      </DetailPage.Body>
+    </DetailPage.Root>
   );
 }
 
@@ -155,6 +268,7 @@ export function CommandCenter(): React.JSX.Element {
   const [tab, setTab] = useState<Tab>('overview');
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [activeIncident, setActiveIncident] = useState<Incident | null>(null);
 
   const degradedCount = SERVICES.filter((s) => s.status === 'degraded').length;
   const incidentCount = SERVICES.filter((s) => s.status === 'incident').length;
@@ -162,216 +276,217 @@ export function CommandCenter(): React.JSX.Element {
   const paginated = SERVICES.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const totalPages = Math.ceil(SERVICES.length / PAGE_SIZE);
 
-  const refresh = () => {
+  const refresh = (): void => {
     setLoading(true);
     setTimeout(() => setLoading(false), 1200);
   };
 
   return (
-    <Stack gap="xl">
-      <Header
-        level="page"
-        title="System Monitor"
-        subtitle="All regions \u00B7 Last updated 30s ago"
-        trailing={
-          <Stack direction="horizontal" gap="sm">
-            <IconButton icon="filter" size="sm" aria-label="Filter" />
-            <Button variant="secondary" size="sm" onClick={refresh}>
-              Refresh
-            </Button>
-          </Stack>
-        }
-      />
-
-      {/* ── Tab bar ── */}
-      <div style={{ borderBottom: '1px solid var(--color-border)', paddingBottom: 'var(--space-xs)' }}>
-      <Stack
-        direction="horizontal"
-        gap="xs"
-      >
-        {(['overview', 'services', 'incidents'] as Tab[]).map((t) => (
-          <Button
-            key={t}
-            variant={tab === t ? 'secondary' : 'ghost'}
-            size="sm"
-            onClick={() => { setTab(t); setPage(1); }}
-          >
-            <span style={{ textTransform: 'capitalize' }}>{t}</span>
-            {t === 'incidents' && INCIDENTS.length > 0 && (
-              <span style={{ marginLeft: '0.375rem' }}><Badge variant="error">{INCIDENTS.length}</Badge></span>
-            )}
-          </Button>
-        ))}
-      </Stack>
-      </div>
-
-      {/* ── Overview ── */}
-      {tab === 'overview' && (
-        <Stack gap="xl">
-          {/* Stats row */}
-          {loading ? (
-            <Stack direction="horizontal" gap="md" wrap>
-              {Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} style={{ flex: '1 1 10rem' }}>
-                <Card padding="md">
-                  <Stack gap="sm">
-                    <Skeleton width="40%" height={12} />
-                    <Skeleton width="60%" height={28} />
-                  </Stack>
-                </Card>
-                </div>
-              ))}
-            </Stack>
-          ) : (
-            <Stack direction="horizontal" gap="md" wrap>
-              <MetricTile label="Uptime" value="99.97%" dot="success" />
-              <MetricTile label="Services" value={String(SERVICES.length)} dot={degradedCount > 0 ? 'warning' : 'success'} />
-              <MetricTile label="Incidents" value={String(INCIDENTS.length)} dot={incidentCount > 0 ? 'error' : 'success'} />
-              <MetricTile label="Requests/s" value="8,472" />
-            </Stack>
-          )}
-
-          {/* System health */}
-          <Card>
-            <Stack gap="md">
-              <span style={{ fontSize: '0.875rem', fontWeight: 600 }}>System Health</span>
-              {loading ? (
-                <Stack gap="sm">
-                  <RowSkeleton />
-                  <RowSkeleton />
-                  <RowSkeleton />
-                </Stack>
-              ) : (
-                <Stack gap="sm">
-                  <Metric label="CPU" value={78} color="warning" />
-                  <Metric label="Memory" value={56} color="success" />
-                  <Metric label="Disk" value={34} color="info" />
-                </Stack>
-              )}
-            </Stack>
-          </Card>
-
-          {/* Services preview */}
-          <Stack gap="sm">
-            <Stack direction="horizontal" justify="space-between" align="center">
-              <span style={{ fontSize: '0.875rem', fontWeight: 600 }}>Services</span>
-              <Button variant="ghost" size="sm" onClick={() => setTab('services')}>
-                View all <Icon name="chevron-right" size="xs" />
+    <div style={{ height: '44rem', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
+      <AppShell.Root>
+        <AppShell.TopBar aria-label="Command center">
+          <TopBar.Leading>
+            <Text weight="semibold">System Monitor</Text>
+          </TopBar.Leading>
+          <TopBar.Trailing>
+            <Stack direction="horizontal" gap="sm" align="center">
+              <IconButton icon="filter" size="sm" aria-label="Filter" />
+              <Button variant="secondary" size="sm" onClick={refresh}>
+                Refresh
               </Button>
             </Stack>
-            <Table density="sm">
-              <TableHeader>
-                <TableHeaderCell>Service</TableHeaderCell>
-                <TableHeaderCell>Status</TableHeaderCell>
-                <TableHeaderCell>Region</TableHeaderCell>
-                <TableHeaderCell align="right">Latency</TableHeaderCell>
-              </TableHeader>
-              <TableBody>
-                {SERVICES.slice(0, 5).map((svc) => (
-                  <ServiceRow key={svc.name} svc={svc} />
-                ))}
-              </TableBody>
-            </Table>
-          </Stack>
+          </TopBar.Trailing>
+        </AppShell.TopBar>
 
-          {/* Recent incidents */}
-          <DisclosureCard
-            title="Recent Incidents"
-            defaultOpen
-            headerAction={<Badge variant="error">{INCIDENTS.length}</Badge>}
-          >
-            <Stack gap="md">
-              {INCIDENTS.map((inc) => (
-                <div key={inc.id} style={{ padding: 'var(--space-sm) 0', borderBottom: '1px solid var(--color-border)' }}>
-                <Stack
-                  gap="xs"
-                >
-                  <Stack direction="horizontal" justify="space-between" align="center">
-                    <Stack direction="horizontal" gap="sm" align="center">
-                      <Badge variant={severityBadge(inc.severity)}>{inc.id}</Badge>
-                      <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>{inc.title}</span>
-                    </Stack>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{inc.time}</span>
-                  </Stack>
-                  <Stack direction="horizontal" gap="xs" align="center">
-                    <span style={{
-                      fontSize: '0.75rem',
-                      color: 'var(--color-text-muted)',
-                      fontFamily: 'var(--font-mono)',
-                    }}>
-                      {inc.service}
-                    </span>
-                    {inc.tags.map((tag) => (
-                      <span key={tag} style={tagChipStyle}>{tag}</span>
+        <AppShell.Main>
+          <div style={{ padding: 'var(--space-lg)' }}>
+            {activeIncident ? (
+              <IncidentDetail inc={activeIncident} onBack={() => setActiveIncident(null)} />
+            ) : (
+              <Stack gap="xl">
+                <Header
+                  level="page"
+                  title="All regions"
+                  subtitle="Last updated 30s ago"
+                />
+
+                {/* Tab bar */}
+                <div style={{ borderBottom: '1px solid var(--color-border)', paddingBottom: 'var(--space-xs)' }}>
+                  <Stack direction="horizontal" gap="xs">
+                    {(['overview', 'services', 'incidents'] as Tab[]).map((t) => (
+                      <Button
+                        key={t}
+                        variant={tab === t ? 'secondary' : 'ghost'}
+                        size="sm"
+                        onClick={() => { setTab(t); setPage(1); }}
+                      >
+                        <Text size="sm" weight="medium">
+                          {t.charAt(0).toUpperCase() + t.slice(1)}
+                        </Text>
+                        {t === 'incidents' && INCIDENTS.length > 0 && (
+                          <Badge variant="error">{INCIDENTS.length}</Badge>
+                        )}
+                      </Button>
                     ))}
                   </Stack>
-                </Stack>
                 </div>
-              ))}
-            </Stack>
-          </DisclosureCard>
-        </Stack>
-      )}
 
-      {/* ── Services (full table) ── */}
-      {tab === 'services' && (
-        <Stack gap="md">
-          <Table>
-            <TableHeader>
-              <TableHeaderCell>Service</TableHeaderCell>
-              <TableHeaderCell>Status</TableHeaderCell>
-              <TableHeaderCell>Region</TableHeaderCell>
-              <TableHeaderCell align="right">Latency</TableHeaderCell>
-              <TableHeaderCell align="right">Uptime</TableHeaderCell>
-            </TableHeader>
-            <TableBody>
-              {paginated.map((svc) => (
-                <ServiceRow key={svc.name} svc={svc} showUptime />
-              ))}
-            </TableBody>
-          </Table>
-          <Pagination
-            page={page}
-            totalPages={totalPages}
-            total={SERVICES.length}
-            onPageChange={setPage}
-          />
-        </Stack>
-      )}
+                {/* Overview */}
+                {tab === 'overview' && (
+                  <Stack gap="xl">
+                    {/* Stats row */}
+                    {loading ? (
+                      <Stack direction="horizontal" gap="md" wrap>
+                        {Array.from({ length: 4 }).map((_, i) => (
+                          <div key={i} style={{ flex: '1 1 10rem' }}>
+                            <Card padding="md">
+                              <Stack gap="sm">
+                                <Skeleton width="40%" height={12} />
+                                <Skeleton width="60%" height={28} />
+                              </Stack>
+                            </Card>
+                          </div>
+                        ))}
+                      </Stack>
+                    ) : (
+                      <Stack direction="horizontal" gap="md" wrap>
+                        <MetricTile label="Uptime" value="99.97%" dot="success" />
+                        <MetricTile label="Services" value={String(SERVICES.length)} dot={degradedCount > 0 ? 'warning' : 'success'} />
+                        <MetricTile label="Incidents" value={String(INCIDENTS.length)} dot={incidentCount > 0 ? 'error' : 'success'} />
+                        <MetricTile label="Requests/s" value="8,472" />
+                      </Stack>
+                    )}
 
-      {/* ── Incidents ── */}
-      {tab === 'incidents' && (
-        <Stack gap="md">
-          {INCIDENTS.map((inc) => (
-            <Card key={inc.id}>
-              <Stack gap="sm">
-                <Stack direction="horizontal" justify="space-between" align="center">
-                  <Stack direction="horizontal" gap="sm" align="center">
-                    <Badge variant={severityBadge(inc.severity)}>{inc.id}</Badge>
-                    <span style={{ fontWeight: 600 }}>{inc.title}</span>
+                    {/* System health */}
+                    <Card>
+                      <Stack gap="md">
+                        <Text size="sm" weight="semibold">System Health</Text>
+                        {loading ? (
+                          <Stack gap="sm">
+                            <RowSkeleton />
+                            <RowSkeleton />
+                            <RowSkeleton />
+                          </Stack>
+                        ) : (
+                          <Stack gap="sm">
+                            <Metric label="CPU" value={78} color="warning" />
+                            <Metric label="Memory" value={56} color="success" />
+                            <Metric label="Disk" value={34} color="info" />
+                          </Stack>
+                        )}
+                      </Stack>
+                    </Card>
+
+                    {/* Services preview */}
+                    <Stack gap="sm">
+                      <Stack direction="horizontal" justify="space-between" align="center">
+                        <Text size="sm" weight="semibold">Services</Text>
+                        <Button variant="ghost" size="sm" onClick={() => setTab('services')}>
+                          View all <Icon name="chevron-right" size="xs" />
+                        </Button>
+                      </Stack>
+                      <Table density="sm">
+                        <TableHeader>
+                          <TableHeaderCell>Service</TableHeaderCell>
+                          <TableHeaderCell>Status</TableHeaderCell>
+                          <TableHeaderCell>Region</TableHeaderCell>
+                          <TableHeaderCell align="right">Latency</TableHeaderCell>
+                        </TableHeader>
+                        <TableBody>
+                          {SERVICES.slice(0, 5).map((svc) => (
+                            <ServiceRow key={svc.name} svc={svc} />
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </Stack>
+
+                    {/* Recent incidents */}
+                    <Card>
+                      <Stack gap="md">
+                        <Stack direction="horizontal" justify="space-between" align="center">
+                          <Text size="sm" weight="semibold">Recent incidents</Text>
+                          <Badge variant="error">{INCIDENTS.length}</Badge>
+                        </Stack>
+                        <Stack gap="md">
+                          {INCIDENTS.map((inc) => (
+                            <IncidentRow
+                              key={inc.id}
+                              inc={inc}
+                              onOpen={() => setActiveIncident(inc)}
+                            />
+                          ))}
+                        </Stack>
+                      </Stack>
+                    </Card>
                   </Stack>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{inc.time}</span>
-                </Stack>
-                <Stack direction="horizontal" gap="sm" align="center">
-                  <span style={{ color: 'var(--color-text-muted)' }}><Icon name="settings" size="xs" /></span>
-                  <span style={{
-                    fontSize: '0.8rem',
-                    fontFamily: 'var(--font-mono)',
-                    color: 'var(--color-text-secondary)',
-                  }}>
-                    {inc.service}
-                  </span>
-                </Stack>
-                <Stack direction="horizontal" gap="xs">
-                  {inc.tags.map((tag) => (
-                    <span key={tag} style={tagChipStyle}>{tag}</span>
-                  ))}
-                </Stack>
+                )}
+
+                {/* Services — full table */}
+                {tab === 'services' && (
+                  <DataTablePage.Root rowCount={paginated.length} aria-label="Services">
+                    <DataTablePage.Table>
+                      <TableHeader>
+                        <TableHeaderCell>Service</TableHeaderCell>
+                        <TableHeaderCell>Status</TableHeaderCell>
+                        <TableHeaderCell>Region</TableHeaderCell>
+                        <TableHeaderCell align="right">Latency</TableHeaderCell>
+                        <TableHeaderCell align="right">Uptime</TableHeaderCell>
+                      </TableHeader>
+                      <TableBody>
+                        {paginated.map((svc) => (
+                          <ServiceRow key={svc.name} svc={svc} showUptime />
+                        ))}
+                      </TableBody>
+                    </DataTablePage.Table>
+                    <DataTablePage.Pagination
+                      page={page}
+                      totalPages={totalPages}
+                      total={SERVICES.length}
+                      onPageChange={setPage}
+                    />
+                    <DataTablePage.Empty
+                      icon="search"
+                      message="No services match the current filters."
+                    />
+                  </DataTablePage.Root>
+                )}
+
+                {/* Incidents — list */}
+                {tab === 'incidents' && (
+                  <Stack gap="md">
+                    {INCIDENTS.map((inc) => (
+                      <Card key={inc.id}>
+                        <Stack gap="sm">
+                          <Stack direction="horizontal" justify="space-between" align="center">
+                            <Stack direction="horizontal" gap="sm" align="center">
+                              <Badge variant={severityBadge(inc.severity)}>{inc.id}</Badge>
+                              <Button variant="ghost" size="sm" onClick={() => setActiveIncident(inc)}>
+                                <Text weight="semibold">{inc.title}</Text>
+                              </Button>
+                            </Stack>
+                            <Text size="xs" tone="muted">{inc.time}</Text>
+                          </Stack>
+                          <Stack direction="horizontal" gap="sm" align="center">
+                            <Text tone="muted">
+                              <Icon name="settings" size="xs" />
+                            </Text>
+                            <Text size="sm" family="mono" tone="secondary">{inc.service}</Text>
+                          </Stack>
+                          <Stack direction="horizontal" gap="xs">
+                            {inc.tags.map((tag) => (
+                              <span key={tag} style={tagChipStyle}>{tag}</span>
+                            ))}
+                          </Stack>
+                        </Stack>
+                      </Card>
+                    ))}
+                  </Stack>
+                )}
               </Stack>
-            </Card>
-          ))}
-        </Stack>
-      )}
-    </Stack>
+            )}
+          </div>
+        </AppShell.Main>
+      </AppShell.Root>
+    </div>
   );
 }

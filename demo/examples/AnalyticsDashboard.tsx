@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  Header, Card, Stack, Badge, Button, Select, Field,
+  AppShell, TopBar, Card, Stack, Badge, Button, Select, Field, Text,
   ThemePicker, DateRangePicker, Table, TableHeader, TableHeaderCell,
   TableBody, TableRow, TableCell, ProgressBar, StatusDot,
 } from '@4lt7ab/ui';
@@ -53,27 +53,16 @@ function MetricTile({ label, value, sub }: {
   return (
     <Card padding="md">
       <Stack gap="xs">
-        <span style={{
-          fontSize: '0.7rem',
-          fontWeight: 600,
-          color: 'var(--color-text-muted)',
-          textTransform: 'uppercase',
-          letterSpacing: '0.05em',
-        }}>
-          {label}
-        </span>
-        <span style={{
-          fontSize: '1.5rem',
-          fontWeight: 700,
-          fontFamily: 'var(--font-mono)',
-          color: 'var(--color-text)',
-        }}>
+        <Text size="xs" weight="semibold" tone="muted">
+          {label.toUpperCase()}
+        </Text>
+        <Text size="xl" weight="bold" family="mono">
           {value}
-        </span>
+        </Text>
         {sub && (
-          <span style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)' }}>
+          <Text size="xs" tone="secondary">
             {sub}
-          </span>
+          </Text>
         )}
       </Stack>
     </Card>
@@ -93,130 +82,148 @@ export function AnalyticsDashboard(): React.JSX.Element {
   const [granularity, setGranularity] = useState('daily');
 
   return (
-    <Stack gap="xl">
-      {/* Header with controls */}
-      <Stack gap="md">
-        <Stack direction="horizontal" align="center" justify="space-between" wrap gap="md">
-          <Header
-            level="page"
-            title="Analytics"
-            subtitle="Traffic and conversion overview"
-          />
-          <ThemePicker variant="compact" />
-        </Stack>
+    <div style={{ height: '40rem', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
+      <AppShell.Root>
+        <AppShell.TopBar aria-label="Analytics header">
+          <TopBar.Leading>
+            <Text weight="semibold">Analytics</Text>
+          </TopBar.Leading>
+          <TopBar.Trailing>
+            <ThemePicker variant="compact" />
+          </TopBar.Trailing>
+        </AppShell.TopBar>
 
-        <Stack direction="horizontal" gap="md" wrap align="end">
-          <div style={{ minWidth: 220, flex: '0 1 auto' }}>
-            <Field label="Date range">
-              <DateRangePicker
-                value={range}
-                onChange={setRange}
-                placeholder="Select period"
-              />
-            </Field>
-          </div>
-          <div style={{ minWidth: 140 }}>
-            <Field label="Granularity">
-              <Select.Root value={granularity} onValueChange={setGranularity}>
-                <Select.Trigger>
-                  <Select.Value />
-                </Select.Trigger>
-                <Select.Content>
-                  <Select.Item value="daily">Daily</Select.Item>
-                  <Select.Item value="weekly">Weekly</Select.Item>
-                  <Select.Item value="monthly">Monthly</Select.Item>
-                </Select.Content>
-              </Select.Root>
-            </Field>
-          </div>
-          <Button variant="primary" size="sm">Export</Button>
-        </Stack>
-      </Stack>
-
-      {/* KPI cards */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(11rem, 1fr))',
-        gap: 'var(--space-md)',
-      }}>
-        <MetricTile label="Visitors" value="38,040" sub="+12.3% vs prior period" />
-        <MetricTile label="Conversion" value="3.4%" sub="+0.2pp vs prior period" />
-        <MetricTile label="Revenue" value="$97,550" sub="+8.7% vs prior period" />
-        <MetricTile label="Avg. Session" value="2m 34s" sub="-5s vs prior period" />
-      </div>
-
-      {/* Channel breakdown */}
-      <Card>
-        <Stack gap="md">
-          <Stack direction="horizontal" align="center" justify="space-between">
-            <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 600, color: 'var(--color-text)' }}>
-              Channels
-            </h3>
-            <Badge variant="default">{CHANNELS.length} sources</Badge>
-          </Stack>
-
-          <Table>
-            <TableHeader>
-              <TableHeaderCell>Channel</TableHeaderCell>
-              <TableHeaderCell align="right">Visitors</TableHeaderCell>
-              <TableHeaderCell align="right">Conv. %</TableHeaderCell>
-              <TableHeaderCell align="right">Revenue</TableHeaderCell>
-              <TableHeaderCell align="center">Trend</TableHeaderCell>
-            </TableHeader>
-            <TableBody>
-              {CHANNELS.map((ch) => (
-                <TableRow key={ch.name}>
-                  <TableCell>{ch.name}</TableCell>
-                  <TableCell align="right"><span style={{ fontFamily: 'var(--font-mono)' }}>{fmt(ch.visitors)}</span></TableCell>
-                  <TableCell align="right"><span style={{ fontFamily: 'var(--font-mono)' }}>{ch.conversion}%</span></TableCell>
-                  <TableCell align="right"><span style={{ fontFamily: 'var(--font-mono)' }}>${fmt(ch.revenue)}</span></TableCell>
-                  <TableCell align="center">
-                    <StatusDot variant={trendDot(ch.trend)} aria-label={ch.trend} />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Stack>
-      </Card>
-
-      {/* Top pages */}
-      <Card>
-        <Stack gap="md">
-          <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 600, color: 'var(--color-text)' }}>
-            Top Pages
-          </h3>
-
-          <Stack gap="sm">
-            {PAGES.map((page) => (
-              <Stack key={page.path} gap="xs">
-                <Stack direction="horizontal" align="center" justify="space-between">
-                  <span style={{
-                    fontSize: '0.8rem',
-                    fontFamily: 'var(--font-mono)',
-                    color: 'var(--color-text)',
-                  }}>
-                    {page.path}
-                  </span>
-                  <span style={{
-                    fontSize: '0.75rem',
-                    color: 'var(--color-text-secondary)',
-                  }}>
-                    {fmt(page.views)} views · {page.bounce}% bounce · {page.avgTime} avg
-                  </span>
+        <AppShell.Main>
+          <div style={{ padding: 'var(--space-lg)' }}>
+            <Stack gap="xl">
+              {/* Header with controls */}
+              <Stack gap="md">
+                <Stack direction="horizontal" align="center" justify="space-between" wrap gap="md">
+                  <Stack gap="xs">
+                    <Text as="p" size="xl" weight="bold">
+                      Traffic overview
+                    </Text>
+                    <Text as="p" size="sm" tone="secondary">
+                      Visitors and revenue for the selected period.
+                    </Text>
+                  </Stack>
                 </Stack>
-                <ProgressBar
-                  segments={[
-                    { value: page.views, color: 'primary' },
-                    { value: PAGES[0].views - page.views, color: 'muted' },
-                  ]}
-                  height="sm"
-                />
+
+                <Stack direction="horizontal" gap="md" wrap align="end">
+                  <div style={{ minWidth: 220, flex: '0 1 auto' }}>
+                    <Field label="Date range">
+                      <DateRangePicker
+                        value={range}
+                        onChange={setRange}
+                        placeholder="Select period"
+                      />
+                    </Field>
+                  </div>
+                  <div style={{ minWidth: 140 }}>
+                    <Field label="Granularity">
+                      <Select.Root value={granularity} onValueChange={setGranularity}>
+                        <Select.Trigger>
+                          <Select.Value />
+                        </Select.Trigger>
+                        <Select.Content>
+                          <Select.Item value="daily">Daily</Select.Item>
+                          <Select.Item value="weekly">Weekly</Select.Item>
+                          <Select.Item value="monthly">Monthly</Select.Item>
+                        </Select.Content>
+                      </Select.Root>
+                    </Field>
+                  </div>
+                  <Button variant="primary" size="sm">Export</Button>
+                </Stack>
               </Stack>
-            ))}
-          </Stack>
-        </Stack>
-      </Card>
-    </Stack>
+
+              {/* KPI cards */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(11rem, 1fr))',
+                gap: 'var(--space-md)',
+              }}>
+                <MetricTile label="Visitors" value="38,040" sub="+12.3% vs prior period" />
+                <MetricTile label="Conversion" value="3.4%" sub="+0.2pp vs prior period" />
+                <MetricTile label="Revenue" value="$97,550" sub="+8.7% vs prior period" />
+                <MetricTile label="Avg. Session" value="2m 34s" sub="-5s vs prior period" />
+              </div>
+
+              {/* Channel breakdown */}
+              <Card>
+                <Stack gap="md">
+                  <Stack direction="horizontal" align="center" justify="space-between">
+                    <Text as="p" size="md" weight="semibold">
+                      Channels
+                    </Text>
+                    <Badge variant="default">{CHANNELS.length} sources</Badge>
+                  </Stack>
+
+                  <Table>
+                    <TableHeader>
+                      <TableHeaderCell>Channel</TableHeaderCell>
+                      <TableHeaderCell align="right">Visitors</TableHeaderCell>
+                      <TableHeaderCell align="right">Conv. %</TableHeaderCell>
+                      <TableHeaderCell align="right">Revenue</TableHeaderCell>
+                      <TableHeaderCell align="center">Trend</TableHeaderCell>
+                    </TableHeader>
+                    <TableBody>
+                      {CHANNELS.map((ch) => (
+                        <TableRow key={ch.name}>
+                          <TableCell>{ch.name}</TableCell>
+                          <TableCell align="right">
+                            <Text family="mono">{fmt(ch.visitors)}</Text>
+                          </TableCell>
+                          <TableCell align="right">
+                            <Text family="mono">{ch.conversion}%</Text>
+                          </TableCell>
+                          <TableCell align="right">
+                            <Text family="mono">${fmt(ch.revenue)}</Text>
+                          </TableCell>
+                          <TableCell align="center">
+                            <StatusDot variant={trendDot(ch.trend)} aria-label={ch.trend} />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Stack>
+              </Card>
+
+              {/* Top pages */}
+              <Card>
+                <Stack gap="md">
+                  <Text as="p" size="md" weight="semibold">
+                    Top Pages
+                  </Text>
+
+                  <Stack gap="sm">
+                    {PAGES.map((page) => (
+                      <Stack key={page.path} gap="xs">
+                        <Stack direction="horizontal" align="center" justify="space-between">
+                          <Text size="sm" family="mono">
+                            {page.path}
+                          </Text>
+                          <Text size="xs" tone="secondary">
+                            {fmt(page.views)} views · {page.bounce}% bounce · {page.avgTime} avg
+                          </Text>
+                        </Stack>
+                        <ProgressBar
+                          segments={[
+                            { value: page.views, color: 'primary' },
+                            { value: PAGES[0].views - page.views, color: 'muted' },
+                          ]}
+                          height="sm"
+                        />
+                      </Stack>
+                    ))}
+                  </Stack>
+                </Stack>
+              </Card>
+            </Stack>
+          </div>
+        </AppShell.Main>
+      </AppShell.Root>
+    </div>
   );
 }

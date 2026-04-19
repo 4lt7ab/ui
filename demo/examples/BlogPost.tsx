@@ -3,40 +3,28 @@ import {
   PullQuote, MarginNote, SideNote, Epigraph,
   ThinkingCycle,
 } from '@4lt7ab/content';
-import { Container, LinkCard, Stack } from '@4lt7ab/ui';
+import { Container, LinkCard, Stack, Text, Divider } from '@4lt7ab/ui';
 
 export function BlogPost(): React.JSX.Element {
   return (
-    <div style={{
-      borderRadius: 'var(--radius-lg)',
-      overflow: 'hidden',
-    }}>
-      <Container>
+    <Container>
+      <Stack gap="xl">
         <Epigraph cite="— Frank Chimero, The Shape of Design">
           People ignore design that ignores people.
         </Epigraph>
 
-        <header style={{
-          marginBottom: '2.25rem',
-          paddingBottom: '2.25rem',
-          borderBottom: '1px solid var(--color-border)',
-        }}>
-          <h1 style={{
-            fontFamily: 'var(--font-serif)',
-            fontWeight: 600,
-            fontSize: 'clamp(2rem, 5vw, 2.75rem)',
-            lineHeight: 1.25,
-            margin: '0 0 0.5rem',
-          }}>
-            On building shared component libraries
-          </h1>
-          <span style={{
-            fontSize: '0.875rem',
-            color: 'var(--color-text-muted)',
-          }}>
-            April 11, 2026
-          </span>
+        <header>
+          <Stack gap="xs">
+            <Text as="p" family="serif" weight="semibold" size="xl">
+              On building shared component libraries
+            </Text>
+            <Text as="p" size="sm" tone="muted">
+              April 11, 2026
+            </Text>
+          </Stack>
         </header>
+
+        <Divider spacing="sm" />
 
         <Prose>
           <p>
@@ -221,7 +209,6 @@ export const semantic = {
 
           <h3>Related reading</h3>
 
-          <div style={{ marginBlock: '1.5rem' }}>
           <Stack gap="sm">
             <LinkCard
               href="#"
@@ -235,7 +222,6 @@ export const semantic = {
               description="A practical guide to building theme systems without build tools."
             />
           </Stack>
-          </div>
 
           <p>
             The library that survives is the one shaped by use, not by
@@ -243,7 +229,7 @@ export const semantic = {
             first, then build what's needed.
           </p>
         </Prose>
-      </Container>
-    </div>
+      </Stack>
+    </Container>
   );
 }

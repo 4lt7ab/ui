@@ -1,4 +1,4 @@
-import { Stack, Card } from '@4lt7ab/ui';
+import { Stack, Card, Divider, Text } from '@4lt7ab/ui';
 import {
   StackDemo,
   ContainerDemo,
@@ -121,36 +121,27 @@ export function ComponentCatalogue(): React.JSX.Element {
       <Stack gap="xl">
         {sections.map((section) => (
           <section key={section.category}>
-            <h2 style={{
-              margin: 0,
-              fontSize: '1.25rem',
-              fontWeight: 700,
-              fontFamily: 'var(--font-sans)',
-              color: 'var(--color-text)',
-              borderBottom: '1px solid var(--color-border)',
-              paddingBottom: 'var(--space-sm)',
-              marginBottom: 'var(--space-lg)',
-            }}>
-              {section.category}
-            </h2>
-            <Stack gap="xl">
-              {section.components.map(({ name, Demo }) => (
-                <Card key={name} variant="flat" padding="lg">
-                  <Stack gap="md">
-                    <h3 style={{
-                      margin: 0,
-                      fontSize: '1rem',
-                      fontWeight: 600,
-                      fontFamily: 'var(--font-mono)',
-                      color: 'var(--color-text-link)',
-                      letterSpacing: '-0.01em',
-                    }}>
-                      {'<'}{name}{' />'}
-                    </h3>
-                    <Demo />
-                  </Stack>
-                </Card>
-              ))}
+            <Stack gap="lg">
+              <Stack gap="sm">
+                <Text as="p" size="lg" weight="bold">
+                  {section.category}
+                </Text>
+                <Divider />
+              </Stack>
+              <Stack gap="xl">
+                {section.components.map(({ name, Demo }) => (
+                  <Card key={name} variant="flat" padding="lg">
+                    <Stack gap="md">
+                      <Text as="p" size="md" weight="semibold" family="mono" tone="link">
+                        {'<'}
+                        {name}
+                        {' />'}
+                      </Text>
+                      <Demo />
+                    </Stack>
+                  </Card>
+                ))}
+              </Stack>
             </Stack>
           </section>
         ))}

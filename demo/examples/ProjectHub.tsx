@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import {
   Card, Badge, Button, IconButton, Icon,
-  ModalShell, ConfirmDialog, EmptyState, Stack, Header,
-  ProgressBar, tagChipStyle, Pagination, ThemePicker,
+  ModalShell, ConfirmDialog, EmptyState, Stack, Header, Text,
+  ProgressBar, tagChipStyle, ThemePicker,
+  DataTablePage,
   Table, TableHeader, TableHeaderCell, TableBody, TableRow, TableCell,
 } from '@4lt7ab/ui';
 import type { IconName } from '@4lt7ab/ui';
@@ -154,40 +155,6 @@ function NavButton({ icon, active, label, onClick }: {
   );
 }
 
-function ProjectCard({ project, onOpen }: {
-  project: Project;
-  onOpen: () => void;
-}): React.JSX.Element {
-  return (
-    <div onClick={onOpen} style={{ cursor: 'pointer' }}>
-    <Card padding="md" hover>
-      <Stack gap="sm">
-        <Stack direction="horizontal" justify="space-between" align="center">
-          <span style={{ fontWeight: 600, fontSize: '0.875rem' }}>{project.name}</span>
-          <Badge variant={projectBadge(project.status)}>{project.status}</Badge>
-        </Stack>
-        <span style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)', lineHeight: 1.4 }}>
-          {project.description}
-        </span>
-        <ProgressBar
-          segments={[
-            { value: project.progress || 1, color: project.progress > 0 ? 'success' : 'muted' },
-            { value: Math.max(100 - project.progress, 1), color: 'muted' },
-          ]}
-          height="sm"
-        />
-        <Stack direction="horizontal" justify="space-between" align="center">
-          <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
-            {project.tasks.length} task{project.tasks.length !== 1 ? 's' : ''}
-          </span>
-          <span style={{ color: 'var(--color-text-muted)' }}><Icon name="chevron-right" size="xs" /></span>
-        </Stack>
-      </Stack>
-    </Card>
-    </div>
-  );
-}
-
 function ProjectDetail({ project, onClose, onDelete }: {
   project: Project;
   onClose: () => void;
@@ -202,10 +169,10 @@ function ProjectDetail({ project, onClose, onDelete }: {
         {/* Header */}
         <Stack direction="horizontal" justify="space-between" align="start">
           <Stack gap="xs">
-            <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 700 }}>{project.name}</h3>
-            <span style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
+            <Text as="p" size="lg" weight="bold">{project.name}</Text>
+            <Text as="p" size="sm" tone="secondary">
               {project.description}
-            </span>
+            </Text>
           </Stack>
           <Stack direction="horizontal" gap="xs" align="center">
             <Badge variant={projectBadge(project.status)}>{project.status}</Badge>
@@ -218,10 +185,10 @@ function ProjectDetail({ project, onClose, onDelete }: {
           <Stack gap="md">
             <Stack gap="xs">
               <Stack direction="horizontal" justify="space-between">
-                <span style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>Progress</span>
-                <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--color-text-muted)' }}>
+                <Text size="sm" tone="secondary">Progress</Text>
+                <Text size="xs" family="mono" tone="muted">
                   {doneTasks}/{totalTasks} tasks
-                </span>
+                </Text>
               </Stack>
               <ProgressBar
                 segments={[
@@ -290,7 +257,7 @@ export function ProjectHub(): React.JSX.Element {
   const totalPages = Math.ceil(projects.length / PAGE_SIZE);
   const paginated = projects.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
-  const handleDelete = async () => {
+  const handleDelete = async (): Promise<void> => {
     setProjects((prev) => prev.filter((p) => p.name !== deleteTarget));
     setDeleteTarget(null);
     setSelectedProject(null);
@@ -304,126 +271,160 @@ export function ProjectHub(): React.JSX.Element {
 
   return (
     <div style={{ minHeight: 500 }}>
-    <Stack direction="horizontal" gap="md">
-      {/* Sidebar navigation */}
-      <nav style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 'var(--space-xs)',
-        padding: 'var(--space-sm)',
-        background: 'var(--color-surface-panel)',
-        borderRadius: 'var(--radius-lg)',
-        border: '1px solid var(--color-border)',
-        alignSelf: 'flex-start',
-      }}>
-        {navItems.map((item) => (
-          <NavButton
-            key={item.view}
-            icon={item.icon}
-            active={view === item.view}
-            label={item.label}
-            onClick={() => setView(item.view)}
-          />
-        ))}
-      </nav>
-
-      {/* Main content */}
-      <div style={{ flex: 1, minWidth: 0 }}>
-        {/* ── Projects ── */}
-        {view === 'projects' && (
-          <Stack gap="xl">
-            <Header
-              level="page"
-              title="Projects"
-              subtitle={`${projects.length} project${projects.length !== 1 ? 's' : ''}`}
-              trailing={<Button size="sm"><Icon name="plus" size="xs" /> New project</Button>}
+      <Stack direction="horizontal" gap="md">
+        {/* Sidebar navigation */}
+        <nav style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'var(--space-xs)',
+          padding: 'var(--space-sm)',
+          background: 'var(--color-surface-panel)',
+          borderRadius: 'var(--radius-lg)',
+          border: '1px solid var(--color-border)',
+          alignSelf: 'flex-start',
+        }}>
+          {navItems.map((item) => (
+            <NavButton
+              key={item.view}
+              icon={item.icon}
+              active={view === item.view}
+              label={item.label}
+              onClick={() => setView(item.view)}
             />
+          ))}
+        </nav>
 
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))',
-              gap: 'var(--space-md)',
-            }}>
-              {paginated.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  onOpen={() => setSelectedProject(project)}
-                />
-              ))}
-            </div>
+        {/* Main content */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          {/* Projects — DataTablePage compound */}
+          {view === 'projects' && (
+            <DataTablePage.Root rowCount={paginated.length}>
+              <DataTablePage.Header
+                title="Projects"
+                subtitle={`${projects.length} project${projects.length !== 1 ? 's' : ''}`}
+                trailing={
+                  <Button size="sm">
+                    <Icon name="plus" size="xs" /> New project
+                  </Button>
+                }
+              />
 
-            {totalPages > 1 && (
-              <Pagination
+              <DataTablePage.Table>
+                <TableHeader>
+                  <TableHeaderCell>Name</TableHeaderCell>
+                  <TableHeaderCell>Status</TableHeaderCell>
+                  <TableHeaderCell>Progress</TableHeaderCell>
+                  <TableHeaderCell align="right">Tasks</TableHeaderCell>
+                </TableHeader>
+                <TableBody>
+                  {paginated.map((project) => (
+                    <TableRow
+                      key={project.id}
+                      hoverable
+                      onClick={() => setSelectedProject(project)}
+                    >
+                      <TableCell>
+                        <Stack gap="xs">
+                          <Text size="sm" weight="semibold">{project.name}</Text>
+                          <Text size="xs" tone="secondary">{project.description}</Text>
+                        </Stack>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant={projectBadge(project.status)}>{project.status}</Badge>
+                      </TableCell>
+                      <TableCell>
+                        <div style={{ width: '8rem' }}>
+                          <ProgressBar
+                            segments={[
+                              { value: project.progress || 1, color: project.progress > 0 ? 'success' : 'muted' },
+                              { value: Math.max(100 - project.progress, 1), color: 'muted' },
+                            ]}
+                            height="sm"
+                          />
+                        </div>
+                      </TableCell>
+                      <TableCell align="right" muted>
+                        {project.tasks.length}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </DataTablePage.Table>
+
+              <DataTablePage.Pagination
                 page={page}
                 totalPages={totalPages}
                 total={projects.length}
                 onPageChange={setPage}
               />
-            )}
-          </Stack>
-        )}
 
-        {/* ── Archived ── */}
-        {view === 'archived' && (
-          <Stack gap="xl">
-            <Header level="page" title="Archived" subtitle="Completed and archived projects" />
-            <EmptyState icon="check-circle" message="No archived projects yet" variant="card" />
-          </Stack>
-        )}
+              <DataTablePage.Empty
+                icon="check-circle"
+                message="No projects yet. Create your first one to get started."
+              />
+            </DataTablePage.Root>
+          )}
 
-        {/* ── Settings ── */}
-        {view === 'settings' && (
-          <Stack gap="xl">
-            <Header level="page" title="Settings" subtitle="Workspace configuration" />
+          {/* Archived */}
+          {view === 'archived' && (
+            <Stack gap="xl">
+              <Header level="page" title="Archived" subtitle="Completed and archived projects" />
+              <EmptyState icon="check-circle" message="No archived projects yet" variant="card" />
+            </Stack>
+          )}
 
-            <Card>
-              <Stack gap="lg">
-                <span style={{ fontSize: '0.875rem', fontWeight: 600 }}>Appearance</span>
-                <ThemePicker />
-              </Stack>
-            </Card>
+          {/* Settings */}
+          {view === 'settings' && (
+            <Stack gap="xl">
+              <Header level="page" title="Settings" subtitle="Workspace configuration" />
 
-            <Card>
-              <Stack gap="md">
-                <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--color-error)' }}>
-                  Danger zone
-                </span>
-                <Stack direction="horizontal" justify="space-between" align="center">
-                  <Stack gap="xs">
-                    <span style={{ fontSize: '0.875rem' }}>Delete workspace</span>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
-                      Permanently remove this workspace and all its data
-                    </span>
-                  </Stack>
-                  <Button variant="destructive" size="sm">Delete</Button>
+              <Card>
+                <Stack gap="lg">
+                  <Text size="sm" weight="semibold">Appearance</Text>
+                  <ThemePicker />
                 </Stack>
-              </Stack>
-            </Card>
-          </Stack>
+              </Card>
+
+              <Card>
+                <Stack gap="md">
+                  <Text size="sm" weight="semibold" tone="error">
+                    Danger zone
+                  </Text>
+                  <Stack direction="horizontal" justify="space-between" align="center">
+                    <Stack gap="xs">
+                      <Text size="sm">Delete workspace</Text>
+                      <Text size="xs" tone="muted">
+                        Permanently remove this workspace and all its data
+                      </Text>
+                    </Stack>
+                    <Button variant="destructive" size="sm">Delete</Button>
+                  </Stack>
+                </Stack>
+              </Card>
+            </Stack>
+          )}
+        </div>
+
+        {/* Project detail modal */}
+        {selectedProject && (
+          <ProjectDetail
+            project={selectedProject}
+            onClose={() => setSelectedProject(null)}
+            onDelete={() => setDeleteTarget(selectedProject.name)}
+          />
         )}
-      </div>
 
-      {/* Project detail modal */}
-      {selectedProject && (
-        <ProjectDetail
-          project={selectedProject}
-          onClose={() => setSelectedProject(null)}
-          onDelete={() => setDeleteTarget(selectedProject.name)}
-        />
-      )}
-
-      {/* Delete confirmation */}
-      {deleteTarget && (
-        <ConfirmDialog
-          title={`Delete ${deleteTarget}?`}
-          message="This project and all its tasks will be permanently removed. This action cannot be undone."
-          confirmLabel="Delete"
-          onConfirm={handleDelete}
-          onCancel={() => setDeleteTarget(null)}
-        />
-      )}
-    </Stack>
+        {/* Delete confirmation */}
+        {deleteTarget && (
+          <ConfirmDialog
+            title={`Delete ${deleteTarget}?`}
+            message="This project and all its tasks will be permanently removed. This action cannot be undone."
+            confirmLabel="Delete"
+            onConfirm={handleDelete}
+            onCancel={() => setDeleteTarget(null)}
+          />
+        )}
+      </Stack>
     </div>
   );
 }
