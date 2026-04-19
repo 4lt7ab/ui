@@ -58,6 +58,7 @@ import { DataTablePageDemo } from './DataTablePageDemo';
 import { DetailPageDemo } from './DetailPageDemo';
 import { FormLayoutDemo } from './FormLayoutDemo';
 import { CommandPaletteDemo } from './CommandPaletteDemo';
+import { WizardDialogDemo } from './WizardDialogDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -110,6 +111,7 @@ export const demos: DemoEntry[] = [
   { name: 'Overlay', category: 'Feedback', source: 'ui', component: OverlayDemo },
   { name: 'ConfirmDialog', category: 'Feedback', source: 'ui', component: ConfirmDialogDemo },
   { name: 'ModalShellFormPattern', category: 'Feedback', source: 'ui', component: ModalShellFormPatternDemo },
+  { name: 'WizardDialog', category: 'Feedback', source: 'ui', component: WizardDialogDemo },
   { name: 'ErrorBoundary', category: 'Feedback', source: 'ui', component: ErrorBoundaryDemo },
   { name: 'Toast', category: 'Feedback', source: 'ui', component: ToastDemo },
   { name: 'AlertBanner', category: 'Feedback', source: 'ui', component: AlertBannerDemo },
@@ -179,4 +181,5 @@ export {
   DetailPageDemo,
   FormLayoutDemo,
   CommandPaletteDemo,
+  WizardDialogDemo,
 };

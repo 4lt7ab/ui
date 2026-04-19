@@ -65,6 +65,7 @@ export * from './components/organisms/AppShell';
 export * from './components/organisms/DataTablePage';
 export * from './components/organisms/DetailPage';
 export * from './components/organisms/FormLayout';
+export * from './components/organisms/WizardDialog';
 
 // Layout & Container primitives
 export * from './components/atoms/Surface';

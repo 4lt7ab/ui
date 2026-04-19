@@ -28,6 +28,7 @@ import {
   DetailPageDemo,
   FormLayoutDemo,
   CommandPaletteDemo,
+  WizardDialogDemo,
 } from '../demos';
 
 // ---------------------------------------------------------------------------
@@ -138,6 +139,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'ConfirmDialog', source: 'ui', Demo: ConfirmDialogDemo },
       { name: 'ModalShellFormPattern', source: 'ui', Demo: ModalShellFormPatternDemo },
       { name: 'CommandPalette', source: 'ui', Demo: CommandPaletteDemo },
+      { name: 'WizardDialog', source: 'ui', Demo: WizardDialogDemo },
       { name: 'ErrorBoundary', source: 'ui', Demo: ErrorBoundaryDemo },
       { name: 'Toast', source: 'ui', Demo: ToastDemo },
       { name: 'AlertBanner', source: 'ui', Demo: AlertBannerDemo },
