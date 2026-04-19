@@ -178,11 +178,11 @@ function useFocusTrap(ref) {
 // src/index.ts
 __reExport(index_exports, require("../../core/dist/index.cjs"), module.exports);
 
-// src/components/ThemePicker/ThemePicker.tsx
+// src/components/molecules/ThemePicker/ThemePicker.tsx
 var import_react3 = require("react");
 var import_core2 = require("../../core/dist/index.cjs");
 
-// src/components/Select/Select.tsx
+// src/components/organisms/Select/Select.tsx
 var import_react2 = require("react");
 var import_core = require("../../core/dist/index.cjs");
 var import_jsx_runtime = require("react/jsx-runtime");
@@ -710,7 +710,7 @@ var Select = {
   Item
 };
 
-// src/components/ThemePicker/ThemePicker.tsx
+// src/components/molecules/ThemePicker/ThemePicker.tsx
 var import_jsx_runtime2 = require("react/jsx-runtime");
 var GRID_STYLES_ID = "alttab-theme-picker";
 var gridCSS = (
@@ -965,7 +965,7 @@ var iconRegistry = {
   "filter": IconFilter
 };
 
-// src/components/Button/Button.tsx
+// src/components/atoms/Button/Button.tsx
 var import_react4 = require("react");
 var import_core3 = require("../../core/dist/index.cjs");
 var import_jsx_runtime4 = require("react/jsx-runtime");
@@ -1118,7 +1118,7 @@ var Button = (0, import_react4.forwardRef)(
   }
 );
 
-// src/components/Stack/Stack.tsx
+// src/components/atoms/Stack/Stack.tsx
 var import_react5 = require("react");
 
 // src/types.ts
@@ -1190,7 +1190,7 @@ var shadowMap = {
   lg: import_core4.semantic.shadowLg
 };
 
-// src/components/Stack/Stack.tsx
+// src/components/atoms/Stack/Stack.tsx
 var import_jsx_runtime5 = require("react/jsx-runtime");
 var gapMap = spacingMap;
 var Stack = (0, import_react5.forwardRef)(
@@ -1223,11 +1223,11 @@ var Stack = (0, import_react5.forwardRef)(
   }
 );
 
-// src/components/Card/Card.tsx
+// src/components/molecules/Card/Card.tsx
 var import_react7 = require("react");
 var import_core6 = require("../../core/dist/index.cjs");
 
-// src/components/Surface/Surface.tsx
+// src/components/atoms/Surface/Surface.tsx
 var import_react6 = require("react");
 var import_core5 = require("../../core/dist/index.cjs");
 var import_jsx_runtime6 = require("react/jsx-runtime");
@@ -1287,7 +1287,7 @@ var Surface = (0, import_react6.forwardRef)(
   }
 );
 
-// src/components/Card/Card.tsx
+// src/components/molecules/Card/Card.tsx
 var import_jsx_runtime7 = require("react/jsx-runtime");
 var variantSurfaceProps = {
   default: { level: "solid", border: true, shadow: "sm" },
@@ -1370,7 +1370,7 @@ var Card = (0, import_react7.forwardRef)(
   }
 );
 
-// src/components/LinkCard/LinkCard.tsx
+// src/components/molecules/LinkCard/LinkCard.tsx
 var import_react8 = require("react");
 var import_core7 = require("../../core/dist/index.cjs");
 var import_jsx_runtime8 = require("react/jsx-runtime");
@@ -1439,7 +1439,7 @@ var LinkCard = (0, import_react8.forwardRef)(function LinkCard2({
   ) });
 });
 
-// src/components/Field/Field.tsx
+// src/components/molecules/Field/Field.tsx
 var import_core8 = require("../../core/dist/index.cjs");
 var import_react9 = require("react");
 var import_jsx_runtime9 = require("react/jsx-runtime");
@@ -1514,7 +1514,7 @@ var Field = (0, import_react9.forwardRef)(
   }
 );
 
-// src/components/Input/Input.tsx
+// src/components/atoms/Input/Input.tsx
 var import_react10 = require("react");
 var import_core9 = require("../../core/dist/index.cjs");
 var import_jsx_runtime10 = require("react/jsx-runtime");
@@ -1615,7 +1615,7 @@ var Input = (0, import_react10.forwardRef)(
   }
 );
 
-// src/components/Textarea/Textarea.tsx
+// src/components/atoms/Textarea/Textarea.tsx
 var import_react11 = require("react");
 var import_core10 = require("../../core/dist/index.cjs");
 var import_jsx_runtime11 = require("react/jsx-runtime");
@@ -1707,7 +1707,7 @@ var Textarea = (0, import_react11.forwardRef)(
   }
 );
 
-// src/components/Badge/Badge.tsx
+// src/components/atoms/Badge/Badge.tsx
 var import_react12 = require("react");
 var import_core11 = require("../../core/dist/index.cjs");
 var import_jsx_runtime12 = require("react/jsx-runtime");
@@ -1785,7 +1785,7 @@ var Badge = (0, import_react12.forwardRef)(
   }
 );
 
-// src/components/Text/Text.tsx
+// src/components/atoms/Text/Text.tsx
 var import_react13 = require("react");
 var import_core12 = require("../../core/dist/index.cjs");
 var sizeMap = {
@@ -1855,7 +1855,7 @@ var Text = (0, import_react13.forwardRef)(
   }
 );
 
-// src/components/Icon/Icon.tsx
+// src/components/atoms/Icon/Icon.tsx
 var import_react14 = require("react");
 var import_jsx_runtime13 = require("react/jsx-runtime");
 var IconFontContext = (0, import_react14.createContext)(void 0);
@@ -1919,7 +1919,7 @@ var Icon = (0, import_react14.forwardRef)(
   }
 );
 
-// src/components/IconButton/IconButton.tsx
+// src/components/atoms/IconButton/IconButton.tsx
 var import_react15 = require("react");
 var import_core13 = require("../../core/dist/index.cjs");
 var import_jsx_runtime14 = require("react/jsx-runtime");
@@ -2027,7 +2027,7 @@ var IconButton = (0, import_react15.forwardRef)(
   }
 );
 
-// src/components/Overlay/Overlay.tsx
+// src/components/atoms/Overlay/Overlay.tsx
 var import_react16 = require("react");
 var import_core14 = require("../../core/dist/index.cjs");
 var import_jsx_runtime15 = require("react/jsx-runtime");
@@ -2053,7 +2053,7 @@ var Overlay = (0, import_react16.forwardRef)(
   }
 );
 
-// src/components/Skeleton/Skeleton.tsx
+// src/components/atoms/Skeleton/Skeleton.tsx
 var import_react17 = require("react");
 var import_core15 = require("../../core/dist/index.cjs");
 var import_jsx_runtime16 = require("react/jsx-runtime");
@@ -2170,7 +2170,7 @@ var RowSkeleton = (0, import_react17.forwardRef)(
   }
 );
 
-// src/components/ProgressBar/ProgressBar.tsx
+// src/components/atoms/ProgressBar/ProgressBar.tsx
 var import_react18 = require("react");
 var import_core16 = require("../../core/dist/index.cjs");
 var import_jsx_runtime17 = require("react/jsx-runtime");
@@ -2219,7 +2219,7 @@ var ProgressBar = (0, import_react18.forwardRef)(
   }
 );
 
-// src/components/EmptyState/EmptyState.tsx
+// src/components/molecules/EmptyState/EmptyState.tsx
 var import_react19 = require("react");
 var import_core17 = require("../../core/dist/index.cjs");
 var import_jsx_runtime18 = require("react/jsx-runtime");
@@ -2255,7 +2255,7 @@ var EmptyState = (0, import_react19.forwardRef)(
   }
 );
 
-// src/components/Pagination/Pagination.tsx
+// src/components/molecules/Pagination/Pagination.tsx
 var import_react20 = require("react");
 var import_core18 = require("../../core/dist/index.cjs");
 var import_jsx_runtime19 = require("react/jsx-runtime");
@@ -2326,7 +2326,7 @@ var Pagination = (0, import_react20.forwardRef)(
   }
 );
 
-// src/components/Header/Header.tsx
+// src/components/molecules/Header/Header.tsx
 var import_react21 = require("react");
 var import_core19 = require("../../core/dist/index.cjs");
 var import_jsx_runtime20 = require("react/jsx-runtime");
@@ -2372,7 +2372,7 @@ var Header = (0, import_react21.forwardRef)(
   }
 );
 
-// src/components/ModalShell/ModalShell.tsx
+// src/components/organisms/ModalShell/ModalShell.tsx
 var import_react22 = require("react");
 var import_react_dom = require("react-dom");
 var import_core20 = require("../../core/dist/index.cjs");
@@ -2519,7 +2519,7 @@ var tagChipStyle = {
   fontFamily: import_core22.semantic.fontSans
 };
 
-// src/components/ConfirmDialog/ConfirmDialog.tsx
+// src/components/molecules/ConfirmDialog/ConfirmDialog.tsx
 var import_react23 = require("react");
 var import_core23 = require("../../core/dist/index.cjs");
 var import_jsx_runtime22 = require("react/jsx-runtime");
@@ -2578,7 +2578,7 @@ var ConfirmDialog = (0, import_react23.forwardRef)(
   }
 );
 
-// src/components/StatusDot/StatusDot.tsx
+// src/components/atoms/StatusDot/StatusDot.tsx
 var import_react24 = require("react");
 var import_core24 = require("../../core/dist/index.cjs");
 var import_jsx_runtime23 = require("react/jsx-runtime");
@@ -2650,7 +2650,7 @@ var StatusDot = (0, import_react24.forwardRef)(
   }
 );
 
-// src/components/Table/Table.tsx
+// src/components/organisms/Table/Table.tsx
 var import_react25 = require("react");
 var import_core25 = require("../../core/dist/index.cjs");
 var import_core26 = require("../../core/dist/index.cjs");
@@ -2894,7 +2894,7 @@ var TableEmptyRow = (0, import_react25.forwardRef)(
   }
 );
 
-// src/components/Table/FilterBar.tsx
+// src/components/organisms/Table/FilterBar.tsx
 var import_react26 = require("react");
 var import_core27 = require("../../core/dist/index.cjs");
 var import_jsx_runtime25 = require("react/jsx-runtime");
@@ -3018,16 +3018,16 @@ var TableFilterBar = Object.assign(FilterBar, {
   Select: FilterBarSelect
 });
 
-// src/components/Table/index.ts
+// src/components/organisms/Table/index.ts
 var Table3 = Object.assign(Table, {
   FilterBar: TableFilterBar
 });
 
-// src/components/DateRangePicker/DateRangePicker.tsx
+// src/components/organisms/DateRangePicker/DateRangePicker.tsx
 var import_react29 = require("react");
 var import_core31 = require("../../core/dist/index.cjs");
 
-// src/components/Calendar/Calendar.tsx
+// src/components/organisms/Calendar/Calendar.tsx
 var import_react27 = require("react");
 var import_jsx_runtime26 = require("react/jsx-runtime");
 var CalendarContext = (0, import_react27.createContext)(null);
@@ -3128,10 +3128,10 @@ var Calendar = {
   Root: Root2
 };
 
-// src/components/Calendar/Header.tsx
+// src/components/organisms/Calendar/Header.tsx
 var import_core28 = require("../../core/dist/index.cjs");
 
-// src/components/DateRangePicker/dateUtils.ts
+// src/components/organisms/DateRangePicker/dateUtils.ts
 function getDaysInMonth(year, month) {
   return new Date(year, month + 1, 0).getDate();
 }
@@ -3189,7 +3189,7 @@ function buildCalendarGrid(year, month) {
   return grid;
 }
 
-// src/components/Calendar/Header.tsx
+// src/components/organisms/Calendar/Header.tsx
 var import_jsx_runtime27 = require("react/jsx-runtime");
 var titleStyle = {
   fontSize: import_core28.semantic.fontSizeSm,
@@ -3218,7 +3218,7 @@ function CalendarHeaderPrimitive({
   );
 }
 
-// src/components/Calendar/Nav.tsx
+// src/components/organisms/Calendar/Nav.tsx
 var import_jsx_runtime28 = require("react/jsx-runtime");
 function CalendarNav({
   direction,
@@ -3251,11 +3251,11 @@ function CalendarNav({
   );
 }
 
-// src/components/Calendar/Grid.tsx
+// src/components/organisms/Calendar/Grid.tsx
 var import_react28 = require("react");
 var import_core30 = require("../../core/dist/index.cjs");
 
-// src/components/Calendar/Cell.tsx
+// src/components/organisms/Calendar/Cell.tsx
 var import_core29 = require("../../core/dist/index.cjs");
 var import_jsx_runtime29 = require("react/jsx-runtime");
 var baseCellStyle = {
@@ -3372,7 +3372,7 @@ function CalendarCell({
   );
 }
 
-// src/components/Calendar/Grid.tsx
+// src/components/organisms/Calendar/Grid.tsx
 var import_jsx_runtime30 = require("react/jsx-runtime");
 var GRID_STYLES_ID2 = "alttab-calendar";
 var gridCSS2 = (
@@ -3555,7 +3555,7 @@ function stripTime2(d) {
 }
 var cellTdStyle = { padding: 0 };
 
-// src/components/Calendar/index.ts
+// src/components/organisms/Calendar/index.ts
 var Calendar2 = {
   Root: Calendar.Root,
   Header: CalendarHeaderPrimitive,
@@ -3564,7 +3564,7 @@ var Calendar2 = {
   Cell: CalendarCell
 };
 
-// src/components/DateRangePicker/DateRangePicker.tsx
+// src/components/organisms/DateRangePicker/DateRangePicker.tsx
 var import_jsx_runtime31 = require("react/jsx-runtime");
 var SCOPE = "alttab-drp";
 var injectedCSS = (
@@ -3794,7 +3794,7 @@ var DateRangePicker = (0, import_react29.forwardRef)(
   }
 );
 
-// src/components/DatePicker/DatePicker.tsx
+// src/components/organisms/DatePicker/DatePicker.tsx
 var import_react30 = require("react");
 var import_core32 = require("../../core/dist/index.cjs");
 var import_jsx_runtime32 = require("react/jsx-runtime");
@@ -3982,7 +3982,7 @@ var DatePicker = (0, import_react30.forwardRef)(
   }
 );
 
-// src/components/ErrorBoundary/ErrorBoundary.tsx
+// src/components/molecules/ErrorBoundary/ErrorBoundary.tsx
 var import_react31 = __toESM(require("react"), 1);
 var import_core33 = require("../../core/dist/index.cjs");
 var import_jsx_runtime33 = require("react/jsx-runtime");
@@ -4091,7 +4091,7 @@ var ErrorBoundary = class extends import_react31.default.Component {
   }
 };
 
-// src/components/Toast/Toast.tsx
+// src/components/organisms/Toast/Toast.tsx
 var import_react32 = require("react");
 var import_react_dom2 = require("react-dom");
 var import_core34 = require("../../core/dist/index.cjs");
@@ -4327,7 +4327,7 @@ function ToastProvider({
   ] });
 }
 
-// src/components/Combobox/Combobox.tsx
+// src/components/organisms/Combobox/Combobox.tsx
 var import_react33 = require("react");
 var import_core35 = require("../../core/dist/index.cjs");
 var import_jsx_runtime35 = require("react/jsx-runtime");
@@ -4796,7 +4796,7 @@ var Combobox = {
   Empty
 };
 
-// src/components/ChipPicker/ChipPicker.tsx
+// src/components/molecules/ChipPicker/ChipPicker.tsx
 var import_react34 = require("react");
 var import_core36 = require("../../core/dist/index.cjs");
 var import_jsx_runtime36 = require("react/jsx-runtime");
@@ -4917,7 +4917,7 @@ function ChipPicker({
   );
 }
 
-// src/components/SearchInput/SearchInput.tsx
+// src/components/molecules/SearchInput/SearchInput.tsx
 var import_react35 = require("react");
 var import_core37 = require("../../core/dist/index.cjs");
 var import_jsx_runtime37 = require("react/jsx-runtime");
@@ -5041,7 +5041,7 @@ var SearchInput = (0, import_react35.forwardRef)(
   }
 );
 
-// src/components/SegmentedControl/SegmentedControl.tsx
+// src/components/molecules/SegmentedControl/SegmentedControl.tsx
 var import_react37 = require("react");
 var import_core38 = require("../../core/dist/index.cjs");
 
@@ -5093,7 +5093,7 @@ function useRovingFocus({
   return { itemRef, onKeyDown, getTabIndex };
 }
 
-// src/components/SegmentedControl/SegmentedControl.tsx
+// src/components/molecules/SegmentedControl/SegmentedControl.tsx
 var import_jsx_runtime38 = require("react/jsx-runtime");
 var STYLE_ID3 = "4lt7ab-segmented-control";
 var hoverCSS = `
@@ -5251,7 +5251,7 @@ function SegmentedControl({
   );
 }
 
-// src/components/AlertBanner/AlertBanner.tsx
+// src/components/molecules/AlertBanner/AlertBanner.tsx
 var import_react38 = require("react");
 var import_core39 = require("../../core/dist/index.cjs");
 var import_jsx_runtime39 = require("react/jsx-runtime");
@@ -5346,7 +5346,7 @@ var AlertBanner = (0, import_react38.forwardRef)(
   }
 );
 
-// src/components/TopBar/TopBar.tsx
+// src/components/organisms/TopBar/TopBar.tsx
 var import_react39 = require("react");
 var import_core40 = require("../../core/dist/index.cjs");
 var import_jsx_runtime40 = require("react/jsx-runtime");
@@ -5503,7 +5503,7 @@ var TopBar = {
   Trailing: TopBarTrailing
 };
 
-// src/components/Grid/Grid.tsx
+// src/components/atoms/Grid/Grid.tsx
 var import_react40 = require("react");
 var import_jsx_runtime41 = require("react/jsx-runtime");
 var Grid = (0, import_react40.forwardRef)(
@@ -5533,7 +5533,7 @@ var Grid = (0, import_react40.forwardRef)(
   }
 );
 
-// src/components/Divider/Divider.tsx
+// src/components/atoms/Divider/Divider.tsx
 var import_react41 = require("react");
 var import_core41 = require("../../core/dist/index.cjs");
 var import_jsx_runtime42 = require("react/jsx-runtime");
@@ -5568,7 +5568,7 @@ var Divider = (0, import_react41.forwardRef)(
   }
 );
 
-// src/components/Container/Container.tsx
+// src/components/atoms/Container/Container.tsx
 var import_react42 = require("react");
 var import_jsx_runtime43 = require("react/jsx-runtime");
 var widthMap = {
@@ -5611,7 +5611,7 @@ var Container = (0, import_react42.forwardRef)(
   }
 );
 
-// src/components/TabStrip/TabStrip.tsx
+// src/components/molecules/TabStrip/TabStrip.tsx
 var import_react43 = require("react");
 var import_core42 = require("../../core/dist/index.cjs");
 var import_jsx_runtime44 = require("react/jsx-runtime");

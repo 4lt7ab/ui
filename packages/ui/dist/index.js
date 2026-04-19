@@ -44,11 +44,11 @@ function useFocusTrap(ref) {
 // src/index.ts
 export * from "../../core/dist/index.js";
 
-// src/components/ThemePicker/ThemePicker.tsx
+// src/components/molecules/ThemePicker/ThemePicker.tsx
 import { forwardRef } from "react";
 import { useTheme, useInjectStyles as useInjectStyles2 } from "../../core/dist/index.js";
 
-// src/components/Select/Select.tsx
+// src/components/organisms/Select/Select.tsx
 import {
   createContext,
   useCallback,
@@ -585,7 +585,7 @@ var Select = {
   Item
 };
 
-// src/components/ThemePicker/ThemePicker.tsx
+// src/components/molecules/ThemePicker/ThemePicker.tsx
 import { jsx as jsx2, jsxs as jsxs2 } from "react/jsx-runtime";
 var GRID_STYLES_ID = "alttab-theme-picker";
 var gridCSS = (
@@ -840,7 +840,7 @@ var iconRegistry = {
   "filter": IconFilter
 };
 
-// src/components/Button/Button.tsx
+// src/components/atoms/Button/Button.tsx
 import { forwardRef as forwardRef2 } from "react";
 import { semantic as t2, useInjectStyles as useInjectStyles3, Slot } from "../../core/dist/index.js";
 import { jsx as jsx4 } from "react/jsx-runtime";
@@ -993,7 +993,7 @@ var Button = forwardRef2(
   }
 );
 
-// src/components/Stack/Stack.tsx
+// src/components/atoms/Stack/Stack.tsx
 import { forwardRef as forwardRef3 } from "react";
 
 // src/types.ts
@@ -1065,7 +1065,7 @@ var shadowMap = {
   lg: t3.shadowLg
 };
 
-// src/components/Stack/Stack.tsx
+// src/components/atoms/Stack/Stack.tsx
 import { jsx as jsx5 } from "react/jsx-runtime";
 var gapMap = spacingMap;
 var Stack = forwardRef3(
@@ -1098,11 +1098,11 @@ var Stack = forwardRef3(
   }
 );
 
-// src/components/Card/Card.tsx
+// src/components/molecules/Card/Card.tsx
 import { forwardRef as forwardRef5, useEffect as useEffect3, useRef as useRef2 } from "react";
 import { semantic as t5, useInjectStyles as useInjectStyles4, useThemeRhythm, Slot as Slot3 } from "../../core/dist/index.js";
 
-// src/components/Surface/Surface.tsx
+// src/components/atoms/Surface/Surface.tsx
 import { createElement, forwardRef as forwardRef4 } from "react";
 import { semantic as t4, Slot as Slot2 } from "../../core/dist/index.js";
 import { jsx as jsx6 } from "react/jsx-runtime";
@@ -1162,7 +1162,7 @@ var Surface = forwardRef4(
   }
 );
 
-// src/components/Card/Card.tsx
+// src/components/molecules/Card/Card.tsx
 import { jsx as jsx7 } from "react/jsx-runtime";
 var variantSurfaceProps = {
   default: { level: "solid", border: true, shadow: "sm" },
@@ -1245,7 +1245,7 @@ var Card = forwardRef5(
   }
 );
 
-// src/components/LinkCard/LinkCard.tsx
+// src/components/molecules/LinkCard/LinkCard.tsx
 import { forwardRef as forwardRef6 } from "react";
 import { semantic as t6, useInjectStyles as useInjectStyles5 } from "../../core/dist/index.js";
 import { jsx as jsx8, jsxs as jsxs4 } from "react/jsx-runtime";
@@ -1314,7 +1314,7 @@ var LinkCard = forwardRef6(function LinkCard2({
   ) });
 });
 
-// src/components/Field/Field.tsx
+// src/components/molecules/Field/Field.tsx
 import { semantic as t7 } from "../../core/dist/index.js";
 import { forwardRef as forwardRef7, useId as useId2, isValidElement, cloneElement } from "react";
 import { jsx as jsx9, jsxs as jsxs5 } from "react/jsx-runtime";
@@ -1389,7 +1389,7 @@ var Field = forwardRef7(
   }
 );
 
-// src/components/Input/Input.tsx
+// src/components/atoms/Input/Input.tsx
 import { forwardRef as forwardRef8 } from "react";
 import { semantic as t8 } from "../../core/dist/index.js";
 import { jsx as jsx10 } from "react/jsx-runtime";
@@ -1490,7 +1490,7 @@ var Input = forwardRef8(
   }
 );
 
-// src/components/Textarea/Textarea.tsx
+// src/components/atoms/Textarea/Textarea.tsx
 import { forwardRef as forwardRef9 } from "react";
 import { semantic as t9 } from "../../core/dist/index.js";
 import { jsx as jsx11 } from "react/jsx-runtime";
@@ -1582,7 +1582,7 @@ var Textarea = forwardRef9(
   }
 );
 
-// src/components/Badge/Badge.tsx
+// src/components/atoms/Badge/Badge.tsx
 import { forwardRef as forwardRef10 } from "react";
 import { semantic as t10 } from "../../core/dist/index.js";
 import { jsx as jsx12 } from "react/jsx-runtime";
@@ -1660,7 +1660,7 @@ var Badge = forwardRef10(
   }
 );
 
-// src/components/Text/Text.tsx
+// src/components/atoms/Text/Text.tsx
 import { forwardRef as forwardRef11, createElement as createElement2 } from "react";
 import { semantic as t11 } from "../../core/dist/index.js";
 var sizeMap = {
@@ -1730,7 +1730,7 @@ var Text = forwardRef11(
   }
 );
 
-// src/components/Icon/Icon.tsx
+// src/components/atoms/Icon/Icon.tsx
 import { forwardRef as forwardRef12, createContext as createContext2, useContext as useContext2 } from "react";
 import { jsx as jsx13 } from "react/jsx-runtime";
 var IconFontContext = createContext2(void 0);
@@ -1794,7 +1794,7 @@ var Icon = forwardRef12(
   }
 );
 
-// src/components/IconButton/IconButton.tsx
+// src/components/atoms/IconButton/IconButton.tsx
 import { forwardRef as forwardRef13, useId as useId3 } from "react";
 import { semantic as t12, useInjectStyles as useInjectStyles6, Slot as Slot4 } from "../../core/dist/index.js";
 import { Fragment as Fragment2, jsx as jsx14, jsxs as jsxs6 } from "react/jsx-runtime";
@@ -1902,7 +1902,7 @@ var IconButton = forwardRef13(
   }
 );
 
-// src/components/Overlay/Overlay.tsx
+// src/components/atoms/Overlay/Overlay.tsx
 import { forwardRef as forwardRef14 } from "react";
 import { semantic as t13 } from "../../core/dist/index.js";
 import { jsx as jsx15 } from "react/jsx-runtime";
@@ -1928,7 +1928,7 @@ var Overlay = forwardRef14(
   }
 );
 
-// src/components/Skeleton/Skeleton.tsx
+// src/components/atoms/Skeleton/Skeleton.tsx
 import { forwardRef as forwardRef15 } from "react";
 import { semantic as t14, useInjectStyles as useInjectStyles7, useThemeRhythm as useThemeRhythm2 } from "../../core/dist/index.js";
 import { jsx as jsx16, jsxs as jsxs7 } from "react/jsx-runtime";
@@ -2045,7 +2045,7 @@ var RowSkeleton = forwardRef15(
   }
 );
 
-// src/components/ProgressBar/ProgressBar.tsx
+// src/components/atoms/ProgressBar/ProgressBar.tsx
 import { forwardRef as forwardRef16 } from "react";
 import { semantic as t15 } from "../../core/dist/index.js";
 import { jsx as jsx17 } from "react/jsx-runtime";
@@ -2094,7 +2094,7 @@ var ProgressBar = forwardRef16(
   }
 );
 
-// src/components/EmptyState/EmptyState.tsx
+// src/components/molecules/EmptyState/EmptyState.tsx
 import { forwardRef as forwardRef17 } from "react";
 import { semantic as t16 } from "../../core/dist/index.js";
 import { jsx as jsx18, jsxs as jsxs8 } from "react/jsx-runtime";
@@ -2130,7 +2130,7 @@ var EmptyState = forwardRef17(
   }
 );
 
-// src/components/Pagination/Pagination.tsx
+// src/components/molecules/Pagination/Pagination.tsx
 import { forwardRef as forwardRef18 } from "react";
 import { semantic as t17 } from "../../core/dist/index.js";
 import { jsx as jsx19, jsxs as jsxs9 } from "react/jsx-runtime";
@@ -2201,7 +2201,7 @@ var Pagination = forwardRef18(
   }
 );
 
-// src/components/Header/Header.tsx
+// src/components/molecules/Header/Header.tsx
 import { forwardRef as forwardRef19 } from "react";
 import { semantic as t18 } from "../../core/dist/index.js";
 import { jsx as jsx20, jsxs as jsxs10 } from "react/jsx-runtime";
@@ -2247,7 +2247,7 @@ var Header = forwardRef19(
   }
 );
 
-// src/components/ModalShell/ModalShell.tsx
+// src/components/organisms/ModalShell/ModalShell.tsx
 import { forwardRef as forwardRef20, useEffect as useEffect4, useId as useId4, useRef as useRef3 } from "react";
 import { createPortal } from "react-dom";
 import { semantic as t19 } from "../../core/dist/index.js";
@@ -2394,7 +2394,7 @@ var tagChipStyle = {
   fontFamily: t21.fontSans
 };
 
-// src/components/ConfirmDialog/ConfirmDialog.tsx
+// src/components/molecules/ConfirmDialog/ConfirmDialog.tsx
 import { forwardRef as forwardRef21, useId as useId5, useState as useState2 } from "react";
 import { semantic as t22 } from "../../core/dist/index.js";
 import { jsx as jsx22, jsxs as jsxs12 } from "react/jsx-runtime";
@@ -2453,7 +2453,7 @@ var ConfirmDialog = forwardRef21(
   }
 );
 
-// src/components/StatusDot/StatusDot.tsx
+// src/components/atoms/StatusDot/StatusDot.tsx
 import { forwardRef as forwardRef22 } from "react";
 import { semantic as t23, useInjectStyles as useInjectStyles8, useThemeRhythm as useThemeRhythm3 } from "../../core/dist/index.js";
 import { jsx as jsx23 } from "react/jsx-runtime";
@@ -2525,7 +2525,7 @@ var StatusDot = forwardRef22(
   }
 );
 
-// src/components/Table/Table.tsx
+// src/components/organisms/Table/Table.tsx
 import { forwardRef as forwardRef23, Children, isValidElement as isValidElement2, cloneElement as cloneElement2 } from "react";
 import { semantic as t24 } from "../../core/dist/index.js";
 import { useInjectStyles as useInjectStyles9 } from "../../core/dist/index.js";
@@ -2769,7 +2769,7 @@ var TableEmptyRow = forwardRef23(
   }
 );
 
-// src/components/Table/FilterBar.tsx
+// src/components/organisms/Table/FilterBar.tsx
 import {
   createContext as createContext3,
   useCallback as useCallback2,
@@ -2900,12 +2900,12 @@ var TableFilterBar = Object.assign(FilterBar, {
   Select: FilterBarSelect
 });
 
-// src/components/Table/index.ts
+// src/components/organisms/Table/index.ts
 var Table3 = Object.assign(Table, {
   FilterBar: TableFilterBar
 });
 
-// src/components/DateRangePicker/DateRangePicker.tsx
+// src/components/organisms/DateRangePicker/DateRangePicker.tsx
 import {
   forwardRef as forwardRef24,
   useState as useState5,
@@ -2916,7 +2916,7 @@ import {
 } from "react";
 import { semantic as t29, useInjectStyles as useInjectStyles11 } from "../../core/dist/index.js";
 
-// src/components/Calendar/Calendar.tsx
+// src/components/organisms/Calendar/Calendar.tsx
 import {
   createContext as createContext4,
   useCallback as useCallback3,
@@ -3023,10 +3023,10 @@ var Calendar = {
   Root: Root2
 };
 
-// src/components/Calendar/Header.tsx
+// src/components/organisms/Calendar/Header.tsx
 import { semantic as t26 } from "../../core/dist/index.js";
 
-// src/components/DateRangePicker/dateUtils.ts
+// src/components/organisms/DateRangePicker/dateUtils.ts
 function getDaysInMonth(year, month) {
   return new Date(year, month + 1, 0).getDate();
 }
@@ -3084,7 +3084,7 @@ function buildCalendarGrid(year, month) {
   return grid;
 }
 
-// src/components/Calendar/Header.tsx
+// src/components/organisms/Calendar/Header.tsx
 import { jsx as jsx27 } from "react/jsx-runtime";
 var titleStyle = {
   fontSize: t26.fontSizeSm,
@@ -3113,7 +3113,7 @@ function CalendarHeaderPrimitive({
   );
 }
 
-// src/components/Calendar/Nav.tsx
+// src/components/organisms/Calendar/Nav.tsx
 import { jsx as jsx28 } from "react/jsx-runtime";
 function CalendarNav({
   direction,
@@ -3146,11 +3146,11 @@ function CalendarNav({
   );
 }
 
-// src/components/Calendar/Grid.tsx
+// src/components/organisms/Calendar/Grid.tsx
 import { useCallback as useCallback4, useMemo as useMemo3, useRef as useRef5, useEffect as useEffect6 } from "react";
 import { semantic as t28, useInjectStyles as useInjectStyles10 } from "../../core/dist/index.js";
 
-// src/components/Calendar/Cell.tsx
+// src/components/organisms/Calendar/Cell.tsx
 import { semantic as t27 } from "../../core/dist/index.js";
 import { jsx as jsx29 } from "react/jsx-runtime";
 var baseCellStyle = {
@@ -3267,7 +3267,7 @@ function CalendarCell({
   );
 }
 
-// src/components/Calendar/Grid.tsx
+// src/components/organisms/Calendar/Grid.tsx
 import { jsx as jsx30, jsxs as jsxs14 } from "react/jsx-runtime";
 var GRID_STYLES_ID2 = "alttab-calendar";
 var gridCSS2 = (
@@ -3450,7 +3450,7 @@ function stripTime2(d) {
 }
 var cellTdStyle = { padding: 0 };
 
-// src/components/Calendar/index.ts
+// src/components/organisms/Calendar/index.ts
 var Calendar2 = {
   Root: Calendar.Root,
   Header: CalendarHeaderPrimitive,
@@ -3459,7 +3459,7 @@ var Calendar2 = {
   Cell: CalendarCell
 };
 
-// src/components/DateRangePicker/DateRangePicker.tsx
+// src/components/organisms/DateRangePicker/DateRangePicker.tsx
 import { jsx as jsx31, jsxs as jsxs15 } from "react/jsx-runtime";
 var SCOPE = "alttab-drp";
 var injectedCSS = (
@@ -3689,7 +3689,7 @@ var DateRangePicker = forwardRef24(
   }
 );
 
-// src/components/DatePicker/DatePicker.tsx
+// src/components/organisms/DatePicker/DatePicker.tsx
 import { forwardRef as forwardRef25, useState as useState6, useRef as useRef7, useCallback as useCallback6, useEffect as useEffect8, useMemo as useMemo5 } from "react";
 import { semantic as t30, useInjectStyles as useInjectStyles12 } from "../../core/dist/index.js";
 import { jsx as jsx32, jsxs as jsxs16 } from "react/jsx-runtime";
@@ -3877,7 +3877,7 @@ var DatePicker = forwardRef25(
   }
 );
 
-// src/components/ErrorBoundary/ErrorBoundary.tsx
+// src/components/molecules/ErrorBoundary/ErrorBoundary.tsx
 import React from "react";
 import { semantic as t31 } from "../../core/dist/index.js";
 import { jsx as jsx33, jsxs as jsxs17 } from "react/jsx-runtime";
@@ -3986,7 +3986,7 @@ var ErrorBoundary = class extends React.Component {
   }
 };
 
-// src/components/Toast/Toast.tsx
+// src/components/organisms/Toast/Toast.tsx
 import {
   createContext as createContext5,
   useCallback as useCallback7,
@@ -4229,7 +4229,7 @@ function ToastProvider({
   ] });
 }
 
-// src/components/Combobox/Combobox.tsx
+// src/components/organisms/Combobox/Combobox.tsx
 import {
   createContext as createContext6,
   useCallback as useCallback8,
@@ -4707,7 +4707,7 @@ var Combobox = {
   Empty
 };
 
-// src/components/ChipPicker/ChipPicker.tsx
+// src/components/molecules/ChipPicker/ChipPicker.tsx
 import { useCallback as useCallback9, useId as useId8, useState as useState9 } from "react";
 import { semantic as t34, useInjectStyles as useInjectStyles15 } from "../../core/dist/index.js";
 import { jsx as jsx36, jsxs as jsxs19 } from "react/jsx-runtime";
@@ -4828,7 +4828,7 @@ function ChipPicker({
   );
 }
 
-// src/components/SearchInput/SearchInput.tsx
+// src/components/molecules/SearchInput/SearchInput.tsx
 import { forwardRef as forwardRef26, useState as useState10, useEffect as useEffect11, useRef as useRef10, useCallback as useCallback10 } from "react";
 import { semantic as t35, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
 import { jsx as jsx37, jsxs as jsxs20 } from "react/jsx-runtime";
@@ -4952,7 +4952,7 @@ var SearchInput = forwardRef26(
   }
 );
 
-// src/components/SegmentedControl/SegmentedControl.tsx
+// src/components/molecules/SegmentedControl/SegmentedControl.tsx
 import { useCallback as useCallback12, useLayoutEffect, useRef as useRef12, useState as useState11 } from "react";
 import { semantic as t36, useInjectStyles as useInjectStyles17 } from "../../core/dist/index.js";
 
@@ -5004,7 +5004,7 @@ function useRovingFocus({
   return { itemRef, onKeyDown, getTabIndex };
 }
 
-// src/components/SegmentedControl/SegmentedControl.tsx
+// src/components/molecules/SegmentedControl/SegmentedControl.tsx
 import { jsx as jsx38, jsxs as jsxs21 } from "react/jsx-runtime";
 var STYLE_ID3 = "4lt7ab-segmented-control";
 var hoverCSS = `
@@ -5162,7 +5162,7 @@ function SegmentedControl({
   );
 }
 
-// src/components/AlertBanner/AlertBanner.tsx
+// src/components/molecules/AlertBanner/AlertBanner.tsx
 import { forwardRef as forwardRef27 } from "react";
 import { semantic as t37, useInjectStyles as useInjectStyles18 } from "../../core/dist/index.js";
 import { jsx as jsx39, jsxs as jsxs22 } from "react/jsx-runtime";
@@ -5257,7 +5257,7 @@ var AlertBanner = forwardRef27(
   }
 );
 
-// src/components/TopBar/TopBar.tsx
+// src/components/organisms/TopBar/TopBar.tsx
 import { createContext as createContext7, forwardRef as forwardRef28, useContext as useContext7 } from "react";
 import { semantic as t38, useInjectStyles as useInjectStyles19, Slot as Slot5 } from "../../core/dist/index.js";
 import { jsx as jsx40 } from "react/jsx-runtime";
@@ -5414,7 +5414,7 @@ var TopBar = {
   Trailing: TopBarTrailing
 };
 
-// src/components/Grid/Grid.tsx
+// src/components/atoms/Grid/Grid.tsx
 import { forwardRef as forwardRef29 } from "react";
 import { jsx as jsx41 } from "react/jsx-runtime";
 var Grid = forwardRef29(
@@ -5444,7 +5444,7 @@ var Grid = forwardRef29(
   }
 );
 
-// src/components/Divider/Divider.tsx
+// src/components/atoms/Divider/Divider.tsx
 import { forwardRef as forwardRef30 } from "react";
 import { semantic as t39 } from "../../core/dist/index.js";
 import { jsx as jsx42 } from "react/jsx-runtime";
@@ -5479,7 +5479,7 @@ var Divider = forwardRef30(
   }
 );
 
-// src/components/Container/Container.tsx
+// src/components/atoms/Container/Container.tsx
 import { forwardRef as forwardRef31 } from "react";
 import { jsx as jsx43 } from "react/jsx-runtime";
 var widthMap = {
@@ -5522,7 +5522,7 @@ var Container = forwardRef31(
   }
 );
 
-// src/components/TabStrip/TabStrip.tsx
+// src/components/molecules/TabStrip/TabStrip.tsx
 import { forwardRef as forwardRef32, useCallback as useCallback13 } from "react";
 import { semantic as t40, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
 import { jsx as jsx44, jsxs as jsxs23 } from "react/jsx-runtime";

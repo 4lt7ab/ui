@@ -5,57 +5,57 @@ export * from './utils/useFocusTrap';
 export * from '@4lt7ab/core';
 
 // Theme Picker
-export * from './components/ThemePicker';
+export * from './components/molecules/ThemePicker';
 
 // Icons
 export * from './icons';
 
 // UI Components
-export * from './components/Button';
-export * from './components/Stack';
-export * from './components/Card';
-export * from './components/LinkCard';
-export * from './components/Field';
-export * from './components/Input';
-export * from './components/Textarea';
-export * from './components/Select';
-export * from './components/Badge';
-export * from './components/Text';
-export * from './components/Icon';
-export * from './components/IconButton';
-export * from './components/Overlay';
-export * from './components/Skeleton';
-export * from './components/ProgressBar';
-export * from './components/EmptyState';
-export * from './components/Pagination';
-export * from './components/Header';
-export { ModalShell, modalHeadingStyle, modalFooterStyle } from './components/ModalShell';
-export type { ModalShellProps } from './components/ModalShell';
+export * from './components/atoms/Button';
+export * from './components/atoms/Stack';
+export * from './components/molecules/Card';
+export * from './components/molecules/LinkCard';
+export * from './components/molecules/Field';
+export * from './components/atoms/Input';
+export * from './components/atoms/Textarea';
+export * from './components/organisms/Select';
+export * from './components/atoms/Badge';
+export * from './components/atoms/Text';
+export * from './components/atoms/Icon';
+export * from './components/atoms/IconButton';
+export * from './components/atoms/Overlay';
+export * from './components/atoms/Skeleton';
+export * from './components/atoms/ProgressBar';
+export * from './components/molecules/EmptyState';
+export * from './components/molecules/Pagination';
+export * from './components/molecules/Header';
+export { ModalShell, modalHeadingStyle, modalFooterStyle } from './components/organisms/ModalShell';
+export type { ModalShellProps } from './components/organisms/ModalShell';
 export { sectionLabelStyle } from './styles/sectionLabelStyle';
 export { tagChipStyle } from './styles/tagChipStyle';
-export * from './components/ConfirmDialog';
-export * from './components/StatusDot';
-export * from './components/Table';
-export * from './components/DateRangePicker';
-export * from './components/DatePicker';
-export * from './components/Calendar';
-export * from './components/ErrorBoundary';
-export * from './components/Toast';
-export * from './components/Combobox';
-export * from './components/ChipPicker';
-export * from './components/SearchInput';
-export * from './components/SegmentedControl';
-export * from './components/AlertBanner';
-export * from './components/TopBar';
+export * from './components/molecules/ConfirmDialog';
+export * from './components/atoms/StatusDot';
+export * from './components/organisms/Table';
+export * from './components/organisms/DateRangePicker';
+export * from './components/organisms/DatePicker';
+export * from './components/organisms/Calendar';
+export * from './components/molecules/ErrorBoundary';
+export * from './components/organisms/Toast';
+export * from './components/organisms/Combobox';
+export * from './components/molecules/ChipPicker';
+export * from './components/molecules/SearchInput';
+export * from './components/molecules/SegmentedControl';
+export * from './components/molecules/AlertBanner';
+export * from './components/organisms/TopBar';
 
 // Layout & Container primitives
-export * from './components/Surface';
-export * from './components/Grid';
-export * from './components/Divider';
-export * from './components/Container';
+export * from './components/atoms/Surface';
+export * from './components/atoms/Grid';
+export * from './components/atoms/Divider';
+export * from './components/atoms/Container';
 
 // Molecules
-export * from './components/TabStrip';
+export * from './components/molecules/TabStrip';
 
 // Shared types
 export type {
