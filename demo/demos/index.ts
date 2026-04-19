@@ -30,6 +30,7 @@ import { StatusDotDemo } from './StatusDotDemo';
 import { ThemePickerDemo } from './ThemePickerDemo';
 import { EpigraphDemo } from './EpigraphDemo';
 import { PullQuoteDemo } from './PullQuoteDemo';
+import { QuoteDemo } from './QuoteDemo';
 import { MarginNoteDemo } from './MarginNoteDemo';
 import { SideNoteDemo } from './SideNoteDemo';
 import { DateRangePickerDemo } from './DateRangePickerDemo';
@@ -132,6 +133,7 @@ export const demos: DemoEntry[] = [
   // ── @4lt7ab/ui/content ──
   { name: 'Prose', category: 'Layout', source: 'content', component: ProseDemo },
   { name: 'Markdown', category: 'Layout', source: 'content', component: MarkdownDemo },
+  { name: 'Quote', category: 'Layout', source: 'content', component: QuoteDemo },
   { name: 'Epigraph', category: 'Layout', source: 'content', component: EpigraphDemo },
   { name: 'PullQuote', category: 'Layout', source: 'content', component: PullQuoteDemo },
   { name: 'MarginNote', category: 'Layout', source: 'content', component: MarginNoteDemo },
@@ -149,7 +151,7 @@ export {
   PaginationDemo, HeaderDemo, ExpandableCardDemo,
   ModalDemo, OverlayDemo, ConfirmDialogDemo, ContainerDemo,
   ProseDemo, MarkdownDemo, ThinkingCycleDemo, LinkCardDemo, TableDemo,
-  StatusDotDemo, ThemePickerDemo, EpigraphDemo, PullQuoteDemo,
+  StatusDotDemo, ThemePickerDemo, QuoteDemo, EpigraphDemo, PullQuoteDemo,
   MarginNoteDemo, SideNoteDemo, DateRangePickerDemo, DatePickerDemo, CalendarDemo,
   ErrorBoundaryDemo,
   IconFontDemo,

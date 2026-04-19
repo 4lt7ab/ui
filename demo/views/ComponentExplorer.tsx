@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Card, Stack, Icon, Badge } from '@4lt7ab/ui';
 import {
-  StackDemo, ContainerDemo, ProseDemo, MarkdownDemo, EpigraphDemo, PullQuoteDemo,
+  StackDemo, ContainerDemo, ProseDemo, MarkdownDemo, QuoteDemo, EpigraphDemo, PullQuoteDemo,
   MarginNoteDemo, SideNoteDemo, ThinkingCycleDemo, InputDemo,
   TextareaDemo, SelectDemo, FieldDemo, ButtonDemo, IconButtonDemo,
   BadgeDemo, TextDemo, StatusDotDemo, TableDemo, PaginationDemo,
@@ -77,6 +77,7 @@ const CATEGORIES: CategoryDef[] = [
     components: [
       { name: 'Prose', source: 'content', Demo: ProseDemo },
       { name: 'Markdown', source: 'content', Demo: MarkdownDemo },
+      { name: 'Quote', source: 'content', Demo: QuoteDemo },
       { name: 'Epigraph', source: 'content', Demo: EpigraphDemo },
       { name: 'PullQuote', source: 'content', Demo: PullQuoteDemo },
       { name: 'MarginNote', source: 'content', Demo: MarginNoteDemo },
