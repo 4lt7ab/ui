@@ -1,5 +1,7 @@
 # @4lt7ab monorepo
 
+**Mission.** A component earns its place in the library when a consumer reuses it across projects and it's built to primitive-level quality. Reuse without quality is copy-paste; quality without reuse is chrome. Both clauses are required. Also captured in KB doc [Reused + Quality — the v0.5 reframe](tab://document/01KPHD88W7WHDH3C3PEBAEGE7A).
+
 Four React packages built on a shared theme platform, distributed via GitHub git dependencies.
 
 - **`@4lt7ab/core`** -- Theme platform: tokens, themes, ThemeProvider, useTheme, useInjectStyles.
@@ -45,7 +47,11 @@ The token layer and themes live in `@4lt7ab/core`. `@4lt7ab/content` and `@4lt7a
 
 ## Design Tenets
 
-**Keep consumer chrome to an absolute minimum.** This is the load-bearing tenet the rest of the library answers to. "Chrome" is everything a consumer has to see, configure, or reason about that isn't the thing they came here to build. Every new component, prop, or API surface has to justify the attention it takes from the consumer.
+Two tenets, paired. The first decides what doesn't belong in the library; the second decides what happens when two things that *do* belong overlap. Apply both before any retirement or consolidation proposal.
+
+### 1. Keep consumer chrome to an absolute minimum
+
+This is the load-bearing tenet the rest of the library answers to. "Chrome" is everything a consumer has to see, configure, or reason about that isn't the thing they came here to build. Every new component, prop, or API surface has to justify the attention it takes from the consumer.
 
 In practice:
 
@@ -56,6 +62,22 @@ In practice:
 - **When a choice belongs to the consumer, return it to them.** `StatCard` presetting a metric layout was chrome; retiring it and documenting the composition lets the consuming app own the decisions their design calls for.
 
 This tenet is why the 0.3.0 release shrank the public surface rather than grew it. When a consolidation proposal surfaces "we could fold these into one richer component," the answer is usually yes.
+
+### 2. Merge before retire
+
+A component reused across projects earns its place — find the duplication, don't cut the utility. When two or more components pass the reuse+quality test (see the mission statement above) and overlap in responsibility, the move is *merge*, not retire. Retiring destroys utility; merging preserves it while shrinking surface area. A merged component with one extra prop is almost always cheaper than two near-duplicate components.
+
+This tenet is the counterweight to tenet 1. Chrome still goes — but before a retirement proposal, run the two-clause test. If a component passes, the question isn't "retire or keep," it's "keep or merge."
+
+Canonical examples from v0.4.0 — the release that cemented this tenet:
+
+- **`MarginNote` + `SideNote` → one component with a `side` prop.** Both passed the test; they differed only in which margin they rendered into. Merged, not retired.
+- **`PullQuote` + `Epigraph` → one component with a `variant` prop.** Both were display-quotes with different typographic emphasis; the underlying rhythm-and-rule machinery was identical. Merged, not retired.
+- **`LinkCard` → `Card asChild`.** The link affordance was the only distinguishing behavior; `Card` already carried the layout quality. Utility preserved as a composition seam on the primitive.
+- **`TextSection` → `Markdown` editable mode.** `TextSection` was a thin shell around markdown rendering with an edit toggle. Folded into `Markdown` as a mode, not deleted.
+- **`TableFilters` → `Table.FilterBar`.** The filter-bar UI was being shipped alongside every `Table` consumer and passed the reuse+quality test. Merged into the `Table.*` compound as a named slot rather than cut.
+
+When a future retirement proposal surfaces, check the mission test first. Passing components merge; failing components retire. The atomic-design tier (atom/molecule/organism) is a taxonomy for reasoning about scope — not a retirement criterion. See also the KB doc [Reused + Quality — the v0.5 reframe](tab://document/01KPHD88W7WHDH3C3PEBAEGE7A) for the full rationale and the trap this tenet exists to prevent.
 
 ## Source Layout
 
@@ -81,47 +103,49 @@ packages/
 │       ├── utils/
 │       │   └── useFocusTrap.ts     # focus trap for modals
 │       ├── components/
-│       │   ├── AlertBanner/
-│       │   ├── Badge/
-│       │   ├── Button/
-│       │   ├── Calendar/
-│       │   ├── Card/
-│       │   ├── ChipPicker/
-│       │   ├── Combobox/
-│       │   ├── ConfirmDialog/
-│       │   ├── Container/
-│       │   ├── DatePicker/
-│       │   ├── DateRangePicker/
-│       │   ├── Divider/
-│       │   ├── EmptyState/
-│       │   ├── ErrorBoundary/
-│       │   ├── Field/
-│       │   ├── Grid/
-│       │   ├── Header/
-│       │   ├── Icon/
-│       │   ├── IconButton/
-│       │   ├── Input/
-│       │   ├── LinkCard/
-│       │   ├── ModalShell/
-│       │   ├── Overlay/
-│       │   ├── Pagination/
-│       │   ├── PillSelect/
-│       │   ├── ProgressBar/
-│       │   ├── SearchInput/
-│       │   ├── SegmentedControl/
-│       │   ├── Select/
-│       │   ├── Skeleton/
-│       │   ├── Stack/
-│       │   ├── StatusDot/
-│       │   ├── Surface/
-│       │   ├── TabStrip/
-│       │   ├── Table/
-│       │   ├── TagChip/
-│       │   ├── Textarea/
-│       │   ├── ThemePicker/
-│       │   ├── Toast/
-│       │   └── TopBar/
-│       └── index.ts
+│       │   ├── atoms/           # primitives with no internal library composition
+│       │   │   ├── Badge/
+│       │   │   ├── Button/
+│       │   │   ├── Container/
+│       │   │   ├── Divider/
+│       │   │   ├── Grid/
+│       │   │   ├── Icon/
+│       │   │   ├── IconButton/
+│       │   │   ├── Input/
+│       │   │   ├── Overlay/
+│       │   │   ├── ProgressBar/
+│       │   │   ├── Skeleton/
+│       │   │   ├── Stack/
+│       │   │   ├── StatusDot/
+│       │   │   ├── Surface/
+│       │   │   ├── Text/
+│       │   │   └── Textarea/
+│       │   ├── molecules/       # small compositions with behavior
+│       │   │   ├── AlertBanner/
+│       │   │   ├── Card/
+│       │   │   ├── ChipPicker/
+│       │   │   ├── ConfirmDialog/
+│       │   │   ├── EmptyState/
+│       │   │   ├── ErrorBoundary/
+│       │   │   ├── Field/
+│       │   │   ├── Header/
+│       │   │   ├── LinkCard/
+│       │   │   ├── Pagination/
+│       │   │   ├── SearchInput/
+│       │   │   ├── SegmentedControl/
+│       │   │   ├── TabStrip/
+│       │   │   └── ThemePicker/
+│       │   └── organisms/       # compound surfaces or large interaction systems
+│       │       ├── Calendar/        # Calendar.* compound
+│       │       ├── Combobox/        # Combobox.* compound
+│       │       ├── DatePicker/
+│       │       ├── DateRangePicker/
+│       │       ├── ModalShell/
+│       │       ├── Select/          # Select.* compound
+│       │       ├── Table/           # Table.* compound (incl. Table.FilterBar)
+│       │       ├── Toast/
+│       │       └── TopBar/          # TopBar.* compound
+│       └── index.ts            # single public barrel — tier folders are internal
 ├── content/
 │   └── src/
 │       ├── components/
@@ -176,12 +200,13 @@ Component surface reduction. Do not re-add these without revisiting the rational
 
 ### To `@4lt7ab/ui`
 
-1. Create `packages/ui/src/components/MyComponent/MyComponent.tsx`
-2. Create `packages/ui/src/components/MyComponent/index.ts` barrel
-3. Export from `packages/ui/src/index.ts`
-4. Use only `semantic` tokens (from `@4lt7ab/core`) for all visual values
-5. **Add a demo** — create `demo/demos/MyComponentDemo.tsx`, register it in **both** `demo/demos/index.ts` (flat list) **and** `demo/views/ComponentExplorer.tsx` (the `CATEGORIES` array that drives the sidebar). Demo is mandatory; components without demos will not be merged.
-6. `bun run typecheck && bun run build`
+1. Pick the tier folder. `atoms/` for primitives with no internal library composition; `molecules/` for small compositions with behavior; `organisms/` for compound surfaces or large interaction systems. The tier is internal — the public barrel flattens all three.
+2. Create `packages/ui/src/components/<tier>/MyComponent/MyComponent.tsx`
+3. Create `packages/ui/src/components/<tier>/MyComponent/index.ts` barrel
+4. Export from `packages/ui/src/index.ts` (single public barrel; tier folders are not surfaced to consumers)
+5. Use only `semantic` tokens (from `@4lt7ab/core`) for all visual values
+6. **Add a demo** — create `demo/demos/MyComponentDemo.tsx`, register it in **both** `demo/demos/index.ts` (flat list) **and** `demo/views/ComponentExplorer.tsx` (the `CATEGORIES` array that drives the sidebar). Demo is mandatory; components without demos will not be merged.
+7. `bun run typecheck && bun run build`
 
 ### To `@4lt7ab/content`
 
