@@ -3941,20 +3941,11 @@ var ErrorBoundary = class extends React.Component {
           ),
           error.stack && /* @__PURE__ */ jsxs17("div", { children: [
             /* @__PURE__ */ jsx33(
-              "button",
+              Button,
               {
-                type: "button",
+                variant: "ghost",
+                size: "sm",
                 onClick: () => this.setState({ showStack: !showStack }),
-                style: {
-                  background: "none",
-                  border: "none",
-                  padding: 0,
-                  fontFamily: t31.fontSans,
-                  fontSize: t31.fontSizeSm,
-                  color: t31.colorTextMuted,
-                  cursor: "pointer",
-                  textDecoration: "underline"
-                },
                 children: showStack ? "Hide stack trace" : "Show stack trace"
               }
             ),
@@ -4137,30 +4128,12 @@ function ToastMessage({
       children: [
         /* @__PURE__ */ jsx34("span", { style: { flex: 1 }, children: item.message }),
         /* @__PURE__ */ jsx34(
-          "button",
+          IconButton,
           {
-            onClick: () => setExiting(true),
+            icon: "close",
             "aria-label": "Dismiss",
-            style: {
-              background: "none",
-              border: "none",
-              padding: 0,
-              margin: 0,
-              font: "inherit",
-              cursor: "pointer",
-              flexShrink: 0,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "1.25rem",
-              height: "1.25rem",
-              borderRadius: t32.radiusSm,
-              color: colors.fg,
-              opacity: 0.7,
-              fontSize: t32.fontSizeSm,
-              lineHeight: 1
-            },
-            children: "\xD7"
+            size: "sm",
+            onClick: () => setExiting(true)
           }
         ),
         autoDismiss && /* @__PURE__ */ jsx34(
@@ -5178,9 +5151,6 @@ var alertBannerCSS = `
     to   { opacity: 1; }
   }
 }
-.alert-banner-dismiss:hover {
-  opacity: 1 !important;
-}
 `;
 var variantColors2 = {
   info: { bg: t37.colorInfoBg, fg: t37.colorInfo, border: t37.colorInfo },
@@ -5224,31 +5194,12 @@ var AlertBanner = forwardRef27(
           resolvedIcon && /* @__PURE__ */ jsx39("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
           /* @__PURE__ */ jsx39("span", { style: { flex: 1 }, children }),
           onDismiss && /* @__PURE__ */ jsx39(
-            "button",
+            IconButton,
             {
-              className: "alert-banner-dismiss",
-              onClick: onDismiss,
+              icon: "close",
               "aria-label": "Dismiss",
-              style: {
-                background: "none",
-                border: "none",
-                padding: 0,
-                margin: 0,
-                font: "inherit",
-                cursor: "pointer",
-                flexShrink: 0,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "1.5rem",
-                height: "1.5rem",
-                borderRadius: t37.radiusSm,
-                color: colors.fg,
-                opacity: 0.7,
-                fontSize: t37.fontSizeLg,
-                lineHeight: 1
-              },
-              children: "\xD7"
+              onClick: onDismiss,
+              size: "sm"
             }
           )
         ]
@@ -6745,15 +6696,7 @@ var TabStrip = forwardRef37(
                 whiteSpace: "nowrap"
               },
               children: [
-                tab.icon && /* @__PURE__ */ jsx49(
-                  "span",
-                  {
-                    className: "material-symbols-outlined",
-                    style: { fontSize: isSm ? 12 : 14, lineHeight: 1 },
-                    "aria-hidden": "true",
-                    children: tab.icon
-                  }
-                ),
+                tab.icon && /* @__PURE__ */ jsx49(Icon, { name: tab.icon, size: isSm ? "xs" : "sm" }),
                 tab.label
               ]
             },

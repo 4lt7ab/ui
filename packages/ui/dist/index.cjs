@@ -4090,20 +4090,11 @@ var ErrorBoundary = class extends import_react31.default.Component {
           ),
           error.stack && /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
             /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-              "button",
+              Button,
               {
-                type: "button",
+                variant: "ghost",
+                size: "sm",
                 onClick: () => this.setState({ showStack: !showStack }),
-                style: {
-                  background: "none",
-                  border: "none",
-                  padding: 0,
-                  fontFamily: import_core33.semantic.fontSans,
-                  fontSize: import_core33.semantic.fontSizeSm,
-                  color: import_core33.semantic.colorTextMuted,
-                  cursor: "pointer",
-                  textDecoration: "underline"
-                },
                 children: showStack ? "Hide stack trace" : "Show stack trace"
               }
             ),
@@ -4279,30 +4270,12 @@ function ToastMessage({
       children: [
         /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("span", { style: { flex: 1 }, children: item.message }),
         /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-          "button",
+          IconButton,
           {
-            onClick: () => setExiting(true),
+            icon: "close",
             "aria-label": "Dismiss",
-            style: {
-              background: "none",
-              border: "none",
-              padding: 0,
-              margin: 0,
-              font: "inherit",
-              cursor: "pointer",
-              flexShrink: 0,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "1.25rem",
-              height: "1.25rem",
-              borderRadius: import_core34.semantic.radiusSm,
-              color: colors.fg,
-              opacity: 0.7,
-              fontSize: import_core34.semantic.fontSizeSm,
-              lineHeight: 1
-            },
-            children: "\xD7"
+            size: "sm",
+            onClick: () => setExiting(true)
           }
         ),
         autoDismiss && /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
@@ -5311,9 +5284,6 @@ var alertBannerCSS = `
     to   { opacity: 1; }
   }
 }
-.alert-banner-dismiss:hover {
-  opacity: 1 !important;
-}
 `;
 var variantColors2 = {
   info: { bg: import_core39.semantic.colorInfoBg, fg: import_core39.semantic.colorInfo, border: import_core39.semantic.colorInfo },
@@ -5357,31 +5327,12 @@ var AlertBanner = (0, import_react38.forwardRef)(
           resolvedIcon && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
           /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("span", { style: { flex: 1 }, children }),
           onDismiss && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-            "button",
+            IconButton,
             {
-              className: "alert-banner-dismiss",
-              onClick: onDismiss,
+              icon: "close",
               "aria-label": "Dismiss",
-              style: {
-                background: "none",
-                border: "none",
-                padding: 0,
-                margin: 0,
-                font: "inherit",
-                cursor: "pointer",
-                flexShrink: 0,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "1.5rem",
-                height: "1.5rem",
-                borderRadius: import_core39.semantic.radiusSm,
-                color: colors.fg,
-                opacity: 0.7,
-                fontSize: import_core39.semantic.fontSizeLg,
-                lineHeight: 1
-              },
-              children: "\xD7"
+              onClick: onDismiss,
+              size: "sm"
             }
           )
         ]
@@ -6847,15 +6798,7 @@ var TabStrip = (0, import_react48.forwardRef)(
                 whiteSpace: "nowrap"
               },
               children: [
-                tab.icon && /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
-                  "span",
-                  {
-                    className: "material-symbols-outlined",
-                    style: { fontSize: isSm ? 12 : 14, lineHeight: 1 },
-                    "aria-hidden": "true",
-                    children: tab.icon
-                  }
-                ),
+                tab.icon && /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(Icon, { name: tab.icon, size: isSm ? "xs" : "sm" }),
                 tab.label
               ]
             },
