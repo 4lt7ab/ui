@@ -97,7 +97,7 @@ var u="680px",tJ="900px",h="1100px",E="1.0625rem",C="clamp(2rem, 5vw, 2.75rem)",
     font-family: var(--font-mono);
     background: var(--color-border);
     padding: 0.15em 0.35em;
-    border-radius: 3px;
+    border-radius: var(--radius-sm);
   }
 
   /* ── Code blocks ── */
@@ -173,7 +173,7 @@ var u="680px",tJ="900px",h="1100px",E="1.0625rem",C="clamp(2rem, 5vw, 2.75rem)",
     display: block;
     width: 100%;
     height: auto;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
   }
 
   .alttab-prose figcaption {
@@ -440,7 +440,7 @@ var u="680px",tJ="900px",h="1100px",E="1.0625rem",C="clamp(2rem, 5vw, 2.75rem)",
   .alttab-markdown a:focus-visible {
     outline: var(--focus-ring-width) solid var(--focus-ring-color);
     outline-offset: var(--focus-ring-offset);
-    border-radius: 2px;
+    border-radius: var(--radius-sm);
   }
 
   /* ── Inline code ── */

@@ -97,7 +97,7 @@ var BJ=Object.create;var{getPrototypeOf:PJ,defineProperty:I,getOwnPropertyNames:
     font-family: var(--font-mono);
     background: var(--color-border);
     padding: 0.15em 0.35em;
-    border-radius: 3px;
+    border-radius: var(--radius-sm);
   }
 
   /* ── Code blocks ── */
@@ -173,7 +173,7 @@ var BJ=Object.create;var{getPrototypeOf:PJ,defineProperty:I,getOwnPropertyNames:
     display: block;
     width: 100%;
     height: auto;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
   }
 
   .alttab-prose figcaption {
@@ -440,7 +440,7 @@ var BJ=Object.create;var{getPrototypeOf:PJ,defineProperty:I,getOwnPropertyNames:
   .alttab-markdown a:focus-visible {
     outline: var(--focus-ring-width) solid var(--focus-ring-color);
     outline-offset: var(--focus-ring-offset);
-    border-radius: 2px;
+    border-radius: var(--radius-sm);
   }
 
   /* ── Inline code ── */
