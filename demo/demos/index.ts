@@ -53,6 +53,7 @@ import { TabStripDemo } from './TabStripDemo';
 import { EmptyPageDemo } from './EmptyPageDemo';
 import { AppShellDemo } from './AppShellDemo';
 import { DataTablePageDemo } from './DataTablePageDemo';
+import { DetailPageDemo } from './DetailPageDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -91,6 +92,7 @@ export const demos: DemoEntry[] = [
   { name: 'TopBar', category: 'Navigation', source: 'ui', component: TopBarDemo },
   { name: 'AppShell', category: 'Layout', source: 'ui', component: AppShellDemo },
   { name: 'DataTablePage', category: 'Layout', source: 'ui', component: DataTablePageDemo },
+  { name: 'DetailPage', category: 'Layout', source: 'ui', component: DetailPageDemo },
   { name: 'Pagination', category: 'Navigation', source: 'ui', component: PaginationDemo },
 
   // Feedback
@@ -166,4 +168,5 @@ export {
   EmptyPageDemo,
   AppShellDemo,
   DataTablePageDemo,
+  DetailPageDemo,
 };

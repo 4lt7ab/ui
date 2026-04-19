@@ -3039,8 +3039,8 @@ function isSameDay(a, b) {
 function isInRange(date, from, to) {
   const d = stripTime(date).getTime();
   const f = stripTime(from).getTime();
-  const t44 = stripTime(to).getTime();
-  return d >= f && d <= t44;
+  const t45 = stripTime(to).getTime();
+  return d >= f && d <= t45;
 }
 function formatDate(date) {
   const y = date.getFullYear();
@@ -4208,7 +4208,7 @@ function ToastProvider({
 }) {
   const [toasts, setToasts] = useState7([]);
   const dismiss = useCallback7((id) => {
-    setToasts((prev) => prev.filter((t44) => t44.id !== id));
+    setToasts((prev) => prev.filter((t45) => t45.id !== id));
   }, []);
   const showToast = useCallback7(
     (message, typeOrOptions) => {
@@ -5632,6 +5632,9 @@ function useAppShellContextInternal(component) {
 function useAppShellContext() {
   return useAppShellContextInternal("<consumer>");
 }
+function useIsInsideAppShell() {
+  return useContext9(AppShellContext) !== null;
+}
 function useControllableBoolean(params) {
   const { label, controlled, defaultValue, onChange } = params;
   const isControlled = controlled !== void 0;
@@ -5955,10 +5958,264 @@ var DataTablePage = {
   Empty: DataTablePageEmpty
 };
 
+// src/components/organisms/DetailPage/DetailPage.tsx
+import {
+  Children as Children4,
+  createContext as createContext11,
+  forwardRef as forwardRef32,
+  isValidElement as isValidElement4,
+  useCallback as useCallback14,
+  useContext as useContext11,
+  useId as useId11,
+  useMemo as useMemo9,
+  useState as useState13
+} from "react";
+import { createPortal as createPortal3 } from "react-dom";
+import { semantic as t42 } from "../../core/dist/index.js";
+import { Fragment as Fragment4, jsx as jsx44, jsxs as jsxs25 } from "react/jsx-runtime";
+var DetailPageContext = createContext11(null);
+function useDetailPageContext(part) {
+  const ctx = useContext11(DetailPageContext);
+  if (ctx === null) {
+    throw new Error(
+      `[@4lt7ab/ui] <DetailPage.${part}> must be rendered inside <DetailPage.Root>.`
+    );
+  }
+  return ctx;
+}
+function splitChildren(children) {
+  const main = [];
+  let rightPanel = null;
+  Children4.forEach(children, (child) => {
+    if (isValidElement4(child) && child.type === DetailPageRightPanel) {
+      rightPanel = child;
+    } else {
+      main.push(child);
+    }
+  });
+  return { main, rightPanel };
+}
+var DetailPageRoot = forwardRef32(function DetailPageRoot2({ children, ...rest }, ref) {
+  const titleId = useId11();
+  const [actionsSlot, setActionsSlot] = useState13(null);
+  const value = useMemo9(
+    () => ({
+      titleId,
+      actionsSlot,
+      setActionsSlot
+    }),
+    [titleId, actionsSlot]
+  );
+  const { main, rightPanel } = splitChildren(children);
+  const gridTemplateColumns = rightPanel !== null ? `1fr ${t42.sizeRightPanelDefault}` : "1fr";
+  return /* @__PURE__ */ jsx44(DetailPageContext.Provider, { value, children: /* @__PURE__ */ jsxs25(
+    "section",
+    {
+      ref,
+      id: rest.id,
+      "data-testid": rest["data-testid"],
+      "aria-label": rest["aria-label"],
+      "aria-labelledby": rest["aria-label"] ? void 0 : titleId,
+      style: {
+        display: "grid",
+        gridTemplateColumns,
+        gap: t42.spaceLg,
+        width: "100%",
+        fontFamily: t42.fontSans,
+        color: t42.colorText,
+        boxSizing: "border-box"
+      },
+      children: [
+        /* @__PURE__ */ jsx44(
+          "div",
+          {
+            style: {
+              display: "flex",
+              flexDirection: "column",
+              gap: t42.spaceLg,
+              minWidth: 0
+            },
+            children: main
+          }
+        ),
+        rightPanel
+      ]
+    }
+  ) });
+});
+function DetailPageHeader({
+  title,
+  subtitle,
+  indicator,
+  onBack,
+  backLabel = "Back"
+}) {
+  const { titleId, setActionsSlot } = useDetailPageContext("Header");
+  const slotRefCb = useCallback14(
+    (el) => {
+      setActionsSlot(el);
+    },
+    [setActionsSlot]
+  );
+  const trailingSlot = /* @__PURE__ */ jsx44(
+    "div",
+    {
+      ref: slotRefCb,
+      "data-detailpage-actions-slot": "",
+      style: { display: "flex", alignItems: "center", gap: t42.spaceSm }
+    }
+  );
+  const headerWithTitleId = /* @__PURE__ */ jsx44("div", { id: titleId, style: { flex: 1, minWidth: 0 }, children: /* @__PURE__ */ jsx44(
+    Header,
+    {
+      level: "page",
+      title,
+      subtitle,
+      indicator,
+      trailing: trailingSlot
+    }
+  ) });
+  if (onBack !== void 0) {
+    return /* @__PURE__ */ jsxs25(
+      "div",
+      {
+        style: {
+          display: "flex",
+          alignItems: "flex-end",
+          gap: t42.spaceMd,
+          minWidth: 0
+        },
+        children: [
+          /* @__PURE__ */ jsx44(
+            IconButton,
+            {
+              icon: "arrow-left",
+              "aria-label": backLabel,
+              onClick: onBack
+            }
+          ),
+          headerWithTitleId
+        ]
+      }
+    );
+  }
+  return headerWithTitleId;
+}
+function validateMetaChildren(children) {
+  let warned = false;
+  Children4.forEach(children, (child) => {
+    if (!isValidElement4(child)) return;
+    if (child.type !== DetailPageMetaItem && !warned) {
+      warned = true;
+      console.warn(
+        "[@4lt7ab/ui] <DetailPage.Meta> expects <DetailPage.MetaItem> children for semantic <dt>/<dd> pairs. Other children will render but lose the key/value association."
+      );
+    }
+  });
+}
+function DetailPageMeta({
+  children
+}) {
+  useDetailPageContext("Meta");
+  validateMetaChildren(children);
+  return /* @__PURE__ */ jsx44(
+    "dl",
+    {
+      style: {
+        display: "grid",
+        gridTemplateColumns: "max-content 1fr",
+        columnGap: t42.spaceLg,
+        rowGap: t42.spaceSm,
+        margin: 0,
+        padding: 0,
+        fontFamily: t42.fontSans,
+        fontSize: t42.fontSizeSm
+      },
+      children
+    }
+  );
+}
+function DetailPageMetaItem({
+  label,
+  children
+}) {
+  useDetailPageContext("MetaItem");
+  return /* @__PURE__ */ jsxs25(Fragment4, { children: [
+    /* @__PURE__ */ jsx44(
+      "dt",
+      {
+        style: {
+          margin: 0,
+          color: t42.colorTextMuted,
+          fontWeight: t42.fontWeightMedium
+        },
+        children: label
+      }
+    ),
+    /* @__PURE__ */ jsx44("dd", { style: { margin: 0, color: t42.colorText }, children })
+  ] });
+}
+function DetailPageBody({
+  children,
+  ...rest
+}) {
+  useDetailPageContext("Body");
+  const insideAppShell = useIsInsideAppShell();
+  const Tag = insideAppShell ? "div" : "main";
+  return /* @__PURE__ */ jsx44(
+    Tag,
+    {
+      id: rest.id,
+      "data-testid": rest["data-testid"],
+      "aria-label": insideAppShell ? void 0 : rest["aria-label"],
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        gap: t42.spaceMd,
+        minWidth: 0
+      },
+      children
+    }
+  );
+}
+function DetailPageActions({
+  children
+}) {
+  const { actionsSlot } = useDetailPageContext("Actions");
+  if (actionsSlot === null) return null;
+  return createPortal3(/* @__PURE__ */ jsx44(Fragment4, { children }), actionsSlot);
+}
+function DetailPageRightPanel({
+  "aria-label": ariaLabel = "Details",
+  children
+}) {
+  useDetailPageContext("RightPanel");
+  const style = {
+    display: "flex",
+    flexDirection: "column",
+    gap: t42.spaceMd,
+    padding: t42.spaceMd,
+    background: t42.colorSurfacePanel,
+    border: `${t42.borderWidthDefault} solid ${t42.colorBorder}`,
+    borderRadius: t42.radiusMd,
+    minWidth: 0
+  };
+  return /* @__PURE__ */ jsx44("aside", { "aria-label": ariaLabel, style, children });
+}
+var DetailPage = {
+  Root: DetailPageRoot,
+  Header: DetailPageHeader,
+  Meta: DetailPageMeta,
+  MetaItem: DetailPageMetaItem,
+  Body: DetailPageBody,
+  Actions: DetailPageActions,
+  RightPanel: DetailPageRightPanel
+};
+
 // src/components/atoms/Grid/Grid.tsx
-import { forwardRef as forwardRef32 } from "react";
-import { jsx as jsx44 } from "react/jsx-runtime";
-var Grid = forwardRef32(
+import { forwardRef as forwardRef33 } from "react";
+import { jsx as jsx45 } from "react/jsx-runtime";
+var Grid = forwardRef33(
   function Grid2({
     minColumnWidth = 300,
     columns,
@@ -5968,7 +6225,7 @@ var Grid = forwardRef32(
   }, ref) {
     const minWidth = `${minColumnWidth}px`;
     const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
-    return /* @__PURE__ */ jsx44(
+    return /* @__PURE__ */ jsx45(
       "div",
       {
         ref,
@@ -5986,10 +6243,10 @@ var Grid = forwardRef32(
 );
 
 // src/components/atoms/Divider/Divider.tsx
-import { forwardRef as forwardRef33 } from "react";
-import { semantic as t42 } from "../../core/dist/index.js";
-import { jsx as jsx45 } from "react/jsx-runtime";
-var Divider = forwardRef33(
+import { forwardRef as forwardRef34 } from "react";
+import { semantic as t43 } from "../../core/dist/index.js";
+import { jsx as jsx46 } from "react/jsx-runtime";
+var Divider = forwardRef34(
   function Divider2({
     orientation = "horizontal",
     opacity = "default",
@@ -5997,10 +6254,10 @@ var Divider = forwardRef33(
     ...rest
   }, ref) {
     const resolvedOpacity = dividerOpacityMap[opacity];
-    const bg = `color-mix(in srgb, ${t42.colorBorder} ${resolvedOpacity}%, transparent)`;
+    const bg = `color-mix(in srgb, ${t43.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
     const isHorizontal = orientation === "horizontal";
-    return /* @__PURE__ */ jsx45(
+    return /* @__PURE__ */ jsx46(
       "div",
       {
         ref,
@@ -6021,8 +6278,8 @@ var Divider = forwardRef33(
 );
 
 // src/components/atoms/Container/Container.tsx
-import { forwardRef as forwardRef34 } from "react";
-import { jsx as jsx46 } from "react/jsx-runtime";
+import { forwardRef as forwardRef35 } from "react";
+import { jsx as jsx47 } from "react/jsx-runtime";
 var widthMap = {
   narrow: "32rem",
   prose: "680px",
@@ -6035,7 +6292,7 @@ var paddingMap = {
   md: "1.5rem",
   lg: "3rem"
 };
-var Container = forwardRef34(
+var Container = forwardRef35(
   function Container2({
     width = "prose",
     padding = "md",
@@ -6043,7 +6300,7 @@ var Container = forwardRef34(
     id,
     "data-testid": dataTestId
   }, ref) {
-    return /* @__PURE__ */ jsx46(
+    return /* @__PURE__ */ jsx47(
       "div",
       {
         ref,
@@ -6064,20 +6321,20 @@ var Container = forwardRef34(
 );
 
 // src/components/molecules/TabStrip/TabStrip.tsx
-import { forwardRef as forwardRef35, useCallback as useCallback14 } from "react";
-import { semantic as t43, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
-import { jsx as jsx47, jsxs as jsxs25 } from "react/jsx-runtime";
+import { forwardRef as forwardRef36, useCallback as useCallback15 } from "react";
+import { semantic as t44, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
+import { jsx as jsx48, jsxs as jsxs26 } from "react/jsx-runtime";
 var STYLES_ID2 = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
-  transition: color ${t43.transitionFast}, background ${t43.transitionFast}, border-color ${t43.transitionFast};
+  transition: color ${t44.transitionFast}, background ${t44.transitionFast}, border-color ${t44.transitionFast};
 }
 [data-tab-btn]:hover:not([aria-selected="true"]) {
-  color: ${t43.colorTextSecondary};
-  background: color-mix(in srgb, ${t43.colorBorder} 10%, transparent);
+  color: ${t44.colorTextSecondary};
+  background: color-mix(in srgb, ${t44.colorBorder} 10%, transparent);
 }
 `;
-var TabStrip = forwardRef35(
+var TabStrip = forwardRef36(
   function TabStrip2({
     tabs,
     activeKey,
@@ -6092,7 +6349,7 @@ var TabStrip = forwardRef35(
       count: tabs.length,
       activeIndex: activeIndex === -1 ? null : activeIndex
     });
-    const handleClick = useCallback14(
+    const handleClick = useCallback15(
       (key) => {
         if (key === activeKey && allowDeselect) {
           onChange(null);
@@ -6103,7 +6360,7 @@ var TabStrip = forwardRef35(
       [activeKey, allowDeselect, onChange]
     );
     const isSm = size === "sm";
-    return /* @__PURE__ */ jsx47(
+    return /* @__PURE__ */ jsx48(
       "div",
       {
         ref,
@@ -6116,7 +6373,7 @@ var TabStrip = forwardRef35(
         },
         children: tabs.map((tab, i) => {
           const isActive = tab.key === activeKey;
-          return /* @__PURE__ */ jsxs25(
+          return /* @__PURE__ */ jsxs26(
             "button",
             {
               ref: itemRef(i),
@@ -6129,22 +6386,22 @@ var TabStrip = forwardRef35(
               style: {
                 display: "flex",
                 alignItems: "center",
-                gap: t43.spaceXs,
-                padding: isSm ? `${t43.spaceXs} ${t43.spaceSm}` : `${t43.spaceSm} ${t43.spaceMd}`,
+                gap: t44.spaceXs,
+                padding: isSm ? `${t44.spaceXs} ${t44.spaceSm}` : `${t44.spaceSm} ${t44.spaceMd}`,
                 border: "none",
-                borderBottom: `2px solid ${isActive ? t43.colorActionPrimary : "transparent"}`,
+                borderBottom: `2px solid ${isActive ? t44.colorActionPrimary : "transparent"}`,
                 borderRadius: 0,
-                background: isActive ? `color-mix(in srgb, ${t43.colorActionPrimary} 8%, transparent)` : "transparent",
-                color: isActive ? t43.colorActionPrimary : t43.colorTextMuted,
-                fontFamily: t43.fontSans,
-                fontSize: isSm ? t43.fontSizeXs : t43.fontSizeSm,
-                fontWeight: t43.fontWeightSemibold,
-                lineHeight: t43.lineHeightTight,
+                background: isActive ? `color-mix(in srgb, ${t44.colorActionPrimary} 8%, transparent)` : "transparent",
+                color: isActive ? t44.colorActionPrimary : t44.colorTextMuted,
+                fontFamily: t44.fontSans,
+                fontSize: isSm ? t44.fontSizeXs : t44.fontSizeSm,
+                fontWeight: t44.fontWeightSemibold,
+                lineHeight: t44.lineHeightTight,
                 cursor: "pointer",
                 whiteSpace: "nowrap"
               },
               children: [
-                tab.icon && /* @__PURE__ */ jsx47(
+                tab.icon && /* @__PURE__ */ jsx48(
                   "span",
                   {
                     className: "material-symbols-outlined",
@@ -6190,6 +6447,14 @@ export {
   DataTablePageTable,
   DatePicker,
   DateRangePicker,
+  DetailPage,
+  DetailPageActions,
+  DetailPageBody,
+  DetailPageHeader,
+  DetailPageMeta,
+  DetailPageMetaItem,
+  DetailPageRightPanel,
+  DetailPageRoot,
   Divider,
   EmptyPage,
   EmptyPageActions,
@@ -6284,5 +6549,6 @@ export {
   useAppShellContext,
   useCalendarContext,
   useFocusTrap,
+  useIsInsideAppShell,
   useToast
 };

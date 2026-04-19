@@ -136,15 +136,19 @@ packages/
 │       │   │   ├── TabStrip/
 │       │   │   └── ThemePicker/
 │       │   └── organisms/       # compound surfaces or large interaction systems
-│       │       ├── Calendar/        # Calendar.* compound
-│       │       ├── Combobox/        # Combobox.* compound
+│       │       ├── AppShell/         # AppShell.* compound (viewport envelope)
+│       │       ├── Calendar/         # Calendar.* compound
+│       │       ├── Combobox/         # Combobox.* compound
+│       │       ├── DataTablePage/    # DataTablePage.* compound (CRUD envelope)
 │       │       ├── DatePicker/
 │       │       ├── DateRangePicker/
+│       │       ├── DetailPage/       # DetailPage.* compound (entity-detail envelope)
+│       │       ├── EmptyPage/        # EmptyPage.* compound (full-page zero-state)
 │       │       ├── ModalShell/
-│       │       ├── Select/          # Select.* compound
-│       │       ├── Table/           # Table.* compound (incl. Table.FilterBar)
+│       │       ├── Select/           # Select.* compound
+│       │       ├── Table/            # Table.* compound (incl. Table.FilterBar)
 │       │       ├── Toast/
-│       │       └── TopBar/          # TopBar.* compound
+│       │       └── TopBar/           # TopBar.* compound
 │       └── index.ts            # single public barrel — tier folders are internal
 ├── content/
 │   └── src/

@@ -7,6 +7,7 @@ export {
   AppShellMain,
   AppShellRightPanel,
   useAppShellContext,
+  useIsInsideAppShell,
 } from './AppShell';
 export type {
   AppShellRootProps,

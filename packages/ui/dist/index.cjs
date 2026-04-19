@@ -57,6 +57,14 @@ __export(index_exports, {
   DataTablePageTable: () => DataTablePageTable,
   DatePicker: () => DatePicker,
   DateRangePicker: () => DateRangePicker,
+  DetailPage: () => DetailPage,
+  DetailPageActions: () => DetailPageActions,
+  DetailPageBody: () => DetailPageBody,
+  DetailPageHeader: () => DetailPageHeader,
+  DetailPageMeta: () => DetailPageMeta,
+  DetailPageMetaItem: () => DetailPageMetaItem,
+  DetailPageRightPanel: () => DetailPageRightPanel,
+  DetailPageRoot: () => DetailPageRoot,
   Divider: () => Divider,
   EmptyPage: () => EmptyPage,
   EmptyPageActions: () => EmptyPageActions,
@@ -151,6 +159,7 @@ __export(index_exports, {
   useAppShellContext: () => useAppShellContext,
   useCalendarContext: () => useCalendarContext,
   useFocusTrap: () => useFocusTrap,
+  useIsInsideAppShell: () => useIsInsideAppShell,
   useToast: () => useToast
 });
 module.exports = __toCommonJS(index_exports);
@@ -3167,8 +3176,8 @@ function isSameDay(a, b) {
 function isInRange(date, from, to) {
   const d = stripTime(date).getTime();
   const f = stripTime(from).getTime();
-  const t44 = stripTime(to).getTime();
-  return d >= f && d <= t44;
+  const t45 = stripTime(to).getTime();
+  return d >= f && d <= t45;
 }
 function formatDate(date) {
   const y = date.getFullYear();
@@ -4329,7 +4338,7 @@ function ToastProvider({
 }) {
   const [toasts, setToasts] = (0, import_react32.useState)([]);
   const dismiss = (0, import_react32.useCallback)((id) => {
-    setToasts((prev) => prev.filter((t44) => t44.id !== id));
+    setToasts((prev) => prev.filter((t45) => t45.id !== id));
   }, []);
   const showToast = (0, import_react32.useCallback)(
     (message, typeOrOptions) => {
@@ -5733,6 +5742,9 @@ function useAppShellContextInternal(component) {
 function useAppShellContext() {
   return useAppShellContextInternal("<consumer>");
 }
+function useIsInsideAppShell() {
+  return (0, import_react41.useContext)(AppShellContext) !== null;
+}
 function useControllableBoolean(params) {
   const { label, controlled, defaultValue, onChange } = params;
   const isControlled = controlled !== void 0;
@@ -6056,10 +6068,254 @@ var DataTablePage = {
   Empty: DataTablePageEmpty
 };
 
-// src/components/atoms/Grid/Grid.tsx
+// src/components/organisms/DetailPage/DetailPage.tsx
 var import_react43 = require("react");
+var import_react_dom3 = require("react-dom");
+var import_core44 = require("../../core/dist/index.cjs");
 var import_jsx_runtime44 = require("react/jsx-runtime");
-var Grid = (0, import_react43.forwardRef)(
+var DetailPageContext = (0, import_react43.createContext)(null);
+function useDetailPageContext(part) {
+  const ctx = (0, import_react43.useContext)(DetailPageContext);
+  if (ctx === null) {
+    throw new Error(
+      `[@4lt7ab/ui] <DetailPage.${part}> must be rendered inside <DetailPage.Root>.`
+    );
+  }
+  return ctx;
+}
+function splitChildren(children) {
+  const main = [];
+  let rightPanel = null;
+  import_react43.Children.forEach(children, (child) => {
+    if ((0, import_react43.isValidElement)(child) && child.type === DetailPageRightPanel) {
+      rightPanel = child;
+    } else {
+      main.push(child);
+    }
+  });
+  return { main, rightPanel };
+}
+var DetailPageRoot = (0, import_react43.forwardRef)(function DetailPageRoot2({ children, ...rest }, ref) {
+  const titleId = (0, import_react43.useId)();
+  const [actionsSlot, setActionsSlot] = (0, import_react43.useState)(null);
+  const value = (0, import_react43.useMemo)(
+    () => ({
+      titleId,
+      actionsSlot,
+      setActionsSlot
+    }),
+    [titleId, actionsSlot]
+  );
+  const { main, rightPanel } = splitChildren(children);
+  const gridTemplateColumns = rightPanel !== null ? `1fr ${import_core44.semantic.sizeRightPanelDefault}` : "1fr";
+  return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(DetailPageContext.Provider, { value, children: /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(
+    "section",
+    {
+      ref,
+      id: rest.id,
+      "data-testid": rest["data-testid"],
+      "aria-label": rest["aria-label"],
+      "aria-labelledby": rest["aria-label"] ? void 0 : titleId,
+      style: {
+        display: "grid",
+        gridTemplateColumns,
+        gap: import_core44.semantic.spaceLg,
+        width: "100%",
+        fontFamily: import_core44.semantic.fontSans,
+        color: import_core44.semantic.colorText,
+        boxSizing: "border-box"
+      },
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+          "div",
+          {
+            style: {
+              display: "flex",
+              flexDirection: "column",
+              gap: import_core44.semantic.spaceLg,
+              minWidth: 0
+            },
+            children: main
+          }
+        ),
+        rightPanel
+      ]
+    }
+  ) });
+});
+function DetailPageHeader({
+  title,
+  subtitle,
+  indicator,
+  onBack,
+  backLabel = "Back"
+}) {
+  const { titleId, setActionsSlot } = useDetailPageContext("Header");
+  const slotRefCb = (0, import_react43.useCallback)(
+    (el) => {
+      setActionsSlot(el);
+    },
+    [setActionsSlot]
+  );
+  const trailingSlot = /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+    "div",
+    {
+      ref: slotRefCb,
+      "data-detailpage-actions-slot": "",
+      style: { display: "flex", alignItems: "center", gap: import_core44.semantic.spaceSm }
+    }
+  );
+  const headerWithTitleId = /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { id: titleId, style: { flex: 1, minWidth: 0 }, children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+    Header,
+    {
+      level: "page",
+      title,
+      subtitle,
+      indicator,
+      trailing: trailingSlot
+    }
+  ) });
+  if (onBack !== void 0) {
+    return /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(
+      "div",
+      {
+        style: {
+          display: "flex",
+          alignItems: "flex-end",
+          gap: import_core44.semantic.spaceMd,
+          minWidth: 0
+        },
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+            IconButton,
+            {
+              icon: "arrow-left",
+              "aria-label": backLabel,
+              onClick: onBack
+            }
+          ),
+          headerWithTitleId
+        ]
+      }
+    );
+  }
+  return headerWithTitleId;
+}
+function validateMetaChildren(children) {
+  let warned = false;
+  import_react43.Children.forEach(children, (child) => {
+    if (!(0, import_react43.isValidElement)(child)) return;
+    if (child.type !== DetailPageMetaItem && !warned) {
+      warned = true;
+      console.warn(
+        "[@4lt7ab/ui] <DetailPage.Meta> expects <DetailPage.MetaItem> children for semantic <dt>/<dd> pairs. Other children will render but lose the key/value association."
+      );
+    }
+  });
+}
+function DetailPageMeta({
+  children
+}) {
+  useDetailPageContext("Meta");
+  validateMetaChildren(children);
+  return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+    "dl",
+    {
+      style: {
+        display: "grid",
+        gridTemplateColumns: "max-content 1fr",
+        columnGap: import_core44.semantic.spaceLg,
+        rowGap: import_core44.semantic.spaceSm,
+        margin: 0,
+        padding: 0,
+        fontFamily: import_core44.semantic.fontSans,
+        fontSize: import_core44.semantic.fontSizeSm
+      },
+      children
+    }
+  );
+}
+function DetailPageMetaItem({
+  label,
+  children
+}) {
+  useDetailPageContext("MetaItem");
+  return /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(import_jsx_runtime44.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+      "dt",
+      {
+        style: {
+          margin: 0,
+          color: import_core44.semantic.colorTextMuted,
+          fontWeight: import_core44.semantic.fontWeightMedium
+        },
+        children: label
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("dd", { style: { margin: 0, color: import_core44.semantic.colorText }, children })
+  ] });
+}
+function DetailPageBody({
+  children,
+  ...rest
+}) {
+  useDetailPageContext("Body");
+  const insideAppShell = useIsInsideAppShell();
+  const Tag = insideAppShell ? "div" : "main";
+  return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+    Tag,
+    {
+      id: rest.id,
+      "data-testid": rest["data-testid"],
+      "aria-label": insideAppShell ? void 0 : rest["aria-label"],
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        gap: import_core44.semantic.spaceMd,
+        minWidth: 0
+      },
+      children
+    }
+  );
+}
+function DetailPageActions({
+  children
+}) {
+  const { actionsSlot } = useDetailPageContext("Actions");
+  if (actionsSlot === null) return null;
+  return (0, import_react_dom3.createPortal)(/* @__PURE__ */ (0, import_jsx_runtime44.jsx)(import_jsx_runtime44.Fragment, { children }), actionsSlot);
+}
+function DetailPageRightPanel({
+  "aria-label": ariaLabel = "Details",
+  children
+}) {
+  useDetailPageContext("RightPanel");
+  const style = {
+    display: "flex",
+    flexDirection: "column",
+    gap: import_core44.semantic.spaceMd,
+    padding: import_core44.semantic.spaceMd,
+    background: import_core44.semantic.colorSurfacePanel,
+    border: `${import_core44.semantic.borderWidthDefault} solid ${import_core44.semantic.colorBorder}`,
+    borderRadius: import_core44.semantic.radiusMd,
+    minWidth: 0
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("aside", { "aria-label": ariaLabel, style, children });
+}
+var DetailPage = {
+  Root: DetailPageRoot,
+  Header: DetailPageHeader,
+  Meta: DetailPageMeta,
+  MetaItem: DetailPageMetaItem,
+  Body: DetailPageBody,
+  Actions: DetailPageActions,
+  RightPanel: DetailPageRightPanel
+};
+
+// src/components/atoms/Grid/Grid.tsx
+var import_react44 = require("react");
+var import_jsx_runtime45 = require("react/jsx-runtime");
+var Grid = (0, import_react44.forwardRef)(
   function Grid2({
     minColumnWidth = 300,
     columns,
@@ -6069,7 +6325,7 @@ var Grid = (0, import_react43.forwardRef)(
   }, ref) {
     const minWidth = `${minColumnWidth}px`;
     const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
-    return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
       "div",
       {
         ref,
@@ -6087,10 +6343,10 @@ var Grid = (0, import_react43.forwardRef)(
 );
 
 // src/components/atoms/Divider/Divider.tsx
-var import_react44 = require("react");
-var import_core44 = require("../../core/dist/index.cjs");
-var import_jsx_runtime45 = require("react/jsx-runtime");
-var Divider = (0, import_react44.forwardRef)(
+var import_react45 = require("react");
+var import_core45 = require("../../core/dist/index.cjs");
+var import_jsx_runtime46 = require("react/jsx-runtime");
+var Divider = (0, import_react45.forwardRef)(
   function Divider2({
     orientation = "horizontal",
     opacity = "default",
@@ -6098,10 +6354,10 @@ var Divider = (0, import_react44.forwardRef)(
     ...rest
   }, ref) {
     const resolvedOpacity = dividerOpacityMap[opacity];
-    const bg = `color-mix(in srgb, ${import_core44.semantic.colorBorder} ${resolvedOpacity}%, transparent)`;
+    const bg = `color-mix(in srgb, ${import_core45.semantic.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
     const isHorizontal = orientation === "horizontal";
-    return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
       "div",
       {
         ref,
@@ -6122,8 +6378,8 @@ var Divider = (0, import_react44.forwardRef)(
 );
 
 // src/components/atoms/Container/Container.tsx
-var import_react45 = require("react");
-var import_jsx_runtime46 = require("react/jsx-runtime");
+var import_react46 = require("react");
+var import_jsx_runtime47 = require("react/jsx-runtime");
 var widthMap = {
   narrow: "32rem",
   prose: "680px",
@@ -6136,7 +6392,7 @@ var paddingMap = {
   md: "1.5rem",
   lg: "3rem"
 };
-var Container = (0, import_react45.forwardRef)(
+var Container = (0, import_react46.forwardRef)(
   function Container2({
     width = "prose",
     padding = "md",
@@ -6144,7 +6400,7 @@ var Container = (0, import_react45.forwardRef)(
     id,
     "data-testid": dataTestId
   }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
       "div",
       {
         ref,
@@ -6165,20 +6421,20 @@ var Container = (0, import_react45.forwardRef)(
 );
 
 // src/components/molecules/TabStrip/TabStrip.tsx
-var import_react46 = require("react");
-var import_core45 = require("../../core/dist/index.cjs");
-var import_jsx_runtime47 = require("react/jsx-runtime");
+var import_react47 = require("react");
+var import_core46 = require("../../core/dist/index.cjs");
+var import_jsx_runtime48 = require("react/jsx-runtime");
 var STYLES_ID2 = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
-  transition: color ${import_core45.semantic.transitionFast}, background ${import_core45.semantic.transitionFast}, border-color ${import_core45.semantic.transitionFast};
+  transition: color ${import_core46.semantic.transitionFast}, background ${import_core46.semantic.transitionFast}, border-color ${import_core46.semantic.transitionFast};
 }
 [data-tab-btn]:hover:not([aria-selected="true"]) {
-  color: ${import_core45.semantic.colorTextSecondary};
-  background: color-mix(in srgb, ${import_core45.semantic.colorBorder} 10%, transparent);
+  color: ${import_core46.semantic.colorTextSecondary};
+  background: color-mix(in srgb, ${import_core46.semantic.colorBorder} 10%, transparent);
 }
 `;
-var TabStrip = (0, import_react46.forwardRef)(
+var TabStrip = (0, import_react47.forwardRef)(
   function TabStrip2({
     tabs,
     activeKey,
@@ -6187,13 +6443,13 @@ var TabStrip = (0, import_react46.forwardRef)(
     size = "md",
     ...rest
   }, ref) {
-    (0, import_core45.useInjectStyles)(STYLES_ID2, STYLES_CSS);
+    (0, import_core46.useInjectStyles)(STYLES_ID2, STYLES_CSS);
     const activeIndex = tabs.findIndex((tab) => tab.key === activeKey);
     const { itemRef, onKeyDown, getTabIndex } = useRovingFocus({
       count: tabs.length,
       activeIndex: activeIndex === -1 ? null : activeIndex
     });
-    const handleClick = (0, import_react46.useCallback)(
+    const handleClick = (0, import_react47.useCallback)(
       (key) => {
         if (key === activeKey && allowDeselect) {
           onChange(null);
@@ -6204,7 +6460,7 @@ var TabStrip = (0, import_react46.forwardRef)(
       [activeKey, allowDeselect, onChange]
     );
     const isSm = size === "sm";
-    return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
       "div",
       {
         ref,
@@ -6217,7 +6473,7 @@ var TabStrip = (0, import_react46.forwardRef)(
         },
         children: tabs.map((tab, i) => {
           const isActive = tab.key === activeKey;
-          return /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(
+          return /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)(
             "button",
             {
               ref: itemRef(i),
@@ -6230,22 +6486,22 @@ var TabStrip = (0, import_react46.forwardRef)(
               style: {
                 display: "flex",
                 alignItems: "center",
-                gap: import_core45.semantic.spaceXs,
-                padding: isSm ? `${import_core45.semantic.spaceXs} ${import_core45.semantic.spaceSm}` : `${import_core45.semantic.spaceSm} ${import_core45.semantic.spaceMd}`,
+                gap: import_core46.semantic.spaceXs,
+                padding: isSm ? `${import_core46.semantic.spaceXs} ${import_core46.semantic.spaceSm}` : `${import_core46.semantic.spaceSm} ${import_core46.semantic.spaceMd}`,
                 border: "none",
-                borderBottom: `2px solid ${isActive ? import_core45.semantic.colorActionPrimary : "transparent"}`,
+                borderBottom: `2px solid ${isActive ? import_core46.semantic.colorActionPrimary : "transparent"}`,
                 borderRadius: 0,
-                background: isActive ? `color-mix(in srgb, ${import_core45.semantic.colorActionPrimary} 8%, transparent)` : "transparent",
-                color: isActive ? import_core45.semantic.colorActionPrimary : import_core45.semantic.colorTextMuted,
-                fontFamily: import_core45.semantic.fontSans,
-                fontSize: isSm ? import_core45.semantic.fontSizeXs : import_core45.semantic.fontSizeSm,
-                fontWeight: import_core45.semantic.fontWeightSemibold,
-                lineHeight: import_core45.semantic.lineHeightTight,
+                background: isActive ? `color-mix(in srgb, ${import_core46.semantic.colorActionPrimary} 8%, transparent)` : "transparent",
+                color: isActive ? import_core46.semantic.colorActionPrimary : import_core46.semantic.colorTextMuted,
+                fontFamily: import_core46.semantic.fontSans,
+                fontSize: isSm ? import_core46.semantic.fontSizeXs : import_core46.semantic.fontSizeSm,
+                fontWeight: import_core46.semantic.fontWeightSemibold,
+                lineHeight: import_core46.semantic.lineHeightTight,
                 cursor: "pointer",
                 whiteSpace: "nowrap"
               },
               children: [
-                tab.icon && /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+                tab.icon && /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
                   "span",
                   {
                     className: "material-symbols-outlined",

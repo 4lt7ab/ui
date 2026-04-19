@@ -1718,6 +1718,15 @@ interface AppShellContextValue {
 * Throws if called outside `<AppShell.Root>`.
 */
 declare function useAppShellContext(): AppShellContextValue;
+/**
+* Non-throwing companion to {@link useAppShellContext}. Returns `true` when
+* the calling component is rendered inside `<AppShell.Root>`, `false`
+* otherwise. Used by sibling organisms (e.g. `DetailPage.Body`) to decide
+* between rendering their own `<main>` landmark (standalone) or a plain
+* `<div>` (when `<AppShell.Main>` already provides the single `<main>` per
+* page). Never throws.
+*/
+declare function useIsInsideAppShell(): boolean;
 /** Props for {@link AppShellRoot}. */
 interface AppShellRootProps extends BaseComponentProps {
 	/** Controlled sidebar collapsed state. When set, `<AppShell.Sidebar>` reads
@@ -1930,6 +1939,138 @@ declare function DataTablePageEmpty(props: DataTablePageEmptyProps): React.JSX.E
 */
 declare const DataTablePage: {};
 import { ReactNode as ReactNode30 } from "react";
+/** Props for {@link DetailPageRoot}. */
+interface DetailPageRootProps extends BaseComponentProps {
+	/** Accessible label fallback for the outer `<section>`. When omitted,
+	* Root's `aria-labelledby` points at the Header title (if a Header is
+	* present). */
+	"aria-label"?: string;
+	/** Children — any combination of `<DetailPage.Header>`,
+	* `<DetailPage.Meta>`, `<DetailPage.Body>`, `<DetailPage.Actions>`,
+	* `<DetailPage.RightPanel>`. JSX order is visual order — except
+	* `DetailPage.Actions`, which portals into the Header's trailing slot. */
+	children?: ReactNode30;
+}
+declare const DetailPageRoot: React.ForwardRefExoticComponent<Omit<DetailPageRootProps, "ref"> & React.RefAttributes<HTMLElement>>;
+/** Props for {@link DetailPageHeader}. */
+interface DetailPageHeaderProps {
+	/** Page title. Rendered as `<h1>` via the underlying `<Header>` primitive. */
+	title: string;
+	/** Optional subtitle rendered below the title in muted style. */
+	subtitle?: string;
+	/** Inline content rendered next to the title (e.g. `<Badge>`,
+	* `<StatusDot>`). */
+	indicator?: ReactNode30;
+	/** When set, renders a left-aligned `<IconButton>` with an arrow-left
+	* icon and `aria-label={backLabel}`. Consumer owns routing — the handler
+	* fires on click; the library never imports a router.
+	*
+	* Consumers wanting breadcrumbs compose them above `<DetailPage.Root>`
+	* themselves; DetailPage does not ship a breadcrumb primitive. */
+	onBack?: () => void;
+	/** Accessible label for the back button. Ignored when `onBack` is
+	* undefined.
+	* @default 'Back'
+	*/
+	backLabel?: string;
+}
+declare function DetailPageHeader({ title, subtitle, indicator, onBack, backLabel }: DetailPageHeaderProps): React.JSX.Element;
+/** Props for {@link DetailPageMeta}. */
+interface DetailPageMetaProps {
+	/** Children — typically `<DetailPage.MetaItem>` entries. Non-MetaItem
+	* children render but trigger a dev-mode console.warn once per mount. */
+	children?: ReactNode30;
+}
+declare function DetailPageMeta({ children }: DetailPageMetaProps): React.JSX.Element;
+/** Props for {@link DetailPageMetaItem}. */
+interface DetailPageMetaItemProps {
+	/** The key label, rendered as `<dt>` in muted style. */
+	label: string;
+	/** The value, rendered as `<dd>`. Accepts any ReactNode so consumers can
+	* slot in Badges, relative-time components, or plain strings. */
+	children: ReactNode30;
+}
+declare function DetailPageMetaItem({ label, children }: DetailPageMetaItemProps): React.JSX.Element;
+/** Props for {@link DetailPageBody}. */
+interface DetailPageBodyProps extends BaseComponentProps {
+	/** Accessible label for the Body landmark when rendered as `<main>`.
+	* Ignored when inside an `<AppShell>` (Body is a `<div>` there). */
+	"aria-label"?: string;
+	children?: ReactNode30;
+}
+declare function DetailPageBody({ children,...rest }: DetailPageBodyProps): React.JSX.Element;
+/** Props for {@link DetailPageActions}. */
+interface DetailPageActionsProps {
+	/** Action buttons — consumer composes `<Button>` / `<IconButton>` children.
+	* Rendered via portal into the Header's trailing slot, so Actions reads
+	* as a sibling of `<DetailPage.Header>` in JSX even though it ends up
+	* inside the header row at render time.
+	*
+	* When `DetailPage.Header` is not present, Actions renders nothing
+	* (there's no slot to target). */
+	children?: ReactNode30;
+}
+declare function DetailPageActions({ children }: DetailPageActionsProps): React.JSX.Element | null;
+/** Props for {@link DetailPageRightPanel}. */
+interface DetailPageRightPanelProps {
+	/** Accessible label for the `<aside>` landmark.
+	* @default 'Details'
+	*/
+	"aria-label"?: string;
+	children?: ReactNode30;
+}
+declare function DetailPageRightPanel({ "aria-label": ariaLabel, children }: DetailPageRightPanelProps): React.JSX.Element;
+/**
+* Entity-detail envelope — the shell every app with entities (tasks,
+* projects, users, documents) hand-rolls today. Compound slots for title +
+* back affordance + metadata (semantic `<dl>`) + main body + trailing
+* actions + optional right panel.
+*
+* `DetailPage.Actions` is the one reparenting exception in this organism's
+* JSX → DOM mapping: consumers write Actions as a sibling of Header, and
+* the organism portals its children into the Header's trailing slot. This
+* keeps action composition ergonomic (not nested inside a `trailing` prop)
+* while preserving the visual result.
+*
+* `DetailPage.Body` is a `<div>` when rendered inside `<AppShell.Main>`
+* (so the page keeps exactly one `<main>` landmark) and a `<main>` when
+* used standalone. No prop needed — the decision comes from
+* `useIsInsideAppShell()`.
+*
+* Replaces the retired `<MetadataTable>` component (v0.4 audit) with a
+* first-class `<DetailPage.Meta>` / `<DetailPage.MetaItem>` compound that
+* renders the semantic `<dl>/<dt>/<dd>` markup directly.
+*
+* @example
+* ```tsx
+* <DetailPage.Root>
+*   <DetailPage.Header
+*     title="Ship DetailPage"
+*     subtitle="organism · feature"
+*     onBack={() => history.back()}
+*   />
+*   <DetailPage.Actions>
+*     <Button variant="secondary">Edit</Button>
+*     <Button variant="primary">Publish</Button>
+*   </DetailPage.Actions>
+*   <DetailPage.Meta>
+*     <DetailPage.MetaItem label="Status">
+*       <Badge variant="success">In progress</Badge>
+*     </DetailPage.MetaItem>
+*     <DetailPage.MetaItem label="Created">2 days ago</DetailPage.MetaItem>
+*     <DetailPage.MetaItem label="Owner">Alex</DetailPage.MetaItem>
+*   </DetailPage.Meta>
+*   <DetailPage.Body>
+*     <TabStrip ... />
+*   </DetailPage.Body>
+*   <DetailPage.RightPanel>
+*     <h3>Activity</h3>
+*   </DetailPage.RightPanel>
+* </DetailPage.Root>
+* ```
+*/
+declare const DetailPage: {};
+import { ReactNode as ReactNode31 } from "react";
 /**
 * Which semantic surface token to use as the background.
 *
@@ -1998,10 +2139,10 @@ interface SurfaceProps extends BaseComponentProps {
 	* @default false
 	*/
 	asChild?: boolean;
-	children: ReactNode30;
+	children: ReactNode31;
 }
 declare const Surface: React.ForwardRefExoticComponent<Omit<SurfaceProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode31 } from "react";
+import { ReactNode as ReactNode32 } from "react";
 /**
 * Responsive grid layout with auto-fill columns.
 *
@@ -2041,7 +2182,7 @@ interface GridProps extends BaseComponentProps {
 	* @default 'md'
 	*/
 	gap?: SpacingToken;
-	children: ReactNode31;
+	children: ReactNode32;
 }
 declare const Grid: React.ForwardRefExoticComponent<Omit<GridProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /**
@@ -2083,7 +2224,7 @@ interface DividerProps extends BaseComponentProps {
 	spacing?: SpacingToken;
 }
 declare const Divider: React.ForwardRefExoticComponent<Omit<DividerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode32 } from "react";
+import { ReactNode as ReactNode33 } from "react";
 /** Named width preset for the Container. */
 type ContainerWidth = "narrow" | "prose" | "wide" | "full";
 /** Horizontal padding preset for the Container. */
@@ -2103,7 +2244,7 @@ interface ContainerProps {
 	*/
 	padding?: ContainerPadding;
 	/** Container content. */
-	children: ReactNode32;
+	children: ReactNode33;
 	id?: string;
 	"data-testid"?: string;
 }
@@ -2164,4 +2305,4 @@ interface TabStripProps extends BaseComponentProps {
 	size?: "sm" | "md";
 }
 declare const TabStrip: React.ForwardRefExoticComponent<Omit<TabStripProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-export { useToast, useFocusTrap, useCalendarContext, useAppShellContext, tagChipStyle, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, nextFocusedDate, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextWeight, TextTone, TextSize, TextRef, TextProps, TextFilterConfig, TextFamily, TextAs, TextAlign, Text, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table2 as Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectValueProps, SelectTriggerProps, SelectRootProps, SelectItemProps, SelectFilterConfig, SelectContentProps, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, LinkCardProps, LinkCard, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FilterBarTextProps, FilterBarSelectProps, FilterBarProps, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, EmptyPageTitleProps, EmptyPageTitle, EmptyPageTipsProps, EmptyPageTips, EmptyPageTipProps, EmptyPageTip, EmptyPageRootProps, EmptyPageRoot, EmptyPageIconProps, EmptyPageIcon, EmptyPageDescriptionProps, EmptyPageDescription, EmptyPageActionsProps, EmptyPageActions, EmptyPage, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, DataTablePageTableProps, DataTablePageTable, DataTablePageRootProps, DataTablePageRoot, DataTablePagePaginationProps, DataTablePagePagination, DataTablePageHeaderProps, DataTablePageHeader, DataTablePageFilterBarProps, DataTablePageFilterBar, DataTablePageEmptyProps, DataTablePageEmpty, DataTablePage, ContainerWidth, ContainerProps, ContainerPadding, Container, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxRootProps, ComboboxListProps, ComboboxItemProps, ComboboxInputProps, ComboboxEmptyProps, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, CalendarSelection, CalendarRootProps, CalendarRange, CalendarNavProps, CalendarNavDirection, CalendarMode, CalendarHeaderPrimitiveProps, CalendarGridProps, CalendarContextValue, CalendarCellRenderArgs, CalendarCellProps, Calendar, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AppShellTopBarProps, AppShellTopBar, AppShellSidebarSectionProps, AppShellSidebarSection, AppShellSidebarProps, AppShellSidebar, AppShellRootProps, AppShellRoot, AppShellRightPanelProps, AppShellRightPanel, AppShellMainProps, AppShellMain, AppShell, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };
+export { useToast, useIsInsideAppShell, useFocusTrap, useCalendarContext, useAppShellContext, tagChipStyle, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, nextFocusedDate, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextWeight, TextTone, TextSize, TextRef, TextProps, TextFilterConfig, TextFamily, TextAs, TextAlign, Text, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table2 as Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectValueProps, SelectTriggerProps, SelectRootProps, SelectItemProps, SelectFilterConfig, SelectContentProps, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, LinkCardProps, LinkCard, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FilterBarTextProps, FilterBarSelectProps, FilterBarProps, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, EmptyPageTitleProps, EmptyPageTitle, EmptyPageTipsProps, EmptyPageTips, EmptyPageTipProps, EmptyPageTip, EmptyPageRootProps, EmptyPageRoot, EmptyPageIconProps, EmptyPageIcon, EmptyPageDescriptionProps, EmptyPageDescription, EmptyPageActionsProps, EmptyPageActions, EmptyPage, DividerProps, DividerOpacity, Divider, DetailPageRootProps, DetailPageRoot, DetailPageRightPanelProps, DetailPageRightPanel, DetailPageMetaProps, DetailPageMetaItemProps, DetailPageMetaItem, DetailPageMeta, DetailPageHeaderProps, DetailPageHeader, DetailPageBodyProps, DetailPageBody, DetailPageActionsProps, DetailPageActions, DetailPage, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, DataTablePageTableProps, DataTablePageTable, DataTablePageRootProps, DataTablePageRoot, DataTablePagePaginationProps, DataTablePagePagination, DataTablePageHeaderProps, DataTablePageHeader, DataTablePageFilterBarProps, DataTablePageFilterBar, DataTablePageEmptyProps, DataTablePageEmpty, DataTablePage, ContainerWidth, ContainerProps, ContainerPadding, Container, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxRootProps, ComboboxListProps, ComboboxItemProps, ComboboxInputProps, ComboboxEmptyProps, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, CalendarSelection, CalendarRootProps, CalendarRange, CalendarNavProps, CalendarNavDirection, CalendarMode, CalendarHeaderPrimitiveProps, CalendarGridProps, CalendarContextValue, CalendarCellRenderArgs, CalendarCellProps, Calendar, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AppShellTopBarProps, AppShellTopBar, AppShellSidebarSectionProps, AppShellSidebarSection, AppShellSidebarProps, AppShellSidebar, AppShellRootProps, AppShellRoot, AppShellRightPanelProps, AppShellRightPanel, AppShellMainProps, AppShellMain, AppShell, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };

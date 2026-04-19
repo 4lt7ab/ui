@@ -87,6 +87,18 @@ export function useAppShellContext(): AppShellContextValue {
   return useAppShellContextInternal('<consumer>');
 }
 
+/**
+ * Non-throwing companion to {@link useAppShellContext}. Returns `true` when
+ * the calling component is rendered inside `<AppShell.Root>`, `false`
+ * otherwise. Used by sibling organisms (e.g. `DetailPage.Body`) to decide
+ * between rendering their own `<main>` landmark (standalone) or a plain
+ * `<div>` (when `<AppShell.Main>` already provides the single `<main>` per
+ * page). Never throws.
+ */
+export function useIsInsideAppShell(): boolean {
+  return useContext(AppShellContext) !== null;
+}
+
 // ---------------------------------------------------------------------------
 // Controlled / uncontrolled helper (ADR §4)
 // ---------------------------------------------------------------------------

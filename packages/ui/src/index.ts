@@ -50,6 +50,7 @@ export * from './components/organisms/TopBar';
 export * from './components/organisms/EmptyPage';
 export * from './components/organisms/AppShell';
 export * from './components/organisms/DataTablePage';
+export * from './components/organisms/DetailPage';
 
 // Layout & Container primitives
 export * from './components/atoms/Surface';
