@@ -125,7 +125,7 @@ const proseCSS = /* css */ `
     font-family: var(--font-mono);
     background: var(--color-border);
     padding: 0.15em 0.35em;
-    border-radius: 3px;
+    border-radius: var(--radius-sm);
   }
 
   /* ── Code blocks ── */
@@ -201,7 +201,7 @@ const proseCSS = /* css */ `
     display: block;
     width: 100%;
     height: auto;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
   }
 
   .alttab-prose figcaption {

@@ -475,7 +475,7 @@ const markdownCSS = /* css */ `
   .alttab-markdown a:focus-visible {
     outline: var(--focus-ring-width) solid var(--focus-ring-color);
     outline-offset: var(--focus-ring-offset);
-    border-radius: 2px;
+    border-radius: var(--radius-sm);
   }
 
   /* ── Inline code ── */
