@@ -111,7 +111,6 @@ __export(index_exports, {
   TopBarTrailing: () => TopBarTrailing,
   alignMap: () => alignMap,
   dividerOpacityMap: () => dividerOpacityMap,
-  getSurfaceStyle: () => getSurfaceStyle,
   iconRegistry: () => iconRegistry,
   iconSizeMap: () => iconSizeMap,
   justifyMap: () => justifyMap,
@@ -953,6 +952,7 @@ var import_core6 = require("../../core/dist/index.cjs");
 // src/components/Surface/Surface.tsx
 var import_react6 = require("react");
 var import_core5 = require("../../core/dist/index.cjs");
+var import_jsx_runtime6 = require("react/jsx-runtime");
 var levelMap = {
   page: import_core5.semantic.colorSurfacePage,
   default: import_core5.semantic.colorSurface,
@@ -990,31 +990,28 @@ var Surface = (0, import_react6.forwardRef)(
     border = false,
     shadow,
     as = "div",
-    style,
-    dataAttributes,
+    asChild = false,
     children,
     ...rest
   }, ref) {
-    const baseStyle3 = getSurfaceStyle({ level, tint, padding, radius, border, shadow });
-    return (0, import_react6.createElement)(
-      as,
-      {
-        ref,
-        id: rest.id,
-        "data-testid": rest["data-testid"],
-        "aria-label": rest["aria-label"],
-        "aria-labelledby": rest["aria-labelledby"],
-        ...dataAttributes,
-        style: style ? { ...baseStyle3, ...style } : baseStyle3
-      },
-      children
-    );
+    const style = getSurfaceStyle({ level, tint, padding, radius, border, shadow });
+    const commonProps = {
+      id: rest.id,
+      "data-testid": rest["data-testid"],
+      "aria-label": rest["aria-label"],
+      "aria-labelledby": rest["aria-labelledby"],
+      style
+    };
+    if (asChild) {
+      return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_core5.Slot, { ref, ...commonProps, children });
+    }
+    return (0, import_react6.createElement)(as, { ref, ...commonProps }, children);
   }
 );
 
 // src/components/Card/Card.tsx
-var import_jsx_runtime6 = require("react/jsx-runtime");
-var variantSurfaceOptions = {
+var import_jsx_runtime7 = require("react/jsx-runtime");
+var variantSurfaceProps = {
   default: { level: "solid", border: true, shadow: "sm" },
   flat: { level: "raised", border: true },
   elevated: { level: "solid", border: true, shadow: "md" }
@@ -1073,41 +1070,32 @@ var Card = (0, import_react7.forwardRef)(
         el.style.removeProperty("--card-glow-strength");
       };
     }, [glow, config, subscribe]);
-    const surfaceOptions = { ...variantSurfaceOptions[variant], padding, radius: "lg" };
-    const glowOverride = glow ? { boxShadow: GLOW_BOX_SHADOW } : void 0;
-    const dataAttributes = { "data-card-hover": hover ? "" : void 0, "data-card-glow": glow ? "" : void 0 };
-    if (asChild) {
-      return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
-        import_core6.Slot,
-        {
-          ref: setRef,
-          id: rest.id,
-          "data-testid": rest["data-testid"],
-          ...dataAttributes,
-          style: { ...getSurfaceStyle(surfaceOptions), ...glowOverride },
-          children
-        }
-      );
+    const surfaceProps = {
+      ...variantSurfaceProps[variant],
+      padding,
+      radius: "lg",
+      asChild: true
+    };
+    const cardSlotProps = {
+      "data-card-hover": hover ? "" : void 0,
+      "data-card-glow": glow ? "" : void 0,
+      id: rest.id,
+      "data-testid": rest["data-testid"]
+    };
+    if (glow) {
+      cardSlotProps.style = { boxShadow: GLOW_BOX_SHADOW };
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
-      Surface,
-      {
-        ref: setRef,
-        ...surfaceOptions,
-        id: rest.id,
-        "data-testid": rest["data-testid"],
-        dataAttributes,
-        style: glowOverride,
-        children
-      }
-    );
+    if (asChild) {
+      return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Surface, { ...surfaceProps, children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_core6.Slot, { ref: setRef, ...cardSlotProps, children }) });
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Surface, { ...surfaceProps, children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { ref: setRef, ...cardSlotProps, children }) });
   }
 );
 
 // src/components/LinkCard/LinkCard.tsx
 var import_react8 = require("react");
 var import_core7 = require("../../core/dist/index.cjs");
-var import_jsx_runtime7 = require("react/jsx-runtime");
+var import_jsx_runtime8 = require("react/jsx-runtime");
 var STYLES_ID = "alttab-link-card";
 var linkCardCSS = (
   /* css */
@@ -1153,7 +1141,7 @@ var LinkCard = (0, import_react8.forwardRef)(function LinkCard2({
   "data-testid": dataTestId
 }, ref) {
   (0, import_core7.useInjectStyles)(STYLES_ID, linkCardCSS);
-  return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Card, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Card, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(
     "a",
     {
       ref,
@@ -1166,8 +1154,8 @@ var LinkCard = (0, import_react8.forwardRef)(function LinkCard2({
       "aria-label": ariaLabel,
       "data-testid": dataTestId,
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: "alttab-link-card__title", children: title }),
-        description && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: "alttab-link-card__desc", children: description })
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "alttab-link-card__title", children: title }),
+        description && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "alttab-link-card__desc", children: description })
       ]
     }
   ) });
@@ -1176,7 +1164,7 @@ var LinkCard = (0, import_react8.forwardRef)(function LinkCard2({
 // src/components/Field/Field.tsx
 var import_core8 = require("../../core/dist/index.cjs");
 var import_react9 = require("react");
-var import_jsx_runtime8 = require("react/jsx-runtime");
+var import_jsx_runtime9 = require("react/jsx-runtime");
 var labelStyle = {
   display: "block",
   fontSize: import_core8.semantic.fontSizeSm,
@@ -1221,7 +1209,7 @@ var Field = (0, import_react9.forwardRef)(
     const enhancedChildren = (0, import_react9.isValidElement)(children) ? (0, import_react9.cloneElement)(children, {
       "aria-describedby": describedBy
     }) : children;
-    return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
       "div",
       {
         ref,
@@ -1235,13 +1223,13 @@ var Field = (0, import_react9.forwardRef)(
           opacity: disabled ? 0.6 : void 0
         },
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("label", { htmlFor, style: labelStyle, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("label", { htmlFor, style: labelStyle, children: [
             label,
-            required && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { style: requiredStyle, "aria-hidden": "true", children: "*" })
+            required && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { style: requiredStyle, "aria-hidden": "true", children: "*" })
           ] }),
           enhancedChildren,
-          error && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: errorId, role: "alert", style: errorStyle, children: error }),
-          !error && help && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { id: helpId, style: helpStyle, children: help })
+          error && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { id: errorId, role: "alert", style: errorStyle, children: error }),
+          !error && help && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { id: helpId, style: helpStyle, children: help })
         ]
       }
     );
@@ -1251,7 +1239,7 @@ var Field = (0, import_react9.forwardRef)(
 // src/components/Input/Input.tsx
 var import_react10 = require("react");
 var import_core9 = require("../../core/dist/index.cjs");
-var import_jsx_runtime9 = require("react/jsx-runtime");
+var import_jsx_runtime10 = require("react/jsx-runtime");
 var baseStyle = {
   display: "block",
   width: "100%",
@@ -1307,7 +1295,7 @@ var Input = (0, import_react10.forwardRef)(
     "aria-invalid": ariaInvalid,
     "data-testid": dataTestId
   }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
       "input",
       {
         ref,
@@ -1352,7 +1340,7 @@ var Input = (0, import_react10.forwardRef)(
 // src/components/Textarea/Textarea.tsx
 var import_react11 = require("react");
 var import_core10 = require("../../core/dist/index.cjs");
-var import_jsx_runtime10 = require("react/jsx-runtime");
+var import_jsx_runtime11 = require("react/jsx-runtime");
 var baseStyle2 = {
   display: "block",
   width: "100%",
@@ -1405,7 +1393,7 @@ var Textarea = (0, import_react11.forwardRef)(
     "aria-invalid": ariaInvalid,
     "data-testid": dataTestId
   }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
       "textarea",
       {
         ref,
@@ -1444,7 +1432,7 @@ var Textarea = (0, import_react11.forwardRef)(
 // src/components/Select/Select.tsx
 var import_react12 = require("react");
 var import_core11 = require("../../core/dist/index.cjs");
-var import_jsx_runtime11 = require("react/jsx-runtime");
+var import_jsx_runtime12 = require("react/jsx-runtime");
 var SELECT_STYLES_ID = "alttab-select";
 var selectCSS = (
   /* css */
@@ -1685,14 +1673,14 @@ function Root({
       selectItem
     ]
   );
-  return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(SelectContext.Provider, { value: ctx, children: /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(SelectContext.Provider, { value: ctx, children: /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(
     "div",
     {
       ref: containerRef,
       style: wrapperStyle,
       onKeyDown: handleKeyDown,
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(
           "select",
           {
             name,
@@ -1707,8 +1695,8 @@ function Root({
             "aria-hidden": true,
             style: hiddenSelectStyle,
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("option", { value: "" }),
-              items.map((item) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
+              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("option", { value: "" }),
+              items.map((item) => /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
                 "option",
                 {
                   value: item.value,
@@ -1747,7 +1735,7 @@ function Trigger({
   } = ctx;
   const activeDescendant = open && focusedValue ? `${instanceId}-opt-${focusedValue}` : void 0;
   const hasSelection = items.some((i) => i.value === ctx.value);
-  return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(
     "button",
     {
       ref: triggerRef,
@@ -1773,8 +1761,8 @@ function Trigger({
         ...hasSelection ? {} : placeholderStyle
       },
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { style: triggerTextStyle, children }),
-        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { "aria-hidden": true, style: chevronStyle, children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(ChevronSVG, { rotated: open }) })
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { style: triggerTextStyle, children }),
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { "aria-hidden": true, style: chevronStyle, children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(ChevronSVG, { rotated: open }) })
       ]
     }
   );
@@ -1782,7 +1770,7 @@ function Trigger({
 function Value({ placeholder }) {
   const { value, items } = useSelectContext("Value");
   const selected = items.find((i) => i.value === value);
-  return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_jsx_runtime11.Fragment, { children: selected?.label ?? placeholder ?? "\xA0" });
+  return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_jsx_runtime12.Fragment, { children: selected?.label ?? placeholder ?? "\xA0" });
 }
 function Content({ children }) {
   const { open, listboxId, dropDirection, focusedValue } = useSelectContext("Content");
@@ -1809,7 +1797,7 @@ function Content({ children }) {
     right: 0,
     marginBottom: import_core11.semantic.spaceXs
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
     "div",
     {
       ref,
@@ -1861,7 +1849,7 @@ function Item({
     isFocused ? "alttab-select-option--focused" : "",
     disabled ? "alttab-select-option--disabled" : ""
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
     "button",
     {
       type: "button",
@@ -1939,7 +1927,7 @@ var placeholderStyle = {
   color: import_core11.semantic.colorTextPlaceholder
 };
 function ChevronSVG({ rotated }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
     "svg",
     {
       width: "12",
@@ -1951,7 +1939,7 @@ function ChevronSVG({ rotated }) {
         transition: `transform ${import_core11.semantic.transitionBase}`,
         transform: rotated ? "rotate(180deg)" : "none"
       },
-      children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
+      children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
         "path",
         {
           d: "M2.22 4.47a.75.75 0 0 1 1.06 0L6 7.19l2.72-2.72a.75.75 0 1 1 1.06 1.06L6 9.31 2.22 5.53a.75.75 0 0 1 0-1.06z",
@@ -1972,7 +1960,7 @@ var Select = {
 // src/components/Badge/Badge.tsx
 var import_react13 = require("react");
 var import_core12 = require("../../core/dist/index.cjs");
-var import_jsx_runtime12 = require("react/jsx-runtime");
+var import_jsx_runtime13 = require("react/jsx-runtime");
 var variantStyles2 = {
   default: {
     border: `${import_core12.semantic.borderWidthDefault} solid ${import_core12.semantic.colorBorder}`,
@@ -2031,7 +2019,7 @@ var Badge = (0, import_react13.forwardRef)(
   }, ref) {
     const isXs = size === "xs";
     const base = isXs ? xsBaseStyles : baseStyles2;
-    return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
       "span",
       {
         ref,
@@ -2050,7 +2038,7 @@ var Badge = (0, import_react13.forwardRef)(
 // src/components/IconButton/IconButton.tsx
 var import_react14 = require("react");
 var import_core13 = require("../../core/dist/index.cjs");
-var import_jsx_runtime13 = require("react/jsx-runtime");
+var import_jsx_runtime14 = require("react/jsx-runtime");
 var buttonSizeMap = {
   sm: 28,
   md: 36,
@@ -2108,9 +2096,9 @@ var IconButton = (0, import_react14.forwardRef)(
       cursor: "pointer",
       padding: 0
     };
-    const iconAndBadge = /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(import_jsx_runtime13.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Icon, { name: icon, size: iconSizeForButton[size], fontClass }),
-      badge && /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+    const iconAndBadge = /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(import_jsx_runtime14.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Icon, { name: icon, size: iconSizeForButton[size], fontClass }),
+      badge && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
         "span",
         {
           style: {
@@ -2140,9 +2128,9 @@ var IconButton = (0, import_react14.forwardRef)(
       style
     };
     if (asChild) {
-      return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_core13.Slot, { ref, ...commonProps, "aria-disabled": disabled || void 0, children });
+      return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_core13.Slot, { ref, ...commonProps, "aria-disabled": disabled || void 0, children });
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
       "button",
       {
         ref,
@@ -2158,13 +2146,13 @@ var IconButton = (0, import_react14.forwardRef)(
 // src/components/Overlay/Overlay.tsx
 var import_react15 = require("react");
 var import_core14 = require("../../core/dist/index.cjs");
-var import_jsx_runtime14 = require("react/jsx-runtime");
+var import_jsx_runtime15 = require("react/jsx-runtime");
 var Overlay = (0, import_react15.forwardRef)(
   function Overlay2({
     onClick,
     zIndex = import_core14.semantic.zIndexSticky
   }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
       "div",
       {
         ref,
@@ -2184,7 +2172,7 @@ var Overlay = (0, import_react15.forwardRef)(
 // src/components/Skeleton/Skeleton.tsx
 var import_react16 = require("react");
 var import_core15 = require("../../core/dist/index.cjs");
-var import_jsx_runtime15 = require("react/jsx-runtime");
+var import_jsx_runtime16 = require("react/jsx-runtime");
 var SKELETON_STYLES_ID = "4lt7ab-skeleton-pulse";
 var STAGGER_STEPS = 10;
 var STAGGER_MS = 80;
@@ -2232,7 +2220,7 @@ var Skeleton = (0, import_react16.forwardRef)(
   }, ref) {
     const { durationCss } = (0, import_core15.useThemeRhythm)();
     (0, import_core15.useInjectStyles)(SKELETON_STYLES_ID, SKELETON_STYLES_CSS);
-    return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
       "div",
       {
         ref,
@@ -2251,7 +2239,7 @@ var Skeleton = (0, import_react16.forwardRef)(
 );
 var CardSkeleton = (0, import_react16.forwardRef)(
   function CardSkeleton2(_props, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
       "div",
       {
         ref,
@@ -2265,9 +2253,9 @@ var CardSkeleton = (0, import_react16.forwardRef)(
           gap: import_core15.semantic.spaceSm
         },
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(Skeleton, { width: "60%", height: 20 }),
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(Skeleton, { width: "100%", height: 14 }),
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(Skeleton, { width: "80%", height: 14 })
+          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Skeleton, { width: "60%", height: 20 }),
+          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Skeleton, { width: "100%", height: 14 }),
+          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Skeleton, { width: "80%", height: 14 })
         ]
       }
     );
@@ -2275,7 +2263,7 @@ var CardSkeleton = (0, import_react16.forwardRef)(
 );
 var RowSkeleton = (0, import_react16.forwardRef)(
   function RowSkeleton2(_props, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
       "div",
       {
         ref,
@@ -2287,10 +2275,10 @@ var RowSkeleton = (0, import_react16.forwardRef)(
           padding: `${import_core15.semantic.spaceSm} 0`
         },
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(Skeleton, { width: 32, height: 32, radius: "full" }),
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { style: { flex: 1, display: "flex", flexDirection: "column", gap: import_core15.semantic.spaceXs }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(Skeleton, { width: "40%", height: 14 }),
-            /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(Skeleton, { width: "70%", height: 12 })
+          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Skeleton, { width: 32, height: 32, radius: "full" }),
+          /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { style: { flex: 1, display: "flex", flexDirection: "column", gap: import_core15.semantic.spaceXs }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Skeleton, { width: "40%", height: 14 }),
+            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Skeleton, { width: "70%", height: 12 })
           ] })
         ]
       }
@@ -2301,7 +2289,7 @@ var RowSkeleton = (0, import_react16.forwardRef)(
 // src/components/ProgressBar/ProgressBar.tsx
 var import_react17 = require("react");
 var import_core16 = require("../../core/dist/index.cjs");
-var import_jsx_runtime16 = require("react/jsx-runtime");
+var import_jsx_runtime17 = require("react/jsx-runtime");
 var ProgressBar = (0, import_react17.forwardRef)(
   function ProgressBar2({
     segments,
@@ -2310,7 +2298,7 @@ var ProgressBar = (0, import_react17.forwardRef)(
   }, ref) {
     const total = segments.reduce((sum, s) => sum + s.value, 0);
     const px = progressBarHeightMap[height];
-    return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
       "div",
       {
         ref,
@@ -2329,7 +2317,7 @@ var ProgressBar = (0, import_react17.forwardRef)(
         },
         children: segments.map((segment, i) => {
           const pct = total > 0 ? segment.value / total * 100 : 0;
-          return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+          return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
             "div",
             {
               title: segment.label ? `${segment.label}: ${segment.value}` : String(segment.value),
@@ -2350,7 +2338,7 @@ var ProgressBar = (0, import_react17.forwardRef)(
 // src/components/EmptyState/EmptyState.tsx
 var import_react18 = require("react");
 var import_core17 = require("../../core/dist/index.cjs");
-var import_jsx_runtime17 = require("react/jsx-runtime");
+var import_jsx_runtime18 = require("react/jsx-runtime");
 var EmptyState = (0, import_react18.forwardRef)(
   function EmptyState2({
     icon,
@@ -2359,9 +2347,9 @@ var EmptyState = (0, import_react18.forwardRef)(
     children,
     action
   }, ref) {
-    const content = /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { style: { padding: import_core17.semantic.spaceXl }, children: /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(Stack, { align: "center", gap: "sm", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("span", { style: { color: import_core17.semantic.colorTextMuted, display: "inline-flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Icon, { name: icon, size: "xl" }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+    const content = /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { style: { padding: import_core17.semantic.spaceXl }, children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(Stack, { align: "center", gap: "sm", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { style: { color: import_core17.semantic.colorTextMuted, display: "inline-flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Icon, { name: icon, size: "xl" }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
         "span",
         {
           style: {
@@ -2374,19 +2362,19 @@ var EmptyState = (0, import_react18.forwardRef)(
         }
       ),
       children,
-      action && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { style: { marginTop: import_core17.semantic.spaceSm }, children: action })
+      action && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { style: { marginTop: import_core17.semantic.spaceSm }, children: action })
     ] }) });
     if (variant === "card") {
-      return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Card, { ref, variant: "flat", children: content });
+      return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Card, { ref, variant: "flat", children: content });
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { ref, children: content });
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { ref, children: content });
   }
 );
 
 // src/components/Pagination/Pagination.tsx
 var import_react19 = require("react");
 var import_core18 = require("../../core/dist/index.cjs");
-var import_jsx_runtime18 = require("react/jsx-runtime");
+var import_jsx_runtime19 = require("react/jsx-runtime");
 var defaultLabels = {
   previous: "Previous",
   next: "Next",
@@ -2401,7 +2389,7 @@ var Pagination = (0, import_react19.forwardRef)(
     labels
   }, ref) {
     const resolvedLabels = { ...defaultLabels, ...labels };
-    return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)(
       "div",
       {
         ref,
@@ -2412,7 +2400,7 @@ var Pagination = (0, import_react19.forwardRef)(
           gap: import_core18.semantic.spaceSm
         },
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
             Button,
             {
               variant: "ghost",
@@ -2422,7 +2410,7 @@ var Pagination = (0, import_react19.forwardRef)(
               children: resolvedLabels.previous
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)(
             "span",
             {
               style: {
@@ -2438,7 +2426,7 @@ var Pagination = (0, import_react19.forwardRef)(
               ]
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
             Button,
             {
               variant: "ghost",
@@ -2457,7 +2445,7 @@ var Pagination = (0, import_react19.forwardRef)(
 // src/components/Header/Header.tsx
 var import_react20 = require("react");
 var import_core19 = require("../../core/dist/index.cjs");
-var import_jsx_runtime19 = require("react/jsx-runtime");
+var import_jsx_runtime20 = require("react/jsx-runtime");
 var Header = (0, import_react20.forwardRef)(
   function Header2({ title, level = "section", subtitle, indicator, trailing }, ref) {
     const isPage = level === "page";
@@ -2475,7 +2463,7 @@ var Header = (0, import_react20.forwardRef)(
       lineHeight: import_core19.semantic.lineHeightTight,
       color: import_core19.semantic.colorText
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(
       "div",
       {
         ref,
@@ -2486,14 +2474,14 @@ var Header = (0, import_react20.forwardRef)(
           gap: import_core19.semantic.spaceMd
         },
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", { style: { minWidth: 0 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: import_core19.semantic.spaceSm }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Tag, { style: titleStyle2, children: title }),
+          /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("div", { style: { minWidth: 0 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: import_core19.semantic.spaceSm }, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(Tag, { style: titleStyle2, children: title }),
               indicator
             ] }),
-            subtitle && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("span", { style: { color: import_core19.semantic.colorTextMuted, fontSize: import_core19.semantic.fontSizeSm, fontFamily: import_core19.semantic.fontSans }, children: subtitle })
+            subtitle && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("span", { style: { color: import_core19.semantic.colorTextMuted, fontSize: import_core19.semantic.fontSizeSm, fontFamily: import_core19.semantic.fontSans }, children: subtitle })
           ] }),
-          trailing && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("div", { style: { display: "flex", alignItems: "center", gap: import_core19.semantic.spaceSm, flexShrink: 0 }, children: trailing })
+          trailing && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("div", { style: { display: "flex", alignItems: "center", gap: import_core19.semantic.spaceSm, flexShrink: 0 }, children: trailing })
         ]
       }
     );
@@ -2504,7 +2492,7 @@ var Header = (0, import_react20.forwardRef)(
 var import_react21 = require("react");
 var import_react_dom = require("react-dom");
 var import_core20 = require("../../core/dist/index.cjs");
-var import_jsx_runtime20 = require("react/jsx-runtime");
+var import_jsx_runtime21 = require("react/jsx-runtime");
 var modalHeadingStyle = Object.freeze({
   margin: 0,
   fontWeight: import_core20.semantic.fontWeightSemibold,
@@ -2572,9 +2560,9 @@ var ModalShell = (0, import_react21.forwardRef)(
       return () => document.removeEventListener("keydown", handleKeyDown);
     }, [onClose]);
     return (0, import_react_dom.createPortal)(
-      /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(import_jsx_runtime20.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(Overlay, { onClick: onClose, zIndex }),
-        /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(import_jsx_runtime21.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(Overlay, { onClick: onClose, zIndex }),
+        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
           "div",
           {
             style: {
@@ -2587,7 +2575,7 @@ var ModalShell = (0, import_react21.forwardRef)(
               zIndex: typeof zIndex === "number" ? zIndex + 1 : `calc(${zIndex} + 1)`,
               pointerEvents: "none"
             },
-            children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
+            children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
               "div",
               {
                 ref: setRefs,
@@ -2650,7 +2638,7 @@ var tagChipStyle = {
 // src/components/ConfirmDialog/ConfirmDialog.tsx
 var import_react22 = require("react");
 var import_core23 = require("../../core/dist/index.cjs");
-var import_jsx_runtime21 = require("react/jsx-runtime");
+var import_jsx_runtime22 = require("react/jsx-runtime");
 var variantButtonMap = {
   destructive: "destructive",
   info: "primary",
@@ -2676,8 +2664,8 @@ var ConfirmDialog = (0, import_react22.forwardRef)(
         setLoading(false);
       }
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(ModalShell, { ref, onClose: onCancel, role: "alertdialog", titleId, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)(ModalShell, { ref, onClose: onCancel, role: "alertdialog", titleId, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
         "h2",
         {
           id: titleId,
@@ -2685,7 +2673,7 @@ var ConfirmDialog = (0, import_react22.forwardRef)(
           children: title
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
         "p",
         {
           style: {
@@ -2697,10 +2685,10 @@ var ConfirmDialog = (0, import_react22.forwardRef)(
           children: message
         }
       ),
-      children && /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { style: { margin: `${import_core23.semantic.spaceSm} 0 ${import_core23.semantic.spaceLg}` }, children }),
-      /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { style: modalFooterStyle, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(Button, { variant: "ghost", onClick: onCancel, disabled: loading, autoFocus: true, children: "Cancel" }),
-        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(Button, { variant: variantButtonMap[variant], onClick: handleConfirm, disabled: loading, children: loading ? "Loading..." : confirmLabel })
+      children && /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("div", { style: { margin: `${import_core23.semantic.spaceSm} 0 ${import_core23.semantic.spaceLg}` }, children }),
+      /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)("div", { style: modalFooterStyle, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(Button, { variant: "ghost", onClick: onCancel, disabled: loading, autoFocus: true, children: "Cancel" }),
+        /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(Button, { variant: variantButtonMap[variant], onClick: handleConfirm, disabled: loading, children: loading ? "Loading..." : confirmLabel })
       ] })
     ] });
   }
@@ -2709,7 +2697,7 @@ var ConfirmDialog = (0, import_react22.forwardRef)(
 // src/components/StatusDot/StatusDot.tsx
 var import_react23 = require("react");
 var import_core24 = require("../../core/dist/index.cjs");
-var import_jsx_runtime22 = require("react/jsx-runtime");
+var import_jsx_runtime23 = require("react/jsx-runtime");
 var variantColors = {
   default: import_core24.semantic.colorTextMuted,
   primary: import_core24.semantic.colorActionPrimary,
@@ -2752,7 +2740,7 @@ var StatusDot = (0, import_react23.forwardRef)(
     const isPulsing = animate === "pulse";
     const { durationCss } = (0, import_core24.useThemeRhythm)();
     (0, import_core24.useInjectStyles)(PULSE_STYLES_ID, PULSE_STYLES_CSS);
-    return /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
       "span",
       {
         ref,
@@ -2782,7 +2770,7 @@ var StatusDot = (0, import_react23.forwardRef)(
 var import_react24 = require("react");
 var import_core25 = require("../../core/dist/index.cjs");
 var import_core26 = require("../../core/dist/index.cjs");
-var import_jsx_runtime23 = require("react/jsx-runtime");
+var import_jsx_runtime24 = require("react/jsx-runtime");
 var spaceMap = {
   xs: import_core25.semantic.spaceXs,
   sm: import_core25.semantic.spaceSm,
@@ -2827,7 +2815,7 @@ var Table = (0, import_react24.forwardRef)(
     children
   }, ref) {
     (0, import_core26.useInjectStyles)(TABLE_STYLES_ID, TABLE_STYLES_CSS);
-    return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
       "div",
       {
         ref,
@@ -2835,7 +2823,7 @@ var Table = (0, import_react24.forwardRef)(
           overflowX: "auto",
           ...wrapperVariants[variant]
         },
-        children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
           "table",
           {
             "data-table-density": density,
@@ -2855,7 +2843,7 @@ var Table = (0, import_react24.forwardRef)(
 );
 var TableHeader = (0, import_react24.forwardRef)(
   function TableHeader2({ children }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("thead", { ref, children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("tr", { children }) });
+    return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("thead", { ref, children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("tr", { children }) });
   }
 );
 var TableHeaderCell = (0, import_react24.forwardRef)(
@@ -2865,7 +2853,7 @@ var TableHeaderCell = (0, import_react24.forwardRef)(
     colSpan,
     children
   }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
       "th",
       {
         ref,
@@ -2908,7 +2896,7 @@ var TableBody = (0, import_react24.forwardRef)(
       });
       return (0, import_react24.cloneElement)(child, {}, cells);
     });
-    return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("tbody", { ref, children: styledChildren });
+    return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("tbody", { ref, children: styledChildren });
   }
 );
 var TableRow = (0, import_react24.forwardRef)(
@@ -2924,7 +2912,7 @@ var TableRow = (0, import_react24.forwardRef)(
         onClick(e);
       }
     } : void 0;
-    return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
       "tr",
       {
         ref,
@@ -2950,7 +2938,7 @@ var TableCell = (0, import_react24.forwardRef)(
     colSpan,
     children
   }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
       "td",
       {
         ref,
@@ -2979,7 +2967,7 @@ var TableGroupHeader = (0, import_react24.forwardRef)(
     colSpan,
     children
   }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("tr", { ref, style: { cursor: "default" }, children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("tr", { ref, style: { cursor: "default" }, children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
       "td",
       {
         colSpan,
@@ -3006,7 +2994,7 @@ var TableEmptyRow = (0, import_react24.forwardRef)(
     colSpan,
     children
   }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("tr", { ref, children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("tr", { ref, children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
       "td",
       {
         colSpan,
@@ -3025,7 +3013,7 @@ var TableEmptyRow = (0, import_react24.forwardRef)(
 // src/components/Table/FilterBar.tsx
 var import_react25 = require("react");
 var import_core27 = require("../../core/dist/index.cjs");
-var import_jsx_runtime24 = require("react/jsx-runtime");
+var import_jsx_runtime25 = require("react/jsx-runtime");
 var FilterBarContext = (0, import_react25.createContext)(null);
 function useFilterBarContext(part) {
   const ctx = (0, import_react25.useContext)(FilterBarContext);
@@ -3058,7 +3046,7 @@ function FilterBar({
   const ctxValue = { values, commit };
   const content = filters ? filters.map((filter) => {
     if (filter.type === "text") {
-      return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
         FilterBarText,
         {
           field: filter.key,
@@ -3068,7 +3056,7 @@ function FilterBar({
         filter.key
       );
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
       FilterBarSelect,
       {
         field: filter.key,
@@ -3078,7 +3066,7 @@ function FilterBar({
       filter.key
     );
   }) : children;
-  return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(FilterBarContext.Provider, { value: ctxValue, children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(FilterBarContext.Provider, { value: ctxValue, children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
     "div",
     {
       style: {
@@ -3121,7 +3109,7 @@ function FilterBarText({
       if (timerRef.current) clearTimeout(timerRef.current);
     };
   }, []);
-  return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { style: { minWidth: "10rem", flex: "1 1 10rem" }, children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(Input, { value: local, onChange: handleChange, placeholder }) });
+  return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { style: { minWidth: "10rem", flex: "1 1 10rem" }, children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(Input, { value: local, onChange: handleChange, placeholder }) });
 }
 function FilterBarSelect({
   field,
@@ -3136,9 +3124,9 @@ function FilterBarSelect({
     },
     [commit, field]
   );
-  return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(Select.Root, { value, onValueChange: handleValueChange, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(Select.Trigger, { children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(Select.Value, { placeholder }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(Select.Content, { children: options.map((opt) => /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(Select.Item, { value: opt.value, children: opt.label }, opt.value)) })
+  return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(Select.Root, { value, onValueChange: handleValueChange, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(Select.Trigger, { children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(Select.Value, { placeholder }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(Select.Content, { children: options.map((opt) => /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(Select.Item, { value: opt.value, children: opt.label }, opt.value)) })
   ] }) });
 }
 var TableFilterBar = Object.assign(FilterBar, {
@@ -3157,7 +3145,7 @@ var import_core31 = require("../../core/dist/index.cjs");
 
 // src/components/Calendar/Calendar.tsx
 var import_react26 = require("react");
-var import_jsx_runtime25 = require("react/jsx-runtime");
+var import_jsx_runtime26 = require("react/jsx-runtime");
 var CalendarContext = (0, import_react26.createContext)(null);
 function useCalendarContext(part = "child") {
   const ctx = (0, import_react26.useContext)(CalendarContext);
@@ -3250,7 +3238,7 @@ function Root2({
       setViewDate
     ]
   );
-  return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(CalendarContext.Provider, { value: ctx, children });
+  return /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(CalendarContext.Provider, { value: ctx, children });
 }
 var Calendar = {
   Root: Root2
@@ -3318,7 +3306,7 @@ function buildCalendarGrid(year, month) {
 }
 
 // src/components/Calendar/Header.tsx
-var import_jsx_runtime26 = require("react/jsx-runtime");
+var import_jsx_runtime27 = require("react/jsx-runtime");
 var titleStyle = {
   fontSize: import_core28.semantic.fontSizeSm,
   fontWeight: import_core28.semantic.fontWeightSemibold,
@@ -3335,7 +3323,7 @@ function CalendarHeaderPrimitive({
   const ctx = useCalendarContext("Header");
   const year = ctx.viewDate.getFullYear();
   const month = ctx.viewDate.getMonth();
-  return /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
     "span",
     {
       style: { ...titleStyle, ...style },
@@ -3347,7 +3335,7 @@ function CalendarHeaderPrimitive({
 }
 
 // src/components/Calendar/Nav.tsx
-var import_jsx_runtime27 = require("react/jsx-runtime");
+var import_jsx_runtime28 = require("react/jsx-runtime");
 function CalendarNav({
   direction,
   step = 1,
@@ -3368,7 +3356,7 @@ function CalendarNav({
     );
     ctx.setViewDate(next);
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(
     IconButton,
     {
       icon,
@@ -3385,7 +3373,7 @@ var import_core30 = require("../../core/dist/index.cjs");
 
 // src/components/Calendar/Cell.tsx
 var import_core29 = require("../../core/dist/index.cjs");
-var import_jsx_runtime28 = require("react/jsx-runtime");
+var import_jsx_runtime29 = require("react/jsx-runtime");
 var baseCellStyle = {
   display: "flex",
   alignItems: "center",
@@ -3476,7 +3464,7 @@ function CalendarCell({
     ...className ? [className] : []
   ].join(" ");
   const iso = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-  return /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(
     "button",
     {
       type: "button",
@@ -3501,7 +3489,7 @@ function CalendarCell({
 }
 
 // src/components/Calendar/Grid.tsx
-var import_jsx_runtime29 = require("react/jsx-runtime");
+var import_jsx_runtime30 = require("react/jsx-runtime");
 var GRID_STYLES_ID2 = "alttab-calendar";
 var gridCSS2 = (
   /* css */
@@ -3640,7 +3628,7 @@ function CalendarGridPrimitive({
       btn.focus();
     }
   }, [ctx.focusedDate]);
-  return /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(
     "table",
     {
       ref: tableRef,
@@ -3650,8 +3638,8 @@ function CalendarGridPrimitive({
       className,
       onKeyDown: handleKeyDown,
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("tr", { children: WEEKDAY_LABELS.map((label) => /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("th", { scope: "col", style: weekdayHeaderStyle, children: label }, label)) }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("tbody", { children: rows.map((row, ri) => /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("tr", { children: row.map((date) => {
+        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("tr", { children: WEEKDAY_LABELS.map((label) => /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("th", { scope: "col", style: weekdayHeaderStyle, children: label }, label)) }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("tbody", { children: rows.map((row, ri) => /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("tr", { children: row.map((date) => {
           const isInMonth = date.getMonth() === month;
           const isToday = isSameDay(date, todayRef.current);
           const isFocused = isSameDay(date, ctx.focusedDate);
@@ -3672,7 +3660,7 @@ function CalendarGridPrimitive({
             isDisabled: disabled
           };
           const iso = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-          return /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("td", { role: "gridcell", style: cellTdStyle, children: children ? children(renderArgs) : /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(CalendarCell, { date }) }, iso);
+          return /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("td", { role: "gridcell", style: cellTdStyle, children: children ? children(renderArgs) : /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(CalendarCell, { date }) }, iso);
         }) }, ri)) })
       ]
     }
@@ -3693,7 +3681,7 @@ var Calendar2 = {
 };
 
 // src/components/DateRangePicker/DateRangePicker.tsx
-var import_jsx_runtime30 = require("react/jsx-runtime");
+var import_jsx_runtime31 = require("react/jsx-runtime");
 var SCOPE = "alttab-drp";
 var injectedCSS = (
   /* css */
@@ -3851,9 +3839,9 @@ var DateRangePicker = (0, import_react28.forwardRef)(
     if (value) {
       displayText = `${formatDate(value.from)} \u2013 ${formatDate(value.to)}`;
     } else {
-      displayText = /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("span", { style: placeholderStyle2, children: placeholder });
+      displayText = /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { style: placeholderStyle2, children: placeholder });
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
       "div",
       {
         ref: (node) => {
@@ -3863,7 +3851,7 @@ var DateRangePicker = (0, import_react28.forwardRef)(
         },
         style: wrapperStyle2,
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
             "button",
             {
               type: "button",
@@ -3881,7 +3869,7 @@ var DateRangePicker = (0, import_react28.forwardRef)(
               children: displayText
             }
           ),
-          open && /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("div", { style: popoverStyle, role: "dialog", "aria-label": "Date range picker", children: /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(
+          open && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { style: popoverStyle, role: "dialog", "aria-label": "Date range picker", children: /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
             Calendar2.Root,
             {
               mode: "range",
@@ -3894,16 +3882,16 @@ var DateRangePicker = (0, import_react28.forwardRef)(
               maxDate,
               disabledDate,
               children: [
-                /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { style: headerRowStyle, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(Calendar2.Nav, { direction: "prev" }),
-                  /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(Calendar2.Header, {}),
-                  /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(Calendar2.Nav, { direction: "next" })
+                /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { style: headerRowStyle, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Calendar2.Nav, { direction: "prev" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Calendar2.Header, {}),
+                  /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Calendar2.Nav, { direction: "next" })
                 ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(Calendar2.Grid, { onEscape: () => {
+                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Calendar2.Grid, { onEscape: () => {
                   setOpen(false);
                   setSelectionStart(null);
                   setHoverDate(null);
-                }, children: ({ date }) => /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
+                }, children: ({ date }) => /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
                   Calendar2.Cell,
                   {
                     date,
@@ -3925,7 +3913,7 @@ var DateRangePicker = (0, import_react28.forwardRef)(
 // src/components/DatePicker/DatePicker.tsx
 var import_react29 = require("react");
 var import_core32 = require("../../core/dist/index.cjs");
-var import_jsx_runtime31 = require("react/jsx-runtime");
+var import_jsx_runtime32 = require("react/jsx-runtime");
 var SCOPE2 = "alttab-dp";
 var injectedCSS2 = (
   /* css */
@@ -4052,9 +4040,9 @@ var DatePicker = (0, import_react29.forwardRef)(
     if (value) {
       displayText = formatDate(value);
     } else {
-      displayText = /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { style: placeholderStyle3, children: placeholder });
+      displayText = /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("span", { style: placeholderStyle3, children: placeholder });
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(
       "div",
       {
         ref: (node) => {
@@ -4064,7 +4052,7 @@ var DatePicker = (0, import_react29.forwardRef)(
         },
         style: wrapperStyle3,
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
             "button",
             {
               type: "button",
@@ -4082,7 +4070,7 @@ var DatePicker = (0, import_react29.forwardRef)(
               children: displayText
             }
           ),
-          open && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { style: popoverStyle2, role: "dialog", "aria-label": "Date picker", children: /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
+          open && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { style: popoverStyle2, role: "dialog", "aria-label": "Date picker", children: /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(
             Calendar2.Root,
             {
               mode: "single",
@@ -4094,12 +4082,12 @@ var DatePicker = (0, import_react29.forwardRef)(
               maxDate,
               disabledDate,
               children: [
-                /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { style: headerRowStyle2, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Calendar2.Nav, { direction: "prev" }),
-                  /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Calendar2.Header, {}),
-                  /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Calendar2.Nav, { direction: "next" })
+                /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { style: headerRowStyle2, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(Calendar2.Nav, { direction: "prev" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(Calendar2.Header, {}),
+                  /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(Calendar2.Nav, { direction: "next" })
                 ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Calendar2.Grid, { onEscape: () => setOpen(false) })
+                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(Calendar2.Grid, { onEscape: () => setOpen(false) })
               ]
             },
             openKey
@@ -4113,7 +4101,7 @@ var DatePicker = (0, import_react29.forwardRef)(
 // src/components/ErrorBoundary/ErrorBoundary.tsx
 var import_react30 = __toESM(require("react"), 1);
 var import_core33 = require("../../core/dist/index.cjs");
-var import_jsx_runtime32 = require("react/jsx-runtime");
+var import_jsx_runtime33 = require("react/jsx-runtime");
 var ErrorBoundary = class extends import_react30.default.Component {
   constructor(props) {
     super(props);
@@ -4137,13 +4125,13 @@ var ErrorBoundary = class extends import_react30.default.Component {
     if (fallback) {
       return fallback({ error, resetErrorBoundary: this.resetErrorBoundary });
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { style: { borderColor: import_core33.semantic.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: import_core33.semantic.radiusLg }, children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("div", { style: { borderColor: import_core33.semantic.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: import_core33.semantic.radiusLg }, children: /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
       Card,
       {
         variant: "flat",
         padding: "lg",
-        children: /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: import_core33.semantic.spaceMd }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { style: { display: "flex", alignItems: "center", gap: import_core33.semantic.spaceSm }, children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: import_core33.semantic.spaceMd }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("div", { style: { display: "flex", alignItems: "center", gap: import_core33.semantic.spaceSm }, children: /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
             "span",
             {
               style: {
@@ -4155,7 +4143,7 @@ var ErrorBoundary = class extends import_react30.default.Component {
               children: "Something went wrong"
             }
           ) }),
-          /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
             "p",
             {
               style: {
@@ -4172,8 +4160,8 @@ var ErrorBoundary = class extends import_react30.default.Component {
               children: error.message
             }
           ),
-          error.stack && /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+          error.stack && /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
               "button",
               {
                 type: "button",
@@ -4191,7 +4179,7 @@ var ErrorBoundary = class extends import_react30.default.Component {
                 children: showStack ? "Hide stack trace" : "Show stack trace"
               }
             ),
-            showStack && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+            showStack && /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
               "pre",
               {
                 style: {
@@ -4212,7 +4200,7 @@ var ErrorBoundary = class extends import_react30.default.Component {
               }
             )
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(Button, { variant: "secondary", size: "sm", onClick: this.resetErrorBoundary, children: "Try again" }) })
+          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(Button, { variant: "secondary", size: "sm", onClick: this.resetErrorBoundary, children: "Try again" }) })
         ] })
       }
     ) });
@@ -4223,7 +4211,7 @@ var ErrorBoundary = class extends import_react30.default.Component {
 var import_react31 = require("react");
 var import_react_dom2 = require("react-dom");
 var import_core34 = require("../../core/dist/index.cjs");
-var import_jsx_runtime33 = require("react/jsx-runtime");
+var import_jsx_runtime34 = require("react/jsx-runtime");
 var ToastContext = (0, import_react31.createContext)(null);
 function useToast() {
   const ctx = (0, import_react31.useContext)(ToastContext);
@@ -4326,7 +4314,7 @@ function ToastMessage({
     }
   };
   const colors = typeColors[item.type];
-  return /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(
     "div",
     {
       role: "status",
@@ -4361,8 +4349,8 @@ function ToastMessage({
       },
       onAnimationEnd: handleAnimationEnd,
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("span", { style: { flex: 1 }, children: item.message }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("span", { style: { flex: 1 }, children: item.message }),
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
           "button",
           {
             onClick: () => setExiting(true),
@@ -4389,7 +4377,7 @@ function ToastMessage({
             children: "\xD7"
           }
         ),
-        autoDismiss && /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+        autoDismiss && /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
           "span",
           {
             "data-toast-timer": "",
@@ -4423,7 +4411,7 @@ function ToastContainer({
     ...position.endsWith("right") ? { right: import_core34.semantic.spaceLg } : { left: import_core34.semantic.spaceLg }
   };
   return (0, import_react_dom2.createPortal)(
-    /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("div", { "aria-live": "polite", style: positionStyles, children: toasts.map((item) => /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(ToastMessage, { item, onDismiss }, item.id)) }),
+    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("div", { "aria-live": "polite", style: positionStyles, children: toasts.map((item) => /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(ToastMessage, { item, onDismiss }, item.id)) }),
     document.body
   );
 }
@@ -4449,16 +4437,16 @@ function ToastProvider({
     },
     []
   );
-  return /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(ToastContext.Provider, { value: { showToast }, children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(ToastContext.Provider, { value: { showToast }, children: [
     children,
-    /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(ToastContainer, { toasts, onDismiss: dismiss, position })
+    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(ToastContainer, { toasts, onDismiss: dismiss, position })
   ] });
 }
 
 // src/components/Combobox/Combobox.tsx
 var import_react32 = require("react");
 var import_core35 = require("../../core/dist/index.cjs");
-var import_jsx_runtime34 = require("react/jsx-runtime");
+var import_jsx_runtime35 = require("react/jsx-runtime");
 var COMBOBOX_STYLES_ID = "alttab-combobox";
 var comboboxCSS = (
   /* css */
@@ -4688,7 +4676,7 @@ function Root3({
     ]
   );
   ctx.__suppressNextOpen = suppressNextOpenRef;
-  return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(ComboboxContext.Provider, { value: ctx, children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("div", { ref: containerRef, style: wrapperStyle4, onKeyDown: handleKeyDown, children }) });
+  return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(ComboboxContext.Provider, { value: ctx, children: /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("div", { ref: containerRef, style: wrapperStyle4, onKeyDown: handleKeyDown, children }) });
 }
 function Input3({
   placeholder,
@@ -4743,7 +4731,7 @@ function Input3({
     },
     [disabled, items.length, openMenu, onFocusProp, suppressNextOpenRef]
   );
-  return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
     "input",
     {
       ref: inputRef,
@@ -4809,7 +4797,7 @@ function List({ children }) {
     right: 0,
     marginBottom: import_core35.semantic.spaceXs
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
     "div",
     {
       ref,
@@ -4858,7 +4846,7 @@ function Item2({
     isFocused ? "alttab-combobox-option--focused" : "",
     isSelected ? "alttab-combobox-option--selected" : ""
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
     "button",
     {
       type: "button",
@@ -4874,7 +4862,7 @@ function Item2({
   );
 }
 function Empty({ children }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
     "div",
     {
       role: "presentation",
@@ -4927,7 +4915,7 @@ var Combobox = {
 // src/components/ChipPicker/ChipPicker.tsx
 var import_react33 = require("react");
 var import_core36 = require("../../core/dist/index.cjs");
-var import_jsx_runtime35 = require("react/jsx-runtime");
+var import_jsx_runtime36 = require("react/jsx-runtime");
 function ChipPicker({
   items,
   selected: controlledSelected,
@@ -5002,7 +4990,7 @@ function ChipPicker({
     transition: `background ${import_core36.semantic.transitionFast}, border-color ${import_core36.semantic.transitionFast}, color ${import_core36.semantic.transitionFast}`,
     outline: "none"
   });
-  const renderChips = (chips) => /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+  const renderChips = (chips) => /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
     "div",
     {
       style: {
@@ -5012,7 +5000,7 @@ function ChipPicker({
       },
       children: chips.map((item) => {
         const isSelected = selected.includes(item.value);
-        return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+        return /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
           "button",
           {
             type: "button",
@@ -5026,7 +5014,7 @@ function ChipPicker({
       })
     }
   );
-  return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
     "div",
     {
       "data-chip-picker-id": styleId,
@@ -5037,8 +5025,8 @@ function ChipPicker({
         flexDirection: "column",
         gap: import_core36.semantic.spaceMd
       },
-      children: groups.map((group, i) => /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: import_core36.semantic.spaceSm }, children: [
-        group.label !== null && /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("div", { style: i > 0 ? { marginTop: import_core36.semantic.spaceXs } : void 0, children: /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("div", { style: sectionLabelStyle, children: group.label }) }),
+      children: groups.map((group, i) => /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: import_core36.semantic.spaceSm }, children: [
+        group.label !== null && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { style: i > 0 ? { marginTop: import_core36.semantic.spaceXs } : void 0, children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { style: sectionLabelStyle, children: group.label }) }),
         renderChips(group.chips)
       ] }, group.label ?? "__ungrouped"))
     }
@@ -5048,7 +5036,7 @@ function ChipPicker({
 // src/components/SearchInput/SearchInput.tsx
 var import_react34 = require("react");
 var import_core37 = require("../../core/dist/index.cjs");
-var import_jsx_runtime36 = require("react/jsx-runtime");
+var import_jsx_runtime37 = require("react/jsx-runtime");
 var STYLE_ID2 = "4lt7ab-search-input";
 var hoverFocusCSS = `
   .search-input-wrapper:focus-within {
@@ -5132,7 +5120,7 @@ var SearchInput = (0, import_react34.forwardRef)(
         if (timerRef.current) clearTimeout(timerRef.current);
       };
     }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(
       "div",
       {
         className: "search-input-wrapper",
@@ -5142,8 +5130,8 @@ var SearchInput = (0, import_react34.forwardRef)(
           ...disabled ? disabledWrapperStyle : {}
         },
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { style: { color: import_core37.semantic.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Icon, { name: "search", size: "sm" }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { style: { color: import_core37.semantic.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(Icon, { name: "search", size: "sm" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
             "input",
             {
               ref,
@@ -5162,7 +5150,7 @@ var SearchInput = (0, import_react34.forwardRef)(
               style: inputStyle
             }
           ),
-          trailing && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: trailing })
+          trailing && /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("div", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: trailing })
         ]
       }
     );
@@ -5222,7 +5210,7 @@ function useRovingFocus({
 }
 
 // src/components/SegmentedControl/SegmentedControl.tsx
-var import_jsx_runtime37 = require("react/jsx-runtime");
+var import_jsx_runtime38 = require("react/jsx-runtime");
 var STYLE_ID3 = "4lt7ab-segmented-control";
 var hoverCSS = `
   .segmented-ctrl-btn:hover:not([aria-pressed="true"]) {
@@ -5296,7 +5284,7 @@ function SegmentedControl({
     if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, [updateIndicator]);
-  return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(
     "div",
     {
       ref: containerRef,
@@ -5314,7 +5302,7 @@ function SegmentedControl({
         boxSizing: "border-box"
       },
       children: [
-        indicator && /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
+        indicator && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
           "div",
           {
             className: "segmented-ctrl-indicator",
@@ -5335,7 +5323,7 @@ function SegmentedControl({
           const isActive = seg.value === value;
           const hasIcon = !!seg.icon;
           const iconOnly = hasIcon && !seg.label;
-          return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(
+          return /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(
             "button",
             {
               ref: itemRef(i),
@@ -5367,8 +5355,8 @@ function SegmentedControl({
                 lineHeight: 1
               },
               children: [
-                hasIcon && /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(Icon, { name: seg.icon, size: s.iconSize }),
-                seg.label && /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { children: seg.label })
+                hasIcon && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(Icon, { name: seg.icon, size: s.iconSize }),
+                seg.label && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("span", { children: seg.label })
               ]
             },
             seg.value
@@ -5382,7 +5370,7 @@ function SegmentedControl({
 // src/components/AlertBanner/AlertBanner.tsx
 var import_react37 = require("react");
 var import_core39 = require("../../core/dist/index.cjs");
-var import_jsx_runtime38 = require("react/jsx-runtime");
+var import_jsx_runtime39 = require("react/jsx-runtime");
 var STYLE_ID4 = "4lt7ab-alert-banner";
 var alertBannerCSS = `
 @keyframes alert-banner-slide-in {
@@ -5406,17 +5394,17 @@ var variantColors2 = {
   success: { bg: import_core39.semantic.colorSuccessBg, fg: import_core39.semantic.colorSuccess, border: import_core39.semantic.colorSuccess }
 };
 var defaultIcons = {
-  info: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(IconInfo, { size: 20 }),
-  warning: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(IconWarning, { size: 20 }),
-  error: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(IconError, { size: 20 }),
-  success: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(IconCheckCircle, { size: 20 })
+  info: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(IconInfo, { size: 20 }),
+  warning: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(IconWarning, { size: 20 }),
+  error: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(IconError, { size: 20 }),
+  success: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(IconCheckCircle, { size: 20 })
 };
 var AlertBanner = (0, import_react37.forwardRef)(
   function AlertBanner2({ variant, children, onDismiss, icon }, ref) {
     (0, import_core39.useInjectStyles)(STYLE_ID4, alertBannerCSS);
     const colors = variantColors2[variant];
     const resolvedIcon = icon !== void 0 ? icon : defaultIcons[variant];
-    return /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(
       "div",
       {
         ref,
@@ -5438,9 +5426,9 @@ var AlertBanner = (0, import_react37.forwardRef)(
           animation: "alert-banner-slide-in 250ms ease"
         },
         children: [
-          resolvedIcon && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("span", { style: { flex: 1 }, children }),
-          onDismiss && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
+          resolvedIcon && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("span", { style: { flex: 1 }, children }),
+          onDismiss && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
             "button",
             {
               className: "alert-banner-dismiss",
@@ -5477,7 +5465,7 @@ var AlertBanner = (0, import_react37.forwardRef)(
 // src/components/TopBar/TopBar.tsx
 var import_react38 = require("react");
 var import_core40 = require("../../core/dist/index.cjs");
-var import_jsx_runtime39 = require("react/jsx-runtime");
+var import_jsx_runtime40 = require("react/jsx-runtime");
 var TopBarContext = (0, import_react38.createContext)(null);
 function useTopBarContext(component) {
   const ctx = (0, import_react38.useContext)(TopBarContext);
@@ -5516,7 +5504,7 @@ var TopBarRoot = (0, import_react38.forwardRef)(
   function TopBarRoot2({ children, sticky = false, ...rest }, ref) {
     (0, import_core40.useInjectStyles)(TOPBAR_STYLES_ID, TOPBAR_CSS);
     const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: import_core40.semantic.zIndexSticky } : {};
-    return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(TopBarContext.Provider, { value: true, children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(TopBarContext.Provider, { value: true, children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
       "header",
       {
         ref,
@@ -5540,7 +5528,7 @@ var TopBarRoot = (0, import_react38.forwardRef)(
 );
 function TopBarLeading({ children }) {
   useTopBarContext("Leading");
-  return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
     "div",
     {
       style: {
@@ -5559,7 +5547,7 @@ function TopBarLeading({ children }) {
 }
 function TopBarNav({ children, "aria-label": ariaLabel = "Primary" }) {
   useTopBarContext("Nav");
-  return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
     "nav",
     {
       "aria-label": ariaLabel,
@@ -5603,13 +5591,13 @@ var TopBarLink = (0, import_react38.forwardRef)(function TopBarLink2({ active = 
     style
   };
   if (asChild) {
-    return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_core40.Slot, { ref, ...commonProps, children });
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_core40.Slot, { ref, ...commonProps, children });
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("button", { ref, type: "button", ...commonProps, children });
+  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("button", { ref, type: "button", ...commonProps, children });
 });
 function TopBarTrailing({ children }) {
   useTopBarContext("Trailing");
-  return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
     "div",
     {
       style: {
@@ -5633,7 +5621,7 @@ var TopBar = {
 
 // src/components/Grid/Grid.tsx
 var import_react39 = require("react");
-var import_jsx_runtime40 = require("react/jsx-runtime");
+var import_jsx_runtime41 = require("react/jsx-runtime");
 var Grid = (0, import_react39.forwardRef)(
   function Grid2({
     minColumnWidth = 300,
@@ -5644,7 +5632,7 @@ var Grid = (0, import_react39.forwardRef)(
   }, ref) {
     const minWidth = `${minColumnWidth}px`;
     const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
-    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
       "div",
       {
         ref,
@@ -5664,7 +5652,7 @@ var Grid = (0, import_react39.forwardRef)(
 // src/components/Divider/Divider.tsx
 var import_react40 = require("react");
 var import_core41 = require("../../core/dist/index.cjs");
-var import_jsx_runtime41 = require("react/jsx-runtime");
+var import_jsx_runtime42 = require("react/jsx-runtime");
 var Divider = (0, import_react40.forwardRef)(
   function Divider2({
     orientation = "horizontal",
@@ -5676,7 +5664,7 @@ var Divider = (0, import_react40.forwardRef)(
     const bg = `color-mix(in srgb, ${import_core41.semantic.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
     const isHorizontal = orientation === "horizontal";
-    return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
       "div",
       {
         ref,
@@ -5698,7 +5686,7 @@ var Divider = (0, import_react40.forwardRef)(
 
 // src/components/Container/Container.tsx
 var import_react41 = require("react");
-var import_jsx_runtime42 = require("react/jsx-runtime");
+var import_jsx_runtime43 = require("react/jsx-runtime");
 var widthMap = {
   narrow: "32rem",
   prose: "680px",
@@ -5719,7 +5707,7 @@ var Container = (0, import_react41.forwardRef)(
     id,
     "data-testid": dataTestId
   }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
       "div",
       {
         ref,
@@ -5742,7 +5730,7 @@ var Container = (0, import_react41.forwardRef)(
 // src/components/TabStrip/TabStrip.tsx
 var import_react42 = require("react");
 var import_core42 = require("../../core/dist/index.cjs");
-var import_jsx_runtime43 = require("react/jsx-runtime");
+var import_jsx_runtime44 = require("react/jsx-runtime");
 var STYLES_ID2 = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
@@ -5779,7 +5767,7 @@ var TabStrip = (0, import_react42.forwardRef)(
       [activeKey, allowDeselect, onChange]
     );
     const isSm = size === "sm";
-    return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
       "div",
       {
         ref,
@@ -5792,7 +5780,7 @@ var TabStrip = (0, import_react42.forwardRef)(
         },
         children: tabs.map((tab, i) => {
           const isActive = tab.key === activeKey;
-          return /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(
+          return /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(
             "button",
             {
               ref: itemRef(i),
@@ -5820,7 +5808,7 @@ var TabStrip = (0, import_react42.forwardRef)(
                 whiteSpace: "nowrap"
               },
               children: [
-                tab.icon && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
+                tab.icon && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
                   "span",
                   {
                     className: "material-symbols-outlined",

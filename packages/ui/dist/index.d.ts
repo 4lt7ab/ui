@@ -1526,7 +1526,7 @@ declare function TopBarTrailing({ children }: TopBarTrailingProps): React.JSX.El
 * ```
 */
 declare const TopBar: {};
-import { CSSProperties as CSSProperties4, ReactNode as ReactNode26 } from "react";
+import { ReactNode as ReactNode26 } from "react";
 /**
 * Which semantic surface token to use as the background.
 *
@@ -1541,34 +1541,12 @@ import { CSSProperties as CSSProperties4, ReactNode as ReactNode26 } from "react
 */
 type SurfaceLevel = "page" | "default" | "solid" | "raised" | "panel" | "input" | "overlay";
 /**
-* Inputs that shape a Surface's visual treatment (background, padding, radius,
-* border, shadow). Shared with composites that render their own element but
-* want the exact same style bag — most notably `<Card asChild>`, which has to
-* flow styles through a `Slot` rather than a real `<Surface>`.
-*/
-interface SurfaceStyleOptions {
-	level?: SurfaceLevel;
-	tint?: SemanticColor;
-	padding?: SpacingToken;
-	radius?: RadiusToken;
-	border?: boolean | SemanticColor;
-	shadow?: ShadowToken;
-}
-/**
-* Derive the inline-style bag a Surface renders for the given options. Exposed
-* so composites (Card) can share a single source of truth for the box
-* treatment without duplicating the mapping.
-*/
-declare function getSurfaceStyle({ level, tint, padding, radius, border, shadow }: SurfaceStyleOptions): CSSProperties4;
-/**
 * A composable container primitive for managing color surface area.
 *
 * Unlike Card (which is opinionated — always has border, shadow, and a fixed
 * surface token), Surface is the low-level building block for any background
 * region. It maps directly to the semantic surface token system, letting you
 * layer backgrounds at different depth levels.
-*
-* Use the `bg` prop for custom tinted surfaces (e.g. `color-mix()` expressions).
 *
 * @example
 * ```tsx
@@ -1582,36 +1560,41 @@ declare function getSurfaceStyle({ level, tint, padding, radius, border, shadow 
 *   <p>Nested content</p>
 * </Surface>
 *
-* // Custom tinted background
-* <Surface bg={`color-mix(in srgb, ${t.colorSuccess} 10%, transparent)`} padding="md" radius="md">
-*   <p>Success region</p>
+* // Render as the child element (polymorphic via asChild)
+* <Surface asChild padding="lg" border>
+*   <a href="/docs">Read the docs</a>
 * </Surface>
 * ```
 */
-interface SurfaceProps extends BaseComponentProps, SurfaceStyleOptions {
+interface SurfaceProps extends BaseComponentProps {
+	/** Which semantic surface token to use as the background. @default 'solid' */
+	level?: SurfaceLevel;
+	/** Optional tinted background derived from a semantic color. */
+	tint?: SemanticColor;
+	/** Inner padding using spacing tokens. */
+	padding?: SpacingToken;
+	/** Border radius using radius tokens. @default 'lg' */
+	radius?: RadiusToken;
+	/** Border using theme border color (`true`) or a semantic color. */
+	border?: boolean | SemanticColor;
+	/** Shadow using shadow tokens. */
+	shadow?: ShadowToken;
 	/** Accessible label for landmark regions (e.g. when rendered as `section`). */
 	"aria-label"?: string;
 	/** ID of an element that labels this surface. */
 	"aria-labelledby"?: string;
 	/**
-	* Extra inline styles merged after Surface's computed style. Used by
-	* composites (Card) to stack additional treatments (e.g. a rhythm-driven
-	* glow box-shadow) on top of the base surface. Consumer-visible style use
-	* should go through the structured props (`level`, `tint`, etc.) instead.
-	*/
-	style?: CSSProperties4;
-	/**
-	* Extra `data-*` attributes to forward onto the rendered element. Used by
-	* composites that need a CSS-selector hook on the Surface element itself
-	* (e.g. Card's `data-card-hover`). Not intended as a general consumer
-	* escape hatch — component-level props are the supported surface.
-	*/
-	dataAttributes?: Record<string, string | boolean | undefined>;
-	/**
 	* Render as a different HTML element.
 	* @default 'div'
 	*/
 	as?: "div" | "section" | "article" | "aside" | "main";
+	/**
+	* Render as the single child element instead of a `<div>`. Merges Surface's
+	* computed styling and ref into the child. Matches the `asChild` pattern on
+	* `Button`, `IconButton`, `TopBar.Link`, and `Card`.
+	* @default false
+	*/
+	asChild?: boolean;
 	children: ReactNode26;
 }
 declare const Surface: React.ForwardRefExoticComponent<Omit<SurfaceProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
@@ -1778,4 +1761,4 @@ interface TabStripProps extends BaseComponentProps {
 	size?: "sm" | "md";
 }
 declare const TabStrip: React.ForwardRefExoticComponent<Omit<TabStripProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-export { useToast, useFocusTrap, useCalendarContext, tagChipStyle, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, nextFocusedDate, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, getSurfaceStyle, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table2 as Table, TabStripProps, TabStrip, Tab, SurfaceStyleOptions, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectValueProps, SelectTriggerProps, SelectRootProps, SelectItemProps, SelectFilterConfig, SelectContentProps, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, LinkCardProps, LinkCard, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FilterBarTextProps, FilterBarSelectProps, FilterBarProps, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ContainerWidth, ContainerProps, ContainerPadding, Container, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxRootProps, ComboboxListProps, ComboboxItemProps, ComboboxInputProps, ComboboxEmptyProps, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, CalendarSelection, CalendarRootProps, CalendarRange, CalendarNavProps, CalendarNavDirection, CalendarMode, CalendarHeaderPrimitiveProps, CalendarGridProps, CalendarContextValue, CalendarCellRenderArgs, CalendarCellProps, Calendar, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };
+export { useToast, useFocusTrap, useCalendarContext, tagChipStyle, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, nextFocusedDate, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table2 as Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectValueProps, SelectTriggerProps, SelectRootProps, SelectItemProps, SelectFilterConfig, SelectContentProps, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, LinkCardProps, LinkCard, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FilterBarTextProps, FilterBarSelectProps, FilterBarProps, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ContainerWidth, ContainerProps, ContainerPadding, Container, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxRootProps, ComboboxListProps, ComboboxItemProps, ComboboxInputProps, ComboboxEmptyProps, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, CalendarSelection, CalendarRootProps, CalendarRange, CalendarNavProps, CalendarNavDirection, CalendarMode, CalendarHeaderPrimitiveProps, CalendarGridProps, CalendarContextValue, CalendarCellRenderArgs, CalendarCellProps, Calendar, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };

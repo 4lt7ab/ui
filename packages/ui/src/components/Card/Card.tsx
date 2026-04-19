@@ -1,8 +1,7 @@
 import { forwardRef, useEffect, useRef } from 'react';
 import { semantic as t, useInjectStyles, useThemeRhythm, Slot } from '@4lt7ab/core';
 import type { CSSProperties, ReactNode } from 'react';
-import { Surface, getSurfaceStyle } from '../Surface/Surface';
-import type { SurfaceStyleOptions } from '../Surface/Surface';
+import { Surface } from '../Surface/Surface';
 import type { SpacingToken, BaseComponentProps } from '../../types';
 
 /** Visual treatment for the Card surface. */
@@ -47,7 +46,11 @@ export interface CardProps extends BaseComponentProps {
 }
 
 // Card is an opinionated <Surface>; each variant is a preset Surface-prop bag.
-const variantSurfaceOptions: Record<CardVariant, Omit<SurfaceStyleOptions, 'padding' | 'radius'>> = {
+type SurfacePresetProps = Pick<
+  React.ComponentProps<typeof Surface>,
+  'level' | 'border' | 'shadow'
+>;
+const variantSurfaceProps: Record<CardVariant, SurfacePresetProps> = {
   default: { level: 'solid', border: true, shadow: 'sm' },
   flat: { level: 'raised', border: true },
   elevated: { level: 'solid', border: true, shadow: 'md' },
@@ -125,34 +128,58 @@ export const Card: React.ForwardRefExoticComponent<Omit<CardProps, 'ref'> & Reac
       };
     }, [glow, config, subscribe]);
 
-    const surfaceOptions: SurfaceStyleOptions = { ...variantSurfaceOptions[variant], padding, radius: 'lg' };
-    const glowOverride: CSSProperties | undefined = glow ? { boxShadow: GLOW_BOX_SHADOW } : undefined;
-    const dataAttributes = { 'data-card-hover': hover ? '' : undefined, 'data-card-glow': glow ? '' : undefined };
+    // Card's hover/glow decorations need to live on the final rendered
+    // element. With `<Surface asChild>` + Slot's child-wins-on-style merge,
+    // decorating the inner element (div or consumer's element) is enough —
+    // Surface's computed style lands first, then the element's data-* and
+    // glow boxShadow layer on top.
+    const surfaceProps = {
+      ...variantSurfaceProps[variant],
+      padding,
+      radius: 'lg' as const,
+      asChild: true as const,
+    };
+
+    // Card's own decorations bag. Slot merges with child-wins semantics, so
+    // consumer-supplied values (id, data-testid, existing refs) take priority
+    // over Card's defaults — important for composites like LinkCard that
+    // forward consumer id/ref/aria to the child <a>.
+    //
+    // `style` is only included when glow is on: Slot's mergeProps clobbers the
+    // parent's style when the child explicitly has `style: undefined`, so we
+    // omit the key entirely to let Surface's computed style flow through.
+    const cardSlotProps: Record<string, unknown> = {
+      'data-card-hover': hover ? '' : undefined,
+      'data-card-glow': glow ? '' : undefined,
+      id: rest.id,
+      'data-testid': rest['data-testid'],
+    };
+    if (glow) {
+      cardSlotProps.style = { boxShadow: GLOW_BOX_SHADOW } as CSSProperties;
+    }
 
     if (asChild) {
+      // Two-layer Slot: Surface's Slot merges its computed style onto this
+      // inner Slot's element; the inner Slot merges Card's decorations onto
+      // the consumer's child. Successive child-wins merges land Surface style,
+      // then Card decorations, then the consumer's explicit props on the leaf.
       return (
-        <Slot
-          ref={setRef}
-          id={rest.id}
-          data-testid={rest['data-testid']}
-          {...dataAttributes}
-          style={{ ...getSurfaceStyle(surfaceOptions), ...glowOverride }}
-        >
-          {children as React.ReactElement}
-        </Slot>
+        <Surface {...surfaceProps}>
+          <Slot ref={setRef} {...cardSlotProps}>
+            {children as React.ReactElement}
+          </Slot>
+        </Surface>
       );
     }
 
+    // Non-asChild Card: render our own <div> as Surface's Slot target. Surface
+    // style merges in first; the div's data-* + glow overlay + id + testid
+    // stack on top via Slot's child-wins semantics.
     return (
-      <Surface
-        ref={setRef as React.Ref<HTMLDivElement>}
-        {...surfaceOptions}
-        id={rest.id}
-        data-testid={rest['data-testid']}
-        dataAttributes={dataAttributes}
-        style={glowOverride}
-      >
-        {children}
+      <Surface {...surfaceProps}>
+        <div ref={setRef as React.Ref<HTMLDivElement>} {...cardSlotProps}>
+          {children}
+        </div>
       </Surface>
     );
   }

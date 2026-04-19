@@ -814,11 +814,12 @@ var Stack = forwardRef4(
 
 // src/components/Card/Card.tsx
 import { forwardRef as forwardRef6, useEffect as useEffect3, useRef as useRef2 } from "react";
-import { semantic as t4, useInjectStyles as useInjectStyles3, useThemeRhythm, Slot as Slot2 } from "../../core/dist/index.js";
+import { semantic as t4, useInjectStyles as useInjectStyles3, useThemeRhythm, Slot as Slot3 } from "../../core/dist/index.js";
 
 // src/components/Surface/Surface.tsx
 import { createElement, forwardRef as forwardRef5 } from "react";
-import { semantic as t3 } from "../../core/dist/index.js";
+import { semantic as t3, Slot as Slot2 } from "../../core/dist/index.js";
+import { jsx as jsx6 } from "react/jsx-runtime";
 var levelMap = {
   page: t3.colorSurfacePage,
   default: t3.colorSurface,
@@ -856,31 +857,28 @@ var Surface = forwardRef5(
     border = false,
     shadow,
     as = "div",
-    style,
-    dataAttributes,
+    asChild = false,
     children,
     ...rest
   }, ref) {
-    const baseStyle3 = getSurfaceStyle({ level, tint, padding, radius, border, shadow });
-    return createElement(
-      as,
-      {
-        ref,
-        id: rest.id,
-        "data-testid": rest["data-testid"],
-        "aria-label": rest["aria-label"],
-        "aria-labelledby": rest["aria-labelledby"],
-        ...dataAttributes,
-        style: style ? { ...baseStyle3, ...style } : baseStyle3
-      },
-      children
-    );
+    const style = getSurfaceStyle({ level, tint, padding, radius, border, shadow });
+    const commonProps = {
+      id: rest.id,
+      "data-testid": rest["data-testid"],
+      "aria-label": rest["aria-label"],
+      "aria-labelledby": rest["aria-labelledby"],
+      style
+    };
+    if (asChild) {
+      return /* @__PURE__ */ jsx6(Slot2, { ref, ...commonProps, children });
+    }
+    return createElement(as, { ref, ...commonProps }, children);
   }
 );
 
 // src/components/Card/Card.tsx
-import { jsx as jsx6 } from "react/jsx-runtime";
-var variantSurfaceOptions = {
+import { jsx as jsx7 } from "react/jsx-runtime";
+var variantSurfaceProps = {
   default: { level: "solid", border: true, shadow: "sm" },
   flat: { level: "raised", border: true },
   elevated: { level: "solid", border: true, shadow: "md" }
@@ -939,41 +937,32 @@ var Card = forwardRef6(
         el.style.removeProperty("--card-glow-strength");
       };
     }, [glow, config, subscribe]);
-    const surfaceOptions = { ...variantSurfaceOptions[variant], padding, radius: "lg" };
-    const glowOverride = glow ? { boxShadow: GLOW_BOX_SHADOW } : void 0;
-    const dataAttributes = { "data-card-hover": hover ? "" : void 0, "data-card-glow": glow ? "" : void 0 };
-    if (asChild) {
-      return /* @__PURE__ */ jsx6(
-        Slot2,
-        {
-          ref: setRef,
-          id: rest.id,
-          "data-testid": rest["data-testid"],
-          ...dataAttributes,
-          style: { ...getSurfaceStyle(surfaceOptions), ...glowOverride },
-          children
-        }
-      );
+    const surfaceProps = {
+      ...variantSurfaceProps[variant],
+      padding,
+      radius: "lg",
+      asChild: true
+    };
+    const cardSlotProps = {
+      "data-card-hover": hover ? "" : void 0,
+      "data-card-glow": glow ? "" : void 0,
+      id: rest.id,
+      "data-testid": rest["data-testid"]
+    };
+    if (glow) {
+      cardSlotProps.style = { boxShadow: GLOW_BOX_SHADOW };
     }
-    return /* @__PURE__ */ jsx6(
-      Surface,
-      {
-        ref: setRef,
-        ...surfaceOptions,
-        id: rest.id,
-        "data-testid": rest["data-testid"],
-        dataAttributes,
-        style: glowOverride,
-        children
-      }
-    );
+    if (asChild) {
+      return /* @__PURE__ */ jsx7(Surface, { ...surfaceProps, children: /* @__PURE__ */ jsx7(Slot3, { ref: setRef, ...cardSlotProps, children }) });
+    }
+    return /* @__PURE__ */ jsx7(Surface, { ...surfaceProps, children: /* @__PURE__ */ jsx7("div", { ref: setRef, ...cardSlotProps, children }) });
   }
 );
 
 // src/components/LinkCard/LinkCard.tsx
 import { forwardRef as forwardRef7 } from "react";
 import { semantic as t5, useInjectStyles as useInjectStyles4 } from "../../core/dist/index.js";
-import { jsx as jsx7, jsxs as jsxs3 } from "react/jsx-runtime";
+import { jsx as jsx8, jsxs as jsxs3 } from "react/jsx-runtime";
 var STYLES_ID = "alttab-link-card";
 var linkCardCSS = (
   /* css */
@@ -1019,7 +1008,7 @@ var LinkCard = forwardRef7(function LinkCard2({
   "data-testid": dataTestId
 }, ref) {
   useInjectStyles4(STYLES_ID, linkCardCSS);
-  return /* @__PURE__ */ jsx7(Card, { asChild: true, children: /* @__PURE__ */ jsxs3(
+  return /* @__PURE__ */ jsx8(Card, { asChild: true, children: /* @__PURE__ */ jsxs3(
     "a",
     {
       ref,
@@ -1032,8 +1021,8 @@ var LinkCard = forwardRef7(function LinkCard2({
       "aria-label": ariaLabel,
       "data-testid": dataTestId,
       children: [
-        /* @__PURE__ */ jsx7("span", { className: "alttab-link-card__title", children: title }),
-        description && /* @__PURE__ */ jsx7("span", { className: "alttab-link-card__desc", children: description })
+        /* @__PURE__ */ jsx8("span", { className: "alttab-link-card__title", children: title }),
+        description && /* @__PURE__ */ jsx8("span", { className: "alttab-link-card__desc", children: description })
       ]
     }
   ) });
@@ -1042,7 +1031,7 @@ var LinkCard = forwardRef7(function LinkCard2({
 // src/components/Field/Field.tsx
 import { semantic as t6 } from "../../core/dist/index.js";
 import { forwardRef as forwardRef8, useId, isValidElement, cloneElement } from "react";
-import { jsx as jsx8, jsxs as jsxs4 } from "react/jsx-runtime";
+import { jsx as jsx9, jsxs as jsxs4 } from "react/jsx-runtime";
 var labelStyle = {
   display: "block",
   fontSize: t6.fontSizeSm,
@@ -1103,11 +1092,11 @@ var Field = forwardRef8(
         children: [
           /* @__PURE__ */ jsxs4("label", { htmlFor, style: labelStyle, children: [
             label,
-            required && /* @__PURE__ */ jsx8("span", { style: requiredStyle, "aria-hidden": "true", children: "*" })
+            required && /* @__PURE__ */ jsx9("span", { style: requiredStyle, "aria-hidden": "true", children: "*" })
           ] }),
           enhancedChildren,
-          error && /* @__PURE__ */ jsx8("p", { id: errorId, role: "alert", style: errorStyle, children: error }),
-          !error && help && /* @__PURE__ */ jsx8("p", { id: helpId, style: helpStyle, children: help })
+          error && /* @__PURE__ */ jsx9("p", { id: errorId, role: "alert", style: errorStyle, children: error }),
+          !error && help && /* @__PURE__ */ jsx9("p", { id: helpId, style: helpStyle, children: help })
         ]
       }
     );
@@ -1117,7 +1106,7 @@ var Field = forwardRef8(
 // src/components/Input/Input.tsx
 import { forwardRef as forwardRef9 } from "react";
 import { semantic as t7 } from "../../core/dist/index.js";
-import { jsx as jsx9 } from "react/jsx-runtime";
+import { jsx as jsx10 } from "react/jsx-runtime";
 var baseStyle = {
   display: "block",
   width: "100%",
@@ -1173,7 +1162,7 @@ var Input = forwardRef9(
     "aria-invalid": ariaInvalid,
     "data-testid": dataTestId
   }, ref) {
-    return /* @__PURE__ */ jsx9(
+    return /* @__PURE__ */ jsx10(
       "input",
       {
         ref,
@@ -1218,7 +1207,7 @@ var Input = forwardRef9(
 // src/components/Textarea/Textarea.tsx
 import { forwardRef as forwardRef10 } from "react";
 import { semantic as t8 } from "../../core/dist/index.js";
-import { jsx as jsx10 } from "react/jsx-runtime";
+import { jsx as jsx11 } from "react/jsx-runtime";
 var baseStyle2 = {
   display: "block",
   width: "100%",
@@ -1271,7 +1260,7 @@ var Textarea = forwardRef10(
     "aria-invalid": ariaInvalid,
     "data-testid": dataTestId
   }, ref) {
-    return /* @__PURE__ */ jsx10(
+    return /* @__PURE__ */ jsx11(
       "textarea",
       {
         ref,
@@ -1319,7 +1308,7 @@ import {
   useState as useState2
 } from "react";
 import { semantic as t9, useInjectStyles as useInjectStyles5 } from "../../core/dist/index.js";
-import { Fragment, jsx as jsx11, jsxs as jsxs5 } from "react/jsx-runtime";
+import { Fragment, jsx as jsx12, jsxs as jsxs5 } from "react/jsx-runtime";
 var SELECT_STYLES_ID = "alttab-select";
 var selectCSS = (
   /* css */
@@ -1560,7 +1549,7 @@ function Root({
       selectItem
     ]
   );
-  return /* @__PURE__ */ jsx11(SelectContext.Provider, { value: ctx, children: /* @__PURE__ */ jsxs5(
+  return /* @__PURE__ */ jsx12(SelectContext.Provider, { value: ctx, children: /* @__PURE__ */ jsxs5(
     "div",
     {
       ref: containerRef,
@@ -1582,8 +1571,8 @@ function Root({
             "aria-hidden": true,
             style: hiddenSelectStyle,
             children: [
-              /* @__PURE__ */ jsx11("option", { value: "" }),
-              items.map((item) => /* @__PURE__ */ jsx11(
+              /* @__PURE__ */ jsx12("option", { value: "" }),
+              items.map((item) => /* @__PURE__ */ jsx12(
                 "option",
                 {
                   value: item.value,
@@ -1648,8 +1637,8 @@ function Trigger({
         ...hasSelection ? {} : placeholderStyle
       },
       children: [
-        /* @__PURE__ */ jsx11("span", { style: triggerTextStyle, children }),
-        /* @__PURE__ */ jsx11("span", { "aria-hidden": true, style: chevronStyle, children: /* @__PURE__ */ jsx11(ChevronSVG, { rotated: open }) })
+        /* @__PURE__ */ jsx12("span", { style: triggerTextStyle, children }),
+        /* @__PURE__ */ jsx12("span", { "aria-hidden": true, style: chevronStyle, children: /* @__PURE__ */ jsx12(ChevronSVG, { rotated: open }) })
       ]
     }
   );
@@ -1657,7 +1646,7 @@ function Trigger({
 function Value({ placeholder }) {
   const { value, items } = useSelectContext("Value");
   const selected = items.find((i) => i.value === value);
-  return /* @__PURE__ */ jsx11(Fragment, { children: selected?.label ?? placeholder ?? "\xA0" });
+  return /* @__PURE__ */ jsx12(Fragment, { children: selected?.label ?? placeholder ?? "\xA0" });
 }
 function Content({ children }) {
   const { open, listboxId, dropDirection, focusedValue } = useSelectContext("Content");
@@ -1684,7 +1673,7 @@ function Content({ children }) {
     right: 0,
     marginBottom: t9.spaceXs
   };
-  return /* @__PURE__ */ jsx11(
+  return /* @__PURE__ */ jsx12(
     "div",
     {
       ref,
@@ -1736,7 +1725,7 @@ function Item({
     isFocused ? "alttab-select-option--focused" : "",
     disabled ? "alttab-select-option--disabled" : ""
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ jsx11(
+  return /* @__PURE__ */ jsx12(
     "button",
     {
       type: "button",
@@ -1814,7 +1803,7 @@ var placeholderStyle = {
   color: t9.colorTextPlaceholder
 };
 function ChevronSVG({ rotated }) {
-  return /* @__PURE__ */ jsx11(
+  return /* @__PURE__ */ jsx12(
     "svg",
     {
       width: "12",
@@ -1826,7 +1815,7 @@ function ChevronSVG({ rotated }) {
         transition: `transform ${t9.transitionBase}`,
         transform: rotated ? "rotate(180deg)" : "none"
       },
-      children: /* @__PURE__ */ jsx11(
+      children: /* @__PURE__ */ jsx12(
         "path",
         {
           d: "M2.22 4.47a.75.75 0 0 1 1.06 0L6 7.19l2.72-2.72a.75.75 0 1 1 1.06 1.06L6 9.31 2.22 5.53a.75.75 0 0 1 0-1.06z",
@@ -1847,7 +1836,7 @@ var Select = {
 // src/components/Badge/Badge.tsx
 import { forwardRef as forwardRef11 } from "react";
 import { semantic as t10 } from "../../core/dist/index.js";
-import { jsx as jsx12 } from "react/jsx-runtime";
+import { jsx as jsx13 } from "react/jsx-runtime";
 var variantStyles2 = {
   default: {
     border: `${t10.borderWidthDefault} solid ${t10.colorBorder}`,
@@ -1906,7 +1895,7 @@ var Badge = forwardRef11(
   }, ref) {
     const isXs = size === "xs";
     const base = isXs ? xsBaseStyles : baseStyles2;
-    return /* @__PURE__ */ jsx12(
+    return /* @__PURE__ */ jsx13(
       "span",
       {
         ref,
@@ -1924,8 +1913,8 @@ var Badge = forwardRef11(
 
 // src/components/IconButton/IconButton.tsx
 import { forwardRef as forwardRef12, useId as useId3 } from "react";
-import { semantic as t11, useInjectStyles as useInjectStyles6, Slot as Slot3 } from "../../core/dist/index.js";
-import { Fragment as Fragment2, jsx as jsx13, jsxs as jsxs6 } from "react/jsx-runtime";
+import { semantic as t11, useInjectStyles as useInjectStyles6, Slot as Slot4 } from "../../core/dist/index.js";
+import { Fragment as Fragment2, jsx as jsx14, jsxs as jsxs6 } from "react/jsx-runtime";
 var buttonSizeMap = {
   sm: 28,
   md: 36,
@@ -1984,8 +1973,8 @@ var IconButton = forwardRef12(
       padding: 0
     };
     const iconAndBadge = /* @__PURE__ */ jsxs6(Fragment2, { children: [
-      /* @__PURE__ */ jsx13(Icon, { name: icon, size: iconSizeForButton[size], fontClass }),
-      badge && /* @__PURE__ */ jsx13(
+      /* @__PURE__ */ jsx14(Icon, { name: icon, size: iconSizeForButton[size], fontClass }),
+      badge && /* @__PURE__ */ jsx14(
         "span",
         {
           style: {
@@ -2015,9 +2004,9 @@ var IconButton = forwardRef12(
       style
     };
     if (asChild) {
-      return /* @__PURE__ */ jsx13(Slot3, { ref, ...commonProps, "aria-disabled": disabled || void 0, children });
+      return /* @__PURE__ */ jsx14(Slot4, { ref, ...commonProps, "aria-disabled": disabled || void 0, children });
     }
-    return /* @__PURE__ */ jsx13(
+    return /* @__PURE__ */ jsx14(
       "button",
       {
         ref,
@@ -2033,13 +2022,13 @@ var IconButton = forwardRef12(
 // src/components/Overlay/Overlay.tsx
 import { forwardRef as forwardRef13 } from "react";
 import { semantic as t12 } from "../../core/dist/index.js";
-import { jsx as jsx14 } from "react/jsx-runtime";
+import { jsx as jsx15 } from "react/jsx-runtime";
 var Overlay = forwardRef13(
   function Overlay2({
     onClick,
     zIndex = t12.zIndexSticky
   }, ref) {
-    return /* @__PURE__ */ jsx14(
+    return /* @__PURE__ */ jsx15(
       "div",
       {
         ref,
@@ -2059,7 +2048,7 @@ var Overlay = forwardRef13(
 // src/components/Skeleton/Skeleton.tsx
 import { forwardRef as forwardRef14 } from "react";
 import { semantic as t13, useInjectStyles as useInjectStyles7, useThemeRhythm as useThemeRhythm2 } from "../../core/dist/index.js";
-import { jsx as jsx15, jsxs as jsxs7 } from "react/jsx-runtime";
+import { jsx as jsx16, jsxs as jsxs7 } from "react/jsx-runtime";
 var SKELETON_STYLES_ID = "4lt7ab-skeleton-pulse";
 var STAGGER_STEPS = 10;
 var STAGGER_MS = 80;
@@ -2107,7 +2096,7 @@ var Skeleton = forwardRef14(
   }, ref) {
     const { durationCss } = useThemeRhythm2();
     useInjectStyles7(SKELETON_STYLES_ID, SKELETON_STYLES_CSS);
-    return /* @__PURE__ */ jsx15(
+    return /* @__PURE__ */ jsx16(
       "div",
       {
         ref,
@@ -2140,9 +2129,9 @@ var CardSkeleton = forwardRef14(
           gap: t13.spaceSm
         },
         children: [
-          /* @__PURE__ */ jsx15(Skeleton, { width: "60%", height: 20 }),
-          /* @__PURE__ */ jsx15(Skeleton, { width: "100%", height: 14 }),
-          /* @__PURE__ */ jsx15(Skeleton, { width: "80%", height: 14 })
+          /* @__PURE__ */ jsx16(Skeleton, { width: "60%", height: 20 }),
+          /* @__PURE__ */ jsx16(Skeleton, { width: "100%", height: 14 }),
+          /* @__PURE__ */ jsx16(Skeleton, { width: "80%", height: 14 })
         ]
       }
     );
@@ -2162,10 +2151,10 @@ var RowSkeleton = forwardRef14(
           padding: `${t13.spaceSm} 0`
         },
         children: [
-          /* @__PURE__ */ jsx15(Skeleton, { width: 32, height: 32, radius: "full" }),
+          /* @__PURE__ */ jsx16(Skeleton, { width: 32, height: 32, radius: "full" }),
           /* @__PURE__ */ jsxs7("div", { style: { flex: 1, display: "flex", flexDirection: "column", gap: t13.spaceXs }, children: [
-            /* @__PURE__ */ jsx15(Skeleton, { width: "40%", height: 14 }),
-            /* @__PURE__ */ jsx15(Skeleton, { width: "70%", height: 12 })
+            /* @__PURE__ */ jsx16(Skeleton, { width: "40%", height: 14 }),
+            /* @__PURE__ */ jsx16(Skeleton, { width: "70%", height: 12 })
           ] })
         ]
       }
@@ -2176,7 +2165,7 @@ var RowSkeleton = forwardRef14(
 // src/components/ProgressBar/ProgressBar.tsx
 import { forwardRef as forwardRef15 } from "react";
 import { semantic as t14 } from "../../core/dist/index.js";
-import { jsx as jsx16 } from "react/jsx-runtime";
+import { jsx as jsx17 } from "react/jsx-runtime";
 var ProgressBar = forwardRef15(
   function ProgressBar2({
     segments,
@@ -2185,7 +2174,7 @@ var ProgressBar = forwardRef15(
   }, ref) {
     const total = segments.reduce((sum, s) => sum + s.value, 0);
     const px = progressBarHeightMap[height];
-    return /* @__PURE__ */ jsx16(
+    return /* @__PURE__ */ jsx17(
       "div",
       {
         ref,
@@ -2204,7 +2193,7 @@ var ProgressBar = forwardRef15(
         },
         children: segments.map((segment, i) => {
           const pct = total > 0 ? segment.value / total * 100 : 0;
-          return /* @__PURE__ */ jsx16(
+          return /* @__PURE__ */ jsx17(
             "div",
             {
               title: segment.label ? `${segment.label}: ${segment.value}` : String(segment.value),
@@ -2225,7 +2214,7 @@ var ProgressBar = forwardRef15(
 // src/components/EmptyState/EmptyState.tsx
 import { forwardRef as forwardRef16 } from "react";
 import { semantic as t15 } from "../../core/dist/index.js";
-import { jsx as jsx17, jsxs as jsxs8 } from "react/jsx-runtime";
+import { jsx as jsx18, jsxs as jsxs8 } from "react/jsx-runtime";
 var EmptyState = forwardRef16(
   function EmptyState2({
     icon,
@@ -2234,9 +2223,9 @@ var EmptyState = forwardRef16(
     children,
     action
   }, ref) {
-    const content = /* @__PURE__ */ jsx17("div", { style: { padding: t15.spaceXl }, children: /* @__PURE__ */ jsxs8(Stack, { align: "center", gap: "sm", children: [
-      /* @__PURE__ */ jsx17("span", { style: { color: t15.colorTextMuted, display: "inline-flex" }, children: /* @__PURE__ */ jsx17(Icon, { name: icon, size: "xl" }) }),
-      /* @__PURE__ */ jsx17(
+    const content = /* @__PURE__ */ jsx18("div", { style: { padding: t15.spaceXl }, children: /* @__PURE__ */ jsxs8(Stack, { align: "center", gap: "sm", children: [
+      /* @__PURE__ */ jsx18("span", { style: { color: t15.colorTextMuted, display: "inline-flex" }, children: /* @__PURE__ */ jsx18(Icon, { name: icon, size: "xl" }) }),
+      /* @__PURE__ */ jsx18(
         "span",
         {
           style: {
@@ -2249,19 +2238,19 @@ var EmptyState = forwardRef16(
         }
       ),
       children,
-      action && /* @__PURE__ */ jsx17("div", { style: { marginTop: t15.spaceSm }, children: action })
+      action && /* @__PURE__ */ jsx18("div", { style: { marginTop: t15.spaceSm }, children: action })
     ] }) });
     if (variant === "card") {
-      return /* @__PURE__ */ jsx17(Card, { ref, variant: "flat", children: content });
+      return /* @__PURE__ */ jsx18(Card, { ref, variant: "flat", children: content });
     }
-    return /* @__PURE__ */ jsx17("div", { ref, children: content });
+    return /* @__PURE__ */ jsx18("div", { ref, children: content });
   }
 );
 
 // src/components/Pagination/Pagination.tsx
 import { forwardRef as forwardRef17 } from "react";
 import { semantic as t16 } from "../../core/dist/index.js";
-import { jsx as jsx18, jsxs as jsxs9 } from "react/jsx-runtime";
+import { jsx as jsx19, jsxs as jsxs9 } from "react/jsx-runtime";
 var defaultLabels = {
   previous: "Previous",
   next: "Next",
@@ -2287,7 +2276,7 @@ var Pagination = forwardRef17(
           gap: t16.spaceSm
         },
         children: [
-          /* @__PURE__ */ jsx18(
+          /* @__PURE__ */ jsx19(
             Button,
             {
               variant: "ghost",
@@ -2313,7 +2302,7 @@ var Pagination = forwardRef17(
               ]
             }
           ),
-          /* @__PURE__ */ jsx18(
+          /* @__PURE__ */ jsx19(
             Button,
             {
               variant: "ghost",
@@ -2332,7 +2321,7 @@ var Pagination = forwardRef17(
 // src/components/Header/Header.tsx
 import { forwardRef as forwardRef18 } from "react";
 import { semantic as t17 } from "../../core/dist/index.js";
-import { jsx as jsx19, jsxs as jsxs10 } from "react/jsx-runtime";
+import { jsx as jsx20, jsxs as jsxs10 } from "react/jsx-runtime";
 var Header = forwardRef18(
   function Header2({ title, level = "section", subtitle, indicator, trailing }, ref) {
     const isPage = level === "page";
@@ -2363,12 +2352,12 @@ var Header = forwardRef18(
         children: [
           /* @__PURE__ */ jsxs10("div", { style: { minWidth: 0 }, children: [
             /* @__PURE__ */ jsxs10("div", { style: { display: "flex", alignItems: "center", gap: t17.spaceSm }, children: [
-              /* @__PURE__ */ jsx19(Tag, { style: titleStyle2, children: title }),
+              /* @__PURE__ */ jsx20(Tag, { style: titleStyle2, children: title }),
               indicator
             ] }),
-            subtitle && /* @__PURE__ */ jsx19("span", { style: { color: t17.colorTextMuted, fontSize: t17.fontSizeSm, fontFamily: t17.fontSans }, children: subtitle })
+            subtitle && /* @__PURE__ */ jsx20("span", { style: { color: t17.colorTextMuted, fontSize: t17.fontSizeSm, fontFamily: t17.fontSans }, children: subtitle })
           ] }),
-          trailing && /* @__PURE__ */ jsx19("div", { style: { display: "flex", alignItems: "center", gap: t17.spaceSm, flexShrink: 0 }, children: trailing })
+          trailing && /* @__PURE__ */ jsx20("div", { style: { display: "flex", alignItems: "center", gap: t17.spaceSm, flexShrink: 0 }, children: trailing })
         ]
       }
     );
@@ -2379,7 +2368,7 @@ var Header = forwardRef18(
 import { forwardRef as forwardRef19, useEffect as useEffect5, useId as useId4, useRef as useRef4 } from "react";
 import { createPortal } from "react-dom";
 import { semantic as t18 } from "../../core/dist/index.js";
-import { Fragment as Fragment3, jsx as jsx20, jsxs as jsxs11 } from "react/jsx-runtime";
+import { Fragment as Fragment3, jsx as jsx21, jsxs as jsxs11 } from "react/jsx-runtime";
 var modalHeadingStyle = Object.freeze({
   margin: 0,
   fontWeight: t18.fontWeightSemibold,
@@ -2448,8 +2437,8 @@ var ModalShell = forwardRef19(
     }, [onClose]);
     return createPortal(
       /* @__PURE__ */ jsxs11(Fragment3, { children: [
-        /* @__PURE__ */ jsx20(Overlay, { onClick: onClose, zIndex }),
-        /* @__PURE__ */ jsx20(
+        /* @__PURE__ */ jsx21(Overlay, { onClick: onClose, zIndex }),
+        /* @__PURE__ */ jsx21(
           "div",
           {
             style: {
@@ -2462,7 +2451,7 @@ var ModalShell = forwardRef19(
               zIndex: typeof zIndex === "number" ? zIndex + 1 : `calc(${zIndex} + 1)`,
               pointerEvents: "none"
             },
-            children: /* @__PURE__ */ jsx20(
+            children: /* @__PURE__ */ jsx21(
               "div",
               {
                 ref: setRefs,
@@ -2525,7 +2514,7 @@ var tagChipStyle = {
 // src/components/ConfirmDialog/ConfirmDialog.tsx
 import { forwardRef as forwardRef20, useId as useId5, useState as useState3 } from "react";
 import { semantic as t21 } from "../../core/dist/index.js";
-import { jsx as jsx21, jsxs as jsxs12 } from "react/jsx-runtime";
+import { jsx as jsx22, jsxs as jsxs12 } from "react/jsx-runtime";
 var variantButtonMap = {
   destructive: "destructive",
   info: "primary",
@@ -2552,7 +2541,7 @@ var ConfirmDialog = forwardRef20(
       }
     };
     return /* @__PURE__ */ jsxs12(ModalShell, { ref, onClose: onCancel, role: "alertdialog", titleId, children: [
-      /* @__PURE__ */ jsx21(
+      /* @__PURE__ */ jsx22(
         "h2",
         {
           id: titleId,
@@ -2560,7 +2549,7 @@ var ConfirmDialog = forwardRef20(
           children: title
         }
       ),
-      /* @__PURE__ */ jsx21(
+      /* @__PURE__ */ jsx22(
         "p",
         {
           style: {
@@ -2572,10 +2561,10 @@ var ConfirmDialog = forwardRef20(
           children: message
         }
       ),
-      children && /* @__PURE__ */ jsx21("div", { style: { margin: `${t21.spaceSm} 0 ${t21.spaceLg}` }, children }),
+      children && /* @__PURE__ */ jsx22("div", { style: { margin: `${t21.spaceSm} 0 ${t21.spaceLg}` }, children }),
       /* @__PURE__ */ jsxs12("div", { style: modalFooterStyle, children: [
-        /* @__PURE__ */ jsx21(Button, { variant: "ghost", onClick: onCancel, disabled: loading, autoFocus: true, children: "Cancel" }),
-        /* @__PURE__ */ jsx21(Button, { variant: variantButtonMap[variant], onClick: handleConfirm, disabled: loading, children: loading ? "Loading..." : confirmLabel })
+        /* @__PURE__ */ jsx22(Button, { variant: "ghost", onClick: onCancel, disabled: loading, autoFocus: true, children: "Cancel" }),
+        /* @__PURE__ */ jsx22(Button, { variant: variantButtonMap[variant], onClick: handleConfirm, disabled: loading, children: loading ? "Loading..." : confirmLabel })
       ] })
     ] });
   }
@@ -2584,7 +2573,7 @@ var ConfirmDialog = forwardRef20(
 // src/components/StatusDot/StatusDot.tsx
 import { forwardRef as forwardRef21 } from "react";
 import { semantic as t22, useInjectStyles as useInjectStyles8, useThemeRhythm as useThemeRhythm3 } from "../../core/dist/index.js";
-import { jsx as jsx22 } from "react/jsx-runtime";
+import { jsx as jsx23 } from "react/jsx-runtime";
 var variantColors = {
   default: t22.colorTextMuted,
   primary: t22.colorActionPrimary,
@@ -2627,7 +2616,7 @@ var StatusDot = forwardRef21(
     const isPulsing = animate === "pulse";
     const { durationCss } = useThemeRhythm3();
     useInjectStyles8(PULSE_STYLES_ID, PULSE_STYLES_CSS);
-    return /* @__PURE__ */ jsx22(
+    return /* @__PURE__ */ jsx23(
       "span",
       {
         ref,
@@ -2657,7 +2646,7 @@ var StatusDot = forwardRef21(
 import { forwardRef as forwardRef22, Children, isValidElement as isValidElement2, cloneElement as cloneElement2 } from "react";
 import { semantic as t23 } from "../../core/dist/index.js";
 import { useInjectStyles as useInjectStyles9 } from "../../core/dist/index.js";
-import { jsx as jsx23 } from "react/jsx-runtime";
+import { jsx as jsx24 } from "react/jsx-runtime";
 var spaceMap = {
   xs: t23.spaceXs,
   sm: t23.spaceSm,
@@ -2702,7 +2691,7 @@ var Table = forwardRef22(
     children
   }, ref) {
     useInjectStyles9(TABLE_STYLES_ID, TABLE_STYLES_CSS);
-    return /* @__PURE__ */ jsx23(
+    return /* @__PURE__ */ jsx24(
       "div",
       {
         ref,
@@ -2710,7 +2699,7 @@ var Table = forwardRef22(
           overflowX: "auto",
           ...wrapperVariants[variant]
         },
-        children: /* @__PURE__ */ jsx23(
+        children: /* @__PURE__ */ jsx24(
           "table",
           {
             "data-table-density": density,
@@ -2730,7 +2719,7 @@ var Table = forwardRef22(
 );
 var TableHeader = forwardRef22(
   function TableHeader2({ children }, ref) {
-    return /* @__PURE__ */ jsx23("thead", { ref, children: /* @__PURE__ */ jsx23("tr", { children }) });
+    return /* @__PURE__ */ jsx24("thead", { ref, children: /* @__PURE__ */ jsx24("tr", { children }) });
   }
 );
 var TableHeaderCell = forwardRef22(
@@ -2740,7 +2729,7 @@ var TableHeaderCell = forwardRef22(
     colSpan,
     children
   }, ref) {
-    return /* @__PURE__ */ jsx23(
+    return /* @__PURE__ */ jsx24(
       "th",
       {
         ref,
@@ -2783,7 +2772,7 @@ var TableBody = forwardRef22(
       });
       return cloneElement2(child, {}, cells);
     });
-    return /* @__PURE__ */ jsx23("tbody", { ref, children: styledChildren });
+    return /* @__PURE__ */ jsx24("tbody", { ref, children: styledChildren });
   }
 );
 var TableRow = forwardRef22(
@@ -2799,7 +2788,7 @@ var TableRow = forwardRef22(
         onClick(e);
       }
     } : void 0;
-    return /* @__PURE__ */ jsx23(
+    return /* @__PURE__ */ jsx24(
       "tr",
       {
         ref,
@@ -2825,7 +2814,7 @@ var TableCell = forwardRef22(
     colSpan,
     children
   }, ref) {
-    return /* @__PURE__ */ jsx23(
+    return /* @__PURE__ */ jsx24(
       "td",
       {
         ref,
@@ -2854,7 +2843,7 @@ var TableGroupHeader = forwardRef22(
     colSpan,
     children
   }, ref) {
-    return /* @__PURE__ */ jsx23("tr", { ref, style: { cursor: "default" }, children: /* @__PURE__ */ jsx23(
+    return /* @__PURE__ */ jsx24("tr", { ref, style: { cursor: "default" }, children: /* @__PURE__ */ jsx24(
       "td",
       {
         colSpan,
@@ -2881,7 +2870,7 @@ var TableEmptyRow = forwardRef22(
     colSpan,
     children
   }, ref) {
-    return /* @__PURE__ */ jsx23("tr", { ref, children: /* @__PURE__ */ jsx23(
+    return /* @__PURE__ */ jsx24("tr", { ref, children: /* @__PURE__ */ jsx24(
       "td",
       {
         colSpan,
@@ -2907,7 +2896,7 @@ import {
   useState as useState4
 } from "react";
 import { semantic as t24 } from "../../core/dist/index.js";
-import { jsx as jsx24, jsxs as jsxs13 } from "react/jsx-runtime";
+import { jsx as jsx25, jsxs as jsxs13 } from "react/jsx-runtime";
 var FilterBarContext = createContext3(null);
 function useFilterBarContext(part) {
   const ctx = useContext3(FilterBarContext);
@@ -2940,7 +2929,7 @@ function FilterBar({
   const ctxValue = { values, commit };
   const content = filters ? filters.map((filter) => {
     if (filter.type === "text") {
-      return /* @__PURE__ */ jsx24(
+      return /* @__PURE__ */ jsx25(
         FilterBarText,
         {
           field: filter.key,
@@ -2950,7 +2939,7 @@ function FilterBar({
         filter.key
       );
     }
-    return /* @__PURE__ */ jsx24(
+    return /* @__PURE__ */ jsx25(
       FilterBarSelect,
       {
         field: filter.key,
@@ -2960,7 +2949,7 @@ function FilterBar({
       filter.key
     );
   }) : children;
-  return /* @__PURE__ */ jsx24(FilterBarContext.Provider, { value: ctxValue, children: /* @__PURE__ */ jsx24(
+  return /* @__PURE__ */ jsx25(FilterBarContext.Provider, { value: ctxValue, children: /* @__PURE__ */ jsx25(
     "div",
     {
       style: {
@@ -3003,7 +2992,7 @@ function FilterBarText({
       if (timerRef.current) clearTimeout(timerRef.current);
     };
   }, []);
-  return /* @__PURE__ */ jsx24("div", { style: { minWidth: "10rem", flex: "1 1 10rem" }, children: /* @__PURE__ */ jsx24(Input, { value: local, onChange: handleChange, placeholder }) });
+  return /* @__PURE__ */ jsx25("div", { style: { minWidth: "10rem", flex: "1 1 10rem" }, children: /* @__PURE__ */ jsx25(Input, { value: local, onChange: handleChange, placeholder }) });
 }
 function FilterBarSelect({
   field,
@@ -3018,9 +3007,9 @@ function FilterBarSelect({
     },
     [commit, field]
   );
-  return /* @__PURE__ */ jsx24("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ jsxs13(Select.Root, { value, onValueChange: handleValueChange, children: [
-    /* @__PURE__ */ jsx24(Select.Trigger, { children: /* @__PURE__ */ jsx24(Select.Value, { placeholder }) }),
-    /* @__PURE__ */ jsx24(Select.Content, { children: options.map((opt) => /* @__PURE__ */ jsx24(Select.Item, { value: opt.value, children: opt.label }, opt.value)) })
+  return /* @__PURE__ */ jsx25("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ jsxs13(Select.Root, { value, onValueChange: handleValueChange, children: [
+    /* @__PURE__ */ jsx25(Select.Trigger, { children: /* @__PURE__ */ jsx25(Select.Value, { placeholder }) }),
+    /* @__PURE__ */ jsx25(Select.Content, { children: options.map((opt) => /* @__PURE__ */ jsx25(Select.Item, { value: opt.value, children: opt.label }, opt.value)) })
   ] }) });
 }
 var TableFilterBar = Object.assign(FilterBar, {
@@ -3052,7 +3041,7 @@ import {
   useMemo as useMemo2,
   useState as useState5
 } from "react";
-import { jsx as jsx25 } from "react/jsx-runtime";
+import { jsx as jsx26 } from "react/jsx-runtime";
 var CalendarContext = createContext4(null);
 function useCalendarContext(part = "child") {
   const ctx = useContext4(CalendarContext);
@@ -3145,7 +3134,7 @@ function Root2({
       setViewDate
     ]
   );
-  return /* @__PURE__ */ jsx25(CalendarContext.Provider, { value: ctx, children });
+  return /* @__PURE__ */ jsx26(CalendarContext.Provider, { value: ctx, children });
 }
 var Calendar = {
   Root: Root2
@@ -3213,7 +3202,7 @@ function buildCalendarGrid(year, month) {
 }
 
 // src/components/Calendar/Header.tsx
-import { jsx as jsx26 } from "react/jsx-runtime";
+import { jsx as jsx27 } from "react/jsx-runtime";
 var titleStyle = {
   fontSize: t25.fontSizeSm,
   fontWeight: t25.fontWeightSemibold,
@@ -3230,7 +3219,7 @@ function CalendarHeaderPrimitive({
   const ctx = useCalendarContext("Header");
   const year = ctx.viewDate.getFullYear();
   const month = ctx.viewDate.getMonth();
-  return /* @__PURE__ */ jsx26(
+  return /* @__PURE__ */ jsx27(
     "span",
     {
       style: { ...titleStyle, ...style },
@@ -3242,7 +3231,7 @@ function CalendarHeaderPrimitive({
 }
 
 // src/components/Calendar/Nav.tsx
-import { jsx as jsx27 } from "react/jsx-runtime";
+import { jsx as jsx28 } from "react/jsx-runtime";
 function CalendarNav({
   direction,
   step = 1,
@@ -3263,7 +3252,7 @@ function CalendarNav({
     );
     ctx.setViewDate(next);
   };
-  return /* @__PURE__ */ jsx27(
+  return /* @__PURE__ */ jsx28(
     IconButton,
     {
       icon,
@@ -3280,7 +3269,7 @@ import { semantic as t27, useInjectStyles as useInjectStyles10 } from "../../cor
 
 // src/components/Calendar/Cell.tsx
 import { semantic as t26 } from "../../core/dist/index.js";
-import { jsx as jsx28 } from "react/jsx-runtime";
+import { jsx as jsx29 } from "react/jsx-runtime";
 var baseCellStyle = {
   display: "flex",
   alignItems: "center",
@@ -3371,7 +3360,7 @@ function CalendarCell({
     ...className ? [className] : []
   ].join(" ");
   const iso = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-  return /* @__PURE__ */ jsx28(
+  return /* @__PURE__ */ jsx29(
     "button",
     {
       type: "button",
@@ -3396,7 +3385,7 @@ function CalendarCell({
 }
 
 // src/components/Calendar/Grid.tsx
-import { jsx as jsx29, jsxs as jsxs14 } from "react/jsx-runtime";
+import { jsx as jsx30, jsxs as jsxs14 } from "react/jsx-runtime";
 var GRID_STYLES_ID2 = "alttab-calendar";
 var gridCSS2 = (
   /* css */
@@ -3545,8 +3534,8 @@ function CalendarGridPrimitive({
       className,
       onKeyDown: handleKeyDown,
       children: [
-        /* @__PURE__ */ jsx29("thead", { children: /* @__PURE__ */ jsx29("tr", { children: WEEKDAY_LABELS.map((label) => /* @__PURE__ */ jsx29("th", { scope: "col", style: weekdayHeaderStyle, children: label }, label)) }) }),
-        /* @__PURE__ */ jsx29("tbody", { children: rows.map((row, ri) => /* @__PURE__ */ jsx29("tr", { children: row.map((date) => {
+        /* @__PURE__ */ jsx30("thead", { children: /* @__PURE__ */ jsx30("tr", { children: WEEKDAY_LABELS.map((label) => /* @__PURE__ */ jsx30("th", { scope: "col", style: weekdayHeaderStyle, children: label }, label)) }) }),
+        /* @__PURE__ */ jsx30("tbody", { children: rows.map((row, ri) => /* @__PURE__ */ jsx30("tr", { children: row.map((date) => {
           const isInMonth = date.getMonth() === month;
           const isToday = isSameDay(date, todayRef.current);
           const isFocused = isSameDay(date, ctx.focusedDate);
@@ -3567,7 +3556,7 @@ function CalendarGridPrimitive({
             isDisabled: disabled
           };
           const iso = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-          return /* @__PURE__ */ jsx29("td", { role: "gridcell", style: cellTdStyle, children: children ? children(renderArgs) : /* @__PURE__ */ jsx29(CalendarCell, { date }) }, iso);
+          return /* @__PURE__ */ jsx30("td", { role: "gridcell", style: cellTdStyle, children: children ? children(renderArgs) : /* @__PURE__ */ jsx30(CalendarCell, { date }) }, iso);
         }) }, ri)) })
       ]
     }
@@ -3588,7 +3577,7 @@ var Calendar2 = {
 };
 
 // src/components/DateRangePicker/DateRangePicker.tsx
-import { jsx as jsx30, jsxs as jsxs15 } from "react/jsx-runtime";
+import { jsx as jsx31, jsxs as jsxs15 } from "react/jsx-runtime";
 var SCOPE = "alttab-drp";
 var injectedCSS = (
   /* css */
@@ -3746,7 +3735,7 @@ var DateRangePicker = forwardRef23(
     if (value) {
       displayText = `${formatDate(value.from)} \u2013 ${formatDate(value.to)}`;
     } else {
-      displayText = /* @__PURE__ */ jsx30("span", { style: placeholderStyle2, children: placeholder });
+      displayText = /* @__PURE__ */ jsx31("span", { style: placeholderStyle2, children: placeholder });
     }
     return /* @__PURE__ */ jsxs15(
       "div",
@@ -3758,7 +3747,7 @@ var DateRangePicker = forwardRef23(
         },
         style: wrapperStyle2,
         children: [
-          /* @__PURE__ */ jsx30(
+          /* @__PURE__ */ jsx31(
             "button",
             {
               type: "button",
@@ -3776,7 +3765,7 @@ var DateRangePicker = forwardRef23(
               children: displayText
             }
           ),
-          open && /* @__PURE__ */ jsx30("div", { style: popoverStyle, role: "dialog", "aria-label": "Date range picker", children: /* @__PURE__ */ jsxs15(
+          open && /* @__PURE__ */ jsx31("div", { style: popoverStyle, role: "dialog", "aria-label": "Date range picker", children: /* @__PURE__ */ jsxs15(
             Calendar2.Root,
             {
               mode: "range",
@@ -3790,15 +3779,15 @@ var DateRangePicker = forwardRef23(
               disabledDate,
               children: [
                 /* @__PURE__ */ jsxs15("div", { style: headerRowStyle, children: [
-                  /* @__PURE__ */ jsx30(Calendar2.Nav, { direction: "prev" }),
-                  /* @__PURE__ */ jsx30(Calendar2.Header, {}),
-                  /* @__PURE__ */ jsx30(Calendar2.Nav, { direction: "next" })
+                  /* @__PURE__ */ jsx31(Calendar2.Nav, { direction: "prev" }),
+                  /* @__PURE__ */ jsx31(Calendar2.Header, {}),
+                  /* @__PURE__ */ jsx31(Calendar2.Nav, { direction: "next" })
                 ] }),
-                /* @__PURE__ */ jsx30(Calendar2.Grid, { onEscape: () => {
+                /* @__PURE__ */ jsx31(Calendar2.Grid, { onEscape: () => {
                   setOpen(false);
                   setSelectionStart(null);
                   setHoverDate(null);
-                }, children: ({ date }) => /* @__PURE__ */ jsx30(
+                }, children: ({ date }) => /* @__PURE__ */ jsx31(
                   Calendar2.Cell,
                   {
                     date,
@@ -3820,7 +3809,7 @@ var DateRangePicker = forwardRef23(
 // src/components/DatePicker/DatePicker.tsx
 import { forwardRef as forwardRef24, useState as useState7, useRef as useRef8, useCallback as useCallback7, useEffect as useEffect9, useMemo as useMemo5 } from "react";
 import { semantic as t29, useInjectStyles as useInjectStyles12 } from "../../core/dist/index.js";
-import { jsx as jsx31, jsxs as jsxs16 } from "react/jsx-runtime";
+import { jsx as jsx32, jsxs as jsxs16 } from "react/jsx-runtime";
 var SCOPE2 = "alttab-dp";
 var injectedCSS2 = (
   /* css */
@@ -3947,7 +3936,7 @@ var DatePicker = forwardRef24(
     if (value) {
       displayText = formatDate(value);
     } else {
-      displayText = /* @__PURE__ */ jsx31("span", { style: placeholderStyle3, children: placeholder });
+      displayText = /* @__PURE__ */ jsx32("span", { style: placeholderStyle3, children: placeholder });
     }
     return /* @__PURE__ */ jsxs16(
       "div",
@@ -3959,7 +3948,7 @@ var DatePicker = forwardRef24(
         },
         style: wrapperStyle3,
         children: [
-          /* @__PURE__ */ jsx31(
+          /* @__PURE__ */ jsx32(
             "button",
             {
               type: "button",
@@ -3977,7 +3966,7 @@ var DatePicker = forwardRef24(
               children: displayText
             }
           ),
-          open && /* @__PURE__ */ jsx31("div", { style: popoverStyle2, role: "dialog", "aria-label": "Date picker", children: /* @__PURE__ */ jsxs16(
+          open && /* @__PURE__ */ jsx32("div", { style: popoverStyle2, role: "dialog", "aria-label": "Date picker", children: /* @__PURE__ */ jsxs16(
             Calendar2.Root,
             {
               mode: "single",
@@ -3990,11 +3979,11 @@ var DatePicker = forwardRef24(
               disabledDate,
               children: [
                 /* @__PURE__ */ jsxs16("div", { style: headerRowStyle2, children: [
-                  /* @__PURE__ */ jsx31(Calendar2.Nav, { direction: "prev" }),
-                  /* @__PURE__ */ jsx31(Calendar2.Header, {}),
-                  /* @__PURE__ */ jsx31(Calendar2.Nav, { direction: "next" })
+                  /* @__PURE__ */ jsx32(Calendar2.Nav, { direction: "prev" }),
+                  /* @__PURE__ */ jsx32(Calendar2.Header, {}),
+                  /* @__PURE__ */ jsx32(Calendar2.Nav, { direction: "next" })
                 ] }),
-                /* @__PURE__ */ jsx31(Calendar2.Grid, { onEscape: () => setOpen(false) })
+                /* @__PURE__ */ jsx32(Calendar2.Grid, { onEscape: () => setOpen(false) })
               ]
             },
             openKey
@@ -4008,7 +3997,7 @@ var DatePicker = forwardRef24(
 // src/components/ErrorBoundary/ErrorBoundary.tsx
 import React from "react";
 import { semantic as t30 } from "../../core/dist/index.js";
-import { jsx as jsx32, jsxs as jsxs17 } from "react/jsx-runtime";
+import { jsx as jsx33, jsxs as jsxs17 } from "react/jsx-runtime";
 var ErrorBoundary = class extends React.Component {
   constructor(props) {
     super(props);
@@ -4032,13 +4021,13 @@ var ErrorBoundary = class extends React.Component {
     if (fallback) {
       return fallback({ error, resetErrorBoundary: this.resetErrorBoundary });
     }
-    return /* @__PURE__ */ jsx32("div", { style: { borderColor: t30.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: t30.radiusLg }, children: /* @__PURE__ */ jsx32(
+    return /* @__PURE__ */ jsx33("div", { style: { borderColor: t30.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: t30.radiusLg }, children: /* @__PURE__ */ jsx33(
       Card,
       {
         variant: "flat",
         padding: "lg",
         children: /* @__PURE__ */ jsxs17("div", { style: { display: "flex", flexDirection: "column", gap: t30.spaceMd }, children: [
-          /* @__PURE__ */ jsx32("div", { style: { display: "flex", alignItems: "center", gap: t30.spaceSm }, children: /* @__PURE__ */ jsx32(
+          /* @__PURE__ */ jsx33("div", { style: { display: "flex", alignItems: "center", gap: t30.spaceSm }, children: /* @__PURE__ */ jsx33(
             "span",
             {
               style: {
@@ -4050,7 +4039,7 @@ var ErrorBoundary = class extends React.Component {
               children: "Something went wrong"
             }
           ) }),
-          /* @__PURE__ */ jsx32(
+          /* @__PURE__ */ jsx33(
             "p",
             {
               style: {
@@ -4068,7 +4057,7 @@ var ErrorBoundary = class extends React.Component {
             }
           ),
           error.stack && /* @__PURE__ */ jsxs17("div", { children: [
-            /* @__PURE__ */ jsx32(
+            /* @__PURE__ */ jsx33(
               "button",
               {
                 type: "button",
@@ -4086,7 +4075,7 @@ var ErrorBoundary = class extends React.Component {
                 children: showStack ? "Hide stack trace" : "Show stack trace"
               }
             ),
-            showStack && /* @__PURE__ */ jsx32(
+            showStack && /* @__PURE__ */ jsx33(
               "pre",
               {
                 style: {
@@ -4107,7 +4096,7 @@ var ErrorBoundary = class extends React.Component {
               }
             )
           ] }),
-          /* @__PURE__ */ jsx32("div", { children: /* @__PURE__ */ jsx32(Button, { variant: "secondary", size: "sm", onClick: this.resetErrorBoundary, children: "Try again" }) })
+          /* @__PURE__ */ jsx33("div", { children: /* @__PURE__ */ jsx33(Button, { variant: "secondary", size: "sm", onClick: this.resetErrorBoundary, children: "Try again" }) })
         ] })
       }
     ) });
@@ -4125,7 +4114,7 @@ import {
 } from "react";
 import { createPortal as createPortal2 } from "react-dom";
 import { semantic as t31, useInjectStyles as useInjectStyles13 } from "../../core/dist/index.js";
-import { jsx as jsx33, jsxs as jsxs18 } from "react/jsx-runtime";
+import { jsx as jsx34, jsxs as jsxs18 } from "react/jsx-runtime";
 var ToastContext = createContext5(null);
 function useToast() {
   const ctx = useContext5(ToastContext);
@@ -4263,8 +4252,8 @@ function ToastMessage({
       },
       onAnimationEnd: handleAnimationEnd,
       children: [
-        /* @__PURE__ */ jsx33("span", { style: { flex: 1 }, children: item.message }),
-        /* @__PURE__ */ jsx33(
+        /* @__PURE__ */ jsx34("span", { style: { flex: 1 }, children: item.message }),
+        /* @__PURE__ */ jsx34(
           "button",
           {
             onClick: () => setExiting(true),
@@ -4291,7 +4280,7 @@ function ToastMessage({
             children: "\xD7"
           }
         ),
-        autoDismiss && /* @__PURE__ */ jsx33(
+        autoDismiss && /* @__PURE__ */ jsx34(
           "span",
           {
             "data-toast-timer": "",
@@ -4325,7 +4314,7 @@ function ToastContainer({
     ...position.endsWith("right") ? { right: t31.spaceLg } : { left: t31.spaceLg }
   };
   return createPortal2(
-    /* @__PURE__ */ jsx33("div", { "aria-live": "polite", style: positionStyles, children: toasts.map((item) => /* @__PURE__ */ jsx33(ToastMessage, { item, onDismiss }, item.id)) }),
+    /* @__PURE__ */ jsx34("div", { "aria-live": "polite", style: positionStyles, children: toasts.map((item) => /* @__PURE__ */ jsx34(ToastMessage, { item, onDismiss }, item.id)) }),
     document.body
   );
 }
@@ -4353,7 +4342,7 @@ function ToastProvider({
   );
   return /* @__PURE__ */ jsxs18(ToastContext.Provider, { value: { showToast }, children: [
     children,
-    /* @__PURE__ */ jsx33(ToastContainer, { toasts, onDismiss: dismiss, position })
+    /* @__PURE__ */ jsx34(ToastContainer, { toasts, onDismiss: dismiss, position })
   ] });
 }
 
@@ -4369,7 +4358,7 @@ import {
   useState as useState9
 } from "react";
 import { semantic as t32, useInjectStyles as useInjectStyles14 } from "../../core/dist/index.js";
-import { jsx as jsx34 } from "react/jsx-runtime";
+import { jsx as jsx35 } from "react/jsx-runtime";
 var COMBOBOX_STYLES_ID = "alttab-combobox";
 var comboboxCSS = (
   /* css */
@@ -4599,7 +4588,7 @@ function Root3({
     ]
   );
   ctx.__suppressNextOpen = suppressNextOpenRef;
-  return /* @__PURE__ */ jsx34(ComboboxContext.Provider, { value: ctx, children: /* @__PURE__ */ jsx34("div", { ref: containerRef, style: wrapperStyle4, onKeyDown: handleKeyDown, children }) });
+  return /* @__PURE__ */ jsx35(ComboboxContext.Provider, { value: ctx, children: /* @__PURE__ */ jsx35("div", { ref: containerRef, style: wrapperStyle4, onKeyDown: handleKeyDown, children }) });
 }
 function Input3({
   placeholder,
@@ -4654,7 +4643,7 @@ function Input3({
     },
     [disabled, items.length, openMenu, onFocusProp, suppressNextOpenRef]
   );
-  return /* @__PURE__ */ jsx34(
+  return /* @__PURE__ */ jsx35(
     "input",
     {
       ref: inputRef,
@@ -4720,7 +4709,7 @@ function List({ children }) {
     right: 0,
     marginBottom: t32.spaceXs
   };
-  return /* @__PURE__ */ jsx34(
+  return /* @__PURE__ */ jsx35(
     "div",
     {
       ref,
@@ -4769,7 +4758,7 @@ function Item2({
     isFocused ? "alttab-combobox-option--focused" : "",
     isSelected ? "alttab-combobox-option--selected" : ""
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ jsx34(
+  return /* @__PURE__ */ jsx35(
     "button",
     {
       type: "button",
@@ -4785,7 +4774,7 @@ function Item2({
   );
 }
 function Empty({ children }) {
-  return /* @__PURE__ */ jsx34(
+  return /* @__PURE__ */ jsx35(
     "div",
     {
       role: "presentation",
@@ -4838,7 +4827,7 @@ var Combobox = {
 // src/components/ChipPicker/ChipPicker.tsx
 import { useCallback as useCallback10, useId as useId8, useState as useState10 } from "react";
 import { semantic as t33, useInjectStyles as useInjectStyles15 } from "../../core/dist/index.js";
-import { jsx as jsx35, jsxs as jsxs19 } from "react/jsx-runtime";
+import { jsx as jsx36, jsxs as jsxs19 } from "react/jsx-runtime";
 function ChipPicker({
   items,
   selected: controlledSelected,
@@ -4913,7 +4902,7 @@ function ChipPicker({
     transition: `background ${t33.transitionFast}, border-color ${t33.transitionFast}, color ${t33.transitionFast}`,
     outline: "none"
   });
-  const renderChips = (chips) => /* @__PURE__ */ jsx35(
+  const renderChips = (chips) => /* @__PURE__ */ jsx36(
     "div",
     {
       style: {
@@ -4923,7 +4912,7 @@ function ChipPicker({
       },
       children: chips.map((item) => {
         const isSelected = selected.includes(item.value);
-        return /* @__PURE__ */ jsx35(
+        return /* @__PURE__ */ jsx36(
           "button",
           {
             type: "button",
@@ -4937,7 +4926,7 @@ function ChipPicker({
       })
     }
   );
-  return /* @__PURE__ */ jsx35(
+  return /* @__PURE__ */ jsx36(
     "div",
     {
       "data-chip-picker-id": styleId,
@@ -4949,7 +4938,7 @@ function ChipPicker({
         gap: t33.spaceMd
       },
       children: groups.map((group, i) => /* @__PURE__ */ jsxs19("div", { style: { display: "flex", flexDirection: "column", gap: t33.spaceSm }, children: [
-        group.label !== null && /* @__PURE__ */ jsx35("div", { style: i > 0 ? { marginTop: t33.spaceXs } : void 0, children: /* @__PURE__ */ jsx35("div", { style: sectionLabelStyle, children: group.label }) }),
+        group.label !== null && /* @__PURE__ */ jsx36("div", { style: i > 0 ? { marginTop: t33.spaceXs } : void 0, children: /* @__PURE__ */ jsx36("div", { style: sectionLabelStyle, children: group.label }) }),
         renderChips(group.chips)
       ] }, group.label ?? "__ungrouped"))
     }
@@ -4959,7 +4948,7 @@ function ChipPicker({
 // src/components/SearchInput/SearchInput.tsx
 import { forwardRef as forwardRef25, useState as useState11, useEffect as useEffect12, useRef as useRef11, useCallback as useCallback11 } from "react";
 import { semantic as t34, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
-import { jsx as jsx36, jsxs as jsxs20 } from "react/jsx-runtime";
+import { jsx as jsx37, jsxs as jsxs20 } from "react/jsx-runtime";
 var STYLE_ID2 = "4lt7ab-search-input";
 var hoverFocusCSS = `
   .search-input-wrapper:focus-within {
@@ -5053,8 +5042,8 @@ var SearchInput = forwardRef25(
           ...disabled ? disabledWrapperStyle : {}
         },
         children: [
-          /* @__PURE__ */ jsx36("span", { style: { color: t34.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ jsx36(Icon, { name: "search", size: "sm" }) }),
-          /* @__PURE__ */ jsx36(
+          /* @__PURE__ */ jsx37("span", { style: { color: t34.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ jsx37(Icon, { name: "search", size: "sm" }) }),
+          /* @__PURE__ */ jsx37(
             "input",
             {
               ref,
@@ -5073,7 +5062,7 @@ var SearchInput = forwardRef25(
               style: inputStyle
             }
           ),
-          trailing && /* @__PURE__ */ jsx36("div", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: trailing })
+          trailing && /* @__PURE__ */ jsx37("div", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: trailing })
         ]
       }
     );
@@ -5133,7 +5122,7 @@ function useRovingFocus({
 }
 
 // src/components/SegmentedControl/SegmentedControl.tsx
-import { jsx as jsx37, jsxs as jsxs21 } from "react/jsx-runtime";
+import { jsx as jsx38, jsxs as jsxs21 } from "react/jsx-runtime";
 var STYLE_ID3 = "4lt7ab-segmented-control";
 var hoverCSS = `
   .segmented-ctrl-btn:hover:not([aria-pressed="true"]) {
@@ -5225,7 +5214,7 @@ function SegmentedControl({
         boxSizing: "border-box"
       },
       children: [
-        indicator && /* @__PURE__ */ jsx37(
+        indicator && /* @__PURE__ */ jsx38(
           "div",
           {
             className: "segmented-ctrl-indicator",
@@ -5278,8 +5267,8 @@ function SegmentedControl({
                 lineHeight: 1
               },
               children: [
-                hasIcon && /* @__PURE__ */ jsx37(Icon, { name: seg.icon, size: s.iconSize }),
-                seg.label && /* @__PURE__ */ jsx37("span", { children: seg.label })
+                hasIcon && /* @__PURE__ */ jsx38(Icon, { name: seg.icon, size: s.iconSize }),
+                seg.label && /* @__PURE__ */ jsx38("span", { children: seg.label })
               ]
             },
             seg.value
@@ -5293,7 +5282,7 @@ function SegmentedControl({
 // src/components/AlertBanner/AlertBanner.tsx
 import { forwardRef as forwardRef26 } from "react";
 import { semantic as t36, useInjectStyles as useInjectStyles18 } from "../../core/dist/index.js";
-import { jsx as jsx38, jsxs as jsxs22 } from "react/jsx-runtime";
+import { jsx as jsx39, jsxs as jsxs22 } from "react/jsx-runtime";
 var STYLE_ID4 = "4lt7ab-alert-banner";
 var alertBannerCSS = `
 @keyframes alert-banner-slide-in {
@@ -5317,10 +5306,10 @@ var variantColors2 = {
   success: { bg: t36.colorSuccessBg, fg: t36.colorSuccess, border: t36.colorSuccess }
 };
 var defaultIcons = {
-  info: /* @__PURE__ */ jsx38(IconInfo, { size: 20 }),
-  warning: /* @__PURE__ */ jsx38(IconWarning, { size: 20 }),
-  error: /* @__PURE__ */ jsx38(IconError, { size: 20 }),
-  success: /* @__PURE__ */ jsx38(IconCheckCircle, { size: 20 })
+  info: /* @__PURE__ */ jsx39(IconInfo, { size: 20 }),
+  warning: /* @__PURE__ */ jsx39(IconWarning, { size: 20 }),
+  error: /* @__PURE__ */ jsx39(IconError, { size: 20 }),
+  success: /* @__PURE__ */ jsx39(IconCheckCircle, { size: 20 })
 };
 var AlertBanner = forwardRef26(
   function AlertBanner2({ variant, children, onDismiss, icon }, ref) {
@@ -5349,9 +5338,9 @@ var AlertBanner = forwardRef26(
           animation: "alert-banner-slide-in 250ms ease"
         },
         children: [
-          resolvedIcon && /* @__PURE__ */ jsx38("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
-          /* @__PURE__ */ jsx38("span", { style: { flex: 1 }, children }),
-          onDismiss && /* @__PURE__ */ jsx38(
+          resolvedIcon && /* @__PURE__ */ jsx39("span", { style: { flexShrink: 0, display: "flex", alignItems: "center" }, children: resolvedIcon }),
+          /* @__PURE__ */ jsx39("span", { style: { flex: 1 }, children }),
+          onDismiss && /* @__PURE__ */ jsx39(
             "button",
             {
               className: "alert-banner-dismiss",
@@ -5387,8 +5376,8 @@ var AlertBanner = forwardRef26(
 
 // src/components/TopBar/TopBar.tsx
 import { createContext as createContext7, forwardRef as forwardRef27, useContext as useContext7 } from "react";
-import { semantic as t37, useInjectStyles as useInjectStyles19, Slot as Slot4 } from "../../core/dist/index.js";
-import { jsx as jsx39 } from "react/jsx-runtime";
+import { semantic as t37, useInjectStyles as useInjectStyles19, Slot as Slot5 } from "../../core/dist/index.js";
+import { jsx as jsx40 } from "react/jsx-runtime";
 var TopBarContext = createContext7(null);
 function useTopBarContext(component) {
   const ctx = useContext7(TopBarContext);
@@ -5427,7 +5416,7 @@ var TopBarRoot = forwardRef27(
   function TopBarRoot2({ children, sticky = false, ...rest }, ref) {
     useInjectStyles19(TOPBAR_STYLES_ID, TOPBAR_CSS);
     const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: t37.zIndexSticky } : {};
-    return /* @__PURE__ */ jsx39(TopBarContext.Provider, { value: true, children: /* @__PURE__ */ jsx39(
+    return /* @__PURE__ */ jsx40(TopBarContext.Provider, { value: true, children: /* @__PURE__ */ jsx40(
       "header",
       {
         ref,
@@ -5451,7 +5440,7 @@ var TopBarRoot = forwardRef27(
 );
 function TopBarLeading({ children }) {
   useTopBarContext("Leading");
-  return /* @__PURE__ */ jsx39(
+  return /* @__PURE__ */ jsx40(
     "div",
     {
       style: {
@@ -5470,7 +5459,7 @@ function TopBarLeading({ children }) {
 }
 function TopBarNav({ children, "aria-label": ariaLabel = "Primary" }) {
   useTopBarContext("Nav");
-  return /* @__PURE__ */ jsx39(
+  return /* @__PURE__ */ jsx40(
     "nav",
     {
       "aria-label": ariaLabel,
@@ -5514,13 +5503,13 @@ var TopBarLink = forwardRef27(function TopBarLink2({ active = false, asChild = f
     style
   };
   if (asChild) {
-    return /* @__PURE__ */ jsx39(Slot4, { ref, ...commonProps, children });
+    return /* @__PURE__ */ jsx40(Slot5, { ref, ...commonProps, children });
   }
-  return /* @__PURE__ */ jsx39("button", { ref, type: "button", ...commonProps, children });
+  return /* @__PURE__ */ jsx40("button", { ref, type: "button", ...commonProps, children });
 });
 function TopBarTrailing({ children }) {
   useTopBarContext("Trailing");
-  return /* @__PURE__ */ jsx39(
+  return /* @__PURE__ */ jsx40(
     "div",
     {
       style: {
@@ -5544,7 +5533,7 @@ var TopBar = {
 
 // src/components/Grid/Grid.tsx
 import { forwardRef as forwardRef28 } from "react";
-import { jsx as jsx40 } from "react/jsx-runtime";
+import { jsx as jsx41 } from "react/jsx-runtime";
 var Grid = forwardRef28(
   function Grid2({
     minColumnWidth = 300,
@@ -5555,7 +5544,7 @@ var Grid = forwardRef28(
   }, ref) {
     const minWidth = `${minColumnWidth}px`;
     const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
-    return /* @__PURE__ */ jsx40(
+    return /* @__PURE__ */ jsx41(
       "div",
       {
         ref,
@@ -5575,7 +5564,7 @@ var Grid = forwardRef28(
 // src/components/Divider/Divider.tsx
 import { forwardRef as forwardRef29 } from "react";
 import { semantic as t38 } from "../../core/dist/index.js";
-import { jsx as jsx41 } from "react/jsx-runtime";
+import { jsx as jsx42 } from "react/jsx-runtime";
 var Divider = forwardRef29(
   function Divider2({
     orientation = "horizontal",
@@ -5587,7 +5576,7 @@ var Divider = forwardRef29(
     const bg = `color-mix(in srgb, ${t38.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
     const isHorizontal = orientation === "horizontal";
-    return /* @__PURE__ */ jsx41(
+    return /* @__PURE__ */ jsx42(
       "div",
       {
         ref,
@@ -5609,7 +5598,7 @@ var Divider = forwardRef29(
 
 // src/components/Container/Container.tsx
 import { forwardRef as forwardRef30 } from "react";
-import { jsx as jsx42 } from "react/jsx-runtime";
+import { jsx as jsx43 } from "react/jsx-runtime";
 var widthMap = {
   narrow: "32rem",
   prose: "680px",
@@ -5630,7 +5619,7 @@ var Container = forwardRef30(
     id,
     "data-testid": dataTestId
   }, ref) {
-    return /* @__PURE__ */ jsx42(
+    return /* @__PURE__ */ jsx43(
       "div",
       {
         ref,
@@ -5653,7 +5642,7 @@ var Container = forwardRef30(
 // src/components/TabStrip/TabStrip.tsx
 import { forwardRef as forwardRef31, useCallback as useCallback14 } from "react";
 import { semantic as t39, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
-import { jsx as jsx43, jsxs as jsxs23 } from "react/jsx-runtime";
+import { jsx as jsx44, jsxs as jsxs23 } from "react/jsx-runtime";
 var STYLES_ID2 = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
@@ -5690,7 +5679,7 @@ var TabStrip = forwardRef31(
       [activeKey, allowDeselect, onChange]
     );
     const isSm = size === "sm";
-    return /* @__PURE__ */ jsx43(
+    return /* @__PURE__ */ jsx44(
       "div",
       {
         ref,
@@ -5731,7 +5720,7 @@ var TabStrip = forwardRef31(
                 whiteSpace: "nowrap"
               },
               children: [
-                tab.icon && /* @__PURE__ */ jsx43(
+                tab.icon && /* @__PURE__ */ jsx44(
                   "span",
                   {
                     className: "material-symbols-outlined",
@@ -5831,7 +5820,6 @@ export {
   TopBarTrailing,
   alignMap,
   dividerOpacityMap,
-  getSurfaceStyle,
   iconRegistry,
   iconSizeMap,
   justifyMap,
