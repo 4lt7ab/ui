@@ -38,6 +38,10 @@ Every h2 carries an overline rule.
 <Markdown>{source}</Markdown>
 ```
 
+Edit the left pane to see exactly what `<Markdown>` produces from the same input the docs site itself consumes:
+
+<LiveExample id="prose-markdown-editor" />
+
 **Features applied automatically:**
 
 - **GitHub Flavored Markdown** — tables, strikethrough, autolinks, task lists (via `remark-gfm`).
@@ -188,6 +192,8 @@ import { ThinkingCycle } from '@4lt7ab/content';
 Building with AI tools is{' '}
 <ThinkingCycle words={['powerful', 'wild', 'unprecedented']} />.
 ```
+
+<LiveExample id="prose-thinking-cycle" />
 
 **Props.**
 
