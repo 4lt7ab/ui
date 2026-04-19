@@ -424,6 +424,12 @@ declare const semantic: {
 	readonly zIndexToast: "var(--z-index-toast)";
 	/** Z-index ceiling for elements that must always be on top. */
 	readonly zIndexMax: "var(--z-index-max)";
+	/** Width of `<AppShell.Sidebar>` in the expanded state. */
+	readonly sizeSidebarExpanded: "var(--size-sidebar-expanded)";
+	/** Width of `<AppShell.Sidebar>` in the collapsed (icon-rail) state. */
+	readonly sizeSidebarCollapsed: "var(--size-sidebar-collapsed)";
+	/** Width of `<AppShell.RightPanel>`. */
+	readonly sizeRightPanelDefault: "var(--size-right-panel-default)";
 };
 type SemanticTokens = typeof semantic;
 import { ReactNode as ReactNode2 } from "react";
@@ -593,6 +599,12 @@ interface ThemeTokens {
 	zIndexToast: string;
 	/** Z-index ceiling for elements that must always be on top (9999). */
 	zIndexMax: string;
+	/** Width of `<AppShell.Sidebar>` in the expanded state (typically 16rem). */
+	sizeSidebarExpanded: string;
+	/** Width of `<AppShell.Sidebar>` in the collapsed (icon-rail) state (typically 3.5rem). */
+	sizeSidebarCollapsed: string;
+	/** Width of `<AppShell.RightPanel>` (typically 20rem). */
+	sizeRightPanelDefault: string;
 }
 /**
 * Optional rhythm config that gives a theme a temporal personality.

@@ -215,6 +215,15 @@ export const semantic = {
   zIndexToast: 'var(--z-index-toast)',
   /** Z-index ceiling for elements that must always be on top. */
   zIndexMax: 'var(--z-index-max)',
+
+  // ── Layout sizing ──
+
+  /** Width of `<AppShell.Sidebar>` in the expanded state. */
+  sizeSidebarExpanded: 'var(--size-sidebar-expanded)',
+  /** Width of `<AppShell.Sidebar>` in the collapsed (icon-rail) state. */
+  sizeSidebarCollapsed: 'var(--size-sidebar-collapsed)',
+  /** Width of `<AppShell.RightPanel>`. */
+  sizeRightPanelDefault: 'var(--size-right-panel-default)',
 } as const;
 
 export type SemanticTokens = typeof semantic;

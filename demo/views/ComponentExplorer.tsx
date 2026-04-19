@@ -23,6 +23,7 @@ import {
   DividerDemo,
   TabStripDemo,
   EmptyPageDemo,
+  AppShellDemo,
 } from '../demos';
 
 // ---------------------------------------------------------------------------
@@ -58,6 +59,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'Card', source: 'ui', Demo: CardDemo },
       { name: 'LinkCard', source: 'ui', Demo: LinkCardDemo },
       { name: 'ExpandableCard', source: 'ui', Demo: ExpandableCardDemo },
+      { name: 'AppShell', source: 'ui', Demo: AppShellDemo },
       { name: 'TopBar', source: 'ui', Demo: TopBarDemo },
       { name: 'Header', source: 'ui', Demo: HeaderDemo },
       { name: 'Surface', source: 'ui', Demo: SurfaceDemo },

@@ -51,6 +51,7 @@ import { GridDemo } from './GridDemo';
 import { DividerDemo } from './DividerDemo';
 import { TabStripDemo } from './TabStripDemo';
 import { EmptyPageDemo } from './EmptyPageDemo';
+import { AppShellDemo } from './AppShellDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -87,6 +88,7 @@ export const demos: DemoEntry[] = [
   { name: 'IconButton', category: 'Action', source: 'ui', component: IconButtonDemo },
   { name: 'IconFont', category: 'Action', source: 'ui', component: IconFontDemo },
   { name: 'TopBar', category: 'Navigation', source: 'ui', component: TopBarDemo },
+  { name: 'AppShell', category: 'Layout', source: 'ui', component: AppShellDemo },
   { name: 'Pagination', category: 'Navigation', source: 'ui', component: PaginationDemo },
 
   // Feedback
@@ -160,4 +162,5 @@ export {
   DividerDemo,
   TabStripDemo,
   EmptyPageDemo,
+  AppShellDemo,
 };

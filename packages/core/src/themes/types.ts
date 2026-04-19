@@ -215,6 +215,15 @@ export interface ThemeTokens {
   zIndexToast: string;
   /** Z-index ceiling for elements that must always be on top (9999). */
   zIndexMax: string;
+
+  // ── Layout sizing ──
+
+  /** Width of `<AppShell.Sidebar>` in the expanded state (typically 16rem). */
+  sizeSidebarExpanded: string;
+  /** Width of `<AppShell.Sidebar>` in the collapsed (icon-rail) state (typically 3.5rem). */
+  sizeSidebarCollapsed: string;
+  /** Width of `<AppShell.RightPanel>` (typically 20rem). */
+  sizeRightPanelDefault: string;
 }
 
 /**

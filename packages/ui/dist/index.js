@@ -3039,8 +3039,8 @@ function isSameDay(a, b) {
 function isInRange(date, from, to) {
   const d = stripTime(date).getTime();
   const f = stripTime(from).getTime();
-  const t42 = stripTime(to).getTime();
-  return d >= f && d <= t42;
+  const t43 = stripTime(to).getTime();
+  return d >= f && d <= t43;
 }
 function formatDate(date) {
   const y = date.getFullYear();
@@ -4208,7 +4208,7 @@ function ToastProvider({
 }) {
   const [toasts, setToasts] = useState7([]);
   const dismiss = useCallback7((id) => {
-    setToasts((prev) => prev.filter((t42) => t42.id !== id));
+    setToasts((prev) => prev.filter((t43) => t43.id !== id));
   }, []);
   const showToast = useCallback7(
     (message, typeOrOptions) => {
@@ -5604,10 +5604,285 @@ var EmptyPage = {
   Tip: EmptyPageTip
 };
 
+// src/components/organisms/AppShell/AppShell.tsx
+import {
+  Children as Children3,
+  createContext as createContext9,
+  forwardRef as forwardRef30,
+  isValidElement as isValidElement3,
+  useCallback as useCallback13,
+  useContext as useContext9,
+  useEffect as useEffect12,
+  useMemo as useMemo7,
+  useRef as useRef13,
+  useState as useState12
+} from "react";
+import { semantic as t40 } from "../../core/dist/index.js";
+import { jsx as jsx42, jsxs as jsxs24 } from "react/jsx-runtime";
+var AppShellContext = createContext9(null);
+function useAppShellContextInternal(component) {
+  const ctx = useContext9(AppShellContext);
+  if (ctx === null) {
+    throw new Error(
+      `[@4lt7ab/ui] <AppShell.${component}> must be rendered inside <AppShell.Root>.`
+    );
+  }
+  return ctx;
+}
+function useAppShellContext() {
+  return useAppShellContextInternal("<consumer>");
+}
+function useControllableBoolean(params) {
+  const { label, controlled, defaultValue, onChange } = params;
+  const isControlled = controlled !== void 0;
+  const [uncontrolled, setUncontrolled] = useState12(defaultValue);
+  const value = isControlled ? controlled : uncontrolled;
+  const wasControlled = useRef13(isControlled);
+  useEffect12(() => {
+    if (wasControlled.current !== isControlled) {
+      console.warn(
+        `<AppShell.Root> switched between controlled and uncontrolled for ${label}. Pick one and stick with it.`
+      );
+      wasControlled.current = isControlled;
+    }
+  }, [isControlled, label]);
+  const setValue = useCallback13(
+    (next) => {
+      if (!isControlled) setUncontrolled(next);
+      onChange?.(next);
+    },
+    [isControlled, onChange]
+  );
+  return [value, setValue];
+}
+function bucketChildren(children) {
+  let topBar = null;
+  let sidebar = null;
+  let main = null;
+  let rightPanel = null;
+  Children3.forEach(children, (child) => {
+    if (!isValidElement3(child)) return;
+    if (child.type === AppShellTopBar) topBar = child;
+    else if (child.type === AppShellSidebar) sidebar = child;
+    else if (child.type === AppShellMain) main = child;
+    else if (child.type === AppShellRightPanel) rightPanel = child;
+  });
+  return { topBar, sidebar, main, rightPanel };
+}
+var AppShellRoot = forwardRef30(function AppShellRoot2({
+  sidebarCollapsed: sidebarCollapsedProp,
+  defaultSidebarCollapsed = false,
+  onSidebarCollapsedChange,
+  rightPanelOpen: rightPanelOpenProp,
+  defaultRightPanelOpen = true,
+  onRightPanelOpenChange,
+  children,
+  ...rest
+}, ref) {
+  const [sidebarCollapsed, setSidebarCollapsed] = useControllableBoolean({
+    label: "sidebarCollapsed",
+    controlled: sidebarCollapsedProp,
+    defaultValue: defaultSidebarCollapsed,
+    onChange: onSidebarCollapsedChange
+  });
+  const [rightPanelOpen, setRightPanelOpen] = useControllableBoolean({
+    label: "rightPanelOpen",
+    controlled: rightPanelOpenProp,
+    defaultValue: defaultRightPanelOpen,
+    onChange: onRightPanelOpenChange
+  });
+  const value = useMemo7(
+    () => ({ sidebarCollapsed, setSidebarCollapsed, rightPanelOpen, setRightPanelOpen }),
+    [sidebarCollapsed, setSidebarCollapsed, rightPanelOpen, setRightPanelOpen]
+  );
+  const { topBar, sidebar, main, rightPanel } = bucketChildren(children);
+  const hasTopBar = topBar !== null;
+  const hasSidebar = sidebar !== null;
+  const hasRightPanel = rightPanel !== null && rightPanelOpen;
+  const sidebarWidth = sidebarCollapsed ? t40.sizeSidebarCollapsed : t40.sizeSidebarExpanded;
+  const gridTemplateColumns = [
+    hasSidebar ? sidebarWidth : null,
+    "1fr",
+    hasRightPanel ? t40.sizeRightPanelDefault : null
+  ].filter(Boolean).join(" ");
+  const gridTemplateRows = hasTopBar ? `${t40.space2xl} 1fr` : "1fr";
+  const gridAreas = (() => {
+    const topCols = [];
+    const mainCols = [];
+    if (hasSidebar) {
+      topCols.push("topbar");
+      mainCols.push("sidebar");
+    }
+    topCols.push("topbar");
+    mainCols.push("main");
+    if (hasRightPanel) {
+      topCols.push("topbar");
+      mainCols.push("rightpanel");
+    }
+    const rows = [];
+    if (hasTopBar) rows.push(`"${topCols.join(" ")}"`);
+    rows.push(`"${mainCols.join(" ")}"`);
+    return rows.join(" ");
+  })();
+  return /* @__PURE__ */ jsx42(AppShellContext.Provider, { value, children: /* @__PURE__ */ jsxs24(
+    "div",
+    {
+      ref,
+      id: rest.id,
+      "data-testid": rest["data-testid"],
+      "data-sidebar-state": sidebarCollapsed ? "collapsed" : "expanded",
+      "data-right-panel-state": rightPanelOpen ? "open" : "closed",
+      style: {
+        display: "grid",
+        gridTemplateColumns,
+        gridTemplateRows,
+        gridTemplateAreas: gridAreas,
+        width: "100%",
+        height: "100%",
+        minHeight: "100vh",
+        fontFamily: t40.fontSans,
+        color: t40.colorText,
+        boxSizing: "border-box"
+      },
+      children: [
+        topBar,
+        sidebar,
+        main,
+        rightPanel
+      ]
+    }
+  ) });
+});
+function AppShellTopBar(props) {
+  useAppShellContextInternal("TopBar");
+  return /* @__PURE__ */ jsx42("div", { style: { gridArea: "topbar", minWidth: 0 }, children: /* @__PURE__ */ jsx42(TopBarRoot, { ...props }) });
+}
+function AppShellSidebar({
+  "aria-label": ariaLabel = "Sidebar",
+  children
+}) {
+  const { sidebarCollapsed } = useAppShellContextInternal("Sidebar");
+  const content = typeof children === "function" ? children({ collapsed: sidebarCollapsed }) : children;
+  return /* @__PURE__ */ jsx42(
+    "nav",
+    {
+      "aria-label": ariaLabel,
+      "data-state": sidebarCollapsed ? "collapsed" : "expanded",
+      style: {
+        gridArea: "sidebar",
+        display: "flex",
+        flexDirection: "column",
+        overflowX: "hidden",
+        overflowY: "auto",
+        background: t40.colorSurfacePanel,
+        borderRight: `${t40.borderWidthDefault} solid ${t40.colorBorder}`,
+        transition: `width ${t40.transitionBase}`,
+        minWidth: 0
+      },
+      children: content
+    }
+  );
+}
+function AppShellSidebarSection({
+  label,
+  children
+}) {
+  const { sidebarCollapsed } = useAppShellContextInternal("SidebarSection");
+  const labelStyle2 = sidebarCollapsed ? {
+    // Visually hidden but still announced by assistive tech, so the
+    // section keeps its semantic grouping in the collapsed rail.
+    position: "absolute",
+    width: 1,
+    height: 1,
+    padding: 0,
+    margin: -1,
+    overflow: "hidden",
+    clip: "rect(0 0 0 0)",
+    whiteSpace: "nowrap",
+    border: 0
+  } : {
+    display: "block",
+    padding: `${t40.spaceSm} ${t40.spaceMd} ${t40.spaceXs}`,
+    fontSize: t40.fontSizeXs,
+    fontWeight: t40.fontWeightSemibold,
+    color: t40.colorTextMuted,
+    textTransform: "uppercase",
+    letterSpacing: t40.letterSpacingWide
+  };
+  return /* @__PURE__ */ jsxs24(
+    "div",
+    {
+      "data-state": sidebarCollapsed ? "collapsed" : "expanded",
+      style: { display: "flex", flexDirection: "column" },
+      children: [
+        label !== void 0 && /* @__PURE__ */ jsx42("span", { style: labelStyle2, children: label }),
+        /* @__PURE__ */ jsx42("div", { style: { display: "flex", flexDirection: "column" }, children })
+      ]
+    }
+  );
+}
+function AppShellMain({
+  children,
+  ...rest
+}) {
+  useAppShellContextInternal("Main");
+  return /* @__PURE__ */ jsx42(
+    "main",
+    {
+      id: rest.id,
+      "data-testid": rest["data-testid"],
+      "aria-label": rest["aria-label"],
+      "aria-labelledby": rest["aria-labelledby"],
+      style: {
+        gridArea: "main",
+        overflow: "auto",
+        minWidth: 0,
+        minHeight: 0,
+        background: t40.colorSurfacePage,
+        boxSizing: "border-box"
+      },
+      children
+    }
+  );
+}
+function AppShellRightPanel({
+  "aria-label": ariaLabel = "Context panel",
+  children
+}) {
+  const { rightPanelOpen } = useAppShellContextInternal("RightPanel");
+  return /* @__PURE__ */ jsx42(
+    "aside",
+    {
+      "aria-label": ariaLabel,
+      "aria-hidden": !rightPanelOpen || void 0,
+      "data-state": rightPanelOpen ? "open" : "closed",
+      hidden: !rightPanelOpen,
+      style: {
+        gridArea: "rightpanel",
+        display: rightPanelOpen ? "flex" : "none",
+        flexDirection: "column",
+        overflowY: "auto",
+        background: t40.colorSurfacePanel,
+        borderLeft: `${t40.borderWidthDefault} solid ${t40.colorBorder}`,
+        minWidth: 0
+      },
+      children
+    }
+  );
+}
+var AppShell = {
+  Root: AppShellRoot,
+  TopBar: AppShellTopBar,
+  Sidebar: AppShellSidebar,
+  SidebarSection: AppShellSidebarSection,
+  Main: AppShellMain,
+  RightPanel: AppShellRightPanel
+};
+
 // src/components/atoms/Grid/Grid.tsx
-import { forwardRef as forwardRef30 } from "react";
-import { jsx as jsx42 } from "react/jsx-runtime";
-var Grid = forwardRef30(
+import { forwardRef as forwardRef31 } from "react";
+import { jsx as jsx43 } from "react/jsx-runtime";
+var Grid = forwardRef31(
   function Grid2({
     minColumnWidth = 300,
     columns,
@@ -5617,7 +5892,7 @@ var Grid = forwardRef30(
   }, ref) {
     const minWidth = `${minColumnWidth}px`;
     const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
-    return /* @__PURE__ */ jsx42(
+    return /* @__PURE__ */ jsx43(
       "div",
       {
         ref,
@@ -5635,10 +5910,10 @@ var Grid = forwardRef30(
 );
 
 // src/components/atoms/Divider/Divider.tsx
-import { forwardRef as forwardRef31 } from "react";
-import { semantic as t40 } from "../../core/dist/index.js";
-import { jsx as jsx43 } from "react/jsx-runtime";
-var Divider = forwardRef31(
+import { forwardRef as forwardRef32 } from "react";
+import { semantic as t41 } from "../../core/dist/index.js";
+import { jsx as jsx44 } from "react/jsx-runtime";
+var Divider = forwardRef32(
   function Divider2({
     orientation = "horizontal",
     opacity = "default",
@@ -5646,10 +5921,10 @@ var Divider = forwardRef31(
     ...rest
   }, ref) {
     const resolvedOpacity = dividerOpacityMap[opacity];
-    const bg = `color-mix(in srgb, ${t40.colorBorder} ${resolvedOpacity}%, transparent)`;
+    const bg = `color-mix(in srgb, ${t41.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
     const isHorizontal = orientation === "horizontal";
-    return /* @__PURE__ */ jsx43(
+    return /* @__PURE__ */ jsx44(
       "div",
       {
         ref,
@@ -5670,8 +5945,8 @@ var Divider = forwardRef31(
 );
 
 // src/components/atoms/Container/Container.tsx
-import { forwardRef as forwardRef32 } from "react";
-import { jsx as jsx44 } from "react/jsx-runtime";
+import { forwardRef as forwardRef33 } from "react";
+import { jsx as jsx45 } from "react/jsx-runtime";
 var widthMap = {
   narrow: "32rem",
   prose: "680px",
@@ -5684,7 +5959,7 @@ var paddingMap = {
   md: "1.5rem",
   lg: "3rem"
 };
-var Container = forwardRef32(
+var Container = forwardRef33(
   function Container2({
     width = "prose",
     padding = "md",
@@ -5692,7 +5967,7 @@ var Container = forwardRef32(
     id,
     "data-testid": dataTestId
   }, ref) {
-    return /* @__PURE__ */ jsx44(
+    return /* @__PURE__ */ jsx45(
       "div",
       {
         ref,
@@ -5713,20 +5988,20 @@ var Container = forwardRef32(
 );
 
 // src/components/molecules/TabStrip/TabStrip.tsx
-import { forwardRef as forwardRef33, useCallback as useCallback13 } from "react";
-import { semantic as t41, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
-import { jsx as jsx45, jsxs as jsxs24 } from "react/jsx-runtime";
+import { forwardRef as forwardRef34, useCallback as useCallback14 } from "react";
+import { semantic as t42, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
+import { jsx as jsx46, jsxs as jsxs25 } from "react/jsx-runtime";
 var STYLES_ID2 = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
-  transition: color ${t41.transitionFast}, background ${t41.transitionFast}, border-color ${t41.transitionFast};
+  transition: color ${t42.transitionFast}, background ${t42.transitionFast}, border-color ${t42.transitionFast};
 }
 [data-tab-btn]:hover:not([aria-selected="true"]) {
-  color: ${t41.colorTextSecondary};
-  background: color-mix(in srgb, ${t41.colorBorder} 10%, transparent);
+  color: ${t42.colorTextSecondary};
+  background: color-mix(in srgb, ${t42.colorBorder} 10%, transparent);
 }
 `;
-var TabStrip = forwardRef33(
+var TabStrip = forwardRef34(
   function TabStrip2({
     tabs,
     activeKey,
@@ -5741,7 +6016,7 @@ var TabStrip = forwardRef33(
       count: tabs.length,
       activeIndex: activeIndex === -1 ? null : activeIndex
     });
-    const handleClick = useCallback13(
+    const handleClick = useCallback14(
       (key) => {
         if (key === activeKey && allowDeselect) {
           onChange(null);
@@ -5752,7 +6027,7 @@ var TabStrip = forwardRef33(
       [activeKey, allowDeselect, onChange]
     );
     const isSm = size === "sm";
-    return /* @__PURE__ */ jsx45(
+    return /* @__PURE__ */ jsx46(
       "div",
       {
         ref,
@@ -5765,7 +6040,7 @@ var TabStrip = forwardRef33(
         },
         children: tabs.map((tab, i) => {
           const isActive = tab.key === activeKey;
-          return /* @__PURE__ */ jsxs24(
+          return /* @__PURE__ */ jsxs25(
             "button",
             {
               ref: itemRef(i),
@@ -5778,22 +6053,22 @@ var TabStrip = forwardRef33(
               style: {
                 display: "flex",
                 alignItems: "center",
-                gap: t41.spaceXs,
-                padding: isSm ? `${t41.spaceXs} ${t41.spaceSm}` : `${t41.spaceSm} ${t41.spaceMd}`,
+                gap: t42.spaceXs,
+                padding: isSm ? `${t42.spaceXs} ${t42.spaceSm}` : `${t42.spaceSm} ${t42.spaceMd}`,
                 border: "none",
-                borderBottom: `2px solid ${isActive ? t41.colorActionPrimary : "transparent"}`,
+                borderBottom: `2px solid ${isActive ? t42.colorActionPrimary : "transparent"}`,
                 borderRadius: 0,
-                background: isActive ? `color-mix(in srgb, ${t41.colorActionPrimary} 8%, transparent)` : "transparent",
-                color: isActive ? t41.colorActionPrimary : t41.colorTextMuted,
-                fontFamily: t41.fontSans,
-                fontSize: isSm ? t41.fontSizeXs : t41.fontSizeSm,
-                fontWeight: t41.fontWeightSemibold,
-                lineHeight: t41.lineHeightTight,
+                background: isActive ? `color-mix(in srgb, ${t42.colorActionPrimary} 8%, transparent)` : "transparent",
+                color: isActive ? t42.colorActionPrimary : t42.colorTextMuted,
+                fontFamily: t42.fontSans,
+                fontSize: isSm ? t42.fontSizeXs : t42.fontSizeSm,
+                fontWeight: t42.fontWeightSemibold,
+                lineHeight: t42.lineHeightTight,
                 cursor: "pointer",
                 whiteSpace: "nowrap"
               },
               children: [
-                tab.icon && /* @__PURE__ */ jsx45(
+                tab.icon && /* @__PURE__ */ jsx46(
                   "span",
                   {
                     className: "material-symbols-outlined",
@@ -5814,6 +6089,13 @@ var TabStrip = forwardRef33(
 );
 export {
   AlertBanner,
+  AppShell,
+  AppShellMain,
+  AppShellRightPanel,
+  AppShellRoot,
+  AppShellSidebar,
+  AppShellSidebarSection,
+  AppShellTopBar,
   Badge,
   Button,
   Calendar2 as Calendar,
@@ -5916,6 +6198,7 @@ export {
   shadowMap,
   spacingMap,
   tagChipStyle,
+  useAppShellContext,
   useCalendarContext,
   useFocusTrap,
   useToast

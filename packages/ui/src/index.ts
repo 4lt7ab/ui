@@ -48,6 +48,7 @@ export * from './components/molecules/SegmentedControl';
 export * from './components/molecules/AlertBanner';
 export * from './components/organisms/TopBar';
 export * from './components/organisms/EmptyPage';
+export * from './components/organisms/AppShell';
 
 // Layout & Container primitives
 export * from './components/atoms/Surface';

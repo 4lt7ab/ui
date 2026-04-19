@@ -115,7 +115,10 @@ var synthwaveTheme = {
     zIndexSticky: "100",
     zIndexModal: "200",
     zIndexToast: "500",
-    zIndexMax: "9999"
+    zIndexMax: "9999",
+    sizeSidebarExpanded: "16rem",
+    sizeSidebarCollapsed: "3.5rem",
+    sizeRightPanelDefault: "20rem"
   },
   rhythm: {
     bpm: 80,
@@ -235,7 +238,10 @@ var slateTheme = {
     zIndexSticky: "100",
     zIndexModal: "200",
     zIndexToast: "500",
-    zIndexMax: "9999"
+    zIndexMax: "9999",
+    sizeSidebarExpanded: "16rem",
+    sizeSidebarCollapsed: "3.5rem",
+    sizeRightPanelDefault: "20rem"
   }
 };
 // src/themes/definitions/warm-sand.ts
@@ -321,7 +327,10 @@ var warmSandTheme = {
     zIndexSticky: "100",
     zIndexModal: "200",
     zIndexToast: "500",
-    zIndexMax: "9999"
+    zIndexMax: "9999",
+    sizeSidebarExpanded: "16rem",
+    sizeSidebarCollapsed: "3.5rem",
+    sizeRightPanelDefault: "20rem"
   }
 };
 // src/themes/definitions/moss.ts
@@ -407,7 +416,10 @@ var mossTheme = {
     zIndexSticky: "100",
     zIndexModal: "200",
     zIndexToast: "500",
-    zIndexMax: "9999"
+    zIndexMax: "9999",
+    sizeSidebarExpanded: "16rem",
+    sizeSidebarCollapsed: "3.5rem",
+    sizeRightPanelDefault: "20rem"
   }
 };
 // src/themes/definitions/coral.ts
@@ -493,7 +505,10 @@ var coralTheme = {
     zIndexSticky: "100",
     zIndexModal: "200",
     zIndexToast: "500",
-    zIndexMax: "9999"
+    zIndexMax: "9999",
+    sizeSidebarExpanded: "16rem",
+    sizeSidebarCollapsed: "3.5rem",
+    sizeRightPanelDefault: "20rem"
   }
 };
 // src/themes/definitions/pipboy.ts
@@ -579,7 +594,10 @@ var pipboyTheme = {
     zIndexSticky: "100",
     zIndexModal: "200",
     zIndexToast: "500",
-    zIndexMax: "9999"
+    zIndexMax: "9999",
+    sizeSidebarExpanded: "16rem",
+    sizeSidebarCollapsed: "3.5rem",
+    sizeRightPanelDefault: "20rem"
   },
   rhythm: {
     bpm: 140,
@@ -704,7 +722,10 @@ var neuralTheme = {
     zIndexSticky: "100",
     zIndexModal: "200",
     zIndexToast: "500",
-    zIndexMax: "9999"
+    zIndexMax: "9999",
+    sizeSidebarExpanded: "16rem",
+    sizeSidebarCollapsed: "3.5rem",
+    sizeRightPanelDefault: "20rem"
   },
   rhythm: {
     bpm: 60,
@@ -801,7 +822,10 @@ var pacmanTheme = {
     zIndexSticky: "100",
     zIndexModal: "200",
     zIndexToast: "500",
-    zIndexMax: "9999"
+    zIndexMax: "9999",
+    sizeSidebarExpanded: "16rem",
+    sizeSidebarCollapsed: "3.5rem",
+    sizeRightPanelDefault: "20rem"
   },
   css: `
     [data-theme="pacman"] body,
@@ -920,7 +944,10 @@ var blackHoleTheme = {
     zIndexSticky: "100",
     zIndexModal: "200",
     zIndexToast: "500",
-    zIndexMax: "9999"
+    zIndexMax: "9999",
+    sizeSidebarExpanded: "16rem",
+    sizeSidebarCollapsed: "3.5rem",
+    sizeRightPanelDefault: "20rem"
   },
   css: `
     [data-theme="black-hole"] body,
@@ -1508,7 +1535,10 @@ var semantic = {
   zIndexSticky: "var(--z-index-sticky)",
   zIndexModal: "var(--z-index-modal)",
   zIndexToast: "var(--z-index-toast)",
-  zIndexMax: "var(--z-index-max)"
+  zIndexMax: "var(--z-index-max)",
+  sizeSidebarExpanded: "var(--size-sidebar-expanded)",
+  sizeSidebarCollapsed: "var(--size-sidebar-collapsed)",
+  sizeRightPanelDefault: "var(--size-right-panel-default)"
 };
 export {
   warmSandTheme,

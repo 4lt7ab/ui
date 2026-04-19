@@ -116,6 +116,11 @@ export const synthwaveTheme: ThemeDefinition = {
     zIndexModal: '200',
     zIndexToast: '500',
     zIndexMax: '9999',
+
+    // Layout sizing
+    sizeSidebarExpanded: '16rem',
+    sizeSidebarCollapsed: '3.5rem',
+    sizeRightPanelDefault: '20rem',
   },
 
   rhythm: {

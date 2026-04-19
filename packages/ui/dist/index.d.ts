@@ -1690,6 +1690,151 @@ declare function EmptyPageTip({ icon, asChild, children }: EmptyPageTipProps): R
 */
 declare const EmptyPage: {};
 import { ReactNode as ReactNode28 } from "react";
+interface AppShellContextValue {
+	sidebarCollapsed: boolean;
+	setSidebarCollapsed: (next: boolean) => void;
+	rightPanelOpen: boolean;
+	setRightPanelOpen: (next: boolean) => void;
+}
+/**
+* Read the `<AppShell.Root>` context from a consumer component. Use this to
+* build a sidebar-collapse toggle inside `<AppShell.TopBar>` — the canonical
+* six-line recipe is:
+*
+* ```tsx
+* function SidebarToggle(): React.JSX.Element {
+*   const { sidebarCollapsed, setSidebarCollapsed } = useAppShellContext();
+*   return (
+*     <IconButton
+*       icon="menu"
+*       aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+*       aria-expanded={!sidebarCollapsed}
+*       onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+*     />
+*   );
+* }
+* ```
+*
+* Throws if called outside `<AppShell.Root>`.
+*/
+declare function useAppShellContext(): AppShellContextValue;
+/** Props for {@link AppShellRoot}. */
+interface AppShellRootProps extends BaseComponentProps {
+	/** Controlled sidebar collapsed state. When set, `<AppShell.Sidebar>` reads
+	* this value and ignores `defaultSidebarCollapsed`. Pair with
+	* `onSidebarCollapsedChange` to own the state yourself. */
+	sidebarCollapsed?: boolean;
+	/** Uncontrolled initial sidebar collapsed state. Only used when
+	* `sidebarCollapsed` is not provided.
+	* @default false
+	*/
+	defaultSidebarCollapsed?: boolean;
+	/** Fires when the sidebar collapses or expands — either via consumer
+	* code calling `setSidebarCollapsed` (from `useAppShellContext`) or from
+	* a peer sub-part. */
+	onSidebarCollapsedChange?: (next: boolean) => void;
+	/** Controlled right-panel open state. When set, `<AppShell.RightPanel>`
+	* reads this value and ignores `defaultRightPanelOpen`. */
+	rightPanelOpen?: boolean;
+	/** Uncontrolled initial right-panel open state. Only used when
+	* `rightPanelOpen` is not provided.
+	* @default true
+	*/
+	defaultRightPanelOpen?: boolean;
+	/** Fires when the right panel opens or closes. */
+	onRightPanelOpenChange?: (next: boolean) => void;
+	/** Children — any combination of `<AppShell.TopBar>`, `<AppShell.Sidebar>`,
+	* `<AppShell.Main>`, `<AppShell.RightPanel>`. JSX order is not significant;
+	* grid placement is determined by component identity. */
+	children?: ReactNode28;
+}
+declare const AppShellRoot: React.ForwardRefExoticComponent<Omit<AppShellRootProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
+/** Props for {@link AppShellTopBar}. Mirrors `TopBarRootProps` exactly — the
+* shell passes them straight through to `<TopBar.Root>` and anchors the
+* result into the top grid row. */
+type AppShellTopBarProps = TopBarRootProps;
+declare function AppShellTopBar(props: AppShellTopBarProps): React.JSX.Element;
+/** Props for {@link AppShellSidebar}. */
+interface AppShellSidebarProps {
+	/** Accessible label for the `<nav>` landmark.
+	* @default 'Sidebar'
+	*/
+	"aria-label"?: string;
+	/** Sidebar content. Pass a ReactNode for a static sidebar, or a function
+	* that receives `{ collapsed }` to render different layouts in the
+	* expanded vs collapsed state — e.g. hide labels and show icons only
+	* when collapsed. */
+	children?: ReactNode28 | ((state: {
+		collapsed: boolean;
+	}) => ReactNode28);
+}
+declare function AppShellSidebar({ "aria-label": ariaLabel, children }: AppShellSidebarProps): React.JSX.Element;
+/** Props for {@link AppShellSidebarSection}. */
+interface AppShellSidebarSectionProps {
+	/** Optional uppercase section label rendered above the items. When the
+	* sidebar is collapsed, the label is visually hidden (still reachable to
+	* screen readers) so the item rail reads as a single nav region. */
+	label?: string;
+	/** Section contents — typically the consumer's own link rows. */
+	children?: ReactNode28;
+}
+declare function AppShellSidebarSection({ label, children }: AppShellSidebarSectionProps): React.JSX.Element;
+/** Props for {@link AppShellMain}. */
+interface AppShellMainProps extends BaseComponentProps {
+	/** Accessible label for the `<main>` landmark. Rarely needed — a page
+	* typically has a visible heading inside Main that screen readers use. */
+	"aria-label"?: string;
+	/** Pair with a heading's generated id to label the region. */
+	"aria-labelledby"?: string;
+	children?: ReactNode28;
+}
+declare function AppShellMain({ children,...rest }: AppShellMainProps): React.JSX.Element;
+/** Props for {@link AppShellRightPanel}. */
+interface AppShellRightPanelProps {
+	/** Accessible label for the `<aside>` landmark.
+	* @default 'Context panel'
+	*/
+	"aria-label"?: string;
+	children?: ReactNode28;
+}
+declare function AppShellRightPanel({ "aria-label": ariaLabel, children }: AppShellRightPanelProps): React.JSX.Element;
+/**
+* App viewport envelope — a CSS grid of `TopBar` + `Sidebar` + `Main` +
+* optional `RightPanel`. Replaces hand-assembled layouts and makes
+* sidebar-collapse a library decision instead of a per-consumer
+* re-implementation.
+*
+* JSX order of sub-parts is not significant; grid placement is determined
+* by component identity, and DOM order is locked to `TopBar → Sidebar →
+* Main → RightPanel` so keyboard focus flow stays predictable regardless
+* of how the consumer writes the tree.
+*
+* Both `sidebarCollapsed` and `rightPanelOpen` follow the standard
+* controlled/uncontrolled contract (see the compound-component ADR §4).
+* Responsive collapse (e.g. collapse below 900px) is intentionally not
+* shipped — wire `useMediaQuery` into the `sidebarCollapsed` prop yourself.
+*
+* @example
+* ```tsx
+* <AppShell.Root defaultSidebarCollapsed={false}>
+*   <AppShell.TopBar>
+*     <TopBar.Leading>My App</TopBar.Leading>
+*   </AppShell.TopBar>
+*   <AppShell.Sidebar>
+*     <AppShell.SidebarSection label="Workspace">
+*       <a href="/inbox">Inbox</a>
+*       <a href="/projects">Projects</a>
+*     </AppShell.SidebarSection>
+*   </AppShell.Sidebar>
+*   <AppShell.Main>
+*     <h1>Dashboard</h1>
+*   </AppShell.Main>
+*   <AppShell.RightPanel>Context</AppShell.RightPanel>
+* </AppShell.Root>
+* ```
+*/
+declare const AppShell: {};
+import { ReactNode as ReactNode29 } from "react";
 /**
 * Which semantic surface token to use as the background.
 *
@@ -1758,10 +1903,10 @@ interface SurfaceProps extends BaseComponentProps {
 	* @default false
 	*/
 	asChild?: boolean;
-	children: ReactNode28;
+	children: ReactNode29;
 }
 declare const Surface: React.ForwardRefExoticComponent<Omit<SurfaceProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode29 } from "react";
+import { ReactNode as ReactNode30 } from "react";
 /**
 * Responsive grid layout with auto-fill columns.
 *
@@ -1801,7 +1946,7 @@ interface GridProps extends BaseComponentProps {
 	* @default 'md'
 	*/
 	gap?: SpacingToken;
-	children: ReactNode29;
+	children: ReactNode30;
 }
 declare const Grid: React.ForwardRefExoticComponent<Omit<GridProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /**
@@ -1843,7 +1988,7 @@ interface DividerProps extends BaseComponentProps {
 	spacing?: SpacingToken;
 }
 declare const Divider: React.ForwardRefExoticComponent<Omit<DividerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode30 } from "react";
+import { ReactNode as ReactNode31 } from "react";
 /** Named width preset for the Container. */
 type ContainerWidth = "narrow" | "prose" | "wide" | "full";
 /** Horizontal padding preset for the Container. */
@@ -1863,7 +2008,7 @@ interface ContainerProps {
 	*/
 	padding?: ContainerPadding;
 	/** Container content. */
-	children: ReactNode30;
+	children: ReactNode31;
 	id?: string;
 	"data-testid"?: string;
 }
@@ -1924,4 +2069,4 @@ interface TabStripProps extends BaseComponentProps {
 	size?: "sm" | "md";
 }
 declare const TabStrip: React.ForwardRefExoticComponent<Omit<TabStripProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-export { useToast, useFocusTrap, useCalendarContext, tagChipStyle, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, nextFocusedDate, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextWeight, TextTone, TextSize, TextRef, TextProps, TextFilterConfig, TextFamily, TextAs, TextAlign, Text, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table2 as Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectValueProps, SelectTriggerProps, SelectRootProps, SelectItemProps, SelectFilterConfig, SelectContentProps, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, LinkCardProps, LinkCard, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FilterBarTextProps, FilterBarSelectProps, FilterBarProps, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, EmptyPageTitleProps, EmptyPageTitle, EmptyPageTipsProps, EmptyPageTips, EmptyPageTipProps, EmptyPageTip, EmptyPageRootProps, EmptyPageRoot, EmptyPageIconProps, EmptyPageIcon, EmptyPageDescriptionProps, EmptyPageDescription, EmptyPageActionsProps, EmptyPageActions, EmptyPage, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ContainerWidth, ContainerProps, ContainerPadding, Container, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxRootProps, ComboboxListProps, ComboboxItemProps, ComboboxInputProps, ComboboxEmptyProps, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, CalendarSelection, CalendarRootProps, CalendarRange, CalendarNavProps, CalendarNavDirection, CalendarMode, CalendarHeaderPrimitiveProps, CalendarGridProps, CalendarContextValue, CalendarCellRenderArgs, CalendarCellProps, Calendar, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };
+export { useToast, useFocusTrap, useCalendarContext, useAppShellContext, tagChipStyle, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, nextFocusedDate, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextWeight, TextTone, TextSize, TextRef, TextProps, TextFilterConfig, TextFamily, TextAs, TextAlign, Text, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table2 as Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectValueProps, SelectTriggerProps, SelectRootProps, SelectItemProps, SelectFilterConfig, SelectContentProps, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, LinkCardProps, LinkCard, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FilterBarTextProps, FilterBarSelectProps, FilterBarProps, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, EmptyPageTitleProps, EmptyPageTitle, EmptyPageTipsProps, EmptyPageTips, EmptyPageTipProps, EmptyPageTip, EmptyPageRootProps, EmptyPageRoot, EmptyPageIconProps, EmptyPageIcon, EmptyPageDescriptionProps, EmptyPageDescription, EmptyPageActionsProps, EmptyPageActions, EmptyPage, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ContainerWidth, ContainerProps, ContainerPadding, Container, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxRootProps, ComboboxListProps, ComboboxItemProps, ComboboxInputProps, ComboboxEmptyProps, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, CalendarSelection, CalendarRootProps, CalendarRange, CalendarNavProps, CalendarNavDirection, CalendarMode, CalendarHeaderPrimitiveProps, CalendarGridProps, CalendarContextValue, CalendarCellRenderArgs, CalendarCellProps, Calendar, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AppShellTopBarProps, AppShellTopBar, AppShellSidebarSectionProps, AppShellSidebarSection, AppShellSidebarProps, AppShellSidebar, AppShellRootProps, AppShellRoot, AppShellRightPanelProps, AppShellRightPanel, AppShellMainProps, AppShellMain, AppShell, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };

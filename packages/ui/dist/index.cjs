@@ -32,6 +32,13 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var index_exports = {};
 __export(index_exports, {
   AlertBanner: () => AlertBanner,
+  AppShell: () => AppShell,
+  AppShellMain: () => AppShellMain,
+  AppShellRightPanel: () => AppShellRightPanel,
+  AppShellRoot: () => AppShellRoot,
+  AppShellSidebar: () => AppShellSidebar,
+  AppShellSidebarSection: () => AppShellSidebarSection,
+  AppShellTopBar: () => AppShellTopBar,
   Badge: () => Badge,
   Button: () => Button,
   Calendar: () => Calendar2,
@@ -134,6 +141,7 @@ __export(index_exports, {
   shadowMap: () => shadowMap,
   spacingMap: () => spacingMap,
   tagChipStyle: () => tagChipStyle,
+  useAppShellContext: () => useAppShellContext,
   useCalendarContext: () => useCalendarContext,
   useFocusTrap: () => useFocusTrap,
   useToast: () => useToast
@@ -3152,8 +3160,8 @@ function isSameDay(a, b) {
 function isInRange(date, from, to) {
   const d = stripTime(date).getTime();
   const f = stripTime(from).getTime();
-  const t42 = stripTime(to).getTime();
-  return d >= f && d <= t42;
+  const t43 = stripTime(to).getTime();
+  return d >= f && d <= t43;
 }
 function formatDate(date) {
   const y = date.getFullYear();
@@ -4314,7 +4322,7 @@ function ToastProvider({
 }) {
   const [toasts, setToasts] = (0, import_react32.useState)([]);
   const dismiss = (0, import_react32.useCallback)((id) => {
-    setToasts((prev) => prev.filter((t42) => t42.id !== id));
+    setToasts((prev) => prev.filter((t43) => t43.id !== id));
   }, []);
   const showToast = (0, import_react32.useCallback)(
     (message, typeOrOptions) => {
@@ -5701,10 +5709,274 @@ var EmptyPage = {
   Tip: EmptyPageTip
 };
 
-// src/components/atoms/Grid/Grid.tsx
+// src/components/organisms/AppShell/AppShell.tsx
 var import_react41 = require("react");
+var import_core42 = require("../../core/dist/index.cjs");
 var import_jsx_runtime42 = require("react/jsx-runtime");
-var Grid = (0, import_react41.forwardRef)(
+var AppShellContext = (0, import_react41.createContext)(null);
+function useAppShellContextInternal(component) {
+  const ctx = (0, import_react41.useContext)(AppShellContext);
+  if (ctx === null) {
+    throw new Error(
+      `[@4lt7ab/ui] <AppShell.${component}> must be rendered inside <AppShell.Root>.`
+    );
+  }
+  return ctx;
+}
+function useAppShellContext() {
+  return useAppShellContextInternal("<consumer>");
+}
+function useControllableBoolean(params) {
+  const { label, controlled, defaultValue, onChange } = params;
+  const isControlled = controlled !== void 0;
+  const [uncontrolled, setUncontrolled] = (0, import_react41.useState)(defaultValue);
+  const value = isControlled ? controlled : uncontrolled;
+  const wasControlled = (0, import_react41.useRef)(isControlled);
+  (0, import_react41.useEffect)(() => {
+    if (wasControlled.current !== isControlled) {
+      console.warn(
+        `<AppShell.Root> switched between controlled and uncontrolled for ${label}. Pick one and stick with it.`
+      );
+      wasControlled.current = isControlled;
+    }
+  }, [isControlled, label]);
+  const setValue = (0, import_react41.useCallback)(
+    (next) => {
+      if (!isControlled) setUncontrolled(next);
+      onChange?.(next);
+    },
+    [isControlled, onChange]
+  );
+  return [value, setValue];
+}
+function bucketChildren(children) {
+  let topBar = null;
+  let sidebar = null;
+  let main = null;
+  let rightPanel = null;
+  import_react41.Children.forEach(children, (child) => {
+    if (!(0, import_react41.isValidElement)(child)) return;
+    if (child.type === AppShellTopBar) topBar = child;
+    else if (child.type === AppShellSidebar) sidebar = child;
+    else if (child.type === AppShellMain) main = child;
+    else if (child.type === AppShellRightPanel) rightPanel = child;
+  });
+  return { topBar, sidebar, main, rightPanel };
+}
+var AppShellRoot = (0, import_react41.forwardRef)(function AppShellRoot2({
+  sidebarCollapsed: sidebarCollapsedProp,
+  defaultSidebarCollapsed = false,
+  onSidebarCollapsedChange,
+  rightPanelOpen: rightPanelOpenProp,
+  defaultRightPanelOpen = true,
+  onRightPanelOpenChange,
+  children,
+  ...rest
+}, ref) {
+  const [sidebarCollapsed, setSidebarCollapsed] = useControllableBoolean({
+    label: "sidebarCollapsed",
+    controlled: sidebarCollapsedProp,
+    defaultValue: defaultSidebarCollapsed,
+    onChange: onSidebarCollapsedChange
+  });
+  const [rightPanelOpen, setRightPanelOpen] = useControllableBoolean({
+    label: "rightPanelOpen",
+    controlled: rightPanelOpenProp,
+    defaultValue: defaultRightPanelOpen,
+    onChange: onRightPanelOpenChange
+  });
+  const value = (0, import_react41.useMemo)(
+    () => ({ sidebarCollapsed, setSidebarCollapsed, rightPanelOpen, setRightPanelOpen }),
+    [sidebarCollapsed, setSidebarCollapsed, rightPanelOpen, setRightPanelOpen]
+  );
+  const { topBar, sidebar, main, rightPanel } = bucketChildren(children);
+  const hasTopBar = topBar !== null;
+  const hasSidebar = sidebar !== null;
+  const hasRightPanel = rightPanel !== null && rightPanelOpen;
+  const sidebarWidth = sidebarCollapsed ? import_core42.semantic.sizeSidebarCollapsed : import_core42.semantic.sizeSidebarExpanded;
+  const gridTemplateColumns = [
+    hasSidebar ? sidebarWidth : null,
+    "1fr",
+    hasRightPanel ? import_core42.semantic.sizeRightPanelDefault : null
+  ].filter(Boolean).join(" ");
+  const gridTemplateRows = hasTopBar ? `${import_core42.semantic.space2xl} 1fr` : "1fr";
+  const gridAreas = (() => {
+    const topCols = [];
+    const mainCols = [];
+    if (hasSidebar) {
+      topCols.push("topbar");
+      mainCols.push("sidebar");
+    }
+    topCols.push("topbar");
+    mainCols.push("main");
+    if (hasRightPanel) {
+      topCols.push("topbar");
+      mainCols.push("rightpanel");
+    }
+    const rows = [];
+    if (hasTopBar) rows.push(`"${topCols.join(" ")}"`);
+    rows.push(`"${mainCols.join(" ")}"`);
+    return rows.join(" ");
+  })();
+  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(AppShellContext.Provider, { value, children: /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)(
+    "div",
+    {
+      ref,
+      id: rest.id,
+      "data-testid": rest["data-testid"],
+      "data-sidebar-state": sidebarCollapsed ? "collapsed" : "expanded",
+      "data-right-panel-state": rightPanelOpen ? "open" : "closed",
+      style: {
+        display: "grid",
+        gridTemplateColumns,
+        gridTemplateRows,
+        gridTemplateAreas: gridAreas,
+        width: "100%",
+        height: "100%",
+        minHeight: "100vh",
+        fontFamily: import_core42.semantic.fontSans,
+        color: import_core42.semantic.colorText,
+        boxSizing: "border-box"
+      },
+      children: [
+        topBar,
+        sidebar,
+        main,
+        rightPanel
+      ]
+    }
+  ) });
+});
+function AppShellTopBar(props) {
+  useAppShellContextInternal("TopBar");
+  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { style: { gridArea: "topbar", minWidth: 0 }, children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(TopBarRoot, { ...props }) });
+}
+function AppShellSidebar({
+  "aria-label": ariaLabel = "Sidebar",
+  children
+}) {
+  const { sidebarCollapsed } = useAppShellContextInternal("Sidebar");
+  const content = typeof children === "function" ? children({ collapsed: sidebarCollapsed }) : children;
+  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
+    "nav",
+    {
+      "aria-label": ariaLabel,
+      "data-state": sidebarCollapsed ? "collapsed" : "expanded",
+      style: {
+        gridArea: "sidebar",
+        display: "flex",
+        flexDirection: "column",
+        overflowX: "hidden",
+        overflowY: "auto",
+        background: import_core42.semantic.colorSurfacePanel,
+        borderRight: `${import_core42.semantic.borderWidthDefault} solid ${import_core42.semantic.colorBorder}`,
+        transition: `width ${import_core42.semantic.transitionBase}`,
+        minWidth: 0
+      },
+      children: content
+    }
+  );
+}
+function AppShellSidebarSection({
+  label,
+  children
+}) {
+  const { sidebarCollapsed } = useAppShellContextInternal("SidebarSection");
+  const labelStyle2 = sidebarCollapsed ? {
+    // Visually hidden but still announced by assistive tech, so the
+    // section keeps its semantic grouping in the collapsed rail.
+    position: "absolute",
+    width: 1,
+    height: 1,
+    padding: 0,
+    margin: -1,
+    overflow: "hidden",
+    clip: "rect(0 0 0 0)",
+    whiteSpace: "nowrap",
+    border: 0
+  } : {
+    display: "block",
+    padding: `${import_core42.semantic.spaceSm} ${import_core42.semantic.spaceMd} ${import_core42.semantic.spaceXs}`,
+    fontSize: import_core42.semantic.fontSizeXs,
+    fontWeight: import_core42.semantic.fontWeightSemibold,
+    color: import_core42.semantic.colorTextMuted,
+    textTransform: "uppercase",
+    letterSpacing: import_core42.semantic.letterSpacingWide
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)(
+    "div",
+    {
+      "data-state": sidebarCollapsed ? "collapsed" : "expanded",
+      style: { display: "flex", flexDirection: "column" },
+      children: [
+        label !== void 0 && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("span", { style: labelStyle2, children: label }),
+        /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { style: { display: "flex", flexDirection: "column" }, children })
+      ]
+    }
+  );
+}
+function AppShellMain({
+  children,
+  ...rest
+}) {
+  useAppShellContextInternal("Main");
+  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
+    "main",
+    {
+      id: rest.id,
+      "data-testid": rest["data-testid"],
+      "aria-label": rest["aria-label"],
+      "aria-labelledby": rest["aria-labelledby"],
+      style: {
+        gridArea: "main",
+        overflow: "auto",
+        minWidth: 0,
+        minHeight: 0,
+        background: import_core42.semantic.colorSurfacePage,
+        boxSizing: "border-box"
+      },
+      children
+    }
+  );
+}
+function AppShellRightPanel({
+  "aria-label": ariaLabel = "Context panel",
+  children
+}) {
+  const { rightPanelOpen } = useAppShellContextInternal("RightPanel");
+  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
+    "aside",
+    {
+      "aria-label": ariaLabel,
+      "aria-hidden": !rightPanelOpen || void 0,
+      "data-state": rightPanelOpen ? "open" : "closed",
+      hidden: !rightPanelOpen,
+      style: {
+        gridArea: "rightpanel",
+        display: rightPanelOpen ? "flex" : "none",
+        flexDirection: "column",
+        overflowY: "auto",
+        background: import_core42.semantic.colorSurfacePanel,
+        borderLeft: `${import_core42.semantic.borderWidthDefault} solid ${import_core42.semantic.colorBorder}`,
+        minWidth: 0
+      },
+      children
+    }
+  );
+}
+var AppShell = {
+  Root: AppShellRoot,
+  TopBar: AppShellTopBar,
+  Sidebar: AppShellSidebar,
+  SidebarSection: AppShellSidebarSection,
+  Main: AppShellMain,
+  RightPanel: AppShellRightPanel
+};
+
+// src/components/atoms/Grid/Grid.tsx
+var import_react42 = require("react");
+var import_jsx_runtime43 = require("react/jsx-runtime");
+var Grid = (0, import_react42.forwardRef)(
   function Grid2({
     minColumnWidth = 300,
     columns,
@@ -5714,7 +5986,7 @@ var Grid = (0, import_react41.forwardRef)(
   }, ref) {
     const minWidth = `${minColumnWidth}px`;
     const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
-    return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
       "div",
       {
         ref,
@@ -5732,10 +6004,10 @@ var Grid = (0, import_react41.forwardRef)(
 );
 
 // src/components/atoms/Divider/Divider.tsx
-var import_react42 = require("react");
-var import_core42 = require("../../core/dist/index.cjs");
-var import_jsx_runtime43 = require("react/jsx-runtime");
-var Divider = (0, import_react42.forwardRef)(
+var import_react43 = require("react");
+var import_core43 = require("../../core/dist/index.cjs");
+var import_jsx_runtime44 = require("react/jsx-runtime");
+var Divider = (0, import_react43.forwardRef)(
   function Divider2({
     orientation = "horizontal",
     opacity = "default",
@@ -5743,10 +6015,10 @@ var Divider = (0, import_react42.forwardRef)(
     ...rest
   }, ref) {
     const resolvedOpacity = dividerOpacityMap[opacity];
-    const bg = `color-mix(in srgb, ${import_core42.semantic.colorBorder} ${resolvedOpacity}%, transparent)`;
+    const bg = `color-mix(in srgb, ${import_core43.semantic.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
     const isHorizontal = orientation === "horizontal";
-    return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
       "div",
       {
         ref,
@@ -5767,8 +6039,8 @@ var Divider = (0, import_react42.forwardRef)(
 );
 
 // src/components/atoms/Container/Container.tsx
-var import_react43 = require("react");
-var import_jsx_runtime44 = require("react/jsx-runtime");
+var import_react44 = require("react");
+var import_jsx_runtime45 = require("react/jsx-runtime");
 var widthMap = {
   narrow: "32rem",
   prose: "680px",
@@ -5781,7 +6053,7 @@ var paddingMap = {
   md: "1.5rem",
   lg: "3rem"
 };
-var Container = (0, import_react43.forwardRef)(
+var Container = (0, import_react44.forwardRef)(
   function Container2({
     width = "prose",
     padding = "md",
@@ -5789,7 +6061,7 @@ var Container = (0, import_react43.forwardRef)(
     id,
     "data-testid": dataTestId
   }, ref) {
-    return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
       "div",
       {
         ref,
@@ -5810,20 +6082,20 @@ var Container = (0, import_react43.forwardRef)(
 );
 
 // src/components/molecules/TabStrip/TabStrip.tsx
-var import_react44 = require("react");
-var import_core43 = require("../../core/dist/index.cjs");
-var import_jsx_runtime45 = require("react/jsx-runtime");
+var import_react45 = require("react");
+var import_core44 = require("../../core/dist/index.cjs");
+var import_jsx_runtime46 = require("react/jsx-runtime");
 var STYLES_ID2 = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
-  transition: color ${import_core43.semantic.transitionFast}, background ${import_core43.semantic.transitionFast}, border-color ${import_core43.semantic.transitionFast};
+  transition: color ${import_core44.semantic.transitionFast}, background ${import_core44.semantic.transitionFast}, border-color ${import_core44.semantic.transitionFast};
 }
 [data-tab-btn]:hover:not([aria-selected="true"]) {
-  color: ${import_core43.semantic.colorTextSecondary};
-  background: color-mix(in srgb, ${import_core43.semantic.colorBorder} 10%, transparent);
+  color: ${import_core44.semantic.colorTextSecondary};
+  background: color-mix(in srgb, ${import_core44.semantic.colorBorder} 10%, transparent);
 }
 `;
-var TabStrip = (0, import_react44.forwardRef)(
+var TabStrip = (0, import_react45.forwardRef)(
   function TabStrip2({
     tabs,
     activeKey,
@@ -5832,13 +6104,13 @@ var TabStrip = (0, import_react44.forwardRef)(
     size = "md",
     ...rest
   }, ref) {
-    (0, import_core43.useInjectStyles)(STYLES_ID2, STYLES_CSS);
+    (0, import_core44.useInjectStyles)(STYLES_ID2, STYLES_CSS);
     const activeIndex = tabs.findIndex((tab) => tab.key === activeKey);
     const { itemRef, onKeyDown, getTabIndex } = useRovingFocus({
       count: tabs.length,
       activeIndex: activeIndex === -1 ? null : activeIndex
     });
-    const handleClick = (0, import_react44.useCallback)(
+    const handleClick = (0, import_react45.useCallback)(
       (key) => {
         if (key === activeKey && allowDeselect) {
           onChange(null);
@@ -5849,7 +6121,7 @@ var TabStrip = (0, import_react44.forwardRef)(
       [activeKey, allowDeselect, onChange]
     );
     const isSm = size === "sm";
-    return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
       "div",
       {
         ref,
@@ -5862,7 +6134,7 @@ var TabStrip = (0, import_react44.forwardRef)(
         },
         children: tabs.map((tab, i) => {
           const isActive = tab.key === activeKey;
-          return /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)(
+          return /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)(
             "button",
             {
               ref: itemRef(i),
@@ -5875,22 +6147,22 @@ var TabStrip = (0, import_react44.forwardRef)(
               style: {
                 display: "flex",
                 alignItems: "center",
-                gap: import_core43.semantic.spaceXs,
-                padding: isSm ? `${import_core43.semantic.spaceXs} ${import_core43.semantic.spaceSm}` : `${import_core43.semantic.spaceSm} ${import_core43.semantic.spaceMd}`,
+                gap: import_core44.semantic.spaceXs,
+                padding: isSm ? `${import_core44.semantic.spaceXs} ${import_core44.semantic.spaceSm}` : `${import_core44.semantic.spaceSm} ${import_core44.semantic.spaceMd}`,
                 border: "none",
-                borderBottom: `2px solid ${isActive ? import_core43.semantic.colorActionPrimary : "transparent"}`,
+                borderBottom: `2px solid ${isActive ? import_core44.semantic.colorActionPrimary : "transparent"}`,
                 borderRadius: 0,
-                background: isActive ? `color-mix(in srgb, ${import_core43.semantic.colorActionPrimary} 8%, transparent)` : "transparent",
-                color: isActive ? import_core43.semantic.colorActionPrimary : import_core43.semantic.colorTextMuted,
-                fontFamily: import_core43.semantic.fontSans,
-                fontSize: isSm ? import_core43.semantic.fontSizeXs : import_core43.semantic.fontSizeSm,
-                fontWeight: import_core43.semantic.fontWeightSemibold,
-                lineHeight: import_core43.semantic.lineHeightTight,
+                background: isActive ? `color-mix(in srgb, ${import_core44.semantic.colorActionPrimary} 8%, transparent)` : "transparent",
+                color: isActive ? import_core44.semantic.colorActionPrimary : import_core44.semantic.colorTextMuted,
+                fontFamily: import_core44.semantic.fontSans,
+                fontSize: isSm ? import_core44.semantic.fontSizeXs : import_core44.semantic.fontSizeSm,
+                fontWeight: import_core44.semantic.fontWeightSemibold,
+                lineHeight: import_core44.semantic.lineHeightTight,
                 cursor: "pointer",
                 whiteSpace: "nowrap"
               },
               children: [
-                tab.icon && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+                tab.icon && /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
                   "span",
                   {
                     className: "material-symbols-outlined",
