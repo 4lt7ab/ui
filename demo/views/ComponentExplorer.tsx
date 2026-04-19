@@ -24,6 +24,7 @@ import {
   TabStripDemo,
   EmptyPageDemo,
   AppShellDemo,
+  DataTablePageDemo,
 } from '../demos';
 
 // ---------------------------------------------------------------------------
@@ -60,6 +61,7 @@ const CATEGORIES: CategoryDef[] = [
       { name: 'LinkCard', source: 'ui', Demo: LinkCardDemo },
       { name: 'ExpandableCard', source: 'ui', Demo: ExpandableCardDemo },
       { name: 'AppShell', source: 'ui', Demo: AppShellDemo },
+      { name: 'DataTablePage', source: 'ui', Demo: DataTablePageDemo },
       { name: 'TopBar', source: 'ui', Demo: TopBarDemo },
       { name: 'Header', source: 'ui', Demo: HeaderDemo },
       { name: 'Surface', source: 'ui', Demo: SurfaceDemo },

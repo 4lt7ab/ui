@@ -3039,8 +3039,8 @@ function isSameDay(a, b) {
 function isInRange(date, from, to) {
   const d = stripTime(date).getTime();
   const f = stripTime(from).getTime();
-  const t43 = stripTime(to).getTime();
-  return d >= f && d <= t43;
+  const t44 = stripTime(to).getTime();
+  return d >= f && d <= t44;
 }
 function formatDate(date) {
   const y = date.getFullYear();
@@ -4208,7 +4208,7 @@ function ToastProvider({
 }) {
   const [toasts, setToasts] = useState7([]);
   const dismiss = useCallback7((id) => {
-    setToasts((prev) => prev.filter((t43) => t43.id !== id));
+    setToasts((prev) => prev.filter((t44) => t44.id !== id));
   }, []);
   const showToast = useCallback7(
     (message, typeOrOptions) => {
@@ -5879,10 +5879,86 @@ var AppShell = {
   RightPanel: AppShellRightPanel
 };
 
-// src/components/atoms/Grid/Grid.tsx
-import { forwardRef as forwardRef31 } from "react";
+// src/components/organisms/DataTablePage/DataTablePage.tsx
+import { createContext as createContext10, forwardRef as forwardRef31, useContext as useContext10, useId as useId10, useMemo as useMemo8 } from "react";
+import { semantic as t41 } from "../../core/dist/index.js";
 import { jsx as jsx43 } from "react/jsx-runtime";
-var Grid = forwardRef31(
+var DataTablePageContext = createContext10(null);
+function useDataTablePageContext(part) {
+  const ctx = useContext10(DataTablePageContext);
+  if (ctx === null) {
+    throw new Error(
+      `[@4lt7ab/ui] <DataTablePage.${part}> must be rendered inside <DataTablePage.Root>.`
+    );
+  }
+  return ctx;
+}
+var DataTablePageRoot = forwardRef31(function DataTablePageRoot2({ rowCount, children, ...rest }, ref) {
+  const titleId = useId10();
+  const isEmpty = rowCount === 0;
+  const value = useMemo8(
+    () => ({ rowCount, titleId }),
+    [rowCount, titleId]
+  );
+  return /* @__PURE__ */ jsx43(DataTablePageContext.Provider, { value, children: /* @__PURE__ */ jsx43(
+    "section",
+    {
+      ref,
+      id: rest.id,
+      "data-testid": rest["data-testid"],
+      "data-state": isEmpty ? "empty" : "populated",
+      "aria-label": rest["aria-label"],
+      "aria-labelledby": rest["aria-label"] ? void 0 : titleId,
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        gap: t41.spaceLg,
+        width: "100%",
+        fontFamily: t41.fontSans,
+        color: t41.colorText,
+        boxSizing: "border-box"
+      },
+      children
+    }
+  ) });
+});
+function DataTablePageHeader({
+  level = "page",
+  ...rest
+}) {
+  const { titleId } = useDataTablePageContext("Header");
+  return /* @__PURE__ */ jsx43("div", { id: titleId, children: /* @__PURE__ */ jsx43(Header, { level, ...rest }) });
+}
+function DataTablePageFilterBar(props) {
+  useDataTablePageContext("FilterBar");
+  return /* @__PURE__ */ jsx43(TableFilterBar, { ...props });
+}
+function DataTablePageTable(props) {
+  useDataTablePageContext("Table");
+  return /* @__PURE__ */ jsx43(Table3, { ...props });
+}
+function DataTablePagePagination(props) {
+  useDataTablePageContext("Pagination");
+  return /* @__PURE__ */ jsx43(Pagination, { ...props });
+}
+function DataTablePageEmpty(props) {
+  const { rowCount } = useDataTablePageContext("Empty");
+  if (rowCount !== 0) return null;
+  return /* @__PURE__ */ jsx43(EmptyState, { ...props, variant: "plain" });
+}
+var DataTablePage = {
+  Root: DataTablePageRoot,
+  Header: DataTablePageHeader,
+  FilterBar: DataTablePageFilterBar,
+  Table: DataTablePageTable,
+  Pagination: DataTablePagePagination,
+  Empty: DataTablePageEmpty
+};
+
+// src/components/atoms/Grid/Grid.tsx
+import { forwardRef as forwardRef32 } from "react";
+import { jsx as jsx44 } from "react/jsx-runtime";
+var Grid = forwardRef32(
   function Grid2({
     minColumnWidth = 300,
     columns,
@@ -5892,7 +5968,7 @@ var Grid = forwardRef31(
   }, ref) {
     const minWidth = `${minColumnWidth}px`;
     const gridTemplateColumns = columns ? `repeat(${columns}, 1fr)` : `repeat(auto-fill, minmax(${minWidth}, 1fr))`;
-    return /* @__PURE__ */ jsx43(
+    return /* @__PURE__ */ jsx44(
       "div",
       {
         ref,
@@ -5910,10 +5986,10 @@ var Grid = forwardRef31(
 );
 
 // src/components/atoms/Divider/Divider.tsx
-import { forwardRef as forwardRef32 } from "react";
-import { semantic as t41 } from "../../core/dist/index.js";
-import { jsx as jsx44 } from "react/jsx-runtime";
-var Divider = forwardRef32(
+import { forwardRef as forwardRef33 } from "react";
+import { semantic as t42 } from "../../core/dist/index.js";
+import { jsx as jsx45 } from "react/jsx-runtime";
+var Divider = forwardRef33(
   function Divider2({
     orientation = "horizontal",
     opacity = "default",
@@ -5921,10 +5997,10 @@ var Divider = forwardRef32(
     ...rest
   }, ref) {
     const resolvedOpacity = dividerOpacityMap[opacity];
-    const bg = `color-mix(in srgb, ${t41.colorBorder} ${resolvedOpacity}%, transparent)`;
+    const bg = `color-mix(in srgb, ${t42.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
     const isHorizontal = orientation === "horizontal";
-    return /* @__PURE__ */ jsx44(
+    return /* @__PURE__ */ jsx45(
       "div",
       {
         ref,
@@ -5945,8 +6021,8 @@ var Divider = forwardRef32(
 );
 
 // src/components/atoms/Container/Container.tsx
-import { forwardRef as forwardRef33 } from "react";
-import { jsx as jsx45 } from "react/jsx-runtime";
+import { forwardRef as forwardRef34 } from "react";
+import { jsx as jsx46 } from "react/jsx-runtime";
 var widthMap = {
   narrow: "32rem",
   prose: "680px",
@@ -5959,7 +6035,7 @@ var paddingMap = {
   md: "1.5rem",
   lg: "3rem"
 };
-var Container = forwardRef33(
+var Container = forwardRef34(
   function Container2({
     width = "prose",
     padding = "md",
@@ -5967,7 +6043,7 @@ var Container = forwardRef33(
     id,
     "data-testid": dataTestId
   }, ref) {
-    return /* @__PURE__ */ jsx45(
+    return /* @__PURE__ */ jsx46(
       "div",
       {
         ref,
@@ -5988,20 +6064,20 @@ var Container = forwardRef33(
 );
 
 // src/components/molecules/TabStrip/TabStrip.tsx
-import { forwardRef as forwardRef34, useCallback as useCallback14 } from "react";
-import { semantic as t42, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
-import { jsx as jsx46, jsxs as jsxs25 } from "react/jsx-runtime";
+import { forwardRef as forwardRef35, useCallback as useCallback14 } from "react";
+import { semantic as t43, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
+import { jsx as jsx47, jsxs as jsxs25 } from "react/jsx-runtime";
 var STYLES_ID2 = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
-  transition: color ${t42.transitionFast}, background ${t42.transitionFast}, border-color ${t42.transitionFast};
+  transition: color ${t43.transitionFast}, background ${t43.transitionFast}, border-color ${t43.transitionFast};
 }
 [data-tab-btn]:hover:not([aria-selected="true"]) {
-  color: ${t42.colorTextSecondary};
-  background: color-mix(in srgb, ${t42.colorBorder} 10%, transparent);
+  color: ${t43.colorTextSecondary};
+  background: color-mix(in srgb, ${t43.colorBorder} 10%, transparent);
 }
 `;
-var TabStrip = forwardRef34(
+var TabStrip = forwardRef35(
   function TabStrip2({
     tabs,
     activeKey,
@@ -6027,7 +6103,7 @@ var TabStrip = forwardRef34(
       [activeKey, allowDeselect, onChange]
     );
     const isSm = size === "sm";
-    return /* @__PURE__ */ jsx46(
+    return /* @__PURE__ */ jsx47(
       "div",
       {
         ref,
@@ -6053,22 +6129,22 @@ var TabStrip = forwardRef34(
               style: {
                 display: "flex",
                 alignItems: "center",
-                gap: t42.spaceXs,
-                padding: isSm ? `${t42.spaceXs} ${t42.spaceSm}` : `${t42.spaceSm} ${t42.spaceMd}`,
+                gap: t43.spaceXs,
+                padding: isSm ? `${t43.spaceXs} ${t43.spaceSm}` : `${t43.spaceSm} ${t43.spaceMd}`,
                 border: "none",
-                borderBottom: `2px solid ${isActive ? t42.colorActionPrimary : "transparent"}`,
+                borderBottom: `2px solid ${isActive ? t43.colorActionPrimary : "transparent"}`,
                 borderRadius: 0,
-                background: isActive ? `color-mix(in srgb, ${t42.colorActionPrimary} 8%, transparent)` : "transparent",
-                color: isActive ? t42.colorActionPrimary : t42.colorTextMuted,
-                fontFamily: t42.fontSans,
-                fontSize: isSm ? t42.fontSizeXs : t42.fontSizeSm,
-                fontWeight: t42.fontWeightSemibold,
-                lineHeight: t42.lineHeightTight,
+                background: isActive ? `color-mix(in srgb, ${t43.colorActionPrimary} 8%, transparent)` : "transparent",
+                color: isActive ? t43.colorActionPrimary : t43.colorTextMuted,
+                fontFamily: t43.fontSans,
+                fontSize: isSm ? t43.fontSizeXs : t43.fontSizeSm,
+                fontWeight: t43.fontWeightSemibold,
+                lineHeight: t43.lineHeightTight,
                 cursor: "pointer",
                 whiteSpace: "nowrap"
               },
               children: [
-                tab.icon && /* @__PURE__ */ jsx46(
+                tab.icon && /* @__PURE__ */ jsx47(
                   "span",
                   {
                     className: "material-symbols-outlined",
@@ -6105,6 +6181,13 @@ export {
   Combobox,
   ConfirmDialog,
   Container,
+  DataTablePage,
+  DataTablePageEmpty,
+  DataTablePageFilterBar,
+  DataTablePageHeader,
+  DataTablePagePagination,
+  DataTablePageRoot,
+  DataTablePageTable,
   DatePicker,
   DateRangePicker,
   Divider,

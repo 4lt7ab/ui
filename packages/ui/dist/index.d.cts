@@ -1835,6 +1835,101 @@ declare function AppShellRightPanel({ "aria-label": ariaLabel, children }: AppSh
 */
 declare const AppShell: {};
 import { ReactNode as ReactNode29 } from "react";
+/** Props for {@link DataTablePageRoot}. */
+interface DataTablePageRootProps extends BaseComponentProps {
+	/** Number of data rows the consumer has for the current page/slice. Required —
+	* the consumer knows this value (it's typically `items.length`); passing it
+	* to Root lets `DataTablePage.Empty` and `DataTablePage.Table` coordinate
+	* the empty/populated transition without the consumer writing a ternary
+	* at the call site.
+	*
+	* When `0`, Root sets `data-state="empty"`; Empty renders itself, Table
+	* slot renders what the consumer provides (typically header rows only).
+	* When `> 0`, Root sets `data-state="populated"`; Empty returns `null`.
+	*
+	* Loading isn't a distinct state here — render a `<Skeleton>` table inside
+	* `DataTablePage.Table` while loading; switch to the real rows when data
+	* arrives. `rowCount` is for "no data, not loading." */
+	rowCount: number;
+	/** Accessible label fallback. If omitted, Root's `<section>` is labelled
+	* by the Header's title via `aria-labelledby` (when a Header is present). */
+	"aria-label"?: string;
+	/** Children — any combination of `<DataTablePage.Header>`,
+	* `<DataTablePage.FilterBar>`, `<DataTablePage.Table>`,
+	* `<DataTablePage.Pagination>`, `<DataTablePage.Empty>`. Rendered in source
+	* order (JSX order is visual order). */
+	children?: ReactNode29;
+}
+declare const DataTablePageRoot: React.ForwardRefExoticComponent<Omit<DataTablePageRootProps, "ref"> & React.RefAttributes<HTMLElement>>;
+/** Props for {@link DataTablePageHeader}. Identical surface to `<Header>` —
+* the shell forwards every prop through and pins `level` to `'page'` by
+* default (this is a page-scoped organism). */
+type DataTablePageHeaderProps = HeaderProps;
+declare function DataTablePageHeader({ level,...rest }: DataTablePageHeaderProps): React.JSX.Element;
+/** Props for {@link DataTablePageFilterBar}. Identical surface to
+* `Table.FilterBar` — both schema-driven (`filters={…}`) and children-
+* composition (`<Table.FilterBar.Text>` / `.Select`) modes work identically
+* because this is a thin forward. */
+type DataTablePageFilterBarProps = FilterBarProps;
+declare function DataTablePageFilterBar(props: DataTablePageFilterBarProps): React.JSX.Element;
+/** Props for {@link DataTablePageTable}. Identical surface to `<Table>` —
+* consumer still composes `Table.Row`, `TableCell`, `TableHeader`, etc.
+* inside. */
+type DataTablePageTableProps = TableProps;
+declare function DataTablePageTable(props: DataTablePageTableProps): React.JSX.Element;
+/** Props for {@link DataTablePagePagination}. Identical surface to the
+* `<Pagination>` primitive. */
+type DataTablePagePaginationProps = PaginationProps;
+declare function DataTablePagePagination(props: DataTablePagePaginationProps): React.JSX.Element;
+/** Props for {@link DataTablePageEmpty}. Identical surface to `<EmptyState>`
+* with `variant` pinned to `'plain'` (Root already owns the page-level
+* spacing). Only renders when Root's `rowCount === 0`; otherwise returns
+* `null` so consumers can leave it in the JSX unconditionally and the
+* organism toggles its visibility based on `rowCount`. */
+type DataTablePageEmptyProps = Omit<EmptyStateProps, "variant">;
+declare function DataTablePageEmpty(props: DataTablePageEmptyProps): React.JSX.Element | null;
+/**
+* CRUD page envelope. Collapses the Header + FilterBar + Table + Pagination
+* + EmptyState assembly that every data-list screen currently hand-rolls
+* into a compound whose parts forward to the underlying primitives.
+*
+* Root owns a single piece of coordinating state (`rowCount`) and flips
+* `data-state="empty" | "populated"` accordingly. `DataTablePage.Empty`
+* reads the same context and renders itself only on the empty branch —
+* consumers never write `{rows.length === 0 ? <Empty /> : <Table />}`
+* conditionals; they leave all the slots in the JSX and the organism
+* toggles `Empty`.
+*
+* Scope is intentionally narrow: the organism does not fetch, filter,
+* paginate, or select rows. It is a slot arrangement with one conditional
+* render. Routing, data shape, and loading all stay with the consumer.
+*
+* @example
+* ```tsx
+* <DataTablePage.Root rowCount={items.length}>
+*   <DataTablePage.Header title="Projects" subtitle="42 total" trailing={<Button>New</Button>} />
+*   <DataTablePage.FilterBar
+*     values={filters}
+*     onChange={setFilters}
+*     filters={[{ type: 'text', key: 'q', placeholder: 'Search…' }]}
+*   />
+*   <DataTablePage.Table>
+*     <TableHeader>
+*       <TableHeaderCell>Name</TableHeaderCell>
+*     </TableHeader>
+*     <TableBody>
+*       {items.map((i) => (
+*         <TableRow key={i.id}><TableCell>{i.name}</TableCell></TableRow>
+*       ))}
+*     </TableBody>
+*   </DataTablePage.Table>
+*   <DataTablePage.Pagination page={page} totalPages={total} total={items.length} onPageChange={setPage} />
+*   <DataTablePage.Empty icon="inbox" message="No projects match your filters." />
+* </DataTablePage.Root>
+* ```
+*/
+declare const DataTablePage: {};
+import { ReactNode as ReactNode30 } from "react";
 /**
 * Which semantic surface token to use as the background.
 *
@@ -1903,10 +1998,10 @@ interface SurfaceProps extends BaseComponentProps {
 	* @default false
 	*/
 	asChild?: boolean;
-	children: ReactNode29;
+	children: ReactNode30;
 }
 declare const Surface: React.ForwardRefExoticComponent<Omit<SurfaceProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode30 } from "react";
+import { ReactNode as ReactNode31 } from "react";
 /**
 * Responsive grid layout with auto-fill columns.
 *
@@ -1946,7 +2041,7 @@ interface GridProps extends BaseComponentProps {
 	* @default 'md'
 	*/
 	gap?: SpacingToken;
-	children: ReactNode30;
+	children: ReactNode31;
 }
 declare const Grid: React.ForwardRefExoticComponent<Omit<GridProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /**
@@ -1988,7 +2083,7 @@ interface DividerProps extends BaseComponentProps {
 	spacing?: SpacingToken;
 }
 declare const Divider: React.ForwardRefExoticComponent<Omit<DividerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode31 } from "react";
+import { ReactNode as ReactNode32 } from "react";
 /** Named width preset for the Container. */
 type ContainerWidth = "narrow" | "prose" | "wide" | "full";
 /** Horizontal padding preset for the Container. */
@@ -2008,7 +2103,7 @@ interface ContainerProps {
 	*/
 	padding?: ContainerPadding;
 	/** Container content. */
-	children: ReactNode31;
+	children: ReactNode32;
 	id?: string;
 	"data-testid"?: string;
 }
@@ -2069,4 +2164,4 @@ interface TabStripProps extends BaseComponentProps {
 	size?: "sm" | "md";
 }
 declare const TabStrip: React.ForwardRefExoticComponent<Omit<TabStripProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-export { useToast, useFocusTrap, useCalendarContext, useAppShellContext, tagChipStyle, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, nextFocusedDate, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextWeight, TextTone, TextSize, TextRef, TextProps, TextFilterConfig, TextFamily, TextAs, TextAlign, Text, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table2 as Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectValueProps, SelectTriggerProps, SelectRootProps, SelectItemProps, SelectFilterConfig, SelectContentProps, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, LinkCardProps, LinkCard, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FilterBarTextProps, FilterBarSelectProps, FilterBarProps, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, EmptyPageTitleProps, EmptyPageTitle, EmptyPageTipsProps, EmptyPageTips, EmptyPageTipProps, EmptyPageTip, EmptyPageRootProps, EmptyPageRoot, EmptyPageIconProps, EmptyPageIcon, EmptyPageDescriptionProps, EmptyPageDescription, EmptyPageActionsProps, EmptyPageActions, EmptyPage, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ContainerWidth, ContainerProps, ContainerPadding, Container, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxRootProps, ComboboxListProps, ComboboxItemProps, ComboboxInputProps, ComboboxEmptyProps, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, CalendarSelection, CalendarRootProps, CalendarRange, CalendarNavProps, CalendarNavDirection, CalendarMode, CalendarHeaderPrimitiveProps, CalendarGridProps, CalendarContextValue, CalendarCellRenderArgs, CalendarCellProps, Calendar, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AppShellTopBarProps, AppShellTopBar, AppShellSidebarSectionProps, AppShellSidebarSection, AppShellSidebarProps, AppShellSidebar, AppShellRootProps, AppShellRoot, AppShellRightPanelProps, AppShellRightPanel, AppShellMainProps, AppShellMain, AppShell, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };
+export { useToast, useFocusTrap, useCalendarContext, useAppShellContext, tagChipStyle, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, nextFocusedDate, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextWeight, TextTone, TextSize, TextRef, TextProps, TextFilterConfig, TextFamily, TextAs, TextAlign, Text, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table2 as Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectValueProps, SelectTriggerProps, SelectRootProps, SelectItemProps, SelectFilterConfig, SelectContentProps, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, LinkCardProps, LinkCard, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FilterBarTextProps, FilterBarSelectProps, FilterBarProps, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, EmptyPageTitleProps, EmptyPageTitle, EmptyPageTipsProps, EmptyPageTips, EmptyPageTipProps, EmptyPageTip, EmptyPageRootProps, EmptyPageRoot, EmptyPageIconProps, EmptyPageIcon, EmptyPageDescriptionProps, EmptyPageDescription, EmptyPageActionsProps, EmptyPageActions, EmptyPage, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, DataTablePageTableProps, DataTablePageTable, DataTablePageRootProps, DataTablePageRoot, DataTablePagePaginationProps, DataTablePagePagination, DataTablePageHeaderProps, DataTablePageHeader, DataTablePageFilterBarProps, DataTablePageFilterBar, DataTablePageEmptyProps, DataTablePageEmpty, DataTablePage, ContainerWidth, ContainerProps, ContainerPadding, Container, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxRootProps, ComboboxListProps, ComboboxItemProps, ComboboxInputProps, ComboboxEmptyProps, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, CalendarSelection, CalendarRootProps, CalendarRange, CalendarNavProps, CalendarNavDirection, CalendarMode, CalendarHeaderPrimitiveProps, CalendarGridProps, CalendarContextValue, CalendarCellRenderArgs, CalendarCellProps, Calendar, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AppShellTopBarProps, AppShellTopBar, AppShellSidebarSectionProps, AppShellSidebarSection, AppShellSidebarProps, AppShellSidebar, AppShellRootProps, AppShellRoot, AppShellRightPanelProps, AppShellRightPanel, AppShellMainProps, AppShellMain, AppShell, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };

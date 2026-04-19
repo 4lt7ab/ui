@@ -52,6 +52,7 @@ import { DividerDemo } from './DividerDemo';
 import { TabStripDemo } from './TabStripDemo';
 import { EmptyPageDemo } from './EmptyPageDemo';
 import { AppShellDemo } from './AppShellDemo';
+import { DataTablePageDemo } from './DataTablePageDemo';
 
 export type DemoSource = 'ui' | 'content';
 
@@ -89,6 +90,7 @@ export const demos: DemoEntry[] = [
   { name: 'IconFont', category: 'Action', source: 'ui', component: IconFontDemo },
   { name: 'TopBar', category: 'Navigation', source: 'ui', component: TopBarDemo },
   { name: 'AppShell', category: 'Layout', source: 'ui', component: AppShellDemo },
+  { name: 'DataTablePage', category: 'Layout', source: 'ui', component: DataTablePageDemo },
   { name: 'Pagination', category: 'Navigation', source: 'ui', component: PaginationDemo },
 
   // Feedback
@@ -163,4 +165,5 @@ export {
   TabStripDemo,
   EmptyPageDemo,
   AppShellDemo,
+  DataTablePageDemo,
 };

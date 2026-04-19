@@ -49,6 +49,7 @@ export * from './components/molecules/AlertBanner';
 export * from './components/organisms/TopBar';
 export * from './components/organisms/EmptyPage';
 export * from './components/organisms/AppShell';
+export * from './components/organisms/DataTablePage';
 
 // Layout & Container primitives
 export * from './components/atoms/Surface';
