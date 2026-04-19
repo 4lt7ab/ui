@@ -1,5 +1,7 @@
 # @4lt7ab/ui
 
+**The components I reuse across my projects, built to primitive quality.** A component earns its place here when two clauses both hold: it ships across more than one project, and the implementation is good enough that the copy-pasted equivalent would be worse. Reuse without quality is copy-paste; quality without reuse is chrome. Full rationale in the KB doc [Reused + Quality — the v0.5 reframe](tab://document/01KPHD88W7WHDH3C3PEBAEGE7A).
+
 Icons and interactive UI components for React, built on the `@4lt7ab/core` theme platform.
 
 ## Install
@@ -38,7 +40,42 @@ The selected theme persists to `localStorage` automatically.
 
 ---
 
-## Components
+## How the component list is organized
+
+The components below are grouped into three tiers matching the `packages/ui/src/components/` folder layout. The tiers are a taxonomy for reasoning about scope — not a retirement criterion. A component is here because it's reused across projects and built to primitive-level quality, regardless of where it sits in the atomic-design spectrum.
+
+When two components overlap in responsibility, the default move is **merge before retire** — a merged component with one extra prop is almost always cheaper than two near-duplicate components. See [`CLAUDE.md` → Design Tenets](../../CLAUDE.md#design-tenets) for the paired chrome-minimization and merge-before-retire rules, and the KB doc above for the trap this framing exists to prevent.
+
+**Public barrel is flat.** Tier folders are internal — everything is imported from `@4lt7ab/ui/ui` regardless of tier.
+
+| Tier | Components |
+|------|------------|
+| **Atoms** — primitives with no internal library composition | [Badge](#badge), [Button](#button), [Container](#container), Divider, Grid, [Icon](#icon), [IconButton](#iconbutton), [Input](#input), [Overlay](#overlay), [ProgressBar](#progressbar), [Skeleton](#skeleton), [Stack](#stack), [StatusDot](#statusdot), Surface, Text, [Textarea](#textarea) |
+| **Molecules** — small compositions with behavior | AlertBanner, [Card](#card), [ChipPicker](#chippicker), [ConfirmDialog](#confirmdialog), [EmptyState](#emptystate), [ErrorBoundary](#errorboundary), [Field](#field), [Header](#header), [LinkCard](#linkcard), [Pagination](#pagination), [SearchInput](#searchinput), [SegmentedControl](#segmentedcontrol), TabStrip, [ThemePicker](#themepicker) |
+| **Organisms** — compound surfaces or large interaction systems | [Calendar](#calendar) (`Calendar.*`), [Combobox](#combobox) (`Combobox.*`), [DateRangePicker](#daterangepicker), DatePicker, [ModalShell](#modalshell), [Select](#select) (`Select.*`), [Table](#table) (`Table.*`, incl. `Table.FilterBar`), [Toast](#toast), TopBar |
+
+Also exported: [`sectionLabelStyle`](#sectionlabelstyle) and [`tagChipStyle`](#tagchipstyle) (`CSSProperties` objects, not components) and the icon registry.
+
+---
+
+## Atoms
+
+### Badge
+
+Status indicator label.
+
+```tsx
+<Badge variant="success">Active</Badge>
+<Badge variant="error">Failed</Badge>
+<Badge color="#6366f1">Running</Badge>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'default' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | Color variant |
+| `color` | `string` | — | Custom CSS color override. When provided, variant styling is ignored. |
+
+Extends `HTMLAttributes<HTMLSpanElement>`.
 
 ### Button
 
@@ -56,6 +93,198 @@ Primary action trigger with variant and size options.
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Controls padding and font size |
 
 Extends `ButtonHTMLAttributes<HTMLButtonElement>`.
+
+### Container
+
+Centered content wrapper with a max-width constraint and horizontal padding presets. Width presets match the content reading breakpoints (`prose` = 680px, `wide` = 900px).
+
+```tsx
+<Container width="prose">...</Container>
+<Container width="wide" padding="lg">...</Container>
+<Container width="full" padding="none">...</Container>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `width` | `'narrow' \| 'prose' \| 'wide' \| 'full'` | `'prose'` | Named width preset (narrow: 32rem, prose: 680px, wide: 900px, full: 100%) |
+| `padding` | `'none' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Horizontal padding preset (none: 0, sm: 0.75rem, md: 1.5rem, lg: 3rem) |
+| `children` | `ReactNode` | *required* | Container content |
+
+Moved from `@4lt7ab/content` in v0.4.0 — `Container` is a general layout primitive, not prose-specific.
+
+### Icon
+
+Renders an icon from the built-in registry, or falls back to an icon font when the name is unregistered and a `fontClass` is available.
+
+```tsx
+{/* Built-in SVG icon */}
+<Icon name="search" size={20} />
+
+{/* Icon-font icon (e.g. Material Symbols) */}
+<Icon name="home" fontClass="material-symbols-outlined" />
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `IconName \| string` | *required* | Icon to render (registry name or icon-font name) |
+| `size` | `number` | `24` | Width and height in pixels |
+| `fontClass` | `string` | — | CSS class for icon-font rendering (falls back to `IconFontProvider` context) |
+
+#### IconFontProvider
+
+Sets a default `fontClass` for all descendant `Icon` and `IconButton` components so you don't have to pass it on every instance.
+
+```tsx
+import { IconFontProvider, Icon } from '@4lt7ab/ui/ui';
+
+<IconFontProvider fontClass="material-symbols-outlined">
+  <Icon name="home" />     {/* renders via font */}
+  <Icon name="search" />   {/* still renders built-in SVG */}
+</IconFontProvider>
+```
+
+### IconButton
+
+Icon-only button with accessible label. Optionally shows a notification dot. Supports both built-in and icon-font icons.
+
+```tsx
+<IconButton icon="settings" aria-label="Open settings" />
+<IconButton icon="menu" aria-label="Menu" badge />
+<IconButton icon="home" fontClass="material-symbols-outlined" aria-label="Home" />
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `icon` | `IconName \| string` | *required* | Icon to render (registry name or icon-font name) |
+| `size` | `number` | `24` | Icon dimensions in pixels |
+| `badge` | `boolean` | `false` | Shows a red notification dot |
+| `fontClass` | `string` | — | CSS class for icon-font rendering (passed through to Icon) |
+| `aria-label` | `string` | *required* | Accessible label |
+
+Extends `ButtonHTMLAttributes<HTMLButtonElement>`.
+
+### Input
+
+Text input with theme-aware styling.
+
+```tsx
+<Input placeholder="Email" hasError={!!errors.email} />
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `hasError` | `boolean` | `false` | Renders error border styling |
+
+Extends `InputHTMLAttributes<HTMLInputElement>`.
+
+### Overlay
+
+Backdrop layer for modals and drawers.
+
+```tsx
+<Overlay onClick={handleClose} zIndex={100} />
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `onClick` | `() => void` | — | Called when overlay is clicked |
+| `zIndex` | `number` | `100` | CSS z-index |
+| `style` | `CSSProperties` | — | Additional inline styles |
+
+### ProgressBar
+
+Segmented or single progress indicator.
+
+```tsx
+<ProgressBar
+  segments={[
+    { value: 60, color: semantic.colorSuccess, label: 'Complete' },
+    { value: 20, color: semantic.colorWarning, label: 'In Progress' },
+  ]}
+  height={8}
+/>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `segments` | `ProgressBarSegment[]` | *required* | Segments to display |
+| `height` | `number` | `6` | Bar height in pixels |
+| `aria-label` | `string` | — | Accessible label |
+
+`ProgressBarSegment`: `{ value: number; color: string; label?: string }`
+
+### Skeleton
+
+Loading placeholder with shimmer animation. Includes two prebuilt variants.
+
+```tsx
+<Skeleton width={200} height={16} />
+<CardSkeleton />
+<RowSkeleton />
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `width` | `string \| number` | `'100%'` | Skeleton width (numbers = pixels) |
+| `height` | `string \| number` | `16` | Skeleton height (numbers = pixels) |
+| `borderRadius` | `string` | token default | Border radius |
+
+`CardSkeleton` and `RowSkeleton` accept only `style`.
+
+### Stack
+
+Flex layout primitive with gap and direction.
+
+```tsx
+<Stack direction="horizontal" gap="md" align="center">
+  <Button>One</Button>
+  <Button>Two</Button>
+</Stack>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `direction` | `'vertical' \| 'horizontal'` | `'vertical'` | Stack axis |
+| `gap` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'md'` | Space between children |
+| `align` | `CSSProperties['alignItems']` | — | Cross-axis alignment |
+| `justify` | `CSSProperties['justifyContent']` | — | Main-axis alignment |
+| `wrap` | `boolean` | `false` | Whether children wrap on overflow |
+
+Extends `HTMLAttributes<HTMLDivElement>`.
+
+### StatusDot
+
+Colored dot for status indicators.
+
+```tsx
+<StatusDot variant="success" />
+<StatusDot color="#ff00ff" size={12} />
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'default' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | Semantic color |
+| `color` | `string` | — | Raw color override (takes precedence) |
+| `size` | `number` | `8` | Dot diameter in pixels |
+| `aria-label` | `string` | — | Accessible status description |
+
+### Textarea
+
+Multi-line text input.
+
+```tsx
+<Textarea rows={4} hasError={!!errors.bio} />
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `hasError` | `boolean` | `false` | Renders error border styling |
+
+Extends `TextareaHTMLAttributes<HTMLTextAreaElement>`.
+
+---
+
+## Molecules
 
 ### Card
 
@@ -86,6 +315,147 @@ Content container with surface styling.
 
 Extends `HTMLAttributes<HTMLDivElement>` (or the child element's attributes when `asChild` is true).
 
+### ChipPicker
+
+Multi-select toggle chip group with optional category grouping. Each chip is a pill-shaped button with `aria-pressed` for accessibility.
+
+```tsx
+const [selected, setSelected] = useState<string[]>([]);
+
+<ChipPicker
+  items={[
+    { value: 'react', label: 'React', group: 'Frameworks' },
+    { value: 'vue', label: 'Vue', group: 'Frameworks' },
+    { value: 'ts', label: 'TypeScript', group: 'Languages' },
+  ]}
+  selected={selected}
+  onChange={setSelected}
+/>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `ChipItem[]` | *required* | Available chip options |
+| `selected` | `string[]` | *required* | Currently selected values (controlled) |
+| `onChange` | `(selected: string[]) => void` | *required* | Called with updated selection |
+| `style` | `CSSProperties` | — | Additional inline styles |
+
+`ChipItem`: `{ value: string; label: string; group?: string }`
+
+When items have a `group` set, they render under uppercase section headings (using `sectionLabelStyle`). Ungrouped items render first.
+
+### ConfirmDialog
+
+Confirm/cancel dialog built on ModalShell. Handles the async confirm flow.
+
+```tsx
+<ConfirmDialog
+  title="Delete item?"
+  message="This action cannot be undone."
+  variant="destructive"
+  confirmLabel="Delete"
+  onConfirm={async () => { await deleteItem(); }}
+  onCancel={handleClose}
+/>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `string` | *required* | Dialog heading |
+| `message` | `string` | *required* | Explanatory text |
+| `confirmLabel` | `string` | `'Confirm'` | Confirm button text |
+| `variant` | `'destructive' \| 'info' \| 'warning'` | `'destructive'` | Confirm button color |
+| `onConfirm` | `() => Promise<void> \| void` | *required* | Called on confirm (can be async) |
+| `onCancel` | `() => void` | *required* | Called on cancel |
+| `children` | `ReactNode` | — | Custom content between message and buttons |
+
+### EmptyState
+
+Placeholder for empty lists or views.
+
+```tsx
+<EmptyState
+  icon="search"
+  message="No results found"
+  action={<Button variant="secondary">Clear filters</Button>}
+/>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `icon` | `IconName` | *required* | Icon above the message |
+| `message` | `string` | *required* | Primary message |
+| `variant` | `'plain' \| 'card'` | `'plain'` | Container style |
+| `action` | `ReactNode` | — | CTA slot below the message |
+| `children` | `ReactNode` | — | Additional content below message |
+
+### ErrorBoundary
+
+React error boundary with themed fallback UI. Catches render errors in its subtree and displays an error message with optional stack trace and retry button.
+
+```tsx
+<ErrorBoundary onError={(err, info) => logError(err)}>
+  <MyComponent />
+</ErrorBoundary>
+
+{/* With custom fallback */}
+<ErrorBoundary
+  fallback={({ error, resetErrorBoundary }) => (
+    <div>
+      <p>Error: {error.message}</p>
+      <button onClick={resetErrorBoundary}>Retry</button>
+    </div>
+  )}
+>
+  <MyComponent />
+</ErrorBoundary>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `fallback` | `(props: { error: Error; resetErrorBoundary: () => void }) => ReactNode` | themed UI | Custom fallback renderer |
+| `onError` | `(error: Error, errorInfo: ErrorInfo) => void` | — | Error callback for logging |
+
+### Field
+
+Label + input wrapper with error and help text.
+
+```tsx
+<Field label="Email" htmlFor="email" error={errors.email} required>
+  <Input id="email" hasError={!!errors.email} />
+</Field>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | *required* | Label text above the input |
+| `htmlFor` | `string` | — | Associates the label with the input |
+| `error` | `string` | — | Error message (triggers error state) |
+| `help` | `string` | — | Help text below input (hidden when error is set) |
+| `required` | `boolean` | `false` | Shows red asterisk on the label |
+| `disabled` | `boolean` | `false` | Reduces field opacity |
+
+### Header
+
+Unified page/section heading.
+
+```tsx
+<Header
+  level="page"
+  title="Dashboard"
+  subtitle="Overview of your projects"
+  trailing={<Button size="sm">New Project</Button>}
+/>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `string` | *required* | Primary heading |
+| `level` | `'page' \| 'section'` | `'section'` | Heading scale. `page` renders h1 in bold; `section` renders a smaller h2 |
+| `subtitle` | `string` | — | Secondary text in muted style |
+| `indicator` | `ReactNode` | — | Inline content next to the title (Badge, StatusDot, Icon) |
+| `trailing` | `ReactNode` | — | Right-aligned content (actions, SearchInput) |
+
 ### LinkCard
 
 Clickable card-style link with serif title and muted description. Hover lifts and accent-borders. Good for project links, post previews, etc. Renders a single `<a>` styled by `<Card asChild>` internally — no wrapper element around the anchor.
@@ -115,110 +485,165 @@ Clickable card-style link with serif title and muted description. Hover lifts an
 
 Renders an `<a>` element; also accepts `id`, `aria-label`, and `data-testid`.
 
-### Stack
+### Pagination
 
-Flex layout primitive with gap and direction.
+Page navigation controls.
 
 ```tsx
-<Stack direction="horizontal" gap="md" align="center">
-  <Button>One</Button>
-  <Button>Two</Button>
-</Stack>
+<Pagination
+  page={currentPage}
+  totalPages={10}
+  total={97}
+  onPageChange={setCurrentPage}
+/>
 ```
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `direction` | `'vertical' \| 'horizontal'` | `'vertical'` | Stack axis |
-| `gap` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'md'` | Space between children |
-| `align` | `CSSProperties['alignItems']` | — | Cross-axis alignment |
-| `justify` | `CSSProperties['justifyContent']` | — | Main-axis alignment |
-| `wrap` | `boolean` | `false` | Whether children wrap on overflow |
+| `page` | `number` | *required* | Current page (1-based) |
+| `totalPages` | `number` | *required* | Total pages |
+| `total` | `number` | *required* | Total items across all pages |
+| `onPageChange` | `(page: number) => void` | *required* | Page change handler |
+| `labels` | `PaginationLabels` | — | Custom text for prev/next/page-of |
 
-Extends `HTMLAttributes<HTMLDivElement>`.
+### SearchInput
 
-### Container
-
-Centered content wrapper with a max-width constraint and horizontal padding presets. Width presets match the content reading breakpoints (`prose` = 680px, `wide` = 900px).
+Debounced text input with a leading search icon and an optional trailing slot for inline controls.
 
 ```tsx
-<Container width="prose">...</Container>
-<Container width="wide" padding="lg">...</Container>
-<Container width="full" padding="none">...</Container>
+const [query, setQuery] = useState('');
+
+<SearchInput
+  value={query}
+  onSearch={setQuery}
+  debounceMs={300}
+  placeholder="Search..."
+  trailing={<SegmentedControl size="sm" segments={[...]} value={mode} onChange={setMode} />}
+/>
 ```
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `width` | `'narrow' \| 'prose' \| 'wide' \| 'full'` | `'prose'` | Named width preset (narrow: 32rem, prose: 680px, wide: 900px, full: 100%) |
-| `padding` | `'none' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Horizontal padding preset (none: 0, sm: 0.75rem, md: 1.5rem, lg: 3rem) |
-| `children` | `ReactNode` | *required* | Container content |
+| `value` | `string` | *required* | Current search value (controlled) |
+| `onSearch` | `(value: string) => void` | *required* | Debounced search callback |
+| `debounceMs` | `number` | `300` | Debounce delay in milliseconds |
+| `placeholder` | `string` | `'Search...'` | Input placeholder text |
+| `trailing` | `ReactNode` | — | Content rendered inside the input on the right |
 
-Moved from `@4lt7ab/content` in v0.4.0 — `Container` is a general layout primitive, not prose-specific.
+Extends `InputHTMLAttributes<HTMLInputElement>` (minus `onChange`). The input maintains local state for instant keystroke feedback and debounces the `onSearch` callback.
 
-### Input
+### SegmentedControl
 
-Text input with theme-aware styling.
+Generic segmented toggle with a sliding pill indicator. Supports text, icon, or icon+text segments.
 
 ```tsx
-<Input placeholder="Email" hasError={!!errors.email} />
+<SegmentedControl
+  segments={[
+    { value: 'list', label: 'List' },
+    { value: 'grid', label: 'Grid', icon: 'menu' },
+  ]}
+  value={view}
+  onChange={setView}
+/>
 ```
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `hasError` | `boolean` | `false` | Renders error border styling |
+| `segments` | `Segment[]` | *required* | Segment definitions |
+| `value` | `string` | *required* | Currently selected segment value |
+| `onChange` | `(value: string) => void` | *required* | Called when a segment is selected |
+| `size` | `'sm' \| 'md'` | `'md'` | Control size |
 
-Extends `InputHTMLAttributes<HTMLInputElement>`.
+`Segment`: `{ value: string; label: string; icon?: IconName | string }`
 
-### Textarea
+Each segment button has `aria-pressed` for accessibility. The sliding indicator uses CSS transitions and respects `prefers-reduced-motion`. Small enough to fit inside SearchInput's `trailing` slot.
 
-Multi-line text input.
+### ThemePicker
+
+Theme selector wired into `useTheme()`. Two variants:
+
+- **`grid`** (default) -- card grid for settings pages and theme playgrounds.
+- **`compact`** -- dropdown button for toolbars and headers with keyboard navigation.
 
 ```tsx
-<Textarea rows={4} hasError={!!errors.bio} />
+{/* Full grid for a settings page */}
+<ThemePicker descriptions={{ synthwave: 'Neon retro', slate: 'Clean and minimal' }} />
+
+{/* Compact dropdown for a toolbar */}
+<ThemePicker variant="compact" />
 ```
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `hasError` | `boolean` | `false` | Renders error border styling |
+| `variant` | `'grid' \| 'compact'` | `'grid'` | Display variant |
+| `descriptions` | `Record<string, string>` | — | Optional per-theme descriptions (grid variant only) |
 
-Extends `TextareaHTMLAttributes<HTMLTextAreaElement>`.
+---
 
-### Select
+## Organisms
 
-Dropdown select with options or custom children.
+### Calendar
 
-Compound API. `Select.Root` owns state + context; the parts are the rendered DOM.
+Compound primitive for building custom calendar UIs. `DatePicker` and `DateRangePicker` are thin compositions over this — consumers who need a different trigger, a non-popover placement, multi-month layouts, or custom cell rendering can drop down to `Calendar.*` directly.
 
 ```tsx
-<Select.Root value={value} onValueChange={setValue} name="role">
-  <Select.Trigger aria-label="Role">
-    <Select.Value placeholder="Choose one" />
-  </Select.Trigger>
-  <Select.Content>
-    <Select.Item value="a">Option A</Select.Item>
-    <Select.Item value="b" disabled>Option B</Select.Item>
-  </Select.Content>
-</Select.Root>
+import { Calendar } from '@4lt7ab/ui';
+
+const [date, setDate] = useState<Date | undefined>();
+
+<Calendar.Root mode="single" selected={date} onSelect={(v) => setDate(v as Date | undefined)}>
+  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+    <Calendar.Nav direction="prev" />
+    <Calendar.Header />
+    <Calendar.Nav direction="next" />
+  </div>
+  <Calendar.Grid />
+</Calendar.Root>
 ```
 
-**`Select.Root`**
+**Primitives:**
+
+| Component | Role | Notes |
+|-----------|------|-------|
+| `Calendar.Root` | State + context provider | Owns `mode`, `selected`, `focusedDate`, and `viewDate` (the visible month). Focused/view state is controlled (via `focusedDate` / `viewDate` + `on*Change`) or uncontrolled (via `defaultFocusedDate` / `defaultViewDate`). |
+| `Calendar.Header` | Month/year label | Renders as a single `<span aria-live="polite">`. Optional render-prop child for custom formatting: `<Calendar.Header>{({year, month}) => …}</Calendar.Header>`. |
+| `Calendar.Nav` | Month navigation button | Props: `direction: 'prev' \| 'next'`, optional `step` (defaults to `1` month; pass `12` for year-jump). Renders as an `IconButton` with a chevron. |
+| `Calendar.Grid` | 6×7 day grid | `role="grid"`. Owns keyboard nav, roving tabindex, and auto-scrolls `viewDate` when focus crosses a month boundary. Accepts optional `onEscape` for picker contexts and a children render-prop for custom cell rendering. |
+| `Calendar.Cell` | Single day cell | Default renderer used by `Calendar.Grid`. Also usable standalone inside the render-prop. Pass-through props for `onMouseEnter` / `onMouseLeave` / `onFocus` / `onBlur` support range-preview and similar patterns. |
+
+**`Calendar.Root` props:**
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `value` | `string` | — | Controlled selected value |
-| `defaultValue` | `string` | — | Uncontrolled initial value |
-| `onValueChange` | `(value: string) => void` | — | Called when the user picks a new value |
-| `onChange` | `(event: { target: { value, name } }) => void` | — | Legacy-shaped handler shim. Prefer `onValueChange` |
-| `disabled` | `boolean` | `false` | Disables the trigger and blocks opening |
-| `hasError` | `boolean` | `false` | Applies error border styling |
-| `name`, `required`, `id`, `form` | — | — | Forwarded to a hidden native `<select>` so the value participates in form submission |
+| `mode` | `'single' \| 'range'` | `'single'` | Selection mode |
+| `selected` | `Date \| { from: Date; to: Date } \| undefined` | — | Current selection. Shape depends on `mode` |
+| `onSelect` | `(value) => void` | — | Fired when a cell commits (`Enter` / `Space` / click) |
+| `minDate` / `maxDate` | `Date` | — | Inclusive bounds |
+| `disabledDate` | `(date: Date) => boolean` | — | Per-date disable predicate |
+| `focusedDate` / `defaultFocusedDate` | `Date` | today | Roving tabindex target (controlled / uncontrolled) |
+| `onFocusedDateChange` | `(d: Date) => void` | — | Fires whenever focus moves |
+| `viewDate` / `defaultViewDate` | `Date` | focused date | Visible month's first day (controlled / uncontrolled) |
+| `onViewDateChange` | `(d: Date) => void` | — | Fires when the visible month changes |
 
-**`Select.Trigger`** — `aria-label`, `aria-labelledby`, `aria-describedby`, `data-testid`, `tabIndex`; children typically `<Select.Value />`.
+**Keyboard (on `Calendar.Grid`):** WAI-ARIA APG *grid* pattern.
 
-**`Select.Value`** — `placeholder?: string`.
+| Key | Action |
+|-----|--------|
+| `ArrowLeft` / `ArrowRight` | Move focus ±1 day |
+| `ArrowUp` / `ArrowDown` | Move focus ±1 week |
+| `Home` / `End` | Move focus to Sunday / Saturday of the focused row |
+| `PageUp` / `PageDown` | Move focus ±1 month |
+| `Shift + PageUp` / `Shift + PageDown` | Move focus ±1 year |
+| `Enter` / `Space` | Commit the focused date via `onSelect` |
+| `Escape` | Calls `onEscape` if provided (picker popovers use this to close) |
 
-**`Select.Item`** — `value: string`, `disabled?: boolean`, `textValue?: string` (explicit label for non-string children). Children are the rendered label.
+When focus crosses a month boundary (e.g. `ArrowDown` on the last April row), `Calendar.Grid` automatically scrolls `viewDate` so the focused cell stays visible.
 
-See the `Select` demo for controlled / uncontrolled, error state, and rich-item examples. Migration from the pre-0.4 flat API is in the [v0.4 upgrade guide §10](#) in the knowledgebase.
+**ARIA:**
+
+- `Calendar.Grid` is `role="grid"` with configurable `aria-label` (defaults to `"Calendar"`).
+- Each `Calendar.Cell` wraps a `<button>` in a `<td role="gridcell">`. The button uses `aria-selected`, `aria-disabled`, and a roving `tabindex` (`0` for the focused cell, `-1` otherwise).
+- `Calendar.Header` renders as `<span aria-live="polite">` so month changes are announced.
 
 ### Combobox
 
@@ -302,170 +727,6 @@ const [range, setRange] = useState<DateRange | undefined>();
 
 `DateRange`: `{ from: Date; to: Date }`
 
-### Calendar
-
-Compound primitive for building custom calendar UIs. `DatePicker` and `DateRangePicker` are thin compositions over this — consumers who need a different trigger, a non-popover placement, multi-month layouts, or custom cell rendering can drop down to `Calendar.*` directly.
-
-```tsx
-import { Calendar } from '@4lt7ab/ui';
-
-const [date, setDate] = useState<Date | undefined>();
-
-<Calendar.Root mode="single" selected={date} onSelect={(v) => setDate(v as Date | undefined)}>
-  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-    <Calendar.Nav direction="prev" />
-    <Calendar.Header />
-    <Calendar.Nav direction="next" />
-  </div>
-  <Calendar.Grid />
-</Calendar.Root>
-```
-
-**Primitives:**
-
-| Component | Role | Notes |
-|-----------|------|-------|
-| `Calendar.Root` | State + context provider | Owns `mode`, `selected`, `focusedDate`, and `viewDate` (the visible month). Focused/view state is controlled (via `focusedDate` / `viewDate` + `on*Change`) or uncontrolled (via `defaultFocusedDate` / `defaultViewDate`). |
-| `Calendar.Header` | Month/year label | Renders as a single `<span aria-live="polite">`. Optional render-prop child for custom formatting: `<Calendar.Header>{({year, month}) => …}</Calendar.Header>`. |
-| `Calendar.Nav` | Month navigation button | Props: `direction: 'prev' \| 'next'`, optional `step` (defaults to `1` month; pass `12` for year-jump). Renders as an `IconButton` with a chevron. |
-| `Calendar.Grid` | 6×7 day grid | `role="grid"`. Owns keyboard nav, roving tabindex, and auto-scrolls `viewDate` when focus crosses a month boundary. Accepts optional `onEscape` for picker contexts and a children render-prop for custom cell rendering. |
-| `Calendar.Cell` | Single day cell | Default renderer used by `Calendar.Grid`. Also usable standalone inside the render-prop. Pass-through props for `onMouseEnter` / `onMouseLeave` / `onFocus` / `onBlur` support range-preview and similar patterns. |
-
-**`Calendar.Root` props:**
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `mode` | `'single' \| 'range'` | `'single'` | Selection mode |
-| `selected` | `Date \| { from: Date; to: Date } \| undefined` | — | Current selection. Shape depends on `mode` |
-| `onSelect` | `(value) => void` | — | Fired when a cell commits (`Enter` / `Space` / click) |
-| `minDate` / `maxDate` | `Date` | — | Inclusive bounds |
-| `disabledDate` | `(date: Date) => boolean` | — | Per-date disable predicate |
-| `focusedDate` / `defaultFocusedDate` | `Date` | today | Roving tabindex target (controlled / uncontrolled) |
-| `onFocusedDateChange` | `(d: Date) => void` | — | Fires whenever focus moves |
-| `viewDate` / `defaultViewDate` | `Date` | focused date | Visible month's first day (controlled / uncontrolled) |
-| `onViewDateChange` | `(d: Date) => void` | — | Fires when the visible month changes |
-
-**Keyboard (on `Calendar.Grid`):** WAI-ARIA APG *grid* pattern.
-
-| Key | Action |
-|-----|--------|
-| `ArrowLeft` / `ArrowRight` | Move focus ±1 day |
-| `ArrowUp` / `ArrowDown` | Move focus ±1 week |
-| `Home` / `End` | Move focus to Sunday / Saturday of the focused row |
-| `PageUp` / `PageDown` | Move focus ±1 month |
-| `Shift + PageUp` / `Shift + PageDown` | Move focus ±1 year |
-| `Enter` / `Space` | Commit the focused date via `onSelect` |
-| `Escape` | Calls `onEscape` if provided (picker popovers use this to close) |
-
-When focus crosses a month boundary (e.g. `ArrowDown` on the last April row), `Calendar.Grid` automatically scrolls `viewDate` so the focused cell stays visible.
-
-**ARIA:**
-
-- `Calendar.Grid` is `role="grid"` with configurable `aria-label` (defaults to `"Calendar"`).
-- Each `Calendar.Cell` wraps a `<button>` in a `<td role="gridcell">`. The button uses `aria-selected`, `aria-disabled`, and a roving `tabindex` (`0` for the focused cell, `-1` otherwise).
-- `Calendar.Header` renders as `<span aria-live="polite">` so month changes are announced.
-
-### Field
-
-Label + input wrapper with error and help text.
-
-```tsx
-<Field label="Email" htmlFor="email" error={errors.email} required>
-  <Input id="email" hasError={!!errors.email} />
-</Field>
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | *required* | Label text above the input |
-| `htmlFor` | `string` | — | Associates the label with the input |
-| `error` | `string` | — | Error message (triggers error state) |
-| `help` | `string` | — | Help text below input (hidden when error is set) |
-| `required` | `boolean` | `false` | Shows red asterisk on the label |
-| `disabled` | `boolean` | `false` | Reduces field opacity |
-
-### Badge
-
-Status indicator label.
-
-```tsx
-<Badge variant="success">Active</Badge>
-<Badge variant="error">Failed</Badge>
-<Badge color="#6366f1">Running</Badge>
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'default' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | Color variant |
-| `color` | `string` | — | Custom CSS color override. When provided, variant styling is ignored. |
-
-Extends `HTMLAttributes<HTMLSpanElement>`.
-
-### Icon
-
-Renders an icon from the built-in registry, or falls back to an icon font when the name is unregistered and a `fontClass` is available.
-
-```tsx
-{/* Built-in SVG icon */}
-<Icon name="search" size={20} />
-
-{/* Icon-font icon (e.g. Material Symbols) */}
-<Icon name="home" fontClass="material-symbols-outlined" />
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `name` | `IconName \| string` | *required* | Icon to render (registry name or icon-font name) |
-| `size` | `number` | `24` | Width and height in pixels |
-| `fontClass` | `string` | — | CSS class for icon-font rendering (falls back to `IconFontProvider` context) |
-
-#### IconFontProvider
-
-Sets a default `fontClass` for all descendant `Icon` and `IconButton` components so you don't have to pass it on every instance.
-
-```tsx
-import { IconFontProvider, Icon } from '@4lt7ab/ui/ui';
-
-<IconFontProvider fontClass="material-symbols-outlined">
-  <Icon name="home" />     {/* renders via font */}
-  <Icon name="search" />   {/* still renders built-in SVG */}
-</IconFontProvider>
-```
-
-### IconButton
-
-Icon-only button with accessible label. Optionally shows a notification dot. Supports both built-in and icon-font icons.
-
-```tsx
-<IconButton icon="settings" aria-label="Open settings" />
-<IconButton icon="menu" aria-label="Menu" badge />
-<IconButton icon="home" fontClass="material-symbols-outlined" aria-label="Home" />
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `icon` | `IconName \| string` | *required* | Icon to render (registry name or icon-font name) |
-| `size` | `number` | `24` | Icon dimensions in pixels |
-| `badge` | `boolean` | `false` | Shows a red notification dot |
-| `fontClass` | `string` | — | CSS class for icon-font rendering (passed through to Icon) |
-| `aria-label` | `string` | *required* | Accessible label |
-
-Extends `ButtonHTMLAttributes<HTMLButtonElement>`.
-
-### Overlay
-
-Backdrop layer for modals and drawers.
-
-```tsx
-<Overlay onClick={handleClose} zIndex={100} />
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `onClick` | `() => void` | — | Called when overlay is clicked |
-| `zIndex` | `number` | `100` | CSS z-index |
-| `style` | `CSSProperties` | — | Additional inline styles |
-
 ### ModalShell
 
 Modal container with focus trapping, portal rendering, and ARIA support. Provides the structural shell — you supply the content.
@@ -488,224 +749,45 @@ Modal container with focus trapping, portal rendering, and ARIA support. Provide
 | `role` | `'dialog' \| 'alertdialog'` | `'dialog'` | ARIA role |
 | `style` | `CSSProperties` | — | Additional styles for the panel |
 
-### ConfirmDialog
+For form-shaped modals, compose over `ModalShell` directly using the exported `modalHeadingStyle` and `modalFooterStyle`. See the `ModalShellFormPattern` demo.
 
-Confirm/cancel dialog built on ModalShell. Handles the async confirm flow.
+### Select
+
+Dropdown select with options or custom children.
+
+Compound API. `Select.Root` owns state + context; the parts are the rendered DOM.
 
 ```tsx
-<ConfirmDialog
-  title="Delete item?"
-  message="This action cannot be undone."
-  variant="destructive"
-  confirmLabel="Delete"
-  onConfirm={async () => { await deleteItem(); }}
-  onCancel={handleClose}
-/>
+<Select.Root value={value} onValueChange={setValue} name="role">
+  <Select.Trigger aria-label="Role">
+    <Select.Value placeholder="Choose one" />
+  </Select.Trigger>
+  <Select.Content>
+    <Select.Item value="a">Option A</Select.Item>
+    <Select.Item value="b" disabled>Option B</Select.Item>
+  </Select.Content>
+</Select.Root>
 ```
+
+**`Select.Root`**
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `title` | `string` | *required* | Dialog heading |
-| `message` | `string` | *required* | Explanatory text |
-| `confirmLabel` | `string` | `'Confirm'` | Confirm button text |
-| `variant` | `'destructive' \| 'info' \| 'warning'` | `'destructive'` | Confirm button color |
-| `onConfirm` | `() => Promise<void> \| void` | *required* | Called on confirm (can be async) |
-| `onCancel` | `() => void` | *required* | Called on cancel |
-| `children` | `ReactNode` | — | Custom content between message and buttons |
+| `value` | `string` | — | Controlled selected value |
+| `defaultValue` | `string` | — | Uncontrolled initial value |
+| `onValueChange` | `(value: string) => void` | — | Called when the user picks a new value |
+| `onChange` | `(event: { target: { value, name } }) => void` | — | Legacy-shaped handler shim. Prefer `onValueChange` |
+| `disabled` | `boolean` | `false` | Disables the trigger and blocks opening |
+| `hasError` | `boolean` | `false` | Applies error border styling |
+| `name`, `required`, `id`, `form` | — | — | Forwarded to a hidden native `<select>` so the value participates in form submission |
 
-### ErrorBoundary
+**`Select.Trigger`** — `aria-label`, `aria-labelledby`, `aria-describedby`, `data-testid`, `tabIndex`; children typically `<Select.Value />`.
 
-React error boundary with themed fallback UI. Catches render errors in its subtree and displays an error message with optional stack trace and retry button.
+**`Select.Value`** — `placeholder?: string`.
 
-```tsx
-<ErrorBoundary onError={(err, info) => logError(err)}>
-  <MyComponent />
-</ErrorBoundary>
+**`Select.Item`** — `value: string`, `disabled?: boolean`, `textValue?: string` (explicit label for non-string children). Children are the rendered label.
 
-{/* With custom fallback */}
-<ErrorBoundary
-  fallback={({ error, resetErrorBoundary }) => (
-    <div>
-      <p>Error: {error.message}</p>
-      <button onClick={resetErrorBoundary}>Retry</button>
-    </div>
-  )}
->
-  <MyComponent />
-</ErrorBoundary>
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `fallback` | `(props: { error: Error; resetErrorBoundary: () => void }) => ReactNode` | themed UI | Custom fallback renderer |
-| `onError` | `(error: Error, errorInfo: ErrorInfo) => void` | — | Error callback for logging |
-
-### Toast
-
-Ephemeral notification system with stacked, auto-dismissing messages. Provides a context-based API via `ToastProvider` and `useToast`.
-
-```tsx
-import { ToastProvider, useToast } from '@4lt7ab/ui/ui';
-
-function App() {
-  return (
-    <ToastProvider position="top-right">
-      <MyPage />
-    </ToastProvider>
-  );
-}
-
-function MyPage() {
-  const { showToast } = useToast();
-
-  return (
-    <>
-      <button onClick={() => showToast('Saved!', 'success')}>Save</button>
-      <button onClick={() => showToast('Oops!', 'error')}>Fail</button>
-      <button onClick={() => showToast('Heads up', { type: 'warning', duration: 8000 })}>
-        Long warning
-      </button>
-    </>
-  );
-}
-```
-
-| Export | Type | Description |
-|--------|------|-------------|
-| `ToastProvider` | Component | Context provider. Wrap your app once. |
-| `useToast` | Hook | Returns `{ showToast }` for triggering toasts |
-
-**`ToastProvider` props:**
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | — | Application content |
-| `position` | `'top-right' \| 'top-left' \| 'bottom-right' \| 'bottom-left'` | `'top-right'` | Screen position of toast stack |
-
-**`showToast(message, typeOrOptions?)`:**
-
-| Param | Type | Default | Description |
-|-------|------|---------|-------------|
-| `message` | `string` | — | Toast text content |
-| `typeOrOptions` | `ToastType \| ShowToastOptions` | `'info'` | Type string or options object with `type` and `duration` |
-
-Toast types: `'success'`, `'error'`, `'info'`, `'warning'`. Default auto-dismiss: 4 seconds. Animations respect `prefers-reduced-motion`. Container uses `aria-live="polite"`.
-
-### Skeleton
-
-Loading placeholder with shimmer animation. Includes two prebuilt variants.
-
-```tsx
-<Skeleton width={200} height={16} />
-<CardSkeleton />
-<RowSkeleton />
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `width` | `string \| number` | `'100%'` | Skeleton width (numbers = pixels) |
-| `height` | `string \| number` | `16` | Skeleton height (numbers = pixels) |
-| `borderRadius` | `string` | token default | Border radius |
-
-`CardSkeleton` and `RowSkeleton` accept only `style`.
-
-### ProgressBar
-
-Segmented or single progress indicator.
-
-```tsx
-<ProgressBar
-  segments={[
-    { value: 60, color: semantic.colorSuccess, label: 'Complete' },
-    { value: 20, color: semantic.colorWarning, label: 'In Progress' },
-  ]}
-  height={8}
-/>
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `segments` | `ProgressBarSegment[]` | *required* | Segments to display |
-| `height` | `number` | `6` | Bar height in pixels |
-| `aria-label` | `string` | — | Accessible label |
-
-`ProgressBarSegment`: `{ value: number; color: string; label?: string }`
-
-### EmptyState
-
-Placeholder for empty lists or views.
-
-```tsx
-<EmptyState
-  icon="search"
-  message="No results found"
-  action={<Button variant="secondary">Clear filters</Button>}
-/>
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `icon` | `IconName` | *required* | Icon above the message |
-| `message` | `string` | *required* | Primary message |
-| `variant` | `'plain' \| 'card'` | `'plain'` | Container style |
-| `action` | `ReactNode` | — | CTA slot below the message |
-| `children` | `ReactNode` | — | Additional content below message |
-
-### Pagination
-
-Page navigation controls.
-
-```tsx
-<Pagination
-  page={currentPage}
-  totalPages={10}
-  total={97}
-  onPageChange={setCurrentPage}
-/>
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `page` | `number` | *required* | Current page (1-based) |
-| `totalPages` | `number` | *required* | Total pages |
-| `total` | `number` | *required* | Total items across all pages |
-| `onPageChange` | `(page: number) => void` | *required* | Page change handler |
-| `labels` | `PaginationLabels` | — | Custom text for prev/next/page-of |
-
-### Header
-
-Unified page/section heading. Replaces the retired `PageHeader` and `SectionHeader`.
-
-```tsx
-<Header
-  level="page"
-  title="Dashboard"
-  subtitle="Overview of your projects"
-  trailing={<Button size="sm">New Project</Button>}
-/>
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `title` | `string` | *required* | Primary heading |
-| `level` | `'page' \| 'section'` | `'section'` | Heading scale. `page` renders h1 in bold; `section` renders a smaller h2 |
-| `subtitle` | `string` | — | Secondary text in muted style |
-| `indicator` | `ReactNode` | — | Inline content next to the title (Badge, StatusDot, Icon) |
-| `trailing` | `ReactNode` | — | Right-aligned content (actions, SearchInput) |
-
-### TagChip
-
-Removable tag/chip.
-
-```tsx
-<TagChip name="React" onRemove={() => removeTag('React')} />
-<TagChip name="TypeScript" />
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `name` | `string` | *required* | Tag display text |
-| `onRemove` | `() => void` | — | When provided, renders a close button |
+See the `Select` demo for controlled / uncontrolled, error state, and rich-item examples. Migration from the pre-0.4 flat API is in the [v0.4 upgrade guide §10](#) in the knowledgebase.
 
 ### Table
 
@@ -760,7 +842,7 @@ Compound table component supporting row selection, hover states, group headers, 
 
 **TableGroupHeader** and **TableEmptyRow** both require a `colSpan` number.
 
-### Table.FilterBar
+#### Table.FilterBar
 
 Filter bar compound primitive attached to `Table` — pairs with the table to drive controlled filtering. Supports two usage modes sharing the same `values` / `onChange` contract:
 
@@ -810,86 +892,58 @@ Filter bar compound primitive attached to `Table` — pairs with the table to dr
 
 Rendering `<Table.FilterBar.Text>` or `<Table.FilterBar.Select>` outside `<Table.FilterBar>` throws a dev-time error.
 
-### ChipPicker
+### Toast
 
-Multi-select toggle chip group with optional category grouping. Each chip is a pill-shaped button with `aria-pressed` for accessibility.
+Ephemeral notification system with stacked, auto-dismissing messages. Provides a context-based API via `ToastProvider` and `useToast`.
 
 ```tsx
-const [selected, setSelected] = useState<string[]>([]);
+import { ToastProvider, useToast } from '@4lt7ab/ui/ui';
 
-<ChipPicker
-  items={[
-    { value: 'react', label: 'React', group: 'Frameworks' },
-    { value: 'vue', label: 'Vue', group: 'Frameworks' },
-    { value: 'ts', label: 'TypeScript', group: 'Languages' },
-  ]}
-  selected={selected}
-  onChange={setSelected}
-/>
+function App() {
+  return (
+    <ToastProvider position="top-right">
+      <MyPage />
+    </ToastProvider>
+  );
+}
+
+function MyPage() {
+  const { showToast } = useToast();
+
+  return (
+    <>
+      <button onClick={() => showToast('Saved!', 'success')}>Save</button>
+      <button onClick={() => showToast('Oops!', 'error')}>Fail</button>
+      <button onClick={() => showToast('Heads up', { type: 'warning', duration: 8000 })}>
+        Long warning
+      </button>
+    </>
+  );
+}
 ```
+
+| Export | Type | Description |
+|--------|------|-------------|
+| `ToastProvider` | Component | Context provider. Wrap your app once. |
+| `useToast` | Hook | Returns `{ showToast }` for triggering toasts |
+
+**`ToastProvider` props:**
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `items` | `ChipItem[]` | *required* | Available chip options |
-| `selected` | `string[]` | *required* | Currently selected values (controlled) |
-| `onChange` | `(selected: string[]) => void` | *required* | Called with updated selection |
-| `style` | `CSSProperties` | — | Additional inline styles |
+| `children` | `ReactNode` | — | Application content |
+| `position` | `'top-right' \| 'top-left' \| 'bottom-right' \| 'bottom-left'` | `'top-right'` | Screen position of toast stack |
 
-`ChipItem`: `{ value: string; label: string; group?: string }`
+**`showToast(message, typeOrOptions?)`:**
 
-When items have a `group` set, they render under uppercase section headings (using `sectionLabelStyle`). Ungrouped items render first.
+| Param | Type | Default | Description |
+|-------|------|---------|-------------|
+| `message` | `string` | — | Toast text content |
+| `typeOrOptions` | `ToastType \| ShowToastOptions` | `'info'` | Type string or options object with `type` and `duration` |
 
-### SearchInput
+Toast types: `'success'`, `'error'`, `'info'`, `'warning'`. Default auto-dismiss: 4 seconds. Animations respect `prefers-reduced-motion`. Container uses `aria-live="polite"`.
 
-Debounced text input with a leading search icon and an optional trailing slot for inline controls.
-
-```tsx
-const [query, setQuery] = useState('');
-
-<SearchInput
-  value={query}
-  onSearch={setQuery}
-  debounceMs={300}
-  placeholder="Search..."
-  trailing={<SegmentedControl size="sm" segments={[...]} value={mode} onChange={setMode} />}
-/>
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` | *required* | Current search value (controlled) |
-| `onSearch` | `(value: string) => void` | *required* | Debounced search callback |
-| `debounceMs` | `number` | `300` | Debounce delay in milliseconds |
-| `placeholder` | `string` | `'Search...'` | Input placeholder text |
-| `trailing` | `ReactNode` | — | Content rendered inside the input on the right |
-
-Extends `InputHTMLAttributes<HTMLInputElement>` (minus `onChange`). The input maintains local state for instant keystroke feedback and debounces the `onSearch` callback.
-
-### SegmentedControl
-
-Generic segmented toggle with a sliding pill indicator. Supports text, icon, or icon+text segments.
-
-```tsx
-<SegmentedControl
-  segments={[
-    { value: 'list', label: 'List' },
-    { value: 'grid', label: 'Grid', icon: 'menu' },
-  ]}
-  value={view}
-  onChange={setView}
-/>
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `segments` | `Segment[]` | *required* | Segment definitions |
-| `value` | `string` | *required* | Currently selected segment value |
-| `onChange` | `(value: string) => void` | *required* | Called when a segment is selected |
-| `size` | `'sm' \| 'md'` | `'md'` | Control size |
-
-`Segment`: `{ value: string; label: string; icon?: IconName | string }`
-
-Each segment button has `aria-pressed` for accessibility. The sliding indicator uses CSS transitions and respects `prefers-reduced-motion`. Small enough to fit inside SearchInput's `trailing` slot.
+---
 
 ### sectionLabelStyle
 
@@ -902,52 +956,29 @@ import { sectionLabelStyle } from '@4lt7ab/ui';
 <div style={{ ...sectionLabelStyle, color: semantic.colorActionPrimary }}>Custom</div>
 ```
 
-### StatusDot
+### tagChipStyle
 
-Colored dot for status indicators.
-
-```tsx
-<StatusDot variant="success" />
-<StatusDot color="#ff00ff" size={12} />
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'default' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | Semantic color |
-| `color` | `string` | — | Raw color override (takes precedence) |
-| `size` | `number` | `8` | Dot diameter in pixels |
-| `aria-label` | `string` | — | Accessible status description |
-
-### ThemePicker
-
-Theme selector wired into `useTheme()`. Two variants:
-
-- **`grid`** (default) -- card grid for settings pages and theme playgrounds.
-- **`compact`** -- dropdown button for toolbars and headers with keyboard navigation.
+Exported `CSSProperties` object (not a component) for removable tag/chip rendering. Spread onto any element; pair with an inline close button when a remove affordance is needed.
 
 ```tsx
-{/* Full grid for a settings page */}
-<ThemePicker descriptions={{ synthwave: 'Neon retro', slate: 'Clean and minimal' }} />
+import { tagChipStyle } from '@4lt7ab/ui';
 
-{/* Compact dropdown for a toolbar */}
-<ThemePicker variant="compact" />
+<span style={tagChipStyle}>React</span>
+<button style={{ ...tagChipStyle, cursor: 'pointer' }} onClick={() => remove('React')}>
+  React ×
+</button>
 ```
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'grid' \| 'compact'` | `'grid'` | Display variant |
-| `descriptions` | `Record<string, string>` | — | Optional per-theme descriptions (grid variant only) |
+Replaced the `TagChip` component in v0.4.x — consumers own the element type and the remove affordance.
 
 ---
 
-## Retired in 0.3.0
+## Retired
 
-The 0.3.0 surface and modal consolidation retired four components.
+The library's public surface shrinks when a component fails the reuse-plus-quality test; when it passes but overlaps with another, the move is to merge rather than retire. The notes below are short pointers — the rationale lives in [`CLAUDE.md` → Design Tenets](../../CLAUDE.md#design-tenets) and the KB decision doc above.
 
-- **`ThemeSurface`** — replaced by `usePageBackground()` in `@4lt7ab/core` for global page background, or `<Surface level="page">` for a scoped equivalent.
-- **`StatCard`** — retired as a `<Surface>` composition.
-- **`FormModal`** — retired as a documented composition over `ModalShell`; `modalHeadingStyle` and `modalFooterStyle` are exported directly from `@4lt7ab/ui`. See the `ModalShellFormPattern` demo.
-- **`ShortcutHelpModal`** — retired; consumers own their data shape and `<kbd>` styling.
+- **0.3.0** — `ThemeSurface` → `usePageBackground()` hook in `@4lt7ab/core` (global) or `<Surface level="page">` (scoped); `StatCard` → documented `<Surface>` composition; `FormModal` → `ModalShell` + `modalHeadingStyle` / `modalFooterStyle` (see `ModalShellFormPattern` demo); `ShortcutHelpModal` → consumer-owned data shape and `<kbd>` styling.
+- **0.4.0** — `SectionLabel` → `sectionLabelStyle` (see above); `MarginNote` + `SideNote` merged into one component with a `side` prop (`@4lt7ab/content`); `PullQuote` + `Epigraph` merged into one component with a `variant` prop (`@4lt7ab/content`); `LinkCard` rebuilt on `Card asChild`; `TextSection` folded into `Markdown` editable mode; `TableFilters` merged into `Table.FilterBar`.
 
 ---
 

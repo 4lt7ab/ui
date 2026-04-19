@@ -1,5 +1,7 @@
 # @4lt7ab
 
+**The components I reuse across my projects, built to primitive quality.** A component earns its place in this library when two clauses both hold: I reuse it across more than one project, and the implementation is good enough that the copy-pasted equivalent would be worse. Reuse without quality is copy-paste; quality without reuse is chrome. The full rationale — including the atomic-design retirement trap this framing exists to prevent — lives in the KB doc [Reused + Quality — the v0.5 reframe](tab://document/01KPHD88W7WHDH3C3PEBAEGE7A).
+
 A React component library distributed as four packages built on a shared theme platform. Every component consumes semantic tokens and responds to the active theme at runtime.
 
 ## Packages
@@ -12,6 +14,16 @@ A React component library distributed as four packages built on a shared theme p
 | [`@4lt7ab/animations`](packages/animations/README.md) | Canvas background animations tied to themes |
 
 `@4lt7ab/core` is the foundation — it provides the token layer and theme system that all other packages depend on. `@4lt7ab/ui`, `@4lt7ab/content`, and `@4lt7ab/animations` are independent of each other and each peer-depend on `@4lt7ab/core`.
+
+## How to think about what belongs here
+
+The library is organized into tiers that match the `packages/ui/src/components/` folder layout. The tiers are a taxonomy for reasoning about scope — not a retirement criterion.
+
+- **Atoms** — primitives with no internal library composition (`Button`, `Input`, `Stack`, `Icon`, `Surface`).
+- **Molecules** — small compositions with behavior (`Card`, `Field`, `SearchInput`, `ThemePicker`, `Pagination`).
+- **Organisms** — compound surfaces or large interaction systems (`Calendar.*`, `Combobox.*`, `Select.*`, `Table.*`, `ModalShell`, `Toast`).
+
+When two components in any tier overlap in responsibility, the default move is **merge before retire**. A component reused across projects earns its place; the fix for duplication is usually one extra prop on the shared component, not deletion of the duplicate. See the design tenets in [`CLAUDE.md`](CLAUDE.md#design-tenets) for the paired chrome-minimization and merge-before-retire rules.
 
 ## Install
 
@@ -131,15 +143,6 @@ t.radiusMd           // border radius
 ```
 
 Use these tokens when building custom components that should stay consistent with the design system.
-
-## Retired in 0.3.0
-
-The following components were retired during the 0.3.0 surface and modal consolidation.
-
-- **`ThemeSurface`** — replaced by `usePageBackground()` in `@4lt7ab/core` for global page background, or `<Surface level="page">` for a scoped equivalent.
-- **`StatCard`** — retired as a `<Surface>` composition.
-- **`FormModal`** — retired as a documented composition over `ModalShell`; `modalHeadingStyle` and `modalFooterStyle` are exported from `@4lt7ab/ui`. See the `ModalShellFormPattern` demo.
-- **`ShortcutHelpModal`** — retired; consumers own their data shape and `<kbd>` styling.
 
 ## Versioning & Updates
 
