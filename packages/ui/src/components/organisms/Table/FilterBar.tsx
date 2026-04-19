@@ -4,7 +4,6 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useImperativeHandle,
   useRef,
   useState,
 } from 'react';
@@ -250,23 +249,10 @@ const FilterBarSelect: React.ForwardRefExoticComponent<
     [commit, field],
   );
 
-  // Select.Trigger does not yet forwardRef internally (pre-existing ADR §2.4
-  // gap tracked separately). The trigger renders exactly one <button> as the
-  // wrapper's only interactive descendant, so we expose it to consumers via
-  // useImperativeHandle + a querySelector on the wrapping div. The
-  // `!` is safe because the wrapper div always renders before this handle
-  // resolves (React commits the div ref before running imperative-handle
-  // factories for the same component).
-  const wrapperRef = useRef<HTMLDivElement | null>(null);
-  useImperativeHandle(
-    ref,
-    () => wrapperRef.current!.querySelector('button') as HTMLButtonElement,
-  );
-
   return (
-    <div ref={wrapperRef} style={{ minWidth: '8rem', flex: '0 1 12rem' }}>
+    <div style={{ minWidth: '8rem', flex: '0 1 12rem' }}>
       <Select.Root value={value} onValueChange={handleValueChange}>
-        <Select.Trigger>
+        <Select.Trigger ref={ref}>
           <Select.Value placeholder={placeholder} />
         </Select.Trigger>
         <Select.Content>

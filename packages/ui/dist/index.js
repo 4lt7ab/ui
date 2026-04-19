@@ -45,7 +45,7 @@ function useFocusTrap(ref) {
 export * from "../../core/dist/index.js";
 
 // src/components/molecules/ThemePicker/ThemePicker.tsx
-import { forwardRef as forwardRef4 } from "react";
+import { forwardRef as forwardRef5 } from "react";
 import { useTheme, useInjectStyles as useInjectStyles4 } from "../../core/dist/index.js";
 
 // src/components/molecules/Card/Card.tsx
@@ -326,6 +326,7 @@ var linkCardCSS = (
 // src/components/organisms/Select/Select.tsx
 import {
   createContext,
+  forwardRef as forwardRef3,
   useCallback,
   useContext,
   useEffect as useEffect4,
@@ -682,14 +683,14 @@ function Root({
     }
   ) });
 }
-function Trigger({
+var Trigger = forwardRef3(function Trigger2({
   children,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
   "aria-describedby": ariaDescribedBy,
   "data-testid": dataTestId,
   tabIndex
-}) {
+}, forwardedRef) {
   const ctx = useSelectContext("Trigger");
   const {
     open,
@@ -702,12 +703,23 @@ function Trigger({
     instanceId,
     triggerRef
   } = ctx;
+  const setRef = useCallback(
+    (node) => {
+      triggerRef.current = node;
+      if (typeof forwardedRef === "function") {
+        forwardedRef(node);
+      } else if (forwardedRef) {
+        forwardedRef.current = node;
+      }
+    },
+    [forwardedRef, triggerRef]
+  );
   const activeDescendant = open && focusedValue ? `${instanceId}-opt-${focusedValue}` : void 0;
   const hasSelection = items.some((i) => i.value === ctx.value);
   return /* @__PURE__ */ jsxs(
     "button",
     {
-      ref: triggerRef,
+      ref: setRef,
       type: "button",
       className: "alttab-select-trigger",
       role: "combobox",
@@ -735,7 +747,7 @@ function Trigger({
       ]
     }
   );
-}
+});
 function Value({ placeholder }) {
   const { value, items } = useSelectContext("Value");
   const selected = items.find((i) => i.value === value);
@@ -904,7 +916,7 @@ var Select = {
 };
 
 // src/components/atoms/StatusDot/StatusDot.tsx
-import { forwardRef as forwardRef3 } from "react";
+import { forwardRef as forwardRef4 } from "react";
 import { semantic as t8, useInjectStyles as useInjectStyles3, useThemeRhythm as useThemeRhythm2 } from "../../core/dist/index.js";
 import { jsx as jsx4 } from "react/jsx-runtime";
 var variantColors = {
@@ -937,7 +949,7 @@ var PULSE_STYLES_CSS = `
   }
 }
 `;
-var StatusDot = forwardRef3(
+var StatusDot = forwardRef4(
   function StatusDot2({
     variant = "default",
     size = "md",
@@ -1027,7 +1039,7 @@ function CompactView() {
     ] }) }, def.name)) })
   ] });
 }
-var ThemePicker = forwardRef4(
+var ThemePicker = forwardRef5(
   function ThemePicker2({ descriptions = {}, variant = "grid" }, ref) {
     if (variant === "compact") {
       return /* @__PURE__ */ jsx5("div", { ref, style: { display: "inline-block" }, children: /* @__PURE__ */ jsx5(CompactView, {}) });
@@ -1193,7 +1205,7 @@ var iconRegistry = {
 };
 
 // src/components/atoms/Button/Button.tsx
-import { forwardRef as forwardRef5 } from "react";
+import { forwardRef as forwardRef6 } from "react";
 import { semantic as t9, useInjectStyles as useInjectStyles5, Slot as Slot3 } from "../../core/dist/index.js";
 import { jsx as jsx7 } from "react/jsx-runtime";
 var variantStyles = {
@@ -1269,7 +1281,7 @@ var iconOnlyPadding = {
   md: t9.spaceSm,
   lg: t9.spaceSm
 };
-var Button = forwardRef5(
+var Button = forwardRef6(
   function Button2({
     variant = "primary",
     size = "md",
@@ -1346,10 +1358,10 @@ var Button = forwardRef5(
 );
 
 // src/components/atoms/Stack/Stack.tsx
-import { forwardRef as forwardRef6 } from "react";
+import { forwardRef as forwardRef7 } from "react";
 import { jsx as jsx8 } from "react/jsx-runtime";
 var gapMap = spacingMap;
-var Stack = forwardRef6(
+var Stack = forwardRef7(
   function Stack2({
     direction = "vertical",
     gap = "md",
@@ -1380,10 +1392,10 @@ var Stack = forwardRef6(
 );
 
 // src/components/molecules/LinkCard/LinkCard.tsx
-import { forwardRef as forwardRef7 } from "react";
+import { forwardRef as forwardRef8 } from "react";
 import { useInjectStyles as useInjectStyles6 } from "../../core/dist/index.js";
 import { jsx as jsx9, jsxs as jsxs4 } from "react/jsx-runtime";
-var LinkCard = forwardRef7(function LinkCard2({
+var LinkCard = forwardRef8(function LinkCard2({
   title,
   description,
   external,
@@ -1418,7 +1430,7 @@ var LinkCard = forwardRef7(function LinkCard2({
 
 // src/components/molecules/Field/Field.tsx
 import { semantic as t10 } from "../../core/dist/index.js";
-import { forwardRef as forwardRef8, useId as useId2, isValidElement, cloneElement } from "react";
+import { forwardRef as forwardRef9, useId as useId2, isValidElement, cloneElement } from "react";
 import { jsx as jsx10, jsxs as jsxs5 } from "react/jsx-runtime";
 var labelStyle = {
   display: "block",
@@ -1446,7 +1458,7 @@ var errorStyle = {
   fontFamily: t10.fontSans,
   margin: 0
 };
-var Field = forwardRef8(
+var Field = forwardRef9(
   function Field2({
     label,
     htmlFor,
@@ -1492,7 +1504,7 @@ var Field = forwardRef8(
 );
 
 // src/components/atoms/Input/Input.tsx
-import { forwardRef as forwardRef9 } from "react";
+import { forwardRef as forwardRef10 } from "react";
 import { semantic as t11 } from "../../core/dist/index.js";
 import { jsx as jsx11 } from "react/jsx-runtime";
 var baseStyle = {
@@ -1501,7 +1513,7 @@ var baseStyle = {
   lineHeight: t11.lineHeightTight,
   outline: "none"
 };
-var Input = forwardRef9(
+var Input = forwardRef10(
   function Input2({
     hasError,
     disabled,
@@ -1576,7 +1588,7 @@ var Input = forwardRef9(
 );
 
 // src/components/atoms/Textarea/Textarea.tsx
-import { forwardRef as forwardRef10 } from "react";
+import { forwardRef as forwardRef11 } from "react";
 import { semantic as t12 } from "../../core/dist/index.js";
 import { jsx as jsx12 } from "react/jsx-runtime";
 var baseStyle2 = {
@@ -1591,7 +1603,7 @@ var disabledStyle = {
   ...inputShellDisabledStyle,
   resize: "none"
 };
-var Textarea = forwardRef10(
+var Textarea = forwardRef11(
   function Textarea2({
     hasError,
     disabled,
@@ -1654,7 +1666,7 @@ var Textarea = forwardRef10(
 );
 
 // src/components/atoms/Badge/Badge.tsx
-import { forwardRef as forwardRef11 } from "react";
+import { forwardRef as forwardRef12 } from "react";
 import { semantic as t13 } from "../../core/dist/index.js";
 import { jsx as jsx13 } from "react/jsx-runtime";
 var variantStyles2 = {
@@ -1706,7 +1718,7 @@ var xsBaseStyles = {
   letterSpacing: t13.letterSpacingWide,
   textTransform: "lowercase"
 };
-var Badge = forwardRef11(
+var Badge = forwardRef12(
   function Badge2({
     children,
     variant = "default",
@@ -1732,7 +1744,7 @@ var Badge = forwardRef11(
 );
 
 // src/components/atoms/Text/Text.tsx
-import { forwardRef as forwardRef12, createElement as createElement2 } from "react";
+import { forwardRef as forwardRef13, createElement as createElement2 } from "react";
 import { semantic as t14 } from "../../core/dist/index.js";
 var sizeMap2 = {
   xs: t14.fontSizeXs,
@@ -1762,7 +1774,7 @@ var familyMap = {
   serif: t14.fontSerif,
   mono: t14.fontMono
 };
-var Text = forwardRef12(
+var Text = forwardRef13(
   function Text2({
     children,
     size = "md",
@@ -1802,13 +1814,13 @@ var Text = forwardRef12(
 );
 
 // src/components/atoms/Icon/Icon.tsx
-import { forwardRef as forwardRef13, createContext as createContext2, useContext as useContext2 } from "react";
+import { forwardRef as forwardRef14, createContext as createContext2, useContext as useContext2 } from "react";
 import { jsx as jsx14 } from "react/jsx-runtime";
 var IconFontContext = createContext2(void 0);
 function IconFontProvider({ fontClass, children }) {
   return /* @__PURE__ */ jsx14(IconFontContext.Provider, { value: fontClass, children });
 }
-var Icon = forwardRef13(
+var Icon = forwardRef14(
   function Icon2({ name, size = "lg", fontClass, "aria-label": ariaLabel, id, "data-testid": dataTestId }, ref) {
     const contextFontClass = useContext2(IconFontContext);
     const IconComponent = iconRegistry[name];
@@ -1866,7 +1878,7 @@ var Icon = forwardRef13(
 );
 
 // src/components/atoms/IconButton/IconButton.tsx
-import { forwardRef as forwardRef14, useId as useId3 } from "react";
+import { forwardRef as forwardRef15, useId as useId3 } from "react";
 import { semantic as t15, useInjectStyles as useInjectStyles7, Slot as Slot4 } from "../../core/dist/index.js";
 import { Fragment as Fragment2, jsx as jsx15, jsxs as jsxs6 } from "react/jsx-runtime";
 var buttonSizeMap = {
@@ -1879,7 +1891,7 @@ var iconSizeForButton = {
   md: "md",
   lg: "lg"
 };
-var IconButton = forwardRef14(
+var IconButton = forwardRef15(
   function IconButton2({
     icon,
     size = "md",
@@ -1974,10 +1986,10 @@ var IconButton = forwardRef14(
 );
 
 // src/components/atoms/Overlay/Overlay.tsx
-import { forwardRef as forwardRef15 } from "react";
+import { forwardRef as forwardRef16 } from "react";
 import { semantic as t16 } from "../../core/dist/index.js";
 import { jsx as jsx16 } from "react/jsx-runtime";
-var Overlay = forwardRef15(
+var Overlay = forwardRef16(
   function Overlay2({
     onClick,
     zIndex = t16.zIndexSticky
@@ -2000,7 +2012,7 @@ var Overlay = forwardRef15(
 );
 
 // src/components/atoms/Skeleton/Skeleton.tsx
-import { forwardRef as forwardRef16 } from "react";
+import { forwardRef as forwardRef17 } from "react";
 import { semantic as t17, useInjectStyles as useInjectStyles8, useThemeRhythm as useThemeRhythm3 } from "../../core/dist/index.js";
 import { jsx as jsx17, jsxs as jsxs7 } from "react/jsx-runtime";
 var SKELETON_STYLES_ID = "4lt7ab-skeleton-pulse";
@@ -2042,7 +2054,7 @@ ${staggerRules.join("\n")}
 }
 `;
 })();
-var Skeleton = forwardRef16(
+var Skeleton = forwardRef17(
   function Skeleton2({
     width = "100%",
     height = 16,
@@ -2067,7 +2079,7 @@ var Skeleton = forwardRef16(
     );
   }
 );
-var CardSkeleton = forwardRef16(
+var CardSkeleton = forwardRef17(
   function CardSkeleton2(_props, ref) {
     return /* @__PURE__ */ jsxs7(
       "div",
@@ -2091,7 +2103,7 @@ var CardSkeleton = forwardRef16(
     );
   }
 );
-var RowSkeleton = forwardRef16(
+var RowSkeleton = forwardRef17(
   function RowSkeleton2(_props, ref) {
     return /* @__PURE__ */ jsxs7(
       "div",
@@ -2117,10 +2129,10 @@ var RowSkeleton = forwardRef16(
 );
 
 // src/components/atoms/ProgressBar/ProgressBar.tsx
-import { forwardRef as forwardRef17 } from "react";
+import { forwardRef as forwardRef18 } from "react";
 import { semantic as t18 } from "../../core/dist/index.js";
 import { jsx as jsx18 } from "react/jsx-runtime";
-var ProgressBar = forwardRef17(
+var ProgressBar = forwardRef18(
   function ProgressBar2({
     segments,
     height = "md",
@@ -2166,10 +2178,10 @@ var ProgressBar = forwardRef17(
 );
 
 // src/components/molecules/EmptyState/EmptyState.tsx
-import { forwardRef as forwardRef18 } from "react";
+import { forwardRef as forwardRef19 } from "react";
 import { semantic as t19 } from "../../core/dist/index.js";
 import { jsx as jsx19, jsxs as jsxs8 } from "react/jsx-runtime";
-var EmptyState = forwardRef18(
+var EmptyState = forwardRef19(
   function EmptyState2({
     icon,
     message,
@@ -2202,7 +2214,7 @@ var EmptyState = forwardRef18(
 );
 
 // src/components/molecules/Pagination/Pagination.tsx
-import { forwardRef as forwardRef19 } from "react";
+import { forwardRef as forwardRef20 } from "react";
 import { semantic as t20 } from "../../core/dist/index.js";
 import { jsx as jsx20, jsxs as jsxs9 } from "react/jsx-runtime";
 var defaultLabels = {
@@ -2210,7 +2222,7 @@ var defaultLabels = {
   next: "Next",
   pageOf: (page, total) => `Page ${page} of ${total}`
 };
-var Pagination = forwardRef19(
+var Pagination = forwardRef20(
   function Pagination2({
     page,
     totalPages,
@@ -2273,10 +2285,10 @@ var Pagination = forwardRef19(
 );
 
 // src/components/molecules/Header/Header.tsx
-import { forwardRef as forwardRef20 } from "react";
+import { forwardRef as forwardRef21 } from "react";
 import { semantic as t21 } from "../../core/dist/index.js";
 import { jsx as jsx21, jsxs as jsxs10 } from "react/jsx-runtime";
-var Header = forwardRef20(
+var Header = forwardRef21(
   function Header2({ title, level = "section", subtitle, indicator, trailing }, ref) {
     const isPage = level === "page";
     const Tag = isPage ? "h1" : "h2";
@@ -2319,7 +2331,7 @@ var Header = forwardRef20(
 );
 
 // src/components/organisms/ModalShell/ModalShell.tsx
-import { forwardRef as forwardRef21, useEffect as useEffect5, useId as useId4, useRef as useRef3 } from "react";
+import { forwardRef as forwardRef22, useEffect as useEffect5, useId as useId4, useRef as useRef3 } from "react";
 import { createPortal } from "react-dom";
 import { semantic as t22 } from "../../core/dist/index.js";
 import { Fragment as Fragment3, jsx as jsx22, jsxs as jsxs11 } from "react/jsx-runtime";
@@ -2343,7 +2355,7 @@ var FOCUSABLE_SELECTOR2 = [
   "textarea:not(:disabled)",
   '[tabindex]:not([tabindex="-1"])'
 ].join(", ");
-var ModalShell = forwardRef21(
+var ModalShell = forwardRef22(
   function ModalShell2({
     onClose,
     children,
@@ -2492,7 +2504,7 @@ var pillToggleUnselectedStyle = {
 };
 
 // src/components/molecules/ConfirmDialog/ConfirmDialog.tsx
-import { forwardRef as forwardRef22, useId as useId5, useState as useState2 } from "react";
+import { forwardRef as forwardRef23, useId as useId5, useState as useState2 } from "react";
 import { semantic as t26 } from "../../core/dist/index.js";
 import { jsx as jsx23, jsxs as jsxs12 } from "react/jsx-runtime";
 var variantButtonMap = {
@@ -2500,7 +2512,7 @@ var variantButtonMap = {
   info: "primary",
   warning: "primary"
 };
-var ConfirmDialog = forwardRef22(
+var ConfirmDialog = forwardRef23(
   function ConfirmDialog2({
     title,
     message,
@@ -2551,7 +2563,7 @@ var ConfirmDialog = forwardRef22(
 );
 
 // src/components/organisms/Table/Table.tsx
-import { forwardRef as forwardRef23, Children, isValidElement as isValidElement2, cloneElement as cloneElement2 } from "react";
+import { forwardRef as forwardRef24, Children, isValidElement as isValidElement2, cloneElement as cloneElement2 } from "react";
 import { semantic as t27 } from "../../core/dist/index.js";
 import { useInjectStyles as useInjectStyles9 } from "../../core/dist/index.js";
 import { jsx as jsx24 } from "react/jsx-runtime";
@@ -2592,7 +2604,7 @@ var wrapperVariants = {
   },
   flat: {}
 };
-var Table = forwardRef23(
+var Table = forwardRef24(
   function Table2({
     variant = "default",
     density = "md",
@@ -2625,12 +2637,12 @@ var Table = forwardRef23(
     );
   }
 );
-var TableHeader = forwardRef23(
+var TableHeader = forwardRef24(
   function TableHeader2({ children }, ref) {
     return /* @__PURE__ */ jsx24("thead", { ref, children: /* @__PURE__ */ jsx24("tr", { children }) });
   }
 );
-var TableHeaderCell = forwardRef23(
+var TableHeaderCell = forwardRef24(
   function TableHeaderCell2({
     align = "left",
     width,
@@ -2659,7 +2671,7 @@ var TableHeaderCell = forwardRef23(
     );
   }
 );
-var TableBody = forwardRef23(
+var TableBody = forwardRef24(
   function TableBody2({ children }, ref) {
     let dataRowIndex = 0;
     const styledChildren = Children.map(children, (child) => {
@@ -2683,7 +2695,7 @@ var TableBody = forwardRef23(
     return /* @__PURE__ */ jsx24("tbody", { ref, children: styledChildren });
   }
 );
-var TableRow = forwardRef23(
+var TableRow = forwardRef24(
   function TableRow2({
     selected = false,
     hoverable = false,
@@ -2713,7 +2725,7 @@ var TableRow = forwardRef23(
     );
   }
 );
-var TableCell = forwardRef23(
+var TableCell = forwardRef24(
   function TableCell2({
     align = "left",
     truncate = false,
@@ -2746,7 +2758,7 @@ var TableCell = forwardRef23(
     );
   }
 );
-var TableGroupHeader = forwardRef23(
+var TableGroupHeader = forwardRef24(
   function TableGroupHeader2({
     colSpan,
     children
@@ -2773,7 +2785,7 @@ var TableGroupHeader = forwardRef23(
     ) });
   }
 );
-var TableEmptyRow = forwardRef23(
+var TableEmptyRow = forwardRef24(
   function TableEmptyRow2({
     colSpan,
     children
@@ -2797,11 +2809,10 @@ var TableEmptyRow = forwardRef23(
 // src/components/organisms/Table/FilterBar.tsx
 import {
   createContext as createContext3,
-  forwardRef as forwardRef24,
+  forwardRef as forwardRef25,
   useCallback as useCallback2,
   useContext as useContext3,
   useEffect as useEffect6,
-  useImperativeHandle,
   useRef as useRef4,
   useState as useState3
 } from "react";
@@ -2874,7 +2885,7 @@ function FilterBar({
     }
   ) });
 }
-var FilterBarText = forwardRef24(function FilterBarText2({ field, placeholder, debounceMs = 300 }, ref) {
+var FilterBarText = forwardRef25(function FilterBarText2({ field, placeholder, debounceMs = 300 }, ref) {
   const { values, commit } = useFilterBarContext("Text");
   const external = values[field] ?? "";
   const [local, setLocal] = useState3(external);
@@ -2908,7 +2919,7 @@ var FilterBarText = forwardRef24(function FilterBarText2({ field, placeholder, d
     }
   ) });
 });
-var FilterBarSelect = forwardRef24(function FilterBarSelect2({ field, placeholder, options }, ref) {
+var FilterBarSelect = forwardRef25(function FilterBarSelect2({ field, placeholder, options }, ref) {
   const { values, commit } = useFilterBarContext("Select");
   const value = values[field] ?? "";
   const handleValueChange = useCallback2(
@@ -2917,13 +2928,8 @@ var FilterBarSelect = forwardRef24(function FilterBarSelect2({ field, placeholde
     },
     [commit, field]
   );
-  const wrapperRef = useRef4(null);
-  useImperativeHandle(
-    ref,
-    () => wrapperRef.current.querySelector("button")
-  );
-  return /* @__PURE__ */ jsx25("div", { ref: wrapperRef, style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ jsxs13(Select.Root, { value, onValueChange: handleValueChange, children: [
-    /* @__PURE__ */ jsx25(Select.Trigger, { children: /* @__PURE__ */ jsx25(Select.Value, { placeholder }) }),
+  return /* @__PURE__ */ jsx25("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ jsxs13(Select.Root, { value, onValueChange: handleValueChange, children: [
+    /* @__PURE__ */ jsx25(Select.Trigger, { ref, children: /* @__PURE__ */ jsx25(Select.Value, { placeholder }) }),
     /* @__PURE__ */ jsx25(Select.Content, { children: options.map((opt) => /* @__PURE__ */ jsx25(Select.Item, { value: opt.value, children: opt.label }, opt.value)) })
   ] }) });
 });
@@ -2939,7 +2945,7 @@ var Table3 = Object.assign(Table, {
 
 // src/components/organisms/DateRangePicker/DateRangePicker.tsx
 import {
-  forwardRef as forwardRef25,
+  forwardRef as forwardRef26,
   useState as useState5,
   useRef as useRef6,
   useCallback as useCallback5,
@@ -3540,7 +3546,7 @@ var headerRowStyle = {
 function sortedRange(a, b) {
   return a.getTime() <= b.getTime() ? { from: a, to: b } : { from: b, to: a };
 }
-var DateRangePicker = forwardRef25(
+var DateRangePicker = forwardRef26(
   function DateRangePicker2({
     value,
     onChange,
@@ -3693,7 +3699,7 @@ var DateRangePicker = forwardRef25(
 );
 
 // src/components/organisms/DatePicker/DatePicker.tsx
-import { forwardRef as forwardRef26, useState as useState6, useRef as useRef7, useCallback as useCallback6, useEffect as useEffect9, useMemo as useMemo5 } from "react";
+import { forwardRef as forwardRef27, useState as useState6, useRef as useRef7, useCallback as useCallback6, useEffect as useEffect9, useMemo as useMemo5 } from "react";
 import { semantic as t33, useInjectStyles as useInjectStyles12 } from "../../core/dist/index.js";
 import { jsx as jsx32, jsxs as jsxs16 } from "react/jsx-runtime";
 var SCOPE2 = "alttab-dp";
@@ -3740,7 +3746,7 @@ var headerRowStyle2 = {
   padding: `${t33.spaceXs} 0`,
   marginBottom: t33.spaceSm
 };
-var DatePicker = forwardRef26(
+var DatePicker = forwardRef27(
   function DatePicker2({
     value,
     onChange,
@@ -4709,7 +4715,7 @@ function Root4({
   );
   return /* @__PURE__ */ jsx36(RootContext.Provider, { value: ctx, children });
 }
-function Trigger2({
+function Trigger3({
   asChild = false,
   children,
   onClick
@@ -5026,7 +5032,7 @@ function hasMatchingItem(children, query) {
 }
 var CommandPalette = {
   Root: Root4,
-  Trigger: Trigger2,
+  Trigger: Trigger3,
   Content: Content2,
   Group,
   Item: Item3
@@ -5141,7 +5147,7 @@ function ChipPicker({
 }
 
 // src/components/molecules/SearchInput/SearchInput.tsx
-import { forwardRef as forwardRef27, useState as useState11, useEffect as useEffect13, useRef as useRef11, useCallback as useCallback11 } from "react";
+import { forwardRef as forwardRef28, useState as useState11, useEffect as useEffect13, useRef as useRef11, useCallback as useCallback11 } from "react";
 import { semantic as t39, useInjectStyles as useInjectStyles16 } from "../../core/dist/index.js";
 import { jsx as jsx38, jsxs as jsxs21 } from "react/jsx-runtime";
 var STYLE_ID2 = "4lt7ab-search-input";
@@ -5166,7 +5172,7 @@ var inputStyle = {
   fontFamily: "inherit",
   padding: 0
 };
-var SearchInput = forwardRef27(
+var SearchInput = forwardRef28(
   function SearchInput2({
     value,
     onSearch,
@@ -5452,7 +5458,7 @@ function SegmentedControl({
 }
 
 // src/components/molecules/AlertBanner/AlertBanner.tsx
-import { forwardRef as forwardRef28 } from "react";
+import { forwardRef as forwardRef29 } from "react";
 import { semantic as t41, useInjectStyles as useInjectStyles18 } from "../../core/dist/index.js";
 import { jsx as jsx40, jsxs as jsxs23 } from "react/jsx-runtime";
 var STYLE_ID4 = "4lt7ab-alert-banner";
@@ -5480,7 +5486,7 @@ var defaultIcons = {
   error: /* @__PURE__ */ jsx40(IconError, { size: 20 }),
   success: /* @__PURE__ */ jsx40(IconCheckCircle, { size: 20 })
 };
-var AlertBanner = forwardRef28(
+var AlertBanner = forwardRef29(
   function AlertBanner2({ variant, children, onDismiss, icon }, ref) {
     useInjectStyles18(STYLE_ID4, alertBannerCSS);
     const colors = variantColors2[variant];
@@ -5525,7 +5531,7 @@ var AlertBanner = forwardRef28(
 );
 
 // src/components/organisms/TopBar/TopBar.tsx
-import { createContext as createContext8, forwardRef as forwardRef29, useContext as useContext8 } from "react";
+import { createContext as createContext8, forwardRef as forwardRef30, useContext as useContext8 } from "react";
 import { semantic as t42, useInjectStyles as useInjectStyles19, Slot as Slot6 } from "../../core/dist/index.js";
 import { jsx as jsx41 } from "react/jsx-runtime";
 var TopBarContext = createContext8(null);
@@ -5562,7 +5568,7 @@ var TOPBAR_CSS = `
     color: ${t42.colorText};
   }
 `;
-var TopBarRoot = forwardRef29(
+var TopBarRoot = forwardRef30(
   function TopBarRoot2({ children, sticky = false, ...rest }, ref) {
     useInjectStyles19(TOPBAR_STYLES_ID, TOPBAR_CSS);
     const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: t42.zIndexSticky } : {};
@@ -5625,7 +5631,7 @@ function TopBarNav({ children, "aria-label": ariaLabel = "Primary" }) {
     }
   );
 }
-var TopBarLink = forwardRef29(function TopBarLink2({ active = false, asChild = false, onClick, children }, ref) {
+var TopBarLink = forwardRef30(function TopBarLink2({ active = false, asChild = false, onClick, children }, ref) {
   useTopBarContext("Link");
   const style = {
     display: "inline-flex",
@@ -5682,7 +5688,7 @@ var TopBar = {
 };
 
 // src/components/organisms/EmptyPage/EmptyPage.tsx
-import { Children as Children3, createContext as createContext9, forwardRef as forwardRef30, useContext as useContext9, useId as useId10 } from "react";
+import { Children as Children3, createContext as createContext9, forwardRef as forwardRef31, useContext as useContext9, useId as useId10 } from "react";
 import { semantic as t43, Slot as Slot7 } from "../../core/dist/index.js";
 import { jsx as jsx42, jsxs as jsxs24 } from "react/jsx-runtime";
 var EmptyPageContext = createContext9(null);
@@ -5695,7 +5701,7 @@ function useEmptyPageContext(component) {
   }
   return ctx;
 }
-var EmptyPageRoot = forwardRef30(function EmptyPageRoot2({ level = "page", children, ...rest }, ref) {
+var EmptyPageRoot = forwardRef31(function EmptyPageRoot2({ level = "page", children, ...rest }, ref) {
   const titleId = useId10();
   const isPage = level === "page";
   return /* @__PURE__ */ jsx42(EmptyPageContext.Provider, { value: { level, titleId }, children: /* @__PURE__ */ jsx42(
@@ -5875,7 +5881,7 @@ var EmptyPage = {
 import {
   Children as Children4,
   createContext as createContext10,
-  forwardRef as forwardRef31,
+  forwardRef as forwardRef32,
   isValidElement as isValidElement4,
   useCallback as useCallback14,
   useContext as useContext10,
@@ -5939,7 +5945,7 @@ function bucketChildren(children) {
   });
   return { topBar, sidebar, main, rightPanel };
 }
-var AppShellRoot = forwardRef31(function AppShellRoot2({
+var AppShellRoot = forwardRef32(function AppShellRoot2({
   sidebarCollapsed: sidebarCollapsedProp,
   defaultSidebarCollapsed = false,
   onSidebarCollapsedChange,
@@ -6150,7 +6156,7 @@ var AppShell = {
 };
 
 // src/components/organisms/DataTablePage/DataTablePage.tsx
-import { createContext as createContext11, forwardRef as forwardRef32, useContext as useContext11, useId as useId11, useMemo as useMemo9 } from "react";
+import { createContext as createContext11, forwardRef as forwardRef33, useContext as useContext11, useId as useId11, useMemo as useMemo9 } from "react";
 import { semantic as t45 } from "../../core/dist/index.js";
 import { jsx as jsx44 } from "react/jsx-runtime";
 var DataTablePageContext = createContext11(null);
@@ -6163,7 +6169,7 @@ function useDataTablePageContext(part) {
   }
   return ctx;
 }
-var DataTablePageRoot = forwardRef32(function DataTablePageRoot2({ rowCount, children, ...rest }, ref) {
+var DataTablePageRoot = forwardRef33(function DataTablePageRoot2({ rowCount, children, ...rest }, ref) {
   const titleId = useId11();
   const isEmpty = rowCount === 0;
   const value = useMemo9(
@@ -6229,7 +6235,7 @@ var DataTablePage = {
 import {
   Children as Children5,
   createContext as createContext12,
-  forwardRef as forwardRef33,
+  forwardRef as forwardRef34,
   isValidElement as isValidElement5,
   useCallback as useCallback15,
   useContext as useContext12,
@@ -6262,7 +6268,7 @@ function splitChildren(children) {
   });
   return { main, rightPanel };
 }
-var DetailPageRoot = forwardRef33(function DetailPageRoot2({ children, ...rest }, ref) {
+var DetailPageRoot = forwardRef34(function DetailPageRoot2({ children, ...rest }, ref) {
   const titleId = useId12();
   const [actionsSlot, setActionsSlot] = useState14(null);
   const value = useMemo10(
@@ -6482,7 +6488,7 @@ var DetailPage = {
 // src/components/organisms/FormLayout/FormLayout.tsx
 import {
   createContext as createContext13,
-  forwardRef as forwardRef34,
+  forwardRef as forwardRef35,
   useCallback as useCallback16,
   useContext as useContext13,
   useEffect as useEffect15,
@@ -6531,7 +6537,7 @@ function useControllableBoolean2(params) {
   );
   return [value, setValue];
 }
-var FormLayoutRoot = forwardRef34(function FormLayoutRoot2({
+var FormLayoutRoot = forwardRef35(function FormLayoutRoot2({
   dirty: dirtyProp,
   defaultDirty = false,
   onDirtyChange,
@@ -6826,7 +6832,7 @@ var FormLayout = {
 // src/components/organisms/WizardDialog/WizardDialog.tsx
 import {
   createContext as createContext14,
-  forwardRef as forwardRef35,
+  forwardRef as forwardRef36,
   useCallback as useCallback17,
   useContext as useContext14,
   useEffect as useEffect16,
@@ -6893,7 +6899,7 @@ function useControllableNumber(params) {
   );
   return [value, setValue];
 }
-var WizardDialogRoot = forwardRef35(
+var WizardDialogRoot = forwardRef36(
   function WizardDialogRoot2({
     open: openProp,
     defaultOpen = false,
@@ -7241,9 +7247,9 @@ var WizardDialog = {
 };
 
 // src/components/atoms/Grid/Grid.tsx
-import { forwardRef as forwardRef36 } from "react";
+import { forwardRef as forwardRef37 } from "react";
 import { jsx as jsx48 } from "react/jsx-runtime";
-var Grid = forwardRef36(
+var Grid = forwardRef37(
   function Grid2({
     minColumnWidth = 300,
     columns,
@@ -7271,10 +7277,10 @@ var Grid = forwardRef36(
 );
 
 // src/components/atoms/Divider/Divider.tsx
-import { forwardRef as forwardRef37 } from "react";
+import { forwardRef as forwardRef38 } from "react";
 import { semantic as t49 } from "../../core/dist/index.js";
 import { jsx as jsx49 } from "react/jsx-runtime";
-var Divider = forwardRef37(
+var Divider = forwardRef38(
   function Divider2({
     orientation = "horizontal",
     opacity = "default",
@@ -7306,7 +7312,7 @@ var Divider = forwardRef37(
 );
 
 // src/components/atoms/Container/Container.tsx
-import { forwardRef as forwardRef38 } from "react";
+import { forwardRef as forwardRef39 } from "react";
 import { jsx as jsx50 } from "react/jsx-runtime";
 var widthMap = {
   narrow: "32rem",
@@ -7320,7 +7326,7 @@ var paddingMap = {
   md: "1.5rem",
   lg: "3rem"
 };
-var Container = forwardRef38(
+var Container = forwardRef39(
   function Container2({
     width = "prose",
     padding = "md",
@@ -7349,7 +7355,7 @@ var Container = forwardRef38(
 );
 
 // src/components/molecules/TabStrip/TabStrip.tsx
-import { forwardRef as forwardRef39, useCallback as useCallback18 } from "react";
+import { forwardRef as forwardRef40, useCallback as useCallback18 } from "react";
 import { semantic as t50, useInjectStyles as useInjectStyles20 } from "../../core/dist/index.js";
 import { jsx as jsx51, jsxs as jsxs29 } from "react/jsx-runtime";
 var STYLES_ID = "4lt7ab-tab-strip";
@@ -7362,7 +7368,7 @@ var STYLES_CSS = `
   background: color-mix(in srgb, ${t50.colorBorder} 10%, transparent);
 }
 `;
-var TabStrip = forwardRef39(
+var TabStrip = forwardRef40(
   function TabStrip2({
     tabs,
     activeKey,

@@ -1,5 +1,6 @@
 import {
   createContext,
+  forwardRef,
   useCallback,
   useContext,
   useEffect,
@@ -410,14 +411,19 @@ export interface SelectTriggerProps {
   tabIndex?: number;
 }
 
-function Trigger({
-  children,
-  'aria-label': ariaLabel,
-  'aria-labelledby': ariaLabelledBy,
-  'aria-describedby': ariaDescribedBy,
-  'data-testid': dataTestId,
-  tabIndex,
-}: SelectTriggerProps): React.JSX.Element {
+const Trigger: React.ForwardRefExoticComponent<
+  SelectTriggerProps & React.RefAttributes<HTMLButtonElement>
+> = forwardRef<HTMLButtonElement, SelectTriggerProps>(function Trigger(
+  {
+    children,
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
+    'aria-describedby': ariaDescribedBy,
+    'data-testid': dataTestId,
+    tabIndex,
+  },
+  forwardedRef,
+): React.JSX.Element {
   const ctx = useSelectContext('Trigger');
   const {
     open,
@@ -431,6 +437,22 @@ function Trigger({
     triggerRef,
   } = ctx;
 
+  // Merge the forwarded ref with the context's internal triggerRef so
+  // consumers can obtain the trigger button while internal focus
+  // restoration (keyboard close, item-select) still resolves to the
+  // same DOM node.
+  const setRef = useCallback(
+    (node: HTMLButtonElement | null): void => {
+      triggerRef.current = node;
+      if (typeof forwardedRef === 'function') {
+        forwardedRef(node);
+      } else if (forwardedRef) {
+        forwardedRef.current = node;
+      }
+    },
+    [forwardedRef, triggerRef],
+  );
+
   const activeDescendant =
     open && focusedValue
       ? `${instanceId}-opt-${focusedValue}`
@@ -440,7 +462,7 @@ function Trigger({
 
   return (
     <button
-      ref={triggerRef}
+      ref={setRef}
       type="button"
       className="alttab-select-trigger"
       role="combobox"
@@ -469,7 +491,7 @@ function Trigger({
       </span>
     </button>
   );
-}
+});
 
 // ---------------------------------------------------------------------------
 // Select.Value

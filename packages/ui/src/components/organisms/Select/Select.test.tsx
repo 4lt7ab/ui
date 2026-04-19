@@ -339,6 +339,48 @@ describe("Select (compound)", () => {
     expect(screen.getByRole("combobox")).toHaveAttribute("aria-invalid", "true");
   });
 
+  // -- Ref forwarding (ADR §2.4) -------------------------------------------
+
+  it("forwards ref on Select.Trigger to the underlying <button>", () => {
+    const ref = React.createRef<HTMLButtonElement>();
+    render(
+      <Select.Root>
+        <Select.Trigger ref={ref} aria-label="Test">
+          <Select.Value placeholder="Pick one" />
+        </Select.Trigger>
+        <Select.Content>
+          <Select.Item value="a">Alpha</Select.Item>
+        </Select.Content>
+      </Select.Root>,
+    );
+
+    expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+    expect(ref.current).toBe(screen.getByRole("combobox"));
+  });
+
+  it("keyboard focus restoration still resolves to the forwarded button", async () => {
+    const ref = React.createRef<HTMLButtonElement>();
+    const user = userEvent.setup();
+    render(
+      <Select.Root>
+        <Select.Trigger ref={ref} aria-label="Test">
+          <Select.Value placeholder="Pick one" />
+        </Select.Trigger>
+        <Select.Content>
+          <Select.Item value="a">Alpha</Select.Item>
+          <Select.Item value="b">Bravo</Select.Item>
+        </Select.Content>
+      </Select.Root>,
+    );
+
+    const trigger = screen.getByRole("combobox");
+    // Open + select — internal triggerRef.focus() runs on selectItem.
+    await user.click(trigger);
+    await user.click(screen.getByRole("option", { name: "Bravo" }));
+    // Focus returned to the same node the forwarded ref points to.
+    expect(document.activeElement).toBe(ref.current);
+  });
+
   // -- Out-of-context guard -------------------------------------------------
 
   it("throws when a sub-component is rendered without Root", () => {

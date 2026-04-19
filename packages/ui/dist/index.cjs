@@ -867,14 +867,14 @@ function Root({
     }
   ) });
 }
-function Trigger({
+var Trigger = (0, import_react5.forwardRef)(function Trigger2({
   children,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
   "aria-describedby": ariaDescribedBy,
   "data-testid": dataTestId,
   tabIndex
-}) {
+}, forwardedRef) {
   const ctx = useSelectContext("Trigger");
   const {
     open,
@@ -887,12 +887,23 @@ function Trigger({
     instanceId,
     triggerRef
   } = ctx;
+  const setRef = (0, import_react5.useCallback)(
+    (node) => {
+      triggerRef.current = node;
+      if (typeof forwardedRef === "function") {
+        forwardedRef(node);
+      } else if (forwardedRef) {
+        forwardedRef.current = node;
+      }
+    },
+    [forwardedRef, triggerRef]
+  );
   const activeDescendant = open && focusedValue ? `${instanceId}-opt-${focusedValue}` : void 0;
   const hasSelection = items.some((i) => i.value === ctx.value);
   return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
     "button",
     {
-      ref: triggerRef,
+      ref: setRef,
       type: "button",
       className: "alttab-select-trigger",
       role: "combobox",
@@ -920,7 +931,7 @@ function Trigger({
       ]
     }
   );
-}
+});
 function Value({ placeholder }) {
   const { value, items } = useSelectContext("Value");
   const selected = items.find((i) => i.value === value);
@@ -3093,13 +3104,8 @@ var FilterBarSelect = (0, import_react27.forwardRef)(function FilterBarSelect2({
     },
     [commit, field]
   );
-  const wrapperRef = (0, import_react27.useRef)(null);
-  (0, import_react27.useImperativeHandle)(
-    ref,
-    () => wrapperRef.current.querySelector("button")
-  );
-  return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { ref: wrapperRef, style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(Select.Root, { value, onValueChange: handleValueChange, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(Select.Trigger, { children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(Select.Value, { placeholder }) }),
+  return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(Select.Root, { value, onValueChange: handleValueChange, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(Select.Trigger, { ref, children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(Select.Value, { placeholder }) }),
     /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(Select.Content, { children: options.map((opt) => /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(Select.Item, { value: opt.value, children: opt.label }, opt.value)) })
   ] }) });
 });
@@ -4845,7 +4851,7 @@ function Root4({
   );
   return /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(RootContext.Provider, { value: ctx, children });
 }
-function Trigger2({
+function Trigger3({
   asChild = false,
   children,
   onClick
@@ -5162,7 +5168,7 @@ function hasMatchingItem(children, query) {
 }
 var CommandPalette = {
   Root: Root4,
-  Trigger: Trigger2,
+  Trigger: Trigger3,
   Content: Content2,
   Group,
   Item: Item3
