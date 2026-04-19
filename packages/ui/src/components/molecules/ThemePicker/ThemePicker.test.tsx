@@ -11,6 +11,7 @@ const setThemeSpy = vi.fn();
 vi.mock('@4lt7ab/core', () => ({
   semantic: new Proxy({}, { get: (_t, prop) => `var(--mock-${String(prop)})` }),
   useInjectStyles: vi.fn(),
+  useThemeRhythm: () => ({ config: null, phaseRef: { current: 0 }, subscribe: () => () => {}, durationCss: undefined }),
   useTheme: () => ({
     theme: 'slate',
     resolved: 'slate',

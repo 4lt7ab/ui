@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import { useTheme, useInjectStyles } from '@4lt7ab/core';
 import { Select } from '../../organisms/Select';
+import { StatusDot } from '../../atoms/StatusDot';
 
 export interface ThemePickerProps {
   /** Optional descriptions for each theme, keyed by theme name. */
@@ -54,16 +55,11 @@ const gridCSS = /* css */ `
   }
 `;
 
-// Compact variant — small color-dot affordance shared by trigger + items.
-const DOT: React.CSSProperties = {
-  display: 'inline-block',
-  width: 8,
-  height: 8,
-  borderRadius: '50%',
-  background: 'var(--color-action-primary)',
-  flexShrink: 0,
-  marginRight: '0.5rem',
-  verticalAlign: 'middle',
+// Compact variant — inline-flex row puts the <StatusDot> before the label with a gap.
+const DOT_ROW: React.CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '0.5rem',
 };
 
 function GridView({ descriptions }: { descriptions: Record<string, string> }): React.JSX.Element {
@@ -97,14 +93,18 @@ function CompactView(): React.JSX.Element {
   return (
     <Select.Root value={resolved} onValueChange={setTheme}>
       <Select.Trigger aria-label="Select theme">
-        <span aria-hidden style={DOT} />
-        <Select.Value />
+        <span style={DOT_ROW}>
+          <StatusDot variant="primary" />
+          <Select.Value />
+        </span>
       </Select.Trigger>
       <Select.Content>
         {Array.from(themes.values()).map((def) => (
           <Select.Item key={def.name} value={def.name} textValue={def.label}>
-            <span aria-hidden style={DOT} />
-            {def.label}
+            <span style={DOT_ROW}>
+              <StatusDot variant="primary" />
+              {def.label}
+            </span>
           </Select.Item>
         ))}
       </Select.Content>
