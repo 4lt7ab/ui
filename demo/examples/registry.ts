@@ -5,8 +5,7 @@ import { PROSE_EXAMPLES } from './prose/registry';
 import { LAYOUT_EXAMPLES } from './layout/registry';
 import { FORMS_EXAMPLES } from './forms/registry';
 import { DATA_EXAMPLES } from './data/registry';
-import { CommandPaletteShowcase } from './modals/CommandPaletteShowcase';
-import { ModalShellShowcase } from './modals/ModalShellShowcase';
+import { MODALS_EXAMPLES } from './modals/registry';
 
 // ---------------------------------------------------------------------------
 // Live-example registry (root)
@@ -19,8 +18,8 @@ import { ModalShellShowcase } from './modals/ModalShellShowcase';
 //
 // Per §2.7 (amended 2026-04-19), this root file is a re-exporter that
 // merges per-concept sub-registries. Each concept owns its own
-// `<concept>/registry.ts` so the six downstream widget tasks can run in
-// parallel without contending on a single flat file. Adding a new concept
+// `<concept>/registry.ts` so the six `demo-samples-v1` widget tasks can run
+// in parallel without contending on a single flat file. Adding a new concept
 // here is additive: one import + one spread.
 //
 // Id convention (per design doc §2.3): `<concept-slug>-<kebab-widget-name>`.
@@ -42,6 +41,5 @@ export const LIVE_EXAMPLES: Record<string, ComponentType> = {
   ...LAYOUT_EXAMPLES,
   ...FORMS_EXAMPLES,
   ...DATA_EXAMPLES,
-  'modals-commandpalette': CommandPaletteShowcase,
-  'modals-modalshell': ModalShellShowcase,
+  ...MODALS_EXAMPLES,
 };

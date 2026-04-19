@@ -38,6 +38,10 @@ The full-screen backdrop. Rendered behind everything else in this concept; also 
 
 `onClick` is the dismiss affordance — the modal components wire it to their `onClose` automatically. `zIndex` defaults to `t.zIndexSticky`; `ModalShell` raises it to `t.zIndexModal`.
 
+Live showcase — the trigger mounts the raw primitive with a custom sheet riding on top, so the stacking order is visible. Click the backdrop to dismiss; clicks inside the sheet are swallowed.
+
+<LiveExample id="modals-overlay" />
+
 ## ModalShell
 
 The primitive every non-toast modal builds on. Centered panel with backdrop overlay, focus trap, auto-focus into the panel on mount, focus restoration on unmount, Escape-to-close, and overlay-click-to-close.
@@ -105,6 +109,10 @@ Modal confirmation — title, message, optional body content, Cancel and Confirm
 Cancel fires on the Cancel button, Escape, or overlay click — every path that doesn't commit. The child `children` slot lets you embed an input, a list, or custom body content between the message and the buttons.
 
 `ConfirmDialog` uses `role="alertdialog"` — screen readers announce it more urgently than a plain dialog.
+
+Live showcase — three variants and an async warning branch. The warning path awaits a 1.2s mock before closing so the Confirm button's loading state is visible; Cancel is disabled while the promise is in flight. Try Escape and overlay-click dismiss too.
+
+<LiveExample id="modals-confirm-dialog" />
 
 ## CommandPalette
 
@@ -222,6 +230,10 @@ The validator is a blocking gate, not a message source. Surface errors inside yo
 
 `canClose={false}` removes Escape dismiss, overlay dismiss, and the Back-as-Cancel affordance on step 0. For forced-onboarding flows where the user must complete or explicitly bail out through a visible affordance.
 
+Live showcase — three steps with a sync validator on step 0, an async uniqueness check on step 1 (Actions spin while it resolves), and an async `onComplete` on step 2. Focus moves to the first focusable control each time you advance.
+
+<LiveExample id="modals-wizard-dialog" />
+
 ## Toast notifications
 
 Non-blocking stacked notifications. Unlike the other surfaces in this concept, toasts don't take focus — they slide in, hang for a duration, and dismiss. Used for "Saved", "Copied", "Error updating name"-style status after an action.
@@ -277,7 +289,9 @@ Duration: milliseconds until auto-dismiss (default `4000`).
 
 Toasts are rendered in a portal with `aria-live="polite"`. Consumers do not need to manage mounting, stacking, or timers.
 
-## AlertBanner
+Live showcase — one trigger per visual type plus a "queue three" button that fires three in quick succession so the stacking is visible. Hover any toast to pause its auto-dismiss timer.
+
+<LiveExample id="modals-toast" />
 
 Full-width in-page notification — not a modal. Four severity variants with matching icon defaults and a slide-in animation (respects `prefers-reduced-motion: reduce`). Renders inline at its JSX position; used for persistent state the user should know about (trial expiring, maintenance window, data stale).
 
@@ -291,6 +305,10 @@ Full-width in-page notification — not a modal. Four severity variants with mat
 Variants: `'info'` (default icon: info), `'warning'` (warning), `'error'` (error), `'success'` (check-circle). Pass `icon` to override.
 
 `onDismiss` is optional — without it, no dismiss button renders. Consumers own timing — wrap `onDismiss` in `useEffect` + `setTimeout` if you want auto-dismiss.
+
+Live showcase — all four severity variants stacked. Dismiss any banner to fire its `onDismiss`; reset brings every banner back so the slide-in animation replays.
+
+<LiveExample id="modals-alert-banner" />
 
 ## ErrorBoundary
 
@@ -323,6 +341,10 @@ Custom fallback:
 The default fallback shows the error message, a "Try again" button that resets the boundary, and a collapsible stack-trace toggle. `onError` is called once per caught error — right for logging. Error boundaries do **not** catch errors in event handlers, async code, or SSR — only render errors inside the subtree.
 
 Error boundaries pair well with the other surfaces here: wrap a `ModalShell`'s body in an `ErrorBoundary` so a crash inside the modal doesn't take down the whole page.
+
+Live showcase — two boundaries, one using the default fallback card and one reaching for `EmptyState` as a custom fallback. Each trigger flips a child into a throwing render (error boundaries don't catch errors inside event handlers or async code); the "Try again" reset restores the subtree.
+
+<LiveExample id="modals-error-boundary" />
 
 ## Stacking and z-index
 
