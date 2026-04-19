@@ -40,7 +40,6 @@
     "vitest": "^3.1.1"
   },
   "scripts": {
-    "prepare": "git config core.hooksPath scripts",
     "dev": "bun run --filter '@4lt7ab/demo' dev",
     "build": "bun run --filter '@4lt7ab/core' build && bun run --filter '@4lt7ab/ui' --filter '@4lt7ab/content' --filter '@4lt7ab/animations' build && bun run scripts/verify-exports.ts",
     "test": "bunx vitest run",

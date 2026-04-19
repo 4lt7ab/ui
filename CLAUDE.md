@@ -305,16 +305,6 @@ Pure utility functions (dateUtils, token helpers) should always have tests.
 
 When adding a component, tests are **recommended for components with logic** (keyboard handling, state management, async behavior). Presentational components that only map props to styles don't need tests.
 
-## Pre-commit Checks
-
-A git pre-commit hook (`scripts/pre-commit`) runs automatically on every commit. It typechecks, builds, verifies all exports, then spot-checks the `@4lt7ab/ui` dist for known bundler regressions:
-
-1. Zero `jsxDEV` references (dev JSX crashes consumers at runtime)
-2. No `ModalShell` name-mangling (bun's `forwardRef` export collision bug)
-3. Production `react/jsx-runtime` import (not `react/jsx-dev-runtime`)
-
-The hook is installed automatically via `bun install` (the `prepare` script sets `core.hooksPath`). To skip for WIP commits: `git commit --no-verify`.
-
 ## Changelog
 
 `CHANGELOG.md` at the repo root. Keep it brief — version header + bullet list of what changed. Update the `## Unreleased` section with every commit that changes public API, adds features, or fixes bugs. The `deploy.sh` script automatically stamps `## Unreleased` with the release version and adds a fresh `## Unreleased` section.
