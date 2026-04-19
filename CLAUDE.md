@@ -187,14 +187,17 @@ demo/                            # Vite docs site — concept-organized, dogfood
 │   ├── 07-modals.md
 │   ├── 08-motion.md
 │   └── registry.ts              # import.meta.glob('./*.md', { query: '?raw', eager: true })
-└── examples/                    # headline-organism live showcases embedded as <LiveExample id="..." />
+└── examples/                    # interactive-component live showcases embedded as <LiveExample id="..." />
     ├── LiveExample.tsx          # Card-framed renderer + visible fallback for unregistered ids
-    ├── registry.ts              # { id → React.ComponentType } — single source of truth for ids
     ├── remarkLiveExample.ts     # mdast plugin that rewrites <LiveExample ...> HTML nodes into hast elements
-    ├── theming/ThemePlaygroundLive.tsx
-    ├── forms/{Calendar,DateRangePicker,Combobox}Showcase.tsx
-    ├── data/DataTablePageShowcase.tsx
-    └── modals/{CommandPalette,ModalShell}Showcase.tsx
+    ├── registry.ts              # ROOT — merges per-concept sub-registries into one id → ComponentType map
+    ├── theming/                 # ThemePlaygroundLive, TokenInspector + registry.ts
+    ├── prose/                   # MarkdownEditorLive, ThinkingCycleShowcase + registry.ts
+    ├── layout/                  # AppShellMiniShowcase, TopBar/Header/TabStripShowcase + registry.ts
+    ├── forms/                   # Input+Field, SearchInput, SegmentedControl, ChipPicker, Select, FormLayout, Calendar, Combobox, DateRangePicker showcases + registry.ts
+    ├── data/                    # Table, Table.FilterBar, Pagination, ProgressBar, EmptyState, DataTablePage showcases + registry.ts
+    ├── modals/                  # Overlay, ConfirmDialog, WizardDialog, Toast, AlertBanner, ErrorBoundary, CommandPalette, ModalShell showcases + registry.ts
+    └── motion/                  # ThemeBackgroundCycler + registry.ts
 ```
 
 ### Retired in 0.3.0
@@ -229,7 +232,7 @@ Component surface reduction. Do not re-add these without revisiting the rational
 4. Export from `packages/ui/src/index.ts` (single public barrel; tier folders are not surfaced to consumers)
 5. Use only `semantic` tokens (from `@4lt7ab/core`) for all visual values
 6. **Add a docs entry** — mention the component in the concept doc it belongs to under `demo/docs/` (forms, data, modals, layout, …). A prose paragraph + one ` ```tsx ` code fence is the floor. The public API table in the package README is the matching reference surface; update both in the same commit. See §"Docs" below for the concept map.
-7. **Only if the component is a headline organism** (see the list below), also build a live showcase widget — create `demo/examples/<concept>/MyComponentShowcase.tsx`, register it by id in `demo/examples/registry.ts`, and reference it from the concept doc with `<LiveExample id="<concept>-<kebab-name>" />`. Presentational components and non-headline organisms do not need widgets.
+7. **If the component is interactive, build a `<LiveExample>` widget.** Interactive = any one of: holds state, exposes a user-facing callback (`onChange`, `onSelect`, `onSubmit`, `onClose`, …), or has a keyboard interaction beyond a plain `<button>` (arrow nav, focus trap, shortcut binding). Create `demo/examples/<concept>/MyComponentShowcase.tsx`, register it by id in `demo/examples/<concept>/registry.ts` (the per-concept sub-registry, not the root file), and reference it from the concept doc with `<LiveExample id="<concept>-<kebab-name>" />`. Keep widgets under ~100 LOC and exercise the realistic API (controlled state, typical callbacks, visible state transitions). Purely presentational components (see §"Docs" below for the list) stay as prose + code fence — no widget, no registry entry.
 8. `bun run typecheck && bun run build`
 
 ### To `@4lt7ab/content`
@@ -238,7 +241,7 @@ Component surface reduction. Do not re-add these without revisiting the rational
 2. Create `packages/content/src/components/MyComponent/index.ts` barrel
 3. Export from `packages/content/src/index.ts`
 4. Import tokens and utilities from `@4lt7ab/core` (peer dep)
-5. **Add a docs entry** in `demo/docs/03-prose.md` (or whichever concept the component serves) — same floor as above: prose paragraph + `tsx` code fence + package README update. Content components rarely need live showcase widgets; add one only if the behavior (e.g. an async editing surface, a scramble animation consumers need to *see*) clears clause 3 of the headline criteria.
+5. **Add a docs entry** in `demo/docs/03-prose.md` (or whichever concept the component serves) — same floor as above: prose paragraph + `tsx` code fence + package README update. The interactive-component rule applies here too: if the new component holds state, exposes a callback, or has keyboard behavior, build a `<LiveExample>` widget under `demo/examples/prose/` and register it in `demo/examples/prose/registry.ts`. Presentational prose primitives (`Prose`, `Quote`, `MarginNote`) stay as prose + code fence.
 6. `bun run typecheck && bun run build`
 
 ### To `@4lt7ab/animations`
@@ -336,7 +339,7 @@ The deploy target typechecks, builds, updates all `package.json` versions, stamp
 Documentation has two surfaces:
 
 - **Package READMEs** — the API reference. One file per package, kept in the source tree so consumers can read it on GitHub without running anything.
-- **Docs site at `demo/`** — the concept-organized walkthrough. Eight concept pages (`demo/docs/01-getting-started.md` through `08-motion.md`) teach how the library *thinks* about problem spaces; headline organisms each get an inline live showcase via `<LiveExample id="..." />`. Run it with `bun run dev`. The site dogfoods `@4lt7ab/content`'s `Markdown` component, so gaps in the renderer surface during authoring.
+- **Docs site at `demo/`** — the concept-organized walkthrough. Eight concept pages (`demo/docs/01-getting-started.md` through `08-motion.md`) teach how the library *thinks* about problem spaces; every interactive component gets an inline live showcase via `<LiveExample id="..." />`. Run it with `bun run dev`. The site dogfoods `@4lt7ab/content`'s `Markdown` component, so gaps in the renderer surface during authoring.
 
 **Files:**
 
@@ -347,7 +350,7 @@ Documentation has two surfaces:
 - **`packages/animations/README.md`** -- ThemeBackground usage, standalone API, behavior notes.
 - **`CLAUDE.md`** (root) -- LLM-facing codebase instructions. Update when conventions, architecture, or workflows change.
 - **`demo/docs/*.md`** -- concept docs. Edit the one covering the concept a new component serves; reference its API in prose + a `tsx` code fence.
-- **`demo/examples/**`** -- headline-organism live-showcase widgets + the `<LiveExample>` registry.
+- **`demo/examples/**`** -- interactive-component live-showcase widgets, grouped by concept, each with a sub-registry merged by the root `demo/examples/registry.ts`.
 
 ### Concept map (which docs file does a component belong in?)
 
@@ -362,26 +365,35 @@ Documentation has two surfaces:
 | `07-modals.md` | `Overlay`, `ModalShell`, `ConfirmDialog`, `CommandPalette`, `WizardDialog`, `Toast`, `AlertBanner`, `ErrorBoundary`. |
 | `08-motion.md` | `@4lt7ab/animations` — `ThemeBackground`, per-theme canvas backgrounds, standalone usage. |
 
-### Headline organisms (require a `<LiveExample>` widget)
+### Live showcase widgets (which components get a `<LiveExample>`)
 
-A component earns a dedicated live-showcase widget only if **all three** clauses hold: it's an organism, it passes the reuse + quality test, *and* it benefits visibly from interaction (keyboard nav, async state, layout response that a screenshot undersells).
+**Rule.** A component gets a `<LiveExample>` widget if it is **interactive** — any one of:
 
-Current list (six widgets):
+1. It holds or exposes state (controlled/uncontrolled, open/closed, dirty-state, selected-value, filter state, async loading/error states).
+2. It has a user-facing callback the consumer wires up (`onChange`, `onSelect`, `onSubmit`, `onClose`, `onDismiss`, `onError`, …).
+3. It has a keyboard interaction beyond what a native `<button>` gives you (arrow nav, focus trap, shortcut binding, roving tabindex).
 
-| Headline organism | Concept | Registry id |
+If none of those clauses hold, the component is **presentational** and stays as prose + code fence. Rule and rationale are locked in [Design: demo+docs architecture rebuild](tab://document/01KPKJHFPM4REK1X0FYWA5RCPN) §2.4 (amended 2026-04-19 — this replaced the earlier three-clause "headline organism" gate).
+
+**Registry shape.** Each concept owns its own sub-registry at `demo/examples/<concept>/registry.ts`; the root `demo/examples/registry.ts` re-exports them via shallow spread. Widget ids are `<concept-slug>-<kebab-name>` so cross-concept collisions are structurally impossible. Add a widget by editing only its concept's `registry.ts` — the root file rarely changes.
+
+**Coverage (30 ids across 7 concepts).** Full per-component checklist lives in the design doc §2.8; concept-by-concept counts:
+
+| Concept | Widgets | Examples |
 |---|---|---|
-| `Calendar` | forms | `forms-calendar` |
-| `Combobox` | forms | `forms-combobox` |
-| `DateRangePicker` | forms | `forms-daterangepicker` |
-| `DataTablePage` | data | `data-datatablepage` |
-| `CommandPalette` | modals | `modals-commandpalette` |
-| `ModalShell` | modals | `modals-modalshell` |
+| `theming` | 2 | `theming-theme-playground`, `theming-token-inspector` |
+| `prose` | 2 | `prose-markdown-editor`, `prose-thinking-cycle` |
+| `layout` | 4 | `layout-appshell-mini`, `layout-topbar`, `layout-header`, `layout-tabstrip` |
+| `forms` | 9 | `forms-input-field`, `forms-search-input`, `forms-segmented-control`, `forms-chip-picker`, `forms-select`, `forms-form-layout`, `forms-calendar`, `forms-combobox`, `forms-daterangepicker` |
+| `data` | 6 | `data-table`, `data-table-filter-bar`, `data-pagination`, `data-progress-bar`, `data-empty-state`, `data-datatablepage` |
+| `modals` | 8 | `modals-overlay`, `modals-confirm-dialog`, `modals-wizard-dialog`, `modals-toast`, `modals-alert-banner`, `modals-error-boundary`, `modals-commandpalette`, `modals-modalshell` |
+| `motion` | 1 | `motion-themebackground` |
 
-`ThemePlayground` is also registered (`theming-theme-playground`) as the featured widget for `02-theming.md`, even though it's not a standalone organism — it sits inside the theming doc because showing two themes side-by-side is the clearest way to teach token flow.
+`01-getting-started.md` has no widgets — it's an install + first-render narrative. Code fences only.
 
-Non-headline organisms (`AppShell`, `DetailPage`, `EmptyPage`, `TopBar`, `Select`, `Toast`, `WizardDialog`, `FormLayout`, etc.) live in their concept doc as prose + code fence and do not require a widget. If one later earns clause 3 via real consumer feedback, it graduates; the list is a default, not a cap.
+**Presentational components (code-fence only, no widget).** `Badge`, `StatusDot`, `Divider`, `Skeleton`, `Surface`, `Stack`, `Container`, `Grid`, `Icon`, `Text`, and — from `@4lt7ab/content` — `Prose`, `Quote`, `MarginNote`. Any component not on this list and shipped in `@4lt7ab/ui` / `@4lt7ab/content` / `@4lt7ab/animations` is assumed interactive and earns a widget.
 
-**When adding a component:** update the package README, update the concept doc it belongs to, and (if headline) add a showcase widget + registry entry. Update the Source Layout tree here when the on-disk folder set changes.
+**When adding a component:** update the package README, update the concept doc it belongs to, and — if the component is interactive — add a showcase widget + register its id in the per-concept `registry.ts`. Update the Source Layout tree here when the on-disk folder set changes.
 **When adding a theme:** add it to the built-in themes list in both the root README and this file.
 
 ## Distribution
