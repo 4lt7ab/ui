@@ -9,6 +9,7 @@ import { DeleteFlow } from '../examples/DeleteFlow';
 import { SettingsPage } from '../examples/SettingsPage';
 import { TaskDashboard } from '../examples/TaskDashboard';
 import { AnalyticsDashboard } from '../examples/AnalyticsDashboard';
+import { GlobalCommands } from '../examples/GlobalCommands';
 
 // ---------------------------------------------------------------------------
 // Recipe registry
@@ -37,18 +38,18 @@ const RECIPES: Recipe[] = [
   {
     id: 'project-hub',
     title: 'Project Hub',
-    description: 'Project management with CRUD operations, modal details, loading states, and tag management.',
+    description: 'Project management with CRUD operations, modal details, a FormLayout-based edit dialog, and tag management.',
     icon: 'menu',
-    components: ['DataTablePage', 'Card', 'Badge', 'ProgressBar', 'ModalShell', 'ConfirmDialog', 'Table', 'EmptyState', 'ThemePicker', 'IconButton', 'Text'],
+    components: ['DataTablePage', 'FormLayout', 'Card', 'Badge', 'ProgressBar', 'ModalShell', 'ConfirmDialog', 'Table', 'EmptyState', 'ThemePicker', 'IconButton', 'Text', 'Field', 'Input', 'Select', 'Textarea'],
     category: 'crud',
     Component: ProjectHub,
   },
   {
     id: 'onboarding',
     title: 'Onboarding Wizard',
-    description: 'Multi-step workspace creation flow with form validation, member management, and plan selection.',
+    description: 'Multi-step workspace creation flow built on WizardDialog — per-step validation, member management, and plan summary.',
     icon: 'plus',
-    components: ['ModalShell', 'ProgressBar', 'Input', 'Select', 'Field', 'Button', 'Badge', 'Card', 'IconButton'],
+    components: ['WizardDialog', 'Input', 'Select', 'Textarea', 'Field', 'Button', 'Badge', 'Card', 'Surface', 'Text', 'IconButton', 'Icon', 'Stack'],
     category: 'workflow',
     Component: OnboardingFlow,
   },
@@ -73,11 +74,20 @@ const RECIPES: Recipe[] = [
   {
     id: 'settings-page',
     title: 'Settings Page',
-    description: 'Form-heavy settings page with fields, inputs, selects, and action buttons.',
+    description: 'Sectioned settings form built on FormLayout — dirty-state gating, sticky save/cancel, and DirtyOnChange auto-detection.',
     icon: 'settings',
-    components: ['Header', 'Card', 'Field', 'Input', 'Select', 'Textarea', 'Button'],
+    components: ['FormLayout', 'Field', 'Input', 'Select', 'Textarea'],
     category: 'workflow',
     Component: SettingsPage,
+  },
+  {
+    id: 'global-commands',
+    title: 'Global Commands',
+    description: 'Cmd+K command palette with Navigation, Actions, and Recent groups — keyword matching, shortcut hints, and live activity log.',
+    icon: 'search',
+    components: ['CommandPalette', 'Card', 'Surface', 'Button', 'Badge', 'Icon', 'SearchInput', 'Text', 'Stack'],
+    category: 'workflow',
+    Component: GlobalCommands,
   },
   {
     id: 'analytics-dashboard',

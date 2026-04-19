@@ -1,8 +1,13 @@
 import { useState } from 'react';
 import {
-  ModalShell, Stack, Button, Field, Input, Select, Textarea,
-  ProgressBar, Card, Badge, Icon, IconButton,
+  WizardDialog, Stack, Button, Field, Input, Select, Textarea,
+  Card, Badge, Icon, IconButton, Surface, Text,
 } from '@4lt7ab/ui';
+
+// OnboardingFlow — canonical WizardDialog demo. The organism owns the modal
+// chrome, progress indicator, Back/Next/Finish wiring, and per-step focus.
+// The consumer owns field values, inter-step validation (return `false` from
+// `validate` to block advance), and the final `onComplete` network call.
 
 // ---------------------------------------------------------------------------
 // Options
@@ -22,10 +27,11 @@ const PLAN_OPTIONS = [
   { value: 'enterprise', label: 'Enterprise \u2014 Custom' },
 ];
 
-const TOTAL_STEPS = 3;
+const STEP_LABELS = ['Workspace', 'Team', 'Preferences'];
 
 // ---------------------------------------------------------------------------
-// Step components
+// Step components — pure-presentational, wired through props. No modal /
+// progress chrome — WizardDialog owns all of that.
 // ---------------------------------------------------------------------------
 
 function StepWorkspace({ name, onName, role, onRole }: {
@@ -37,10 +43,10 @@ function StepWorkspace({ name, onName, role, onRole }: {
   return (
     <Stack gap="lg">
       <Stack gap="xs">
-        <h3 style={{ margin: 0, fontSize: '1.125rem', fontWeight: 600 }}>Create your workspace</h3>
-        <span style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
+        <Text as="p" size="lg" weight="semibold">Create your workspace</Text>
+        <Text as="p" size="sm" tone="secondary">
           Give your workspace a name and tell us what you do.
-        </span>
+        </Text>
       </Stack>
       <Field label="Workspace name" required>
         <Input
@@ -77,13 +83,15 @@ function StepTeam({ email, onEmail, emailRole, onEmailRole, members, onAdd, onRe
   return (
     <Stack gap="lg">
       <Stack gap="xs">
-        <h3 style={{ margin: 0, fontSize: '1.125rem', fontWeight: 600 }}>Invite your team</h3>
-        <span style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
+        <Text as="p" size="lg" weight="semibold">Invite your team</Text>
+        <Text as="p" size="sm" tone="secondary">
           Add teammates by email. You can always invite more later.
-        </span>
+        </Text>
       </Stack>
 
       <Stack direction="horizontal" gap="sm" align="end">
+        {/* Allowlist: email field expands to fill the row next to the fixed-width
+            Role select + Add button. No existing atom exposes `flex: 1`. */}
         <div style={{ flex: 1 }}>
           <Field label="Email">
             <Input
@@ -95,46 +103,40 @@ function StepTeam({ email, onEmail, emailRole, onEmailRole, members, onAdd, onRe
             />
           </Field>
         </div>
-        <div>
-          <Field label="Role">
-            <Select.Root value={emailRole} onValueChange={onEmailRole}>
-              <Select.Trigger>
-                <Select.Value />
-              </Select.Trigger>
-              <Select.Content>
-                {ROLE_OPTIONS.map((o) => (
-                  <Select.Item key={o.value} value={o.value}>{o.label}</Select.Item>
-                ))}
-              </Select.Content>
-            </Select.Root>
-          </Field>
-        </div>
+        <Field label="Role">
+          <Select.Root value={emailRole} onValueChange={onEmailRole}>
+            <Select.Trigger>
+              <Select.Value />
+            </Select.Trigger>
+            <Select.Content>
+              {ROLE_OPTIONS.map((o) => (
+                <Select.Item key={o.value} value={o.value}>{o.label}</Select.Item>
+              ))}
+            </Select.Content>
+          </Select.Root>
+        </Field>
         <Button variant="secondary" onClick={onAdd}>Add</Button>
       </Stack>
 
       {members.length > 0 && (
         <Stack gap="sm">
-          <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
+          <Text size="xs" tone="muted">
             {members.length} member{members.length !== 1 ? 's' : ''} invited
-          </span>
+          </Text>
           {members.map((m) => (
-            <div key={m.email} style={{
-                padding: 'var(--space-xs) var(--space-sm)',
-                borderRadius: 'var(--radius-md)',
-                background: 'var(--color-surface-raised)',
-              }}>
-            <Stack
-              direction="horizontal"
-              justify="space-between"
-              align="center"
-            >
-              <Stack direction="horizontal" gap="sm" align="center">
-                <span style={{ fontSize: '0.8125rem', fontFamily: 'var(--font-mono)' }}>{m.email}</span>
-                <Badge>{m.role}</Badge>
+            <Surface key={m.email} level="raised" padding="xs" radius="md">
+              <Stack
+                direction="horizontal"
+                justify="space-between"
+                align="center"
+              >
+                <Stack direction="horizontal" gap="sm" align="center">
+                  <Text size="sm" family="mono">{m.email}</Text>
+                  <Badge>{m.role}</Badge>
+                </Stack>
+                <IconButton icon="close" size="sm" onClick={() => onRemove(m.email)} aria-label={`Remove ${m.email}`} />
               </Stack>
-              <IconButton icon="close" size="sm" onClick={() => onRemove(m.email)} aria-label={`Remove ${m.email}`} />
-            </Stack>
-            </div>
+            </Surface>
           ))}
         </Stack>
       )}
@@ -153,10 +155,10 @@ function StepPreferences({ plan, onPlan, description, onDescription, workspaceNa
   return (
     <Stack gap="lg">
       <Stack gap="xs">
-        <h3 style={{ margin: 0, fontSize: '1.125rem', fontWeight: 600 }}>Choose your plan</h3>
-        <span style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
+        <Text as="p" size="lg" weight="semibold">Choose your plan</Text>
+        <Text as="p" size="sm" tone="secondary">
           Pick a plan that fits your team. You can upgrade anytime.
-        </span>
+        </Text>
       </Stack>
 
       <Field label="Plan">
@@ -181,31 +183,29 @@ function StepPreferences({ plan, onPlan, description, onDescription, workspaceNa
         />
       </Field>
 
-      {/* Summary */}
-      <div style={{ background: 'var(--color-surface-raised)', borderRadius: 'var(--radius-md)' }}>
-      <Card variant="flat" padding="md">
-        <Stack gap="sm">
-          <span style={{
-            fontSize: '0.7rem',
-            fontWeight: 600,
-            color: 'var(--color-text-muted)',
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em',
-          }}>
-            Summary
-          </span>
-          <SummaryRow label="Workspace" value={workspaceName || '\u2014'} />
-          <SummaryRow label="Team">
-            <Badge variant="info">{members.length} member{members.length !== 1 ? 's' : ''}</Badge>
-          </SummaryRow>
-          <SummaryRow label="Plan">
-            <Badge variant={plan === 'enterprise' ? 'success' : plan === 'pro' ? 'info' : 'default'}>
-              {plan || 'starter'}
-            </Badge>
-          </SummaryRow>
-        </Stack>
-      </Card>
-      </div>
+      {/* Summary — raised Surface hosting a flat Card for layered depth */}
+      <Surface level="raised" radius="md">
+        <Card variant="flat" padding="md">
+          <Stack gap="sm">
+            <Text
+              size="xs"
+              weight="semibold"
+              tone="muted"
+            >
+              SUMMARY
+            </Text>
+            <SummaryRow label="Workspace" value={workspaceName || '\u2014'} />
+            <SummaryRow label="Team">
+              <Badge variant="info">{members.length} member{members.length !== 1 ? 's' : ''}</Badge>
+            </SummaryRow>
+            <SummaryRow label="Plan">
+              <Badge variant={plan === 'enterprise' ? 'success' : plan === 'pro' ? 'info' : 'default'}>
+                {plan || 'starter'}
+              </Badge>
+            </SummaryRow>
+          </Stack>
+        </Card>
+      </Surface>
     </Stack>
   );
 }
@@ -217,8 +217,8 @@ function SummaryRow({ label, value, children }: {
 }): React.JSX.Element {
   return (
     <Stack direction="horizontal" justify="space-between" align="center">
-      <span style={{ fontSize: '0.8125rem', color: 'var(--color-text-secondary)' }}>{label}</span>
-      {children ?? <span style={{ fontSize: '0.8125rem', fontWeight: 500 }}>{value}</span>}
+      <Text size="sm" tone="secondary">{label}</Text>
+      {children ?? <Text size="sm" weight="medium">{value}</Text>}
     </Stack>
   );
 }
@@ -229,7 +229,6 @@ function SummaryRow({ label, value, children }: {
 
 export function OnboardingFlow(): React.JSX.Element {
   const [open, setOpen] = useState(false);
-  const [step, setStep] = useState(1);
   const [done, setDone] = useState(false);
 
   // Step 1
@@ -247,15 +246,14 @@ export function OnboardingFlow(): React.JSX.Element {
   const [plan, setPlan] = useState('starter');
   const [description, setDescription] = useState('');
 
-  const addMember = () => {
+  const addMember = (): void => {
     if (inviteEmail.trim() && !members.some((m) => m.email === inviteEmail.trim())) {
       setMembers([...members, { email: inviteEmail.trim(), role: inviteRole }]);
       setInviteEmail('');
     }
   };
 
-  const reset = () => {
-    setStep(1);
+  const reset = (): void => {
     setDone(false);
     setWorkspaceName('');
     setRole('');
@@ -266,26 +264,26 @@ export function OnboardingFlow(): React.JSX.Element {
     setDescription('');
   };
 
-  const finish = () => {
-    setOpen(false);
+  const handleComplete = async (): Promise<void> => {
+    // Simulate network call so the Finish button flips into its busy state.
+    await new Promise((resolve) => setTimeout(resolve, 400));
     setDone(true);
   };
 
   return (
     <>
       {/* Landing state */}
-      <div style={{ padding: 'var(--space-2xl) 0' }}>
       <Stack gap="lg" align="center">
         {done ? (
           <>
-            <span style={{ color: 'var(--color-success)' }}><Icon name="check-circle" size="xl" /></span>
-            <span style={{ fontSize: '1.125rem', fontWeight: 600 }}>
+            <Text tone="success"><Icon name="check-circle" size="xl" /></Text>
+            <Text size="lg" weight="semibold">
               {workspaceName || 'Workspace'} is ready
-            </span>
-            <span style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)', textAlign: 'center', maxWidth: 400 }}>
+            </Text>
+            <Text size="sm" tone="secondary" align="center">
               Your workspace has been created with {members.length} team member{members.length !== 1 ? 's' : ''} on
               the {plan} plan.
-            </span>
+            </Text>
             <Stack direction="horizontal" gap="sm">
               <Button variant="ghost" onClick={() => { reset(); setOpen(true); }}>
                 Start over
@@ -297,96 +295,66 @@ export function OnboardingFlow(): React.JSX.Element {
           </>
         ) : (
           <>
-            <span style={{ color: 'var(--color-text-muted)' }}><Icon name="plus" size="xl" /></span>
-            <span style={{ fontSize: '1.125rem', fontWeight: 600 }}>Create a new workspace</span>
-            <span style={{
-              fontSize: '0.875rem',
-              color: 'var(--color-text-secondary)',
-              textAlign: 'center',
-              maxWidth: 400,
-            }}>
+            <Text tone="muted"><Icon name="plus" size="xl" /></Text>
+            <Text size="lg" weight="semibold">Create a new workspace</Text>
+            <Text size="sm" tone="secondary" align="center">
               Set up your team workspace in three quick steps. You can always change these settings later.
-            </span>
+            </Text>
             <Button variant="primary" onClick={() => { reset(); setOpen(true); }}>
               Get started
             </Button>
           </>
         )}
       </Stack>
-      </div>
 
-      {/* Modal wizard */}
-      {open && (
-        <ModalShell onClose={() => setOpen(false)} width="lg">
-          <Stack gap="xl">
-            {/* Progress bar */}
-            <Stack gap="sm">
-              <Stack direction="horizontal" justify="space-between" align="center">
-                <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
-                  Step {step} of {TOTAL_STEPS}
-                </span>
-                <span style={{ fontSize: '0.75rem', fontWeight: 600 }}>
-                  {step === 1 ? 'Workspace' : step === 2 ? 'Team' : 'Preferences'}
-                </span>
-              </Stack>
-              <ProgressBar
-                segments={[
-                  { value: step, color: 'primary' },
-                  { value: TOTAL_STEPS - step, color: 'muted' },
-                ]}
-                height="sm"
-              />
-            </Stack>
+      <WizardDialog.Root
+        open={open}
+        onOpenChange={setOpen}
+        onComplete={handleComplete}
+        width="lg"
+      >
+        <WizardDialog.Title>Create a new workspace</WizardDialog.Title>
+        <WizardDialog.Progress stepLabels={STEP_LABELS} />
 
-            {/* Step content */}
-            {step === 1 && (
-              <StepWorkspace
-                name={workspaceName}
-                onName={setWorkspaceName}
-                role={role}
-                onRole={setRole}
-              />
-            )}
-            {step === 2 && (
-              <StepTeam
-                email={inviteEmail}
-                onEmail={setInviteEmail}
-                emailRole={inviteRole}
-                onEmailRole={setInviteRole}
-                members={members}
-                onAdd={addMember}
-                onRemove={(e) => setMembers(members.filter((m) => m.email !== e))}
-              />
-            )}
-            {step === 3 && (
-              <StepPreferences
-                plan={plan}
-                onPlan={setPlan}
-                description={description}
-                onDescription={setDescription}
-                workspaceName={workspaceName}
-                members={members}
-              />
-            )}
+        <WizardDialog.Step
+          index={0}
+          // Block advance until the workspace has a name — WizardDialog will
+          // no-op Next when `validate` returns false.
+          validate={() => workspaceName.trim().length > 0}
+        >
+          <StepWorkspace
+            name={workspaceName}
+            onName={setWorkspaceName}
+            role={role}
+            onRole={setRole}
+          />
+        </WizardDialog.Step>
 
-            {/* Navigation */}
-            <Stack direction="horizontal" justify="space-between">
-              <Button
-                variant="ghost"
-                onClick={() => (step === 1 ? setOpen(false) : setStep(step - 1))}
-              >
-                {step === 1 ? 'Cancel' : 'Back'}
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => (step < TOTAL_STEPS ? setStep(step + 1) : finish())}
-              >
-                {step === TOTAL_STEPS ? 'Create workspace' : 'Continue'}
-              </Button>
-            </Stack>
-          </Stack>
-        </ModalShell>
-      )}
+        <WizardDialog.Step index={1}>
+          <StepTeam
+            email={inviteEmail}
+            onEmail={setInviteEmail}
+            emailRole={inviteRole}
+            onEmailRole={setInviteRole}
+            members={members}
+            onAdd={addMember}
+            onRemove={(e) => setMembers(members.filter((m) => m.email !== e))}
+          />
+        </WizardDialog.Step>
+
+        <WizardDialog.Step index={2}>
+          <StepPreferences
+            plan={plan}
+            onPlan={setPlan}
+            description={description}
+            onDescription={setDescription}
+            workspaceName={workspaceName}
+            members={members}
+          />
+        </WizardDialog.Step>
+
+        <WizardDialog.Actions finishLabel="Create workspace" />
+      </WizardDialog.Root>
     </>
   );
 }

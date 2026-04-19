@@ -3,7 +3,7 @@ import {
   Card, Badge, Button, IconButton, Icon,
   ModalShell, ConfirmDialog, EmptyState, Stack, Header, Text,
   ProgressBar, tagChipStyle, ThemePicker,
-  DataTablePage,
+  DataTablePage, FormLayout, Field, Input, Select, Textarea,
   Table, TableHeader, TableHeaderCell, TableBody, TableRow, TableCell,
 } from '@4lt7ab/ui';
 import type { IconName } from '@4lt7ab/ui';
@@ -139,6 +139,9 @@ function NavButton({ icon, active, label, onClick }: {
   label: string;
   onClick: () => void;
 }): React.JSX.Element {
+  // Allowlist: nav pill background depends on `active`. No existing atom
+  // exposes a "highlighted when selected" container variant, and Surface's
+  // levels are static. Kept narrow (3 props) and referenced via tokens only.
   return (
     <div style={{
       background: active ? 'var(--color-action-secondary-hover)' : 'transparent',
@@ -155,10 +158,11 @@ function NavButton({ icon, active, label, onClick }: {
   );
 }
 
-function ProjectDetail({ project, onClose, onDelete }: {
+function ProjectDetail({ project, onClose, onDelete, onEdit }: {
   project: Project;
   onClose: () => void;
   onDelete: () => void;
+  onEdit: () => void;
 }): React.JSX.Element {
   const doneTasks = project.tasks.filter((t) => t.status === 'done').length;
   const totalTasks = project.tasks.length;
@@ -176,6 +180,7 @@ function ProjectDetail({ project, onClose, onDelete }: {
           </Stack>
           <Stack direction="horizontal" gap="xs" align="center">
             <Badge variant={projectBadge(project.status)}>{project.status}</Badge>
+            <IconButton icon="edit" size="sm" onClick={onEdit} aria-label="Edit project" />
             <IconButton icon="trash" size="sm" onClick={onDelete} aria-label="Delete project" />
           </Stack>
         </Stack>
@@ -243,6 +248,100 @@ function ProjectDetail({ project, onClose, onDelete }: {
   );
 }
 
+// ProjectEditModal — canonical FormLayout-inside-ModalShell pattern. The modal
+// owns the dialog chrome; FormLayout owns the section headers, dirty-state
+// gating, and the sticky action bar (container-sticky so the bar pins to the
+// modal body instead of the viewport).
+function ProjectEditModal({ project, onClose, onSave }: {
+  project: Project;
+  onClose: () => void;
+  onSave: (patch: Pick<Project, 'name' | 'description' | 'status' | 'tags'>) => void;
+}): React.JSX.Element {
+  const [name, setName] = useState(project.name);
+  const [description, setDescription] = useState(project.description);
+  const [status, setStatus] = useState<Project['status']>(project.status);
+  const [tagsText, setTagsText] = useState(project.tags.join(', '));
+
+  const handleSave = async (): Promise<void> => {
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    onSave({
+      name,
+      description,
+      status,
+      tags: tagsText.split(',').map((t) => t.trim()).filter((t) => t.length > 0),
+    });
+    onClose();
+  };
+
+  return (
+    <ModalShell onClose={onClose} width="lg">
+      <FormLayout.Root onSave={handleSave} onCancel={onClose} sticky="container">
+        <FormLayout.Header
+          title={`Edit ${project.name}`}
+          description="Update project metadata. Changes apply immediately on save."
+        />
+
+        <FormLayout.DirtyOnChange>
+          <FormLayout.Section>
+            <FormLayout.SectionHeader
+              title="General"
+              description="Name and description visible across the workspace."
+            />
+            <FormLayout.SectionBody>
+              <Field label="Name" required>
+                <Input value={name} onChange={(e) => setName(e.target.value)} />
+              </Field>
+              <Field label="Description">
+                <Textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  rows={3}
+                />
+              </Field>
+            </FormLayout.SectionBody>
+          </FormLayout.Section>
+
+          <FormLayout.Section>
+            <FormLayout.SectionHeader
+              title="Status"
+              description="Used to filter the project list and drive automation."
+            />
+            <FormLayout.SectionBody>
+              <Field label="Project status">
+                <Select.Root
+                  value={status}
+                  onValueChange={(v) => setStatus(v as Project['status'])}
+                >
+                  <Select.Trigger>
+                    <Select.Value />
+                  </Select.Trigger>
+                  <Select.Content>
+                    <Select.Item value="planning">Planning</Select.Item>
+                    <Select.Item value="active">Active</Select.Item>
+                    <Select.Item value="complete">Complete</Select.Item>
+                  </Select.Content>
+                </Select.Root>
+              </Field>
+              <Field label="Tags" help="Comma-separated. Used for filtering and search.">
+                <Input
+                  value={tagsText}
+                  onChange={(e) => setTagsText(e.target.value)}
+                  placeholder="design, frontend, docs"
+                />
+              </Field>
+            </FormLayout.SectionBody>
+          </FormLayout.Section>
+        </FormLayout.DirtyOnChange>
+
+        <FormLayout.Actions>
+          <FormLayout.CancelButton />
+          <FormLayout.SaveButton>Save changes</FormLayout.SaveButton>
+        </FormLayout.Actions>
+      </FormLayout.Root>
+    </ModalShell>
+  );
+}
+
 // ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
@@ -251,6 +350,7 @@ export function ProjectHub(): React.JSX.Element {
   const [view, setView] = useState<View>('projects');
   const [projects, setProjects] = useState(INITIAL_PROJECTS);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
   const [page, setPage] = useState(1);
 
@@ -263,6 +363,15 @@ export function ProjectHub(): React.JSX.Element {
     setSelectedProject(null);
   };
 
+  const handleSaveProject = (patch: Pick<Project, 'name' | 'description' | 'status' | 'tags'>): void => {
+    if (editingProject === null) return;
+    setProjects((prev) =>
+      prev.map((p) => (p.id === editingProject.id ? { ...p, ...patch } : p)),
+    );
+    // Keep the detail modal in sync if the user opens it again.
+    setSelectedProject((prev) => (prev && prev.id === editingProject.id ? { ...prev, ...patch } : prev));
+  };
+
   const navItems: { icon: IconName; view: View; label: string }[] = [
     { icon: 'menu', view: 'projects', label: 'Projects' },
     { icon: 'check-circle', view: 'archived', label: 'Archived' },
@@ -270,9 +379,12 @@ export function ProjectHub(): React.JSX.Element {
   ];
 
   return (
+    // Allowlist: hub shell pin-height so the viewport stays stable while
+    // switching views. Pure layout, no text semantics.
     <div style={{ minHeight: 500 }}>
       <Stack direction="horizontal" gap="md">
-        {/* Sidebar navigation */}
+        {/* Sidebar navigation — allowlist: consumer-owned nav pill column with
+            panel background. Pure layout wrapper around the NavButton group. */}
         <nav style={{
           display: 'flex',
           flexDirection: 'column',
@@ -294,7 +406,8 @@ export function ProjectHub(): React.JSX.Element {
           ))}
         </nav>
 
-        {/* Main content */}
+        {/* Main content — allowlist: flex-1 main column next to the fixed
+            sidebar. `minWidth: 0` lets inner tables truncate correctly. */}
         <div style={{ flex: 1, minWidth: 0 }}>
           {/* Projects — DataTablePage compound */}
           {view === 'projects' && (
@@ -333,6 +446,8 @@ export function ProjectHub(): React.JSX.Element {
                         <Badge variant={projectBadge(project.status)}>{project.status}</Badge>
                       </TableCell>
                       <TableCell>
+                        {/* Allowlist: fixed-width progress track inside a flex
+                            table cell. ProgressBar itself is 100%-width. */}
                         <div style={{ width: '8rem' }}>
                           <ProgressBar
                             segments={[
@@ -411,6 +526,19 @@ export function ProjectHub(): React.JSX.Element {
             project={selectedProject}
             onClose={() => setSelectedProject(null)}
             onDelete={() => setDeleteTarget(selectedProject.name)}
+            onEdit={() => {
+              setEditingProject(selectedProject);
+              setSelectedProject(null);
+            }}
+          />
+        )}
+
+        {/* Project edit modal — FormLayout-inside-ModalShell */}
+        {editingProject && (
+          <ProjectEditModal
+            project={editingProject}
+            onClose={() => setEditingProject(null)}
+            onSave={handleSaveProject}
           />
         )}
 
