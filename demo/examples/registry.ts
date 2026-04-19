@@ -4,7 +4,7 @@ import { MOTION_EXAMPLES } from './motion/registry';
 import { PROSE_EXAMPLES } from './prose/registry';
 import { LAYOUT_EXAMPLES } from './layout/registry';
 import { FORMS_EXAMPLES } from './forms/registry';
-import { DataTablePageShowcase } from './data/DataTablePageShowcase';
+import { DATA_EXAMPLES } from './data/registry';
 import { CommandPaletteShowcase } from './modals/CommandPaletteShowcase';
 import { ModalShellShowcase } from './modals/ModalShellShowcase';
 
@@ -41,7 +41,7 @@ export const LIVE_EXAMPLES: Record<string, ComponentType> = {
   ...PROSE_EXAMPLES,
   ...LAYOUT_EXAMPLES,
   ...FORMS_EXAMPLES,
-  'data-datatablepage': DataTablePageShowcase,
+  ...DATA_EXAMPLES,
   'modals-commandpalette': CommandPaletteShowcase,
   'modals-modalshell': ModalShellShowcase,
 };

@@ -75,6 +75,8 @@ import {
 - `TableGroupHeader` — full-width subheading row. Pass `colSpan` to match the column count.
 - `TableEmptyRow` — centered "no data" row; same `colSpan` story.
 
+<LiveExample id="data-table" />
+
 ### Filter bar
 
 `Table.FilterBar` ships in two modes. Pick one per bar — passing both `filters` and `children` throws.
@@ -116,6 +118,8 @@ The text filter uses `SearchInput`'s debounce; the select filter commits immedia
 ```
 
 Both modes share the controlled `values` / `onChange` contract: one record keyed by filter key, and one callback that receives the entire updated record on any change.
+
+<LiveExample id="data-table-filter-bar" />
 
 ## DataTablePage
 
@@ -204,6 +208,8 @@ Customize the text via the optional `labels` prop:
 
 The Previous button is disabled on page 1; Next is disabled on the last page. If `totalPages <= 1`, the component renders nothing.
 
+<LiveExample id="data-pagination" />
+
 ## Badge
 
 Small uppercase pill for status, category, or metadata. Six semantic variants — `default`, `primary`, `success`, `warning`, `error`, `info` — and two sizes (`default`, `xs`).
@@ -250,6 +256,8 @@ Horizontal segmented bar. Each segment has a `value` (the share) and a `color` (
 
 Heights: `sm` (6px), `md` (10px, default), `lg` (14px). Single-segment bars work fine for classic "N%" progress; the `label` is surfaced as the segment's `title` tooltip.
 
+<LiveExample id="data-progress-bar" />
+
 ## Skeleton
 
 Placeholder loading shape that pulses with the active theme's accent color. Width can be a number (px) or a percentage string (`'60%'`). Siblings stagger automatically — when several Skeletons sit next to each other, a subtle wave travels through in DOM order.
@@ -285,6 +293,8 @@ Two surfaces. Pick by scope.
 ```
 
 `variant`: `'plain'` (default) renders without a wrapper; `'card'` wraps the message in a flat `Card`.
+
+<LiveExample id="data-empty-state" />
 
 **`EmptyPage.*`** — full-screen zero-state. Right for first-run experiences, permission-denied screens, 404-like surfaces where the entire page body is the empty state. Compound parts let you compose the pieces that actually apply: icon, title, description, actions, and a `Tips` list for hints.
 
