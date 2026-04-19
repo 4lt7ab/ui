@@ -33,6 +33,11 @@ export { ModalShell, modalHeadingStyle, modalFooterStyle } from './components/or
 export type { ModalShellProps } from './components/organisms/ModalShell';
 export { sectionLabelStyle } from './styles/sectionLabelStyle';
 export { tagChipStyle } from './styles/tagChipStyle';
+export {
+  pillToggleBaseStyle,
+  pillToggleSelectedStyle,
+  pillToggleUnselectedStyle,
+} from './styles/pillToggleStyle';
 export * from './components/molecules/ConfirmDialog';
 export * from './components/atoms/StatusDot';
 export * from './components/organisms/Table';

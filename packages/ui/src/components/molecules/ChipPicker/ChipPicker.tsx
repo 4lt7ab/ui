@@ -1,7 +1,11 @@
 import { useCallback, useId, useState } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
 import { sectionLabelStyle } from '../../../styles/sectionLabelStyle';
-import type { CSSProperties } from 'react';
+import {
+  pillToggleBaseStyle,
+  pillToggleSelectedStyle,
+  pillToggleUnselectedStyle,
+} from '../../../styles/pillToggleStyle';
 
 /** A single chip option. */
 export interface ChipItem {
@@ -95,23 +99,6 @@ export function ChipPicker({
     groups.unshift(ungrouped);
   }
 
-  const chipStyle = (isSelected: boolean): CSSProperties => ({
-    display: 'inline-flex',
-    alignItems: 'center',
-    padding: `${t.spaceXs} ${t.spaceSm}`,
-    fontSize: t.fontSizeSm,
-    fontFamily: t.fontSans,
-    fontWeight: t.fontWeightMedium,
-    lineHeight: t.lineHeightTight,
-    color: isSelected ? t.colorActionPrimary : t.colorText,
-    background: isSelected ? t.colorActionSecondary : 'transparent',
-    border: `${t.borderWidthDefault} solid ${isSelected ? t.colorActionPrimary : t.colorBorder}`,
-    borderRadius: t.radiusFull,
-    cursor: 'pointer',
-    transition: `background ${t.transitionFast}, border-color ${t.transitionFast}, color ${t.transitionFast}`,
-    outline: 'none',
-  });
-
   const renderChips = (chips: ChipItem[]): React.JSX.Element => (
     <div
       style={{
@@ -128,7 +115,10 @@ export function ChipPicker({
             type="button"
             aria-pressed={isSelected}
             onClick={() => toggle(item.value)}
-            style={chipStyle(isSelected)}
+            style={{
+              ...pillToggleBaseStyle,
+              ...(isSelected ? pillToggleSelectedStyle : pillToggleUnselectedStyle),
+            }}
           >
             {item.label}
           </button>
