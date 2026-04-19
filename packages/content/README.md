@@ -75,9 +75,37 @@ Convenience wrapper that renders a markdown string inside a Prose container with
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `children` | `string` | *required* | Markdown source text |
+| `children` | `string \| null` | — | Markdown source text. Required in read-only mode; optional in `editable` mode (empty/null shows the placeholder). |
+| `id` | `string` | — | Optional id on the rendered root element |
+| `data-testid` | `string` | — | Optional test id |
+| `editable` | `boolean` | `false` | Opt into three-state click-to-edit mode (empty / read-only / textarea). |
+| `editing` | `boolean` | `false` | Whether the editable section is in the textarea state. |
+| `value` | `string` | — | Current textarea value during editing. |
+| `onStartEdit` | `() => void` | — | Called when the user clicks the content or the empty-state placeholder. |
+| `onEditChange` | `(value: string) => void` | — | Called on textarea change. |
+| `onSave` | `() => void` | — | Called on save (Save button or Cmd/Ctrl+Enter). |
+| `onCancel` | `() => void` | — | Called on cancel (Cancel button or Escape). |
+| `fieldLabel` | `string` | — | Accessible label for the editable section. |
+| `rows` | `number` | `4` | Number of textarea rows when editing. |
+| `placeholder` | `string` | `'Click to add content...'` | Placeholder text for the empty state. |
 
-Extends `HTMLAttributes<HTMLDivElement>` (all props passed through to Prose).
+Editable-mode call site:
+
+```tsx
+<Markdown
+  editable
+  editing={editing}
+  value={editValue}
+  onStartEdit={() => { setEditValue(content ?? ''); setEditing(true); }}
+  onEditChange={setEditValue}
+  onSave={() => { setContent(editValue || null); setEditing(false); }}
+  onCancel={() => setEditing(false)}
+  fieldLabel="Summary"
+  rows={6}
+>
+  {content}
+</Markdown>
+```
 
 Peer dependencies: `react-markdown` ^9.0.0, `remark-gfm` ^4.0.0.
 
@@ -145,36 +173,9 @@ Inline annotation that appears in the right margin on wide screens (≥1100px). 
 
 Backward-compatibility alias for `<Quote variant="epigraph">`. Prefer `Quote` for new call sites.
 
-### TextSection
+### TextSection (deprecated)
 
-Three-state click-to-edit markdown block. Renders content through the Markdown component, switches to a textarea for editing, and shows a placeholder when empty.
-
-```tsx
-<TextSection
-  content={content}
-  editing={editing}
-  editValue={editValue}
-  onStartEdit={() => { setEditValue(content ?? ''); setEditing(true); }}
-  onEditChange={setEditValue}
-  onSave={() => { setContent(editValue || null); setEditing(false); }}
-  onCancel={() => setEditing(false)}
-  fieldLabel="Summary"
-  rows={6}
-/>
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `content` | `string \| null` | — | Current markdown content. Empty/null = empty state |
-| `editing` | `boolean` | *required* | Whether the section is in editing mode |
-| `editValue` | `string` | *required* | Current textarea value during editing |
-| `onStartEdit` | `() => void` | *required* | Called when user clicks content or empty state |
-| `onEditChange` | `(value: string) => void` | *required* | Called on textarea change |
-| `onSave` | `() => void` | *required* | Called on save (button or Cmd/Ctrl+Enter) |
-| `onCancel` | `() => void` | *required* | Called on cancel (button or Escape) |
-| `fieldLabel` | `string` | — | Accessible label for the section |
-| `rows` | `number` | `4` | Number of textarea rows |
-| `placeholder` | `string` | `'Click to add content...'` | Placeholder for empty state |
+Backward-compatibility alias for `<Markdown editable>`. Prefer `<Markdown editable>` for new call sites — see the 0.4.0 upgrade guide §textsection for the one-line migration. All props are forwarded to Markdown's editable mode; behavior (three states, Cmd/Ctrl+Enter save, Escape cancel, Button-shaped Save/Cancel controls) is unchanged.
 
 ### ThinkingCycle
 

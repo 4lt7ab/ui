@@ -1,8 +1,4 @@
-import { useCallback } from 'react';
-import type { KeyboardEvent } from 'react';
-import { semantic as t, useInjectStyles } from '@4lt7ab/core';
 import { Markdown } from '../Markdown';
-import { MIX_HOVER } from '../../constants';
 
 export interface TextSectionProps {
   /** Current content (markdown string). Empty/null = empty state. */
@@ -27,37 +23,16 @@ export interface TextSectionProps {
   placeholder?: string;
 }
 
-const STYLES_ID = 'alttab-text-section';
-
-const textSectionCSS = /* css */ `
-  .alttab-text-section-content {
-    cursor: pointer;
-    border-radius: ${t.radiusMd};
-    transition: background ${t.transitionBase};
-  }
-
-  .alttab-text-section-content:hover {
-    background: color-mix(in srgb, ${t.colorText} ${MIX_HOVER}, transparent);
-  }
-
-  .alttab-text-section-empty {
-    cursor: pointer;
-    border-radius: ${t.radiusMd};
-    padding: ${t.spaceSm} ${t.spaceMd};
-    font-style: italic;
-    color: ${t.colorTextMuted};
-    transition: background ${t.transitionBase};
-  }
-
-  .alttab-text-section-empty:hover {
-    background: color-mix(in srgb, ${t.colorText} ${MIX_HOVER}, transparent);
-  }
-`;
-
 /**
- * A three-state editable text section that couples Markdown rendering
- * with textarea editing. Click content or empty state to start editing;
- * save with a button or Cmd/Ctrl+Enter; cancel with a button or Escape.
+ * @deprecated Use `<Markdown editable>` instead. `TextSection` is a
+ * backward-compatibility alias for the editable-mode rendering in
+ * `Markdown` and will be removed in a future major release. See the
+ * 0.4.0 upgrade guide, §textsection, for the migration snippet.
+ *
+ * Three-state click-to-edit markdown section. Delegates to `Markdown`'s
+ * editable mode — the behavioral contract (three states, Cmd/Ctrl+Enter
+ * to save, Escape to cancel, Save/Cancel buttons matching the library's
+ * primary + secondary Button variants) is owned by `Markdown` now.
  */
 export function TextSection({
   content,
@@ -68,133 +43,23 @@ export function TextSection({
   onSave,
   onCancel,
   fieldLabel,
-  rows = 4,
-  placeholder = 'Click to add content...',
+  rows,
+  placeholder,
 }: TextSectionProps): React.JSX.Element {
-  useInjectStyles(STYLES_ID, textSectionCSS);
-
-  const handleKeyDown = useCallback(
-    (e: KeyboardEvent<HTMLTextAreaElement>): void => {
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        onCancel();
-      } else if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        onSave();
-      }
-    },
-    [onCancel, onSave],
-  );
-
-  // ── Editing state ──
-  if (editing) {
-    return (
-      <div role="group" aria-label={fieldLabel}>
-        <textarea
-          value={editValue}
-          onChange={(e) => onEditChange(e.target.value)}
-          onKeyDown={handleKeyDown}
-          rows={rows}
-          aria-label={fieldLabel ? `Edit ${fieldLabel}` : 'Edit content'}
-          style={{
-            display: 'block',
-            width: '100%',
-            boxSizing: 'border-box',
-            padding: t.spaceSm,
-            fontFamily: t.fontMono,
-            fontSize: '0.875rem',
-            lineHeight: '1.6',
-            color: t.colorText,
-            background: t.colorSurfacePage,
-            border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
-            borderRadius: t.radiusMd,
-            resize: 'vertical',
-            outline: 'none',
-          }}
-        />
-        <div
-          style={{
-            display: 'flex',
-            gap: t.spaceSm,
-            marginTop: t.spaceSm,
-          }}
-        >
-          <button
-            type="button"
-            onClick={onSave}
-            style={{
-              padding: `${t.spaceXs} ${t.spaceMd}`,
-              fontSize: '0.8125rem',
-              fontWeight: 600,
-              fontFamily: t.fontSans,
-              color: t.colorTextInverse,
-              background: t.colorActionPrimary,
-              border: 'none',
-              borderRadius: t.radiusSm,
-              cursor: 'pointer',
-            }}
-          >
-            Save
-          </button>
-          <button
-            type="button"
-            onClick={onCancel}
-            style={{
-              padding: `${t.spaceXs} ${t.spaceMd}`,
-              fontSize: '0.8125rem',
-              fontWeight: 600,
-              fontFamily: t.fontSans,
-              color: t.colorTextSecondary,
-              background: 'transparent',
-              border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
-              borderRadius: t.radiusSm,
-              cursor: 'pointer',
-            }}
-          >
-            Cancel
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // ── Content state ──
-  if (content) {
-    return (
-      <div
-        className="alttab-text-section-content"
-        role="button"
-        tabIndex={0}
-        aria-label={fieldLabel ? `Edit ${fieldLabel}` : 'Edit content'}
-        onClick={onStartEdit}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            onStartEdit();
-          }
-        }}
-      >
-        <Markdown>{content}</Markdown>
-      </div>
-    );
-  }
-
-  // ── Empty state ──
   return (
-    <div
-      className="alttab-text-section-empty"
-      role="button"
-      tabIndex={0}
-      aria-label={fieldLabel ? `Add ${fieldLabel}` : 'Add content'}
-      onClick={onStartEdit}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          onStartEdit();
-        }
-      }}
+    <Markdown
+      editable
+      editing={editing}
+      value={editValue}
+      onStartEdit={onStartEdit}
+      onEditChange={onEditChange}
+      onSave={onSave}
+      onCancel={onCancel}
+      fieldLabel={fieldLabel}
+      rows={rows}
+      placeholder={placeholder}
     >
-      {placeholder}
-    </div>
+      {content ?? ''}
+    </Markdown>
   );
 }

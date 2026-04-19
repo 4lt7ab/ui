@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, Children, cloneElement, isValidElement } from 'react';
-import type { ReactNode } from 'react';
+import type { KeyboardEvent, ReactNode } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
@@ -11,10 +11,43 @@ import {
 } from '../../constants';
 
 export interface MarkdownProps {
-  /** Markdown source text to render. */
-  children: string;
+  /**
+   * Saved markdown source text. Required in read-only mode (`editable` off).
+   * Optional in `editable` mode, where an empty/null value triggers the
+   * empty-state placeholder. When `editable` + `editing` are both on, the
+   * rendered textarea is bound to `value` — `children` is only used for the
+   * read display.
+   */
+  children?: string | null;
   id?: string;
   'data-testid'?: string;
+  /**
+   * Enable click-to-edit mode. When on, Markdown renders a three-state UI:
+   * empty-state placeholder (no `children`), read-only display (click to
+   * start editing), or a textarea with Save/Cancel controls (when `editing`
+   * is true). When off (the default), Markdown renders the read-only view
+   * exactly as it always has.
+   * @default false
+   */
+  editable?: boolean;
+  /** Whether the section is in editing mode. Only meaningful when `editable` is on. */
+  editing?: boolean;
+  /** Current value in the textarea during editing. Only meaningful when `editable` + `editing`. */
+  value?: string;
+  /** Called when the user clicks the content or the empty-state placeholder. */
+  onStartEdit?: () => void;
+  /** Called with the new textarea value on change. */
+  onEditChange?: (value: string) => void;
+  /** Called when the user saves (Save button or Cmd/Ctrl+Enter). */
+  onSave?: () => void;
+  /** Called when the user cancels (Cancel button or Escape). */
+  onCancel?: () => void;
+  /** Accessible label for the editable section (e.g. "Summary", "Context"). */
+  fieldLabel?: string;
+  /** Number of textarea rows when editing. @default 4 */
+  rows?: number;
+  /** Placeholder text shown in the empty state. @default "Click to add content..." */
+  placeholder?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -739,6 +772,73 @@ function MarkdownTbody({ children }: { children?: ReactNode }): React.JSX.Elemen
 }
 
 // ---------------------------------------------------------------------------
+// Editable mode — styles + inline Button-shaped controls
+// ---------------------------------------------------------------------------
+
+const EDITABLE_STYLES_ID = 'alttab-markdown-editable';
+const editableCSS = /* css */ `
+  .alttab-md-editable-display {
+    cursor: pointer;
+    border-radius: ${t.radiusMd};
+    transition: background ${t.transitionBase};
+  }
+
+  .alttab-md-editable-display:hover {
+    background: color-mix(in srgb, ${t.colorText} ${MIX_HOVER}, transparent);
+  }
+
+  .alttab-md-editable-empty {
+    cursor: pointer;
+    border-radius: ${t.radiusMd};
+    padding: ${t.spaceSm} ${t.spaceMd};
+    font-style: italic;
+    color: ${t.colorTextMuted};
+    transition: background ${t.transitionBase};
+  }
+
+  .alttab-md-editable-empty:hover {
+    background: color-mix(in srgb, ${t.colorText} ${MIX_HOVER}, transparent);
+  }
+`;
+
+/**
+ * Save / Cancel controls rendered with Button-shaped styling. Mirrors the
+ * primary + secondary variants of `@4lt7ab/ui`'s `Button` component using
+ * the same semantic tokens — `@4lt7ab/content` cannot import from
+ * `@4lt7ab/ui` (architectural rule: content depends on core only), so we
+ * reproduce the visual contract locally rather than rendering a raw
+ * `<button>` with ad-hoc inline styles.
+ */
+const editableButtonBase: React.CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: t.spaceSm,
+  padding: `${t.spaceSm} ${t.spaceMd}`,
+  fontFamily: t.fontSans,
+  fontSize: t.fontSizeSm,
+  fontWeight: t.fontWeightMedium,
+  lineHeight: t.lineHeightTight,
+  borderRadius: t.radiusMd,
+  cursor: 'pointer',
+  transition: `background ${t.transitionBase}, border-color ${t.transitionBase}, opacity ${t.transitionBase}`,
+};
+
+const editablePrimaryStyle: React.CSSProperties = {
+  ...editableButtonBase,
+  background: t.colorActionPrimary,
+  color: t.colorTextInverse,
+  border: 'none',
+};
+
+const editableSecondaryStyle: React.CSSProperties = {
+  ...editableButtonBase,
+  background: t.colorActionSecondary,
+  color: t.colorText,
+  border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
+};
+
+// ---------------------------------------------------------------------------
 // Component overrides for react-markdown
 // ---------------------------------------------------------------------------
 
@@ -768,24 +868,148 @@ const mdComponents = {
  * - Code blocks with copy-to-clipboard button
  * - Copy-as-markdown button for the entire document
  *
+ * **Editable mode (optional).** Pass `editable` to opt into a three-state
+ * click-to-edit UI: empty-state placeholder, read-only display (click to
+ * edit), and a textarea with Save/Cancel controls (when `editing` is on).
+ * Keyboard shortcuts: Cmd/Ctrl+Enter to save, Escape to cancel. When
+ * `editable` is off, Markdown behaves exactly as the read-only renderer.
+ *
  * Styled independently from Prose — uses the `.alttab-markdown` namespace.
  */
 export function Markdown({
   children,
   id,
   'data-testid': dataTestId,
+  editable = false,
+  editing = false,
+  value,
+  onStartEdit,
+  onEditChange,
+  onSave,
+  onCancel,
+  fieldLabel,
+  rows = 4,
+  placeholder = 'Click to add content...',
 }: MarkdownProps): React.JSX.Element {
   useInjectStyles(MARKDOWN_STYLES_ID, markdownCSS);
+  // Editable-mode styles are registered unconditionally so hook order stays
+  // stable across `editable` prop toggles. The injected <style> tag is inert
+  // when no matching elements exist (per `useInjectStyles` semantics).
+  useInjectStyles(EDITABLE_STYLES_ID, editableCSS);
   const [copied, setCopied] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const content = children ?? '';
+
   const handleCopySource = useCallback((): void => {
-    navigator.clipboard.writeText(children);
+    navigator.clipboard.writeText(content);
     setCopied(true);
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => setCopied(false), 1500);
-  }, [children]);
+  }, [content]);
 
+  const handleEditKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLTextAreaElement>): void => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onCancel?.();
+      } else if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        onSave?.();
+      }
+    },
+    [onCancel, onSave],
+  );
+
+  // ── Editable mode ──
+  //
+  // Read-only rendering (editable off) falls through to the default branch
+  // below so the zero-chrome `<Markdown>{md}</Markdown>` call site is
+  // untouched. The three editable branches follow TextSection's shape:
+  // editing → textarea + Save/Cancel, content → click-to-edit display,
+  // empty → placeholder.
+  if (editable) {
+    if (editing) {
+      return (
+        <div role="group" aria-label={fieldLabel}>
+          <textarea
+            value={value ?? ''}
+            onChange={(e) => onEditChange?.(e.target.value)}
+            onKeyDown={handleEditKeyDown}
+            rows={rows}
+            aria-label={fieldLabel ? `Edit ${fieldLabel}` : 'Edit content'}
+            style={{
+              display: 'block',
+              width: '100%',
+              boxSizing: 'border-box',
+              padding: t.spaceSm,
+              fontFamily: t.fontMono,
+              fontSize: '0.875rem',
+              lineHeight: '1.6',
+              color: t.colorText,
+              background: t.colorSurfacePage,
+              border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
+              borderRadius: t.radiusMd,
+              resize: 'vertical',
+              outline: 'none',
+            }}
+          />
+          <div style={{ display: 'flex', gap: t.spaceSm, marginTop: t.spaceSm }}>
+            <button type="button" onClick={onSave} style={editablePrimaryStyle}>
+              Save
+            </button>
+            <button type="button" onClick={onCancel} style={editableSecondaryStyle}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    if (!content) {
+      return (
+        <div
+          className="alttab-md-editable-empty"
+          role="button"
+          tabIndex={0}
+          aria-label={fieldLabel ? `Add ${fieldLabel}` : 'Add content'}
+          onClick={onStartEdit}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              onStartEdit?.();
+            }
+          }}
+        >
+          {placeholder}
+        </div>
+      );
+    }
+
+    return (
+      <div
+        className="alttab-md-editable-display"
+        role="button"
+        tabIndex={0}
+        aria-label={fieldLabel ? `Edit ${fieldLabel}` : 'Edit content'}
+        onClick={onStartEdit}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onStartEdit?.();
+          }
+        }}
+      >
+        <div className="alttab-markdown" id={id} data-testid={dataTestId}>
+          <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
+            {content}
+          </ReactMarkdown>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Read-only (default) ──
   return (
     <div
       className="alttab-markdown"
@@ -803,7 +1027,7 @@ export function Markdown({
         {copied ? <CheckIcon /> : <CopyIcon />}
       </button>
       <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
-        {children}
+        {content}
       </ReactMarkdown>
     </div>
   );

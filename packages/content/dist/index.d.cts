@@ -29,10 +29,43 @@ interface ProseProps {
 }
 declare const Prose: React.ForwardRefExoticComponent<Omit<ProseProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 interface MarkdownProps {
-	/** Markdown source text to render. */
-	children: string;
+	/**
+	* Saved markdown source text. Required in read-only mode (`editable` off).
+	* Optional in `editable` mode, where an empty/null value triggers the
+	* empty-state placeholder. When `editable` + `editing` are both on, the
+	* rendered textarea is bound to `value` — `children` is only used for the
+	* read display.
+	*/
+	children?: string | null;
 	id?: string;
 	"data-testid"?: string;
+	/**
+	* Enable click-to-edit mode. When on, Markdown renders a three-state UI:
+	* empty-state placeholder (no `children`), read-only display (click to
+	* start editing), or a textarea with Save/Cancel controls (when `editing`
+	* is true). When off (the default), Markdown renders the read-only view
+	* exactly as it always has.
+	* @default false
+	*/
+	editable?: boolean;
+	/** Whether the section is in editing mode. Only meaningful when `editable` is on. */
+	editing?: boolean;
+	/** Current value in the textarea during editing. Only meaningful when `editable` + `editing`. */
+	value?: string;
+	/** Called when the user clicks the content or the empty-state placeholder. */
+	onStartEdit?: () => void;
+	/** Called with the new textarea value on change. */
+	onEditChange?: (value: string) => void;
+	/** Called when the user saves (Save button or Cmd/Ctrl+Enter). */
+	onSave?: () => void;
+	/** Called when the user cancels (Cancel button or Escape). */
+	onCancel?: () => void;
+	/** Accessible label for the editable section (e.g. "Summary", "Context"). */
+	fieldLabel?: string;
+	/** Number of textarea rows when editing. @default 4 */
+	rows?: number;
+	/** Placeholder text shown in the empty state. @default "Click to add content..." */
+	placeholder?: string;
 }
 /**
 * Renders a markdown string with its own typographic styles.
@@ -44,9 +77,15 @@ interface MarkdownProps {
 * - Code blocks with copy-to-clipboard button
 * - Copy-as-markdown button for the entire document
 *
+* **Editable mode (optional).** Pass `editable` to opt into a three-state
+* click-to-edit UI: empty-state placeholder, read-only display (click to
+* edit), and a textarea with Save/Cancel controls (when `editing` is on).
+* Keyboard shortcuts: Cmd/Ctrl+Enter to save, Escape to cancel. When
+* `editable` is off, Markdown behaves exactly as the read-only renderer.
+*
 * Styled independently from Prose — uses the `.alttab-markdown` namespace.
 */
-declare function Markdown({ children, id, "data-testid": dataTestId }: MarkdownProps): React.JSX.Element;
+declare function Markdown({ children, id, "data-testid": dataTestId, editable, editing, value, onStartEdit, onEditChange, onSave, onCancel, fieldLabel, rows, placeholder }: MarkdownProps): React.JSX.Element;
 import { ReactNode as ReactNode2 } from "react";
 type QuoteVariant = "pull" | "epigraph";
 interface QuoteProps {
@@ -159,9 +198,15 @@ interface TextSectionProps {
 	placeholder?: string;
 }
 /**
-* A three-state editable text section that couples Markdown rendering
-* with textarea editing. Click content or empty state to start editing;
-* save with a button or Cmd/Ctrl+Enter; cancel with a button or Escape.
+* @deprecated Use `<Markdown editable>` instead. `TextSection` is a
+* backward-compatibility alias for the editable-mode rendering in
+* `Markdown` and will be removed in a future major release. See the
+* 0.4.0 upgrade guide, §textsection, for the migration snippet.
+*
+* Three-state click-to-edit markdown section. Delegates to `Markdown`'s
+* editable mode — the behavioral contract (three states, Cmd/Ctrl+Enter
+* to save, Escape to cancel, Save/Cancel buttons matching the library's
+* primary + secondary Button variants) is owned by `Markdown` now.
 */
 declare function TextSection({ content, editing, editValue, onStartEdit, onEditChange, onSave, onCancel, fieldLabel, rows, placeholder }: TextSectionProps): React.JSX.Element;
 interface ThinkingCycleProps {

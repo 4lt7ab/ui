@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TextSection } from '@4lt7ab/content';
+import { Markdown, TextSection } from '@4lt7ab/content';
 import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
 
 const props: PropMeta[] = [
@@ -19,7 +19,52 @@ const SAMPLE_MARKDOWN = `This is some **existing content** with [a link](https:/
 
 It supports full markdown — lists, headings, code blocks, and more.`;
 
-function TextSectionWithState({
+function MarkdownEditableWithState({
+  initialContent,
+  fieldLabel,
+  placeholder,
+  rows,
+}: {
+  initialContent: string | null;
+  fieldLabel?: string;
+  placeholder?: string;
+  rows?: number;
+}): React.JSX.Element {
+  const [content, setContent] = useState<string | null>(initialContent);
+  const [editing, setEditing] = useState(false);
+  const [editValue, setEditValue] = useState('');
+
+  const startEdit = (): void => {
+    setEditValue(content ?? '');
+    setEditing(true);
+  };
+  const save = (): void => {
+    setContent(editValue || null);
+    setEditing(false);
+  };
+  const cancel = (): void => {
+    setEditing(false);
+  };
+
+  return (
+    <Markdown
+      editable
+      editing={editing}
+      value={editValue}
+      onStartEdit={startEdit}
+      onEditChange={setEditValue}
+      onSave={save}
+      onCancel={cancel}
+      fieldLabel={fieldLabel}
+      placeholder={placeholder}
+      rows={rows}
+    >
+      {content}
+    </Markdown>
+  );
+}
+
+function DeprecatedTextSectionWithState({
   initialContent,
   fieldLabel,
   placeholder,
@@ -65,19 +110,27 @@ function TextSectionWithState({
 export function TextSectionDemo(): React.JSX.Element {
   return (
     <DocBlock props={props}>
-      <PropDemo name="content" description="When content is provided, it renders as Markdown. Click to start editing. When null, shows the empty-state placeholder.">
-        <TextSectionWithState
+      <PropDemo name="editable (recommended)" description="Click-to-edit markdown rendered via <Markdown editable>. Three states: empty-state placeholder, read-only display, and a textarea with Save/Cancel buttons. Keyboard shortcuts: Cmd/Ctrl+Enter to save, Escape to cancel.">
+        <MarkdownEditableWithState
           initialContent={SAMPLE_MARKDOWN}
           fieldLabel="Summary"
           rows={6}
         />
       </PropDemo>
 
-      <PropDemo name="placeholder" description="Custom placeholder text shown in the empty state. Click to start editing.">
-        <TextSectionWithState
+      <PropDemo name="editable — empty state" description="Custom placeholder shown when no content is saved. Click to start editing.">
+        <MarkdownEditableWithState
           initialContent={null}
           fieldLabel="Notes"
           placeholder="Click to add notes..."
+        />
+      </PropDemo>
+
+      <PropDemo name="TextSection (deprecated alias)" description="TextSection is a deprecated backward-compatibility alias for <Markdown editable>. Prefer the new API for fresh call sites.">
+        <DeprecatedTextSectionWithState
+          initialContent={SAMPLE_MARKDOWN}
+          fieldLabel="Summary"
+          rows={6}
         />
       </PropDemo>
     </DocBlock>
