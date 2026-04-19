@@ -38,6 +38,11 @@ export {
   pillToggleSelectedStyle,
   pillToggleUnselectedStyle,
 } from './styles/pillToggleStyle';
+export {
+  inputShellBaseStyle,
+  inputShellErrorStyle,
+  inputShellDisabledStyle,
+} from './styles/inputShellStyle';
 export * from './components/molecules/ConfirmDialog';
 export * from './components/atoms/StatusDot';
 export * from './components/organisms/Table';

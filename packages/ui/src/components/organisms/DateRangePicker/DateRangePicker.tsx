@@ -11,6 +11,11 @@ import { Calendar } from '../Calendar';
 import type { CalendarSelection } from '../Calendar';
 import { formatDate, isSameDay } from './dateUtils';
 import { useClickOutside } from '../../../utils/useClickOutside';
+import {
+  inputShellBaseStyle,
+  inputShellErrorStyle,
+  inputShellDisabledStyle,
+} from '../../../styles/inputShellStyle';
 
 /** A date range with inclusive start and end. */
 export interface DateRange {
@@ -61,31 +66,12 @@ const wrapperStyle: React.CSSProperties = {
 };
 
 const triggerBaseStyle: React.CSSProperties = {
+  ...inputShellBaseStyle,
   display: 'block',
-  width: '100%',
-  padding: `${t.spaceSm} ${t.spaceMd}`,
-  fontSize: t.fontSizeSm,
   lineHeight: t.lineHeightTight,
-  fontFamily: t.fontSans,
-  color: t.colorText,
-  background: t.colorSurfaceInput,
-  border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
-  borderRadius: t.radiusMd,
   outline: 'none',
-  transition: `border-color ${t.transitionBase}, box-shadow ${t.transitionBase}`,
-  boxSizing: 'border-box' as const,
   cursor: 'pointer',
   textAlign: 'left' as const,
-};
-
-const triggerErrorStyle: React.CSSProperties = {
-  borderColor: t.colorBorderError,
-};
-
-const triggerDisabledStyle: React.CSSProperties = {
-  background: t.colorSurfaceDisabled,
-  color: t.colorTextDisabled,
-  cursor: 'not-allowed',
 };
 
 const popoverStyle: React.CSSProperties = {
@@ -261,8 +247,8 @@ export const DateRangePicker: React.ForwardRefExoticComponent<
           className={`${SCOPE}-trigger`}
           style={{
             ...triggerBaseStyle,
-            ...(hasError ? triggerErrorStyle : {}),
-            ...(disabled ? triggerDisabledStyle : {}),
+            ...(hasError ? inputShellErrorStyle : {}),
+            ...(disabled ? inputShellDisabledStyle : {}),
           }}
           onClick={handleToggle}
           disabled={disabled}

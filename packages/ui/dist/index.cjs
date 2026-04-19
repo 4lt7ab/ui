@@ -155,6 +155,9 @@ __export(index_exports, {
   dividerOpacityMap: () => dividerOpacityMap,
   iconRegistry: () => iconRegistry,
   iconSizeMap: () => iconSizeMap,
+  inputShellBaseStyle: () => inputShellBaseStyle,
+  inputShellDisabledStyle: () => inputShellDisabledStyle,
+  inputShellErrorStyle: () => inputShellErrorStyle,
   justifyMap: () => justifyMap,
   modalFooterStyle: () => modalFooterStyle,
   modalHeadingStyle: () => modalHeadingStyle,
@@ -227,7 +230,7 @@ __reExport(index_exports, require("../../core/dist/index.cjs"), module.exports);
 
 // src/components/molecules/ThemePicker/ThemePicker.tsx
 var import_react7 = require("react");
-var import_core7 = require("../../core/dist/index.cjs");
+var import_core8 = require("../../core/dist/index.cjs");
 
 // src/components/molecules/Card/Card.tsx
 var import_react3 = require("react");
@@ -506,7 +509,7 @@ var linkCardCSS = (
 
 // src/components/organisms/Select/Select.tsx
 var import_react5 = require("react");
-var import_core5 = require("../../core/dist/index.cjs");
+var import_core6 = require("../../core/dist/index.cjs");
 
 // src/utils/useClickOutside.ts
 var import_react4 = require("react");
@@ -523,6 +526,29 @@ function useClickOutside(ref, handler, enabled) {
     return () => document.removeEventListener("mousedown", handleMouseDown);
   }, [ref, handler, enabled]);
 }
+
+// src/styles/inputShellStyle.ts
+var import_core5 = require("../../core/dist/index.cjs");
+var inputShellBaseStyle = {
+  width: "100%",
+  padding: `${import_core5.semantic.spaceSm} ${import_core5.semantic.spaceMd}`,
+  fontSize: import_core5.semantic.fontSizeSm,
+  fontFamily: import_core5.semantic.fontSans,
+  color: import_core5.semantic.colorText,
+  background: import_core5.semantic.colorSurfaceInput,
+  border: `${import_core5.semantic.borderWidthDefault} solid ${import_core5.semantic.colorBorder}`,
+  borderRadius: import_core5.semantic.radiusMd,
+  transition: `border-color ${import_core5.semantic.transitionBase}, box-shadow ${import_core5.semantic.transitionBase}`,
+  boxSizing: "border-box"
+};
+var inputShellErrorStyle = {
+  borderColor: import_core5.semantic.colorBorderError
+};
+var inputShellDisabledStyle = {
+  background: import_core5.semantic.colorSurfaceDisabled,
+  color: import_core5.semantic.colorTextDisabled,
+  cursor: "not-allowed"
+};
 
 // src/components/organisms/Select/Select.tsx
 var import_jsx_runtime3 = require("react/jsx-runtime");
@@ -593,7 +619,7 @@ function Root({
   form,
   children
 }) {
-  (0, import_core5.useInjectStyles)(SELECT_STYLES_ID, selectCSS);
+  (0, import_core6.useInjectStyles)(SELECT_STYLES_ID, selectCSS);
   const instanceId = (0, import_react5.useId)();
   const listboxId = `${instanceId}-listbox`;
   const [internalValue, setInternalValue] = (0, import_react5.useState)(defaultValue ?? "");
@@ -840,8 +866,8 @@ function Trigger({
       "data-testid": dataTestId,
       style: {
         ...triggerBaseStyle,
-        ...hasError ? errorBorderStyle : {},
-        ...disabled ? disabledStyle : {},
+        ...hasError ? inputShellErrorStyle : {},
+        ...disabled ? inputShellDisabledStyle : {},
         ...hasSelection ? {} : placeholderStyle
       },
       children: [
@@ -873,13 +899,13 @@ function Content({ children }) {
     top: "100%",
     left: 0,
     right: 0,
-    marginTop: import_core5.semantic.spaceXs
+    marginTop: import_core6.semantic.spaceXs
   } : {
     position: "absolute",
     bottom: "100%",
     left: 0,
     right: 0,
-    marginBottom: import_core5.semantic.spaceXs
+    marginBottom: import_core6.semantic.spaceXs
   };
   return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
     "div",
@@ -890,12 +916,12 @@ function Content({ children }) {
       hidden: !open,
       style: open ? {
         ...positionStyle,
-        background: import_core5.semantic.colorSurfacePanel,
-        border: `${import_core5.semantic.borderWidthDefault} solid ${import_core5.semantic.colorBorder}`,
-        borderRadius: import_core5.semantic.radiusMd,
-        padding: import_core5.semantic.spaceXs,
-        zIndex: import_core5.semantic.zIndexSticky,
-        boxShadow: import_core5.semantic.shadowMd,
+        background: import_core6.semantic.colorSurfacePanel,
+        border: `${import_core6.semantic.borderWidthDefault} solid ${import_core6.semantic.colorBorder}`,
+        borderRadius: import_core6.semantic.radiusMd,
+        padding: import_core6.semantic.spaceXs,
+        zIndex: import_core6.semantic.zIndexSticky,
+        boxShadow: import_core6.semantic.shadowMd,
         maxHeight: "16rem",
         overflowY: "auto",
         boxSizing: "border-box"
@@ -965,22 +991,13 @@ var hiddenSelectStyle = {
   pointerEvents: "none"
 };
 var triggerBaseStyle = {
+  ...inputShellBaseStyle,
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  gap: import_core5.semantic.spaceSm,
-  width: "100%",
-  padding: `${import_core5.semantic.spaceSm} ${import_core5.semantic.spaceMd}`,
-  fontSize: import_core5.semantic.fontSizeSm,
-  lineHeight: import_core5.semantic.lineHeightTight,
-  fontFamily: import_core5.semantic.fontSans,
-  color: import_core5.semantic.colorText,
-  background: import_core5.semantic.colorSurfaceInput,
-  border: `${import_core5.semantic.borderWidthDefault} solid ${import_core5.semantic.colorBorder}`,
-  borderRadius: import_core5.semantic.radiusMd,
+  gap: import_core6.semantic.spaceSm,
+  lineHeight: import_core6.semantic.lineHeightTight,
   outline: "none",
-  transition: `border-color ${import_core5.semantic.transitionBase}, box-shadow ${import_core5.semantic.transitionBase}`,
-  boxSizing: "border-box",
   cursor: "pointer",
   textAlign: "left"
 };
@@ -994,21 +1011,13 @@ var triggerTextStyle = {
 var chevronStyle = {
   flex: "0 0 auto",
   pointerEvents: "none",
-  color: import_core5.semantic.colorTextSecondary,
+  color: import_core6.semantic.colorTextSecondary,
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center"
 };
-var errorBorderStyle = {
-  borderColor: import_core5.semantic.colorBorderError
-};
-var disabledStyle = {
-  background: import_core5.semantic.colorSurfaceDisabled,
-  color: import_core5.semantic.colorTextDisabled,
-  cursor: "not-allowed"
-};
 var placeholderStyle = {
-  color: import_core5.semantic.colorTextPlaceholder
+  color: import_core6.semantic.colorTextPlaceholder
 };
 function ChevronSVG({ rotated }) {
   return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
@@ -1020,7 +1029,7 @@ function ChevronSVG({ rotated }) {
       fill: "none",
       xmlns: "http://www.w3.org/2000/svg",
       style: {
-        transition: `transform ${import_core5.semantic.transitionBase}`,
+        transition: `transform ${import_core6.semantic.transitionBase}`,
         transform: rotated ? "rotate(180deg)" : "none"
       },
       children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
@@ -1043,15 +1052,15 @@ var Select = {
 
 // src/components/atoms/StatusDot/StatusDot.tsx
 var import_react6 = require("react");
-var import_core6 = require("../../core/dist/index.cjs");
+var import_core7 = require("../../core/dist/index.cjs");
 var import_jsx_runtime4 = require("react/jsx-runtime");
 var variantColors = {
-  default: import_core6.semantic.colorTextMuted,
-  primary: import_core6.semantic.colorActionPrimary,
-  success: import_core6.semantic.colorSuccess,
-  warning: import_core6.semantic.colorWarning,
-  error: import_core6.semantic.colorError,
-  info: import_core6.semantic.colorInfo
+  default: import_core7.semantic.colorTextMuted,
+  primary: import_core7.semantic.colorActionPrimary,
+  success: import_core7.semantic.colorSuccess,
+  warning: import_core7.semantic.colorWarning,
+  error: import_core7.semantic.colorError,
+  info: import_core7.semantic.colorInfo
 };
 var sizeMap = {
   sm: 6,
@@ -1085,8 +1094,8 @@ var StatusDot = (0, import_react6.forwardRef)(
     const resolvedColor = variantColors[variant];
     const resolvedSize = sizeMap[size];
     const isPulsing = animate === "pulse";
-    const { durationCss } = (0, import_core6.useThemeRhythm)();
-    (0, import_core6.useInjectStyles)(PULSE_STYLES_ID, PULSE_STYLES_CSS);
+    const { durationCss } = (0, import_core7.useThemeRhythm)();
+    (0, import_core7.useInjectStyles)(PULSE_STYLES_ID, PULSE_STYLES_CSS);
     return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
       "span",
       {
@@ -1099,7 +1108,7 @@ var StatusDot = (0, import_react6.forwardRef)(
           display: "inline-block",
           width: resolvedSize,
           height: resolvedSize,
-          borderRadius: import_core6.semantic.radiusFull,
+          borderRadius: import_core7.semantic.radiusFull,
           background: resolvedColor,
           flexShrink: 0,
           ...isPulsing ? {
@@ -1132,9 +1141,9 @@ var DOT_ROW = {
   gap: "0.5rem"
 };
 function GridView({ descriptions }) {
-  (0, import_core7.useInjectStyles)(LINK_CARD_STYLES_ID, linkCardCSS);
-  (0, import_core7.useInjectStyles)(GRID_STYLES_ID, gridCSS);
-  const { resolved, themes, setTheme } = (0, import_core7.useTheme)();
+  (0, import_core8.useInjectStyles)(LINK_CARD_STYLES_ID, linkCardCSS);
+  (0, import_core8.useInjectStyles)(GRID_STYLES_ID, gridCSS);
+  const { resolved, themes, setTheme } = (0, import_core8.useTheme)();
   return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "alttab-theme-picker", children: Array.from(themes.values()).map((def) => {
     const isActive = resolved === def.name;
     return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Card, { asChild: true, variant: "ghost", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(
@@ -1153,7 +1162,7 @@ function GridView({ descriptions }) {
   }) });
 }
 function CompactView() {
-  const { resolved, themes, setTheme } = (0, import_core7.useTheme)();
+  const { resolved, themes, setTheme } = (0, import_core8.useTheme)();
   return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(Select.Root, { value: resolved, onValueChange: setTheme, children: [
     /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Select.Trigger, { "aria-label": "Select theme", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("span", { style: DOT_ROW, children: [
       /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(StatusDot, { variant: "primary" }),
@@ -1332,57 +1341,57 @@ var iconRegistry = {
 
 // src/components/atoms/Button/Button.tsx
 var import_react8 = require("react");
-var import_core8 = require("../../core/dist/index.cjs");
+var import_core9 = require("../../core/dist/index.cjs");
 var import_jsx_runtime7 = require("react/jsx-runtime");
 var variantStyles = {
   primary: {
-    background: import_core8.semantic.colorActionPrimary,
-    color: import_core8.semantic.colorTextInverse,
+    background: import_core9.semantic.colorActionPrimary,
+    color: import_core9.semantic.colorTextInverse,
     border: "none"
   },
   secondary: {
-    background: import_core8.semantic.colorActionSecondary,
-    color: import_core8.semantic.colorText,
-    border: `${import_core8.semantic.borderWidthDefault} solid ${import_core8.semantic.colorBorder}`
+    background: import_core9.semantic.colorActionSecondary,
+    color: import_core9.semantic.colorText,
+    border: `${import_core9.semantic.borderWidthDefault} solid ${import_core9.semantic.colorBorder}`
   },
   destructive: {
-    background: import_core8.semantic.colorActionDestructive,
-    color: import_core8.semantic.colorTextInverse,
+    background: import_core9.semantic.colorActionDestructive,
+    color: import_core9.semantic.colorTextInverse,
     border: "none"
   },
   ghost: {
     background: "transparent",
-    color: import_core8.semantic.colorText,
-    border: `${import_core8.semantic.borderWidthDefault} solid transparent`
+    color: import_core9.semantic.colorText,
+    border: `${import_core9.semantic.borderWidthDefault} solid transparent`
   }
 };
 var sizeStyles = {
   sm: {
-    padding: `${import_core8.semantic.spaceXs} ${import_core8.semantic.spaceSm}`,
-    fontSize: import_core8.semantic.fontSizeSm,
-    lineHeight: import_core8.semantic.lineHeightTight
+    padding: `${import_core9.semantic.spaceXs} ${import_core9.semantic.spaceSm}`,
+    fontSize: import_core9.semantic.fontSizeSm,
+    lineHeight: import_core9.semantic.lineHeightTight
   },
   md: {
-    padding: `${import_core8.semantic.spaceSm} ${import_core8.semantic.spaceMd}`,
-    fontSize: import_core8.semantic.fontSizeSm,
-    lineHeight: import_core8.semantic.lineHeightTight
+    padding: `${import_core9.semantic.spaceSm} ${import_core9.semantic.spaceMd}`,
+    fontSize: import_core9.semantic.fontSizeSm,
+    lineHeight: import_core9.semantic.lineHeightTight
   },
   lg: {
-    padding: `${import_core8.semantic.spaceSm} ${import_core8.semantic.spaceLg}`,
-    fontSize: import_core8.semantic.fontSizeBase,
-    lineHeight: import_core8.semantic.lineHeightBase
+    padding: `${import_core9.semantic.spaceSm} ${import_core9.semantic.spaceLg}`,
+    fontSize: import_core9.semantic.fontSizeBase,
+    lineHeight: import_core9.semantic.lineHeightBase
   }
 };
 var baseStyles = {
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
-  gap: import_core8.semantic.spaceSm,
-  borderRadius: import_core8.semantic.radiusMd,
-  fontFamily: import_core8.semantic.fontSans,
-  fontWeight: import_core8.semantic.fontWeightMedium,
+  gap: import_core9.semantic.spaceSm,
+  borderRadius: import_core9.semantic.radiusMd,
+  fontFamily: import_core9.semantic.fontSans,
+  fontWeight: import_core9.semantic.fontWeightMedium,
   cursor: "pointer",
-  transition: `background ${import_core8.semantic.transitionBase}, border-color ${import_core8.semantic.transitionBase}, opacity ${import_core8.semantic.transitionBase}`
+  transition: `background ${import_core9.semantic.transitionBase}, border-color ${import_core9.semantic.transitionBase}, opacity ${import_core9.semantic.transitionBase}`
 };
 var SPINNER_STYLES_ID = "alttab-button-spinner";
 var spinnerCSS = (
@@ -1395,7 +1404,7 @@ var spinnerCSS = (
     display: inline-block;
     width: 1em;
     height: 1em;
-    border: ${import_core8.semantic.borderWidthThick} solid currentColor;
+    border: ${import_core9.semantic.borderWidthThick} solid currentColor;
     border-right-color: transparent;
     border-radius: 50%;
     animation: alttab-btn-spin 600ms linear infinite;
@@ -1403,9 +1412,9 @@ var spinnerCSS = (
 `
 );
 var iconOnlyPadding = {
-  sm: import_core8.semantic.spaceXs,
-  md: import_core8.semantic.spaceSm,
-  lg: import_core8.semantic.spaceSm
+  sm: import_core9.semantic.spaceXs,
+  md: import_core9.semantic.spaceSm,
+  lg: import_core9.semantic.spaceSm
 };
 var Button = (0, import_react8.forwardRef)(
   function Button2({
@@ -1432,7 +1441,7 @@ var Button = (0, import_react8.forwardRef)(
     "aria-haspopup": ariaHasPopup,
     "data-testid": dataTestId
   }, ref) {
-    (0, import_core8.useInjectStyles)(SPINNER_STYLES_ID, spinnerCSS);
+    (0, import_core9.useInjectStyles)(SPINNER_STYLES_ID, spinnerCSS);
     const isDisabled2 = disabled || loading;
     const style = {
       ...baseStyles,
@@ -1457,7 +1466,7 @@ var Button = (0, import_react8.forwardRef)(
     };
     if (asChild) {
       return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
-        import_core8.Slot,
+        import_core9.Slot,
         {
           ref,
           ...commonProps,
@@ -1519,7 +1528,7 @@ var Stack = (0, import_react9.forwardRef)(
 
 // src/components/molecules/LinkCard/LinkCard.tsx
 var import_react10 = require("react");
-var import_core9 = require("../../core/dist/index.cjs");
+var import_core10 = require("../../core/dist/index.cjs");
 var import_jsx_runtime9 = require("react/jsx-runtime");
 var LinkCard = (0, import_react10.forwardRef)(function LinkCard2({
   title,
@@ -1533,7 +1542,7 @@ var LinkCard = (0, import_react10.forwardRef)(function LinkCard2({
   "aria-label": ariaLabel,
   "data-testid": dataTestId
 }, ref) {
-  (0, import_core9.useInjectStyles)(LINK_CARD_STYLES_ID, linkCardCSS);
+  (0, import_core10.useInjectStyles)(LINK_CARD_STYLES_ID, linkCardCSS);
   return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Card, { asChild: true, variant: "ghost", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
     "a",
     {
@@ -1555,33 +1564,33 @@ var LinkCard = (0, import_react10.forwardRef)(function LinkCard2({
 });
 
 // src/components/molecules/Field/Field.tsx
-var import_core10 = require("../../core/dist/index.cjs");
+var import_core11 = require("../../core/dist/index.cjs");
 var import_react11 = require("react");
 var import_jsx_runtime10 = require("react/jsx-runtime");
 var labelStyle = {
   display: "block",
-  fontSize: import_core10.semantic.fontSizeSm,
-  fontWeight: import_core10.semantic.fontWeightMedium,
-  lineHeight: import_core10.semantic.lineHeightTight,
-  color: import_core10.semantic.colorText,
-  fontFamily: import_core10.semantic.fontSans
+  fontSize: import_core11.semantic.fontSizeSm,
+  fontWeight: import_core11.semantic.fontWeightMedium,
+  lineHeight: import_core11.semantic.lineHeightTight,
+  color: import_core11.semantic.colorText,
+  fontFamily: import_core11.semantic.fontSans
 };
 var requiredStyle = {
-  color: import_core10.semantic.colorError,
+  color: import_core11.semantic.colorError,
   marginLeft: "0.125rem"
 };
 var helpStyle = {
-  fontSize: import_core10.semantic.fontSizeXs,
-  lineHeight: import_core10.semantic.lineHeightTight,
-  color: import_core10.semantic.colorTextMuted,
-  fontFamily: import_core10.semantic.fontSans,
+  fontSize: import_core11.semantic.fontSizeXs,
+  lineHeight: import_core11.semantic.lineHeightTight,
+  color: import_core11.semantic.colorTextMuted,
+  fontFamily: import_core11.semantic.fontSans,
   margin: 0
 };
 var errorStyle = {
-  fontSize: import_core10.semantic.fontSizeXs,
-  lineHeight: import_core10.semantic.lineHeightTight,
-  color: import_core10.semantic.colorError,
-  fontFamily: import_core10.semantic.fontSans,
+  fontSize: import_core11.semantic.fontSizeXs,
+  lineHeight: import_core11.semantic.lineHeightTight,
+  color: import_core11.semantic.colorError,
+  fontFamily: import_core11.semantic.fontSans,
   margin: 0
 };
 var Field = (0, import_react11.forwardRef)(
@@ -1612,7 +1621,7 @@ var Field = (0, import_react11.forwardRef)(
         style: {
           display: "flex",
           flexDirection: "column",
-          gap: import_core10.semantic.spaceXs,
+          gap: import_core11.semantic.spaceXs,
           opacity: disabled ? 0.6 : void 0
         },
         children: [
@@ -1631,30 +1640,13 @@ var Field = (0, import_react11.forwardRef)(
 
 // src/components/atoms/Input/Input.tsx
 var import_react12 = require("react");
-var import_core11 = require("../../core/dist/index.cjs");
+var import_core12 = require("../../core/dist/index.cjs");
 var import_jsx_runtime11 = require("react/jsx-runtime");
 var baseStyle = {
+  ...inputShellBaseStyle,
   display: "block",
-  width: "100%",
-  padding: `${import_core11.semantic.spaceSm} ${import_core11.semantic.spaceMd}`,
-  fontSize: import_core11.semantic.fontSizeSm,
-  lineHeight: import_core11.semantic.lineHeightTight,
-  fontFamily: import_core11.semantic.fontSans,
-  color: import_core11.semantic.colorText,
-  background: import_core11.semantic.colorSurfaceInput,
-  border: `${import_core11.semantic.borderWidthDefault} solid ${import_core11.semantic.colorBorder}`,
-  borderRadius: import_core11.semantic.radiusMd,
-  outline: "none",
-  transition: `border-color ${import_core11.semantic.transitionBase}, box-shadow ${import_core11.semantic.transitionBase}`,
-  boxSizing: "border-box"
-};
-var errorBorderStyle2 = {
-  borderColor: import_core11.semantic.colorBorderError
-};
-var disabledStyle2 = {
-  background: import_core11.semantic.colorSurfaceDisabled,
-  color: import_core11.semantic.colorTextDisabled,
-  cursor: "not-allowed"
+  lineHeight: import_core12.semantic.lineHeightTight,
+  outline: "none"
 };
 var Input = (0, import_react12.forwardRef)(
   function Input2({
@@ -1722,8 +1714,8 @@ var Input = (0, import_react12.forwardRef)(
         "data-testid": dataTestId,
         style: {
           ...baseStyle,
-          ...hasError ? errorBorderStyle2 : {},
-          ...disabled ? disabledStyle2 : {}
+          ...hasError ? inputShellErrorStyle : {},
+          ...disabled ? inputShellDisabledStyle : {}
         }
       }
     );
@@ -1732,32 +1724,18 @@ var Input = (0, import_react12.forwardRef)(
 
 // src/components/atoms/Textarea/Textarea.tsx
 var import_react13 = require("react");
-var import_core12 = require("../../core/dist/index.cjs");
+var import_core13 = require("../../core/dist/index.cjs");
 var import_jsx_runtime12 = require("react/jsx-runtime");
 var baseStyle2 = {
+  ...inputShellBaseStyle,
   display: "block",
-  width: "100%",
-  padding: `${import_core12.semantic.spaceSm} ${import_core12.semantic.spaceMd}`,
-  fontSize: import_core12.semantic.fontSizeSm,
-  lineHeight: import_core12.semantic.lineHeightBase,
-  fontFamily: import_core12.semantic.fontSans,
-  color: import_core12.semantic.colorText,
-  background: import_core12.semantic.colorSurfaceInput,
-  border: `${import_core12.semantic.borderWidthDefault} solid ${import_core12.semantic.colorBorder}`,
-  borderRadius: import_core12.semantic.radiusMd,
+  lineHeight: import_core13.semantic.lineHeightBase,
   outline: "none",
-  transition: `border-color ${import_core12.semantic.transitionBase}, box-shadow ${import_core12.semantic.transitionBase}`,
-  boxSizing: "border-box",
   resize: "vertical",
   minHeight: "5rem"
 };
-var errorBorderStyle3 = {
-  borderColor: import_core12.semantic.colorBorderError
-};
-var disabledStyle3 = {
-  background: import_core12.semantic.colorSurfaceDisabled,
-  color: import_core12.semantic.colorTextDisabled,
-  cursor: "not-allowed",
+var disabledStyle = {
+  ...inputShellDisabledStyle,
   resize: "none"
 };
 var Textarea = (0, import_react13.forwardRef)(
@@ -1814,8 +1792,8 @@ var Textarea = (0, import_react13.forwardRef)(
         "data-testid": dataTestId,
         style: {
           ...baseStyle2,
-          ...hasError ? errorBorderStyle3 : {},
-          ...disabled ? disabledStyle3 : {}
+          ...hasError ? inputShellErrorStyle : {},
+          ...disabled ? disabledStyle : {}
         }
       }
     );
@@ -1824,55 +1802,55 @@ var Textarea = (0, import_react13.forwardRef)(
 
 // src/components/atoms/Badge/Badge.tsx
 var import_react14 = require("react");
-var import_core13 = require("../../core/dist/index.cjs");
+var import_core14 = require("../../core/dist/index.cjs");
 var import_jsx_runtime13 = require("react/jsx-runtime");
 var variantStyles2 = {
   default: {
-    border: `${import_core13.semantic.borderWidthDefault} solid ${import_core13.semantic.colorBorder}`,
-    color: import_core13.semantic.colorTextSecondary
+    border: `${import_core14.semantic.borderWidthDefault} solid ${import_core14.semantic.colorBorder}`,
+    color: import_core14.semantic.colorTextSecondary
   },
   primary: {
-    background: `color-mix(in srgb, ${import_core13.semantic.colorActionPrimary} 14%, transparent)`,
-    color: import_core13.semantic.colorActionPrimary
+    background: `color-mix(in srgb, ${import_core14.semantic.colorActionPrimary} 14%, transparent)`,
+    color: import_core14.semantic.colorActionPrimary
   },
   success: {
-    background: import_core13.semantic.colorSuccessBg,
-    color: import_core13.semantic.colorSuccess
+    background: import_core14.semantic.colorSuccessBg,
+    color: import_core14.semantic.colorSuccess
   },
   warning: {
-    background: import_core13.semantic.colorWarningBg,
-    color: import_core13.semantic.colorWarning
+    background: import_core14.semantic.colorWarningBg,
+    color: import_core14.semantic.colorWarning
   },
   error: {
-    background: import_core13.semantic.colorErrorBg,
-    color: import_core13.semantic.colorError
+    background: import_core14.semantic.colorErrorBg,
+    color: import_core14.semantic.colorError
   },
   info: {
-    background: import_core13.semantic.colorInfoBg,
-    color: import_core13.semantic.colorInfo
+    background: import_core14.semantic.colorInfoBg,
+    color: import_core14.semantic.colorInfo
   }
 };
 var baseStyles2 = {
   display: "inline-block",
-  padding: `${import_core13.semantic.spaceXs} ${import_core13.semantic.spaceSm}`,
-  borderRadius: import_core13.semantic.radiusFull,
-  fontSize: import_core13.semantic.fontSizeXs,
-  fontWeight: import_core13.semantic.fontWeightSemibold,
-  fontFamily: import_core13.semantic.fontSans,
+  padding: `${import_core14.semantic.spaceXs} ${import_core14.semantic.spaceSm}`,
+  borderRadius: import_core14.semantic.radiusFull,
+  fontSize: import_core14.semantic.fontSizeXs,
+  fontWeight: import_core14.semantic.fontWeightSemibold,
+  fontFamily: import_core14.semantic.fontSans,
   textTransform: "uppercase",
-  letterSpacing: import_core13.semantic.letterSpacingWide
+  letterSpacing: import_core14.semantic.letterSpacingWide
 };
 var xsBaseStyles = {
   display: "inline-block",
   fontSize: "0.6rem",
-  fontFamily: import_core13.semantic.fontMono,
-  fontWeight: import_core13.semantic.fontWeightMedium,
-  color: import_core13.semantic.colorTextMuted,
-  borderRadius: import_core13.semantic.radiusFull,
-  background: `color-mix(in srgb, ${import_core13.semantic.colorBorder} 40%, transparent)`,
-  padding: `0.0625rem ${import_core13.semantic.spaceXs}`,
-  lineHeight: import_core13.semantic.lineHeightTight,
-  letterSpacing: import_core13.semantic.letterSpacingWide,
+  fontFamily: import_core14.semantic.fontMono,
+  fontWeight: import_core14.semantic.fontWeightMedium,
+  color: import_core14.semantic.colorTextMuted,
+  borderRadius: import_core14.semantic.radiusFull,
+  background: `color-mix(in srgb, ${import_core14.semantic.colorBorder} 40%, transparent)`,
+  padding: `0.0625rem ${import_core14.semantic.spaceXs}`,
+  lineHeight: import_core14.semantic.lineHeightTight,
+  letterSpacing: import_core14.semantic.letterSpacingWide,
   textTransform: "lowercase"
 };
 var Badge = (0, import_react14.forwardRef)(
@@ -1902,34 +1880,34 @@ var Badge = (0, import_react14.forwardRef)(
 
 // src/components/atoms/Text/Text.tsx
 var import_react15 = require("react");
-var import_core14 = require("../../core/dist/index.cjs");
+var import_core15 = require("../../core/dist/index.cjs");
 var sizeMap2 = {
-  xs: import_core14.semantic.fontSizeXs,
-  sm: import_core14.semantic.fontSizeSm,
-  md: import_core14.semantic.fontSizeBase,
-  lg: import_core14.semantic.fontSizeLg,
-  xl: import_core14.semantic.fontSizeXl
+  xs: import_core15.semantic.fontSizeXs,
+  sm: import_core15.semantic.fontSizeSm,
+  md: import_core15.semantic.fontSizeBase,
+  lg: import_core15.semantic.fontSizeLg,
+  xl: import_core15.semantic.fontSizeXl
 };
 var weightMap = {
-  normal: import_core14.semantic.fontWeightNormal,
-  medium: import_core14.semantic.fontWeightMedium,
-  semibold: import_core14.semantic.fontWeightSemibold,
-  bold: import_core14.semantic.fontWeightBold
+  normal: import_core15.semantic.fontWeightNormal,
+  medium: import_core15.semantic.fontWeightMedium,
+  semibold: import_core15.semantic.fontWeightSemibold,
+  bold: import_core15.semantic.fontWeightBold
 };
 var toneMap = {
-  default: import_core14.semantic.colorText,
-  muted: import_core14.semantic.colorTextMuted,
-  secondary: import_core14.semantic.colorTextSecondary,
-  inverse: import_core14.semantic.colorTextInverse,
-  link: import_core14.semantic.colorTextLink,
-  success: import_core14.semantic.colorSuccess,
-  warning: import_core14.semantic.colorWarning,
-  error: import_core14.semantic.colorError
+  default: import_core15.semantic.colorText,
+  muted: import_core15.semantic.colorTextMuted,
+  secondary: import_core15.semantic.colorTextSecondary,
+  inverse: import_core15.semantic.colorTextInverse,
+  link: import_core15.semantic.colorTextLink,
+  success: import_core15.semantic.colorSuccess,
+  warning: import_core15.semantic.colorWarning,
+  error: import_core15.semantic.colorError
 };
 var familyMap = {
-  sans: import_core14.semantic.fontSans,
-  serif: import_core14.semantic.fontSerif,
-  mono: import_core14.semantic.fontMono
+  sans: import_core15.semantic.fontSans,
+  serif: import_core15.semantic.fontSerif,
+  mono: import_core15.semantic.fontMono
 };
 var Text = (0, import_react15.forwardRef)(
   function Text2({
@@ -2036,7 +2014,7 @@ var Icon = (0, import_react16.forwardRef)(
 
 // src/components/atoms/IconButton/IconButton.tsx
 var import_react17 = require("react");
-var import_core15 = require("../../core/dist/index.cjs");
+var import_core16 = require("../../core/dist/index.cjs");
 var import_jsx_runtime15 = require("react/jsx-runtime");
 var buttonSizeMap = {
   sm: 28,
@@ -2070,14 +2048,14 @@ var IconButton = (0, import_react17.forwardRef)(
   }, ref) {
     const uid = (0, import_react17.useId)();
     const styleId = `icon-btn-${uid.replace(/:/g, "")}`;
-    (0, import_core15.useInjectStyles)(
+    (0, import_core16.useInjectStyles)(
       styleId,
       `[data-icon-btn-id="${styleId}"]:hover:not(:disabled) {
         background: color-mix(in srgb, currentColor 8%, transparent);
       }
       [data-icon-btn-id="${styleId}"]:focus-visible {
-        outline: ${import_core15.semantic.focusRingWidth} solid ${import_core15.semantic.focusRingColor};
-        outline-offset: ${import_core15.semantic.focusRingOffset};
+        outline: ${import_core16.semantic.focusRingWidth} solid ${import_core16.semantic.focusRingColor};
+        outline-offset: ${import_core16.semantic.focusRingOffset};
       }`
     );
     const dim = buttonSizeMap[size];
@@ -2088,10 +2066,10 @@ var IconButton = (0, import_react17.forwardRef)(
       justifyContent: "center",
       width: dim,
       height: dim,
-      borderRadius: import_core15.semantic.radiusFull,
+      borderRadius: import_core16.semantic.radiusFull,
       background: "transparent",
       border: "none",
-      color: import_core15.semantic.colorTextMuted,
+      color: import_core16.semantic.colorTextMuted,
       cursor: "pointer",
       padding: 0
     };
@@ -2106,9 +2084,9 @@ var IconButton = (0, import_react17.forwardRef)(
             right: 2,
             width: 8,
             height: 8,
-            borderRadius: import_core15.semantic.radiusFull,
-            background: import_core15.semantic.colorError,
-            border: `${import_core15.semantic.borderWidthThick} solid ${import_core15.semantic.colorSurface}`
+            borderRadius: import_core16.semantic.radiusFull,
+            background: import_core16.semantic.colorError,
+            border: `${import_core16.semantic.borderWidthThick} solid ${import_core16.semantic.colorSurface}`
           }
         }
       )
@@ -2127,7 +2105,7 @@ var IconButton = (0, import_react17.forwardRef)(
       style
     };
     if (asChild) {
-      return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_core15.Slot, { ref, ...commonProps, "aria-disabled": disabled || void 0, children });
+      return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_core16.Slot, { ref, ...commonProps, "aria-disabled": disabled || void 0, children });
     }
     return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
       "button",
@@ -2144,12 +2122,12 @@ var IconButton = (0, import_react17.forwardRef)(
 
 // src/components/atoms/Overlay/Overlay.tsx
 var import_react18 = require("react");
-var import_core16 = require("../../core/dist/index.cjs");
+var import_core17 = require("../../core/dist/index.cjs");
 var import_jsx_runtime16 = require("react/jsx-runtime");
 var Overlay = (0, import_react18.forwardRef)(
   function Overlay2({
     onClick,
-    zIndex = import_core16.semantic.zIndexSticky
+    zIndex = import_core17.semantic.zIndexSticky
   }, ref) {
     return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
       "div",
@@ -2160,7 +2138,7 @@ var Overlay = (0, import_react18.forwardRef)(
         style: {
           position: "fixed",
           inset: 0,
-          background: import_core16.semantic.colorSurfaceOverlay,
+          background: import_core17.semantic.colorSurfaceOverlay,
           zIndex
         }
       }
@@ -2170,7 +2148,7 @@ var Overlay = (0, import_react18.forwardRef)(
 
 // src/components/atoms/Skeleton/Skeleton.tsx
 var import_react19 = require("react");
-var import_core17 = require("../../core/dist/index.cjs");
+var import_core18 = require("../../core/dist/index.cjs");
 var import_jsx_runtime17 = require("react/jsx-runtime");
 var SKELETON_STYLES_ID = "4lt7ab-skeleton-pulse";
 var STAGGER_STEPS = 10;
@@ -2217,8 +2195,8 @@ var Skeleton = (0, import_react19.forwardRef)(
     height = 16,
     radius = "md"
   }, ref) {
-    const { durationCss } = (0, import_core17.useThemeRhythm)();
-    (0, import_core17.useInjectStyles)(SKELETON_STYLES_ID, SKELETON_STYLES_CSS);
+    const { durationCss } = (0, import_core18.useThemeRhythm)();
+    (0, import_core18.useInjectStyles)(SKELETON_STYLES_ID, SKELETON_STYLES_CSS);
     return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
       "div",
       {
@@ -2229,7 +2207,7 @@ var Skeleton = (0, import_react19.forwardRef)(
           width,
           height,
           borderRadius: radiusMap[radius],
-          background: import_core17.semantic.colorSurfaceRaised,
+          background: import_core18.semantic.colorSurfaceRaised,
           ...durationCss ? { "--skeleton-duration": durationCss } : void 0
         }
       }
@@ -2244,12 +2222,12 @@ var CardSkeleton = (0, import_react19.forwardRef)(
         ref,
         "aria-hidden": "true",
         style: {
-          borderRadius: import_core17.semantic.radiusLg,
-          border: `${import_core17.semantic.borderWidthDefault} solid ${import_core17.semantic.colorBorder}`,
-          padding: import_core17.semantic.spaceLg,
+          borderRadius: import_core18.semantic.radiusLg,
+          border: `${import_core18.semantic.borderWidthDefault} solid ${import_core18.semantic.colorBorder}`,
+          padding: import_core18.semantic.spaceLg,
           display: "flex",
           flexDirection: "column",
-          gap: import_core17.semantic.spaceSm
+          gap: import_core18.semantic.spaceSm
         },
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Skeleton, { width: "60%", height: 20 }),
@@ -2270,12 +2248,12 @@ var RowSkeleton = (0, import_react19.forwardRef)(
         style: {
           display: "flex",
           alignItems: "center",
-          gap: import_core17.semantic.spaceSm,
-          padding: `${import_core17.semantic.spaceSm} 0`
+          gap: import_core18.semantic.spaceSm,
+          padding: `${import_core18.semantic.spaceSm} 0`
         },
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Skeleton, { width: 32, height: 32, radius: "full" }),
-          /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { style: { flex: 1, display: "flex", flexDirection: "column", gap: import_core17.semantic.spaceXs }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { style: { flex: 1, display: "flex", flexDirection: "column", gap: import_core18.semantic.spaceXs }, children: [
             /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Skeleton, { width: "40%", height: 14 }),
             /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Skeleton, { width: "70%", height: 12 })
           ] })
@@ -2287,7 +2265,7 @@ var RowSkeleton = (0, import_react19.forwardRef)(
 
 // src/components/atoms/ProgressBar/ProgressBar.tsx
 var import_react20 = require("react");
-var import_core18 = require("../../core/dist/index.cjs");
+var import_core19 = require("../../core/dist/index.cjs");
 var import_jsx_runtime18 = require("react/jsx-runtime");
 var ProgressBar = (0, import_react20.forwardRef)(
   function ProgressBar2({
@@ -2312,7 +2290,7 @@ var ProgressBar = (0, import_react20.forwardRef)(
           borderRadius: px / 2,
           overflow: "hidden",
           display: "flex",
-          background: import_core18.semantic.colorSurfaceRaised
+          background: import_core19.semantic.colorSurfaceRaised
         },
         children: segments.map((segment, i) => {
           const pct = total > 0 ? segment.value / total * 100 : 0;
@@ -2336,7 +2314,7 @@ var ProgressBar = (0, import_react20.forwardRef)(
 
 // src/components/molecules/EmptyState/EmptyState.tsx
 var import_react21 = require("react");
-var import_core19 = require("../../core/dist/index.cjs");
+var import_core20 = require("../../core/dist/index.cjs");
 var import_jsx_runtime19 = require("react/jsx-runtime");
 var EmptyState = (0, import_react21.forwardRef)(
   function EmptyState2({
@@ -2346,22 +2324,22 @@ var EmptyState = (0, import_react21.forwardRef)(
     children,
     action
   }, ref) {
-    const content = /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("div", { style: { padding: import_core19.semantic.spaceXl }, children: /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)(Stack, { align: "center", gap: "sm", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("span", { style: { color: import_core19.semantic.colorTextMuted, display: "inline-flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Icon, { name: icon, size: "xl" }) }),
+    const content = /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("div", { style: { padding: import_core20.semantic.spaceXl }, children: /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)(Stack, { align: "center", gap: "sm", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("span", { style: { color: import_core20.semantic.colorTextMuted, display: "inline-flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Icon, { name: icon, size: "xl" }) }),
       /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
         "span",
         {
           style: {
-            color: import_core19.semantic.colorTextSecondary,
-            fontSize: import_core19.semantic.fontSizeSm,
+            color: import_core20.semantic.colorTextSecondary,
+            fontSize: import_core20.semantic.fontSizeSm,
             textAlign: "center",
-            fontFamily: import_core19.semantic.fontSans
+            fontFamily: import_core20.semantic.fontSans
           },
           children: message
         }
       ),
       children,
-      action && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("div", { style: { marginTop: import_core19.semantic.spaceSm }, children: action })
+      action && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("div", { style: { marginTop: import_core20.semantic.spaceSm }, children: action })
     ] }) });
     if (variant === "card") {
       return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Card, { ref, variant: "flat", children: content });
@@ -2372,7 +2350,7 @@ var EmptyState = (0, import_react21.forwardRef)(
 
 // src/components/molecules/Pagination/Pagination.tsx
 var import_react22 = require("react");
-var import_core20 = require("../../core/dist/index.cjs");
+var import_core21 = require("../../core/dist/index.cjs");
 var import_jsx_runtime20 = require("react/jsx-runtime");
 var defaultLabels = {
   previous: "Previous",
@@ -2396,7 +2374,7 @@ var Pagination = (0, import_react22.forwardRef)(
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: import_core20.semantic.spaceSm
+          gap: import_core21.semantic.spaceSm
         },
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
@@ -2413,9 +2391,9 @@ var Pagination = (0, import_react22.forwardRef)(
             "span",
             {
               style: {
-                color: import_core20.semantic.colorTextMuted,
-                fontSize: import_core20.semantic.fontSizeSm,
-                fontFamily: import_core20.semantic.fontSans
+                color: import_core21.semantic.colorTextMuted,
+                fontSize: import_core21.semantic.fontSizeSm,
+                fontFamily: import_core21.semantic.fontSans
               },
               children: [
                 resolvedLabels.pageOf(page, totalPages),
@@ -2443,7 +2421,7 @@ var Pagination = (0, import_react22.forwardRef)(
 
 // src/components/molecules/Header/Header.tsx
 var import_react23 = require("react");
-var import_core21 = require("../../core/dist/index.cjs");
+var import_core22 = require("../../core/dist/index.cjs");
 var import_jsx_runtime21 = require("react/jsx-runtime");
 var Header = (0, import_react23.forwardRef)(
   function Header2({ title, level = "section", subtitle, indicator, trailing }, ref) {
@@ -2451,16 +2429,16 @@ var Header = (0, import_react23.forwardRef)(
     const Tag = isPage ? "h1" : "h2";
     const titleStyle2 = isPage ? {
       margin: 0,
-      fontFamily: import_core21.semantic.fontSans,
-      fontWeight: import_core21.semantic.fontWeightBold,
-      color: import_core21.semantic.colorText
+      fontFamily: import_core22.semantic.fontSans,
+      fontWeight: import_core22.semantic.fontWeightBold,
+      color: import_core22.semantic.colorText
     } : {
       margin: 0,
-      fontFamily: import_core21.semantic.fontSans,
-      fontWeight: import_core21.semantic.fontWeightSemibold,
-      fontSize: import_core21.semantic.fontSizeBase,
-      lineHeight: import_core21.semantic.lineHeightTight,
-      color: import_core21.semantic.colorText
+      fontFamily: import_core22.semantic.fontSans,
+      fontWeight: import_core22.semantic.fontWeightSemibold,
+      fontSize: import_core22.semantic.fontSizeBase,
+      lineHeight: import_core22.semantic.lineHeightTight,
+      color: import_core22.semantic.colorText
     };
     return /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(
       "div",
@@ -2470,17 +2448,17 @@ var Header = (0, import_react23.forwardRef)(
           display: "flex",
           justifyContent: "space-between",
           alignItems: isPage ? "flex-end" : "center",
-          gap: import_core21.semantic.spaceMd
+          gap: import_core22.semantic.spaceMd
         },
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { style: { minWidth: 0 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: import_core21.semantic.spaceSm }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: import_core22.semantic.spaceSm }, children: [
               /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(Tag, { style: titleStyle2, children: title }),
               indicator
             ] }),
-            subtitle && /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("span", { style: { color: import_core21.semantic.colorTextMuted, fontSize: import_core21.semantic.fontSizeSm, fontFamily: import_core21.semantic.fontSans }, children: subtitle })
+            subtitle && /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("span", { style: { color: import_core22.semantic.colorTextMuted, fontSize: import_core22.semantic.fontSizeSm, fontFamily: import_core22.semantic.fontSans }, children: subtitle })
           ] }),
-          trailing && /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { style: { display: "flex", alignItems: "center", gap: import_core21.semantic.spaceSm, flexShrink: 0 }, children: trailing })
+          trailing && /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { style: { display: "flex", alignItems: "center", gap: import_core22.semantic.spaceSm, flexShrink: 0 }, children: trailing })
         ]
       }
     );
@@ -2490,19 +2468,19 @@ var Header = (0, import_react23.forwardRef)(
 // src/components/organisms/ModalShell/ModalShell.tsx
 var import_react24 = require("react");
 var import_react_dom = require("react-dom");
-var import_core22 = require("../../core/dist/index.cjs");
+var import_core23 = require("../../core/dist/index.cjs");
 var import_jsx_runtime22 = require("react/jsx-runtime");
 var modalHeadingStyle = Object.freeze({
   margin: 0,
-  fontWeight: import_core22.semantic.fontWeightSemibold,
-  fontFamily: import_core22.semantic.fontSans,
-  color: import_core22.semantic.colorText,
-  fontSize: import_core22.semantic.fontSizeLg
+  fontWeight: import_core23.semantic.fontWeightSemibold,
+  fontFamily: import_core23.semantic.fontSans,
+  color: import_core23.semantic.colorText,
+  fontSize: import_core23.semantic.fontSizeLg
 });
 var modalFooterStyle = Object.freeze({
   display: "flex",
   justifyContent: "flex-end",
-  gap: import_core22.semantic.spaceSm
+  gap: import_core23.semantic.spaceSm
 });
 var FOCUSABLE_SELECTOR2 = [
   "a[href]",
@@ -2517,7 +2495,7 @@ var ModalShell = (0, import_react24.forwardRef)(
     onClose,
     children,
     width = "md",
-    zIndex = import_core22.semantic.zIndexModal,
+    zIndex = import_core23.semantic.zIndexModal,
     titleId,
     "aria-label": ariaLabel,
     role = "dialog"
@@ -2570,7 +2548,7 @@ var ModalShell = (0, import_react24.forwardRef)(
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              padding: import_core22.semantic.spaceMd,
+              padding: import_core23.semantic.spaceMd,
               zIndex: typeof zIndex === "number" ? zIndex + 1 : `calc(${zIndex} + 1)`,
               pointerEvents: "none"
             },
@@ -2584,12 +2562,12 @@ var ModalShell = (0, import_react24.forwardRef)(
                 "aria-label": ariaLabel,
                 tabIndex: -1,
                 style: {
-                  background: import_core22.semantic.colorSurface,
-                  color: import_core22.semantic.colorText,
-                  borderRadius: import_core22.semantic.radiusLg,
-                  boxShadow: import_core22.semantic.shadowLg,
-                  border: `${import_core22.semantic.borderWidthDefault} solid ${import_core22.semantic.colorBorder}`,
-                  padding: import_core22.semantic.spaceXl,
+                  background: import_core23.semantic.colorSurface,
+                  color: import_core23.semantic.colorText,
+                  borderRadius: import_core23.semantic.radiusLg,
+                  boxShadow: import_core23.semantic.shadowLg,
+                  border: `${import_core23.semantic.borderWidthDefault} solid ${import_core23.semantic.colorBorder}`,
+                  padding: import_core23.semantic.spaceXl,
                   maxWidth: modalWidthMap[width],
                   width: "100%",
                   maxHeight: "100%",
@@ -2609,60 +2587,60 @@ var ModalShell = (0, import_react24.forwardRef)(
 );
 
 // src/styles/sectionLabelStyle.ts
-var import_core23 = require("../../core/dist/index.cjs");
+var import_core24 = require("../../core/dist/index.cjs");
 var sectionLabelStyle = {
   display: "block",
-  fontSize: import_core23.semantic.fontSizeXs,
-  fontWeight: import_core23.semantic.fontWeightSemibold,
-  fontFamily: import_core23.semantic.fontSans,
-  color: import_core23.semantic.colorTextSecondary,
+  fontSize: import_core24.semantic.fontSizeXs,
+  fontWeight: import_core24.semantic.fontWeightSemibold,
+  fontFamily: import_core24.semantic.fontSans,
+  color: import_core24.semantic.colorTextSecondary,
   textTransform: "uppercase",
-  letterSpacing: import_core23.semantic.letterSpacingWide
+  letterSpacing: import_core24.semantic.letterSpacingWide
 };
 
 // src/styles/tagChipStyle.ts
-var import_core24 = require("../../core/dist/index.cjs");
+var import_core25 = require("../../core/dist/index.cjs");
 var tagChipStyle = {
   display: "inline-flex",
   alignItems: "center",
-  gap: import_core24.semantic.spaceXs,
-  fontSize: import_core24.semantic.fontSizeXs,
-  color: import_core24.semantic.colorActionPrimary,
-  background: import_core24.semantic.colorSurfaceRaised,
-  borderRadius: import_core24.semantic.radiusFull,
-  padding: `${import_core24.semantic.spaceXs} ${import_core24.semantic.spaceSm}`,
-  fontFamily: import_core24.semantic.fontSans
+  gap: import_core25.semantic.spaceXs,
+  fontSize: import_core25.semantic.fontSizeXs,
+  color: import_core25.semantic.colorActionPrimary,
+  background: import_core25.semantic.colorSurfaceRaised,
+  borderRadius: import_core25.semantic.radiusFull,
+  padding: `${import_core25.semantic.spaceXs} ${import_core25.semantic.spaceSm}`,
+  fontFamily: import_core25.semantic.fontSans
 };
 
 // src/styles/pillToggleStyle.ts
-var import_core25 = require("../../core/dist/index.cjs");
+var import_core26 = require("../../core/dist/index.cjs");
 var pillToggleBaseStyle = {
   display: "inline-flex",
   alignItems: "center",
-  padding: `${import_core25.semantic.spaceXs} ${import_core25.semantic.spaceSm}`,
-  fontSize: import_core25.semantic.fontSizeSm,
-  fontFamily: import_core25.semantic.fontSans,
-  fontWeight: import_core25.semantic.fontWeightMedium,
-  lineHeight: import_core25.semantic.lineHeightTight,
-  borderRadius: import_core25.semantic.radiusFull,
+  padding: `${import_core26.semantic.spaceXs} ${import_core26.semantic.spaceSm}`,
+  fontSize: import_core26.semantic.fontSizeSm,
+  fontFamily: import_core26.semantic.fontSans,
+  fontWeight: import_core26.semantic.fontWeightMedium,
+  lineHeight: import_core26.semantic.lineHeightTight,
+  borderRadius: import_core26.semantic.radiusFull,
   cursor: "pointer",
-  transition: `background ${import_core25.semantic.transitionFast}, border-color ${import_core25.semantic.transitionFast}, color ${import_core25.semantic.transitionFast}`,
+  transition: `background ${import_core26.semantic.transitionFast}, border-color ${import_core26.semantic.transitionFast}, color ${import_core26.semantic.transitionFast}`,
   outline: "none"
 };
 var pillToggleSelectedStyle = {
-  color: import_core25.semantic.colorActionPrimary,
-  background: import_core25.semantic.colorActionSecondary,
-  border: `${import_core25.semantic.borderWidthDefault} solid ${import_core25.semantic.colorActionPrimary}`
+  color: import_core26.semantic.colorActionPrimary,
+  background: import_core26.semantic.colorActionSecondary,
+  border: `${import_core26.semantic.borderWidthDefault} solid ${import_core26.semantic.colorActionPrimary}`
 };
 var pillToggleUnselectedStyle = {
-  color: import_core25.semantic.colorText,
+  color: import_core26.semantic.colorText,
   background: "transparent",
-  border: `${import_core25.semantic.borderWidthDefault} solid ${import_core25.semantic.colorBorder}`
+  border: `${import_core26.semantic.borderWidthDefault} solid ${import_core26.semantic.colorBorder}`
 };
 
 // src/components/molecules/ConfirmDialog/ConfirmDialog.tsx
 var import_react25 = require("react");
-var import_core26 = require("../../core/dist/index.cjs");
+var import_core27 = require("../../core/dist/index.cjs");
 var import_jsx_runtime23 = require("react/jsx-runtime");
 var variantButtonMap = {
   destructive: "destructive",
@@ -2702,15 +2680,15 @@ var ConfirmDialog = (0, import_react25.forwardRef)(
         "p",
         {
           style: {
-            margin: `${import_core26.semantic.spaceSm} 0 ${children ? "0" : import_core26.semantic.spaceLg}`,
-            color: import_core26.semantic.colorTextMuted,
-            fontSize: import_core26.semantic.fontSizeSm,
-            fontFamily: import_core26.semantic.fontSans
+            margin: `${import_core27.semantic.spaceSm} 0 ${children ? "0" : import_core27.semantic.spaceLg}`,
+            color: import_core27.semantic.colorTextMuted,
+            fontSize: import_core27.semantic.fontSizeSm,
+            fontFamily: import_core27.semantic.fontSans
           },
           children: message
         }
       ),
-      children && /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { style: { margin: `${import_core26.semantic.spaceSm} 0 ${import_core26.semantic.spaceLg}` }, children }),
+      children && /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { style: { margin: `${import_core27.semantic.spaceSm} 0 ${import_core27.semantic.spaceLg}` }, children }),
       /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { style: modalFooterStyle, children: [
         /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(Button, { variant: "ghost", onClick: onCancel, disabled: loading, autoFocus: true, children: "Cancel" }),
         /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(Button, { variant: variantButtonMap[variant], onClick: handleConfirm, disabled: loading, children: loading ? "Loading..." : confirmLabel })
@@ -2721,23 +2699,23 @@ var ConfirmDialog = (0, import_react25.forwardRef)(
 
 // src/components/organisms/Table/Table.tsx
 var import_react26 = require("react");
-var import_core27 = require("../../core/dist/index.cjs");
 var import_core28 = require("../../core/dist/index.cjs");
+var import_core29 = require("../../core/dist/index.cjs");
 var import_jsx_runtime24 = require("react/jsx-runtime");
 var spaceMap = {
-  xs: import_core27.semantic.spaceXs,
-  sm: import_core27.semantic.spaceSm,
-  md: import_core27.semantic.spaceMd,
-  lg: import_core27.semantic.spaceLg
+  xs: import_core28.semantic.spaceXs,
+  sm: import_core28.semantic.spaceSm,
+  md: import_core28.semantic.spaceMd,
+  lg: import_core28.semantic.spaceLg
 };
 var TABLE_STYLES_ID = "4lt7ab-table-row";
 var TABLE_STYLES_CSS = `
 [data-table-row-hoverable]:hover > td {
-  background: color-mix(in srgb, ${import_core27.semantic.colorText} 8%, transparent);
+  background: color-mix(in srgb, ${import_core28.semantic.colorText} 8%, transparent);
 }
 [data-table-row-selected] > td {
-  background: ${import_core27.semantic.colorSurfaceRaised};
-  border-bottom-color: ${import_core27.semantic.colorSurfaceRaised};
+  background: ${import_core28.semantic.colorSurfaceRaised};
+  border-bottom-color: ${import_core28.semantic.colorSurfaceRaised};
 }
 [data-table-row-selected] > td:first-child {
   position: relative;
@@ -2749,15 +2727,15 @@ var TABLE_STYLES_CSS = `
   top: 0;
   bottom: 0;
   width: 3px;
-  background: ${import_core27.semantic.colorActionPrimary};
+  background: ${import_core28.semantic.colorActionPrimary};
   pointer-events: none;
 }
 `;
 var wrapperVariants = {
   default: {
-    border: `${import_core27.semantic.borderWidthDefault} solid ${import_core27.semantic.colorBorder}`,
-    borderRadius: import_core27.semantic.radiusLg,
-    boxShadow: import_core27.semantic.shadowSm
+    border: `${import_core28.semantic.borderWidthDefault} solid ${import_core28.semantic.colorBorder}`,
+    borderRadius: import_core28.semantic.radiusLg,
+    boxShadow: import_core28.semantic.shadowSm
   },
   flat: {}
 };
@@ -2767,7 +2745,7 @@ var Table = (0, import_react26.forwardRef)(
     density = "md",
     children
   }, ref) {
-    (0, import_core28.useInjectStyles)(TABLE_STYLES_ID, TABLE_STYLES_CSS);
+    (0, import_core29.useInjectStyles)(TABLE_STYLES_ID, TABLE_STYLES_CSS);
     return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
       "div",
       {
@@ -2783,9 +2761,9 @@ var Table = (0, import_react26.forwardRef)(
             style: {
               width: "100%",
               borderCollapse: "collapse",
-              fontSize: import_core27.semantic.fontSizeSm,
-              fontFamily: import_core27.semantic.fontSans,
-              color: import_core27.semantic.colorText
+              fontSize: import_core28.semantic.fontSizeSm,
+              fontFamily: import_core28.semantic.fontSans,
+              color: import_core28.semantic.colorText
             },
             children
           }
@@ -2812,14 +2790,14 @@ var TableHeaderCell = (0, import_react26.forwardRef)(
         ref,
         colSpan,
         style: {
-          padding: `${import_core27.semantic.spaceSm} ${import_core27.semantic.spaceMd}`,
+          padding: `${import_core28.semantic.spaceSm} ${import_core28.semantic.spaceMd}`,
           textAlign: align,
-          fontWeight: import_core27.semantic.fontWeightSemibold,
-          fontSize: import_core27.semantic.fontSizeXs,
-          color: import_core27.semantic.colorTextMuted,
+          fontWeight: import_core28.semantic.fontWeightSemibold,
+          fontSize: import_core28.semantic.fontSizeXs,
+          color: import_core28.semantic.colorTextMuted,
           textTransform: "uppercase",
-          letterSpacing: import_core27.semantic.letterSpacingWide,
-          borderBottom: `${import_core27.semantic.borderWidthThick} solid ${import_core27.semantic.colorBorder}`,
+          letterSpacing: import_core28.semantic.letterSpacingWide,
+          borderBottom: `${import_core28.semantic.borderWidthThick} solid ${import_core28.semantic.colorBorder}`,
           whiteSpace: "nowrap",
           width: width !== void 0 ? `${width}px` : void 0
         },
@@ -2897,11 +2875,11 @@ var TableCell = (0, import_react26.forwardRef)(
         ref,
         colSpan,
         style: {
-          padding: `${import_core27.semantic.spaceSm} ${import_core27.semantic.spaceMd}`,
-          borderBottom: `${import_core27.semantic.borderWidthDefault} solid ${import_core27.semantic.colorBorder}`,
+          padding: `${import_core28.semantic.spaceSm} ${import_core28.semantic.spaceMd}`,
+          borderBottom: `${import_core28.semantic.borderWidthDefault} solid ${import_core28.semantic.colorBorder}`,
           verticalAlign: "middle",
           textAlign: align,
-          color: muted ? import_core27.semantic.colorTextMuted : void 0,
+          color: muted ? import_core28.semantic.colorTextMuted : void 0,
           width: width !== void 0 ? `${width}px` : void 0,
           ...truncate ? {
             maxWidth: 0,
@@ -2925,14 +2903,14 @@ var TableGroupHeader = (0, import_react26.forwardRef)(
       {
         colSpan,
         style: {
-          padding: `${import_core27.semantic.spaceXs} ${import_core27.semantic.spaceMd}`,
-          background: import_core27.semantic.colorSurfaceRaised,
-          borderBottom: `${import_core27.semantic.borderWidthDefault} solid ${import_core27.semantic.colorBorder}`,
-          fontSize: import_core27.semantic.fontSizeXs,
-          fontWeight: import_core27.semantic.fontWeightBold,
-          letterSpacing: import_core27.semantic.letterSpacingWide,
+          padding: `${import_core28.semantic.spaceXs} ${import_core28.semantic.spaceMd}`,
+          background: import_core28.semantic.colorSurfaceRaised,
+          borderBottom: `${import_core28.semantic.borderWidthDefault} solid ${import_core28.semantic.colorBorder}`,
+          fontSize: import_core28.semantic.fontSizeXs,
+          fontWeight: import_core28.semantic.fontWeightBold,
+          letterSpacing: import_core28.semantic.letterSpacingWide,
           textTransform: "uppercase",
-          color: import_core27.semantic.colorTextMuted,
+          color: import_core28.semantic.colorTextMuted,
           overflow: "hidden",
           textOverflow: "ellipsis",
           whiteSpace: "nowrap"
@@ -2952,10 +2930,10 @@ var TableEmptyRow = (0, import_react26.forwardRef)(
       {
         colSpan,
         style: {
-          padding: `${import_core27.semantic.spaceXl} ${import_core27.semantic.spaceMd}`,
+          padding: `${import_core28.semantic.spaceXl} ${import_core28.semantic.spaceMd}`,
           textAlign: "center",
-          color: import_core27.semantic.colorTextMuted,
-          fontSize: import_core27.semantic.fontSizeSm
+          color: import_core28.semantic.colorTextMuted,
+          fontSize: import_core28.semantic.fontSizeSm
         },
         children
       }
@@ -2965,7 +2943,7 @@ var TableEmptyRow = (0, import_react26.forwardRef)(
 
 // src/components/organisms/Table/FilterBar.tsx
 var import_react27 = require("react");
-var import_core29 = require("../../core/dist/index.cjs");
+var import_core30 = require("../../core/dist/index.cjs");
 var import_jsx_runtime25 = require("react/jsx-runtime");
 var FilterBarContext = (0, import_react27.createContext)(null);
 function useFilterBarContext(part) {
@@ -3025,7 +3003,7 @@ function FilterBar({
       style: {
         display: "flex",
         flexWrap: "wrap",
-        gap: import_core29.semantic.spaceSm,
+        gap: import_core30.semantic.spaceSm,
         alignItems: "flex-start",
         ...style
       },
@@ -3099,7 +3077,7 @@ var Table3 = Object.assign(Table, {
 
 // src/components/organisms/DateRangePicker/DateRangePicker.tsx
 var import_react30 = require("react");
-var import_core33 = require("../../core/dist/index.cjs");
+var import_core34 = require("../../core/dist/index.cjs");
 
 // src/components/organisms/Calendar/Calendar.tsx
 var import_react28 = require("react");
@@ -3203,7 +3181,7 @@ var Calendar = {
 };
 
 // src/components/organisms/Calendar/Header.tsx
-var import_core30 = require("../../core/dist/index.cjs");
+var import_core31 = require("../../core/dist/index.cjs");
 
 // src/components/organisms/DateRangePicker/dateUtils.ts
 function getDaysInMonth(year, month) {
@@ -3218,8 +3196,8 @@ function isSameDay(a, b) {
 function isInRange(date, from, to) {
   const d = stripTime(date).getTime();
   const f = stripTime(from).getTime();
-  const t47 = stripTime(to).getTime();
-  return d >= f && d <= t47;
+  const t48 = stripTime(to).getTime();
+  return d >= f && d <= t48;
 }
 function formatDate(date) {
   const y = date.getFullYear();
@@ -3266,10 +3244,10 @@ function buildCalendarGrid(year, month) {
 // src/components/organisms/Calendar/Header.tsx
 var import_jsx_runtime27 = require("react/jsx-runtime");
 var titleStyle = {
-  fontSize: import_core30.semantic.fontSizeSm,
-  fontWeight: import_core30.semantic.fontWeightSemibold,
-  fontFamily: import_core30.semantic.fontSans,
-  color: import_core30.semantic.colorText,
+  fontSize: import_core31.semantic.fontSizeSm,
+  fontWeight: import_core31.semantic.fontWeightSemibold,
+  fontFamily: import_core31.semantic.fontSans,
+  color: import_core31.semantic.colorText,
   margin: 0,
   userSelect: "none"
 };
@@ -3327,24 +3305,24 @@ function CalendarNav({
 
 // src/components/organisms/Calendar/Grid.tsx
 var import_react29 = require("react");
-var import_core32 = require("../../core/dist/index.cjs");
+var import_core33 = require("../../core/dist/index.cjs");
 
 // src/components/organisms/Calendar/Cell.tsx
-var import_core31 = require("../../core/dist/index.cjs");
+var import_core32 = require("../../core/dist/index.cjs");
 var import_jsx_runtime29 = require("react/jsx-runtime");
 var baseCellStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  width: import_core31.semantic.spaceXl,
-  height: import_core31.semantic.spaceXl,
+  width: import_core32.semantic.spaceXl,
+  height: import_core32.semantic.spaceXl,
   border: "none",
-  borderRadius: import_core31.semantic.radiusSm,
-  fontSize: import_core31.semantic.fontSizeSm,
-  fontFamily: import_core31.semantic.fontSans,
+  borderRadius: import_core32.semantic.radiusSm,
+  fontSize: import_core32.semantic.fontSizeSm,
+  fontFamily: import_core32.semantic.fontSans,
   cursor: "pointer",
   background: "transparent",
-  color: import_core31.semantic.colorText,
+  color: import_core32.semantic.colorText,
   padding: 0,
   transition: "background 120ms ease, color 120ms ease",
   outline: "none",
@@ -3402,14 +3380,14 @@ function CalendarCell({
   const disabled = isDisabled(ctx, date);
   const cellStyle = {
     ...baseCellStyle,
-    ...isOutsideMonth ? { color: import_core31.semantic.colorTextMuted, opacity: 0.5 } : {},
-    ...isToday && !isEndpoint ? { border: `${import_core31.semantic.borderWidthDefault} solid ${import_core31.semantic.colorActionPrimary}` } : {},
+    ...isOutsideMonth ? { color: import_core32.semantic.colorTextMuted, opacity: 0.5 } : {},
+    ...isToday && !isEndpoint ? { border: `${import_core32.semantic.borderWidthDefault} solid ${import_core32.semantic.colorActionPrimary}` } : {},
     ...inRange && !isEndpoint ? {
-      background: `color-mix(in srgb, ${import_core31.semantic.colorActionPrimary} 15%, transparent)`
+      background: `color-mix(in srgb, ${import_core32.semantic.colorActionPrimary} 15%, transparent)`
     } : {},
-    ...isEndpoint ? { background: import_core31.semantic.colorActionPrimary, color: import_core31.semantic.colorTextInverse } : {},
+    ...isEndpoint ? { background: import_core32.semantic.colorActionPrimary, color: import_core32.semantic.colorTextInverse } : {},
     ...disabled ? {
-      color: import_core31.semantic.colorTextDisabled,
+      color: import_core32.semantic.colorTextDisabled,
       pointerEvents: "none",
       cursor: "default",
       opacity: 0.5
@@ -3453,11 +3431,11 @@ var gridCSS2 = (
   /* css */
   `
   .alttab-calendar-day--enabled:hover {
-    background: ${import_core32.semantic.colorSurfaceRaised} !important;
+    background: ${import_core33.semantic.colorSurfaceRaised} !important;
   }
   .alttab-calendar-day--enabled:focus-visible {
-    outline: ${import_core32.semantic.focusRingWidth} solid ${import_core32.semantic.focusRingColor};
-    outline-offset: ${import_core32.semantic.focusRingOffset};
+    outline: ${import_core33.semantic.focusRingWidth} solid ${import_core33.semantic.focusRingColor};
+    outline-offset: ${import_core33.semantic.focusRingOffset};
   }
 `
 );
@@ -3501,12 +3479,12 @@ var tableStyle = {
   tableLayout: "fixed"
 };
 var weekdayHeaderStyle = {
-  fontSize: import_core32.semantic.fontSizeXs,
-  fontFamily: import_core32.semantic.fontSans,
-  fontWeight: import_core32.semantic.fontWeightMedium,
-  color: import_core32.semantic.colorTextMuted,
+  fontSize: import_core33.semantic.fontSizeXs,
+  fontFamily: import_core33.semantic.fontSans,
+  fontWeight: import_core33.semantic.fontWeightMedium,
+  color: import_core33.semantic.colorTextMuted,
   textAlign: "center",
-  padding: `${import_core32.semantic.spaceXs} 0`,
+  padding: `${import_core33.semantic.spaceXs} 0`,
   userSelect: "none"
 };
 function CalendarGridPrimitive({
@@ -3516,7 +3494,7 @@ function CalendarGridPrimitive({
   style,
   className
 }) {
-  (0, import_core32.useInjectStyles)(GRID_STYLES_ID2, gridCSS2);
+  (0, import_core33.useInjectStyles)(GRID_STYLES_ID2, gridCSS2);
   const ctx = useCalendarContext("Grid");
   const tableRef = (0, import_react29.useRef)(null);
   const todayRef = (0, import_react29.useRef)(/* @__PURE__ */ new Date());
@@ -3645,11 +3623,11 @@ var injectedCSS = (
   /* css */
   `
   .${SCOPE}-trigger:focus-visible {
-    border-color: ${import_core33.semantic.colorBorderFocused};
-    box-shadow: 0 0 0 ${import_core33.semantic.focusRingWidth} ${import_core33.semantic.focusRingColor};
+    border-color: ${import_core34.semantic.colorBorderFocused};
+    box-shadow: 0 0 0 ${import_core34.semantic.focusRingWidth} ${import_core34.semantic.focusRingColor};
   }
   .${SCOPE}-trigger:hover:not(:disabled) {
-    border-color: ${import_core33.semantic.colorBorderFocused};
+    border-color: ${import_core34.semantic.colorBorderFocused};
   }
 `
 );
@@ -3659,53 +3637,36 @@ var wrapperStyle2 = {
   width: "100%"
 };
 var triggerBaseStyle2 = {
+  ...inputShellBaseStyle,
   display: "block",
-  width: "100%",
-  padding: `${import_core33.semantic.spaceSm} ${import_core33.semantic.spaceMd}`,
-  fontSize: import_core33.semantic.fontSizeSm,
-  lineHeight: import_core33.semantic.lineHeightTight,
-  fontFamily: import_core33.semantic.fontSans,
-  color: import_core33.semantic.colorText,
-  background: import_core33.semantic.colorSurfaceInput,
-  border: `${import_core33.semantic.borderWidthDefault} solid ${import_core33.semantic.colorBorder}`,
-  borderRadius: import_core33.semantic.radiusMd,
+  lineHeight: import_core34.semantic.lineHeightTight,
   outline: "none",
-  transition: `border-color ${import_core33.semantic.transitionBase}, box-shadow ${import_core33.semantic.transitionBase}`,
-  boxSizing: "border-box",
   cursor: "pointer",
   textAlign: "left"
-};
-var triggerErrorStyle = {
-  borderColor: import_core33.semantic.colorBorderError
-};
-var triggerDisabledStyle = {
-  background: import_core33.semantic.colorSurfaceDisabled,
-  color: import_core33.semantic.colorTextDisabled,
-  cursor: "not-allowed"
 };
 var popoverStyle = {
   position: "absolute",
   top: "100%",
   left: 0,
-  zIndex: import_core33.semantic.zIndexDropdown,
-  marginTop: import_core33.semantic.spaceXs,
-  background: import_core33.semantic.colorSurfacePanel,
-  border: `${import_core33.semantic.borderWidthDefault} solid ${import_core33.semantic.colorBorder}`,
-  borderRadius: import_core33.semantic.radiusLg,
-  boxShadow: import_core33.semantic.shadowMd,
-  padding: import_core33.semantic.spaceMd,
+  zIndex: import_core34.semantic.zIndexDropdown,
+  marginTop: import_core34.semantic.spaceXs,
+  background: import_core34.semantic.colorSurfacePanel,
+  border: `${import_core34.semantic.borderWidthDefault} solid ${import_core34.semantic.colorBorder}`,
+  borderRadius: import_core34.semantic.radiusLg,
+  boxShadow: import_core34.semantic.shadowMd,
+  padding: import_core34.semantic.spaceMd,
   minWidth: 290,
   boxSizing: "border-box"
 };
 var placeholderStyle2 = {
-  color: import_core33.semantic.colorTextPlaceholder
+  color: import_core34.semantic.colorTextPlaceholder
 };
 var headerRowStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: `${import_core33.semantic.spaceXs} 0`,
-  marginBottom: import_core33.semantic.spaceSm
+  padding: `${import_core34.semantic.spaceXs} 0`,
+  marginBottom: import_core34.semantic.spaceSm
 };
 function sortedRange(a, b) {
   return a.getTime() <= b.getTime() ? { from: a, to: b } : { from: b, to: a };
@@ -3721,7 +3682,7 @@ var DateRangePicker = (0, import_react30.forwardRef)(
     hasError,
     disabled
   }, ref) {
-    (0, import_core33.useInjectStyles)(SCOPE, injectedCSS);
+    (0, import_core34.useInjectStyles)(SCOPE, injectedCSS);
     const [open, setOpen] = (0, import_react30.useState)(false);
     const [selectionStart, setSelectionStart] = (0, import_react30.useState)(null);
     const [hoverDate, setHoverDate] = (0, import_react30.useState)(null);
@@ -3810,8 +3771,8 @@ var DateRangePicker = (0, import_react30.forwardRef)(
               className: `${SCOPE}-trigger`,
               style: {
                 ...triggerBaseStyle2,
-                ...hasError ? triggerErrorStyle : {},
-                ...disabled ? triggerDisabledStyle : {}
+                ...hasError ? inputShellErrorStyle : {},
+                ...disabled ? inputShellDisabledStyle : {}
               },
               onClick: handleToggle,
               disabled,
@@ -3864,18 +3825,18 @@ var DateRangePicker = (0, import_react30.forwardRef)(
 
 // src/components/organisms/DatePicker/DatePicker.tsx
 var import_react31 = require("react");
-var import_core34 = require("../../core/dist/index.cjs");
+var import_core35 = require("../../core/dist/index.cjs");
 var import_jsx_runtime32 = require("react/jsx-runtime");
 var SCOPE2 = "alttab-dp";
 var injectedCSS2 = (
   /* css */
   `
   .${SCOPE2}-trigger:focus-visible {
-    border-color: ${import_core34.semantic.colorBorderFocused};
-    box-shadow: 0 0 0 ${import_core34.semantic.focusRingWidth} ${import_core34.semantic.focusRingColor};
+    border-color: ${import_core35.semantic.colorBorderFocused};
+    box-shadow: 0 0 0 ${import_core35.semantic.focusRingWidth} ${import_core35.semantic.focusRingColor};
   }
   .${SCOPE2}-trigger:hover:not(:disabled) {
-    border-color: ${import_core34.semantic.colorBorderFocused};
+    border-color: ${import_core35.semantic.colorBorderFocused};
   }
 `
 );
@@ -3885,53 +3846,36 @@ var wrapperStyle3 = {
   width: "100%"
 };
 var triggerBaseStyle3 = {
+  ...inputShellBaseStyle,
   display: "block",
-  width: "100%",
-  padding: `${import_core34.semantic.spaceSm} ${import_core34.semantic.spaceMd}`,
-  fontSize: import_core34.semantic.fontSizeSm,
-  lineHeight: import_core34.semantic.lineHeightTight,
-  fontFamily: import_core34.semantic.fontSans,
-  color: import_core34.semantic.colorText,
-  background: import_core34.semantic.colorSurfaceInput,
-  border: `${import_core34.semantic.borderWidthDefault} solid ${import_core34.semantic.colorBorder}`,
-  borderRadius: import_core34.semantic.radiusMd,
+  lineHeight: import_core35.semantic.lineHeightTight,
   outline: "none",
-  transition: `border-color ${import_core34.semantic.transitionBase}, box-shadow ${import_core34.semantic.transitionBase}`,
-  boxSizing: "border-box",
   cursor: "pointer",
   textAlign: "left"
-};
-var triggerErrorStyle2 = {
-  borderColor: import_core34.semantic.colorBorderError
-};
-var triggerDisabledStyle2 = {
-  background: import_core34.semantic.colorSurfaceDisabled,
-  color: import_core34.semantic.colorTextDisabled,
-  cursor: "not-allowed"
 };
 var popoverStyle2 = {
   position: "absolute",
   top: "100%",
   left: 0,
-  zIndex: import_core34.semantic.zIndexDropdown,
-  marginTop: import_core34.semantic.spaceXs,
-  background: import_core34.semantic.colorSurfacePanel,
-  border: `${import_core34.semantic.borderWidthDefault} solid ${import_core34.semantic.colorBorder}`,
-  borderRadius: import_core34.semantic.radiusLg,
-  boxShadow: import_core34.semantic.shadowMd,
-  padding: import_core34.semantic.spaceMd,
+  zIndex: import_core35.semantic.zIndexDropdown,
+  marginTop: import_core35.semantic.spaceXs,
+  background: import_core35.semantic.colorSurfacePanel,
+  border: `${import_core35.semantic.borderWidthDefault} solid ${import_core35.semantic.colorBorder}`,
+  borderRadius: import_core35.semantic.radiusLg,
+  boxShadow: import_core35.semantic.shadowMd,
+  padding: import_core35.semantic.spaceMd,
   minWidth: 290,
   boxSizing: "border-box"
 };
 var placeholderStyle3 = {
-  color: import_core34.semantic.colorTextPlaceholder
+  color: import_core35.semantic.colorTextPlaceholder
 };
 var headerRowStyle2 = {
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: `${import_core34.semantic.spaceXs} 0`,
-  marginBottom: import_core34.semantic.spaceSm
+  padding: `${import_core35.semantic.spaceXs} 0`,
+  marginBottom: import_core35.semantic.spaceSm
 };
 var DatePicker = (0, import_react31.forwardRef)(
   function DatePicker2({
@@ -3944,7 +3888,7 @@ var DatePicker = (0, import_react31.forwardRef)(
     hasError,
     disabled
   }, ref) {
-    (0, import_core34.useInjectStyles)(SCOPE2, injectedCSS2);
+    (0, import_core35.useInjectStyles)(SCOPE2, injectedCSS2);
     const [open, setOpen] = (0, import_react31.useState)(false);
     const containerRef = (0, import_react31.useRef)(null);
     useClickOutside(containerRef, () => setOpen(false), open);
@@ -4002,8 +3946,8 @@ var DatePicker = (0, import_react31.forwardRef)(
               className: `${SCOPE2}-trigger`,
               style: {
                 ...triggerBaseStyle3,
-                ...hasError ? triggerErrorStyle2 : {},
-                ...disabled ? triggerDisabledStyle2 : {}
+                ...hasError ? inputShellErrorStyle : {},
+                ...disabled ? inputShellDisabledStyle : {}
               },
               onClick: handleToggle,
               disabled,
@@ -4043,7 +3987,7 @@ var DatePicker = (0, import_react31.forwardRef)(
 
 // src/components/molecules/ErrorBoundary/ErrorBoundary.tsx
 var import_react32 = __toESM(require("react"), 1);
-var import_core35 = require("../../core/dist/index.cjs");
+var import_core36 = require("../../core/dist/index.cjs");
 var import_jsx_runtime33 = require("react/jsx-runtime");
 var ErrorBoundary = class extends import_react32.default.Component {
   constructor(props) {
@@ -4068,20 +4012,20 @@ var ErrorBoundary = class extends import_react32.default.Component {
     if (fallback) {
       return fallback({ error, resetErrorBoundary: this.resetErrorBoundary });
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("div", { style: { borderColor: import_core35.semantic.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: import_core35.semantic.radiusLg }, children: /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("div", { style: { borderColor: import_core36.semantic.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: import_core36.semantic.radiusLg }, children: /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
       Card,
       {
         variant: "flat",
         padding: "lg",
-        children: /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: import_core35.semantic.spaceMd }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("div", { style: { display: "flex", alignItems: "center", gap: import_core35.semantic.spaceSm }, children: /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: import_core36.semantic.spaceMd }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("div", { style: { display: "flex", alignItems: "center", gap: import_core36.semantic.spaceSm }, children: /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
             "span",
             {
               style: {
-                fontSize: import_core35.semantic.fontSizeLg,
-                color: import_core35.semantic.colorError,
-                fontWeight: import_core35.semantic.fontWeightSemibold,
-                fontFamily: import_core35.semantic.fontSans
+                fontSize: import_core36.semantic.fontSizeLg,
+                color: import_core36.semantic.colorError,
+                fontWeight: import_core36.semantic.fontWeightSemibold,
+                fontFamily: import_core36.semantic.fontSans
               },
               children: "Something went wrong"
             }
@@ -4091,13 +4035,13 @@ var ErrorBoundary = class extends import_react32.default.Component {
             {
               style: {
                 margin: 0,
-                fontFamily: import_core35.semantic.fontMono,
-                fontSize: import_core35.semantic.fontSizeSm,
-                lineHeight: import_core35.semantic.lineHeightBase,
-                color: import_core35.semantic.colorText,
-                background: import_core35.semantic.colorSurfaceRaised,
-                padding: import_core35.semantic.spaceSm,
-                borderRadius: import_core35.semantic.radiusMd,
+                fontFamily: import_core36.semantic.fontMono,
+                fontSize: import_core36.semantic.fontSizeSm,
+                lineHeight: import_core36.semantic.lineHeightBase,
+                color: import_core36.semantic.colorText,
+                background: import_core36.semantic.colorSurfaceRaised,
+                padding: import_core36.semantic.spaceSm,
+                borderRadius: import_core36.semantic.radiusMd,
                 wordBreak: "break-word"
               },
               children: error.message
@@ -4117,14 +4061,14 @@ var ErrorBoundary = class extends import_react32.default.Component {
               "pre",
               {
                 style: {
-                  marginTop: import_core35.semantic.spaceSm,
-                  fontFamily: import_core35.semantic.fontMono,
-                  fontSize: import_core35.semantic.fontSizeXs,
-                  lineHeight: import_core35.semantic.lineHeightBase,
-                  color: import_core35.semantic.colorTextSecondary,
-                  background: import_core35.semantic.colorSurfaceRaised,
-                  padding: import_core35.semantic.spaceSm,
-                  borderRadius: import_core35.semantic.radiusMd,
+                  marginTop: import_core36.semantic.spaceSm,
+                  fontFamily: import_core36.semantic.fontMono,
+                  fontSize: import_core36.semantic.fontSizeXs,
+                  lineHeight: import_core36.semantic.lineHeightBase,
+                  color: import_core36.semantic.colorTextSecondary,
+                  background: import_core36.semantic.colorSurfaceRaised,
+                  padding: import_core36.semantic.spaceSm,
+                  borderRadius: import_core36.semantic.radiusMd,
                   overflow: "auto",
                   maxHeight: "200px",
                   whiteSpace: "pre-wrap",
@@ -4144,7 +4088,7 @@ var ErrorBoundary = class extends import_react32.default.Component {
 // src/components/organisms/Toast/Toast.tsx
 var import_react33 = require("react");
 var import_react_dom2 = require("react-dom");
-var import_core36 = require("../../core/dist/index.cjs");
+var import_core37 = require("../../core/dist/index.cjs");
 var import_jsx_runtime34 = require("react/jsx-runtime");
 var ToastContext = (0, import_react33.createContext)(null);
 function useToast() {
@@ -4201,10 +4145,10 @@ var toastCSS = `
 }
 `;
 var typeColors = {
-  success: { bg: import_core36.semantic.colorSuccessBg, fg: import_core36.semantic.colorSuccess, border: import_core36.semantic.colorSuccess },
-  error: { bg: import_core36.semantic.colorErrorBg, fg: import_core36.semantic.colorError, border: import_core36.semantic.colorError },
-  info: { bg: import_core36.semantic.colorInfoBg, fg: import_core36.semantic.colorInfo, border: import_core36.semantic.colorInfo },
-  warning: { bg: import_core36.semantic.colorWarningBg, fg: import_core36.semantic.colorWarning, border: import_core36.semantic.colorWarning }
+  success: { bg: import_core37.semantic.colorSuccessBg, fg: import_core37.semantic.colorSuccess, border: import_core37.semantic.colorSuccess },
+  error: { bg: import_core37.semantic.colorErrorBg, fg: import_core37.semantic.colorError, border: import_core37.semantic.colorError },
+  info: { bg: import_core37.semantic.colorInfoBg, fg: import_core37.semantic.colorInfo, border: import_core37.semantic.colorInfo },
+  warning: { bg: import_core37.semantic.colorWarningBg, fg: import_core37.semantic.colorWarning, border: import_core37.semantic.colorWarning }
 };
 function ToastMessage({
   item,
@@ -4262,19 +4206,19 @@ function ToastMessage({
         position: "relative",
         display: "flex",
         alignItems: "center",
-        gap: import_core36.semantic.spaceSm,
-        padding: `${import_core36.semantic.spaceSm} ${import_core36.semantic.spaceMd}`,
-        paddingBottom: autoDismiss ? `calc(${import_core36.semantic.spaceSm} + 2px)` : import_core36.semantic.spaceSm,
-        backgroundColor: import_core36.semantic.colorSurfaceSolid,
+        gap: import_core37.semantic.spaceSm,
+        padding: `${import_core37.semantic.spaceSm} ${import_core37.semantic.spaceMd}`,
+        paddingBottom: autoDismiss ? `calc(${import_core37.semantic.spaceSm} + 2px)` : import_core37.semantic.spaceSm,
+        backgroundColor: import_core37.semantic.colorSurfaceSolid,
         backgroundImage: `linear-gradient(${colors.bg}, ${colors.bg})`,
         color: colors.fg,
-        borderRadius: import_core36.semantic.radiusMd,
-        borderLeft: `${import_core36.semantic.borderWidthAccent} solid ${colors.border}`,
-        boxShadow: import_core36.semantic.shadowMd,
-        fontSize: import_core36.semantic.fontSizeSm,
-        fontFamily: import_core36.semantic.fontSans,
-        fontWeight: import_core36.semantic.fontWeightMedium,
-        lineHeight: import_core36.semantic.lineHeightBase,
+        borderRadius: import_core37.semantic.radiusMd,
+        borderLeft: `${import_core37.semantic.borderWidthAccent} solid ${colors.border}`,
+        boxShadow: import_core37.semantic.shadowMd,
+        fontSize: import_core37.semantic.fontSizeSm,
+        fontFamily: import_core37.semantic.fontSans,
+        fontWeight: import_core37.semantic.fontWeightMedium,
+        lineHeight: import_core37.semantic.lineHeightBase,
         pointerEvents: "auto",
         animation: exiting ? "toast-fade-out 200ms ease forwards" : "toast-slide-in 250ms ease",
         maxWidth: "24rem",
@@ -4314,17 +4258,17 @@ function ToastContainer({
   onDismiss,
   position
 }) {
-  (0, import_core36.useInjectStyles)(STYLE_ID, toastCSS);
+  (0, import_core37.useInjectStyles)(STYLE_ID, toastCSS);
   if (toasts.length === 0) return null;
   const positionStyles = {
     position: "fixed",
-    zIndex: import_core36.semantic.zIndexToast,
+    zIndex: import_core37.semantic.zIndexToast,
     display: "flex",
     flexDirection: "column",
-    gap: import_core36.semantic.spaceSm,
+    gap: import_core37.semantic.spaceSm,
     pointerEvents: "none",
-    ...position.startsWith("top") ? { top: import_core36.semantic.spaceLg } : { bottom: import_core36.semantic.spaceLg },
-    ...position.endsWith("right") ? { right: import_core36.semantic.spaceLg } : { left: import_core36.semantic.spaceLg }
+    ...position.startsWith("top") ? { top: import_core37.semantic.spaceLg } : { bottom: import_core37.semantic.spaceLg },
+    ...position.endsWith("right") ? { right: import_core37.semantic.spaceLg } : { left: import_core37.semantic.spaceLg }
   };
   return (0, import_react_dom2.createPortal)(
     /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("div", { "aria-live": "polite", style: positionStyles, children: toasts.map((item) => /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(ToastMessage, { item, onDismiss }, item.id)) }),
@@ -4338,7 +4282,7 @@ function ToastProvider({
 }) {
   const [toasts, setToasts] = (0, import_react33.useState)([]);
   const dismiss = (0, import_react33.useCallback)((id) => {
-    setToasts((prev) => prev.filter((t47) => t47.id !== id));
+    setToasts((prev) => prev.filter((t48) => t48.id !== id));
   }, []);
   const showToast = (0, import_react33.useCallback)(
     (message, typeOrOptions) => {
@@ -4361,7 +4305,7 @@ function ToastProvider({
 
 // src/components/organisms/Combobox/Combobox.tsx
 var import_react34 = require("react");
-var import_core37 = require("../../core/dist/index.cjs");
+var import_core38 = require("../../core/dist/index.cjs");
 var import_jsx_runtime35 = require("react/jsx-runtime");
 var COMBOBOX_STYLES_ID = "alttab-combobox";
 var comboboxCSS = (
@@ -4424,7 +4368,7 @@ function Root3({
   hasError = false,
   children
 }) {
-  (0, import_core37.useInjectStyles)(COMBOBOX_STYLES_ID, comboboxCSS);
+  (0, import_core38.useInjectStyles)(COMBOBOX_STYLES_ID, comboboxCSS);
   const instanceId = (0, import_react34.useId)();
   const listboxId = `${instanceId}-listbox`;
   const [internalValue, setInternalValue] = (0, import_react34.useState)(defaultValue ?? "");
@@ -4673,8 +4617,8 @@ function Input3({
       "data-testid": dataTestId,
       style: {
         ...inputBaseStyle,
-        ...hasError ? errorBorderStyle4 : {},
-        ...disabled ? disabledStyle4 : {}
+        ...hasError ? inputShellErrorStyle : {},
+        ...disabled ? inputShellDisabledStyle : {}
       }
     }
   );
@@ -4696,13 +4640,13 @@ function List({ children }) {
     top: "100%",
     left: 0,
     right: 0,
-    marginTop: import_core37.semantic.spaceXs
+    marginTop: import_core38.semantic.spaceXs
   } : {
     position: "absolute",
     bottom: "100%",
     left: 0,
     right: 0,
-    marginBottom: import_core37.semantic.spaceXs
+    marginBottom: import_core38.semantic.spaceXs
   };
   return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
     "div",
@@ -4713,12 +4657,12 @@ function List({ children }) {
       hidden: !open,
       style: open ? {
         ...positionStyle,
-        background: import_core37.semantic.colorSurfacePanel,
-        border: `${import_core37.semantic.borderWidthDefault} solid ${import_core37.semantic.colorBorder}`,
-        borderRadius: import_core37.semantic.radiusMd,
-        padding: import_core37.semantic.spaceXs,
-        zIndex: import_core37.semantic.zIndexSticky,
-        boxShadow: import_core37.semantic.shadowMd,
+        background: import_core38.semantic.colorSurfacePanel,
+        border: `${import_core38.semantic.borderWidthDefault} solid ${import_core38.semantic.colorBorder}`,
+        borderRadius: import_core38.semantic.radiusMd,
+        padding: import_core38.semantic.spaceXs,
+        zIndex: import_core38.semantic.zIndexSticky,
+        boxShadow: import_core38.semantic.shadowMd,
         maxHeight: "16rem",
         overflowY: "auto",
         boxSizing: "border-box"
@@ -4774,10 +4718,10 @@ function Empty({ children }) {
     {
       role: "presentation",
       style: {
-        padding: `${import_core37.semantic.spaceXs} ${import_core37.semantic.spaceSm}`,
-        fontSize: import_core37.semantic.fontSizeSm,
-        color: import_core37.semantic.colorTextMuted,
-        fontFamily: import_core37.semantic.fontSans
+        padding: `${import_core38.semantic.spaceXs} ${import_core38.semantic.spaceSm}`,
+        fontSize: import_core38.semantic.fontSizeSm,
+        color: import_core38.semantic.colorTextMuted,
+        fontFamily: import_core38.semantic.fontSans
       },
       children
     }
@@ -4789,27 +4733,10 @@ var wrapperStyle4 = {
   width: "100%"
 };
 var inputBaseStyle = {
+  ...inputShellBaseStyle,
   display: "block",
-  width: "100%",
-  padding: `${import_core37.semantic.spaceSm} ${import_core37.semantic.spaceMd}`,
-  fontSize: import_core37.semantic.fontSizeSm,
-  lineHeight: import_core37.semantic.lineHeightTight,
-  fontFamily: import_core37.semantic.fontSans,
-  color: import_core37.semantic.colorText,
-  background: import_core37.semantic.colorSurfaceInput,
-  border: `${import_core37.semantic.borderWidthDefault} solid ${import_core37.semantic.colorBorder}`,
-  borderRadius: import_core37.semantic.radiusMd,
-  outline: "none",
-  transition: `border-color ${import_core37.semantic.transitionBase}, box-shadow ${import_core37.semantic.transitionBase}`,
-  boxSizing: "border-box"
-};
-var errorBorderStyle4 = {
-  borderColor: import_core37.semantic.colorBorderError
-};
-var disabledStyle4 = {
-  background: import_core37.semantic.colorSurfaceDisabled,
-  color: import_core37.semantic.colorTextDisabled,
-  cursor: "not-allowed"
+  lineHeight: import_core38.semantic.lineHeightTight,
+  outline: "none"
 };
 var Combobox = {
   Root: Root3,
@@ -4821,7 +4748,7 @@ var Combobox = {
 
 // src/components/molecules/ChipPicker/ChipPicker.tsx
 var import_react35 = require("react");
-var import_core38 = require("../../core/dist/index.cjs");
+var import_core39 = require("../../core/dist/index.cjs");
 var import_jsx_runtime36 = require("react/jsx-runtime");
 function ChipPicker({
   items,
@@ -4844,17 +4771,17 @@ function ChipPicker({
     },
     [isControlled, onChange]
   );
-  (0, import_core38.useInjectStyles)(
+  (0, import_core39.useInjectStyles)(
     styleId,
     `[data-chip-picker-id="${styleId}"] button:hover {
-      background: ${import_core38.semantic.colorSurfaceRaised} !important;
+      background: ${import_core39.semantic.colorSurfaceRaised} !important;
     }
     [data-chip-picker-id="${styleId}"] button[aria-pressed="true"]:hover {
-      background: ${import_core38.semantic.colorActionSecondaryHover} !important;
+      background: ${import_core39.semantic.colorActionSecondaryHover} !important;
     }
     [data-chip-picker-id="${styleId}"] button:focus-visible {
-      outline: ${import_core38.semantic.focusRingWidth} solid ${import_core38.semantic.focusRingColor};
-      outline-offset: ${import_core38.semantic.focusRingOffset};
+      outline: ${import_core39.semantic.focusRingWidth} solid ${import_core39.semantic.focusRingColor};
+      outline-offset: ${import_core39.semantic.focusRingOffset};
     }`
   );
   const toggle = (value) => {
@@ -4887,7 +4814,7 @@ function ChipPicker({
       style: {
         display: "flex",
         flexWrap: "wrap",
-        gap: import_core38.semantic.spaceSm
+        gap: import_core39.semantic.spaceSm
       },
       children: chips.map((item) => {
         const isSelected = selected.includes(item.value);
@@ -4917,10 +4844,10 @@ function ChipPicker({
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: import_core38.semantic.spaceMd
+        gap: import_core39.semantic.spaceMd
       },
-      children: groups.map((group, i) => /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: import_core38.semantic.spaceSm }, children: [
-        group.label !== null && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { style: i > 0 ? { marginTop: import_core38.semantic.spaceXs } : void 0, children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { style: sectionLabelStyle, children: group.label }) }),
+      children: groups.map((group, i) => /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: import_core39.semantic.spaceSm }, children: [
+        group.label !== null && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { style: i > 0 ? { marginTop: import_core39.semantic.spaceXs } : void 0, children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { style: sectionLabelStyle, children: group.label }) }),
         renderChips(group.chips)
       ] }, group.label ?? "__ungrouped"))
     }
@@ -4929,13 +4856,13 @@ function ChipPicker({
 
 // src/components/molecules/SearchInput/SearchInput.tsx
 var import_react36 = require("react");
-var import_core39 = require("../../core/dist/index.cjs");
+var import_core40 = require("../../core/dist/index.cjs");
 var import_jsx_runtime37 = require("react/jsx-runtime");
 var STYLE_ID2 = "4lt7ab-search-input";
 var hoverFocusCSS = `
   .search-input-wrapper:focus-within {
-    border-color: ${import_core39.semantic.colorBorderFocused};
-    box-shadow: 0 0 0 ${import_core39.semantic.focusRingWidth} ${import_core39.semantic.focusRingColor};
+    border-color: ${import_core40.semantic.colorBorderFocused};
+    box-shadow: 0 0 0 ${import_core40.semantic.focusRingWidth} ${import_core40.semantic.focusRingColor};
   }
   @media (prefers-reduced-motion: reduce) {
     .search-input-wrapper {
@@ -4944,20 +4871,11 @@ var hoverFocusCSS = `
   }
 `;
 var wrapperStyle5 = {
+  ...inputShellBaseStyle,
   display: "flex",
   alignItems: "center",
-  gap: import_core39.semantic.spaceXs,
-  width: "100%",
-  padding: `${import_core39.semantic.spaceSm} ${import_core39.semantic.spaceMd}`,
-  fontSize: import_core39.semantic.fontSizeSm,
-  lineHeight: import_core39.semantic.lineHeightTight,
-  fontFamily: import_core39.semantic.fontSans,
-  color: import_core39.semantic.colorText,
-  background: import_core39.semantic.colorSurfaceInput,
-  border: `${import_core39.semantic.borderWidthDefault} solid ${import_core39.semantic.colorBorder}`,
-  borderRadius: import_core39.semantic.radiusMd,
-  transition: `border-color ${import_core39.semantic.transitionBase}, box-shadow ${import_core39.semantic.transitionBase}`,
-  boxSizing: "border-box"
+  gap: import_core40.semantic.spaceXs,
+  lineHeight: import_core40.semantic.lineHeightTight
 };
 var inputStyle = {
   flex: 1,
@@ -4971,11 +4889,7 @@ var inputStyle = {
   fontFamily: "inherit",
   padding: 0
 };
-var disabledWrapperStyle = {
-  background: import_core39.semantic.colorSurfaceDisabled,
-  color: import_core39.semantic.colorTextDisabled,
-  cursor: "not-allowed"
-};
+var disabledWrapperStyle = inputShellDisabledStyle;
 var SearchInput = (0, import_react36.forwardRef)(
   function SearchInput2({
     value,
@@ -4993,7 +4907,7 @@ var SearchInput = (0, import_react36.forwardRef)(
     "aria-describedby": ariaDescribedBy,
     "data-testid": dataTestId
   }, ref) {
-    (0, import_core39.useInjectStyles)(STYLE_ID2, hoverFocusCSS);
+    (0, import_core40.useInjectStyles)(STYLE_ID2, hoverFocusCSS);
     const [localValue, setLocalValue] = (0, import_react36.useState)(value);
     const timerRef = (0, import_react36.useRef)(null);
     const onSearchRef = (0, import_react36.useRef)(onSearch);
@@ -5024,7 +4938,7 @@ var SearchInput = (0, import_react36.forwardRef)(
           ...disabled ? disabledWrapperStyle : {}
         },
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { style: { color: import_core39.semantic.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(Icon, { name: "search", size: "sm" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { style: { color: import_core40.semantic.colorTextMuted, flexShrink: 0, display: "inline-flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(Icon, { name: "search", size: "sm" }) }),
           /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
             "input",
             {
@@ -5053,7 +4967,7 @@ var SearchInput = (0, import_react36.forwardRef)(
 
 // src/components/molecules/SegmentedControl/SegmentedControl.tsx
 var import_react38 = require("react");
-var import_core40 = require("../../core/dist/index.cjs");
+var import_core41 = require("../../core/dist/index.cjs");
 
 // src/utils/useRovingFocus.ts
 var import_react37 = require("react");
@@ -5108,12 +5022,12 @@ var import_jsx_runtime38 = require("react/jsx-runtime");
 var STYLE_ID3 = "4lt7ab-segmented-control";
 var hoverCSS = `
   .segmented-ctrl-btn:hover:not([aria-pressed="true"]) {
-    color: ${import_core40.semantic.colorText};
+    color: ${import_core41.semantic.colorText};
   }
   .segmented-ctrl-btn:focus-visible {
-    outline: ${import_core40.semantic.focusRingWidth} solid ${import_core40.semantic.focusRingColor};
-    outline-offset: ${import_core40.semantic.focusRingOffset};
-    border-radius: ${import_core40.semantic.radiusFull};
+    outline: ${import_core41.semantic.focusRingWidth} solid ${import_core41.semantic.focusRingColor};
+    outline-offset: ${import_core41.semantic.focusRingOffset};
+    border-radius: ${import_core41.semantic.radiusFull};
     z-index: 2;
   }
   @media (prefers-reduced-motion: reduce) {
@@ -5134,7 +5048,7 @@ function SegmentedControl({
   size = "md",
   "aria-label": ariaLabel
 }) {
-  (0, import_core40.useInjectStyles)(STYLE_ID3, hoverCSS);
+  (0, import_core41.useInjectStyles)(STYLE_ID3, hoverCSS);
   const isControlled = controlledValue !== void 0;
   const [internalValue, setInternalValue] = (0, import_react38.useState)(
     () => defaultValue ?? segments[0]?.value ?? ""
@@ -5189,9 +5103,9 @@ function SegmentedControl({
         display: "inline-flex",
         alignItems: "center",
         height: s.height,
-        background: import_core40.semantic.colorSurfaceInput,
-        borderRadius: import_core40.semantic.radiusFull,
-        border: `${import_core40.semantic.borderWidthDefault} solid ${import_core40.semantic.colorBorder}`,
+        background: import_core41.semantic.colorSurfaceInput,
+        borderRadius: import_core41.semantic.radiusFull,
+        border: `${import_core41.semantic.borderWidthDefault} solid ${import_core41.semantic.colorBorder}`,
         padding: 2,
         boxSizing: "border-box"
       },
@@ -5206,9 +5120,9 @@ function SegmentedControl({
               left: indicator.left,
               width: indicator.width,
               height: s.height - 6,
-              borderRadius: import_core40.semantic.radiusFull,
-              background: import_core40.semantic.colorActionPrimary,
-              transition: `left ${import_core40.semantic.transitionSlow}, width ${import_core40.semantic.transitionSlow}`,
+              borderRadius: import_core41.semantic.radiusFull,
+              background: import_core41.semantic.colorActionPrimary,
+              transition: `left ${import_core41.semantic.transitionSlow}, width ${import_core41.semantic.transitionSlow}`,
               pointerEvents: "none"
             }
           }
@@ -5233,18 +5147,18 @@ function SegmentedControl({
                 display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "center",
-                gap: import_core40.semantic.spaceXs,
+                gap: import_core41.semantic.spaceXs,
                 height: s.height - 6,
                 padding: iconOnly ? `0 ${s.px - 2}px` : `0 ${s.px}px`,
                 border: "none",
-                borderRadius: import_core40.semantic.radiusFull,
+                borderRadius: import_core41.semantic.radiusFull,
                 background: "transparent",
-                color: isActive ? import_core40.semantic.colorTextInverse : import_core40.semantic.colorTextMuted,
+                color: isActive ? import_core41.semantic.colorTextInverse : import_core41.semantic.colorTextMuted,
                 fontSize: s.fontSize,
-                fontFamily: import_core40.semantic.fontSans,
-                fontWeight: isActive ? import_core40.semantic.fontWeightSemibold : import_core40.semantic.fontWeightNormal,
+                fontFamily: import_core41.semantic.fontSans,
+                fontWeight: isActive ? import_core41.semantic.fontWeightSemibold : import_core41.semantic.fontWeightNormal,
                 cursor: "pointer",
-                transition: `color ${import_core40.semantic.transitionBase}`,
+                transition: `color ${import_core41.semantic.transitionBase}`,
                 whiteSpace: "nowrap",
                 lineHeight: 1
               },
@@ -5263,7 +5177,7 @@ function SegmentedControl({
 
 // src/components/molecules/AlertBanner/AlertBanner.tsx
 var import_react39 = require("react");
-var import_core41 = require("../../core/dist/index.cjs");
+var import_core42 = require("../../core/dist/index.cjs");
 var import_jsx_runtime39 = require("react/jsx-runtime");
 var STYLE_ID4 = "4lt7ab-alert-banner";
 var alertBannerCSS = `
@@ -5279,10 +5193,10 @@ var alertBannerCSS = `
 }
 `;
 var variantColors2 = {
-  info: { bg: import_core41.semantic.colorInfoBg, fg: import_core41.semantic.colorInfo, border: import_core41.semantic.colorInfo },
-  warning: { bg: import_core41.semantic.colorWarningBg, fg: import_core41.semantic.colorWarning, border: import_core41.semantic.colorWarning },
-  error: { bg: import_core41.semantic.colorErrorBg, fg: import_core41.semantic.colorError, border: import_core41.semantic.colorError },
-  success: { bg: import_core41.semantic.colorSuccessBg, fg: import_core41.semantic.colorSuccess, border: import_core41.semantic.colorSuccess }
+  info: { bg: import_core42.semantic.colorInfoBg, fg: import_core42.semantic.colorInfo, border: import_core42.semantic.colorInfo },
+  warning: { bg: import_core42.semantic.colorWarningBg, fg: import_core42.semantic.colorWarning, border: import_core42.semantic.colorWarning },
+  error: { bg: import_core42.semantic.colorErrorBg, fg: import_core42.semantic.colorError, border: import_core42.semantic.colorError },
+  success: { bg: import_core42.semantic.colorSuccessBg, fg: import_core42.semantic.colorSuccess, border: import_core42.semantic.colorSuccess }
 };
 var defaultIcons = {
   info: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(IconInfo, { size: 20 }),
@@ -5292,7 +5206,7 @@ var defaultIcons = {
 };
 var AlertBanner = (0, import_react39.forwardRef)(
   function AlertBanner2({ variant, children, onDismiss, icon }, ref) {
-    (0, import_core41.useInjectStyles)(STYLE_ID4, alertBannerCSS);
+    (0, import_core42.useInjectStyles)(STYLE_ID4, alertBannerCSS);
     const colors = variantColors2[variant];
     const resolvedIcon = icon !== void 0 ? icon : defaultIcons[variant];
     return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(
@@ -5303,16 +5217,16 @@ var AlertBanner = (0, import_react39.forwardRef)(
         style: {
           display: "flex",
           alignItems: "center",
-          gap: import_core41.semantic.spaceSm,
+          gap: import_core42.semantic.spaceSm,
           width: "100%",
-          padding: `${import_core41.semantic.spaceSm} ${import_core41.semantic.spaceMd}`,
+          padding: `${import_core42.semantic.spaceSm} ${import_core42.semantic.spaceMd}`,
           background: colors.bg,
           color: colors.fg,
-          borderBottom: `${import_core41.semantic.borderWidthThick} solid ${colors.border}`,
-          fontFamily: import_core41.semantic.fontSans,
-          fontSize: import_core41.semantic.fontSizeSm,
-          fontWeight: import_core41.semantic.fontWeightMedium,
-          lineHeight: import_core41.semantic.lineHeightBase,
+          borderBottom: `${import_core42.semantic.borderWidthThick} solid ${colors.border}`,
+          fontFamily: import_core42.semantic.fontSans,
+          fontSize: import_core42.semantic.fontSizeSm,
+          fontWeight: import_core42.semantic.fontWeightMedium,
+          lineHeight: import_core42.semantic.lineHeightBase,
           boxSizing: "border-box",
           animation: "alert-banner-slide-in 250ms ease"
         },
@@ -5336,7 +5250,7 @@ var AlertBanner = (0, import_react39.forwardRef)(
 
 // src/components/organisms/TopBar/TopBar.tsx
 var import_react40 = require("react");
-var import_core42 = require("../../core/dist/index.cjs");
+var import_core43 = require("../../core/dist/index.cjs");
 var import_jsx_runtime40 = require("react/jsx-runtime");
 var TopBarContext = (0, import_react40.createContext)(null);
 function useTopBarContext(component) {
@@ -5360,22 +5274,22 @@ var TOPBAR_CSS = `
     right: 0;
     height: 2px;
     background: transparent;
-    transition: background ${import_core42.semantic.transitionBase};
+    transition: background ${import_core43.semantic.transitionBase};
   }
   [data-topbar-link]:hover::after {
-    background: ${import_core42.semantic.colorBorder};
+    background: ${import_core43.semantic.colorBorder};
   }
   [data-topbar-link][data-active]::after {
-    background: ${import_core42.semantic.colorActionPrimary};
+    background: ${import_core43.semantic.colorActionPrimary};
   }
   [data-topbar-link]:hover {
-    color: ${import_core42.semantic.colorText};
+    color: ${import_core43.semantic.colorText};
   }
 `;
 var TopBarRoot = (0, import_react40.forwardRef)(
   function TopBarRoot2({ children, sticky = false, ...rest }, ref) {
-    (0, import_core42.useInjectStyles)(TOPBAR_STYLES_ID, TOPBAR_CSS);
-    const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: import_core42.semantic.zIndexSticky } : {};
+    (0, import_core43.useInjectStyles)(TOPBAR_STYLES_ID, TOPBAR_CSS);
+    const stickyStyle = sticky ? { position: "sticky", top: 0, zIndex: import_core43.semantic.zIndexSticky } : {};
     return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(TopBarContext.Provider, { value: true, children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
       "header",
       {
@@ -5386,11 +5300,11 @@ var TopBarRoot = (0, import_react40.forwardRef)(
         style: {
           display: "flex",
           alignItems: "center",
-          height: import_core42.semantic.space2xl,
-          padding: `0 ${import_core42.semantic.spaceMd}`,
-          background: import_core42.semantic.colorSurface,
-          borderBottom: `${import_core42.semantic.borderWidthDefault} solid ${import_core42.semantic.colorBorder}`,
-          fontFamily: import_core42.semantic.fontSans,
+          height: import_core43.semantic.space2xl,
+          padding: `0 ${import_core43.semantic.spaceMd}`,
+          background: import_core43.semantic.colorSurface,
+          borderBottom: `${import_core43.semantic.borderWidthDefault} solid ${import_core43.semantic.colorBorder}`,
+          fontFamily: import_core43.semantic.fontSans,
           ...stickyStyle
         },
         children
@@ -5406,10 +5320,10 @@ function TopBarLeading({ children }) {
       style: {
         display: "flex",
         alignItems: "center",
-        fontWeight: import_core42.semantic.fontWeightBold,
-        fontSize: import_core42.semantic.fontSizeSm,
-        color: import_core42.semantic.colorText,
-        marginRight: import_core42.semantic.spaceLg,
+        fontWeight: import_core43.semantic.fontWeightBold,
+        fontSize: import_core43.semantic.fontSizeSm,
+        color: import_core43.semantic.colorText,
+        marginRight: import_core43.semantic.spaceLg,
         whiteSpace: "nowrap",
         flexShrink: 0
       },
@@ -5426,7 +5340,7 @@ function TopBarNav({ children, "aria-label": ariaLabel = "Primary" }) {
       style: {
         display: "flex",
         alignItems: "center",
-        gap: import_core42.semantic.spaceXs,
+        gap: import_core43.semantic.spaceXs,
         height: "100%",
         flex: 1,
         minWidth: 0
@@ -5440,19 +5354,19 @@ var TopBarLink = (0, import_react40.forwardRef)(function TopBarLink2({ active = 
   const style = {
     display: "inline-flex",
     alignItems: "center",
-    gap: import_core42.semantic.spaceXs,
+    gap: import_core43.semantic.spaceXs,
     height: "100%",
-    padding: `0 ${import_core42.semantic.spaceSm}`,
+    padding: `0 ${import_core43.semantic.spaceSm}`,
     border: "none",
     background: "transparent",
-    color: active ? import_core42.semantic.colorActionPrimary : import_core42.semantic.colorTextMuted,
-    fontSize: import_core42.semantic.fontSizeSm,
-    fontFamily: import_core42.semantic.fontSans,
-    fontWeight: active ? import_core42.semantic.fontWeightSemibold : import_core42.semantic.fontWeightNormal,
+    color: active ? import_core43.semantic.colorActionPrimary : import_core43.semantic.colorTextMuted,
+    fontSize: import_core43.semantic.fontSizeSm,
+    fontFamily: import_core43.semantic.fontSans,
+    fontWeight: active ? import_core43.semantic.fontWeightSemibold : import_core43.semantic.fontWeightNormal,
     cursor: "pointer",
     whiteSpace: "nowrap",
     textDecoration: "none",
-    transition: `color ${import_core42.semantic.transitionBase}`,
+    transition: `color ${import_core43.semantic.transitionBase}`,
     boxSizing: "border-box"
   };
   const commonProps = {
@@ -5463,7 +5377,7 @@ var TopBarLink = (0, import_react40.forwardRef)(function TopBarLink2({ active = 
     style
   };
   if (asChild) {
-    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_core42.Slot, { ref, ...commonProps, children });
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_core43.Slot, { ref, ...commonProps, children });
   }
   return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("button", { ref, type: "button", ...commonProps, children });
 });
@@ -5475,7 +5389,7 @@ function TopBarTrailing({ children }) {
       style: {
         display: "flex",
         alignItems: "center",
-        gap: import_core42.semantic.spaceSm,
+        gap: import_core43.semantic.spaceSm,
         marginLeft: "auto",
         flexShrink: 0
       },
@@ -5493,7 +5407,7 @@ var TopBar = {
 
 // src/components/organisms/EmptyPage/EmptyPage.tsx
 var import_react41 = require("react");
-var import_core43 = require("../../core/dist/index.cjs");
+var import_core44 = require("../../core/dist/index.cjs");
 var import_jsx_runtime41 = require("react/jsx-runtime");
 var EmptyPageContext = (0, import_react41.createContext)(null);
 function useEmptyPageContext(component) {
@@ -5522,12 +5436,12 @@ var EmptyPageRoot = (0, import_react41.forwardRef)(function EmptyPageRoot2({ lev
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        gap: import_core43.semantic.spaceMd,
+        gap: import_core44.semantic.spaceMd,
         textAlign: "center",
         width: "100%",
         minHeight: isPage ? "60vh" : "auto",
-        padding: isPage ? `${import_core43.semantic.space2xl} ${import_core43.semantic.spaceLg}` : `${import_core43.semantic.spaceXl} ${import_core43.semantic.spaceLg}`,
-        fontFamily: import_core43.semantic.fontSans,
+        padding: isPage ? `${import_core44.semantic.space2xl} ${import_core44.semantic.spaceLg}` : `${import_core44.semantic.spaceXl} ${import_core44.semantic.spaceLg}`,
+        fontFamily: import_core44.semantic.fontSans,
         boxSizing: "border-box"
       },
       children
@@ -5544,8 +5458,8 @@ function EmptyPageIcon({ children }) {
         display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",
-        color: import_core43.semantic.colorTextMuted,
-        marginBottom: import_core43.semantic.spaceSm
+        color: import_core44.semantic.colorTextMuted,
+        marginBottom: import_core44.semantic.spaceSm
       },
       children
     }
@@ -5557,18 +5471,18 @@ function EmptyPageTitle({ children }) {
   const Tag = isPage ? "h1" : "h2";
   const style = isPage ? {
     margin: 0,
-    fontFamily: import_core43.semantic.fontSans,
-    fontWeight: import_core43.semantic.fontWeightBold,
-    fontSize: import_core43.semantic.fontSizeXl,
-    lineHeight: import_core43.semantic.lineHeightTight,
-    color: import_core43.semantic.colorText
+    fontFamily: import_core44.semantic.fontSans,
+    fontWeight: import_core44.semantic.fontWeightBold,
+    fontSize: import_core44.semantic.fontSizeXl,
+    lineHeight: import_core44.semantic.lineHeightTight,
+    color: import_core44.semantic.colorText
   } : {
     margin: 0,
-    fontFamily: import_core43.semantic.fontSans,
-    fontWeight: import_core43.semantic.fontWeightSemibold,
-    fontSize: import_core43.semantic.fontSizeLg,
-    lineHeight: import_core43.semantic.lineHeightTight,
-    color: import_core43.semantic.colorText
+    fontFamily: import_core44.semantic.fontSans,
+    fontWeight: import_core44.semantic.fontWeightSemibold,
+    fontSize: import_core44.semantic.fontSizeLg,
+    lineHeight: import_core44.semantic.lineHeightTight,
+    color: import_core44.semantic.colorText
   };
   return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(Tag, { id: titleId, style, children });
 }
@@ -5582,10 +5496,10 @@ function EmptyPageDescription({
       style: {
         margin: 0,
         maxWidth: "32rem",
-        color: import_core43.semantic.colorTextSecondary,
-        fontSize: import_core43.semantic.fontSizeSm,
-        lineHeight: import_core43.semantic.lineHeightBase,
-        fontFamily: import_core43.semantic.fontSans
+        color: import_core44.semantic.colorTextSecondary,
+        fontSize: import_core44.semantic.fontSizeSm,
+        lineHeight: import_core44.semantic.lineHeightBase,
+        fontFamily: import_core44.semantic.fontSans
       },
       children
     }
@@ -5603,8 +5517,8 @@ function EmptyPageActions({
         flexWrap: "wrap",
         justifyContent: "center",
         alignItems: "center",
-        gap: import_core43.semantic.spaceSm,
-        marginTop: import_core43.semantic.spaceSm
+        gap: import_core44.semantic.spaceSm,
+        marginTop: import_core44.semantic.spaceSm
       },
       children
     }
@@ -5626,10 +5540,10 @@ function EmptyPageTips({
         flexWrap: "wrap",
         justifyContent: "center",
         alignItems: "stretch",
-        gap: import_core43.semantic.spaceSm,
+        gap: import_core44.semantic.spaceSm,
         listStyle: "none",
         margin: 0,
-        marginTop: import_core43.semantic.spaceMd,
+        marginTop: import_core44.semantic.spaceMd,
         padding: 0
       },
       children
@@ -5645,26 +5559,26 @@ function EmptyPageTip({
   const contentStyle = {
     display: "inline-flex",
     alignItems: "center",
-    gap: import_core43.semantic.spaceXs,
-    padding: `${import_core43.semantic.spaceXs} ${import_core43.semantic.spaceSm}`,
-    border: `${import_core43.semantic.borderWidthDefault} solid ${import_core43.semantic.colorBorder}`,
-    borderRadius: import_core43.semantic.radiusMd,
-    background: import_core43.semantic.colorSurface,
-    color: import_core43.semantic.colorText,
-    fontSize: import_core43.semantic.fontSizeSm,
-    fontFamily: import_core43.semantic.fontSans,
+    gap: import_core44.semantic.spaceXs,
+    padding: `${import_core44.semantic.spaceXs} ${import_core44.semantic.spaceSm}`,
+    border: `${import_core44.semantic.borderWidthDefault} solid ${import_core44.semantic.colorBorder}`,
+    borderRadius: import_core44.semantic.radiusMd,
+    background: import_core44.semantic.colorSurface,
+    color: import_core44.semantic.colorText,
+    fontSize: import_core44.semantic.fontSizeSm,
+    fontFamily: import_core44.semantic.fontSans,
     textDecoration: "none",
     cursor: asChild ? "pointer" : "default"
   };
   if (asChild) {
-    return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("li", { style: { display: "flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(import_core43.Slot, { style: contentStyle, children }) });
+    return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("li", { style: { display: "flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(import_core44.Slot, { style: contentStyle, children }) });
   }
   return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("li", { style: { display: "flex" }, children: /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("span", { style: contentStyle, children: [
     icon && /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
       "span",
       {
         "aria-hidden": "true",
-        style: { display: "inline-flex", color: import_core43.semantic.colorTextMuted },
+        style: { display: "inline-flex", color: import_core44.semantic.colorTextMuted },
         children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(Icon, { name: icon, size: "sm" })
       }
     ),
@@ -5683,7 +5597,7 @@ var EmptyPage = {
 
 // src/components/organisms/AppShell/AppShell.tsx
 var import_react42 = require("react");
-var import_core44 = require("../../core/dist/index.cjs");
+var import_core45 = require("../../core/dist/index.cjs");
 var import_jsx_runtime42 = require("react/jsx-runtime");
 var AppShellContext = (0, import_react42.createContext)(null);
 function useAppShellContextInternal(component) {
@@ -5768,13 +5682,13 @@ var AppShellRoot = (0, import_react42.forwardRef)(function AppShellRoot2({
   const hasTopBar = topBar !== null;
   const hasSidebar = sidebar !== null;
   const hasRightPanel = rightPanel !== null && rightPanelOpen;
-  const sidebarWidth = sidebarCollapsed ? import_core44.semantic.sizeSidebarCollapsed : import_core44.semantic.sizeSidebarExpanded;
+  const sidebarWidth = sidebarCollapsed ? import_core45.semantic.sizeSidebarCollapsed : import_core45.semantic.sizeSidebarExpanded;
   const gridTemplateColumns = [
     hasSidebar ? sidebarWidth : null,
     "1fr",
-    hasRightPanel ? import_core44.semantic.sizeRightPanelDefault : null
+    hasRightPanel ? import_core45.semantic.sizeRightPanelDefault : null
   ].filter(Boolean).join(" ");
-  const gridTemplateRows = hasTopBar ? `${import_core44.semantic.space2xl} 1fr` : "1fr";
+  const gridTemplateRows = hasTopBar ? `${import_core45.semantic.space2xl} 1fr` : "1fr";
   const gridAreas = (() => {
     const topCols = [];
     const mainCols = [];
@@ -5809,8 +5723,8 @@ var AppShellRoot = (0, import_react42.forwardRef)(function AppShellRoot2({
         width: "100%",
         height: "100%",
         minHeight: "100vh",
-        fontFamily: import_core44.semantic.fontSans,
-        color: import_core44.semantic.colorText,
+        fontFamily: import_core45.semantic.fontSans,
+        color: import_core45.semantic.colorText,
         boxSizing: "border-box"
       },
       children: [
@@ -5843,9 +5757,9 @@ function AppShellSidebar({
         flexDirection: "column",
         overflowX: "hidden",
         overflowY: "auto",
-        background: import_core44.semantic.colorSurfacePanel,
-        borderRight: `${import_core44.semantic.borderWidthDefault} solid ${import_core44.semantic.colorBorder}`,
-        transition: `width ${import_core44.semantic.transitionBase}`,
+        background: import_core45.semantic.colorSurfacePanel,
+        borderRight: `${import_core45.semantic.borderWidthDefault} solid ${import_core45.semantic.colorBorder}`,
+        transition: `width ${import_core45.semantic.transitionBase}`,
         minWidth: 0
       },
       children: content
@@ -5871,12 +5785,12 @@ function AppShellSidebarSection({
     border: 0
   } : {
     display: "block",
-    padding: `${import_core44.semantic.spaceSm} ${import_core44.semantic.spaceMd} ${import_core44.semantic.spaceXs}`,
-    fontSize: import_core44.semantic.fontSizeXs,
-    fontWeight: import_core44.semantic.fontWeightSemibold,
-    color: import_core44.semantic.colorTextMuted,
+    padding: `${import_core45.semantic.spaceSm} ${import_core45.semantic.spaceMd} ${import_core45.semantic.spaceXs}`,
+    fontSize: import_core45.semantic.fontSizeXs,
+    fontWeight: import_core45.semantic.fontWeightSemibold,
+    color: import_core45.semantic.colorTextMuted,
     textTransform: "uppercase",
-    letterSpacing: import_core44.semantic.letterSpacingWide
+    letterSpacing: import_core45.semantic.letterSpacingWide
   };
   return /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)(
     "div",
@@ -5907,7 +5821,7 @@ function AppShellMain({
         overflow: "auto",
         minWidth: 0,
         minHeight: 0,
-        background: import_core44.semantic.colorSurfacePage,
+        background: import_core45.semantic.colorSurfacePage,
         boxSizing: "border-box"
       },
       children
@@ -5931,8 +5845,8 @@ function AppShellRightPanel({
         display: rightPanelOpen ? "flex" : "none",
         flexDirection: "column",
         overflowY: "auto",
-        background: import_core44.semantic.colorSurfacePanel,
-        borderLeft: `${import_core44.semantic.borderWidthDefault} solid ${import_core44.semantic.colorBorder}`,
+        background: import_core45.semantic.colorSurfacePanel,
+        borderLeft: `${import_core45.semantic.borderWidthDefault} solid ${import_core45.semantic.colorBorder}`,
         minWidth: 0
       },
       children
@@ -5950,7 +5864,7 @@ var AppShell = {
 
 // src/components/organisms/DataTablePage/DataTablePage.tsx
 var import_react43 = require("react");
-var import_core45 = require("../../core/dist/index.cjs");
+var import_core46 = require("../../core/dist/index.cjs");
 var import_jsx_runtime43 = require("react/jsx-runtime");
 var DataTablePageContext = (0, import_react43.createContext)(null);
 function useDataTablePageContext(part) {
@@ -5981,10 +5895,10 @@ var DataTablePageRoot = (0, import_react43.forwardRef)(function DataTablePageRoo
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: import_core45.semantic.spaceLg,
+        gap: import_core46.semantic.spaceLg,
         width: "100%",
-        fontFamily: import_core45.semantic.fontSans,
-        color: import_core45.semantic.colorText,
+        fontFamily: import_core46.semantic.fontSans,
+        color: import_core46.semantic.colorText,
         boxSizing: "border-box"
       },
       children
@@ -6027,7 +5941,7 @@ var DataTablePage = {
 // src/components/organisms/DetailPage/DetailPage.tsx
 var import_react44 = require("react");
 var import_react_dom3 = require("react-dom");
-var import_core46 = require("../../core/dist/index.cjs");
+var import_core47 = require("../../core/dist/index.cjs");
 var import_jsx_runtime44 = require("react/jsx-runtime");
 var DetailPageContext = (0, import_react44.createContext)(null);
 function useDetailPageContext(part) {
@@ -6063,7 +5977,7 @@ var DetailPageRoot = (0, import_react44.forwardRef)(function DetailPageRoot2({ c
     [titleId, actionsSlot]
   );
   const { main, rightPanel } = splitChildren(children);
-  const gridTemplateColumns = rightPanel !== null ? `1fr ${import_core46.semantic.sizeRightPanelDefault}` : "1fr";
+  const gridTemplateColumns = rightPanel !== null ? `1fr ${import_core47.semantic.sizeRightPanelDefault}` : "1fr";
   return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(DetailPageContext.Provider, { value, children: /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(
     "section",
     {
@@ -6075,10 +5989,10 @@ var DetailPageRoot = (0, import_react44.forwardRef)(function DetailPageRoot2({ c
       style: {
         display: "grid",
         gridTemplateColumns,
-        gap: import_core46.semantic.spaceLg,
+        gap: import_core47.semantic.spaceLg,
         width: "100%",
-        fontFamily: import_core46.semantic.fontSans,
-        color: import_core46.semantic.colorText,
+        fontFamily: import_core47.semantic.fontSans,
+        color: import_core47.semantic.colorText,
         boxSizing: "border-box"
       },
       children: [
@@ -6088,7 +6002,7 @@ var DetailPageRoot = (0, import_react44.forwardRef)(function DetailPageRoot2({ c
             style: {
               display: "flex",
               flexDirection: "column",
-              gap: import_core46.semantic.spaceLg,
+              gap: import_core47.semantic.spaceLg,
               minWidth: 0
             },
             children: main
@@ -6118,7 +6032,7 @@ function DetailPageHeader({
     {
       ref: slotRefCb,
       "data-detailpage-actions-slot": "",
-      style: { display: "flex", alignItems: "center", gap: import_core46.semantic.spaceSm }
+      style: { display: "flex", alignItems: "center", gap: import_core47.semantic.spaceSm }
     }
   );
   const headerWithTitleId = /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { id: titleId, style: { flex: 1, minWidth: 0 }, children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
@@ -6138,7 +6052,7 @@ function DetailPageHeader({
         style: {
           display: "flex",
           alignItems: "flex-end",
-          gap: import_core46.semantic.spaceMd,
+          gap: import_core47.semantic.spaceMd,
           minWidth: 0
         },
         children: [
@@ -6180,12 +6094,12 @@ function DetailPageMeta({
       style: {
         display: "grid",
         gridTemplateColumns: "max-content 1fr",
-        columnGap: import_core46.semantic.spaceLg,
-        rowGap: import_core46.semantic.spaceSm,
+        columnGap: import_core47.semantic.spaceLg,
+        rowGap: import_core47.semantic.spaceSm,
         margin: 0,
         padding: 0,
-        fontFamily: import_core46.semantic.fontSans,
-        fontSize: import_core46.semantic.fontSizeSm
+        fontFamily: import_core47.semantic.fontSans,
+        fontSize: import_core47.semantic.fontSizeSm
       },
       children
     }
@@ -6202,13 +6116,13 @@ function DetailPageMetaItem({
       {
         style: {
           margin: 0,
-          color: import_core46.semantic.colorTextMuted,
-          fontWeight: import_core46.semantic.fontWeightMedium
+          color: import_core47.semantic.colorTextMuted,
+          fontWeight: import_core47.semantic.fontWeightMedium
         },
         children: label
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("dd", { style: { margin: 0, color: import_core46.semantic.colorText }, children })
+    /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("dd", { style: { margin: 0, color: import_core47.semantic.colorText }, children })
   ] });
 }
 function DetailPageBody({
@@ -6227,7 +6141,7 @@ function DetailPageBody({
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: import_core46.semantic.spaceMd,
+        gap: import_core47.semantic.spaceMd,
         minWidth: 0
       },
       children
@@ -6249,11 +6163,11 @@ function DetailPageRightPanel({
   const style = {
     display: "flex",
     flexDirection: "column",
-    gap: import_core46.semantic.spaceMd,
-    padding: import_core46.semantic.spaceMd,
-    background: import_core46.semantic.colorSurfacePanel,
-    border: `${import_core46.semantic.borderWidthDefault} solid ${import_core46.semantic.colorBorder}`,
-    borderRadius: import_core46.semantic.radiusMd,
+    gap: import_core47.semantic.spaceMd,
+    padding: import_core47.semantic.spaceMd,
+    background: import_core47.semantic.colorSurfacePanel,
+    border: `${import_core47.semantic.borderWidthDefault} solid ${import_core47.semantic.colorBorder}`,
+    borderRadius: import_core47.semantic.radiusMd,
     minWidth: 0
   };
   return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("aside", { "aria-label": ariaLabel, style, children });
@@ -6271,7 +6185,7 @@ var DetailPage = {
 // src/components/organisms/FormLayout/FormLayout.tsx
 var import_react45 = require("react");
 var import_react_dom4 = require("react-dom");
-var import_core47 = require("../../core/dist/index.cjs");
+var import_core48 = require("../../core/dist/index.cjs");
 var import_jsx_runtime45 = require("react/jsx-runtime");
 var FormLayoutContext = (0, import_react45.createContext)(null);
 function useFormLayoutInternal(part) {
@@ -6370,10 +6284,10 @@ var FormLayoutRoot = (0, import_react45.forwardRef)(function FormLayoutRoot2({
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: import_core47.semantic.spaceLg,
+        gap: import_core48.semantic.spaceLg,
         width: "100%",
-        fontFamily: import_core47.semantic.fontSans,
-        color: import_core47.semantic.colorText,
+        fontFamily: import_core48.semantic.fontSans,
+        color: import_core48.semantic.colorText,
         boxSizing: "border-box"
       },
       children
@@ -6413,11 +6327,11 @@ function FormLayoutSection({
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: import_core47.semantic.spaceMd,
-        padding: import_core47.semantic.spaceMd,
-        background: import_core47.semantic.colorSurface,
-        border: `${import_core47.semantic.borderWidthDefault} solid ${import_core47.semantic.colorBorder}`,
-        borderRadius: import_core47.semantic.radiusMd,
+        gap: import_core48.semantic.spaceMd,
+        padding: import_core48.semantic.spaceMd,
+        background: import_core48.semantic.colorSurface,
+        border: `${import_core48.semantic.borderWidthDefault} solid ${import_core48.semantic.colorBorder}`,
+        borderRadius: import_core48.semantic.radiusMd,
         minWidth: 0
       },
       children
@@ -6429,18 +6343,18 @@ function FormLayoutSectionHeader({
   description
 }) {
   const { headerId } = useFormLayoutSectionContext("SectionHeader");
-  return /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: import_core47.semantic.spaceXs }, children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: import_core48.semantic.spaceXs }, children: [
     /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
       "h2",
       {
         id: headerId,
         style: {
           margin: 0,
-          fontFamily: import_core47.semantic.fontSans,
-          fontWeight: import_core47.semantic.fontWeightSemibold,
-          fontSize: import_core47.semantic.fontSizeBase,
-          lineHeight: import_core47.semantic.lineHeightTight,
-          color: import_core47.semantic.colorText
+          fontFamily: import_core48.semantic.fontSans,
+          fontWeight: import_core48.semantic.fontWeightSemibold,
+          fontSize: import_core48.semantic.fontSizeBase,
+          lineHeight: import_core48.semantic.lineHeightTight,
+          color: import_core48.semantic.colorText
         },
         children: title
       }
@@ -6449,10 +6363,10 @@ function FormLayoutSectionHeader({
       "span",
       {
         style: {
-          color: import_core47.semantic.colorTextMuted,
-          fontSize: import_core47.semantic.fontSizeSm,
-          fontFamily: import_core47.semantic.fontSans,
-          lineHeight: import_core47.semantic.lineHeightBase
+          color: import_core48.semantic.colorTextMuted,
+          fontSize: import_core48.semantic.fontSizeSm,
+          fontFamily: import_core48.semantic.fontSans,
+          lineHeight: import_core48.semantic.lineHeightBase
         },
         children: description
       }
@@ -6469,7 +6383,7 @@ function FormLayoutSectionBody({
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: import_core47.semantic.spaceMd,
+        gap: import_core48.semantic.spaceMd,
         minWidth: 0
       },
       children
@@ -6484,11 +6398,11 @@ function FormLayoutActions({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
-    gap: import_core47.semantic.spaceSm,
-    padding: `${import_core47.semantic.spaceSm} ${import_core47.semantic.spaceMd}`,
-    background: import_core47.semantic.colorSurface,
-    border: `${import_core47.semantic.borderWidthDefault} solid ${import_core47.semantic.colorBorder}`,
-    borderRadius: import_core47.semantic.radiusMd,
+    gap: import_core48.semantic.spaceSm,
+    padding: `${import_core48.semantic.spaceSm} ${import_core48.semantic.spaceMd}`,
+    background: import_core48.semantic.colorSurface,
+    border: `${import_core48.semantic.borderWidthDefault} solid ${import_core48.semantic.colorBorder}`,
+    borderRadius: import_core48.semantic.radiusMd,
     boxSizing: "border-box"
   };
   const inlineStickyStyle = {
@@ -6507,7 +6421,7 @@ function FormLayoutActions({
     borderLeft: "none",
     borderRight: "none",
     borderBottom: "none",
-    boxShadow: import_core47.semantic.shadowMd,
+    boxShadow: import_core48.semantic.shadowMd,
     zIndex: 100
   };
   const commonProps = {
@@ -6634,7 +6548,7 @@ var Grid = (0, import_react46.forwardRef)(
 
 // src/components/atoms/Divider/Divider.tsx
 var import_react47 = require("react");
-var import_core48 = require("../../core/dist/index.cjs");
+var import_core49 = require("../../core/dist/index.cjs");
 var import_jsx_runtime47 = require("react/jsx-runtime");
 var Divider = (0, import_react47.forwardRef)(
   function Divider2({
@@ -6644,7 +6558,7 @@ var Divider = (0, import_react47.forwardRef)(
     ...rest
   }, ref) {
     const resolvedOpacity = dividerOpacityMap[opacity];
-    const bg = `color-mix(in srgb, ${import_core48.semantic.colorBorder} ${resolvedOpacity}%, transparent)`;
+    const bg = `color-mix(in srgb, ${import_core49.semantic.colorBorder} ${resolvedOpacity}%, transparent)`;
     const spacingValue = spacing ? spacingMap[spacing] : void 0;
     const isHorizontal = orientation === "horizontal";
     return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
@@ -6712,16 +6626,16 @@ var Container = (0, import_react48.forwardRef)(
 
 // src/components/molecules/TabStrip/TabStrip.tsx
 var import_react49 = require("react");
-var import_core49 = require("../../core/dist/index.cjs");
+var import_core50 = require("../../core/dist/index.cjs");
 var import_jsx_runtime49 = require("react/jsx-runtime");
 var STYLES_ID = "4lt7ab-tab-strip";
 var STYLES_CSS = `
 [data-tab-btn] {
-  transition: color ${import_core49.semantic.transitionFast}, background ${import_core49.semantic.transitionFast}, border-color ${import_core49.semantic.transitionFast};
+  transition: color ${import_core50.semantic.transitionFast}, background ${import_core50.semantic.transitionFast}, border-color ${import_core50.semantic.transitionFast};
 }
 [data-tab-btn]:hover:not([aria-selected="true"]) {
-  color: ${import_core49.semantic.colorTextSecondary};
-  background: color-mix(in srgb, ${import_core49.semantic.colorBorder} 10%, transparent);
+  color: ${import_core50.semantic.colorTextSecondary};
+  background: color-mix(in srgb, ${import_core50.semantic.colorBorder} 10%, transparent);
 }
 `;
 var TabStrip = (0, import_react49.forwardRef)(
@@ -6733,7 +6647,7 @@ var TabStrip = (0, import_react49.forwardRef)(
     size = "md",
     ...rest
   }, ref) {
-    (0, import_core49.useInjectStyles)(STYLES_ID, STYLES_CSS);
+    (0, import_core50.useInjectStyles)(STYLES_ID, STYLES_CSS);
     const activeIndex = tabs.findIndex((tab) => tab.key === activeKey);
     const { itemRef, onKeyDown, getTabIndex } = useRovingFocus({
       count: tabs.length,
@@ -6776,17 +6690,17 @@ var TabStrip = (0, import_react49.forwardRef)(
               style: {
                 display: "flex",
                 alignItems: "center",
-                gap: import_core49.semantic.spaceXs,
-                padding: isSm ? `${import_core49.semantic.spaceXs} ${import_core49.semantic.spaceSm}` : `${import_core49.semantic.spaceSm} ${import_core49.semantic.spaceMd}`,
+                gap: import_core50.semantic.spaceXs,
+                padding: isSm ? `${import_core50.semantic.spaceXs} ${import_core50.semantic.spaceSm}` : `${import_core50.semantic.spaceSm} ${import_core50.semantic.spaceMd}`,
                 border: "none",
-                borderBottom: `2px solid ${isActive ? import_core49.semantic.colorActionPrimary : "transparent"}`,
+                borderBottom: `2px solid ${isActive ? import_core50.semantic.colorActionPrimary : "transparent"}`,
                 borderRadius: 0,
-                background: isActive ? `color-mix(in srgb, ${import_core49.semantic.colorActionPrimary} 8%, transparent)` : "transparent",
-                color: isActive ? import_core49.semantic.colorActionPrimary : import_core49.semantic.colorTextMuted,
-                fontFamily: import_core49.semantic.fontSans,
-                fontSize: isSm ? import_core49.semantic.fontSizeXs : import_core49.semantic.fontSizeSm,
-                fontWeight: import_core49.semantic.fontWeightSemibold,
-                lineHeight: import_core49.semantic.lineHeightTight,
+                background: isActive ? `color-mix(in srgb, ${import_core50.semantic.colorActionPrimary} 8%, transparent)` : "transparent",
+                color: isActive ? import_core50.semantic.colorActionPrimary : import_core50.semantic.colorTextMuted,
+                fontFamily: import_core50.semantic.fontSans,
+                fontSize: isSm ? import_core50.semantic.fontSizeXs : import_core50.semantic.fontSizeSm,
+                fontWeight: import_core50.semantic.fontWeightSemibold,
+                lineHeight: import_core50.semantic.lineHeightTight,
                 cursor: "pointer",
                 whiteSpace: "nowrap"
               },

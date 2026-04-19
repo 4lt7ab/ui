@@ -1,4 +1,9 @@
 import { forwardRef } from 'react';
+import {
+  inputShellBaseStyle,
+  inputShellErrorStyle,
+  inputShellDisabledStyle,
+} from '../../../styles/inputShellStyle';
 import { semantic as t } from '@4lt7ab/core';
 
 /** A single-line text input field. */
@@ -38,29 +43,10 @@ export interface InputProps {
 }
 
 const baseStyle: React.CSSProperties = {
+  ...inputShellBaseStyle,
   display: 'block',
-  width: '100%',
-  padding: `${t.spaceSm} ${t.spaceMd}`,
-  fontSize: t.fontSizeSm,
   lineHeight: t.lineHeightTight,
-  fontFamily: t.fontSans,
-  color: t.colorText,
-  background: t.colorSurfaceInput,
-  border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
-  borderRadius: t.radiusMd,
   outline: 'none',
-  transition: `border-color ${t.transitionBase}, box-shadow ${t.transitionBase}`,
-  boxSizing: 'border-box' as const,
-};
-
-const errorBorderStyle: React.CSSProperties = {
-  borderColor: t.colorBorderError,
-};
-
-const disabledStyle: React.CSSProperties = {
-  background: t.colorSurfaceDisabled,
-  color: t.colorTextDisabled,
-  cursor: 'not-allowed',
 };
 
 export const Input: React.ForwardRefExoticComponent<Omit<InputProps, 'ref'> & React.RefAttributes<HTMLInputElement>> = forwardRef<HTMLInputElement, InputProps>(
@@ -128,8 +114,8 @@ export const Input: React.ForwardRefExoticComponent<Omit<InputProps, 'ref'> & Re
         data-testid={dataTestId}
         style={{
           ...baseStyle,
-          ...(hasError ? errorBorderStyle : {}),
-          ...(disabled ? disabledStyle : {}),
+          ...(hasError ? inputShellErrorStyle : {}),
+          ...(disabled ? inputShellDisabledStyle : {}),
         }}
       />
     );

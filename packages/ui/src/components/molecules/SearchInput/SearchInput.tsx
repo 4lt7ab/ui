@@ -1,5 +1,9 @@
 import { forwardRef, useState, useEffect, useRef, useCallback } from 'react';
 import { semantic as t, useInjectStyles } from '@4lt7ab/core';
+import {
+  inputShellBaseStyle,
+  inputShellDisabledStyle,
+} from '../../../styles/inputShellStyle';
 import { Icon } from '../../atoms/Icon';
 import type { ReactNode } from 'react';
 
@@ -42,20 +46,11 @@ const hoverFocusCSS = `
 `;
 
 const wrapperStyle: React.CSSProperties = {
+  ...inputShellBaseStyle,
   display: 'flex',
   alignItems: 'center',
   gap: t.spaceXs,
-  width: '100%',
-  padding: `${t.spaceSm} ${t.spaceMd}`,
-  fontSize: t.fontSizeSm,
   lineHeight: t.lineHeightTight,
-  fontFamily: t.fontSans,
-  color: t.colorText,
-  background: t.colorSurfaceInput,
-  border: `${t.borderWidthDefault} solid ${t.colorBorder}`,
-  borderRadius: t.radiusMd,
-  transition: `border-color ${t.transitionBase}, box-shadow ${t.transitionBase}`,
-  boxSizing: 'border-box' as const,
 };
 
 const inputStyle: React.CSSProperties = {
@@ -71,11 +66,7 @@ const inputStyle: React.CSSProperties = {
   padding: 0,
 };
 
-const disabledWrapperStyle: React.CSSProperties = {
-  background: t.colorSurfaceDisabled,
-  color: t.colorTextDisabled,
-  cursor: 'not-allowed',
-};
+const disabledWrapperStyle: React.CSSProperties = inputShellDisabledStyle;
 
 export const SearchInput: React.ForwardRefExoticComponent<Omit<SearchInputProps, 'ref'> & React.RefAttributes<HTMLInputElement>> = forwardRef<HTMLInputElement, SearchInputProps>(
   function SearchInput({
