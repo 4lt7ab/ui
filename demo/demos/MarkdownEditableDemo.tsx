@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { TextSection } from '@4lt7ab/content';
+import { Markdown } from '@4lt7ab/content';
 import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
 
 const props: PropMeta[] = [
-  { name: 'content', type: 'string | null', description: 'Current content (markdown string). Empty/null shows the empty state.' },
+  { name: 'editable', type: 'boolean', required: true, description: 'Opt into click-to-edit mode. Without this flag, <Markdown> renders read-only.' },
+  { name: 'children', type: 'string | null', description: 'Current content (markdown string). Empty/null shows the empty state.' },
   { name: 'editing', type: 'boolean', required: true, description: 'Whether the section is in editing mode.' },
-  { name: 'editValue', type: 'string', required: true, description: 'Current value in the textarea during editing.' },
+  { name: 'value', type: 'string', required: true, description: 'Current value in the textarea during editing.' },
   { name: 'onStartEdit', type: '() => void', required: true, description: 'Called when user clicks content or empty state to start editing.' },
   { name: 'onEditChange', type: '(value: string) => void', required: true, description: 'Called with new textarea value on change.' },
   { name: 'onSave', type: '() => void', required: true, description: 'Called when user saves (button or Cmd+Enter).' },
@@ -19,7 +20,7 @@ const SAMPLE_MARKDOWN = `This is some **existing content** with [a link](https:/
 
 It supports full markdown — lists, headings, code blocks, and more.`;
 
-function DeprecatedTextSectionWithState({
+function MarkdownEditableWithState({
   initialContent,
   fieldLabel,
   placeholder,
@@ -47,10 +48,10 @@ function DeprecatedTextSectionWithState({
   };
 
   return (
-    <TextSection
-      content={content}
+    <Markdown
+      editable
       editing={editing}
-      editValue={editValue}
+      value={editValue}
       onStartEdit={startEdit}
       onEditChange={setEditValue}
       onSave={save}
@@ -58,18 +59,28 @@ function DeprecatedTextSectionWithState({
       fieldLabel={fieldLabel}
       placeholder={placeholder}
       rows={rows}
-    />
+    >
+      {content}
+    </Markdown>
   );
 }
 
-export function TextSectionDemo(): React.JSX.Element {
+export function MarkdownEditableDemo(): React.JSX.Element {
   return (
     <DocBlock props={props}>
-      <PropDemo name="TextSection (deprecated alias)" description="⚠️ Deprecated — TextSection is a backward-compatibility alias for <Markdown editable> and will be removed in a future major release. Prefer the new API (see the Markdown editable demo) for fresh call sites.">
-        <DeprecatedTextSectionWithState
+      <PropDemo name="editable" description="Click-to-edit markdown rendered via <Markdown editable>. Three states: empty-state placeholder, read-only display, and a textarea with Save/Cancel buttons. Keyboard shortcuts: Cmd/Ctrl+Enter to save, Escape to cancel.">
+        <MarkdownEditableWithState
           initialContent={SAMPLE_MARKDOWN}
           fieldLabel="Summary"
           rows={6}
+        />
+      </PropDemo>
+
+      <PropDemo name="editable — empty state" description="Custom placeholder shown when no content is saved. Click to start editing.">
+        <MarkdownEditableWithState
+          initialContent={null}
+          fieldLabel="Notes"
+          placeholder="Click to add notes..."
         />
       </PropDemo>
     </DocBlock>

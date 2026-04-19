@@ -23,6 +23,7 @@ import { ModalShellFormPatternDemo } from './ModalShellFormPatternDemo';
 import { ContainerDemo } from './ContainerDemo';
 import { ProseDemo } from './ProseDemo';
 import { MarkdownDemo } from './MarkdownDemo';
+import { MarkdownEditableDemo } from './MarkdownEditableDemo';
 import { ThinkingCycleDemo } from './ThinkingCycleDemo';
 import { LinkCardDemo } from './LinkCardDemo';
 import { TableDemo } from './TableDemo';
@@ -133,6 +134,7 @@ export const demos: DemoEntry[] = [
   // ── @4lt7ab/ui/content ──
   { name: 'Prose', category: 'Layout', source: 'content', component: ProseDemo },
   { name: 'Markdown', category: 'Layout', source: 'content', component: MarkdownDemo },
+  { name: 'Markdown.editable', category: 'Form', source: 'content', component: MarkdownEditableDemo },
   { name: 'Quote', category: 'Layout', source: 'content', component: QuoteDemo },
   { name: 'Epigraph', category: 'Layout', source: 'content', component: EpigraphDemo },
   { name: 'PullQuote', category: 'Layout', source: 'content', component: PullQuoteDemo },
@@ -150,7 +152,7 @@ export {
   IconButtonDemo, SkeletonDemo, ProgressBarDemo, EmptyStateDemo,
   PaginationDemo, HeaderDemo, ExpandableCardDemo,
   ModalDemo, OverlayDemo, ConfirmDialogDemo, ContainerDemo,
-  ProseDemo, MarkdownDemo, ThinkingCycleDemo, LinkCardDemo, TableDemo,
+  ProseDemo, MarkdownDemo, MarkdownEditableDemo, ThinkingCycleDemo, LinkCardDemo, TableDemo,
   StatusDotDemo, ThemePickerDemo, QuoteDemo, EpigraphDemo, PullQuoteDemo,
   MarginNoteDemo, SideNoteDemo, DateRangePickerDemo, DatePickerDemo, CalendarDemo,
   ErrorBoundaryDemo,
