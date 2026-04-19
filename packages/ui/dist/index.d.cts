@@ -771,7 +771,6 @@ interface TableProps extends BaseComponentProps {
 	/** Table content (TableHeader, TableBody, etc.). */
 	children: ReactNode15;
 }
-declare const Table: React.ForwardRefExoticComponent<Omit<TableProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /** Table header section. Renders a `<thead>` with a single `<tr>` wrapping the children. */
 interface TableHeaderProps {
 	/** TableHeaderCell elements. */
@@ -852,6 +851,78 @@ interface TableEmptyRowProps {
 	children: ReactNode15;
 }
 declare const TableEmptyRow: React.ForwardRefExoticComponent<Omit<TableEmptyRowProps, "ref"> & React.RefAttributes<HTMLTableRowElement>>;
+import { HTMLAttributes, ReactNode as ReactNode16 } from "react";
+/** Configuration for a debounced text search filter. */
+interface TextFilterConfig {
+	type: "text";
+	/** Unique key used in the values record. */
+	key: string;
+	/** Input placeholder text. */
+	placeholder?: string;
+	/** Debounce delay in milliseconds. @default 300 */
+	debounceMs?: number;
+}
+/** Configuration for an immediate select dropdown filter. */
+interface SelectFilterConfig {
+	type: "select";
+	/** Unique key used in the values record. */
+	key: string;
+	/** Placeholder shown when no option is selected. */
+	placeholder?: string;
+	/** Available options. */
+	options: Array<{
+		value: string;
+		label: string;
+	}>;
+}
+/** A single filter definition — either text or select. */
+type FilterConfig = TextFilterConfig | SelectFilterConfig;
+/** Props for `<Table.FilterBar>`. */
+interface FilterBarProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
+	/** Current filter values keyed by filter key / field name. Required. */
+	values: Record<string, string>;
+	/** Called when any filter value changes. Receives the full updated values object. */
+	onChange: (values: Record<string, string>) => void;
+	/**
+	* Schema-driven mode: supply an ordered list of filter definitions and
+	* FilterBar renders them for you. Mutually exclusive with `children`.
+	*/
+	filters?: FilterConfig[];
+	/**
+	* Children-composition mode: render `<Table.FilterBar.Text>` /
+	* `<Table.FilterBar.Select>` subparts directly for filters the schema
+	* can't express. Mutually exclusive with `filters`.
+	*/
+	children?: ReactNode16;
+}
+/** Props for `<Table.FilterBar.Text>`. */
+interface FilterBarTextProps {
+	/** Key in the shared `values` record that this input reads / writes. */
+	field: string;
+	/** Input placeholder text. */
+	placeholder?: string;
+	/** Debounce delay in milliseconds before committing to `values`. @default 300 */
+	debounceMs?: number;
+}
+/** Props for `<Table.FilterBar.Select>`. */
+interface FilterBarSelectProps {
+	/** Key in the shared `values` record that this select reads / writes. */
+	field: string;
+	/** Placeholder shown when no option is selected. */
+	placeholder?: string;
+	/** Available options. */
+	options: Array<{
+		value: string;
+		label: string;
+	}>;
+}
+/**
+* `Table` plus attached compound primitives. `Table.FilterBar` is the
+* schema-driven / composable filter bar that pairs with the table — see
+* `FilterBar.tsx` for details. Existing `TableHeader`, `TableBody`, etc.
+* remain available as standalone named exports for backward compatibility.
+*/
+declare const Table2: unknown;
 /** A date range with inclusive start and end. */
 interface DateRange {
 	from: Date;
@@ -927,7 +998,7 @@ interface DatePickerProps {
 * `maxDate`, `disabledDates`, `placeholder`, `hasError`, `disabled`.
 */
 declare const DatePicker: React.ForwardRefExoticComponent<Omit<DatePickerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode16 } from "react";
+import { ReactNode as ReactNode17 } from "react";
 /** Whether the calendar selects a single date or a date range. */
 type CalendarMode = "single" | "range";
 /** An inclusive date range with a start and end. */
@@ -1023,9 +1094,9 @@ interface CalendarRootProps {
 	/** Called when the visible month changes (both controlled and uncontrolled). */
 	onViewDateChange?: (date: Date) => void;
 	/** Calendar subtree — typically `Calendar.Header` / `Calendar.Nav` / `Calendar.Grid`. */
-	children?: ReactNode16;
+	children?: ReactNode17;
 }
-import { ReactNode as ReactNode17 } from "react";
+import { ReactNode as ReactNode18 } from "react";
 /** Render state passed to the Calendar.Grid children render-prop. */
 interface CalendarCellRenderArgs {
 	date: Date;
@@ -1052,7 +1123,7 @@ interface CalendarGridProps {
 	* to this function. When omitted, the grid renders a default
 	* {@link CalendarCell} with content = the day of the month.
 	*/
-	children?: (args: CalendarCellRenderArgs) => ReactNode17;
+	children?: (args: CalendarCellRenderArgs) => ReactNode18;
 	/** Merge into the root `<table>` style. */
 	style?: React.CSSProperties;
 	/** Merge into the root `<table>` className. */
@@ -1066,7 +1137,7 @@ interface CalendarGridProps {
 * End (Saturday of the week), PageUp/PageDown (±1 month; +Shift = ±1 year).
 */
 declare function nextFocusedDate(date: Date, key: string, shiftKey: boolean): Date | null;
-import { ReactNode as ReactNode18 } from "react";
+import { ReactNode as ReactNode19 } from "react";
 /** Props for `<Calendar.Header>`. */
 interface CalendarHeaderPrimitiveProps {
 	/**
@@ -1076,7 +1147,7 @@ interface CalendarHeaderPrimitiveProps {
 	children?: (args: {
 		year: number;
 		month: number;
-	}) => ReactNode18;
+	}) => ReactNode19;
 	/** Merge into the root element's style. */
 	style?: React.CSSProperties;
 	/** Merge into the root element's className. */
@@ -1098,13 +1169,13 @@ interface CalendarNavProps {
 	*/
 	onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void | boolean;
 }
-import { ReactNode as ReactNode19 } from "react";
+import { ReactNode as ReactNode20 } from "react";
 /** Props for `<Calendar.Cell>`. */
 interface CalendarCellProps {
 	/** The date this cell represents. */
 	date: Date;
 	/** Override the rendered content. Defaults to the day of the month. */
-	children?: ReactNode19;
+	children?: ReactNode20;
 	/** Merge into the inner `<button>` style. */
 	style?: React.CSSProperties;
 	/** Merge into the inner `<button>` className. */
@@ -1159,7 +1230,7 @@ declare class ErrorBoundary extends React2.Component<ErrorBoundaryProps, ErrorBo
 	resetErrorBoundary: () => void;
 	render(): React2.ReactNode;
 }
-import { ReactNode as ReactNode20 } from "react";
+import { ReactNode as ReactNode21 } from "react";
 /** Visual type of a toast notification. */
 type ToastType = "success" | "error" | "info" | "warning";
 /** Configuration for a single toast instance. */
@@ -1201,7 +1272,7 @@ declare function useToast(): ToastContextValue;
 /** Props for the ToastProvider context component. */
 interface ToastProviderProps {
 	/** Application content. */
-	children: ReactNode20;
+	children: ReactNode21;
 	/** Screen position of the toast stack.
 	* @default 'top-right'
 	*/
@@ -1212,7 +1283,7 @@ interface ToastProviderProps {
 * Renders a portal-based toast container with stacked, auto-dismissing messages.
 */
 declare function ToastProvider({ children, position }: ToastProviderProps): React.JSX.Element;
-import { ReactNode as ReactNode21 } from "react";
+import { ReactNode as ReactNode22 } from "react";
 interface ComboboxRootProps {
 	/** Controlled input value (text). */
 	value?: string;
@@ -1230,7 +1301,7 @@ interface ComboboxRootProps {
 	/** When true, applies error border styling. Typically driven by a parent Field. */
 	hasError?: boolean;
 	/** Subtree containing Input and List. */
-	children: ReactNode21;
+	children: ReactNode22;
 }
 interface ComboboxInputProps {
 	placeholder?: string;
@@ -1252,7 +1323,7 @@ interface ComboboxInputProps {
 	onBlur?: React.FocusEventHandler<HTMLInputElement>;
 }
 interface ComboboxListProps {
-	children: ReactNode21;
+	children: ReactNode22;
 }
 interface ComboboxItemProps {
 	/** The value of the option — passed to onSelect when picked. */
@@ -1262,10 +1333,10 @@ interface ComboboxItemProps {
 	* `children` when `children` is a string.
 	*/
 	textValue?: string;
-	children: ReactNode21;
+	children: ReactNode22;
 }
 interface ComboboxEmptyProps {
-	children: ReactNode21;
+	children: ReactNode22;
 }
 /**
 * Compound Combobox — typeahead select with free-text input. Consumer owns
@@ -1292,42 +1363,6 @@ interface ComboboxEmptyProps {
 * ```
 */
 declare const Combobox: {};
-import { HTMLAttributes } from "react";
-/** Configuration for a debounced text search filter. */
-interface TextFilterConfig {
-	type: "text";
-	/** Unique key used in the values record. */
-	key: string;
-	/** Input placeholder text. */
-	placeholder?: string;
-	/** Debounce delay in milliseconds. @default 300 */
-	debounceMs?: number;
-}
-/** Configuration for an immediate select dropdown filter. */
-interface SelectFilterConfig {
-	type: "select";
-	/** Unique key used in the values record. */
-	key: string;
-	/** Placeholder shown when no option is selected. */
-	placeholder?: string;
-	/** Available options. */
-	options: Array<{
-		value: string;
-		label: string;
-	}>;
-}
-/** A single filter definition — either text or select. */
-type FilterConfig = TextFilterConfig | SelectFilterConfig;
-/** A declarative filter bar that pairs with Table. */
-interface TableFiltersProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
-	/** Ordered list of filter definitions. */
-	filters: FilterConfig[];
-	/** Current filter values keyed by filter key. */
-	values: Record<string, string>;
-	/** Called when any filter value changes. Receives the full updated values object. */
-	onChange: (values: Record<string, string>) => void;
-}
-declare function TableFilters({ filters, values, onChange, style,...props }: TableFiltersProps): React.JSX.Element;
 /** A single chip option. */
 interface ChipItem {
 	/** Unique value identifying this chip. */
@@ -1352,7 +1387,7 @@ interface ChipPickerProps {
 }
 /** Multi-select toggle chip group with optional category grouping. */
 declare function ChipPicker({ items, selected: controlledSelected, defaultSelected, onChange, "aria-label": ariaLabel }: ChipPickerProps): React.JSX.Element;
-import { ReactNode as ReactNode22 } from "react";
+import { ReactNode as ReactNode23 } from "react";
 /** A text input with built-in debounce, search icon, and optional trailing slot. */
 interface SearchInputProps {
 	/** Current search value (controlled). */
@@ -1364,7 +1399,7 @@ interface SearchInputProps {
 	*/
 	debounceMs?: number;
 	/** Optional content rendered inside the input on the right side (toggle, clear button, etc.). */
-	trailing?: ReactNode22;
+	trailing?: ReactNode23;
 	placeholder?: string;
 	disabled?: boolean;
 	name?: string;
@@ -1404,7 +1439,7 @@ interface SegmentedControlProps {
 	"aria-label"?: string;
 }
 declare function SegmentedControl({ segments, value: controlledValue, defaultValue, onChange, size, "aria-label": ariaLabel }: SegmentedControlProps): React.JSX.Element;
-import { ReactNode as ReactNode23 } from "react";
+import { ReactNode as ReactNode24 } from "react";
 /** Severity variant controlling banner color. */
 type AlertBannerVariant = "info" | "warning" | "error" | "success";
 /** Props for the AlertBanner component. */
@@ -1412,11 +1447,11 @@ interface AlertBannerProps {
 	/** Severity variant controlling color. */
 	variant: AlertBannerVariant;
 	/** Message content. */
-	children: ReactNode23;
+	children: ReactNode24;
 	/** If provided, shows a dismiss button and is called on dismiss. */
 	onDismiss?: () => void;
 	/** Optional leading icon. Defaults to a variant-appropriate icon. */
-	icon?: ReactNode23;
+	icon?: ReactNode24;
 }
 /**
 * Full-width dismissable notification banner with severity variants.
@@ -1424,13 +1459,13 @@ interface AlertBannerProps {
 * in `useEffect` + `setTimeout` if auto-dismiss is needed.
 */
 declare const AlertBanner: React.ForwardRefExoticComponent<Omit<AlertBannerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode24 } from "react";
+import { ReactNode as ReactNode25 } from "react";
 /** Props for {@link TopBarRoot}. */
 interface TopBarRootProps extends BaseComponentProps {
 	/** Accessible label for the header landmark. */
 	"aria-label"?: string;
 	/** Children — typically `<TopBar.Leading>`, `<TopBar.Nav>`, `<TopBar.Trailing>`. */
-	children?: ReactNode24;
+	children?: ReactNode25;
 	/** Sticks to the top of the viewport on scroll.
 	* @default false
 	*/
@@ -1438,11 +1473,11 @@ interface TopBarRootProps extends BaseComponentProps {
 }
 declare const TopBarRoot: React.ForwardRefExoticComponent<Omit<TopBarRootProps, "ref"> & React.RefAttributes<HTMLElement>>;
 interface TopBarLeadingProps {
-	children?: ReactNode24;
+	children?: ReactNode25;
 }
 declare function TopBarLeading({ children }: TopBarLeadingProps): React.JSX.Element;
 interface TopBarNavProps {
-	children?: ReactNode24;
+	children?: ReactNode25;
 	/** Accessible label for the nav region. @default 'Primary' */
 	"aria-label"?: string;
 }
@@ -1459,11 +1494,11 @@ interface TopBarLinkProps {
 	asChild?: boolean;
 	/** Called when the link is clicked (when not asChild; consumer's element handles its own events otherwise). */
 	onClick?: React.MouseEventHandler<HTMLElement>;
-	children?: ReactNode24;
+	children?: ReactNode25;
 }
 declare const TopBarLink: React.ForwardRefExoticComponent<TopBarLinkProps & React.RefAttributes<HTMLElement>>;
 interface TopBarTrailingProps {
-	children?: ReactNode24;
+	children?: ReactNode25;
 }
 declare function TopBarTrailing({ children }: TopBarTrailingProps): React.JSX.Element;
 /**
@@ -1491,7 +1526,7 @@ declare function TopBarTrailing({ children }: TopBarTrailingProps): React.JSX.El
 * ```
 */
 declare const TopBar: {};
-import { ReactNode as ReactNode25 } from "react";
+import { ReactNode as ReactNode26 } from "react";
 /**
 * Which semantic surface token to use as the background.
 *
@@ -1575,10 +1610,10 @@ interface SurfaceProps extends BaseComponentProps {
 	* @default 'div'
 	*/
 	as?: "div" | "section" | "article" | "aside" | "main";
-	children: ReactNode25;
+	children: ReactNode26;
 }
 declare const Surface: React.ForwardRefExoticComponent<Omit<SurfaceProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode26 } from "react";
+import { ReactNode as ReactNode27 } from "react";
 /**
 * Responsive grid layout with auto-fill columns.
 *
@@ -1618,7 +1653,7 @@ interface GridProps extends BaseComponentProps {
 	* @default 'md'
 	*/
 	gap?: SpacingToken;
-	children: ReactNode26;
+	children: ReactNode27;
 }
 declare const Grid: React.ForwardRefExoticComponent<Omit<GridProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
 /**
@@ -1660,7 +1695,7 @@ interface DividerProps extends BaseComponentProps {
 	spacing?: SpacingToken;
 }
 declare const Divider: React.ForwardRefExoticComponent<Omit<DividerProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-import { ReactNode as ReactNode27 } from "react";
+import { ReactNode as ReactNode28 } from "react";
 /** Named width preset for the Container. */
 type ContainerWidth = "narrow" | "prose" | "wide" | "full";
 /** Horizontal padding preset for the Container. */
@@ -1680,7 +1715,7 @@ interface ContainerProps {
 	*/
 	padding?: ContainerPadding;
 	/** Container content. */
-	children: ReactNode27;
+	children: ReactNode28;
 	id?: string;
 	"data-testid"?: string;
 }
@@ -1741,4 +1776,4 @@ interface TabStripProps extends BaseComponentProps {
 	size?: "sm" | "md";
 }
 declare const TabStrip: React.ForwardRefExoticComponent<Omit<TabStripProps, "ref"> & React.RefAttributes<HTMLDivElement>>;
-export { useToast, useFocusTrap, useCalendarContext, tagChipStyle, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, nextFocusedDate, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableFiltersProps, TableFilters, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectValueProps, SelectTriggerProps, SelectRootProps, SelectItemProps, SelectFilterConfig, SelectContentProps, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, LinkCardProps, LinkCard, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ContainerWidth, ContainerProps, ContainerPadding, Container, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxRootProps, ComboboxListProps, ComboboxItemProps, ComboboxInputProps, ComboboxEmptyProps, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, CalendarSelection, CalendarRootProps, CalendarRange, CalendarNavProps, CalendarNavDirection, CalendarMode, CalendarHeaderPrimitiveProps, CalendarGridProps, CalendarContextValue, CalendarCellRenderArgs, CalendarCellProps, Calendar, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };
+export { useToast, useFocusTrap, useCalendarContext, tagChipStyle, spacingMap, shadowMap, semanticColorMap, sectionLabelStyle, radiusMap, progressBarHeightMap, nextFocusedDate, modalWidthMap, modalHeadingStyle, modalFooterStyle, justifyMap, iconSizeMap, iconRegistry, dividerOpacityMap, alignMap, TopBarTrailingProps, TopBarTrailing, TopBarRootProps, TopBarRoot, TopBarNavProps, TopBarNav, TopBarLinkProps, TopBarLink, TopBarLeadingProps, TopBarLeading, TopBar, ToastType, ToastProviderProps, ToastProvider, ToastPosition, ToastItem, ThemePickerProps, ThemePicker, TextareaProps, Textarea, TextFilterConfig, TableVariant, TableRowProps, TableRow, TableProps, TableHeaderProps, TableHeaderCellProps, TableHeaderCell, TableHeader, TableGroupHeaderProps, TableGroupHeader, TableEmptyRowProps, TableEmptyRow, TableCellProps, TableCell, TableBodyProps, TableBody, Table2 as Table, TabStripProps, TabStrip, Tab, SurfaceProps, SurfaceLevel, Surface, StatusDotVariant, StatusDotSize, StatusDotProps, StatusDotAnimate, StatusDot, StackProps, Stack, SpacingToken, SkeletonProps, Skeleton, ShowToastOptions, ShadowToken, SemanticColor, SelectValueProps, SelectTriggerProps, SelectRootProps, SelectItemProps, SelectFilterConfig, SelectContentProps, Select, SegmentedControlProps, SegmentedControl, Segment, SearchInputProps, SearchInput, RowSkeleton, RadiusToken, ProgressBarSegment, ProgressBarProps, ProgressBarHeight, ProgressBar, PaginationProps, PaginationLabels, Pagination, OverlayProps, Overlay, ModalWidth, ModalShellProps, ModalShell, LinkCardProps, LinkCard, JustifyContent, InputProps, Input, IconWarning, IconTrash, IconSize, IconSettings, IconSearch, IconProps, IconPlus, IconName, IconMoreVertical, IconMinus, IconMenu, IconInfo, IconFontProvider, IconFilter, IconEyeOff, IconEye, IconExternalLink, IconError, IconEdit, IconCopy, IconClose, IconChevronUp, IconChevronRight, IconChevronLeft, IconChevronDown, IconCheckCircle, IconCheck, IconButtonSize, IconButtonProps, IconButton, IconArrowRight, IconArrowLeft, Icon, HeaderProps, HeaderLevel, Header, GridProps, Grid, FilterConfig, FilterBarTextProps, FilterBarSelectProps, FilterBarProps, FieldProps, Field, ErrorBoundaryProps, ErrorBoundary, EmptyStateProps, EmptyState, DividerProps, DividerOpacity, Divider, DateRangePickerProps, DateRangePicker, DateRange, DatePickerProps, DatePicker, ContainerWidth, ContainerProps, ContainerPadding, Container, ConfirmDialogVariant, ConfirmDialogProps, ConfirmDialog, ComboboxRootProps, ComboboxListProps, ComboboxItemProps, ComboboxInputProps, ComboboxEmptyProps, Combobox, ChipPickerProps, ChipPicker, ChipItem, CardVariant, CardSkeleton, CardProps, Card, CalendarSelection, CalendarRootProps, CalendarRange, CalendarNavProps, CalendarNavDirection, CalendarMode, CalendarHeaderPrimitiveProps, CalendarGridProps, CalendarContextValue, CalendarCellRenderArgs, CalendarCellProps, Calendar, ButtonVariant, ButtonSize, ButtonProps, Button, BaseComponentProps, BadgeVariant, BadgeSize, BadgeProps, Badge, AlignItems, AlertBannerVariant, AlertBannerProps, AlertBanner };

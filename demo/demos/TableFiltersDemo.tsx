@@ -3,7 +3,6 @@ import {
   Stack, Badge,
   Table, TableHeader, TableHeaderCell, TableBody,
   TableRow, TableCell, TableEmptyRow,
-  TableFilters,
 } from '@4lt7ab/ui';
 import type { FilterConfig } from '@4lt7ab/ui';
 import { DocBlock, PropDemo, type PropMeta } from '../components/DocBlock';
@@ -63,20 +62,21 @@ const FILTER_CONFIGS: FilterConfig[] = [
 const COL_COUNT = 4;
 
 // ---------------------------------------------------------------------------
-// Props metadata
+// Props metadata (Root)
 // ---------------------------------------------------------------------------
 
 const props: PropMeta[] = [
-  { name: 'filters', type: 'FilterConfig[]', required: true, description: 'Ordered list of filter definitions. Each is either a text or select filter.' },
-  { name: 'values', type: 'Record<string, string>', required: true, description: 'Current filter values keyed by filter key.' },
-  { name: 'onChange', type: '(values: Record<string, string>) => void', required: true, description: 'Called when any filter value changes. Receives the full updated values object.' },
+  { name: 'values', type: 'Record<string, string>', required: true, description: 'Current filter values keyed by filter key / field name.' },
+  { name: 'onChange', type: '(values: Record<string, string>) => void', required: true, description: 'Called with the full updated values object on every change.' },
+  { name: 'filters', type: 'FilterConfig[]', description: 'Schema-driven shortcut. Mutually exclusive with children.' },
+  { name: 'children', type: 'ReactNode', description: 'Composition mode — render <Table.FilterBar.Text> / <Table.FilterBar.Select> directly.' },
 ];
 
 // ---------------------------------------------------------------------------
-// Demo
+// Demo — schema mode (the common case)
 // ---------------------------------------------------------------------------
 
-export function TableFiltersDemo(): React.JSX.Element {
+function SchemaDemo(): React.JSX.Element {
   const [filterValues, setFilterValues] = useState<Record<string, string>>({
     title: '',
     status: '',
@@ -95,42 +95,85 @@ export function TableFiltersDemo(): React.JSX.Element {
   }, [filterValues]);
 
   return (
-    <DocBlock props={props}>
-      <PropDemo name="filters + values + onChange" description="A declarative filter bar paired with Table. Text filters are debounced (300ms), select filters apply immediately.">
-        <Stack gap="sm">
-          <TableFilters
-            filters={FILTER_CONFIGS}
-            values={filterValues}
-            onChange={setFilterValues}
-          />
+    <Stack gap="sm">
+      <Table.FilterBar
+        filters={FILTER_CONFIGS}
+        values={filterValues}
+        onChange={setFilterValues}
+      />
 
-          <Table>
-            <TableHeader>
-              <TableHeaderCell>Title</TableHeaderCell>
-              <TableHeaderCell>Status</TableHeaderCell>
-              <TableHeaderCell>Category</TableHeaderCell>
-              <TableHeaderCell>Effort</TableHeaderCell>
-            </TableHeader>
-            <TableBody>
-              {filtered.length === 0 ? (
-                <TableEmptyRow colSpan={COL_COUNT}>No tasks match your filters</TableEmptyRow>
-              ) : (
-                filtered.map((task) => (
-                  <TableRow key={task.id} hoverable>
-                    <TableCell>{task.title}</TableCell>
-                    <TableCell>
-                      <Badge variant={STATUS_VARIANT[task.status] ?? 'default'}>
-                        {task.status.replace('_', ' ')}
-                      </Badge>
-                    </TableCell>
-                    <TableCell muted>{task.category}</TableCell>
-                    <TableCell muted>{task.effort}</TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </Stack>
+      <Table>
+        <TableHeader>
+          <TableHeaderCell>Title</TableHeaderCell>
+          <TableHeaderCell>Status</TableHeaderCell>
+          <TableHeaderCell>Category</TableHeaderCell>
+          <TableHeaderCell>Effort</TableHeaderCell>
+        </TableHeader>
+        <TableBody>
+          {filtered.length === 0 ? (
+            <TableEmptyRow colSpan={COL_COUNT}>No tasks match your filters</TableEmptyRow>
+          ) : (
+            filtered.map((task) => (
+              <TableRow key={task.id} hoverable>
+                <TableCell>{task.title}</TableCell>
+                <TableCell>
+                  <Badge variant={STATUS_VARIANT[task.status] ?? 'default'}>
+                    {task.status.replace('_', ' ')}
+                  </Badge>
+                </TableCell>
+                <TableCell muted>{task.category}</TableCell>
+                <TableCell muted>{task.effort}</TableCell>
+              </TableRow>
+            ))
+          )}
+        </TableBody>
+      </Table>
+    </Stack>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Demo — children composition mode
+// ---------------------------------------------------------------------------
+
+function CompositionDemo(): React.JSX.Element {
+  const [values, setValues] = useState<Record<string, string>>({ title: '', status: '' });
+  return (
+    <Table.FilterBar values={values} onChange={setValues}>
+      <Table.FilterBar.Text field="title" placeholder="Search by title\u2026" debounceMs={200} />
+      <Table.FilterBar.Select
+        field="status"
+        placeholder="All statuses"
+        options={[
+          { value: '', label: 'All statuses' },
+          { value: 'todo', label: 'To Do' },
+          { value: 'in_progress', label: 'In Progress' },
+          { value: 'done', label: 'Done' },
+        ]}
+      />
+    </Table.FilterBar>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Page
+// ---------------------------------------------------------------------------
+
+export function TableFiltersDemo(): React.JSX.Element {
+  return (
+    <DocBlock props={props}>
+      <PropDemo
+        name="filters (schema mode)"
+        description="Pass a FilterConfig[] for the common case — Table.FilterBar renders Text and Select subparts automatically. Text filters debounce by 300ms; selects commit immediately."
+      >
+        <SchemaDemo />
+      </PropDemo>
+
+      <PropDemo
+        name="children (composition mode)"
+        description="Render Table.FilterBar.Text and Table.FilterBar.Select directly for custom layouts."
+      >
+        <CompositionDemo />
       </PropDemo>
     </DocBlock>
   );

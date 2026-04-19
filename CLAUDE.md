@@ -116,7 +116,6 @@ packages/
 │       │   ├── Surface/
 │       │   ├── TabStrip/
 │       │   ├── Table/
-│       │   ├── TableFilters/
 │       │   ├── TagChip/
 │       │   ├── Textarea/
 │       │   ├── ThemePicker/

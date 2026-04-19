@@ -92,11 +92,10 @@ __export(index_exports, {
   StatusDot: () => StatusDot,
   Surface: () => Surface,
   TabStrip: () => TabStrip,
-  Table: () => Table,
+  Table: () => Table3,
   TableBody: () => TableBody,
   TableCell: () => TableCell,
   TableEmptyRow: () => TableEmptyRow,
-  TableFilters: () => TableFilters,
   TableGroupHeader: () => TableGroupHeader,
   TableHeader: () => TableHeader,
   TableHeaderCell: () => TableHeaderCell,
@@ -2962,16 +2961,145 @@ var TableEmptyRow = (0, import_react23.forwardRef)(
   }
 );
 
+// src/components/Table/FilterBar.tsx
+var import_react24 = require("react");
+var import_core26 = require("../../core/dist/index.cjs");
+var import_jsx_runtime24 = require("react/jsx-runtime");
+var FilterBarContext = (0, import_react24.createContext)(null);
+function useFilterBarContext(part) {
+  const ctx = (0, import_react24.useContext)(FilterBarContext);
+  if (!ctx) {
+    throw new Error(
+      `Table.FilterBar.${part} must be rendered inside <Table.FilterBar>. See the upgrade guide for the 0.4.0 compound API.`
+    );
+  }
+  return ctx;
+}
+function FilterBar({
+  values,
+  onChange,
+  filters,
+  children,
+  style,
+  ...rest
+}) {
+  if (filters !== void 0 && children !== void 0) {
+    throw new Error(
+      "<Table.FilterBar> received both `filters` and `children`. Pick one mode."
+    );
+  }
+  const commit = (0, import_react24.useCallback)(
+    (key, value) => {
+      onChange({ ...values, [key]: value });
+    },
+    [values, onChange]
+  );
+  const ctxValue = { values, commit };
+  const content = filters ? filters.map((filter) => {
+    if (filter.type === "text") {
+      return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
+        FilterBarText,
+        {
+          field: filter.key,
+          placeholder: filter.placeholder,
+          debounceMs: filter.debounceMs
+        },
+        filter.key
+      );
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
+      FilterBarSelect,
+      {
+        field: filter.key,
+        placeholder: filter.placeholder,
+        options: filter.options
+      },
+      filter.key
+    );
+  }) : children;
+  return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(FilterBarContext.Provider, { value: ctxValue, children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
+    "div",
+    {
+      style: {
+        display: "flex",
+        flexWrap: "wrap",
+        gap: import_core26.semantic.spaceSm,
+        alignItems: "flex-start",
+        ...style
+      },
+      ...rest,
+      children: content
+    }
+  ) });
+}
+function FilterBarText({
+  field,
+  placeholder,
+  debounceMs = 300
+}) {
+  const { values, commit } = useFilterBarContext("Text");
+  const external = values[field] ?? "";
+  const [local, setLocal] = (0, import_react24.useState)(external);
+  const timerRef = (0, import_react24.useRef)(null);
+  (0, import_react24.useEffect)(() => {
+    setLocal(external);
+  }, [external]);
+  const handleChange = (0, import_react24.useCallback)(
+    (e) => {
+      const next = e.target.value;
+      setLocal(next);
+      if (timerRef.current) clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => {
+        commit(field, next);
+      }, debounceMs);
+    },
+    [commit, field, debounceMs]
+  );
+  (0, import_react24.useEffect)(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
+  return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { style: { minWidth: "10rem", flex: "1 1 10rem" }, children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(Input, { value: local, onChange: handleChange, placeholder }) });
+}
+function FilterBarSelect({
+  field,
+  placeholder,
+  options
+}) {
+  const { values, commit } = useFilterBarContext("Select");
+  const value = values[field] ?? "";
+  const handleValueChange = (0, import_react24.useCallback)(
+    (next) => {
+      commit(field, next);
+    },
+    [commit, field]
+  );
+  return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(Select.Root, { value, onValueChange: handleValueChange, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(Select.Trigger, { children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(Select.Value, { placeholder }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(Select.Content, { children: options.map((opt) => /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(Select.Item, { value: opt.value, children: opt.label }, opt.value)) })
+  ] }) });
+}
+var TableFilterBar = Object.assign(FilterBar, {
+  Text: FilterBarText,
+  Select: FilterBarSelect
+});
+
+// src/components/Table/index.ts
+var Table3 = Object.assign(Table, {
+  FilterBar: TableFilterBar
+});
+
 // src/components/DateRangePicker/DateRangePicker.tsx
-var import_react26 = require("react");
-var import_core29 = require("../../core/dist/index.cjs");
+var import_react27 = require("react");
+var import_core30 = require("../../core/dist/index.cjs");
 
 // src/components/Calendar/Calendar.tsx
-var import_react24 = require("react");
-var import_jsx_runtime24 = require("react/jsx-runtime");
-var CalendarContext = (0, import_react24.createContext)(null);
+var import_react25 = require("react");
+var import_jsx_runtime25 = require("react/jsx-runtime");
+var CalendarContext = (0, import_react25.createContext)(null);
 function useCalendarContext(part = "child") {
-  const ctx = (0, import_react24.useContext)(CalendarContext);
+  const ctx = (0, import_react25.useContext)(CalendarContext);
   if (!ctx) {
     throw new Error(
       `Calendar.${part} must be rendered inside <Calendar.Root>.`
@@ -3002,26 +3130,26 @@ function Root2({
   onViewDateChange,
   children
 }) {
-  const [focusedDateState, setFocusedDateState] = (0, import_react24.useState)(
+  const [focusedDateState, setFocusedDateState] = (0, import_react25.useState)(
     () => defaultFocusedDate ?? seedFocusedDate(selected) ?? /* @__PURE__ */ new Date()
   );
   const isControlled = focusedDateProp !== void 0;
   const focusedDate = isControlled ? focusedDateProp : focusedDateState;
-  const setFocusedDate = (0, import_react24.useCallback)(
+  const setFocusedDate = (0, import_react25.useCallback)(
     (date) => {
       if (!isControlled) setFocusedDateState(date);
       onFocusedDateChange?.(date);
     },
     [isControlled, onFocusedDateChange]
   );
-  const [viewDateState, setViewDateState] = (0, import_react24.useState)(
+  const [viewDateState, setViewDateState] = (0, import_react25.useState)(
     () => firstOfMonth(
       defaultViewDate ?? seedFocusedDate(selected) ?? /* @__PURE__ */ new Date()
     )
   );
   const isViewControlled = viewDateProp !== void 0;
   const viewDate = isViewControlled ? firstOfMonth(viewDateProp) : viewDateState;
-  const setViewDate = (0, import_react24.useCallback)(
+  const setViewDate = (0, import_react25.useCallback)(
     (date) => {
       const normalized = firstOfMonth(date);
       if (!isViewControlled) setViewDateState(normalized);
@@ -3029,13 +3157,13 @@ function Root2({
     },
     [isViewControlled, onViewDateChange]
   );
-  const handleSelect = (0, import_react24.useCallback)(
+  const handleSelect = (0, import_react25.useCallback)(
     (value) => {
       onSelect?.(value);
     },
     [onSelect]
   );
-  const ctx = (0, import_react24.useMemo)(
+  const ctx = (0, import_react25.useMemo)(
     () => ({
       mode,
       selected,
@@ -3061,14 +3189,14 @@ function Root2({
       setViewDate
     ]
   );
-  return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(CalendarContext.Provider, { value: ctx, children });
+  return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(CalendarContext.Provider, { value: ctx, children });
 }
 var Calendar = {
   Root: Root2
 };
 
 // src/components/Calendar/Header.tsx
-var import_core26 = require("../../core/dist/index.cjs");
+var import_core27 = require("../../core/dist/index.cjs");
 
 // src/components/DateRangePicker/dateUtils.ts
 function getDaysInMonth(year, month) {
@@ -3129,12 +3257,12 @@ function buildCalendarGrid(year, month) {
 }
 
 // src/components/Calendar/Header.tsx
-var import_jsx_runtime25 = require("react/jsx-runtime");
+var import_jsx_runtime26 = require("react/jsx-runtime");
 var titleStyle = {
-  fontSize: import_core26.semantic.fontSizeSm,
-  fontWeight: import_core26.semantic.fontWeightSemibold,
-  fontFamily: import_core26.semantic.fontSans,
-  color: import_core26.semantic.colorText,
+  fontSize: import_core27.semantic.fontSizeSm,
+  fontWeight: import_core27.semantic.fontWeightSemibold,
+  fontFamily: import_core27.semantic.fontSans,
+  color: import_core27.semantic.colorText,
   margin: 0,
   userSelect: "none"
 };
@@ -3146,7 +3274,7 @@ function CalendarHeaderPrimitive({
   const ctx = useCalendarContext("Header");
   const year = ctx.viewDate.getFullYear();
   const month = ctx.viewDate.getMonth();
-  return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
     "span",
     {
       style: { ...titleStyle, ...style },
@@ -3158,7 +3286,7 @@ function CalendarHeaderPrimitive({
 }
 
 // src/components/Calendar/Nav.tsx
-var import_jsx_runtime26 = require("react/jsx-runtime");
+var import_jsx_runtime27 = require("react/jsx-runtime");
 function CalendarNav({
   direction,
   step = 1,
@@ -3179,7 +3307,7 @@ function CalendarNav({
     );
     ctx.setViewDate(next);
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
     IconButton,
     {
       icon,
@@ -3191,25 +3319,25 @@ function CalendarNav({
 }
 
 // src/components/Calendar/Grid.tsx
-var import_react25 = require("react");
-var import_core28 = require("../../core/dist/index.cjs");
+var import_react26 = require("react");
+var import_core29 = require("../../core/dist/index.cjs");
 
 // src/components/Calendar/Cell.tsx
-var import_core27 = require("../../core/dist/index.cjs");
-var import_jsx_runtime27 = require("react/jsx-runtime");
+var import_core28 = require("../../core/dist/index.cjs");
+var import_jsx_runtime28 = require("react/jsx-runtime");
 var baseCellStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  width: import_core27.semantic.spaceXl,
-  height: import_core27.semantic.spaceXl,
+  width: import_core28.semantic.spaceXl,
+  height: import_core28.semantic.spaceXl,
   border: "none",
-  borderRadius: import_core27.semantic.radiusSm,
-  fontSize: import_core27.semantic.fontSizeSm,
-  fontFamily: import_core27.semantic.fontSans,
+  borderRadius: import_core28.semantic.radiusSm,
+  fontSize: import_core28.semantic.fontSizeSm,
+  fontFamily: import_core28.semantic.fontSans,
   cursor: "pointer",
   background: "transparent",
-  color: import_core27.semantic.colorText,
+  color: import_core28.semantic.colorText,
   padding: 0,
   transition: "background 120ms ease, color 120ms ease",
   outline: "none",
@@ -3267,14 +3395,14 @@ function CalendarCell({
   const disabled = isDisabled(ctx, date);
   const cellStyle = {
     ...baseCellStyle,
-    ...isOutsideMonth ? { color: import_core27.semantic.colorTextMuted, opacity: 0.5 } : {},
-    ...isToday && !isEndpoint ? { border: `${import_core27.semantic.borderWidthDefault} solid ${import_core27.semantic.colorActionPrimary}` } : {},
+    ...isOutsideMonth ? { color: import_core28.semantic.colorTextMuted, opacity: 0.5 } : {},
+    ...isToday && !isEndpoint ? { border: `${import_core28.semantic.borderWidthDefault} solid ${import_core28.semantic.colorActionPrimary}` } : {},
     ...inRange && !isEndpoint ? {
-      background: `color-mix(in srgb, ${import_core27.semantic.colorActionPrimary} 15%, transparent)`
+      background: `color-mix(in srgb, ${import_core28.semantic.colorActionPrimary} 15%, transparent)`
     } : {},
-    ...isEndpoint ? { background: import_core27.semantic.colorActionPrimary, color: import_core27.semantic.colorTextInverse } : {},
+    ...isEndpoint ? { background: import_core28.semantic.colorActionPrimary, color: import_core28.semantic.colorTextInverse } : {},
     ...disabled ? {
-      color: import_core27.semantic.colorTextDisabled,
+      color: import_core28.semantic.colorTextDisabled,
       pointerEvents: "none",
       cursor: "default",
       opacity: 0.5
@@ -3287,7 +3415,7 @@ function CalendarCell({
     ...className ? [className] : []
   ].join(" ");
   const iso = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-  return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(
     "button",
     {
       type: "button",
@@ -3312,17 +3440,17 @@ function CalendarCell({
 }
 
 // src/components/Calendar/Grid.tsx
-var import_jsx_runtime28 = require("react/jsx-runtime");
+var import_jsx_runtime29 = require("react/jsx-runtime");
 var GRID_STYLES_ID2 = "alttab-calendar";
 var gridCSS2 = (
   /* css */
   `
   .alttab-calendar-day--enabled:hover {
-    background: ${import_core28.semantic.colorSurfaceRaised} !important;
+    background: ${import_core29.semantic.colorSurfaceRaised} !important;
   }
   .alttab-calendar-day--enabled:focus-visible {
-    outline: ${import_core28.semantic.focusRingWidth} solid ${import_core28.semantic.focusRingColor};
-    outline-offset: ${import_core28.semantic.focusRingOffset};
+    outline: ${import_core29.semantic.focusRingWidth} solid ${import_core29.semantic.focusRingColor};
+    outline-offset: ${import_core29.semantic.focusRingOffset};
   }
 `
 );
@@ -3366,12 +3494,12 @@ var tableStyle = {
   tableLayout: "fixed"
 };
 var weekdayHeaderStyle = {
-  fontSize: import_core28.semantic.fontSizeXs,
-  fontFamily: import_core28.semantic.fontSans,
-  fontWeight: import_core28.semantic.fontWeightMedium,
-  color: import_core28.semantic.colorTextMuted,
+  fontSize: import_core29.semantic.fontSizeXs,
+  fontFamily: import_core29.semantic.fontSans,
+  fontWeight: import_core29.semantic.fontWeightMedium,
+  color: import_core29.semantic.colorTextMuted,
   textAlign: "center",
-  padding: `${import_core28.semantic.spaceXs} 0`,
+  padding: `${import_core29.semantic.spaceXs} 0`,
   userSelect: "none"
 };
 function CalendarGridPrimitive({
@@ -3381,14 +3509,14 @@ function CalendarGridPrimitive({
   style,
   className
 }) {
-  (0, import_core28.useInjectStyles)(GRID_STYLES_ID2, gridCSS2);
+  (0, import_core29.useInjectStyles)(GRID_STYLES_ID2, gridCSS2);
   const ctx = useCalendarContext("Grid");
-  const tableRef = (0, import_react25.useRef)(null);
-  const todayRef = (0, import_react25.useRef)(/* @__PURE__ */ new Date());
+  const tableRef = (0, import_react26.useRef)(null);
+  const todayRef = (0, import_react26.useRef)(/* @__PURE__ */ new Date());
   const year = ctx.viewDate.getFullYear();
   const month = ctx.viewDate.getMonth();
-  const grid = (0, import_react25.useMemo)(() => buildCalendarGrid(year, month), [year, month]);
-  const rows = (0, import_react25.useMemo)(() => {
+  const grid = (0, import_react26.useMemo)(() => buildCalendarGrid(year, month), [year, month]);
+  const rows = (0, import_react26.useMemo)(() => {
     const out = [];
     for (let r = 0; r < 6; r++) {
       out.push(grid.slice(r * 7, r * 7 + 7));
@@ -3396,7 +3524,7 @@ function CalendarGridPrimitive({
     return out;
   }, [grid]);
   const { start: highlightStart, end: highlightEnd } = getHighlightBounds(ctx);
-  const isCellDisabled = (0, import_react25.useCallback)(
+  const isCellDisabled = (0, import_react26.useCallback)(
     (date) => {
       if (ctx.minDate && date.getTime() < stripTime2(ctx.minDate).getTime()) {
         return true;
@@ -3408,7 +3536,7 @@ function CalendarGridPrimitive({
     },
     [ctx.minDate, ctx.maxDate, ctx.disabledDate]
   );
-  const handleKeyDown = (0, import_react25.useCallback)(
+  const handleKeyDown = (0, import_react26.useCallback)(
     (e) => {
       if (e.key === "Escape") {
         if (onEscape) {
@@ -3443,7 +3571,7 @@ function CalendarGridPrimitive({
     },
     [ctx, month, year, isCellDisabled, onEscape]
   );
-  (0, import_react25.useEffect)(() => {
+  (0, import_react26.useEffect)(() => {
     const table = tableRef.current;
     if (!table) return;
     const btn = table.querySelector('button[tabindex="0"]');
@@ -3451,7 +3579,7 @@ function CalendarGridPrimitive({
       btn.focus();
     }
   }, [ctx.focusedDate]);
-  return /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)(
     "table",
     {
       ref: tableRef,
@@ -3461,8 +3589,8 @@ function CalendarGridPrimitive({
       className,
       onKeyDown: handleKeyDown,
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("tr", { children: WEEKDAY_LABELS.map((label) => /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("th", { scope: "col", style: weekdayHeaderStyle, children: label }, label)) }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("tbody", { children: rows.map((row, ri) => /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("tr", { children: row.map((date) => {
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("tr", { children: WEEKDAY_LABELS.map((label) => /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("th", { scope: "col", style: weekdayHeaderStyle, children: label }, label)) }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("tbody", { children: rows.map((row, ri) => /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("tr", { children: row.map((date) => {
           const isInMonth = date.getMonth() === month;
           const isToday = isSameDay(date, todayRef.current);
           const isFocused = isSameDay(date, ctx.focusedDate);
@@ -3483,7 +3611,7 @@ function CalendarGridPrimitive({
             isDisabled: disabled
           };
           const iso = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-          return /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("td", { role: "gridcell", style: cellTdStyle, children: children ? children(renderArgs) : /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(CalendarCell, { date }) }, iso);
+          return /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("td", { role: "gridcell", style: cellTdStyle, children: children ? children(renderArgs) : /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(CalendarCell, { date }) }, iso);
         }) }, ri)) })
       ]
     }
@@ -3504,17 +3632,17 @@ var Calendar2 = {
 };
 
 // src/components/DateRangePicker/DateRangePicker.tsx
-var import_jsx_runtime29 = require("react/jsx-runtime");
+var import_jsx_runtime30 = require("react/jsx-runtime");
 var SCOPE = "alttab-drp";
 var injectedCSS = (
   /* css */
   `
   .${SCOPE}-trigger:focus-visible {
-    border-color: ${import_core29.semantic.colorBorderFocused};
-    box-shadow: 0 0 0 ${import_core29.semantic.focusRingWidth} ${import_core29.semantic.focusRingColor};
+    border-color: ${import_core30.semantic.colorBorderFocused};
+    box-shadow: 0 0 0 ${import_core30.semantic.focusRingWidth} ${import_core30.semantic.focusRingColor};
   }
   .${SCOPE}-trigger:hover:not(:disabled) {
-    border-color: ${import_core29.semantic.colorBorderFocused};
+    border-color: ${import_core30.semantic.colorBorderFocused};
   }
 `
 );
@@ -3526,56 +3654,56 @@ var wrapperStyle2 = {
 var triggerBaseStyle2 = {
   display: "block",
   width: "100%",
-  padding: `${import_core29.semantic.spaceSm} ${import_core29.semantic.spaceMd}`,
-  fontSize: import_core29.semantic.fontSizeSm,
-  lineHeight: import_core29.semantic.lineHeightTight,
-  fontFamily: import_core29.semantic.fontSans,
-  color: import_core29.semantic.colorText,
-  background: import_core29.semantic.colorSurfaceInput,
-  border: `${import_core29.semantic.borderWidthDefault} solid ${import_core29.semantic.colorBorder}`,
-  borderRadius: import_core29.semantic.radiusMd,
+  padding: `${import_core30.semantic.spaceSm} ${import_core30.semantic.spaceMd}`,
+  fontSize: import_core30.semantic.fontSizeSm,
+  lineHeight: import_core30.semantic.lineHeightTight,
+  fontFamily: import_core30.semantic.fontSans,
+  color: import_core30.semantic.colorText,
+  background: import_core30.semantic.colorSurfaceInput,
+  border: `${import_core30.semantic.borderWidthDefault} solid ${import_core30.semantic.colorBorder}`,
+  borderRadius: import_core30.semantic.radiusMd,
   outline: "none",
-  transition: `border-color ${import_core29.semantic.transitionBase}, box-shadow ${import_core29.semantic.transitionBase}`,
+  transition: `border-color ${import_core30.semantic.transitionBase}, box-shadow ${import_core30.semantic.transitionBase}`,
   boxSizing: "border-box",
   cursor: "pointer",
   textAlign: "left"
 };
 var triggerErrorStyle = {
-  borderColor: import_core29.semantic.colorBorderError
+  borderColor: import_core30.semantic.colorBorderError
 };
 var triggerDisabledStyle = {
-  background: import_core29.semantic.colorSurfaceDisabled,
-  color: import_core29.semantic.colorTextDisabled,
+  background: import_core30.semantic.colorSurfaceDisabled,
+  color: import_core30.semantic.colorTextDisabled,
   cursor: "not-allowed"
 };
 var popoverStyle = {
   position: "absolute",
   top: "100%",
   left: 0,
-  zIndex: import_core29.semantic.zIndexDropdown,
-  marginTop: import_core29.semantic.spaceXs,
-  background: import_core29.semantic.colorSurfacePanel,
-  border: `${import_core29.semantic.borderWidthDefault} solid ${import_core29.semantic.colorBorder}`,
-  borderRadius: import_core29.semantic.radiusLg,
-  boxShadow: import_core29.semantic.shadowMd,
-  padding: import_core29.semantic.spaceMd,
+  zIndex: import_core30.semantic.zIndexDropdown,
+  marginTop: import_core30.semantic.spaceXs,
+  background: import_core30.semantic.colorSurfacePanel,
+  border: `${import_core30.semantic.borderWidthDefault} solid ${import_core30.semantic.colorBorder}`,
+  borderRadius: import_core30.semantic.radiusLg,
+  boxShadow: import_core30.semantic.shadowMd,
+  padding: import_core30.semantic.spaceMd,
   minWidth: 290,
   boxSizing: "border-box"
 };
 var placeholderStyle2 = {
-  color: import_core29.semantic.colorTextPlaceholder
+  color: import_core30.semantic.colorTextPlaceholder
 };
 var headerRowStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: `${import_core29.semantic.spaceXs} 0`,
-  marginBottom: import_core29.semantic.spaceSm
+  padding: `${import_core30.semantic.spaceXs} 0`,
+  marginBottom: import_core30.semantic.spaceSm
 };
 function sortedRange(a, b) {
   return a.getTime() <= b.getTime() ? { from: a, to: b } : { from: b, to: a };
 }
-var DateRangePicker = (0, import_react26.forwardRef)(
+var DateRangePicker = (0, import_react27.forwardRef)(
   function DateRangePicker2({
     value,
     onChange,
@@ -3586,12 +3714,12 @@ var DateRangePicker = (0, import_react26.forwardRef)(
     hasError,
     disabled
   }, ref) {
-    (0, import_core29.useInjectStyles)(SCOPE, injectedCSS);
-    const [open, setOpen] = (0, import_react26.useState)(false);
-    const [selectionStart, setSelectionStart] = (0, import_react26.useState)(null);
-    const [hoverDate, setHoverDate] = (0, import_react26.useState)(null);
-    const containerRef = (0, import_react26.useRef)(null);
-    (0, import_react26.useEffect)(() => {
+    (0, import_core30.useInjectStyles)(SCOPE, injectedCSS);
+    const [open, setOpen] = (0, import_react27.useState)(false);
+    const [selectionStart, setSelectionStart] = (0, import_react27.useState)(null);
+    const [hoverDate, setHoverDate] = (0, import_react27.useState)(null);
+    const containerRef = (0, import_react27.useRef)(null);
+    (0, import_react27.useEffect)(() => {
       if (!open) return;
       function handleMouseDown(e) {
         if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -3603,14 +3731,14 @@ var DateRangePicker = (0, import_react26.forwardRef)(
       document.addEventListener("mousedown", handleMouseDown);
       return () => document.removeEventListener("mousedown", handleMouseDown);
     }, [open]);
-    (0, import_react26.useEffect)(() => {
+    (0, import_react27.useEffect)(() => {
       if (!open) return;
       const btn = containerRef.current?.querySelector(
         '[role="grid"] button[tabindex="0"]'
       );
       btn?.focus();
     }, [open]);
-    const handleToggle = (0, import_react26.useCallback)(() => {
+    const handleToggle = (0, import_react27.useCallback)(() => {
       if (disabled) return;
       setOpen((prev) => {
         if (prev) {
@@ -3620,7 +3748,7 @@ var DateRangePicker = (0, import_react26.forwardRef)(
         return !prev;
       });
     }, [disabled]);
-    const handleSelect = (0, import_react26.useCallback)(
+    const handleSelect = (0, import_react27.useCallback)(
       (v) => {
         if (!(v instanceof Date)) return;
         if (selectionStart === null) {
@@ -3636,24 +3764,24 @@ var DateRangePicker = (0, import_react26.forwardRef)(
       },
       [selectionStart, onChange]
     );
-    const handleFocusedDateChange = (0, import_react26.useCallback)(
+    const handleFocusedDateChange = (0, import_react27.useCallback)(
       (d) => {
         if (selectionStart !== null) setHoverDate(d);
       },
       [selectionStart]
     );
-    const disabledDate = (0, import_react26.useMemo)(() => {
+    const disabledDate = (0, import_react27.useMemo)(() => {
       if (!disabledDates || disabledDates.length === 0) return void 0;
       return (d) => disabledDates.some((dd) => isSameDay(dd, d));
     }, [disabledDates]);
-    const displaySelected = (0, import_react26.useMemo)(() => {
+    const displaySelected = (0, import_react27.useMemo)(() => {
       if (selectionStart !== null) {
         const end = hoverDate ?? selectionStart;
         return sortedRange(selectionStart, end);
       }
       return value;
     }, [selectionStart, hoverDate, value]);
-    const openKey = (0, import_react26.useMemo)(
+    const openKey = (0, import_react27.useMemo)(
       () => open ? `${value?.from.getTime() ?? "empty"}-${Date.now()}` : "closed",
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [open]
@@ -3662,9 +3790,9 @@ var DateRangePicker = (0, import_react26.forwardRef)(
     if (value) {
       displayText = `${formatDate(value.from)} \u2013 ${formatDate(value.to)}`;
     } else {
-      displayText = /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("span", { style: placeholderStyle2, children: placeholder });
+      displayText = /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("span", { style: placeholderStyle2, children: placeholder });
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(
       "div",
       {
         ref: (node) => {
@@ -3674,7 +3802,7 @@ var DateRangePicker = (0, import_react26.forwardRef)(
         },
         style: wrapperStyle2,
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
             "button",
             {
               type: "button",
@@ -3692,7 +3820,7 @@ var DateRangePicker = (0, import_react26.forwardRef)(
               children: displayText
             }
           ),
-          open && /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("div", { style: popoverStyle, role: "dialog", "aria-label": "Date range picker", children: /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)(
+          open && /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("div", { style: popoverStyle, role: "dialog", "aria-label": "Date range picker", children: /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(
             Calendar2.Root,
             {
               mode: "range",
@@ -3705,16 +3833,16 @@ var DateRangePicker = (0, import_react26.forwardRef)(
               maxDate,
               disabledDate,
               children: [
-                /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { style: headerRowStyle, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(Calendar2.Nav, { direction: "prev" }),
-                  /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(Calendar2.Header, {}),
-                  /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(Calendar2.Nav, { direction: "next" })
+                /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { style: headerRowStyle, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(Calendar2.Nav, { direction: "prev" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(Calendar2.Header, {}),
+                  /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(Calendar2.Nav, { direction: "next" })
                 ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(Calendar2.Grid, { onEscape: () => {
+                /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(Calendar2.Grid, { onEscape: () => {
                   setOpen(false);
                   setSelectionStart(null);
                   setHoverDate(null);
-                }, children: ({ date }) => /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(
+                }, children: ({ date }) => /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
                   Calendar2.Cell,
                   {
                     date,
@@ -3734,19 +3862,19 @@ var DateRangePicker = (0, import_react26.forwardRef)(
 );
 
 // src/components/DatePicker/DatePicker.tsx
-var import_react27 = require("react");
-var import_core30 = require("../../core/dist/index.cjs");
-var import_jsx_runtime30 = require("react/jsx-runtime");
+var import_react28 = require("react");
+var import_core31 = require("../../core/dist/index.cjs");
+var import_jsx_runtime31 = require("react/jsx-runtime");
 var SCOPE2 = "alttab-dp";
 var injectedCSS2 = (
   /* css */
   `
   .${SCOPE2}-trigger:focus-visible {
-    border-color: ${import_core30.semantic.colorBorderFocused};
-    box-shadow: 0 0 0 ${import_core30.semantic.focusRingWidth} ${import_core30.semantic.focusRingColor};
+    border-color: ${import_core31.semantic.colorBorderFocused};
+    box-shadow: 0 0 0 ${import_core31.semantic.focusRingWidth} ${import_core31.semantic.focusRingColor};
   }
   .${SCOPE2}-trigger:hover:not(:disabled) {
-    border-color: ${import_core30.semantic.colorBorderFocused};
+    border-color: ${import_core31.semantic.colorBorderFocused};
   }
 `
 );
@@ -3758,53 +3886,53 @@ var wrapperStyle3 = {
 var triggerBaseStyle3 = {
   display: "block",
   width: "100%",
-  padding: `${import_core30.semantic.spaceSm} ${import_core30.semantic.spaceMd}`,
-  fontSize: import_core30.semantic.fontSizeSm,
-  lineHeight: import_core30.semantic.lineHeightTight,
-  fontFamily: import_core30.semantic.fontSans,
-  color: import_core30.semantic.colorText,
-  background: import_core30.semantic.colorSurfaceInput,
-  border: `${import_core30.semantic.borderWidthDefault} solid ${import_core30.semantic.colorBorder}`,
-  borderRadius: import_core30.semantic.radiusMd,
+  padding: `${import_core31.semantic.spaceSm} ${import_core31.semantic.spaceMd}`,
+  fontSize: import_core31.semantic.fontSizeSm,
+  lineHeight: import_core31.semantic.lineHeightTight,
+  fontFamily: import_core31.semantic.fontSans,
+  color: import_core31.semantic.colorText,
+  background: import_core31.semantic.colorSurfaceInput,
+  border: `${import_core31.semantic.borderWidthDefault} solid ${import_core31.semantic.colorBorder}`,
+  borderRadius: import_core31.semantic.radiusMd,
   outline: "none",
-  transition: `border-color ${import_core30.semantic.transitionBase}, box-shadow ${import_core30.semantic.transitionBase}`,
+  transition: `border-color ${import_core31.semantic.transitionBase}, box-shadow ${import_core31.semantic.transitionBase}`,
   boxSizing: "border-box",
   cursor: "pointer",
   textAlign: "left"
 };
 var triggerErrorStyle2 = {
-  borderColor: import_core30.semantic.colorBorderError
+  borderColor: import_core31.semantic.colorBorderError
 };
 var triggerDisabledStyle2 = {
-  background: import_core30.semantic.colorSurfaceDisabled,
-  color: import_core30.semantic.colorTextDisabled,
+  background: import_core31.semantic.colorSurfaceDisabled,
+  color: import_core31.semantic.colorTextDisabled,
   cursor: "not-allowed"
 };
 var popoverStyle2 = {
   position: "absolute",
   top: "100%",
   left: 0,
-  zIndex: import_core30.semantic.zIndexDropdown,
-  marginTop: import_core30.semantic.spaceXs,
-  background: import_core30.semantic.colorSurfacePanel,
-  border: `${import_core30.semantic.borderWidthDefault} solid ${import_core30.semantic.colorBorder}`,
-  borderRadius: import_core30.semantic.radiusLg,
-  boxShadow: import_core30.semantic.shadowMd,
-  padding: import_core30.semantic.spaceMd,
+  zIndex: import_core31.semantic.zIndexDropdown,
+  marginTop: import_core31.semantic.spaceXs,
+  background: import_core31.semantic.colorSurfacePanel,
+  border: `${import_core31.semantic.borderWidthDefault} solid ${import_core31.semantic.colorBorder}`,
+  borderRadius: import_core31.semantic.radiusLg,
+  boxShadow: import_core31.semantic.shadowMd,
+  padding: import_core31.semantic.spaceMd,
   minWidth: 290,
   boxSizing: "border-box"
 };
 var placeholderStyle3 = {
-  color: import_core30.semantic.colorTextPlaceholder
+  color: import_core31.semantic.colorTextPlaceholder
 };
 var headerRowStyle2 = {
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: `${import_core30.semantic.spaceXs} 0`,
-  marginBottom: import_core30.semantic.spaceSm
+  padding: `${import_core31.semantic.spaceXs} 0`,
+  marginBottom: import_core31.semantic.spaceSm
 };
-var DatePicker = (0, import_react27.forwardRef)(
+var DatePicker = (0, import_react28.forwardRef)(
   function DatePicker2({
     value,
     onChange,
@@ -3815,10 +3943,10 @@ var DatePicker = (0, import_react27.forwardRef)(
     hasError,
     disabled
   }, ref) {
-    (0, import_core30.useInjectStyles)(SCOPE2, injectedCSS2);
-    const [open, setOpen] = (0, import_react27.useState)(false);
-    const containerRef = (0, import_react27.useRef)(null);
-    (0, import_react27.useEffect)(() => {
+    (0, import_core31.useInjectStyles)(SCOPE2, injectedCSS2);
+    const [open, setOpen] = (0, import_react28.useState)(false);
+    const containerRef = (0, import_react28.useRef)(null);
+    (0, import_react28.useEffect)(() => {
       if (!open) return;
       function handleMouseDown(e) {
         if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -3828,18 +3956,18 @@ var DatePicker = (0, import_react27.forwardRef)(
       document.addEventListener("mousedown", handleMouseDown);
       return () => document.removeEventListener("mousedown", handleMouseDown);
     }, [open]);
-    (0, import_react27.useEffect)(() => {
+    (0, import_react28.useEffect)(() => {
       if (!open) return;
       const btn = containerRef.current?.querySelector(
         '[role="grid"] button[tabindex="0"]'
       );
       btn?.focus();
     }, [open]);
-    const handleToggle = (0, import_react27.useCallback)(() => {
+    const handleToggle = (0, import_react28.useCallback)(() => {
       if (disabled) return;
       setOpen((o) => !o);
     }, [disabled]);
-    const handleSelect = (0, import_react27.useCallback)(
+    const handleSelect = (0, import_react28.useCallback)(
       (v) => {
         if (v === void 0) {
           onChange(void 0);
@@ -3850,11 +3978,11 @@ var DatePicker = (0, import_react27.forwardRef)(
       },
       [onChange]
     );
-    const disabledDate = (0, import_react27.useMemo)(() => {
+    const disabledDate = (0, import_react28.useMemo)(() => {
       if (!disabledDates || disabledDates.length === 0) return void 0;
       return (d) => disabledDates.some((dd) => isSameDay(dd, d));
     }, [disabledDates]);
-    const openKey = (0, import_react27.useMemo)(
+    const openKey = (0, import_react28.useMemo)(
       () => open ? `${value?.getTime() ?? "empty"}-${Date.now()}` : "closed",
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [open]
@@ -3863,9 +3991,9 @@ var DatePicker = (0, import_react27.forwardRef)(
     if (value) {
       displayText = formatDate(value);
     } else {
-      displayText = /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("span", { style: placeholderStyle3, children: placeholder });
+      displayText = /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { style: placeholderStyle3, children: placeholder });
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
       "div",
       {
         ref: (node) => {
@@ -3875,7 +4003,7 @@ var DatePicker = (0, import_react27.forwardRef)(
         },
         style: wrapperStyle3,
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
             "button",
             {
               type: "button",
@@ -3893,7 +4021,7 @@ var DatePicker = (0, import_react27.forwardRef)(
               children: displayText
             }
           ),
-          open && /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("div", { style: popoverStyle2, role: "dialog", "aria-label": "Date picker", children: /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(
+          open && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { style: popoverStyle2, role: "dialog", "aria-label": "Date picker", children: /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
             Calendar2.Root,
             {
               mode: "single",
@@ -3905,12 +4033,12 @@ var DatePicker = (0, import_react27.forwardRef)(
               maxDate,
               disabledDate,
               children: [
-                /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { style: headerRowStyle2, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(Calendar2.Nav, { direction: "prev" }),
-                  /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(Calendar2.Header, {}),
-                  /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(Calendar2.Nav, { direction: "next" })
+                /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { style: headerRowStyle2, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Calendar2.Nav, { direction: "prev" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Calendar2.Header, {}),
+                  /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Calendar2.Nav, { direction: "next" })
                 ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(Calendar2.Grid, { onEscape: () => setOpen(false) })
+                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Calendar2.Grid, { onEscape: () => setOpen(false) })
               ]
             },
             openKey
@@ -3922,10 +4050,10 @@ var DatePicker = (0, import_react27.forwardRef)(
 );
 
 // src/components/ErrorBoundary/ErrorBoundary.tsx
-var import_react28 = __toESM(require("react"), 1);
-var import_core31 = require("../../core/dist/index.cjs");
-var import_jsx_runtime31 = require("react/jsx-runtime");
-var ErrorBoundary = class extends import_react28.default.Component {
+var import_react29 = __toESM(require("react"), 1);
+var import_core32 = require("../../core/dist/index.cjs");
+var import_jsx_runtime32 = require("react/jsx-runtime");
+var ErrorBoundary = class extends import_react29.default.Component {
   constructor(props) {
     super(props);
     this.state = { error: null, showStack: false };
@@ -3948,43 +4076,43 @@ var ErrorBoundary = class extends import_react28.default.Component {
     if (fallback) {
       return fallback({ error, resetErrorBoundary: this.resetErrorBoundary });
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { style: { borderColor: import_core31.semantic.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: import_core31.semantic.radiusLg }, children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { style: { borderColor: import_core32.semantic.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: import_core32.semantic.radiusLg }, children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
       Card,
       {
         variant: "flat",
         padding: "lg",
-        children: /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: import_core31.semantic.spaceMd }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { style: { display: "flex", alignItems: "center", gap: import_core31.semantic.spaceSm }, children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: import_core32.semantic.spaceMd }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { style: { display: "flex", alignItems: "center", gap: import_core32.semantic.spaceSm }, children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
             "span",
             {
               style: {
-                fontSize: import_core31.semantic.fontSizeLg,
-                color: import_core31.semantic.colorError,
-                fontWeight: import_core31.semantic.fontWeightSemibold,
-                fontFamily: import_core31.semantic.fontSans
+                fontSize: import_core32.semantic.fontSizeLg,
+                color: import_core32.semantic.colorError,
+                fontWeight: import_core32.semantic.fontWeightSemibold,
+                fontFamily: import_core32.semantic.fontSans
               },
               children: "Something went wrong"
             }
           ) }),
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
             "p",
             {
               style: {
                 margin: 0,
-                fontFamily: import_core31.semantic.fontMono,
-                fontSize: import_core31.semantic.fontSizeSm,
-                lineHeight: import_core31.semantic.lineHeightBase,
-                color: import_core31.semantic.colorText,
-                background: import_core31.semantic.colorSurfaceRaised,
-                padding: import_core31.semantic.spaceSm,
-                borderRadius: import_core31.semantic.radiusMd,
+                fontFamily: import_core32.semantic.fontMono,
+                fontSize: import_core32.semantic.fontSizeSm,
+                lineHeight: import_core32.semantic.lineHeightBase,
+                color: import_core32.semantic.colorText,
+                background: import_core32.semantic.colorSurfaceRaised,
+                padding: import_core32.semantic.spaceSm,
+                borderRadius: import_core32.semantic.radiusMd,
                 wordBreak: "break-word"
               },
               children: error.message
             }
           ),
-          error.stack && /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+          error.stack && /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
               "button",
               {
                 type: "button",
@@ -3993,27 +4121,27 @@ var ErrorBoundary = class extends import_react28.default.Component {
                   background: "none",
                   border: "none",
                   padding: 0,
-                  fontFamily: import_core31.semantic.fontSans,
-                  fontSize: import_core31.semantic.fontSizeSm,
-                  color: import_core31.semantic.colorTextMuted,
+                  fontFamily: import_core32.semantic.fontSans,
+                  fontSize: import_core32.semantic.fontSizeSm,
+                  color: import_core32.semantic.colorTextMuted,
                   cursor: "pointer",
                   textDecoration: "underline"
                 },
                 children: showStack ? "Hide stack trace" : "Show stack trace"
               }
             ),
-            showStack && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+            showStack && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
               "pre",
               {
                 style: {
-                  marginTop: import_core31.semantic.spaceSm,
-                  fontFamily: import_core31.semantic.fontMono,
-                  fontSize: import_core31.semantic.fontSizeXs,
-                  lineHeight: import_core31.semantic.lineHeightBase,
-                  color: import_core31.semantic.colorTextSecondary,
-                  background: import_core31.semantic.colorSurfaceRaised,
-                  padding: import_core31.semantic.spaceSm,
-                  borderRadius: import_core31.semantic.radiusMd,
+                  marginTop: import_core32.semantic.spaceSm,
+                  fontFamily: import_core32.semantic.fontMono,
+                  fontSize: import_core32.semantic.fontSizeXs,
+                  lineHeight: import_core32.semantic.lineHeightBase,
+                  color: import_core32.semantic.colorTextSecondary,
+                  background: import_core32.semantic.colorSurfaceRaised,
+                  padding: import_core32.semantic.spaceSm,
+                  borderRadius: import_core32.semantic.radiusMd,
                   overflow: "auto",
                   maxHeight: "200px",
                   whiteSpace: "pre-wrap",
@@ -4023,7 +4151,7 @@ var ErrorBoundary = class extends import_react28.default.Component {
               }
             )
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Button, { variant: "secondary", size: "sm", onClick: this.resetErrorBoundary, children: "Try again" }) })
+          /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(Button, { variant: "secondary", size: "sm", onClick: this.resetErrorBoundary, children: "Try again" }) })
         ] })
       }
     ) });
@@ -4031,13 +4159,13 @@ var ErrorBoundary = class extends import_react28.default.Component {
 };
 
 // src/components/Toast/Toast.tsx
-var import_react29 = require("react");
+var import_react30 = require("react");
 var import_react_dom2 = require("react-dom");
-var import_core32 = require("../../core/dist/index.cjs");
-var import_jsx_runtime32 = require("react/jsx-runtime");
-var ToastContext = (0, import_react29.createContext)(null);
+var import_core33 = require("../../core/dist/index.cjs");
+var import_jsx_runtime33 = require("react/jsx-runtime");
+var ToastContext = (0, import_react30.createContext)(null);
 function useToast() {
-  const ctx = (0, import_react29.useContext)(ToastContext);
+  const ctx = (0, import_react30.useContext)(ToastContext);
   if (!ctx) {
     throw new Error("useToast must be used within a <ToastProvider>");
   }
@@ -4090,28 +4218,28 @@ var toastCSS = `
 }
 `;
 var typeColors = {
-  success: { bg: import_core32.semantic.colorSuccessBg, fg: import_core32.semantic.colorSuccess, border: import_core32.semantic.colorSuccess },
-  error: { bg: import_core32.semantic.colorErrorBg, fg: import_core32.semantic.colorError, border: import_core32.semantic.colorError },
-  info: { bg: import_core32.semantic.colorInfoBg, fg: import_core32.semantic.colorInfo, border: import_core32.semantic.colorInfo },
-  warning: { bg: import_core32.semantic.colorWarningBg, fg: import_core32.semantic.colorWarning, border: import_core32.semantic.colorWarning }
+  success: { bg: import_core33.semantic.colorSuccessBg, fg: import_core33.semantic.colorSuccess, border: import_core33.semantic.colorSuccess },
+  error: { bg: import_core33.semantic.colorErrorBg, fg: import_core33.semantic.colorError, border: import_core33.semantic.colorError },
+  info: { bg: import_core33.semantic.colorInfoBg, fg: import_core33.semantic.colorInfo, border: import_core33.semantic.colorInfo },
+  warning: { bg: import_core33.semantic.colorWarningBg, fg: import_core33.semantic.colorWarning, border: import_core33.semantic.colorWarning }
 };
 function ToastMessage({
   item,
   onDismiss
 }) {
-  const [exiting, setExiting] = (0, import_react29.useState)(false);
-  const [paused, setPaused] = (0, import_react29.useState)(false);
-  const timerRef = (0, import_react29.useRef)(null);
-  const startedAtRef = (0, import_react29.useRef)(0);
-  const remainingRef = (0, import_react29.useRef)(item.duration);
+  const [exiting, setExiting] = (0, import_react30.useState)(false);
+  const [paused, setPaused] = (0, import_react30.useState)(false);
+  const timerRef = (0, import_react30.useRef)(null);
+  const startedAtRef = (0, import_react30.useRef)(0);
+  const remainingRef = (0, import_react30.useRef)(item.duration);
   const autoDismiss = item.duration > 0;
-  const clearTimer = (0, import_react29.useCallback)(() => {
+  const clearTimer = (0, import_react30.useCallback)(() => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
     }
   }, []);
-  const startTimer = (0, import_react29.useCallback)(() => {
+  const startTimer = (0, import_react30.useCallback)(() => {
     if (!autoDismiss || remainingRef.current <= 0) return;
     clearTimer();
     startedAtRef.current = Date.now();
@@ -4120,14 +4248,14 @@ function ToastMessage({
     }, remainingRef.current);
     setPaused(false);
   }, [autoDismiss, clearTimer]);
-  const pauseTimer = (0, import_react29.useCallback)(() => {
+  const pauseTimer = (0, import_react30.useCallback)(() => {
     if (!autoDismiss || !timerRef.current) return;
     const elapsed = Date.now() - startedAtRef.current;
     remainingRef.current = Math.max(0, remainingRef.current - elapsed);
     clearTimer();
     setPaused(true);
   }, [autoDismiss, clearTimer]);
-  (0, import_react29.useEffect)(() => {
+  (0, import_react30.useEffect)(() => {
     startTimer();
     return clearTimer;
   }, []);
@@ -4137,7 +4265,7 @@ function ToastMessage({
     }
   };
   const colors = typeColors[item.type];
-  return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(
     "div",
     {
       role: "status",
@@ -4151,19 +4279,19 @@ function ToastMessage({
         position: "relative",
         display: "flex",
         alignItems: "center",
-        gap: import_core32.semantic.spaceSm,
-        padding: `${import_core32.semantic.spaceSm} ${import_core32.semantic.spaceMd}`,
-        paddingBottom: autoDismiss ? `calc(${import_core32.semantic.spaceSm} + 2px)` : import_core32.semantic.spaceSm,
-        backgroundColor: import_core32.semantic.colorSurfaceSolid,
+        gap: import_core33.semantic.spaceSm,
+        padding: `${import_core33.semantic.spaceSm} ${import_core33.semantic.spaceMd}`,
+        paddingBottom: autoDismiss ? `calc(${import_core33.semantic.spaceSm} + 2px)` : import_core33.semantic.spaceSm,
+        backgroundColor: import_core33.semantic.colorSurfaceSolid,
         backgroundImage: `linear-gradient(${colors.bg}, ${colors.bg})`,
         color: colors.fg,
-        borderRadius: import_core32.semantic.radiusMd,
-        borderLeft: `${import_core32.semantic.borderWidthAccent} solid ${colors.border}`,
-        boxShadow: import_core32.semantic.shadowMd,
-        fontSize: import_core32.semantic.fontSizeSm,
-        fontFamily: import_core32.semantic.fontSans,
-        fontWeight: import_core32.semantic.fontWeightMedium,
-        lineHeight: import_core32.semantic.lineHeightBase,
+        borderRadius: import_core33.semantic.radiusMd,
+        borderLeft: `${import_core33.semantic.borderWidthAccent} solid ${colors.border}`,
+        boxShadow: import_core33.semantic.shadowMd,
+        fontSize: import_core33.semantic.fontSizeSm,
+        fontFamily: import_core33.semantic.fontSans,
+        fontWeight: import_core33.semantic.fontWeightMedium,
+        lineHeight: import_core33.semantic.lineHeightBase,
         pointerEvents: "auto",
         animation: exiting ? "toast-fade-out 200ms ease forwards" : "toast-slide-in 250ms ease",
         maxWidth: "24rem",
@@ -4172,8 +4300,8 @@ function ToastMessage({
       },
       onAnimationEnd: handleAnimationEnd,
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("span", { style: { flex: 1 }, children: item.message }),
-        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("span", { style: { flex: 1 }, children: item.message }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
           "button",
           {
             onClick: () => setExiting(true),
@@ -4191,16 +4319,16 @@ function ToastMessage({
               justifyContent: "center",
               width: "1.25rem",
               height: "1.25rem",
-              borderRadius: import_core32.semantic.radiusSm,
+              borderRadius: import_core33.semantic.radiusSm,
               color: colors.fg,
               opacity: 0.7,
-              fontSize: import_core32.semantic.fontSizeSm,
+              fontSize: import_core33.semantic.fontSizeSm,
               lineHeight: 1
             },
             children: "\xD7"
           }
         ),
-        autoDismiss && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+        autoDismiss && /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
           "span",
           {
             "data-toast-timer": "",
@@ -4221,20 +4349,20 @@ function ToastContainer({
   onDismiss,
   position
 }) {
-  (0, import_core32.useInjectStyles)(STYLE_ID, toastCSS);
+  (0, import_core33.useInjectStyles)(STYLE_ID, toastCSS);
   if (toasts.length === 0) return null;
   const positionStyles = {
     position: "fixed",
-    zIndex: import_core32.semantic.zIndexToast,
+    zIndex: import_core33.semantic.zIndexToast,
     display: "flex",
     flexDirection: "column",
-    gap: import_core32.semantic.spaceSm,
+    gap: import_core33.semantic.spaceSm,
     pointerEvents: "none",
-    ...position.startsWith("top") ? { top: import_core32.semantic.spaceLg } : { bottom: import_core32.semantic.spaceLg },
-    ...position.endsWith("right") ? { right: import_core32.semantic.spaceLg } : { left: import_core32.semantic.spaceLg }
+    ...position.startsWith("top") ? { top: import_core33.semantic.spaceLg } : { bottom: import_core33.semantic.spaceLg },
+    ...position.endsWith("right") ? { right: import_core33.semantic.spaceLg } : { left: import_core33.semantic.spaceLg }
   };
   return (0, import_react_dom2.createPortal)(
-    /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { "aria-live": "polite", style: positionStyles, children: toasts.map((item) => /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(ToastMessage, { item, onDismiss }, item.id)) }),
+    /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("div", { "aria-live": "polite", style: positionStyles, children: toasts.map((item) => /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(ToastMessage, { item, onDismiss }, item.id)) }),
     document.body
   );
 }
@@ -4243,11 +4371,11 @@ function ToastProvider({
   children,
   position = "top-right"
 }) {
-  const [toasts, setToasts] = (0, import_react29.useState)([]);
-  const dismiss = (0, import_react29.useCallback)((id) => {
+  const [toasts, setToasts] = (0, import_react30.useState)([]);
+  const dismiss = (0, import_react30.useCallback)((id) => {
     setToasts((prev) => prev.filter((t40) => t40.id !== id));
   }, []);
-  const showToast = (0, import_react29.useCallback)(
+  const showToast = (0, import_react30.useCallback)(
     (message, typeOrOptions) => {
       const opts = typeof typeOrOptions === "string" ? { type: typeOrOptions } : typeOrOptions ?? {};
       const item = {
@@ -4260,16 +4388,16 @@ function ToastProvider({
     },
     []
   );
-  return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(ToastContext.Provider, { value: { showToast }, children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(ToastContext.Provider, { value: { showToast }, children: [
     children,
-    /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(ToastContainer, { toasts, onDismiss: dismiss, position })
+    /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(ToastContainer, { toasts, onDismiss: dismiss, position })
   ] });
 }
 
 // src/components/Combobox/Combobox.tsx
-var import_react30 = require("react");
-var import_core33 = require("../../core/dist/index.cjs");
-var import_jsx_runtime33 = require("react/jsx-runtime");
+var import_react31 = require("react");
+var import_core34 = require("../../core/dist/index.cjs");
+var import_jsx_runtime34 = require("react/jsx-runtime");
 var COMBOBOX_STYLES_ID = "alttab-combobox";
 var comboboxCSS = (
   /* css */
@@ -4312,9 +4440,9 @@ var comboboxCSS = (
   }
 `
 );
-var ComboboxContext = (0, import_react30.createContext)(null);
+var ComboboxContext = (0, import_react31.createContext)(null);
 function useComboboxContext(part) {
-  const ctx = (0, import_react30.useContext)(ComboboxContext);
+  const ctx = (0, import_react31.useContext)(ComboboxContext);
   if (!ctx) {
     throw new Error(
       `Combobox.${part} must be rendered inside <Combobox.Root>. See the upgrade guide for the 0.4.0 compound API.`
@@ -4331,20 +4459,20 @@ function Root3({
   hasError = false,
   children
 }) {
-  (0, import_core33.useInjectStyles)(COMBOBOX_STYLES_ID, comboboxCSS);
-  const instanceId = (0, import_react30.useId)();
+  (0, import_core34.useInjectStyles)(COMBOBOX_STYLES_ID, comboboxCSS);
+  const instanceId = (0, import_react31.useId)();
   const listboxId = `${instanceId}-listbox`;
-  const [internalValue, setInternalValue] = (0, import_react30.useState)(defaultValue ?? "");
+  const [internalValue, setInternalValue] = (0, import_react31.useState)(defaultValue ?? "");
   const isControlled = controlledValue !== void 0;
   const value = isControlled ? controlledValue : internalValue;
-  const [open, setOpen] = (0, import_react30.useState)(false);
-  const [focusedValue, setFocusedValue] = (0, import_react30.useState)(null);
-  const [dropDirection, setDropDirection] = (0, import_react30.useState)("down");
-  const containerRef = (0, import_react30.useRef)(null);
-  const inputRef = (0, import_react30.useRef)(null);
-  const suppressNextOpenRef = (0, import_react30.useRef)(false);
-  const [items, setItems] = (0, import_react30.useState)([]);
-  const registerItem = (0, import_react30.useCallback)((item) => {
+  const [open, setOpen] = (0, import_react31.useState)(false);
+  const [focusedValue, setFocusedValue] = (0, import_react31.useState)(null);
+  const [dropDirection, setDropDirection] = (0, import_react31.useState)("down");
+  const containerRef = (0, import_react31.useRef)(null);
+  const inputRef = (0, import_react31.useRef)(null);
+  const suppressNextOpenRef = (0, import_react31.useRef)(false);
+  const [items, setItems] = (0, import_react31.useState)([]);
+  const registerItem = (0, import_react31.useCallback)((item) => {
     setItems((prev) => {
       if (prev.some((p) => p.value === item.value)) {
         return prev.map((p) => p.value === item.value ? item : p);
@@ -4352,17 +4480,17 @@ function Root3({
       return [...prev, item];
     });
   }, []);
-  const unregisterItem = (0, import_react30.useCallback)((itemValue) => {
+  const unregisterItem = (0, import_react31.useCallback)((itemValue) => {
     setItems((prev) => prev.filter((p) => p.value !== itemValue));
   }, []);
-  const setValue = (0, import_react30.useCallback)(
+  const setValue = (0, import_react31.useCallback)(
     (next) => {
       if (!isControlled) setInternalValue(next);
       onValueChange?.(next);
     },
     [isControlled, onValueChange]
   );
-  const calculateDirection = (0, import_react30.useCallback)(() => {
+  const calculateDirection = (0, import_react31.useCallback)(() => {
     const input = inputRef.current;
     if (!input) return;
     const rect = input.getBoundingClientRect();
@@ -4373,17 +4501,17 @@ function Root3({
       spaceBelow >= estimatedHeight ? "down" : spaceAbove > spaceBelow ? "up" : "down"
     );
   }, [items.length]);
-  const openMenu = (0, import_react30.useCallback)(() => {
+  const openMenu = (0, import_react31.useCallback)(() => {
     if (disabled) return;
     calculateDirection();
     setOpen(true);
     setFocusedValue(null);
   }, [disabled, calculateDirection]);
-  const closeMenu = (0, import_react30.useCallback)(() => {
+  const closeMenu = (0, import_react31.useCallback)(() => {
     setOpen(false);
     setFocusedValue(null);
   }, []);
-  const selectItem = (0, import_react30.useCallback)(
+  const selectItem = (0, import_react31.useCallback)(
     (itemValue) => {
       const item = items.find((i) => i.value === itemValue);
       if (!item) return;
@@ -4397,7 +4525,7 @@ function Root3({
     },
     [items, setValue, onSelect, closeMenu]
   );
-  (0, import_react30.useEffect)(() => {
+  (0, import_react31.useEffect)(() => {
     if (!open) return;
     function handleMouseDown(e) {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -4407,7 +4535,7 @@ function Root3({
     document.addEventListener("mousedown", handleMouseDown);
     return () => document.removeEventListener("mousedown", handleMouseDown);
   }, [open, closeMenu]);
-  const handleKeyDown = (0, import_react30.useCallback)(
+  const handleKeyDown = (0, import_react31.useCallback)(
     (e) => {
       if (e.key === "Escape") {
         if (open) {
@@ -4460,7 +4588,7 @@ function Root3({
     [open, openMenu, closeMenu, focusedValue, items, selectItem]
   );
   suppressNextOpenRef.__combobox_shared = true;
-  const ctx = (0, import_react30.useMemo)(
+  const ctx = (0, import_react31.useMemo)(
     () => ({
       value,
       setValue,
@@ -4499,7 +4627,7 @@ function Root3({
     ]
   );
   ctx.__suppressNextOpen = suppressNextOpenRef;
-  return /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(ComboboxContext.Provider, { value: ctx, children: /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("div", { ref: containerRef, style: wrapperStyle4, onKeyDown: handleKeyDown, children }) });
+  return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(ComboboxContext.Provider, { value: ctx, children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("div", { ref: containerRef, style: wrapperStyle4, onKeyDown: handleKeyDown, children }) });
 }
 function Input3({
   placeholder,
@@ -4536,14 +4664,14 @@ function Input3({
   } = ctx;
   const suppressNextOpenRef = ctx.__suppressNextOpen;
   const activedescendant = open && focusedValue ? `${instanceId}-opt-${focusedValue}` : void 0;
-  const handleChange = (0, import_react30.useCallback)(
+  const handleChange = (0, import_react31.useCallback)(
     (e) => {
       setValue(e.target.value);
       if (!open) openMenu();
     },
     [setValue, open, openMenu]
   );
-  const handleFocus = (0, import_react30.useCallback)(
+  const handleFocus = (0, import_react31.useCallback)(
     (e) => {
       if (suppressNextOpenRef.current) {
         suppressNextOpenRef.current = false;
@@ -4554,7 +4682,7 @@ function Input3({
     },
     [disabled, items.length, openMenu, onFocusProp, suppressNextOpenRef]
   );
-  return /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
     "input",
     {
       ref: inputRef,
@@ -4597,8 +4725,8 @@ function Input3({
 }
 function List({ children }) {
   const { open, listboxId, dropDirection, focusedValue } = useComboboxContext("List");
-  const ref = (0, import_react30.useRef)(null);
-  (0, import_react30.useEffect)(() => {
+  const ref = (0, import_react31.useRef)(null);
+  (0, import_react31.useEffect)(() => {
     if (!open || !focusedValue) return;
     const menu = ref.current;
     if (!menu) return;
@@ -4612,15 +4740,15 @@ function List({ children }) {
     top: "100%",
     left: 0,
     right: 0,
-    marginTop: import_core33.semantic.spaceXs
+    marginTop: import_core34.semantic.spaceXs
   } : {
     position: "absolute",
     bottom: "100%",
     left: 0,
     right: 0,
-    marginBottom: import_core33.semantic.spaceXs
+    marginBottom: import_core34.semantic.spaceXs
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
     "div",
     {
       ref,
@@ -4629,12 +4757,12 @@ function List({ children }) {
       hidden: !open,
       style: open ? {
         ...positionStyle,
-        background: import_core33.semantic.colorSurfacePanel,
-        border: `${import_core33.semantic.borderWidthDefault} solid ${import_core33.semantic.colorBorder}`,
-        borderRadius: import_core33.semantic.radiusMd,
-        padding: import_core33.semantic.spaceXs,
-        zIndex: import_core33.semantic.zIndexSticky,
-        boxShadow: import_core33.semantic.shadowMd,
+        background: import_core34.semantic.colorSurfacePanel,
+        border: `${import_core34.semantic.borderWidthDefault} solid ${import_core34.semantic.colorBorder}`,
+        borderRadius: import_core34.semantic.radiusMd,
+        padding: import_core34.semantic.spaceXs,
+        zIndex: import_core34.semantic.zIndexSticky,
+        boxShadow: import_core34.semantic.shadowMd,
         maxHeight: "16rem",
         overflowY: "auto",
         boxSizing: "border-box"
@@ -4658,7 +4786,7 @@ function Item2({
     instanceId
   } = useComboboxContext("Item");
   const resolvedText = textValue ?? (typeof children === "string" ? children : value);
-  (0, import_react30.useEffect)(() => {
+  (0, import_react31.useEffect)(() => {
     registerItem({ value, textValue: resolvedText });
     return () => unregisterItem(value);
   }, [value, resolvedText, registerItem, unregisterItem]);
@@ -4669,7 +4797,7 @@ function Item2({
     isFocused ? "alttab-combobox-option--focused" : "",
     isSelected ? "alttab-combobox-option--selected" : ""
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
     "button",
     {
       type: "button",
@@ -4685,15 +4813,15 @@ function Item2({
   );
 }
 function Empty({ children }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
     "div",
     {
       role: "presentation",
       style: {
-        padding: `${import_core33.semantic.spaceXs} ${import_core33.semantic.spaceSm}`,
-        fontSize: import_core33.semantic.fontSizeSm,
-        color: import_core33.semantic.colorTextMuted,
-        fontFamily: import_core33.semantic.fontSans
+        padding: `${import_core34.semantic.spaceXs} ${import_core34.semantic.spaceSm}`,
+        fontSize: import_core34.semantic.fontSizeSm,
+        color: import_core34.semantic.colorTextMuted,
+        fontFamily: import_core34.semantic.fontSans
       },
       children
     }
@@ -4707,24 +4835,24 @@ var wrapperStyle4 = {
 var inputBaseStyle = {
   display: "block",
   width: "100%",
-  padding: `${import_core33.semantic.spaceSm} ${import_core33.semantic.spaceMd}`,
-  fontSize: import_core33.semantic.fontSizeSm,
-  lineHeight: import_core33.semantic.lineHeightTight,
-  fontFamily: import_core33.semantic.fontSans,
-  color: import_core33.semantic.colorText,
-  background: import_core33.semantic.colorSurfaceInput,
-  border: `${import_core33.semantic.borderWidthDefault} solid ${import_core33.semantic.colorBorder}`,
-  borderRadius: import_core33.semantic.radiusMd,
+  padding: `${import_core34.semantic.spaceSm} ${import_core34.semantic.spaceMd}`,
+  fontSize: import_core34.semantic.fontSizeSm,
+  lineHeight: import_core34.semantic.lineHeightTight,
+  fontFamily: import_core34.semantic.fontSans,
+  color: import_core34.semantic.colorText,
+  background: import_core34.semantic.colorSurfaceInput,
+  border: `${import_core34.semantic.borderWidthDefault} solid ${import_core34.semantic.colorBorder}`,
+  borderRadius: import_core34.semantic.radiusMd,
   outline: "none",
-  transition: `border-color ${import_core33.semantic.transitionBase}, box-shadow ${import_core33.semantic.transitionBase}`,
+  transition: `border-color ${import_core34.semantic.transitionBase}, box-shadow ${import_core34.semantic.transitionBase}`,
   boxSizing: "border-box"
 };
 var errorBorderStyle4 = {
-  borderColor: import_core33.semantic.colorBorderError
+  borderColor: import_core34.semantic.colorBorderError
 };
 var disabledStyle4 = {
-  background: import_core33.semantic.colorSurfaceDisabled,
-  color: import_core33.semantic.colorTextDisabled,
+  background: import_core34.semantic.colorSurfaceDisabled,
+  color: import_core34.semantic.colorTextDisabled,
   cursor: "not-allowed"
 };
 var Combobox = {
@@ -4734,113 +4862,6 @@ var Combobox = {
   Item: Item2,
   Empty
 };
-
-// src/components/TableFilters/TableFilters.tsx
-var import_react31 = require("react");
-var import_core34 = require("../../core/dist/index.cjs");
-var import_jsx_runtime34 = require("react/jsx-runtime");
-function DebouncedTextFilter({
-  config,
-  value,
-  onCommit
-}) {
-  const delay = config.debounceMs ?? 300;
-  const [local, setLocal] = (0, import_react31.useState)(value);
-  const timerRef = (0, import_react31.useRef)(null);
-  (0, import_react31.useEffect)(() => {
-    setLocal(value);
-  }, [value]);
-  const handleChange = (0, import_react31.useCallback)(
-    (e) => {
-      const next = e.target.value;
-      setLocal(next);
-      if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(() => {
-        onCommit(config.key, next);
-      }, delay);
-    },
-    [config.key, delay, onCommit]
-  );
-  (0, import_react31.useEffect)(() => {
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, []);
-  return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("div", { style: { minWidth: "10rem", flex: "1 1 10rem" }, children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-    Input,
-    {
-      value: local,
-      onChange: handleChange,
-      placeholder: config.placeholder
-    }
-  ) });
-}
-function SelectFilter({
-  config,
-  value,
-  onCommit
-}) {
-  const handleValueChange = (0, import_react31.useCallback)(
-    (next) => {
-      onCommit(config.key, next);
-    },
-    [config.key, onCommit]
-  );
-  return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(Select.Root, { value, onValueChange: handleValueChange, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(Select.Trigger, { children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(Select.Value, { placeholder: config.placeholder }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(Select.Content, { children: config.options.map((opt) => /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(Select.Item, { value: opt.value, children: opt.label }, opt.value)) })
-  ] }) });
-}
-function TableFilters({
-  filters,
-  values,
-  onChange,
-  style,
-  ...props
-}) {
-  const handleCommit = (0, import_react31.useCallback)(
-    (key, value) => {
-      onChange({ ...values, [key]: value });
-    },
-    [values, onChange]
-  );
-  return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-    "div",
-    {
-      style: {
-        display: "flex",
-        flexWrap: "wrap",
-        gap: import_core34.semantic.spaceSm,
-        alignItems: "flex-start",
-        ...style
-      },
-      ...props,
-      children: filters.map((filter) => {
-        const val = values[filter.key] ?? "";
-        if (filter.type === "text") {
-          return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-            DebouncedTextFilter,
-            {
-              config: filter,
-              value: val,
-              onCommit: handleCommit
-            },
-            filter.key
-          );
-        }
-        return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-          SelectFilter,
-          {
-            config: filter,
-            value: val,
-            onCommit: handleCommit
-          },
-          filter.key
-        );
-      })
-    }
-  );
-}
 
 // src/components/ChipPicker/ChipPicker.tsx
 var import_react32 = require("react");

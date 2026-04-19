@@ -2837,29 +2837,165 @@ var TableEmptyRow = forwardRef21(
   }
 );
 
-// src/components/DateRangePicker/DateRangePicker.tsx
-import {
-  forwardRef as forwardRef22,
-  useState as useState5,
-  useRef as useRef6,
-  useCallback as useCallback5,
-  useEffect as useEffect7,
-  useMemo as useMemo4
-} from "react";
-import { semantic as t26, useInjectStyles as useInjectStyles11 } from "../../core/dist/index.js";
-
-// src/components/Calendar/Calendar.tsx
+// src/components/Table/FilterBar.tsx
 import {
   createContext as createContext3,
   useCallback as useCallback3,
   useContext as useContext3,
-  useMemo as useMemo2,
+  useEffect as useEffect6,
+  useRef as useRef5,
   useState as useState4
 } from "react";
-import { jsx as jsx24 } from "react/jsx-runtime";
-var CalendarContext = createContext3(null);
+import { semantic as t23 } from "../../core/dist/index.js";
+import { jsx as jsx24, jsxs as jsxs13 } from "react/jsx-runtime";
+var FilterBarContext = createContext3(null);
+function useFilterBarContext(part) {
+  const ctx = useContext3(FilterBarContext);
+  if (!ctx) {
+    throw new Error(
+      `Table.FilterBar.${part} must be rendered inside <Table.FilterBar>. See the upgrade guide for the 0.4.0 compound API.`
+    );
+  }
+  return ctx;
+}
+function FilterBar({
+  values,
+  onChange,
+  filters,
+  children,
+  style,
+  ...rest
+}) {
+  if (filters !== void 0 && children !== void 0) {
+    throw new Error(
+      "<Table.FilterBar> received both `filters` and `children`. Pick one mode."
+    );
+  }
+  const commit = useCallback3(
+    (key, value) => {
+      onChange({ ...values, [key]: value });
+    },
+    [values, onChange]
+  );
+  const ctxValue = { values, commit };
+  const content = filters ? filters.map((filter) => {
+    if (filter.type === "text") {
+      return /* @__PURE__ */ jsx24(
+        FilterBarText,
+        {
+          field: filter.key,
+          placeholder: filter.placeholder,
+          debounceMs: filter.debounceMs
+        },
+        filter.key
+      );
+    }
+    return /* @__PURE__ */ jsx24(
+      FilterBarSelect,
+      {
+        field: filter.key,
+        placeholder: filter.placeholder,
+        options: filter.options
+      },
+      filter.key
+    );
+  }) : children;
+  return /* @__PURE__ */ jsx24(FilterBarContext.Provider, { value: ctxValue, children: /* @__PURE__ */ jsx24(
+    "div",
+    {
+      style: {
+        display: "flex",
+        flexWrap: "wrap",
+        gap: t23.spaceSm,
+        alignItems: "flex-start",
+        ...style
+      },
+      ...rest,
+      children: content
+    }
+  ) });
+}
+function FilterBarText({
+  field,
+  placeholder,
+  debounceMs = 300
+}) {
+  const { values, commit } = useFilterBarContext("Text");
+  const external = values[field] ?? "";
+  const [local, setLocal] = useState4(external);
+  const timerRef = useRef5(null);
+  useEffect6(() => {
+    setLocal(external);
+  }, [external]);
+  const handleChange = useCallback3(
+    (e) => {
+      const next = e.target.value;
+      setLocal(next);
+      if (timerRef.current) clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => {
+        commit(field, next);
+      }, debounceMs);
+    },
+    [commit, field, debounceMs]
+  );
+  useEffect6(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
+  return /* @__PURE__ */ jsx24("div", { style: { minWidth: "10rem", flex: "1 1 10rem" }, children: /* @__PURE__ */ jsx24(Input, { value: local, onChange: handleChange, placeholder }) });
+}
+function FilterBarSelect({
+  field,
+  placeholder,
+  options
+}) {
+  const { values, commit } = useFilterBarContext("Select");
+  const value = values[field] ?? "";
+  const handleValueChange = useCallback3(
+    (next) => {
+      commit(field, next);
+    },
+    [commit, field]
+  );
+  return /* @__PURE__ */ jsx24("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ jsxs13(Select.Root, { value, onValueChange: handleValueChange, children: [
+    /* @__PURE__ */ jsx24(Select.Trigger, { children: /* @__PURE__ */ jsx24(Select.Value, { placeholder }) }),
+    /* @__PURE__ */ jsx24(Select.Content, { children: options.map((opt) => /* @__PURE__ */ jsx24(Select.Item, { value: opt.value, children: opt.label }, opt.value)) })
+  ] }) });
+}
+var TableFilterBar = Object.assign(FilterBar, {
+  Text: FilterBarText,
+  Select: FilterBarSelect
+});
+
+// src/components/Table/index.ts
+var Table3 = Object.assign(Table, {
+  FilterBar: TableFilterBar
+});
+
+// src/components/DateRangePicker/DateRangePicker.tsx
+import {
+  forwardRef as forwardRef22,
+  useState as useState6,
+  useRef as useRef7,
+  useCallback as useCallback6,
+  useEffect as useEffect8,
+  useMemo as useMemo4
+} from "react";
+import { semantic as t27, useInjectStyles as useInjectStyles11 } from "../../core/dist/index.js";
+
+// src/components/Calendar/Calendar.tsx
+import {
+  createContext as createContext4,
+  useCallback as useCallback4,
+  useContext as useContext4,
+  useMemo as useMemo2,
+  useState as useState5
+} from "react";
+import { jsx as jsx25 } from "react/jsx-runtime";
+var CalendarContext = createContext4(null);
 function useCalendarContext(part = "child") {
-  const ctx = useContext3(CalendarContext);
+  const ctx = useContext4(CalendarContext);
   if (!ctx) {
     throw new Error(
       `Calendar.${part} must be rendered inside <Calendar.Root>.`
@@ -2890,26 +3026,26 @@ function Root2({
   onViewDateChange,
   children
 }) {
-  const [focusedDateState, setFocusedDateState] = useState4(
+  const [focusedDateState, setFocusedDateState] = useState5(
     () => defaultFocusedDate ?? seedFocusedDate(selected) ?? /* @__PURE__ */ new Date()
   );
   const isControlled = focusedDateProp !== void 0;
   const focusedDate = isControlled ? focusedDateProp : focusedDateState;
-  const setFocusedDate = useCallback3(
+  const setFocusedDate = useCallback4(
     (date) => {
       if (!isControlled) setFocusedDateState(date);
       onFocusedDateChange?.(date);
     },
     [isControlled, onFocusedDateChange]
   );
-  const [viewDateState, setViewDateState] = useState4(
+  const [viewDateState, setViewDateState] = useState5(
     () => firstOfMonth(
       defaultViewDate ?? seedFocusedDate(selected) ?? /* @__PURE__ */ new Date()
     )
   );
   const isViewControlled = viewDateProp !== void 0;
   const viewDate = isViewControlled ? firstOfMonth(viewDateProp) : viewDateState;
-  const setViewDate = useCallback3(
+  const setViewDate = useCallback4(
     (date) => {
       const normalized = firstOfMonth(date);
       if (!isViewControlled) setViewDateState(normalized);
@@ -2917,7 +3053,7 @@ function Root2({
     },
     [isViewControlled, onViewDateChange]
   );
-  const handleSelect = useCallback3(
+  const handleSelect = useCallback4(
     (value) => {
       onSelect?.(value);
     },
@@ -2949,14 +3085,14 @@ function Root2({
       setViewDate
     ]
   );
-  return /* @__PURE__ */ jsx24(CalendarContext.Provider, { value: ctx, children });
+  return /* @__PURE__ */ jsx25(CalendarContext.Provider, { value: ctx, children });
 }
 var Calendar = {
   Root: Root2
 };
 
 // src/components/Calendar/Header.tsx
-import { semantic as t23 } from "../../core/dist/index.js";
+import { semantic as t24 } from "../../core/dist/index.js";
 
 // src/components/DateRangePicker/dateUtils.ts
 function getDaysInMonth(year, month) {
@@ -3017,12 +3153,12 @@ function buildCalendarGrid(year, month) {
 }
 
 // src/components/Calendar/Header.tsx
-import { jsx as jsx25 } from "react/jsx-runtime";
+import { jsx as jsx26 } from "react/jsx-runtime";
 var titleStyle = {
-  fontSize: t23.fontSizeSm,
-  fontWeight: t23.fontWeightSemibold,
-  fontFamily: t23.fontSans,
-  color: t23.colorText,
+  fontSize: t24.fontSizeSm,
+  fontWeight: t24.fontWeightSemibold,
+  fontFamily: t24.fontSans,
+  color: t24.colorText,
   margin: 0,
   userSelect: "none"
 };
@@ -3034,7 +3170,7 @@ function CalendarHeaderPrimitive({
   const ctx = useCalendarContext("Header");
   const year = ctx.viewDate.getFullYear();
   const month = ctx.viewDate.getMonth();
-  return /* @__PURE__ */ jsx25(
+  return /* @__PURE__ */ jsx26(
     "span",
     {
       style: { ...titleStyle, ...style },
@@ -3046,7 +3182,7 @@ function CalendarHeaderPrimitive({
 }
 
 // src/components/Calendar/Nav.tsx
-import { jsx as jsx26 } from "react/jsx-runtime";
+import { jsx as jsx27 } from "react/jsx-runtime";
 function CalendarNav({
   direction,
   step = 1,
@@ -3067,7 +3203,7 @@ function CalendarNav({
     );
     ctx.setViewDate(next);
   };
-  return /* @__PURE__ */ jsx26(
+  return /* @__PURE__ */ jsx27(
     IconButton,
     {
       icon,
@@ -3079,25 +3215,25 @@ function CalendarNav({
 }
 
 // src/components/Calendar/Grid.tsx
-import { useCallback as useCallback4, useMemo as useMemo3, useRef as useRef5, useEffect as useEffect6 } from "react";
-import { semantic as t25, useInjectStyles as useInjectStyles10 } from "../../core/dist/index.js";
+import { useCallback as useCallback5, useMemo as useMemo3, useRef as useRef6, useEffect as useEffect7 } from "react";
+import { semantic as t26, useInjectStyles as useInjectStyles10 } from "../../core/dist/index.js";
 
 // src/components/Calendar/Cell.tsx
-import { semantic as t24 } from "../../core/dist/index.js";
-import { jsx as jsx27 } from "react/jsx-runtime";
+import { semantic as t25 } from "../../core/dist/index.js";
+import { jsx as jsx28 } from "react/jsx-runtime";
 var baseCellStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  width: t24.spaceXl,
-  height: t24.spaceXl,
+  width: t25.spaceXl,
+  height: t25.spaceXl,
   border: "none",
-  borderRadius: t24.radiusSm,
-  fontSize: t24.fontSizeSm,
-  fontFamily: t24.fontSans,
+  borderRadius: t25.radiusSm,
+  fontSize: t25.fontSizeSm,
+  fontFamily: t25.fontSans,
   cursor: "pointer",
   background: "transparent",
-  color: t24.colorText,
+  color: t25.colorText,
   padding: 0,
   transition: "background 120ms ease, color 120ms ease",
   outline: "none",
@@ -3155,14 +3291,14 @@ function CalendarCell({
   const disabled = isDisabled(ctx, date);
   const cellStyle = {
     ...baseCellStyle,
-    ...isOutsideMonth ? { color: t24.colorTextMuted, opacity: 0.5 } : {},
-    ...isToday && !isEndpoint ? { border: `${t24.borderWidthDefault} solid ${t24.colorActionPrimary}` } : {},
+    ...isOutsideMonth ? { color: t25.colorTextMuted, opacity: 0.5 } : {},
+    ...isToday && !isEndpoint ? { border: `${t25.borderWidthDefault} solid ${t25.colorActionPrimary}` } : {},
     ...inRange && !isEndpoint ? {
-      background: `color-mix(in srgb, ${t24.colorActionPrimary} 15%, transparent)`
+      background: `color-mix(in srgb, ${t25.colorActionPrimary} 15%, transparent)`
     } : {},
-    ...isEndpoint ? { background: t24.colorActionPrimary, color: t24.colorTextInverse } : {},
+    ...isEndpoint ? { background: t25.colorActionPrimary, color: t25.colorTextInverse } : {},
     ...disabled ? {
-      color: t24.colorTextDisabled,
+      color: t25.colorTextDisabled,
       pointerEvents: "none",
       cursor: "default",
       opacity: 0.5
@@ -3175,7 +3311,7 @@ function CalendarCell({
     ...className ? [className] : []
   ].join(" ");
   const iso = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-  return /* @__PURE__ */ jsx27(
+  return /* @__PURE__ */ jsx28(
     "button",
     {
       type: "button",
@@ -3200,17 +3336,17 @@ function CalendarCell({
 }
 
 // src/components/Calendar/Grid.tsx
-import { jsx as jsx28, jsxs as jsxs13 } from "react/jsx-runtime";
+import { jsx as jsx29, jsxs as jsxs14 } from "react/jsx-runtime";
 var GRID_STYLES_ID2 = "alttab-calendar";
 var gridCSS2 = (
   /* css */
   `
   .alttab-calendar-day--enabled:hover {
-    background: ${t25.colorSurfaceRaised} !important;
+    background: ${t26.colorSurfaceRaised} !important;
   }
   .alttab-calendar-day--enabled:focus-visible {
-    outline: ${t25.focusRingWidth} solid ${t25.focusRingColor};
-    outline-offset: ${t25.focusRingOffset};
+    outline: ${t26.focusRingWidth} solid ${t26.focusRingColor};
+    outline-offset: ${t26.focusRingOffset};
   }
 `
 );
@@ -3254,12 +3390,12 @@ var tableStyle = {
   tableLayout: "fixed"
 };
 var weekdayHeaderStyle = {
-  fontSize: t25.fontSizeXs,
-  fontFamily: t25.fontSans,
-  fontWeight: t25.fontWeightMedium,
-  color: t25.colorTextMuted,
+  fontSize: t26.fontSizeXs,
+  fontFamily: t26.fontSans,
+  fontWeight: t26.fontWeightMedium,
+  color: t26.colorTextMuted,
   textAlign: "center",
-  padding: `${t25.spaceXs} 0`,
+  padding: `${t26.spaceXs} 0`,
   userSelect: "none"
 };
 function CalendarGridPrimitive({
@@ -3271,8 +3407,8 @@ function CalendarGridPrimitive({
 }) {
   useInjectStyles10(GRID_STYLES_ID2, gridCSS2);
   const ctx = useCalendarContext("Grid");
-  const tableRef = useRef5(null);
-  const todayRef = useRef5(/* @__PURE__ */ new Date());
+  const tableRef = useRef6(null);
+  const todayRef = useRef6(/* @__PURE__ */ new Date());
   const year = ctx.viewDate.getFullYear();
   const month = ctx.viewDate.getMonth();
   const grid = useMemo3(() => buildCalendarGrid(year, month), [year, month]);
@@ -3284,7 +3420,7 @@ function CalendarGridPrimitive({
     return out;
   }, [grid]);
   const { start: highlightStart, end: highlightEnd } = getHighlightBounds(ctx);
-  const isCellDisabled = useCallback4(
+  const isCellDisabled = useCallback5(
     (date) => {
       if (ctx.minDate && date.getTime() < stripTime2(ctx.minDate).getTime()) {
         return true;
@@ -3296,7 +3432,7 @@ function CalendarGridPrimitive({
     },
     [ctx.minDate, ctx.maxDate, ctx.disabledDate]
   );
-  const handleKeyDown = useCallback4(
+  const handleKeyDown = useCallback5(
     (e) => {
       if (e.key === "Escape") {
         if (onEscape) {
@@ -3331,7 +3467,7 @@ function CalendarGridPrimitive({
     },
     [ctx, month, year, isCellDisabled, onEscape]
   );
-  useEffect6(() => {
+  useEffect7(() => {
     const table = tableRef.current;
     if (!table) return;
     const btn = table.querySelector('button[tabindex="0"]');
@@ -3339,7 +3475,7 @@ function CalendarGridPrimitive({
       btn.focus();
     }
   }, [ctx.focusedDate]);
-  return /* @__PURE__ */ jsxs13(
+  return /* @__PURE__ */ jsxs14(
     "table",
     {
       ref: tableRef,
@@ -3349,8 +3485,8 @@ function CalendarGridPrimitive({
       className,
       onKeyDown: handleKeyDown,
       children: [
-        /* @__PURE__ */ jsx28("thead", { children: /* @__PURE__ */ jsx28("tr", { children: WEEKDAY_LABELS.map((label) => /* @__PURE__ */ jsx28("th", { scope: "col", style: weekdayHeaderStyle, children: label }, label)) }) }),
-        /* @__PURE__ */ jsx28("tbody", { children: rows.map((row, ri) => /* @__PURE__ */ jsx28("tr", { children: row.map((date) => {
+        /* @__PURE__ */ jsx29("thead", { children: /* @__PURE__ */ jsx29("tr", { children: WEEKDAY_LABELS.map((label) => /* @__PURE__ */ jsx29("th", { scope: "col", style: weekdayHeaderStyle, children: label }, label)) }) }),
+        /* @__PURE__ */ jsx29("tbody", { children: rows.map((row, ri) => /* @__PURE__ */ jsx29("tr", { children: row.map((date) => {
           const isInMonth = date.getMonth() === month;
           const isToday = isSameDay(date, todayRef.current);
           const isFocused = isSameDay(date, ctx.focusedDate);
@@ -3371,7 +3507,7 @@ function CalendarGridPrimitive({
             isDisabled: disabled
           };
           const iso = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-          return /* @__PURE__ */ jsx28("td", { role: "gridcell", style: cellTdStyle, children: children ? children(renderArgs) : /* @__PURE__ */ jsx28(CalendarCell, { date }) }, iso);
+          return /* @__PURE__ */ jsx29("td", { role: "gridcell", style: cellTdStyle, children: children ? children(renderArgs) : /* @__PURE__ */ jsx29(CalendarCell, { date }) }, iso);
         }) }, ri)) })
       ]
     }
@@ -3392,17 +3528,17 @@ var Calendar2 = {
 };
 
 // src/components/DateRangePicker/DateRangePicker.tsx
-import { jsx as jsx29, jsxs as jsxs14 } from "react/jsx-runtime";
+import { jsx as jsx30, jsxs as jsxs15 } from "react/jsx-runtime";
 var SCOPE = "alttab-drp";
 var injectedCSS = (
   /* css */
   `
   .${SCOPE}-trigger:focus-visible {
-    border-color: ${t26.colorBorderFocused};
-    box-shadow: 0 0 0 ${t26.focusRingWidth} ${t26.focusRingColor};
+    border-color: ${t27.colorBorderFocused};
+    box-shadow: 0 0 0 ${t27.focusRingWidth} ${t27.focusRingColor};
   }
   .${SCOPE}-trigger:hover:not(:disabled) {
-    border-color: ${t26.colorBorderFocused};
+    border-color: ${t27.colorBorderFocused};
   }
 `
 );
@@ -3414,51 +3550,51 @@ var wrapperStyle2 = {
 var triggerBaseStyle2 = {
   display: "block",
   width: "100%",
-  padding: `${t26.spaceSm} ${t26.spaceMd}`,
-  fontSize: t26.fontSizeSm,
-  lineHeight: t26.lineHeightTight,
-  fontFamily: t26.fontSans,
-  color: t26.colorText,
-  background: t26.colorSurfaceInput,
-  border: `${t26.borderWidthDefault} solid ${t26.colorBorder}`,
-  borderRadius: t26.radiusMd,
+  padding: `${t27.spaceSm} ${t27.spaceMd}`,
+  fontSize: t27.fontSizeSm,
+  lineHeight: t27.lineHeightTight,
+  fontFamily: t27.fontSans,
+  color: t27.colorText,
+  background: t27.colorSurfaceInput,
+  border: `${t27.borderWidthDefault} solid ${t27.colorBorder}`,
+  borderRadius: t27.radiusMd,
   outline: "none",
-  transition: `border-color ${t26.transitionBase}, box-shadow ${t26.transitionBase}`,
+  transition: `border-color ${t27.transitionBase}, box-shadow ${t27.transitionBase}`,
   boxSizing: "border-box",
   cursor: "pointer",
   textAlign: "left"
 };
 var triggerErrorStyle = {
-  borderColor: t26.colorBorderError
+  borderColor: t27.colorBorderError
 };
 var triggerDisabledStyle = {
-  background: t26.colorSurfaceDisabled,
-  color: t26.colorTextDisabled,
+  background: t27.colorSurfaceDisabled,
+  color: t27.colorTextDisabled,
   cursor: "not-allowed"
 };
 var popoverStyle = {
   position: "absolute",
   top: "100%",
   left: 0,
-  zIndex: t26.zIndexDropdown,
-  marginTop: t26.spaceXs,
-  background: t26.colorSurfacePanel,
-  border: `${t26.borderWidthDefault} solid ${t26.colorBorder}`,
-  borderRadius: t26.radiusLg,
-  boxShadow: t26.shadowMd,
-  padding: t26.spaceMd,
+  zIndex: t27.zIndexDropdown,
+  marginTop: t27.spaceXs,
+  background: t27.colorSurfacePanel,
+  border: `${t27.borderWidthDefault} solid ${t27.colorBorder}`,
+  borderRadius: t27.radiusLg,
+  boxShadow: t27.shadowMd,
+  padding: t27.spaceMd,
   minWidth: 290,
   boxSizing: "border-box"
 };
 var placeholderStyle2 = {
-  color: t26.colorTextPlaceholder
+  color: t27.colorTextPlaceholder
 };
 var headerRowStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: `${t26.spaceXs} 0`,
-  marginBottom: t26.spaceSm
+  padding: `${t27.spaceXs} 0`,
+  marginBottom: t27.spaceSm
 };
 function sortedRange(a, b) {
   return a.getTime() <= b.getTime() ? { from: a, to: b } : { from: b, to: a };
@@ -3475,11 +3611,11 @@ var DateRangePicker = forwardRef22(
     disabled
   }, ref) {
     useInjectStyles11(SCOPE, injectedCSS);
-    const [open, setOpen] = useState5(false);
-    const [selectionStart, setSelectionStart] = useState5(null);
-    const [hoverDate, setHoverDate] = useState5(null);
-    const containerRef = useRef6(null);
-    useEffect7(() => {
+    const [open, setOpen] = useState6(false);
+    const [selectionStart, setSelectionStart] = useState6(null);
+    const [hoverDate, setHoverDate] = useState6(null);
+    const containerRef = useRef7(null);
+    useEffect8(() => {
       if (!open) return;
       function handleMouseDown(e) {
         if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -3491,14 +3627,14 @@ var DateRangePicker = forwardRef22(
       document.addEventListener("mousedown", handleMouseDown);
       return () => document.removeEventListener("mousedown", handleMouseDown);
     }, [open]);
-    useEffect7(() => {
+    useEffect8(() => {
       if (!open) return;
       const btn = containerRef.current?.querySelector(
         '[role="grid"] button[tabindex="0"]'
       );
       btn?.focus();
     }, [open]);
-    const handleToggle = useCallback5(() => {
+    const handleToggle = useCallback6(() => {
       if (disabled) return;
       setOpen((prev) => {
         if (prev) {
@@ -3508,7 +3644,7 @@ var DateRangePicker = forwardRef22(
         return !prev;
       });
     }, [disabled]);
-    const handleSelect = useCallback5(
+    const handleSelect = useCallback6(
       (v) => {
         if (!(v instanceof Date)) return;
         if (selectionStart === null) {
@@ -3524,7 +3660,7 @@ var DateRangePicker = forwardRef22(
       },
       [selectionStart, onChange]
     );
-    const handleFocusedDateChange = useCallback5(
+    const handleFocusedDateChange = useCallback6(
       (d) => {
         if (selectionStart !== null) setHoverDate(d);
       },
@@ -3550,9 +3686,9 @@ var DateRangePicker = forwardRef22(
     if (value) {
       displayText = `${formatDate(value.from)} \u2013 ${formatDate(value.to)}`;
     } else {
-      displayText = /* @__PURE__ */ jsx29("span", { style: placeholderStyle2, children: placeholder });
+      displayText = /* @__PURE__ */ jsx30("span", { style: placeholderStyle2, children: placeholder });
     }
-    return /* @__PURE__ */ jsxs14(
+    return /* @__PURE__ */ jsxs15(
       "div",
       {
         ref: (node) => {
@@ -3562,7 +3698,7 @@ var DateRangePicker = forwardRef22(
         },
         style: wrapperStyle2,
         children: [
-          /* @__PURE__ */ jsx29(
+          /* @__PURE__ */ jsx30(
             "button",
             {
               type: "button",
@@ -3580,7 +3716,7 @@ var DateRangePicker = forwardRef22(
               children: displayText
             }
           ),
-          open && /* @__PURE__ */ jsx29("div", { style: popoverStyle, role: "dialog", "aria-label": "Date range picker", children: /* @__PURE__ */ jsxs14(
+          open && /* @__PURE__ */ jsx30("div", { style: popoverStyle, role: "dialog", "aria-label": "Date range picker", children: /* @__PURE__ */ jsxs15(
             Calendar2.Root,
             {
               mode: "range",
@@ -3593,16 +3729,16 @@ var DateRangePicker = forwardRef22(
               maxDate,
               disabledDate,
               children: [
-                /* @__PURE__ */ jsxs14("div", { style: headerRowStyle, children: [
-                  /* @__PURE__ */ jsx29(Calendar2.Nav, { direction: "prev" }),
-                  /* @__PURE__ */ jsx29(Calendar2.Header, {}),
-                  /* @__PURE__ */ jsx29(Calendar2.Nav, { direction: "next" })
+                /* @__PURE__ */ jsxs15("div", { style: headerRowStyle, children: [
+                  /* @__PURE__ */ jsx30(Calendar2.Nav, { direction: "prev" }),
+                  /* @__PURE__ */ jsx30(Calendar2.Header, {}),
+                  /* @__PURE__ */ jsx30(Calendar2.Nav, { direction: "next" })
                 ] }),
-                /* @__PURE__ */ jsx29(Calendar2.Grid, { onEscape: () => {
+                /* @__PURE__ */ jsx30(Calendar2.Grid, { onEscape: () => {
                   setOpen(false);
                   setSelectionStart(null);
                   setHoverDate(null);
-                }, children: ({ date }) => /* @__PURE__ */ jsx29(
+                }, children: ({ date }) => /* @__PURE__ */ jsx30(
                   Calendar2.Cell,
                   {
                     date,
@@ -3622,19 +3758,19 @@ var DateRangePicker = forwardRef22(
 );
 
 // src/components/DatePicker/DatePicker.tsx
-import { forwardRef as forwardRef23, useState as useState6, useRef as useRef7, useCallback as useCallback6, useEffect as useEffect8, useMemo as useMemo5 } from "react";
-import { semantic as t27, useInjectStyles as useInjectStyles12 } from "../../core/dist/index.js";
-import { jsx as jsx30, jsxs as jsxs15 } from "react/jsx-runtime";
+import { forwardRef as forwardRef23, useState as useState7, useRef as useRef8, useCallback as useCallback7, useEffect as useEffect9, useMemo as useMemo5 } from "react";
+import { semantic as t28, useInjectStyles as useInjectStyles12 } from "../../core/dist/index.js";
+import { jsx as jsx31, jsxs as jsxs16 } from "react/jsx-runtime";
 var SCOPE2 = "alttab-dp";
 var injectedCSS2 = (
   /* css */
   `
   .${SCOPE2}-trigger:focus-visible {
-    border-color: ${t27.colorBorderFocused};
-    box-shadow: 0 0 0 ${t27.focusRingWidth} ${t27.focusRingColor};
+    border-color: ${t28.colorBorderFocused};
+    box-shadow: 0 0 0 ${t28.focusRingWidth} ${t28.focusRingColor};
   }
   .${SCOPE2}-trigger:hover:not(:disabled) {
-    border-color: ${t27.colorBorderFocused};
+    border-color: ${t28.colorBorderFocused};
   }
 `
 );
@@ -3646,51 +3782,51 @@ var wrapperStyle3 = {
 var triggerBaseStyle3 = {
   display: "block",
   width: "100%",
-  padding: `${t27.spaceSm} ${t27.spaceMd}`,
-  fontSize: t27.fontSizeSm,
-  lineHeight: t27.lineHeightTight,
-  fontFamily: t27.fontSans,
-  color: t27.colorText,
-  background: t27.colorSurfaceInput,
-  border: `${t27.borderWidthDefault} solid ${t27.colorBorder}`,
-  borderRadius: t27.radiusMd,
+  padding: `${t28.spaceSm} ${t28.spaceMd}`,
+  fontSize: t28.fontSizeSm,
+  lineHeight: t28.lineHeightTight,
+  fontFamily: t28.fontSans,
+  color: t28.colorText,
+  background: t28.colorSurfaceInput,
+  border: `${t28.borderWidthDefault} solid ${t28.colorBorder}`,
+  borderRadius: t28.radiusMd,
   outline: "none",
-  transition: `border-color ${t27.transitionBase}, box-shadow ${t27.transitionBase}`,
+  transition: `border-color ${t28.transitionBase}, box-shadow ${t28.transitionBase}`,
   boxSizing: "border-box",
   cursor: "pointer",
   textAlign: "left"
 };
 var triggerErrorStyle2 = {
-  borderColor: t27.colorBorderError
+  borderColor: t28.colorBorderError
 };
 var triggerDisabledStyle2 = {
-  background: t27.colorSurfaceDisabled,
-  color: t27.colorTextDisabled,
+  background: t28.colorSurfaceDisabled,
+  color: t28.colorTextDisabled,
   cursor: "not-allowed"
 };
 var popoverStyle2 = {
   position: "absolute",
   top: "100%",
   left: 0,
-  zIndex: t27.zIndexDropdown,
-  marginTop: t27.spaceXs,
-  background: t27.colorSurfacePanel,
-  border: `${t27.borderWidthDefault} solid ${t27.colorBorder}`,
-  borderRadius: t27.radiusLg,
-  boxShadow: t27.shadowMd,
-  padding: t27.spaceMd,
+  zIndex: t28.zIndexDropdown,
+  marginTop: t28.spaceXs,
+  background: t28.colorSurfacePanel,
+  border: `${t28.borderWidthDefault} solid ${t28.colorBorder}`,
+  borderRadius: t28.radiusLg,
+  boxShadow: t28.shadowMd,
+  padding: t28.spaceMd,
   minWidth: 290,
   boxSizing: "border-box"
 };
 var placeholderStyle3 = {
-  color: t27.colorTextPlaceholder
+  color: t28.colorTextPlaceholder
 };
 var headerRowStyle2 = {
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: `${t27.spaceXs} 0`,
-  marginBottom: t27.spaceSm
+  padding: `${t28.spaceXs} 0`,
+  marginBottom: t28.spaceSm
 };
 var DatePicker = forwardRef23(
   function DatePicker2({
@@ -3704,9 +3840,9 @@ var DatePicker = forwardRef23(
     disabled
   }, ref) {
     useInjectStyles12(SCOPE2, injectedCSS2);
-    const [open, setOpen] = useState6(false);
-    const containerRef = useRef7(null);
-    useEffect8(() => {
+    const [open, setOpen] = useState7(false);
+    const containerRef = useRef8(null);
+    useEffect9(() => {
       if (!open) return;
       function handleMouseDown(e) {
         if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -3716,18 +3852,18 @@ var DatePicker = forwardRef23(
       document.addEventListener("mousedown", handleMouseDown);
       return () => document.removeEventListener("mousedown", handleMouseDown);
     }, [open]);
-    useEffect8(() => {
+    useEffect9(() => {
       if (!open) return;
       const btn = containerRef.current?.querySelector(
         '[role="grid"] button[tabindex="0"]'
       );
       btn?.focus();
     }, [open]);
-    const handleToggle = useCallback6(() => {
+    const handleToggle = useCallback7(() => {
       if (disabled) return;
       setOpen((o) => !o);
     }, [disabled]);
-    const handleSelect = useCallback6(
+    const handleSelect = useCallback7(
       (v) => {
         if (v === void 0) {
           onChange(void 0);
@@ -3751,9 +3887,9 @@ var DatePicker = forwardRef23(
     if (value) {
       displayText = formatDate(value);
     } else {
-      displayText = /* @__PURE__ */ jsx30("span", { style: placeholderStyle3, children: placeholder });
+      displayText = /* @__PURE__ */ jsx31("span", { style: placeholderStyle3, children: placeholder });
     }
-    return /* @__PURE__ */ jsxs15(
+    return /* @__PURE__ */ jsxs16(
       "div",
       {
         ref: (node) => {
@@ -3763,7 +3899,7 @@ var DatePicker = forwardRef23(
         },
         style: wrapperStyle3,
         children: [
-          /* @__PURE__ */ jsx30(
+          /* @__PURE__ */ jsx31(
             "button",
             {
               type: "button",
@@ -3781,7 +3917,7 @@ var DatePicker = forwardRef23(
               children: displayText
             }
           ),
-          open && /* @__PURE__ */ jsx30("div", { style: popoverStyle2, role: "dialog", "aria-label": "Date picker", children: /* @__PURE__ */ jsxs15(
+          open && /* @__PURE__ */ jsx31("div", { style: popoverStyle2, role: "dialog", "aria-label": "Date picker", children: /* @__PURE__ */ jsxs16(
             Calendar2.Root,
             {
               mode: "single",
@@ -3793,12 +3929,12 @@ var DatePicker = forwardRef23(
               maxDate,
               disabledDate,
               children: [
-                /* @__PURE__ */ jsxs15("div", { style: headerRowStyle2, children: [
-                  /* @__PURE__ */ jsx30(Calendar2.Nav, { direction: "prev" }),
-                  /* @__PURE__ */ jsx30(Calendar2.Header, {}),
-                  /* @__PURE__ */ jsx30(Calendar2.Nav, { direction: "next" })
+                /* @__PURE__ */ jsxs16("div", { style: headerRowStyle2, children: [
+                  /* @__PURE__ */ jsx31(Calendar2.Nav, { direction: "prev" }),
+                  /* @__PURE__ */ jsx31(Calendar2.Header, {}),
+                  /* @__PURE__ */ jsx31(Calendar2.Nav, { direction: "next" })
                 ] }),
-                /* @__PURE__ */ jsx30(Calendar2.Grid, { onEscape: () => setOpen(false) })
+                /* @__PURE__ */ jsx31(Calendar2.Grid, { onEscape: () => setOpen(false) })
               ]
             },
             openKey
@@ -3811,8 +3947,8 @@ var DatePicker = forwardRef23(
 
 // src/components/ErrorBoundary/ErrorBoundary.tsx
 import React from "react";
-import { semantic as t28 } from "../../core/dist/index.js";
-import { jsx as jsx31, jsxs as jsxs16 } from "react/jsx-runtime";
+import { semantic as t29 } from "../../core/dist/index.js";
+import { jsx as jsx32, jsxs as jsxs17 } from "react/jsx-runtime";
 var ErrorBoundary = class extends React.Component {
   constructor(props) {
     super(props);
@@ -3836,43 +3972,43 @@ var ErrorBoundary = class extends React.Component {
     if (fallback) {
       return fallback({ error, resetErrorBoundary: this.resetErrorBoundary });
     }
-    return /* @__PURE__ */ jsx31("div", { style: { borderColor: t28.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: t28.radiusLg }, children: /* @__PURE__ */ jsx31(
+    return /* @__PURE__ */ jsx32("div", { style: { borderColor: t29.colorError, borderWidth: "2px", borderStyle: "solid", borderRadius: t29.radiusLg }, children: /* @__PURE__ */ jsx32(
       Card,
       {
         variant: "flat",
         padding: "lg",
-        children: /* @__PURE__ */ jsxs16("div", { style: { display: "flex", flexDirection: "column", gap: t28.spaceMd }, children: [
-          /* @__PURE__ */ jsx31("div", { style: { display: "flex", alignItems: "center", gap: t28.spaceSm }, children: /* @__PURE__ */ jsx31(
+        children: /* @__PURE__ */ jsxs17("div", { style: { display: "flex", flexDirection: "column", gap: t29.spaceMd }, children: [
+          /* @__PURE__ */ jsx32("div", { style: { display: "flex", alignItems: "center", gap: t29.spaceSm }, children: /* @__PURE__ */ jsx32(
             "span",
             {
               style: {
-                fontSize: t28.fontSizeLg,
-                color: t28.colorError,
-                fontWeight: t28.fontWeightSemibold,
-                fontFamily: t28.fontSans
+                fontSize: t29.fontSizeLg,
+                color: t29.colorError,
+                fontWeight: t29.fontWeightSemibold,
+                fontFamily: t29.fontSans
               },
               children: "Something went wrong"
             }
           ) }),
-          /* @__PURE__ */ jsx31(
+          /* @__PURE__ */ jsx32(
             "p",
             {
               style: {
                 margin: 0,
-                fontFamily: t28.fontMono,
-                fontSize: t28.fontSizeSm,
-                lineHeight: t28.lineHeightBase,
-                color: t28.colorText,
-                background: t28.colorSurfaceRaised,
-                padding: t28.spaceSm,
-                borderRadius: t28.radiusMd,
+                fontFamily: t29.fontMono,
+                fontSize: t29.fontSizeSm,
+                lineHeight: t29.lineHeightBase,
+                color: t29.colorText,
+                background: t29.colorSurfaceRaised,
+                padding: t29.spaceSm,
+                borderRadius: t29.radiusMd,
                 wordBreak: "break-word"
               },
               children: error.message
             }
           ),
-          error.stack && /* @__PURE__ */ jsxs16("div", { children: [
-            /* @__PURE__ */ jsx31(
+          error.stack && /* @__PURE__ */ jsxs17("div", { children: [
+            /* @__PURE__ */ jsx32(
               "button",
               {
                 type: "button",
@@ -3881,27 +4017,27 @@ var ErrorBoundary = class extends React.Component {
                   background: "none",
                   border: "none",
                   padding: 0,
-                  fontFamily: t28.fontSans,
-                  fontSize: t28.fontSizeSm,
-                  color: t28.colorTextMuted,
+                  fontFamily: t29.fontSans,
+                  fontSize: t29.fontSizeSm,
+                  color: t29.colorTextMuted,
                   cursor: "pointer",
                   textDecoration: "underline"
                 },
                 children: showStack ? "Hide stack trace" : "Show stack trace"
               }
             ),
-            showStack && /* @__PURE__ */ jsx31(
+            showStack && /* @__PURE__ */ jsx32(
               "pre",
               {
                 style: {
-                  marginTop: t28.spaceSm,
-                  fontFamily: t28.fontMono,
-                  fontSize: t28.fontSizeXs,
-                  lineHeight: t28.lineHeightBase,
-                  color: t28.colorTextSecondary,
-                  background: t28.colorSurfaceRaised,
-                  padding: t28.spaceSm,
-                  borderRadius: t28.radiusMd,
+                  marginTop: t29.spaceSm,
+                  fontFamily: t29.fontMono,
+                  fontSize: t29.fontSizeXs,
+                  lineHeight: t29.lineHeightBase,
+                  color: t29.colorTextSecondary,
+                  background: t29.colorSurfaceRaised,
+                  padding: t29.spaceSm,
+                  borderRadius: t29.radiusMd,
                   overflow: "auto",
                   maxHeight: "200px",
                   whiteSpace: "pre-wrap",
@@ -3911,7 +4047,7 @@ var ErrorBoundary = class extends React.Component {
               }
             )
           ] }),
-          /* @__PURE__ */ jsx31("div", { children: /* @__PURE__ */ jsx31(Button, { variant: "secondary", size: "sm", onClick: this.resetErrorBoundary, children: "Try again" }) })
+          /* @__PURE__ */ jsx32("div", { children: /* @__PURE__ */ jsx32(Button, { variant: "secondary", size: "sm", onClick: this.resetErrorBoundary, children: "Try again" }) })
         ] })
       }
     ) });
@@ -3920,19 +4056,19 @@ var ErrorBoundary = class extends React.Component {
 
 // src/components/Toast/Toast.tsx
 import {
-  createContext as createContext4,
-  useCallback as useCallback7,
-  useContext as useContext4,
-  useEffect as useEffect9,
-  useRef as useRef8,
-  useState as useState7
+  createContext as createContext5,
+  useCallback as useCallback8,
+  useContext as useContext5,
+  useEffect as useEffect10,
+  useRef as useRef9,
+  useState as useState8
 } from "react";
 import { createPortal as createPortal2 } from "react-dom";
-import { semantic as t29, useInjectStyles as useInjectStyles13 } from "../../core/dist/index.js";
-import { jsx as jsx32, jsxs as jsxs17 } from "react/jsx-runtime";
-var ToastContext = createContext4(null);
+import { semantic as t30, useInjectStyles as useInjectStyles13 } from "../../core/dist/index.js";
+import { jsx as jsx33, jsxs as jsxs18 } from "react/jsx-runtime";
+var ToastContext = createContext5(null);
 function useToast() {
-  const ctx = useContext4(ToastContext);
+  const ctx = useContext5(ToastContext);
   if (!ctx) {
     throw new Error("useToast must be used within a <ToastProvider>");
   }
@@ -3985,28 +4121,28 @@ var toastCSS = `
 }
 `;
 var typeColors = {
-  success: { bg: t29.colorSuccessBg, fg: t29.colorSuccess, border: t29.colorSuccess },
-  error: { bg: t29.colorErrorBg, fg: t29.colorError, border: t29.colorError },
-  info: { bg: t29.colorInfoBg, fg: t29.colorInfo, border: t29.colorInfo },
-  warning: { bg: t29.colorWarningBg, fg: t29.colorWarning, border: t29.colorWarning }
+  success: { bg: t30.colorSuccessBg, fg: t30.colorSuccess, border: t30.colorSuccess },
+  error: { bg: t30.colorErrorBg, fg: t30.colorError, border: t30.colorError },
+  info: { bg: t30.colorInfoBg, fg: t30.colorInfo, border: t30.colorInfo },
+  warning: { bg: t30.colorWarningBg, fg: t30.colorWarning, border: t30.colorWarning }
 };
 function ToastMessage({
   item,
   onDismiss
 }) {
-  const [exiting, setExiting] = useState7(false);
-  const [paused, setPaused] = useState7(false);
-  const timerRef = useRef8(null);
-  const startedAtRef = useRef8(0);
-  const remainingRef = useRef8(item.duration);
+  const [exiting, setExiting] = useState8(false);
+  const [paused, setPaused] = useState8(false);
+  const timerRef = useRef9(null);
+  const startedAtRef = useRef9(0);
+  const remainingRef = useRef9(item.duration);
   const autoDismiss = item.duration > 0;
-  const clearTimer = useCallback7(() => {
+  const clearTimer = useCallback8(() => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
     }
   }, []);
-  const startTimer = useCallback7(() => {
+  const startTimer = useCallback8(() => {
     if (!autoDismiss || remainingRef.current <= 0) return;
     clearTimer();
     startedAtRef.current = Date.now();
@@ -4015,14 +4151,14 @@ function ToastMessage({
     }, remainingRef.current);
     setPaused(false);
   }, [autoDismiss, clearTimer]);
-  const pauseTimer = useCallback7(() => {
+  const pauseTimer = useCallback8(() => {
     if (!autoDismiss || !timerRef.current) return;
     const elapsed = Date.now() - startedAtRef.current;
     remainingRef.current = Math.max(0, remainingRef.current - elapsed);
     clearTimer();
     setPaused(true);
   }, [autoDismiss, clearTimer]);
-  useEffect9(() => {
+  useEffect10(() => {
     startTimer();
     return clearTimer;
   }, []);
@@ -4032,7 +4168,7 @@ function ToastMessage({
     }
   };
   const colors = typeColors[item.type];
-  return /* @__PURE__ */ jsxs17(
+  return /* @__PURE__ */ jsxs18(
     "div",
     {
       role: "status",
@@ -4046,19 +4182,19 @@ function ToastMessage({
         position: "relative",
         display: "flex",
         alignItems: "center",
-        gap: t29.spaceSm,
-        padding: `${t29.spaceSm} ${t29.spaceMd}`,
-        paddingBottom: autoDismiss ? `calc(${t29.spaceSm} + 2px)` : t29.spaceSm,
-        backgroundColor: t29.colorSurfaceSolid,
+        gap: t30.spaceSm,
+        padding: `${t30.spaceSm} ${t30.spaceMd}`,
+        paddingBottom: autoDismiss ? `calc(${t30.spaceSm} + 2px)` : t30.spaceSm,
+        backgroundColor: t30.colorSurfaceSolid,
         backgroundImage: `linear-gradient(${colors.bg}, ${colors.bg})`,
         color: colors.fg,
-        borderRadius: t29.radiusMd,
-        borderLeft: `${t29.borderWidthAccent} solid ${colors.border}`,
-        boxShadow: t29.shadowMd,
-        fontSize: t29.fontSizeSm,
-        fontFamily: t29.fontSans,
-        fontWeight: t29.fontWeightMedium,
-        lineHeight: t29.lineHeightBase,
+        borderRadius: t30.radiusMd,
+        borderLeft: `${t30.borderWidthAccent} solid ${colors.border}`,
+        boxShadow: t30.shadowMd,
+        fontSize: t30.fontSizeSm,
+        fontFamily: t30.fontSans,
+        fontWeight: t30.fontWeightMedium,
+        lineHeight: t30.lineHeightBase,
         pointerEvents: "auto",
         animation: exiting ? "toast-fade-out 200ms ease forwards" : "toast-slide-in 250ms ease",
         maxWidth: "24rem",
@@ -4067,8 +4203,8 @@ function ToastMessage({
       },
       onAnimationEnd: handleAnimationEnd,
       children: [
-        /* @__PURE__ */ jsx32("span", { style: { flex: 1 }, children: item.message }),
-        /* @__PURE__ */ jsx32(
+        /* @__PURE__ */ jsx33("span", { style: { flex: 1 }, children: item.message }),
+        /* @__PURE__ */ jsx33(
           "button",
           {
             onClick: () => setExiting(true),
@@ -4086,16 +4222,16 @@ function ToastMessage({
               justifyContent: "center",
               width: "1.25rem",
               height: "1.25rem",
-              borderRadius: t29.radiusSm,
+              borderRadius: t30.radiusSm,
               color: colors.fg,
               opacity: 0.7,
-              fontSize: t29.fontSizeSm,
+              fontSize: t30.fontSizeSm,
               lineHeight: 1
             },
             children: "\xD7"
           }
         ),
-        autoDismiss && /* @__PURE__ */ jsx32(
+        autoDismiss && /* @__PURE__ */ jsx33(
           "span",
           {
             "data-toast-timer": "",
@@ -4120,16 +4256,16 @@ function ToastContainer({
   if (toasts.length === 0) return null;
   const positionStyles = {
     position: "fixed",
-    zIndex: t29.zIndexToast,
+    zIndex: t30.zIndexToast,
     display: "flex",
     flexDirection: "column",
-    gap: t29.spaceSm,
+    gap: t30.spaceSm,
     pointerEvents: "none",
-    ...position.startsWith("top") ? { top: t29.spaceLg } : { bottom: t29.spaceLg },
-    ...position.endsWith("right") ? { right: t29.spaceLg } : { left: t29.spaceLg }
+    ...position.startsWith("top") ? { top: t30.spaceLg } : { bottom: t30.spaceLg },
+    ...position.endsWith("right") ? { right: t30.spaceLg } : { left: t30.spaceLg }
   };
   return createPortal2(
-    /* @__PURE__ */ jsx32("div", { "aria-live": "polite", style: positionStyles, children: toasts.map((item) => /* @__PURE__ */ jsx32(ToastMessage, { item, onDismiss }, item.id)) }),
+    /* @__PURE__ */ jsx33("div", { "aria-live": "polite", style: positionStyles, children: toasts.map((item) => /* @__PURE__ */ jsx33(ToastMessage, { item, onDismiss }, item.id)) }),
     document.body
   );
 }
@@ -4138,11 +4274,11 @@ function ToastProvider({
   children,
   position = "top-right"
 }) {
-  const [toasts, setToasts] = useState7([]);
-  const dismiss = useCallback7((id) => {
+  const [toasts, setToasts] = useState8([]);
+  const dismiss = useCallback8((id) => {
     setToasts((prev) => prev.filter((t40) => t40.id !== id));
   }, []);
-  const showToast = useCallback7(
+  const showToast = useCallback8(
     (message, typeOrOptions) => {
       const opts = typeof typeOrOptions === "string" ? { type: typeOrOptions } : typeOrOptions ?? {};
       const item = {
@@ -4155,25 +4291,25 @@ function ToastProvider({
     },
     []
   );
-  return /* @__PURE__ */ jsxs17(ToastContext.Provider, { value: { showToast }, children: [
+  return /* @__PURE__ */ jsxs18(ToastContext.Provider, { value: { showToast }, children: [
     children,
-    /* @__PURE__ */ jsx32(ToastContainer, { toasts, onDismiss: dismiss, position })
+    /* @__PURE__ */ jsx33(ToastContainer, { toasts, onDismiss: dismiss, position })
   ] });
 }
 
 // src/components/Combobox/Combobox.tsx
 import {
-  createContext as createContext5,
-  useCallback as useCallback8,
-  useContext as useContext5,
-  useEffect as useEffect10,
+  createContext as createContext6,
+  useCallback as useCallback9,
+  useContext as useContext6,
+  useEffect as useEffect11,
   useId as useId7,
   useMemo as useMemo6,
-  useRef as useRef9,
-  useState as useState8
+  useRef as useRef10,
+  useState as useState9
 } from "react";
-import { semantic as t30, useInjectStyles as useInjectStyles14 } from "../../core/dist/index.js";
-import { jsx as jsx33 } from "react/jsx-runtime";
+import { semantic as t31, useInjectStyles as useInjectStyles14 } from "../../core/dist/index.js";
+import { jsx as jsx34 } from "react/jsx-runtime";
 var COMBOBOX_STYLES_ID = "alttab-combobox";
 var comboboxCSS = (
   /* css */
@@ -4216,9 +4352,9 @@ var comboboxCSS = (
   }
 `
 );
-var ComboboxContext = createContext5(null);
+var ComboboxContext = createContext6(null);
 function useComboboxContext(part) {
-  const ctx = useContext5(ComboboxContext);
+  const ctx = useContext6(ComboboxContext);
   if (!ctx) {
     throw new Error(
       `Combobox.${part} must be rendered inside <Combobox.Root>. See the upgrade guide for the 0.4.0 compound API.`
@@ -4238,17 +4374,17 @@ function Root3({
   useInjectStyles14(COMBOBOX_STYLES_ID, comboboxCSS);
   const instanceId = useId7();
   const listboxId = `${instanceId}-listbox`;
-  const [internalValue, setInternalValue] = useState8(defaultValue ?? "");
+  const [internalValue, setInternalValue] = useState9(defaultValue ?? "");
   const isControlled = controlledValue !== void 0;
   const value = isControlled ? controlledValue : internalValue;
-  const [open, setOpen] = useState8(false);
-  const [focusedValue, setFocusedValue] = useState8(null);
-  const [dropDirection, setDropDirection] = useState8("down");
-  const containerRef = useRef9(null);
-  const inputRef = useRef9(null);
-  const suppressNextOpenRef = useRef9(false);
-  const [items, setItems] = useState8([]);
-  const registerItem = useCallback8((item) => {
+  const [open, setOpen] = useState9(false);
+  const [focusedValue, setFocusedValue] = useState9(null);
+  const [dropDirection, setDropDirection] = useState9("down");
+  const containerRef = useRef10(null);
+  const inputRef = useRef10(null);
+  const suppressNextOpenRef = useRef10(false);
+  const [items, setItems] = useState9([]);
+  const registerItem = useCallback9((item) => {
     setItems((prev) => {
       if (prev.some((p) => p.value === item.value)) {
         return prev.map((p) => p.value === item.value ? item : p);
@@ -4256,17 +4392,17 @@ function Root3({
       return [...prev, item];
     });
   }, []);
-  const unregisterItem = useCallback8((itemValue) => {
+  const unregisterItem = useCallback9((itemValue) => {
     setItems((prev) => prev.filter((p) => p.value !== itemValue));
   }, []);
-  const setValue = useCallback8(
+  const setValue = useCallback9(
     (next) => {
       if (!isControlled) setInternalValue(next);
       onValueChange?.(next);
     },
     [isControlled, onValueChange]
   );
-  const calculateDirection = useCallback8(() => {
+  const calculateDirection = useCallback9(() => {
     const input = inputRef.current;
     if (!input) return;
     const rect = input.getBoundingClientRect();
@@ -4277,17 +4413,17 @@ function Root3({
       spaceBelow >= estimatedHeight ? "down" : spaceAbove > spaceBelow ? "up" : "down"
     );
   }, [items.length]);
-  const openMenu = useCallback8(() => {
+  const openMenu = useCallback9(() => {
     if (disabled) return;
     calculateDirection();
     setOpen(true);
     setFocusedValue(null);
   }, [disabled, calculateDirection]);
-  const closeMenu = useCallback8(() => {
+  const closeMenu = useCallback9(() => {
     setOpen(false);
     setFocusedValue(null);
   }, []);
-  const selectItem = useCallback8(
+  const selectItem = useCallback9(
     (itemValue) => {
       const item = items.find((i) => i.value === itemValue);
       if (!item) return;
@@ -4301,7 +4437,7 @@ function Root3({
     },
     [items, setValue, onSelect, closeMenu]
   );
-  useEffect10(() => {
+  useEffect11(() => {
     if (!open) return;
     function handleMouseDown(e) {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -4311,7 +4447,7 @@ function Root3({
     document.addEventListener("mousedown", handleMouseDown);
     return () => document.removeEventListener("mousedown", handleMouseDown);
   }, [open, closeMenu]);
-  const handleKeyDown = useCallback8(
+  const handleKeyDown = useCallback9(
     (e) => {
       if (e.key === "Escape") {
         if (open) {
@@ -4403,7 +4539,7 @@ function Root3({
     ]
   );
   ctx.__suppressNextOpen = suppressNextOpenRef;
-  return /* @__PURE__ */ jsx33(ComboboxContext.Provider, { value: ctx, children: /* @__PURE__ */ jsx33("div", { ref: containerRef, style: wrapperStyle4, onKeyDown: handleKeyDown, children }) });
+  return /* @__PURE__ */ jsx34(ComboboxContext.Provider, { value: ctx, children: /* @__PURE__ */ jsx34("div", { ref: containerRef, style: wrapperStyle4, onKeyDown: handleKeyDown, children }) });
 }
 function Input3({
   placeholder,
@@ -4440,14 +4576,14 @@ function Input3({
   } = ctx;
   const suppressNextOpenRef = ctx.__suppressNextOpen;
   const activedescendant = open && focusedValue ? `${instanceId}-opt-${focusedValue}` : void 0;
-  const handleChange = useCallback8(
+  const handleChange = useCallback9(
     (e) => {
       setValue(e.target.value);
       if (!open) openMenu();
     },
     [setValue, open, openMenu]
   );
-  const handleFocus = useCallback8(
+  const handleFocus = useCallback9(
     (e) => {
       if (suppressNextOpenRef.current) {
         suppressNextOpenRef.current = false;
@@ -4458,7 +4594,7 @@ function Input3({
     },
     [disabled, items.length, openMenu, onFocusProp, suppressNextOpenRef]
   );
-  return /* @__PURE__ */ jsx33(
+  return /* @__PURE__ */ jsx34(
     "input",
     {
       ref: inputRef,
@@ -4501,8 +4637,8 @@ function Input3({
 }
 function List({ children }) {
   const { open, listboxId, dropDirection, focusedValue } = useComboboxContext("List");
-  const ref = useRef9(null);
-  useEffect10(() => {
+  const ref = useRef10(null);
+  useEffect11(() => {
     if (!open || !focusedValue) return;
     const menu = ref.current;
     if (!menu) return;
@@ -4516,15 +4652,15 @@ function List({ children }) {
     top: "100%",
     left: 0,
     right: 0,
-    marginTop: t30.spaceXs
+    marginTop: t31.spaceXs
   } : {
     position: "absolute",
     bottom: "100%",
     left: 0,
     right: 0,
-    marginBottom: t30.spaceXs
+    marginBottom: t31.spaceXs
   };
-  return /* @__PURE__ */ jsx33(
+  return /* @__PURE__ */ jsx34(
     "div",
     {
       ref,
@@ -4533,12 +4669,12 @@ function List({ children }) {
       hidden: !open,
       style: open ? {
         ...positionStyle,
-        background: t30.colorSurfacePanel,
-        border: `${t30.borderWidthDefault} solid ${t30.colorBorder}`,
-        borderRadius: t30.radiusMd,
-        padding: t30.spaceXs,
-        zIndex: t30.zIndexSticky,
-        boxShadow: t30.shadowMd,
+        background: t31.colorSurfacePanel,
+        border: `${t31.borderWidthDefault} solid ${t31.colorBorder}`,
+        borderRadius: t31.radiusMd,
+        padding: t31.spaceXs,
+        zIndex: t31.zIndexSticky,
+        boxShadow: t31.shadowMd,
         maxHeight: "16rem",
         overflowY: "auto",
         boxSizing: "border-box"
@@ -4562,7 +4698,7 @@ function Item2({
     instanceId
   } = useComboboxContext("Item");
   const resolvedText = textValue ?? (typeof children === "string" ? children : value);
-  useEffect10(() => {
+  useEffect11(() => {
     registerItem({ value, textValue: resolvedText });
     return () => unregisterItem(value);
   }, [value, resolvedText, registerItem, unregisterItem]);
@@ -4573,7 +4709,7 @@ function Item2({
     isFocused ? "alttab-combobox-option--focused" : "",
     isSelected ? "alttab-combobox-option--selected" : ""
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ jsx33(
+  return /* @__PURE__ */ jsx34(
     "button",
     {
       type: "button",
@@ -4589,15 +4725,15 @@ function Item2({
   );
 }
 function Empty({ children }) {
-  return /* @__PURE__ */ jsx33(
+  return /* @__PURE__ */ jsx34(
     "div",
     {
       role: "presentation",
       style: {
-        padding: `${t30.spaceXs} ${t30.spaceSm}`,
-        fontSize: t30.fontSizeSm,
-        color: t30.colorTextMuted,
-        fontFamily: t30.fontSans
+        padding: `${t31.spaceXs} ${t31.spaceSm}`,
+        fontSize: t31.fontSizeSm,
+        color: t31.colorTextMuted,
+        fontFamily: t31.fontSans
       },
       children
     }
@@ -4611,24 +4747,24 @@ var wrapperStyle4 = {
 var inputBaseStyle = {
   display: "block",
   width: "100%",
-  padding: `${t30.spaceSm} ${t30.spaceMd}`,
-  fontSize: t30.fontSizeSm,
-  lineHeight: t30.lineHeightTight,
-  fontFamily: t30.fontSans,
-  color: t30.colorText,
-  background: t30.colorSurfaceInput,
-  border: `${t30.borderWidthDefault} solid ${t30.colorBorder}`,
-  borderRadius: t30.radiusMd,
+  padding: `${t31.spaceSm} ${t31.spaceMd}`,
+  fontSize: t31.fontSizeSm,
+  lineHeight: t31.lineHeightTight,
+  fontFamily: t31.fontSans,
+  color: t31.colorText,
+  background: t31.colorSurfaceInput,
+  border: `${t31.borderWidthDefault} solid ${t31.colorBorder}`,
+  borderRadius: t31.radiusMd,
   outline: "none",
-  transition: `border-color ${t30.transitionBase}, box-shadow ${t30.transitionBase}`,
+  transition: `border-color ${t31.transitionBase}, box-shadow ${t31.transitionBase}`,
   boxSizing: "border-box"
 };
 var errorBorderStyle4 = {
-  borderColor: t30.colorBorderError
+  borderColor: t31.colorBorderError
 };
 var disabledStyle4 = {
-  background: t30.colorSurfaceDisabled,
-  color: t30.colorTextDisabled,
+  background: t31.colorSurfaceDisabled,
+  color: t31.colorTextDisabled,
   cursor: "not-allowed"
 };
 var Combobox = {
@@ -4638,113 +4774,6 @@ var Combobox = {
   Item: Item2,
   Empty
 };
-
-// src/components/TableFilters/TableFilters.tsx
-import { useState as useState9, useEffect as useEffect11, useRef as useRef10, useCallback as useCallback9 } from "react";
-import { semantic as t31 } from "../../core/dist/index.js";
-import { jsx as jsx34, jsxs as jsxs18 } from "react/jsx-runtime";
-function DebouncedTextFilter({
-  config,
-  value,
-  onCommit
-}) {
-  const delay = config.debounceMs ?? 300;
-  const [local, setLocal] = useState9(value);
-  const timerRef = useRef10(null);
-  useEffect11(() => {
-    setLocal(value);
-  }, [value]);
-  const handleChange = useCallback9(
-    (e) => {
-      const next = e.target.value;
-      setLocal(next);
-      if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(() => {
-        onCommit(config.key, next);
-      }, delay);
-    },
-    [config.key, delay, onCommit]
-  );
-  useEffect11(() => {
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, []);
-  return /* @__PURE__ */ jsx34("div", { style: { minWidth: "10rem", flex: "1 1 10rem" }, children: /* @__PURE__ */ jsx34(
-    Input,
-    {
-      value: local,
-      onChange: handleChange,
-      placeholder: config.placeholder
-    }
-  ) });
-}
-function SelectFilter({
-  config,
-  value,
-  onCommit
-}) {
-  const handleValueChange = useCallback9(
-    (next) => {
-      onCommit(config.key, next);
-    },
-    [config.key, onCommit]
-  );
-  return /* @__PURE__ */ jsx34("div", { style: { minWidth: "8rem", flex: "0 1 12rem" }, children: /* @__PURE__ */ jsxs18(Select.Root, { value, onValueChange: handleValueChange, children: [
-    /* @__PURE__ */ jsx34(Select.Trigger, { children: /* @__PURE__ */ jsx34(Select.Value, { placeholder: config.placeholder }) }),
-    /* @__PURE__ */ jsx34(Select.Content, { children: config.options.map((opt) => /* @__PURE__ */ jsx34(Select.Item, { value: opt.value, children: opt.label }, opt.value)) })
-  ] }) });
-}
-function TableFilters({
-  filters,
-  values,
-  onChange,
-  style,
-  ...props
-}) {
-  const handleCommit = useCallback9(
-    (key, value) => {
-      onChange({ ...values, [key]: value });
-    },
-    [values, onChange]
-  );
-  return /* @__PURE__ */ jsx34(
-    "div",
-    {
-      style: {
-        display: "flex",
-        flexWrap: "wrap",
-        gap: t31.spaceSm,
-        alignItems: "flex-start",
-        ...style
-      },
-      ...props,
-      children: filters.map((filter) => {
-        const val = values[filter.key] ?? "";
-        if (filter.type === "text") {
-          return /* @__PURE__ */ jsx34(
-            DebouncedTextFilter,
-            {
-              config: filter,
-              value: val,
-              onCommit: handleCommit
-            },
-            filter.key
-          );
-        }
-        return /* @__PURE__ */ jsx34(
-          SelectFilter,
-          {
-            config: filter,
-            value: val,
-            onCommit: handleCommit
-          },
-          filter.key
-        );
-      })
-    }
-  );
-}
 
 // src/components/ChipPicker/ChipPicker.tsx
 import { useCallback as useCallback10, useId as useId8, useState as useState10 } from "react";
@@ -5239,12 +5268,12 @@ var AlertBanner = forwardRef25(
 );
 
 // src/components/TopBar/TopBar.tsx
-import { createContext as createContext6, forwardRef as forwardRef26, useContext as useContext6 } from "react";
+import { createContext as createContext7, forwardRef as forwardRef26, useContext as useContext7 } from "react";
 import { semantic as t36, useInjectStyles as useInjectStyles19, Slot as Slot4 } from "../../core/dist/index.js";
 import { jsx as jsx39 } from "react/jsx-runtime";
-var TopBarContext = createContext6(null);
+var TopBarContext = createContext7(null);
 function useTopBarContext(component) {
-  const ctx = useContext6(TopBarContext);
+  const ctx = useContext7(TopBarContext);
   if (ctx === null) {
     throw new Error(
       `[@4lt7ab/ui] <TopBar.${component}> must be rendered inside <TopBar.Root>.`
@@ -5730,11 +5759,10 @@ export {
   StatusDot,
   Surface,
   TabStrip,
-  Table,
+  Table3 as Table,
   TableBody,
   TableCell,
   TableEmptyRow,
-  TableFilters,
   TableGroupHeader,
   TableHeader,
   TableHeaderCell,

@@ -760,12 +760,14 @@ Compound table component supporting row selection, hover states, group headers, 
 
 **TableGroupHeader** and **TableEmptyRow** both require a `colSpan` number.
 
-### TableFilters
+### Table.FilterBar
 
-Declarative filter bar for pairing with Table. Accepts a filter config array describing text inputs (debounced) and select dropdowns. Controlled via `values` and `onChange`.
+Filter bar compound primitive attached to `Table` — pairs with the table to drive controlled filtering. Supports two usage modes sharing the same `values` / `onChange` contract:
+
+**Schema-driven** (the common case):
 
 ```tsx
-<TableFilters
+<Table.FilterBar
   filters={[
     { type: 'text', key: 'title', placeholder: 'Search\u2026', debounceMs: 300 },
     { type: 'select', key: 'status', placeholder: 'All', options: [
@@ -778,16 +780,35 @@ Declarative filter bar for pairing with Table. Accepts a filter config array des
 />
 ```
 
+**Children composition** (for anything the schema can't express):
+
+```tsx
+<Table.FilterBar values={filterValues} onChange={setFilterValues}>
+  <Table.FilterBar.Text field="title" placeholder="Search\u2026" debounceMs={300} />
+  <Table.FilterBar.Select
+    field="status"
+    placeholder="All"
+    options={[
+      { value: '', label: 'All' },
+      { value: 'active', label: 'Active' },
+    ]}
+  />
+</Table.FilterBar>
+```
+
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `filters` | `FilterConfig[]` | *required* | Ordered filter definitions |
-| `values` | `Record<string, string>` | *required* | Current values keyed by filter key |
-| `onChange` | `(values: Record<string, string>) => void` | *required* | Called with updated values on change |
+| `values` | `Record<string, string>` | *required* | Current values keyed by filter key / field name |
+| `onChange` | `(values: Record<string, string>) => void` | *required* | Called with the full updated values object |
+| `filters` | `FilterConfig[]` | — | Schema-driven shortcut. Mutually exclusive with `children` |
+| `children` | `ReactNode` | — | Composition mode — `<Table.FilterBar.Text>` / `<Table.FilterBar.Select>` |
 
-**FilterConfig** is a union of `TextFilterConfig` and `SelectFilterConfig`:
+`FilterConfig` is a union of `TextFilterConfig` and `SelectFilterConfig`:
 
 - `TextFilterConfig`: `{ type: 'text'; key: string; placeholder?: string; debounceMs?: number }` (default debounce 300ms)
 - `SelectFilterConfig`: `{ type: 'select'; key: string; placeholder?: string; options: Array<{ value: string; label: string }> }`
+
+Rendering `<Table.FilterBar.Text>` or `<Table.FilterBar.Select>` outside `<Table.FilterBar>` throws a dev-time error.
 
 ### ChipPicker
 

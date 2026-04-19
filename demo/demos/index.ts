@@ -75,7 +75,7 @@ export const demos: DemoEntry[] = [
   { name: 'ExpandableCard', category: 'Layout', source: 'ui', component: ExpandableCardDemo },
   { name: 'Header', category: 'Layout', source: 'ui', component: HeaderDemo },
   { name: 'Table', category: 'Layout', source: 'ui', component: TableDemo },
-  { name: 'TableFilters', category: 'Layout', source: 'ui', component: TableFiltersDemo },
+  { name: 'Table.FilterBar', category: 'Layout', source: 'ui', component: TableFiltersDemo },
   { name: 'Skeleton', category: 'Layout', source: 'ui', component: SkeletonDemo },
 
   // Action
