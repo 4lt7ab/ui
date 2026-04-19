@@ -98,25 +98,26 @@ describe('Card asChild', () => {
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
-  it('drops a Card-level onClick when asChild is true (only the child handler fires)', async () => {
-    // Pins current behavior: Card's `rest` is not spread into the inner Slot
-    // (cardSlotProps only carries data-card-*, id, data-testid, and style).
-    // A consumer who writes `<Card asChild onClick={…}>` loses that handler
-    // entirely — it never reaches mergeProps' chain step. Tracked for review
-    // in follow-up bugfix task; see Card.tsx cardSlotProps around L151.
+  it('chains a Card-level onClick with the child handler (parent first, then child)', async () => {
+    // Card forwards its onClick into the inner Slot, so Slot's mergeProps
+    // chains parent → child. This lets consumers layer a Card-level handler
+    // (e.g. analytics) on top of the child's own navigation / action without
+    // either one silently winning.
     const user = userEvent.setup();
     const parent = vi.fn();
     const child = vi.fn();
     const { container } = render(
-      // @ts-expect-error — CardProps doesn't currently type onClick, but the
-      // runtime surface accepts and silently drops it. Locking that down.
       <Card asChild onClick={parent}>
         <a href="#" onClick={child}>x</a>
       </Card>,
     );
     await user.click(container.querySelector('a')!);
-    expect(parent).not.toHaveBeenCalled();
+    expect(parent).toHaveBeenCalledTimes(1);
     expect(child).toHaveBeenCalledTimes(1);
+    // Parent runs first (mergeProps: parent invoked before child).
+    expect(parent.mock.invocationCallOrder[0]).toBeLessThan(
+      child.mock.invocationCallOrder[0],
+    );
   });
 
   it('composes refs onto the child element', () => {

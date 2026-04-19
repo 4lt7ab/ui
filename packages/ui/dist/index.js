@@ -226,6 +226,7 @@ var Card = forwardRef2(
     hover = false,
     glow = false,
     asChild = false,
+    onClick,
     children,
     ...rest
   }, ref) {
@@ -260,7 +261,8 @@ var Card = forwardRef2(
       "data-card-hover": hover ? "" : void 0,
       "data-card-glow": glow ? "" : void 0,
       id: rest.id,
-      "data-testid": rest["data-testid"]
+      "data-testid": rest["data-testid"],
+      onClick
     };
     if (glow) {
       cardSlotProps.style = { boxShadow: GLOW_BOX_SHADOW };

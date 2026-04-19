@@ -45,6 +45,13 @@ export interface CardProps extends BaseComponentProps {
    * @default false
    */
   asChild?: boolean;
+  /**
+   * Called when the Card (or its `asChild` child) is clicked. Under `asChild`,
+   * this chains with the child's own `onClick` via Slot's `mergeProps` —
+   * parent handler fires first, then the child's. Useful for layering a
+   * Card-level analytics handler without losing the child's navigation.
+   */
+  onClick?: React.MouseEventHandler<HTMLElement>;
   /** Card content. */
   children: ReactNode;
 }
@@ -107,6 +114,7 @@ export const Card: React.ForwardRefExoticComponent<Omit<CardProps, 'ref'> & Reac
     hover = false,
     glow = false,
     asChild = false,
+    onClick,
     children,
     ...rest
   }, ref): React.JSX.Element {
@@ -163,6 +171,7 @@ export const Card: React.ForwardRefExoticComponent<Omit<CardProps, 'ref'> & Reac
       'data-card-glow': glow ? '' : undefined,
       id: rest.id,
       'data-testid': rest['data-testid'],
+      onClick,
     };
     if (glow) {
       cardSlotProps.style = { boxShadow: GLOW_BOX_SHADOW } as CSSProperties;
