@@ -13,6 +13,9 @@ The library's layout primitives aren't a grid system. They're a small set of foc
 | `Surface` | Composable color-surface primitive (page / default / solid / raised / panel / input / overlay). |
 | `Card` | Opinionated `Surface` preset: border, shadow, padding, optional hover and rhythm-synced glow. |
 | `AppShell.*` | Viewport envelope: top bar, sidebar, main, right panel. |
+| `TopBar.*` | Top bar used inside `AppShell.TopBar` (or standalone): leading, nav, trailing. |
+| `Header` | Heading primitive with optional subtitle, indicator, and trailing slot. |
+| `TabStrip` | Horizontal tab navigation with roving focus and optional deselect. |
 | `DataTablePage.*` | CRUD-page envelope: header, filter bar, table, pagination, empty state. |
 | `DetailPage.*` | Entity-detail envelope: header, meta, body, right panel. |
 | `EmptyPage.*` | Full-page zero-state: icon, title, description, actions, tips. |
@@ -239,6 +242,108 @@ import { AppShell, TopBar, ThemePicker } from '@4lt7ab/ui';
 **Layout sizing tokens.** The sidebar widths are theme-configurable via the `sizeSidebarExpanded` / `sizeSidebarCollapsed` tokens (and the right panel via `sizeRightPanelDefault`). Change them in a custom theme to resize the whole app shell without touching `AppShell` code.
 
 **Context hooks.** `useAppShellContext()` (throws outside `<AppShell.Root>`) exposes the collapse/open state and toggle functions — useful for building a sidebar-collapse toggle inside `TopBar`. `useIsInsideAppShell()` returns a boolean so a child component can know whether to render its own `<main>` wrapper.
+
+A constrained mini-shell — toggle the sidebar rail and the right panel to see the grid re-flow:
+
+<LiveExample id="layout-appshell-mini" />
+
+## `TopBar.*`
+
+The top-bar compound rendered inside `AppShell.TopBar` — or as a standalone header when a viewport envelope is overkill. Three slots: `Leading` (brand), `Nav` + `Link` (active route), `Trailing` (utilities). Links support `asChild` so your router's link component becomes the focusable element.
+
+```tsx
+import { TopBar, ThemePicker } from '@4lt7ab/ui';
+
+<TopBar.Root aria-label="Main" sticky>
+  <TopBar.Leading>Acme Inc.</TopBar.Leading>
+  <TopBar.Nav aria-label="Primary">
+    <TopBar.Link asChild active>
+      <a href="/home">Home</a>
+    </TopBar.Link>
+    <TopBar.Link asChild>
+      <a href="/projects">Projects</a>
+    </TopBar.Link>
+  </TopBar.Nav>
+  <TopBar.Trailing>
+    <ThemePicker variant="compact" />
+  </TopBar.Trailing>
+</TopBar.Root>
+```
+
+**Slots.**
+
+| Slot | Purpose |
+|---|---|
+| `TopBar.Root` | `<header>` landmark with flex layout and the topbar height. Pass `sticky` to pin to the top of the viewport. |
+| `TopBar.Leading` | Brand or logo slot. Non-flexing. |
+| `TopBar.Nav` | Optional `<nav>` region. Flex-grows to fill the remaining space. |
+| `TopBar.Link` | A link inside `Nav` with an underline active-state. `asChild` lets you plug in a router link. |
+| `TopBar.Trailing` | Right-aligned slot for theme picker, user menu, utility buttons. |
+
+<LiveExample id="layout-topbar" />
+
+## `Header`
+
+A minimal heading primitive with optional subtitle, inline indicator, and trailing actions slot. Two levels (`page` / `section`) pick the heading tag and typographic weight. Border, spacing, and icon presets are intentionally absent — those are layout decisions the consumer expresses via `<Divider>` and `<Stack>`.
+
+```tsx
+import { Header, Badge, Button } from '@4lt7ab/ui';
+
+<Header
+  level="page"
+  title="Apollo"
+  subtitle="Last updated 2 hours ago"
+  indicator={<Badge variant="success">Active</Badge>}
+  trailing={<Button>Edit</Button>}
+/>
+```
+
+**Props.**
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `title` | `string` | — | Heading text. Required. |
+| `level` | `'page' \| 'section'` | `'section'` | Renders `<h1>` for `page`, `<h2>` for `section`. |
+| `subtitle` | `string` | — | Muted secondary text below the title. |
+| `indicator` | `ReactNode` | — | Rendered inline next to the title (e.g. `Badge`, `StatusDot`). |
+| `trailing` | `ReactNode` | — | Right-aligned content (e.g. action buttons). |
+
+<LiveExample id="layout-header" />
+
+## `TabStrip`
+
+Horizontal tab navigation with a controlled contract. The consumer owns `activeKey` and renders the panel content — `TabStrip` only renders the strip of tab buttons with ARIA roles, roving focus, and the active indicator. Arrow keys, `Home`, and `End` move focus along the roving set; Enter/Space activates.
+
+```tsx
+import { TabStrip } from '@4lt7ab/ui';
+import { useState } from 'react';
+
+const [tab, setTab] = useState<string | null>('summary');
+
+<TabStrip
+  tabs={[
+    { key: 'summary', label: 'Summary', icon: 'description' },
+    { key: 'context', label: 'Context' },
+  ]}
+  activeKey={tab}
+  onChange={setTab}
+  allowDeselect
+/>
+{tab === 'summary' && <div>Summary content</div>}
+{tab === 'context' && <div>Context content</div>}
+```
+
+**Props.**
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `tabs` | `Tab[]` | — | `{ key, label, icon? }` per tab. |
+| `activeKey` | `string \| null` | — | The currently active tab. `null` means none. |
+| `onChange` | `(key: string \| null) => void` | — | Fires on selection. Receives `null` when `allowDeselect` is on and the active tab is clicked. |
+| `allowDeselect` | `boolean` | `false` | Clicking the active tab returns `null` — useful for collapsible panels. |
+| `size` | `'sm' \| 'md'` | `'md'` | Controls height and label size. |
+
+<LiveExample id="layout-tabstrip" />
 
 ## Page-envelope organisms
 
