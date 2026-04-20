@@ -1,133 +1,81 @@
 # @4lt7ab/animations
 
-Canvas background animations that respond to the active theme.
+Canvas background animations and static CSS backdrops tied to the active theme, built on the [`@4lt7ab/core`](../core/README.md) theme platform.
 
-For the full narrative — when each background runs, how reduced-motion and mobile are handled, and the canvas/static/fallback registry — see the **Motion** concept doc (`demo/docs/08-motion.md`). Run `bun run dev` at the repo root to browse.
+The full narrative — when each backdrop renders, how the desktop-only and reduced-motion guards work, how to use a background standalone without `ThemeBackground`, how each canvas function is structured, and the `Surface` + `usePageBackground` layering pattern — lives in the [Motion concept doc](../../demo/docs/08-motion.md). Run `bun run dev` from the repo root to read it locally with the live `<LiveExample>` widget; the same file renders fine on GitHub for a static read.
 
 ## Install
 
 ```json
 {
   "dependencies": {
-    "@4lt7ab/core": "github:4lt7ab/ui#v0.2.0",
-    "@4lt7ab/animations": "github:4lt7ab/ui#v0.2.0"
+    "@4lt7ab/ui": "github:4lt7ab/ui#v0.4.0"
   }
 }
 ```
 
-Peer dependencies: `@4lt7ab/core`, `react`, `react-dom` ^19.0.0.
+`@4lt7ab/animations` ships inside the `@4lt7ab/ui` git dep and is reachable via the `/animations` subpath. **Peer dependencies:** `@4lt7ab/core`, `react`, and `react-dom` ^19. You provide React — the library doesn't bundle it.
 
-## ThemeBackground
+## Hello world
 
-Drop-in component that renders the correct canvas animation for the active theme. Place it inside a `ThemeProvider` and it handles everything — theme switches, cleanup, resize.
+Wrap your app in `ThemeProvider` and drop a `ThemeBackground` inside it. That's the whole API for the common case:
 
 ```tsx
 import { ThemeProvider } from '@4lt7ab/ui/core';
 import { ThemeBackground } from '@4lt7ab/ui/animations';
 
-function App() {
+export function App() {
   return (
-    <ThemeProvider defaultTheme="warm-sand">
+    <ThemeProvider defaultTheme="synthwave">
       <ThemeBackground />
-      {/* Your app content */}
+      <main style={{ position: 'relative', zIndex: 1, minHeight: '100vh' }}>
+        {/* your app */}
+      </main>
     </ThemeProvider>
   );
 }
 ```
 
-`ThemeBackground` renders nothing to the React tree. It creates a fixed-position canvas behind your content (`z-index: 0`, `pointer-events: none`). When the theme changes, it swaps the animation automatically.
+`ThemeBackground` renders nothing to the React tree. It paints into a fixed `inset: 0; z-index: 0; pointer-events: none;` element prepended to `<body>`. Anything you want visible above it needs its own stacking context — any non-`auto` `z-index` wrapper does it.
 
----
+## Background registry
 
-## Available Backgrounds
+Five canvas backgrounds, four static gradients. `ThemeBackground` picks the one matching the active theme automatically; the same functions are also importable on their own.
 
-| Function | Theme | Description |
-|----------|-------|-------------|
-| `synthwaveBackground` | synthwave | Neon grid perspective animation |
-| `pipboyBackground` | pipboy | Green terminal scanline effect |
-| `neuralBackground` | neural | Connected node network |
-| `pacmanBackground` | pacman | Retro arcade elements |
+| Function | Theme | Effect |
+|---|---|---|
+| `synthwaveBackground` | `synthwave` | Slow-pulse stars on a deep-blue field. |
+| `pipboyBackground` | `pipboy` | Faint green katakana rain. |
+| `neuralBackground` | `neural` | Drifting nodes with pulses traveling between connected pairs. |
+| `pacmanBackground` | `pacman` | Pac-Man and four ghosts crossing the screen. |
+| `blackHoleBackground` | `black-hole` | N-body gravitational simulation around a central black hole. |
 
-Themes without a canvas animation (`slate`, `warm-sand`, `moss`, `coral`) get a static CSS background — a subtle gradient or radial effect using the theme's own color tokens. No configuration needed; `ThemeBackground` detects the theme and picks the right strategy automatically.
-
-### Fallback for Custom Themes
-
-For themes without a built-in background (canvas or static), pass a `fallback` component:
-
-```tsx
-function CustomBackground({ theme }: { theme: string }) {
-  return <div style={{ width: '100%', height: '100%', background: '#111' }} />;
-}
-
-<ThemeBackground fallback={CustomBackground} />
-```
-
-The fallback renders inside a fixed-position container at `z-index: 0`, just like the built-in backgrounds. It only activates for themes that have no registered canvas or static background.
-
----
-
-## Static Backgrounds
-
-| Function | Theme | Description |
-|----------|-------|-------------|
-| `slateStaticBackground` | slate | Subtle directional gradient with cool blue-gray tint |
-| `warmSandStaticBackground` | warm-sand | Diagonal gradient with earthy warmth |
-| `mossStaticBackground` | moss | Radial green tint like forest light |
-| `coralStaticBackground` | coral | Warm radial glow from the top-right |
-
-Static backgrounds use `var(--...)` theme tokens so they adapt automatically when token values change.
-
----
-
-## Standalone Usage
-
-For full control, use the background functions directly with your own canvas:
-
-```tsx
-import { synthwaveBackground } from '@4lt7ab/ui/animations';
-
-const canvas = document.getElementById('my-canvas') as HTMLCanvasElement;
-const cleanup = synthwaveBackground(canvas);
-
-// Later, to stop the animation:
-cleanup();
-```
-
-Every background function has the same signature:
+Every canvas function has the same shape:
 
 ```ts
-type BackgroundFunction = (canvas: HTMLCanvasElement) => () => void;
+export type BackgroundFunction = (canvas: HTMLCanvasElement) => () => void;
 ```
 
-Pass a canvas element, get back a cleanup function that stops the animation and releases resources.
+Pass a `<canvas>` element, get a cleanup function back.
 
----
+| Function | Theme | Effect |
+|---|---|---|
+| `slateStaticBackground` | `slate` | Vertical gradient with a 6% primary-color midpoint. |
+| `warmSandStaticBackground` | `warm-sand` | Warm diagonal gradient with an 8% primary-color wash. |
+| `mossStaticBackground` | `moss` | Radial green tint over a vertical gradient. |
+| `coralStaticBackground` | `coral` | Warm radial glow over a 200° gradient. |
 
-## Behavior
+Static functions return CSS suitable for `element.style.cssText` and use `var(--...)` tokens, so the gradient tracks `setTheme()` without re-running:
 
-- **Reduced motion:** Animations are disabled when `prefers-reduced-motion: reduce` is active.
-- **Mobile:** Only activates on viewports wider than 768px. No animations on mobile.
-- **Z-index:** The canvas renders at `z-index: 0` with `position: fixed`. Your app content should layer above it. Use `Surface` with `level="page"` from `@4lt7ab/ui` for themed containers that stack correctly.
-- **Cleanup:** Animations clean up automatically on theme change or component unmount.
-
-## Layering app content above the canvas
-
-Use `Surface` from `@4lt7ab/ui` as the page container so your content sits above the canvas animation. For body-level theming (painting `document.body`), call the `usePageBackground()` hook from `@4lt7ab/core`:
-
-```tsx
-import { ThemeProvider, usePageBackground } from '@4lt7ab/ui/core';
-import { Surface } from '@4lt7ab/ui/ui';
-import { ThemeBackground } from '@4lt7ab/ui/animations';
-
-function App() {
-  usePageBackground();
-  return (
-    <ThemeProvider defaultTheme="warm-sand">
-      <ThemeBackground />
-      <Surface level="page" style={{ minHeight: '100vh', position: 'relative' }}>
-        {/* Content here sits above the animation */}
-      </Surface>
-    </ThemeProvider>
-  );
-}
+```ts
+export type StaticBackgroundFunction = () => string;
 ```
+
+Themes outside both registries render nothing — pass a `fallback` component to `ThemeBackground` to handle that case. The full `fallback` contract lives in the Motion concept doc.
+
+## Where to next
+
+- [Motion concept doc](../../demo/docs/08-motion.md) — `ThemeBackground`'s desktop-only and reduced-motion guards, the `fallback` portal, standalone canvas usage, the per-background implementation notes, and the `Surface` + `usePageBackground` layering pattern.
+- [`@4lt7ab/core`](../core/README.md) — the theme platform. Required peer; `ThemeBackground` reads the active theme from its context.
+- [`@4lt7ab/ui`](../ui/README.md) — pair with `Surface level="page"` and `usePageBackground()` for the cleanest layering of app content above the canvas.
+- [CLAUDE.md](../../CLAUDE.md) — architecture, conventions, dev commands, release process.
