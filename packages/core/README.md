@@ -1,98 +1,53 @@
 # @4lt7ab/core
 
-Theme platform for React. Provides the token layer, theme system, and utilities that `@4lt7ab/ui`, `@4lt7ab/content`, and `@4lt7ab/animations` are built on.
+Theme platform for React: tokens, themes, `ThemeProvider`, `useTheme`, `usePageBackground`, `useInjectStyles`. Every other `@4lt7ab` package builds on this one.
 
-For a conceptual walkthrough of tokens, themes, and the `usePageBackground` hook — with live examples — run `bun run dev` at the repo root and open the **Theming** concept doc. The reference below is the API surface; the concept doc is the narrative.
+The full narrative — three token layers, theme switching, custom themes, the body-paint contract, and the singleton style hook — lives in the [Theming concept doc](../../demo/docs/02-theming.md). Run `bun run dev` from the repo root to read it locally with the live `<LiveExample>` widgets; the same file renders fine on GitHub for a static read.
 
 ## Install
 
 ```json
 {
   "dependencies": {
-    "@4lt7ab/core": "github:4lt7ab/ui#v0.2.0"
+    "@4lt7ab/ui": "github:4lt7ab/ui#v0.4.0"
   }
 }
 ```
 
-Peer dependencies: `react` and `react-dom` ^19.0.0.
+`@4lt7ab/core` ships inside the `@4lt7ab/ui` git dep and is reachable via the `/core` subpath. **Peer dependencies:** `react` and `react-dom` ^19. You provide React — the library doesn't bundle it.
 
-## Setup
+## Hello world
 
-Wrap your app in `ThemeProvider`:
+Wrap your app in `ThemeProvider`, then call `useTheme` (or any other `@4lt7ab` component) anywhere underneath:
 
 ```tsx
-import { ThemeProvider } from '@4lt7ab/ui/core';
+import { ThemeProvider, useTheme } from '@4lt7ab/ui/core';
 
-function App() {
+function ThemeSwitcher() {
+  const { theme, setTheme, themes } = useTheme();
   return (
-    <ThemeProvider defaultTheme="warm-sand">
-      {/* Your app */}
+    <select value={theme} onChange={(e) => setTheme(e.target.value)}>
+      {Array.from(themes.values()).map((t) => (
+        <option key={t.name} value={t.name}>{t.label}</option>
+      ))}
+    </select>
+  );
+}
+
+export function App() {
+  return (
+    <ThemeProvider defaultTheme="warm-sand" applyPageStyles={false}>
+      <ThemeSwitcher />
     </ThemeProvider>
   );
 }
 ```
 
-The selected theme persists to `localStorage` automatically.
+The selected theme persists to `localStorage` automatically. Setting `applyPageStyles={false}` opts out of the body-paint side effect so you control where the page background is drawn — see [`usePageBackground()`](../../demo/docs/02-theming.md) in the Theming doc.
 
----
+## Built-in themes
 
-## useTheme
-
-Access the current theme and switch themes at runtime:
-
-```tsx
-import { useTheme } from '@4lt7ab/ui/core';
-
-function ThemeSwitcher() {
-  const { theme, setTheme, themes } = useTheme();
-
-  return (
-    <select value={theme} onChange={(e) => setTheme(e.target.value)}>
-      {Array.from(themes.keys()).map((name) => (
-        <option key={name} value={name}>{themes.get(name)?.label}</option>
-      ))}
-    </select>
-  );
-}
-```
-
----
-
-## Token API
-
-### Semantic Tokens
-
-CSS custom property references that resolve to the active theme. Use these when building components:
-
-```tsx
-import { semantic as t } from '@4lt7ab/ui/core';
-
-const style = {
-  background: t.colorSurface,       // card/panel background
-  color: t.colorText,               // primary text
-  border: `1px solid ${t.colorBorder}`,
-  borderRadius: t.radiusMd,
-  padding: t.spaceMd,
-};
-```
-
-These are `var(--...)` references, not hard-coded values. They resolve at runtime based on the active theme.
-
-### Typography
-
-```tsx
-import { typography } from '@4lt7ab/ui/core';
-
-typography.fontSans   // sans-serif font-family
-typography.fontSerif  // serif font-family
-typography.fontMono   // monospace font-family
-```
-
----
-
-## Built-in Themes
-
-Eight themes are included:
+Eight themes ship in the box. Hard cap is 10 — adding a ninth retires an existing one.
 
 | Theme | Vibe |
 |-------|------|
@@ -105,95 +60,11 @@ Eight themes are included:
 | `neural` | Deep blue, data-viz feel |
 | `pacman` | Retro arcade yellow |
 
----
+The four canvas-backed themes (`synthwave`, `pipboy`, `neural`, `pacman`) get full animations from [`@4lt7ab/animations`](../animations/README.md); the rest get a static CSS gradient.
 
-## Custom Themes
+## Where to next
 
-Create a theme by implementing the `ThemeDefinition` type:
-
-```tsx
-import type { ThemeDefinition } from '@4lt7ab/ui/core';
-
-const myTheme: ThemeDefinition = {
-  name: 'my-theme',
-  label: 'My Theme',
-  tokens: {
-    colorBackground: '#0a0a0f',
-    colorSurface: '#12121a',
-    colorText: '#e0e0e0',
-    colorBorder: '#2a2a3a',
-    // ... all ThemeTokens fields
-  },
-};
-```
-
-Register custom themes by passing an array to `ThemeProvider`:
-
-```tsx
-<ThemeProvider
-  defaultTheme="my-theme"
-  themes={[myTheme]}
->
-  {/* Your app */}
-</ThemeProvider>
-```
-
-See the built-in theme definitions in `src/themes/definitions/` for complete examples of the `ThemeTokens` interface.
-
----
-
-## Built-in Keyframes
-
-ThemeProvider automatically injects common keyframe animations so consumers don't need to define them:
-
-| Keyframe | Purpose | Reduced motion |
-|----------|---------|----------------|
-| `spin` | Loading spinners (continuous 360deg rotation) | Always available (functional) |
-| `fade-in-up` | Enter animations (opacity + translateY) | Falls back to opacity-only fade |
-
-Use them directly in CSS or reference the exported constants:
-
-```tsx
-import { KEYFRAMES } from '@4lt7ab/ui/core';
-
-const style = {
-  animation: `${KEYFRAMES.spin} 1s linear infinite`,
-};
-```
-
-Keyframes are injected once via `useInjectStyles` and deduplicated across multiple ThemeProvider instances.
-
----
-
-## useInjectStyles
-
-Singleton style injection hook for CSS that requires pseudo-elements, hover states, or other features that can't be expressed with inline styles:
-
-```tsx
-import { useInjectStyles } from '@4lt7ab/ui/core';
-
-function MyComponent() {
-  useInjectStyles('my-component', `
-    .my-component a:hover {
-      color: var(--color-accent);
-    }
-  `);
-
-  return <div className="my-component">...</div>;
-}
-```
-
-Styles are injected once per unique ID regardless of how many instances mount.
-
----
-
-## Building on Core
-
-Third-party component libraries can depend on `@4lt7ab/core` to get the full theme platform without pulling in any UI components:
-
-1. Add `@4lt7ab/core` as a peer dependency
-2. Import `semantic` tokens for all visual values
-3. Use `useTheme` to respond to theme changes
-4. Use `useInjectStyles` for CSS that needs pseudo-elements or hover states
-
-Components built on core will automatically work with any theme -- built-in or custom.
+- [Theming concept doc](../../demo/docs/02-theming.md) — tokens, `ThemeProvider`, `useTheme`, `usePageBackground`, the semantic token surface, custom themes, built-in keyframes, and `useInjectStyles`.
+- [Getting started](../../demo/docs/01-getting-started.md) — install, peer deps, the smallest call site that mounts, and a worked first composition.
+- [`@4lt7ab/animations`](../animations/README.md) — pair with `ThemeBackground` for the canvas-backed themes.
+- [CLAUDE.md](../../CLAUDE.md) — architecture, conventions, dev commands, release process.
