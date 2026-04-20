@@ -429,6 +429,57 @@ describe('CommandPalette — item behavior', () => {
     expect(onOpenChange).toHaveBeenLastCalledWith(false);
   });
 
+  it('fires onSelect and closes the palette on Enter for the focused item', async () => {
+    // Regression: the Item's onSelect used to be wired through the inner
+    // <span onClick>, which Combobox's Enter path never reaches. Keyboard
+    // selection was dead — only mouse clicks worked. The fix routes onSelect
+    // through Combobox.Root's onSelect so both click + Enter dispatch it.
+    //
+    // The first ArrowDown opens the listbox without focusing an option (per
+    // the APG combobox pattern); the second moves focus to the first option.
+    const user = userEvent.setup();
+    const onSelectHome = vi.fn();
+    const onOpenChange = vi.fn();
+    render(
+      <TestPalette
+        defaultOpen
+        onOpenChange={onOpenChange}
+        onSelectHome={onSelectHome}
+      />,
+    );
+
+    const input = screen.getByRole('combobox');
+    input.focus();
+    await user.keyboard('{ArrowDown}{ArrowDown}{Enter}');
+
+    expect(onSelectHome).toHaveBeenCalledOnce();
+    expect(onOpenChange).toHaveBeenLastCalledWith(false);
+  });
+
+  it('fires the right onSelect after stepping past the first option with ArrowDown', async () => {
+    // Pin the per-Item registry: stepping past the first option must dispatch
+    // the *second* item's onSelect, not the first item's. Catches any
+    // regression that stuffed a single shared callback into the registry.
+    // Three ArrowDowns: open, focus item[0], focus item[1].
+    const user = userEvent.setup();
+    const onSelectHome = vi.fn();
+    const onSelectSettings = vi.fn();
+    render(
+      <TestPalette
+        defaultOpen
+        onSelectHome={onSelectHome}
+        onSelectSettings={onSelectSettings}
+      />,
+    );
+
+    const input = screen.getByRole('combobox');
+    input.focus();
+    await user.keyboard('{ArrowDown}{ArrowDown}{ArrowDown}{Enter}');
+
+    expect(onSelectSettings).toHaveBeenCalledOnce();
+    expect(onSelectHome).not.toHaveBeenCalled();
+  });
+
   it('renders the registry icon when `icon` is provided', () => {
     render(<TestPalette defaultOpen />);
     expect(screen.getByTestId('icon-arrow-left')).toBeInTheDocument();

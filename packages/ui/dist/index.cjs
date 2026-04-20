@@ -4918,6 +4918,24 @@ function Content3({
   const { open, setOpen, ariaLabel, titleId } = useRootContext("Content");
   const [query, setQuery] = (0, import_react35.useState)("");
   const panelRef = (0, import_react35.useRef)(null);
+  const selectRegistryRef = (0, import_react35.useRef)(/* @__PURE__ */ new Map());
+  const registerSelect = (0, import_react35.useCallback)(
+    (value, onSelect) => {
+      selectRegistryRef.current.set(value, onSelect);
+    },
+    []
+  );
+  const unregisterSelect = (0, import_react35.useCallback)((value) => {
+    selectRegistryRef.current.delete(value);
+  }, []);
+  const handleComboboxSelect = (0, import_react35.useCallback)(
+    (option) => {
+      const fn = selectRegistryRef.current.get(option.value);
+      setOpen(false);
+      fn?.();
+    },
+    [setOpen]
+  );
   (0, import_react35.useEffect)(() => {
     if (open) setQuery("");
   }, [open]);
@@ -4946,8 +4964,8 @@ function Content3({
     [query]
   );
   const queryCtx = (0, import_react35.useMemo)(
-    () => ({ query, matches }),
-    [query, matches]
+    () => ({ query, matches, registerSelect, unregisterSelect }),
+    [query, matches, registerSelect, unregisterSelect]
   );
   if (!open) return null;
   const anyMatch = hasMatchingItem(children, query);
@@ -4994,36 +5012,44 @@ function Content3({
               },
               children: [
                 /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { id: titleId, style: { display: "none" }, children: ariaLabel }),
-                /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(Combobox.Root, { value: query, onValueChange: setQuery, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-                    "div",
-                    {
-                      style: {
-                        borderBottom: `${import_core40.semantic.borderWidthDefault} solid ${import_core40.semantic.colorBorder}`,
-                        padding: import_core40.semantic.spaceSm
-                      },
-                      children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-                        Combobox.Input,
+                /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(
+                  Combobox.Root,
+                  {
+                    value: query,
+                    onValueChange: setQuery,
+                    onSelect: handleComboboxSelect,
+                    children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+                        "div",
                         {
-                          placeholder,
-                          "aria-label": ariaLabel,
-                          autoFocus: true
+                          style: {
+                            borderBottom: `${import_core40.semantic.borderWidthDefault} solid ${import_core40.semantic.colorBorder}`,
+                            padding: import_core40.semantic.spaceSm
+                          },
+                          children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+                            Combobox.Input,
+                            {
+                              placeholder,
+                              "aria-label": ariaLabel,
+                              autoFocus: true
+                            }
+                          )
+                        }
+                      ),
+                      /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+                        "div",
+                        {
+                          style: {
+                            flex: 1,
+                            overflowY: "auto",
+                            padding: import_core40.semantic.spaceXs
+                          },
+                          children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Combobox.List, { children: anyMatch ? children : /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Combobox.Empty, { children: emptyLabel }) })
                         }
                       )
-                    }
-                  ),
-                  /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-                    "div",
-                    {
-                      style: {
-                        flex: 1,
-                        overflowY: "auto",
-                        padding: import_core40.semantic.spaceXs
-                      },
-                      children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Combobox.List, { children: anyMatch ? children : /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Combobox.Empty, { children: emptyLabel }) })
-                    }
-                  )
-                ] })
+                    ]
+                  }
+                )
               ]
             }
           )
@@ -5074,14 +5100,14 @@ function Item4({
   keywords = [],
   children
 }) {
-  const { matches } = useQueryContext("Item");
-  const { setOpen } = useRootContext("Item");
+  const { matches, registerSelect, unregisterSelect } = useQueryContext("Item");
+  useRootContext("Item");
+  (0, import_react35.useEffect)(() => {
+    registerSelect(value, onSelect);
+    return () => unregisterSelect(value);
+  }, [value, onSelect, registerSelect, unregisterSelect]);
   const text = typeof children === "string" ? children : value;
   if (!matches(value, keywords, text)) return null;
-  const handleSelect = () => {
-    setOpen(false);
-    onSelect();
-  };
   const shortcutParts = Array.isArray(shortcut) ? shortcut : shortcut ? [shortcut] : [];
   return /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Combobox.Item, { value, textValue: text, children: /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(
     "span",
@@ -5092,7 +5118,6 @@ function Item4({
         gap: import_core40.semantic.spaceSm,
         width: "100%"
       },
-      onClick: handleSelect,
       children: [
         icon && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
           "span",

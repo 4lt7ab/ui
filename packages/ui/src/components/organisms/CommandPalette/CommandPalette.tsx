@@ -116,6 +116,15 @@ function useRootContext(part: string): RootContextValue {
 interface QueryContextValue {
   query: string;
   matches: (value: string, keywords: string[], text: string) => boolean;
+  /**
+   * Items register their `onSelect` callback by value so Content can dispatch
+   * the right one when Combobox.Root fires `onSelect` (Enter on a focused
+   * option, or click). Wiring through Combobox.Root is what makes keyboard
+   * selection work — relying on the inner span's onClick alone left Enter dead
+   * because Combobox's keyboard path never reached the consumer's handler.
+   */
+  registerSelect: (value: string, onSelect: () => void) => void;
+  unregisterSelect: (value: string) => void;
 }
 
 const QueryContext = createContext<QueryContextValue | null>(null);
@@ -313,6 +322,33 @@ function Content({
   const [query, setQuery] = useState('');
   const panelRef = useRef<HTMLDivElement>(null);
 
+  // Item-onSelect registry. Held in a ref (not state) because each Item updates
+  // it from its own effect and we don't want re-renders to cascade. Combobox's
+  // selectItem path (click + Enter) calls onSelect with the option's value;
+  // we look up the matching consumer callback here.
+  const selectRegistryRef = useRef<Map<string, () => void>>(new Map());
+  const registerSelect = useCallback(
+    (value: string, onSelect: () => void): void => {
+      selectRegistryRef.current.set(value, onSelect);
+    },
+    [],
+  );
+  const unregisterSelect = useCallback((value: string): void => {
+    selectRegistryRef.current.delete(value);
+  }, []);
+
+  const handleComboboxSelect = useCallback(
+    (option: { value: string; textValue: string }): void => {
+      const fn = selectRegistryRef.current.get(option.value);
+      // Close first, then run onSelect — matches the prior per-Item behavior
+      // (consumer's onSelect typically navigates or opens another modal and
+      // doesn't want the palette lingering).
+      setOpen(false);
+      fn?.();
+    },
+    [setOpen],
+  );
+
   // Reset the filter on every open so a reopened palette starts clean.
   useEffect(() => {
     if (open) setQuery('');
@@ -348,8 +384,8 @@ function Content({
   );
 
   const queryCtx = useMemo<QueryContextValue>(
-    () => ({ query, matches }),
-    [query, matches],
+    () => ({ query, matches, registerSelect, unregisterSelect }),
+    [query, matches, registerSelect, unregisterSelect],
   );
 
   if (!open) return null;
@@ -403,7 +439,11 @@ function Content({
           <span id={titleId} style={{ display: 'none' }}>
             {ariaLabel}
           </span>
-          <Combobox.Root value={query} onValueChange={setQuery}>
+          <Combobox.Root
+            value={query}
+            onValueChange={setQuery}
+            onSelect={handleComboboxSelect}
+          >
             <div
               style={{
                 borderBottom: `${t.borderWidthDefault} solid ${t.colorBorder}`,
@@ -519,20 +559,24 @@ function Item({
   keywords = [],
   children,
 }: CommandPaletteItemProps): React.JSX.Element | null {
-  const { matches } = useQueryContext('Item');
-  const { setOpen } = useRootContext('Item');
+  const { matches, registerSelect, unregisterSelect } = useQueryContext('Item');
+  // Touch RootContext so an Item rendered without Root (skipping Content)
+  // still throws the orphan-check error the test suite asserts on.
+  useRootContext('Item');
+
+  // Register/unregister the consumer's onSelect with Content so Combobox's
+  // selectItem path (which fires for both click and Enter) can dispatch it.
+  // Without this registration, keyboard selection was dead — Combobox.Root
+  // had no onSelect to call, and only the inner span's onClick reached the
+  // consumer. Re-register on every render so a stale closure can't outlive
+  // the latest props.
+  useEffect(() => {
+    registerSelect(value, onSelect);
+    return () => unregisterSelect(value);
+  }, [value, onSelect, registerSelect, unregisterSelect]);
 
   const text = typeof children === 'string' ? children : value;
   if (!matches(value, keywords, text)) return null;
-
-  // Close first, then run onSelect — matches the common pattern (the consumer
-  // navigates or opens a second modal inside onSelect and doesn't need to see
-  // the palette lingering behind it). Consumers that want to keep the palette
-  // open after selection can reopen it from their handler.
-  const handleSelect = (): void => {
-    setOpen(false);
-    onSelect();
-  };
 
   const shortcutParts = Array.isArray(shortcut) ? shortcut : shortcut ? [shortcut] : [];
 
@@ -545,7 +589,6 @@ function Item({
           gap: t.spaceSm,
           width: '100%',
         }}
-        onClick={handleSelect}
       >
         {icon && (
           <span
