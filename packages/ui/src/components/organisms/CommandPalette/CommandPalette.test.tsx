@@ -435,8 +435,9 @@ describe('CommandPalette — item behavior', () => {
     // selection was dead — only mouse clicks worked. The fix routes onSelect
     // through Combobox.Root's onSelect so both click + Enter dispatch it.
     //
-    // The first ArrowDown opens the listbox without focusing an option (per
-    // the APG combobox pattern); the second moves focus to the first option.
+    // CommandPalette.Content opens the Combobox listbox on mount via
+    // `defaultOpen` on Combobox.Root, so the first ArrowDown moves focus to
+    // the first option directly (no separate "open" key first).
     const user = userEvent.setup();
     const onSelectHome = vi.fn();
     const onOpenChange = vi.fn();
@@ -450,7 +451,7 @@ describe('CommandPalette — item behavior', () => {
 
     const input = screen.getByRole('combobox');
     input.focus();
-    await user.keyboard('{ArrowDown}{ArrowDown}{Enter}');
+    await user.keyboard('{ArrowDown}{Enter}');
 
     expect(onSelectHome).toHaveBeenCalledOnce();
     expect(onOpenChange).toHaveBeenLastCalledWith(false);
@@ -460,7 +461,8 @@ describe('CommandPalette — item behavior', () => {
     // Pin the per-Item registry: stepping past the first option must dispatch
     // the *second* item's onSelect, not the first item's. Catches any
     // regression that stuffed a single shared callback into the registry.
-    // Three ArrowDowns: open, focus item[0], focus item[1].
+    // Listbox opens on mount (Combobox.Root defaultOpen) so two ArrowDowns
+    // focus item[0] then item[1].
     const user = userEvent.setup();
     const onSelectHome = vi.fn();
     const onSelectSettings = vi.fn();
@@ -474,7 +476,7 @@ describe('CommandPalette — item behavior', () => {
 
     const input = screen.getByRole('combobox');
     input.focus();
-    await user.keyboard('{ArrowDown}{ArrowDown}{ArrowDown}{Enter}');
+    await user.keyboard('{ArrowDown}{ArrowDown}{Enter}');
 
     expect(onSelectSettings).toHaveBeenCalledOnce();
     expect(onSelectHome).not.toHaveBeenCalled();
@@ -485,6 +487,28 @@ describe('CommandPalette — item behavior', () => {
     expect(screen.getByTestId('icon-arrow-left')).toBeInTheDocument();
     expect(screen.getByTestId('icon-settings')).toBeInTheDocument();
     expect(screen.getByTestId('icon-plus')).toBeInTheDocument();
+  });
+
+  it('shows the listbox with all options on mount without consumer interaction', () => {
+    // Regression: Combobox.Input.handleFocus gated openMenu() on items.length > 0,
+    // but Items register via useEffect after mount — so autoFocus on the Input
+    // saw items=[] and stayed closed. Net: the palette opened with aria-expanded
+    // false and the listbox hidden until the user typed or re-focused. The fix
+    // is `defaultOpen` on Combobox.Root, which CommandPalette.Content sets.
+    render(<TestPalette defaultOpen />);
+
+    const input = screen.getByRole('combobox');
+    expect(input).toHaveAttribute('aria-expanded', 'true');
+
+    const listbox = screen.getByRole('listbox');
+    expect(listbox).toBeVisible();
+
+    // All three options are visible without typing or re-focusing.
+    const options = screen.getAllByRole('option');
+    expect(options).toHaveLength(3);
+    expect(screen.getByRole('option', { name: /Go home/ })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: /Settings/ })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: /New task/ })).toBeInTheDocument();
   });
 });
 

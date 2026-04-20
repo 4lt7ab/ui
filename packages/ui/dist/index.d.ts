@@ -1462,6 +1462,15 @@ interface ComboboxRootProps {
 	disabled?: boolean;
 	/** When true, applies error border styling. Typically driven by a parent Field. */
 	hasError?: boolean;
+	/**
+	* Open the listbox on mount. Use this when the consumer surface itself is the
+	* "open" affordance (e.g. a modal palette where the user has already declared
+	* intent to see options) — autoFocus on the Input is otherwise gated on
+	* `items.length > 0`, and Items register via useEffect after mount, so the
+	* listbox would stay closed until the user typed or refocused.
+	* @default false
+	*/
+	defaultOpen?: boolean;
 	/** Subtree containing Input and List. */
 	children: ReactNode23;
 }

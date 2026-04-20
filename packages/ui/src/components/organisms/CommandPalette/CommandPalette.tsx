@@ -443,6 +443,7 @@ function Content({
             value={query}
             onValueChange={setQuery}
             onSelect={handleComboboxSelect}
+            defaultOpen
           >
             <div
               style={{

@@ -4260,6 +4260,7 @@ function Root3({
   onSelect,
   disabled = false,
   hasError = false,
+  defaultOpen = false,
   children
 }) {
   useInjectStyles14(COMBOBOX_STYLES_ID, comboboxCSS);
@@ -4268,7 +4269,7 @@ function Root3({
   const [internalValue, setInternalValue] = useState8(defaultValue ?? "");
   const isControlled = controlledValue !== void 0;
   const value = isControlled ? controlledValue : internalValue;
-  const [open, setOpen] = useState8(false);
+  const [open, setOpen] = useState8(defaultOpen);
   const [focusedValue, setFocusedValue] = useState8(null);
   const [dropDirection, setDropDirection] = useState8("down");
   const containerRef = useRef9(null);
@@ -4882,6 +4883,7 @@ function Content3({
                     value: query,
                     onValueChange: setQuery,
                     onSelect: handleComboboxSelect,
+                    defaultOpen: true,
                     children: [
                       /* @__PURE__ */ jsx36(
                         "div",

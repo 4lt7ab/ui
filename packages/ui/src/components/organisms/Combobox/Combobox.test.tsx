@@ -98,6 +98,30 @@ describe("Combobox (compound)", () => {
     expect(screen.getAllByRole("option")).toHaveLength(4);
   });
 
+  it("opens on mount when defaultOpen is true", () => {
+    // Regression for the CommandPalette autofocus bug: handleFocus gated
+    // openMenu() on items.length > 0, but Items register via useEffect after
+    // mount, so autoFocus saw items=[] and stayed closed. defaultOpen lets a
+    // consumer (e.g. a modal palette) declare "open the listbox immediately"
+    // without waiting on focus + items race conditions.
+    render(
+      <Combobox.Root defaultOpen>
+        <Combobox.Input aria-label="Fruit" />
+        <Combobox.List>
+          {OPTIONS.map((o) => (
+            <Combobox.Item key={o.value} value={o.value} textValue={o.label}>
+              {o.label}
+            </Combobox.Item>
+          ))}
+        </Combobox.List>
+      </Combobox.Root>,
+    );
+    const input = screen.getByRole("combobox");
+    expect(input).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByRole("listbox")).toBeInTheDocument();
+    expect(screen.getAllByRole("option")).toHaveLength(4);
+  });
+
   it("opens on ArrowDown when closed", async () => {
     const user = userEvent.setup();
     render(<FilteredCombobox />);

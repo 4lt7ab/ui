@@ -685,6 +685,7 @@ const filtered = useMemo(() => {
 | `onSelect` | `(option: { value, textValue }) => void` | — | Called only when an option is picked from the list |
 | `disabled` | `boolean` | `false` | Disables the input and blocks opening |
 | `hasError` | `boolean` | `false` | Applies error border styling |
+| `defaultOpen` | `boolean` | `false` | Open the listbox on mount. Use when the surrounding surface (e.g. a modal palette) is itself the "open" affordance — bypasses the focus + items-registered race that otherwise gates `autoFocus` on `Combobox.Input`. |
 
 **`Combobox.Input`** — accepts `placeholder`, `readOnly`, `maxLength`, `inputMode`, `name`, `required`, `autoFocus`, `autoComplete`, `id`, `form`, `tabIndex`, `aria-*`, `data-testid`, `onFocus`, `onBlur`. The combobox ARIA role lives on this element.
 
