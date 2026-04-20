@@ -1494,6 +1494,25 @@ interface ComboboxInputProps {
 	onBlur?: React.FocusEventHandler<HTMLInputElement>;
 }
 interface ComboboxListProps {
+	/**
+	* How the listbox lays out relative to the input.
+	*
+	* - `'absolute'` (default) — popover behavior: absolute-positioned below
+	*   (or above) the input with the shared `popoverPanelMd` chrome (bg,
+	*   border, shadow, radius) and a `16rem` scroll cap. The right shape
+	*   for a typeahead select where the listbox should float over
+	*   surrounding content.
+	* - `'inline'` — render the listbox as a normal block child of its
+	*   surrounding flow with no absolute positioning, no chrome, and no
+	*   intrinsic scroll cap. The right shape when a parent surface (e.g.
+	*   `CommandPalette.Content`) already paints its own panel and supplies
+	*   the scroll envelope — absolute positioning would otherwise stack the
+	*   listbox at `top: 100%` of the wrapper and get clipped by the parent
+	*   panel's `overflow: hidden`.
+	*
+	* @default 'absolute'
+	*/
+	position?: "absolute" | "inline";
 	children: ReactNode23;
 }
 interface ComboboxItemProps {

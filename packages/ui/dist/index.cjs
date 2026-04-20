@@ -4665,7 +4665,10 @@ function Input3({
     }
   );
 }
-function List({ children }) {
+function List({
+  position = "absolute",
+  children
+}) {
   const { open, listboxId, dropDirection, focusedValue } = useComboboxContext("List");
   const ref = (0, import_react34.useRef)(null);
   (0, import_react34.useEffect)(() => {
@@ -4677,7 +4680,7 @@ function List({ children }) {
     );
     focused?.scrollIntoView({ block: "nearest" });
   }, [open, focusedValue]);
-  const positionStyle = dropDirection === "down" ? {
+  const absolutePositionStyle = dropDirection === "down" ? {
     position: "absolute",
     top: "100%",
     left: 0,
@@ -4690,6 +4693,12 @@ function List({ children }) {
     right: 0,
     marginBottom: import_core39.semantic.spaceXs
   };
+  const openStyle = position === "inline" ? { display: "block" } : {
+    ...absolutePositionStyle,
+    ...popoverPanelMd,
+    maxHeight: "16rem",
+    overflowY: "auto"
+  };
   return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
     "div",
     {
@@ -4697,12 +4706,7 @@ function List({ children }) {
       id: listboxId,
       role: "listbox",
       hidden: !open,
-      style: open ? {
-        ...positionStyle,
-        ...popoverPanelMd,
-        maxHeight: "16rem",
-        overflowY: "auto"
-      } : void 0,
+      style: open ? openStyle : void 0,
       children
     }
   );
@@ -5046,7 +5050,7 @@ function Content3({
                             overflowY: "auto",
                             padding: import_core40.semantic.spaceXs
                           },
-                          children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Combobox.List, { children: anyMatch ? children : /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Combobox.Empty, { children: emptyLabel }) })
+                          children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Combobox.List, { position: "inline", children: anyMatch ? children : /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Combobox.Empty, { children: emptyLabel }) })
                         }
                       )
                     ]

@@ -122,6 +122,32 @@ describe("Combobox (compound)", () => {
     expect(screen.getAllByRole("option")).toHaveLength(4);
   });
 
+  it("position='inline' renders the listbox in normal flow without absolute positioning", () => {
+    // Regression: the default 'absolute' mode positions the listbox at
+    // top:100% of the wrapper, which gets clipped when the parent surface
+    // (e.g. CommandPalette.Content's panel) sets overflow:hidden. The
+    // 'inline' opt-in lets a host that owns its own panel + scroll envelope
+    // render the listbox as a normal block child instead.
+    render(
+      <Combobox.Root defaultOpen>
+        <Combobox.Input aria-label="Fruit" />
+        <Combobox.List position="inline">
+          {OPTIONS.map((o) => (
+            <Combobox.Item key={o.value} value={o.value} textValue={o.label}>
+              {o.label}
+            </Combobox.Item>
+          ))}
+        </Combobox.List>
+      </Combobox.Root>,
+    );
+    const listbox = screen.getByRole("listbox");
+    expect(listbox.style.position).not.toBe("absolute");
+    expect(listbox.style.top).toBe("");
+    expect(listbox.style.bottom).toBe("");
+    // Items still register and render — inline mode is layout-only.
+    expect(screen.getAllByRole("option")).toHaveLength(4);
+  });
+
   it("opens on ArrowDown when closed", async () => {
     const user = userEvent.setup();
     render(<FilteredCombobox />);

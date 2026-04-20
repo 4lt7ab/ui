@@ -4518,7 +4518,10 @@ function Input3({
     }
   );
 }
-function List({ children }) {
+function List({
+  position = "absolute",
+  children
+}) {
   const { open, listboxId, dropDirection, focusedValue } = useComboboxContext("List");
   const ref = useRef9(null);
   useEffect11(() => {
@@ -4530,7 +4533,7 @@ function List({ children }) {
     );
     focused?.scrollIntoView({ block: "nearest" });
   }, [open, focusedValue]);
-  const positionStyle = dropDirection === "down" ? {
+  const absolutePositionStyle = dropDirection === "down" ? {
     position: "absolute",
     top: "100%",
     left: 0,
@@ -4543,6 +4546,12 @@ function List({ children }) {
     right: 0,
     marginBottom: t36.spaceXs
   };
+  const openStyle = position === "inline" ? { display: "block" } : {
+    ...absolutePositionStyle,
+    ...popoverPanelMd,
+    maxHeight: "16rem",
+    overflowY: "auto"
+  };
   return /* @__PURE__ */ jsx35(
     "div",
     {
@@ -4550,12 +4559,7 @@ function List({ children }) {
       id: listboxId,
       role: "listbox",
       hidden: !open,
-      style: open ? {
-        ...positionStyle,
-        ...popoverPanelMd,
-        maxHeight: "16rem",
-        overflowY: "auto"
-      } : void 0,
+      style: open ? openStyle : void 0,
       children
     }
   );
@@ -4910,7 +4914,7 @@ function Content3({
                             overflowY: "auto",
                             padding: t37.spaceXs
                           },
-                          children: /* @__PURE__ */ jsx36(Combobox.List, { children: anyMatch ? children : /* @__PURE__ */ jsx36(Combobox.Empty, { children: emptyLabel }) })
+                          children: /* @__PURE__ */ jsx36(Combobox.List, { position: "inline", children: anyMatch ? children : /* @__PURE__ */ jsx36(Combobox.Empty, { children: emptyLabel }) })
                         }
                       )
                     ]

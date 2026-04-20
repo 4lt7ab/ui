@@ -510,6 +510,31 @@ describe('CommandPalette — item behavior', () => {
     expect(screen.getByRole('option', { name: /Settings/ })).toBeInTheDocument();
     expect(screen.getByRole('option', { name: /New task/ })).toBeInTheDocument();
   });
+
+  it('renders the listbox inside the panel scroll body in normal flow (not absolute)', () => {
+    // Regression: Combobox.List defaulted to position:absolute + top:100% of
+    // the Combobox.Root wrapper. Inside CommandPalette.Content the wrapper
+    // fills the panel, so the listbox stacked at the panel's bottom edge and
+    // got clipped by the panel's overflow:hidden. Consumers had to flip the
+    // panel's overflow at runtime via DOM poking. Fix: CommandPalette.Content
+    // now sets position="inline" on Combobox.List, which renders it as a
+    // normal block child of the panel's scroll body.
+    render(<TestPalette defaultOpen />);
+
+    const listbox = screen.getByRole('listbox');
+    // Inline mode: no absolute/relative positioning on the listbox itself —
+    // the surrounding panel and scroll body own layout.
+    expect(listbox.style.position).not.toBe('absolute');
+    expect(listbox.style.top).toBe('');
+    expect(listbox.style.bottom).toBe('');
+    // The listbox lives inside the panel — not floated outside of it.
+    const panel = screen.getByTestId('command-palette-content');
+    expect(panel.contains(listbox)).toBe(true);
+    // First focusable option sits inside the listbox (not lifted out by an
+    // absolute-positioned ancestor that would escape the panel's clipping).
+    const firstOption = screen.getByRole('option', { name: /Go home/ });
+    expect(listbox.contains(firstOption)).toBe(true);
+  });
 });
 
 // ---------------------------------------------------------------------------

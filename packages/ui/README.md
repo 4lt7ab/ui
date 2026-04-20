@@ -689,7 +689,7 @@ const filtered = useMemo(() => {
 
 **`Combobox.Input`** — accepts `placeholder`, `readOnly`, `maxLength`, `inputMode`, `name`, `required`, `autoFocus`, `autoComplete`, `id`, `form`, `tabIndex`, `aria-*`, `data-testid`, `onFocus`, `onBlur`. The combobox ARIA role lives on this element.
 
-**`Combobox.List`** — the listbox popover. Always mounted; hidden via `[hidden]` when closed.
+**`Combobox.List`** — the listbox popover. Always mounted; hidden via `[hidden]` when closed. Accepts `position?: 'absolute' | 'inline'` (default `'absolute'`). The default popover positions the listbox below (or above) the input with the shared panel chrome and a `16rem` scroll cap. Set `position="inline"` when the surrounding surface owns its own panel and scroll envelope (e.g. inside `CommandPalette.Content`) — the listbox then renders as a normal block child instead of absolute-positioning relative to the wrapper, which would otherwise get clipped by the parent panel's `overflow: hidden`.
 
 **`Combobox.Item`** — `value: string`, `textValue?: string` (text written into the input on select; defaults to string children). Children are the rendered label.
 

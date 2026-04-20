@@ -500,10 +500,32 @@ function Input({
 // ---------------------------------------------------------------------------
 
 export interface ComboboxListProps {
+  /**
+   * How the listbox lays out relative to the input.
+   *
+   * - `'absolute'` (default) — popover behavior: absolute-positioned below
+   *   (or above) the input with the shared `popoverPanelMd` chrome (bg,
+   *   border, shadow, radius) and a `16rem` scroll cap. The right shape
+   *   for a typeahead select where the listbox should float over
+   *   surrounding content.
+   * - `'inline'` — render the listbox as a normal block child of its
+   *   surrounding flow with no absolute positioning, no chrome, and no
+   *   intrinsic scroll cap. The right shape when a parent surface (e.g.
+   *   `CommandPalette.Content`) already paints its own panel and supplies
+   *   the scroll envelope — absolute positioning would otherwise stack the
+   *   listbox at `top: 100%` of the wrapper and get clipped by the parent
+   *   panel's `overflow: hidden`.
+   *
+   * @default 'absolute'
+   */
+  position?: 'absolute' | 'inline';
   children: ReactNode;
 }
 
-function List({ children }: ComboboxListProps): React.JSX.Element {
+function List({
+  position = 'absolute',
+  children,
+}: ComboboxListProps): React.JSX.Element {
   const { open, listboxId, dropDirection, focusedValue } =
     useComboboxContext('List');
   const ref = useRef<HTMLDivElement>(null);
@@ -518,7 +540,7 @@ function List({ children }: ComboboxListProps): React.JSX.Element {
     focused?.scrollIntoView({ block: 'nearest' });
   }, [open, focusedValue]);
 
-  const positionStyle: React.CSSProperties =
+  const absolutePositionStyle: React.CSSProperties =
     dropDirection === 'down'
       ? {
           position: 'absolute',
@@ -535,6 +557,21 @@ function List({ children }: ComboboxListProps): React.JSX.Element {
           marginBottom: t.spaceXs,
         };
 
+  // Open-state style depends on position mode. `absolute` keeps the popover
+  // chrome + scroll cap so a bare `<Combobox>` floats correctly over its
+  // surroundings. `inline` strips both — the surrounding surface owns those
+  // concerns (CommandPalette's panel paints chrome and a flex-grow scroll
+  // body around the list).
+  const openStyle: React.CSSProperties =
+    position === 'inline'
+      ? { display: 'block' }
+      : {
+          ...absolutePositionStyle,
+          ...popoverPanelMd,
+          maxHeight: '16rem',
+          overflowY: 'auto',
+        };
+
   // Always render so Items register on mount. Hidden when closed.
   return (
     <div
@@ -542,16 +579,7 @@ function List({ children }: ComboboxListProps): React.JSX.Element {
       id={listboxId}
       role="listbox"
       hidden={!open}
-      style={
-        open
-          ? {
-              ...positionStyle,
-              ...popoverPanelMd,
-              maxHeight: '16rem',
-              overflowY: 'auto',
-            }
-          : undefined
-      }
+      style={open ? openStyle : undefined}
     >
       {children}
     </div>

@@ -464,7 +464,16 @@ function Content({
                 padding: t.spaceXs,
               }}
             >
-              <Combobox.List>
+              {/*
+                position="inline" keeps Combobox.List in the normal block flow
+                of this scroll body. The default `absolute` mode positions the
+                listbox at top:100% of the Combobox.Root wrapper, which sits
+                outside the panel's clipping rect — the listbox gets cut by the
+                panel's overflow:hidden and consumers were forced to flip the
+                panel's overflow at runtime via DOM poking. Inline mode lets the
+                palette's own scroll envelope host the options directly.
+              */}
+              <Combobox.List position="inline">
                 {anyMatch ? children : <Combobox.Empty>{emptyLabel}</Combobox.Empty>}
               </Combobox.List>
             </div>
