@@ -89,6 +89,34 @@ When `editable` is off, `Markdown` behaves exactly as the read-only renderer —
 | `fieldLabel` | `string` | — | Accessible label for the editable section. |
 | `rows` | `number` | `4` | Textarea rows when editing. |
 | `placeholder` | `string` | `'Click to add content...'` | Placeholder copy for the empty state. |
+| `components` | `Record<string, ComponentType<any>>` | — | Element overrides merged on top of the built-in set (headings, `pre`, `blockquote`, `tbody`). Built-ins win on tag names they already cover; consumer keys populate everything else. |
+| `remarkPlugins` | `PluggableList` | — | Additional remark plugins appended after the built-in `remark-gfm`. Used together with `components` to embed React islands. |
+| `id` | `string` | — | Optional `id` on the rendered root element. |
+| `data-testid` | `string` | — | Optional test id. |
+
+### Embedding React islands — the `components` + `remarkPlugins` seam
+
+`components` and `remarkPlugins` compose into the seam this docs site uses to embed every `<LiveExample>` you see on these pages. The pattern:
+
+1. Write a remark plugin that walks the mdast tree, finds the syntax you want to capture (an HTML block like `<MyTag id="..." />`, a directive, a special fenced block), and rewrites the matching node to emit a custom hast element via `data.hName` and `data.hProperties`.
+2. Pass that plugin in `remarkPlugins`, and pair it with a matching key in `components` that points at the React component to render.
+
+```tsx
+import { Markdown } from '@4lt7ab/content';
+import { remarkLiveExample } from './remarkLiveExample';
+import { LiveExample } from './LiveExample';
+
+<Markdown
+  remarkPlugins={[remarkLiveExample]}
+  components={{ liveexample: LiveExample }}
+>
+  {source}
+</Markdown>
+```
+
+A worked reference implementation lives in this repo at `demo/examples/remarkLiveExample.ts` (the mdast plugin) and `demo/examples/LiveExample.tsx` (the renderer). Together they turn `<LiveExample id="..." />` HTML blocks in the markdown source into real React components rendered inline with the prose, with full access to React state, hooks, and the surrounding theme.
+
+The seam is intentionally small — there's no plugin runtime, no DSL, no manifest. A remark plugin emits a tag name; `components` provides the React component for that tag name. The same pattern works for any in-prose embedding need: callout overrides, custom code-fence renderers, embedded charts, interactive demos.
 
 ## `Prose`
 

@@ -247,6 +247,42 @@ const corpTheme: ThemeDefinition = {
 
 Custom themes merge *on top of* the built-ins — the registry still exposes all nine defaults plus your additions. If you want to hide a built-in from the picker, wrap `<ThemePicker>` or write your own using `useTheme().themes` filtered down.
 
+## `useInjectStyles()` — singleton style injection
+
+Some component CSS can't be expressed as inline styles — pseudo-elements (`::before`, `::after`), hover/focus pseudo-classes that need the cascade, `@keyframes`, `@media` queries. `useInjectStyles(id, css)` is the hook every library component uses for those cases. It writes the CSS to a `<style id="<id>">` tag in `<head>` exactly once, regardless of how many component instances mount.
+
+```tsx
+import { useInjectStyles } from '@4lt7ab/core';
+
+function FancyLink({ href, children }: { href: string; children: React.ReactNode }) {
+  useInjectStyles('fancy-link', `
+    .fancy-link {
+      position: relative;
+      color: var(--color-text-link);
+    }
+    .fancy-link::after {
+      content: '';
+      position: absolute;
+      inset: auto 0 -2px 0;
+      height: 1px;
+      background: currentColor;
+      transform: scaleX(0);
+      transition: transform var(--transition-fast);
+    }
+    .fancy-link:hover::after { transform: scaleX(1); }
+  `);
+  return <a href={href} className="fancy-link">{children}</a>;
+}
+```
+
+**Contract.**
+
+- The first argument is a stable, unique ID per stylesheet — typically the component name or a kebab-cased namespace (`'fancy-link'`, `'alttab-prose'`, `'alttab-modal-shell'`). Reusing an ID across components is a deduplication bug; pick something specific.
+- The second argument is a raw CSS string. Reference theme tokens via `var(--...)` so the styles stay theme-reactive without re-injection.
+- The injection is global — there is no scoping wrapper. Author your selectors with class-name prefixes (`.alttab-foo`) or attribute selectors (`[data-foo]`) to avoid colliding with consumer styles.
+
+This is the same hook `Prose`, `Markdown`, `ModalShell`, and every component with a non-inline-able style relies on. Third-party components built on `@4lt7ab/core` should use it for the same reasons — one shared injection layer keeps the document head from filling with duplicated `<style>` tags as components remount.
+
 ## Focus, keyframes, and theme CSS
 
 `ThemeProvider` injects a small amount of global CSS the first time it mounts:

@@ -138,6 +138,36 @@ Size defaults to `md` (32px tall); `sm` gives you a 28px version for dense chrom
 
 <LiveExample id="forms-chip-picker" />
 
+### `tagChipStyle` and `sectionLabelStyle` — style exports for chip/label patterns
+
+Two `CSSProperties` objects exported from `@4lt7ab/ui` that capture the visual contracts the retired `TagChip` and `SectionLabel` components used to ship. They aren't components — spread them onto any element so the consumer owns the element type and the surrounding affordances (close button, link, anchor target).
+
+`tagChipStyle` — pill-shaped removable tag/chip:
+
+```tsx
+import { tagChipStyle } from '@4lt7ab/ui';
+
+<span style={tagChipStyle}>React</span>
+
+<button
+  style={{ ...tagChipStyle, cursor: 'pointer' }}
+  onClick={() => removeTag('React')}
+>
+  React ×
+</button>
+```
+
+`sectionLabelStyle` — uppercase + letter-spacing label used for chip groups, dropdown section headings, and panel sub-headings. Lives in this concept because `ChipPicker`'s grouped mode renders its group labels with this exact style — when a consumer mirrors that visual hierarchy outside `ChipPicker`, this is the export to spread.
+
+```tsx
+import { sectionLabelStyle, semantic } from '@4lt7ab/ui';
+
+<span style={sectionLabelStyle}>Filters</span>
+<span style={{ ...sectionLabelStyle, color: semantic.colorActionPrimary }}>Active</span>
+```
+
+Both exports replaced their respective components in v0.4.0 — see [`CLAUDE.md` Retired in 0.4.0](../../CLAUDE.md#retired-in-040) for the rationale.
+
 ## Select
 
 `Select` is a compound — `Select.Root`, `Select.Trigger`, `Select.Value`, `Select.Content`, `Select.Item`. Root owns the value state, the open/closed state, and drop-direction calculation (it measures the viewport and flips up when there's more room above the trigger). A hidden native `<select>` is rendered inside Root so the value participates in regular `<form>` submission when you pass `name`.

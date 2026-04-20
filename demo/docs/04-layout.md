@@ -16,6 +16,7 @@ The library's layout primitives aren't a grid system. They're a small set of foc
 | `TopBar.*` | Top bar used inside `AppShell.TopBar` (or standalone): leading, nav, trailing. |
 | `Header` | Heading primitive with optional subtitle, indicator, and trailing slot. |
 | `TabStrip` | Horizontal tab navigation with roving focus and optional deselect. |
+| `Icon` / `IconButton` | The 25-icon registry and the icon-as-affordance button. |
 | `DataTablePage.*` | CRUD-page envelope: header, filter bar, table, pagination, empty state. |
 | `DetailPage.*` | Entity-detail envelope: header, meta, body, right panel. |
 | `EmptyPage.*` | Full-page zero-state: icon, title, description, actions, tips. |
@@ -344,6 +345,39 @@ const [tab, setTab] = useState<string | null>('summary');
 | `size` | `'sm' \| 'md'` | `'md'` | Controls height and label size. |
 
 <LiveExample id="layout-tabstrip" />
+
+## Icons
+
+`@4lt7ab/ui` ships a small built-in icon set — 25 SVGs that cover the affordances every layout primitive in this concept needs (chevrons, close, search, settings, plus/minus, edit, copy, more-vertical, …). Every icon is available two ways: as a named React component (`IconSearch`, `IconCheck`, …) for tree-shaken direct use, or via the dynamic `<Icon name="search" />` component for cases where the name comes from data.
+
+```tsx
+import { IconSearch, IconCheck, Icon } from '@4lt7ab/ui';
+
+<IconSearch />
+<Icon name="search" size={20} />
+<Icon name="chevron-right" size="md" />
+```
+
+`size` is a number (pixels) or one of `'xs' | 'sm' | 'md' | 'lg' | 'xl'`. Stroke-color is `currentColor` by default — set the parent's `color` to recolor.
+
+**The 25 icons** — the full registry, kebab-cased names you pass to `<Icon name="...">`:
+
+`close`, `chevron-right`, `chevron-down`, `chevron-left`, `chevron-up`, `check`, `check-circle`, `warning`, `error`, `info`, `search`, `trash`, `settings`, `plus`, `minus`, `edit`, `arrow-left`, `arrow-right`, `menu`, `eye`, `eye-off`, `copy`, `external-link`, `more-vertical`, `filter`.
+
+The set is intentionally narrow — these are the affordances the library's components need, not a general-purpose icon font. For consumer icons outside this set, drop in your own SVG component (or a third-party set like Lucide) and ignore the registry; nothing in the library hard-depends on `Icon` for arbitrary glyphs.
+
+### `IconButton`
+
+The icon-as-affordance button. Circular, transparent button with a hover wash, used for compact actions where a text label would be visual noise (close buttons in modals, sort handles in tables, the sidebar collapse toggle).
+
+```tsx
+import { IconButton } from '@4lt7ab/ui';
+
+<IconButton icon="settings" aria-label="Settings" onClick={openSettings} />
+<IconButton icon="trash" aria-label="Delete project" size="sm" badge />
+```
+
+`aria-label` is required — the icon alone doesn't carry meaning for assistive tech. `size` is one of `'sm' | 'md' | 'lg'` (28px / 36px / 44px button with proportional icon). `badge` paints a small notification dot in the top-right. The `asChild` pattern from `Card` works the same way here — pass `asChild` plus a single child element (e.g. an anchor) to render a non-`<button>` root with all the IconButton chrome merged in.
 
 ## Page-envelope organisms
 

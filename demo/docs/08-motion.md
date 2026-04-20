@@ -169,6 +169,33 @@ To ship a new canvas background for a custom theme:
 
 Canvas backgrounds read theme tokens at call time via `getComputedStyle(document.documentElement).getPropertyValue('--…')` when they want theme-coupled colors (see `neural.ts` as the reference). That pattern keeps the background responsive to `setTheme()` without requiring the animation function to subscribe to React context.
 
+## Layering app content above the canvas
+
+`<ThemeBackground>` paints into a `position: fixed; inset: 0; z-index: 0; pointer-events: none;` element prepended to `<body>`. Anything you want visible above the canvas needs its own stacking context — any non-`auto` `z-index` wrapper does it, and the cleanest pattern pairs `<Surface level="page">` with `usePageBackground()`:
+
+```tsx
+import { ThemeProvider, usePageBackground } from '@4lt7ab/core';
+import { Surface } from '@4lt7ab/ui';
+import { ThemeBackground } from '@4lt7ab/animations';
+
+function App() {
+  usePageBackground();
+  return (
+    <ThemeProvider defaultTheme="warm-sand">
+      <ThemeBackground />
+      <Surface
+        level="page"
+        style={{ minHeight: '100vh', position: 'relative' }}
+      >
+        {/* content here sits above the animation in the right stacking context */}
+      </Surface>
+    </ThemeProvider>
+  );
+}
+```
+
+`usePageBackground()` paints the `<body>` with `var(--color-surface-page)` — useful when the canvas is partially transparent or doesn't mount (mobile, reduced-motion). `Surface level="page"` carries the same token as a real DOM background for the content scroll surface, and its `position: relative` establishes the stacking context the canvas sits under. See [Theming → `usePageBackground()`](#/theming) for the hook's full contract.
+
 ## Performance and accessibility
 
 - **Desktop-only guard.** Animated canvases don't mount on narrow viewports. Mobile users see the theme's token colors on the body directly.
