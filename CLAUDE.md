@@ -305,12 +305,6 @@ Pure utility functions (dateUtils, token helpers) should always have tests.
 
 When adding a component, tests are **recommended for components with logic** (keyboard handling, state management, async behavior). Presentational components that only map props to styles don't need tests.
 
-## Changelog
-
-`CHANGELOG.md` at the repo root. Keep it brief — version header + bullet list of what changed. Update the `## Unreleased` section with every commit that changes public API, adds features, or fixes bugs. The `deploy.sh` script automatically stamps `## Unreleased` with the release version and adds a fresh `## Unreleased` section.
-
-**Do not commit without updating the changelog.** Every commit that adds, changes, or fixes user-facing behavior must have a corresponding entry in `## Unreleased` before the commit is created.
-
 ## Releasing
 
 **Always use `make` targets, never call `deploy.sh` directly.**
@@ -322,7 +316,7 @@ make deploy-major        # bump major  (0.2.6 → 1.0.0)
 make deploy V=2.0.0      # exact version
 ```
 
-The deploy target typechecks, builds, updates all `package.json` versions, stamps the changelog, commits, tags, and pushes.
+The deploy target typechecks, builds, updates all `package.json` versions, commits, tags, and pushes.
 
 ## Documentation
 

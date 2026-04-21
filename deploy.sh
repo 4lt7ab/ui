@@ -55,15 +55,8 @@ for pkg in packages/ui/package.json packages/content/package.json packages/anima
   sed -i '' "s/\"@4lt7ab\/core\": \".*\"/\"@4lt7ab\/core\": \"$VERSION\"/" "$pkg"
 done
 
-# ── Update changelog ─────────────────────────────────────────────
-if grep -q '## Unreleased' CHANGELOG.md; then
-  sed -i '' "s/## Unreleased/## v$VERSION/" CHANGELOG.md
-  # Add fresh Unreleased section
-  sed -i '' "s/# Changelog/# Changelog\n\n## Unreleased/" CHANGELOG.md
-fi
-
 # ── Commit & tag ─────────────────────────────────────────────────
-git add packages/*/dist/ packages/*/package.json package.json CHANGELOG.md
+git add packages/*/dist/ packages/*/package.json package.json
 git commit -m "release: v$VERSION"
 git tag "$TAG"
 
